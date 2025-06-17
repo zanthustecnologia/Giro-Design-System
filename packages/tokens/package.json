@@ -1,0 +1,21 @@
+{
+  "name": "@zanthus/tokens",
+  "version": "1.0.0",
+  "description": "Zanthus Design Tokens - cores, espa\u00e7amento, tipografia e temas.",
+  "main": "src/index.scss",
+  "style": "design-tokens-export.css",
+  "exports": {
+    ".": "./design-tokens-export.css",
+    "./scss": "./src/index.scss"
+  },
+  "keywords": [
+    "design-tokens",
+    "zanthus",
+    "scss",
+    "css",
+    "themes"
+  ],
+  "author": "Zanthus",
+  "license": "MIT",
+  "sideEffects": false
+}
