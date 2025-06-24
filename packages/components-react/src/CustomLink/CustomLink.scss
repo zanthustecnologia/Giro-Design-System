@@ -1,4 +1,4 @@
-@import '../../tokens/design-tokens-export.css';
+@use '../../../tokens/index.scss' as *;
 
 .storybook-button-container {
   display: flex;

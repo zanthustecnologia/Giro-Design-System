@@ -1,4 +1,4 @@
-@import '../../tokens/src/index.scss';
+@use  '../../../tokens/index.scss' as *;
 
 .storybook-container {
   display: flex;

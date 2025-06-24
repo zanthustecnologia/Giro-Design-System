@@ -8,7 +8,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "storybook": "storybook dev -p 6006",
+    "storybook": "storybook dev -p 6006 --config-dir apps/storybook/.storybook",
     "build-storybook": "storybook build"
   },
   "peerDependencies": {
