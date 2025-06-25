@@ -1,7 +1,7 @@
 import Avatar from "./Avatar";
 import React from "react";
 import { Person16Regular, Add16Regular, Add16Filled, ArrowCircleDown12Regular } from "@fluentui/react-icons";
-
+import { Icon } from "../../../icons/src/Icon";
 export default {
   title: "Components/Avatar",
   component: Avatar,
@@ -12,12 +12,12 @@ export default {
     },
     icon: {
       control: { variant: 'select' },
-      options: ['none', 'add16R', 'add16F', 'arrow'],
+      options: ['none', 'add', 'usb', 'arrowDown'],
       mapping: {
-        none: null, // Sem ícone
-        add16R: <Add16Regular />, // Ícone Add16Regular
-        add16F: <Add16Filled />, // Ícone Add12Regular
-        arrow: <ArrowCircleDown12Regular />,
+        none: null,
+        add: <Icon name="add" size={20} />,
+        usb: <Icon name="usb" size={20} />,
+        arrowDown: <Icon name="arrowDown" size={20} />,
       },
     },
   },
@@ -27,14 +27,13 @@ export default {
 const Template = ({ icon, ...args }) => {
   return (
     <div className="storybook-container">
-      <Avatar {...args} icon={icon} />
-
+      <Avatar {...args} icon={icon} /> 
     </div>
   )
 }
 export const Default = Template.bind({});
 Default.args = {
-  icon: <Person16Regular />,
+  icon: 'usb',
   size: "lg"
 }
 
