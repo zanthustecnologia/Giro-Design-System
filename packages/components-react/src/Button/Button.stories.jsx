@@ -2,6 +2,7 @@ import { Add16Filled, Add16Regular, ArrowCircleDown12Regular } from '@fluentui/r
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import Button from './Button.jsx';
+import { Icon } from '../../../icons/src/Icon.jsx';
 import './Button.scss'
 export default {
   title: 'Components/Button',
@@ -37,11 +38,12 @@ export default {
     },
     icon: {
       control: { type: 'select' },
-      options: ['none', 'add16R', 'add16F', 'arrow'],
+      options: ['none', 'add', 'delete', 'edit', 'arrowDown'],
       mapping: {
-        add16R: <Add16Regular />,
-        add16F: <Add16Filled />,
-        arrow: <ArrowCircleDown12Regular />,
+        add: <Icon name="add" size={16} />,
+        delete: <Icon name="delete" size={16} />,
+        edit: <Icon name="edit" size={16} />,
+        arrowDown: <Icon name="arrowDown" size={12} />,
       },
       if: { arg: 'displayIcon', truthy: true },
 

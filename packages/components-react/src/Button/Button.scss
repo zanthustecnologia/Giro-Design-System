@@ -11,11 +11,11 @@
 .storybook-container {
   display: flex;
   align-items: center;
-  gap: var(--spacing-15);
+  gap: var(--spacing-16);
   flex-direction: row;
   justify-content: center;
   position: relative;
-  padding: var(--spacing-50);
+  padding: var(--spacing-48);
 }
 
 .storybook-button-container .storybook-button-item {
@@ -51,13 +51,13 @@
   &--lg {
     height: 44px;
     padding: 0 var(--spacing-24);
-    min-width: var(--spacing-92);
+    min-width: 92px;
   }
 
   &--sm {
     height: 36px;
     padding: 0 var(--spacing-16);
-    min-width: var(--spacing-76);
+    min-width: 76px;
   }
 }
 
