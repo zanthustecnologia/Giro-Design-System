@@ -1,8 +1,8 @@
 {
   "color": {
     "neutral": {
-      "background": { "value": "#ffffff", "type": "color" },
-      "text": { "value": "#111119", "type": "color" }
+      "background": { "value": "#F9F9F9", "type": "color" },
+      "text": { "value": "#181818", "type": "color" }
     }
   }
 }

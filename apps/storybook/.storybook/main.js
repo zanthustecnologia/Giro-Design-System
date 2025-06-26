@@ -3,6 +3,7 @@ const config = {
   stories: [
     "../stories/**/*.mdx",
     "../../../packages/components-react/src/**/*.stories.@(js|jsx|tsx)",
+    "../src/**/*.stories.@(js|jsx|tsx)"
   ],
   addons: [
     "@chromatic-com/storybook",

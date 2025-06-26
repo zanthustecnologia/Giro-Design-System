@@ -1,19 +1,16 @@
 module.exports = {
-  source: ['src/**/*.tokens.json'], // usado como fallback, mas sobrescrito abaixo
+  // Source global para platforms que não definem source específico
+  source: ['src/**/*.tokens.json'],
+  
   platforms: {
     css: {
       transformGroup: 'css',
       buildPath: 'build/css/',
-      source: [
-        'src/colors/**/*.tokens.json',
-        'src/spacing/**/*.tokens.json',
-        'src/border/**/*.tokens.json',
-        'src/typography/**/*.tokens.json'
-      ],
       files: [
         {
           destination: 'tokens.css',
           format: 'css/variables',
+          filter: (token) => !token.filePath.includes('themes'),
           options: { outputReferences: true }
         }
       ]
@@ -21,16 +18,11 @@ module.exports = {
     js: {
       transformGroup: 'js',
       buildPath: 'build/js/',
-      source: [
-        'src/colors/**/*.tokens.json',
-        'src/spacing/**/*.tokens.json',
-        'src/border/**/*.tokens.json',
-        'src/typography/**/*.tokens.json'
-      ],
       files: [
         {
           destination: 'tokens.js',
           format: 'javascript/es6',
+          filter: (token) => !token.filePath.includes('themes'),
           options: { outputReferences: true }
         }
       ]
@@ -38,61 +30,61 @@ module.exports = {
     json: {
       transformGroup: 'js',
       buildPath: 'build/json/',
-      source: [
-        'src/colors/**/*.tokens.json',
-        'src/spacing/**/*.tokens.json',
-        'src/border/**/*.tokens.json',
-        'src/typography/**/*.tokens.json'
-      ],
       files: [
         {
           destination: 'tokens.json',
-          format: 'json/nested'
+          format: 'json/nested',
+          filter: (token) => !token.filePath.includes('themes')
         }
       ]
     },
     scss: {
       transformGroup: 'scss',
       buildPath: 'build/scss/',
-      source: [
-        'src/colors/**/*.tokens.json',
-        'src/spacing/**/*.tokens.json',
-        'src/border/**/*.tokens.json',
-        'src/typography/**/*.tokens.json'
-      ],
       files: [
         {
           destination: '_tokens.scss',
-          format: 'scss/variables'
+          format: 'scss/variables',
+          filter: (token) => !token.filePath.includes('themes')
         }
       ]
-    },
-    light: {
+    }
+  }
+};
+
+module.exports = {
+  source: ['src/themes/light.tokens.json'],
+  platforms: {
+    css: {
       transformGroup: 'css',
       buildPath: 'build/css/',
-      source: ['src/themes/light.tokens.json'],
       files: [
         {
           destination: 'tokens-light.css',
           format: 'css/variables',
           options: {
-            outputReferences: true,
-            selector: ':root, [data-theme="light"]'
+            selector: ':root, [data-theme="light"]',
+            outputReferences: false
           }
         }
       ]
-    },
-    dark: {
+    }
+  }
+};
+
+module.exports = {
+  source: ['src/themes/dark.tokens.json'],
+  platforms: {
+    css: {
       transformGroup: 'css',
       buildPath: 'build/css/',
-      source: ['src/themes/dark.tokens.json'],
       files: [
         {
           destination: 'tokens-dark.css',
           format: 'css/variables',
           options: {
-            outputReferences: true,
-            selector: '[data-theme="dark"]'
+            selector: '[data-theme="dark"]',
+            outputReferences: false
           }
         }
       ]

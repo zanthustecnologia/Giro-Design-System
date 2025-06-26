@@ -1,6 +1,8 @@
 {
   "name": "zanthus-design-system",
   "version": "0.0.1",
+  "private": true,
+  "workspaces": ["packages/*", "apps/*"],
   "type": "module",
   "main": "dist/index.cjs",
   "module": "dist/index.esm.js",

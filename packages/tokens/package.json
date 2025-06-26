@@ -6,7 +6,12 @@
   "style": "design-tokens-export.css",
   "exports": {
     ".": "./design-tokens-export.css",
-    "./scss": "./src/index.scss"
+    "./scss": "./src/index.scss",
+    "./build/css/tokens.css": "./build/css/tokens.css",
+    "./build/css/tokens-light.css": "./build/css/tokens-light.css",
+    "./build/css/tokens-dark.css": "./build/css/tokens-dark.css",
+    "./build/css/tokens-theme-test.css": "./build/css/tokens-theme-test.css"
+
   },
   "keywords": [
     "design-tokens",
