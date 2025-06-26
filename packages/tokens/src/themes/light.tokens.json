@@ -1,0 +1,8 @@
+{
+  "color": {
+    "neutral": {
+      "background": { "value": "#ffffff", "type": "color" },
+      "text": { "value": "#111119", "type": "color" }
+    }
+  }
+}

@@ -2,7 +2,7 @@
  * Do not edit directly, this file was auto-generated.
  */
 
-:root {
+:root, [data-theme="light"] {
   --border-radius-4: 4px;
   --border-radius-8: 8px;
   --border-radius-12: 12px;
