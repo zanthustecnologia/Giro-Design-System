@@ -1,4 +1,4 @@
-@use '../../../tokens/index.scss' as *;
+@import '../../../tokens/build/css/tokens.css';
 
 .storybook-button-container {
   display: flex;
@@ -138,29 +138,29 @@
 
 /* FILLED */
 .zds-button--filled {
-  background: var(--brand-color-primary-default);
-  color: var(--high-color-light) ;
+  background: var(--color-brand-primary-default);
+  color: var(--color-neutral-high-default) ;
   border: none;
 }
 
 .zds-button--filled:hover {
-  background: var(--brand-color-primary-medium);
+  background: var(--color-brand-primary-medium);
 }
 
 .zds-button--filled:focus {
-  outline: var(--spacing-4) solid var(--high-color-dark);
+  outline: var(--spacing-4) solid var(--color-neutral-high-dark);
   outline-offset: var(--spacing-2);
 }
 
 .zds-button--filled:active {
-  background: var(--brand-color-primary-dark);
-  color: var(--high-color-light);
+  background: var(--color-brand-primary-dark);
+  color: var(--color-neutral-high-light);
   outline: none;
 }
 
 .zds-button--filled:disabled {
-  background: var(--high-color-light);
-  color: var(--low-color-light);
+  background: var(--color-neutral-high-light);
+  color: var(--color-neutral-low-light);
   cursor: not-allowed;
   opacity: 0.5;
   outline: none;
@@ -168,52 +168,52 @@
 
 /* OUTLINED */
 .zds-button--outlined {
-  border: var(--border-width-1) solid var(--high-color-dark);
-  background-color: var(--high-color-default);
-  color: var(--brand-color-primary-default);
+  border: var(--border-width-1) solid var(--color-neutral-high-dark);
+  background-color: var(--color-neutral-high-default);
+  color: var(--color-brand-primary-default);
 }
 
 
 .zds-button--outlined * {
-  color: var(--brand-color-primary-default);
+  color: var(--color-brand-primary-default);
 }
 
 .zds-button--outlined:hover {
-  color: var(--brand-color-primary-default);
-  background-color: var(--high-color-medium);
+  color: var(--color-brand-primary-default);
+  background-color: var(--color-neutral-high-medium);
 }
 
 .zds-button--outlined:focus {
-  outline: var(--spacing-4) solid var(--high-color-dark);
-  color: var(--brand-color-primary-default);
-  background-color: var(--high-color-default);
+  outline: var(--spacing-4) solid var(--color-neutral-high-dark);
+  color: var(--color-brand-primary-default);
+  background-color: var(--color-neutral-high-default);
 }
 
 .zds-button--outlined:focus * {
-  color: var(--brand-color-primary-default);
+  color: var(--color-brand-primary-default);
 }
 
 .zds-button--outlined:active {
   outline: none;
-  color: var(--brand-color-primary-default);
-  background-color: var(--high-color-dark);
+  color: var(--color-brand-primary-default);
+  background-color: var(--color-neutral-high-dark);
 }
 
 .zds-button--outlined:active * {
-  color: var(--brand-color-primary-default);
+  color: var(--color-brand-primary-default);
 }
 
 .zds-button--outlined:disabled,
 .zds-button--outlined.disabled {
-  outline: var(--spacing-1) solid var(--high-color-light);
-  color: var(--high-color-dark);
+  outline: var(--border-width-1) solid var(--color-neutral-high-light);
+  color: var(--color-neutral-high-dark);
   cursor: not-allowed;
-  background-color: var(--high-color-default);
+  background-color: var(--color-neutral-high-default);
 }
 
 .zds-button--outlined:disabled *,
 .zds-button--outlined.disabled * {
-  color: var(--high-color-dark);
+  color: var(--color-neutral-high-dark);
 }
 
 /* TEXT */
@@ -221,7 +221,7 @@
   border: none;
   outline: none;
   background-color: transparent;
-  color: var(--brand-color-primary-default);
+  color: var(--color-brand-primary-default);
 }
 
 .zds-button.zds-button--text.zds-button--lg {
@@ -263,28 +263,28 @@
 }
 
 .zds-button--text * {
-  color: var(--brand-color-primary-default);
+  color: var(--color-brand-primary-default);
 }
 
 .zds-button--text:hover {
-  color: var(--brand-color-primary-default);
-  background-color: var(--high-color-medium);
+  color: var(--color-brand-primary-default);
+  background-color: var(--color-neutral-high-medium);
 }
 
 .zds-button--text:focus {
-  outline: var(--spacing-4) solid var(--high-color-dark);
-  color: var(--brand-color-primary-default);
+  outline: var(--spacing-4) solid var(--color-neutral-high-dark);
+  color: var(--color-brand-primary-default);
   background-color: transparent;
 }
 
 .zds-button--text:active {
   outline: none;
-  color: var(--brand-color-primary-default);
-  background-color: var(--high-color-dark);
+  color: var(--color-brand-primary-default);
+  background-color: var(--color-neutral-high-dark);
 }
 
 .zds-button--text:disabled {
-  color: var(--high-color-dark);
+  color: var(--color-neutral-high-dark);
   cursor: not-allowed;
   opacity: 0.5;
   outline: none;

@@ -1,4 +1,4 @@
-@use '../../../tokens/index.scss' as *;
+@import '../../../tokens/build/css/tokens.css';
 
 .storybook-button-container {
   display: flex;
@@ -121,12 +121,12 @@
 
 /* FILLED */
 .zds-button-link--filled {
-  background: var(--brand-color-primary-default);
-  color: var(--high-color-light);
+  background: var(--color-brand-primary-default);
+  color: var(--color-high-light);
   border: none;
 
   &:hover {
-    background: var(--brand-color-primary-medium);
+    background: var(--color-brand-primary-medium);
   }
 
   &--disabled {

@@ -1,0 +1,58 @@
+{
+  "font": {
+    "size": {
+      "96": {
+        "value": "96px",
+        "type": "fontSize"
+      },
+      "64": {
+        "value": "64px",
+        "type": "fontSize"
+      },
+      "48": {
+        "value": "48px",
+        "type": "fontSize"
+      },
+      "40": {
+        "value": "40px",
+        "type": "fontSize"
+      },
+      "32": {
+        "value": "32px",
+        "type": "fontSize"
+      },
+      "28": {
+        "value": "28px",
+        "type": "fontSize"
+      },
+      "24": {
+        "value": "24px",
+        "type": "fontSize"
+      },
+      "20": {
+        "value": "20px",
+        "type": "fontSize"
+      },
+      "18": {
+        "value": "18px",
+        "type": "fontSize"
+      },
+      "16": {
+        "value": "16px",
+        "type": "fontSize"
+      },
+      "14": {
+        "value": "14px",
+        "type": "fontSize"
+      },
+      "12": {
+        "value": "12px",
+        "type": "fontSize"
+      },
+      "inherit": {
+        "value": "inherit",
+        "type": "fontSize"
+      }
+    }
+  }
+}
