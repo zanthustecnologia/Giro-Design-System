@@ -27,10 +27,10 @@ Monorepo gerenciado com [Turborepo](https://turbo.build/repo), organizado por wo
 │   │   └── build/                        # Tokens gerados pelo Style Dictionary
 │   │   └── config/                       # Configuração do style dictionary
 │   │   └── src/                        
-│   │       ├── colors/                   # .Jason de Tokens de cor (brand, neutrals, feedback)
-│   │       ├── spacing/                  # .Jason de Tokens de espaçamento
-│   │       ├── border/                   # .Jason de Tokens de borda (largura, raio)
-│   │       ├── typography/               # .Jason de Tokens tipográficos (fontes, tamanhos, pesos)
+│   │       ├── colors/                   # .Json de Tokens de cor (brand, neutrals, feedback)
+│   │       ├── spacing/                  # .Json de Tokens de espaçamento
+│   │       ├── border/                   # .Json de Tokens de borda (largura, raio)
+│   │       ├── typography/               # .Json de Tokens tipográficos (fontes, tamanhos, pesos)
 │   │       ├── themes/                   # Temas claro/escuro via :root e [data-theme]
 
 │   ├── components-react/                 # Componentes React consumíveis pelos produtos
