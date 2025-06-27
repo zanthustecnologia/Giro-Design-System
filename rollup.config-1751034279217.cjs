@@ -1,14 +1,17 @@
-import resolve from '@rollup/plugin-node-resolve';
-import commonjs from '@rollup/plugin-commonjs';
-import babel from '@rollup/plugin-babel';
-import postcss from 'rollup-plugin-postcss';
-import typescript from '@rollup/plugin-typescript';
-// import { terser } from '@rollup/plugin-terser';
-import peerDepsExternal from 'rollup-plugin-peer-deps-external';
-import packageJson from './package.json';
-import dts from 'rollup-plugin-dts';
+'use strict';
 
-export default {
+Object.defineProperty(exports, '__esModule', { value: true });
+
+var resolve = require('@rollup/plugin-node-resolve');
+var commonjs = require('@rollup/plugin-commonjs');
+var babel = require('@rollup/plugin-babel');
+var postcss = require('rollup-plugin-postcss');
+var typescript = require('@rollup/plugin-typescript');
+var peerDepsExternal = require('rollup-plugin-peer-deps-external');
+var packageJson = require('./package.json');
+var dts = require('rollup-plugin-dts');
+
+var rollup_config = {
     input: './packages/index.tsx', // Entrada principal da biblioteca
     output: [
         {
@@ -49,3 +52,5 @@ export default {
     ],
     external: ['react', 'react-dom'], // Exclui React e ReactDOM do bundle
 };
+
+exports.default = rollup_config;
