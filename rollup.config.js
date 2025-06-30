@@ -2,12 +2,14 @@ import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import babel from '@rollup/plugin-babel';
 import postcss from 'rollup-plugin-postcss';
+import typescript from '@rollup/plugin-typescript';
 // import { terser } from '@rollup/plugin-terser';
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
 import packageJson from './package.json';
+import dts from 'rollup-plugin-dts';
 
 export default {
-    input: './packages/index.jsx', // Entrada principal da biblioteca
+    input: './packages/index.tsx', // Entrada principal da biblioteca
     output: [
         {
             file: packageJson.main, // Saída para CommonJS
@@ -23,7 +25,7 @@ export default {
     plugins: [
         peerDepsExternal(), // Exclui dependências externas do bundle
         resolve({
-            extensions: ['.jsx', '.js']
+            extensions: ['.tsx', '.jsx', '.ts']
         }),
         commonjs(), // Converte CommonJS para ES Modules
         babel({
@@ -35,6 +37,14 @@ export default {
             minimize: true, // Minifica o CSS
             sourceMap: 'inline'
         }),
+        typescript({
+            tsconfig: './tsconfig.json'
+        }),
+        {
+            input: "src/index.ts",
+            output: [{ file: "dist/index.d.ts", format: "esm" }],
+            plugins: [dts.default()],
+        },
         // terser(), // Minifica o JavaScript
     ],
     external: ['react', 'react-dom'], // Exclui React e ReactDOM do bundle

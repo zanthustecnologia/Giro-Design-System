@@ -1,0 +1,42 @@
+{
+  "color": {
+    "neutral": {
+      "low": {
+        "default": {
+          "value": "#111119",
+          "type": "color"
+        },
+        "dark": {
+          "value": "#505255",
+          "type": "color"
+        },
+        "medium": {
+          "value": "#88898c",
+          "type": "color"
+        },
+        "light": {
+          "value": "#b8b9be",
+          "type": "color"
+        }
+      },
+      "high": {
+        "default": {
+          "value": "#ffffff",
+          "type": "color"
+        },
+        "dark": {
+          "value": "#cfd0da",
+          "type": "color"
+        },
+        "medium": {
+          "value": "#e8e8ee",
+          "type": "color"
+        },
+        "light": {
+          "value": "#f5f5fa",
+          "type": "color"
+        }
+      }
+    }
+  }
+}

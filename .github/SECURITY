@@ -1,0 +1,29 @@
+# 🔐 Política de Segurança
+
+Segurança é uma prioridade no Zanthus Design System. Se você encontrou alguma vulnerabilidade ou comportamento suspeito, siga as orientações abaixo.
+
+## 📣 Relatar Vulnerabilidades
+
+Envie um e-mail para: **[security@zanthus.com](mailto:security@zanthus.com)** com as seguintes informações:
+
+* Descrição clara do problema
+* Reprodutibilidade (passos ou código)
+* Potenciais impactos
+* Ambiente afetado (navegador, sistema, dispositivo)
+
+> Não abra issues públicas para vulnerabilidades.
+
+## 🛡️ Processo Interno
+
+Após o recebimento, nossa equipe irá:
+
+1. Confirmar e reproduzir o problema
+2. Avaliar severidade e impacto
+3. Trabalhar em uma correção o mais rápido possível
+4. Divulgar a correção via release oficial
+
+## 📅 SLA de Resposta
+
+Nos comprometemos a responder dentro de **5 dias úteis** e, se confirmado, corrigir em até **15 dias úteis**, dependendo da criticidade.
+
+Obrigado por ajudar a manter o ecossistema seguro!

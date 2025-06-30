@@ -1,0 +1,20 @@
+# CODEOWNERS
+
+# Pacotes principais
+
+/packages/tokens/           @zanthus-design/tokens-team
+/packages/components-react/ @zanthus-design/frontend
+/packages/icons/            @zanthus-design/frontend
+/packages/grid/             @zanthus-design/frontend
+/packages/utils/            @zanthus-design/frontend
+
+# Storybook
+
+/apps/storybook/            @zanthus-design/docs
+
+# Documentação e governança
+
+/README.md                  @zanthus-design/core
+/CONTRIBUTING.md            @zanthus-design/core
+/LICENSE                    @zanthus-design/core
+/CHANGELOG.md               @zanthus-design/core
