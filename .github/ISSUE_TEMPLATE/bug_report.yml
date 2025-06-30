@@ -1,0 +1,55 @@
+name: 🔧 Bug Report
+description: Reporte um comportamento inesperado ou erro
+labels: \[bug]
+body:
+
+* type: markdown
+  attributes:
+  value: |
+  Obrigado por reportar um bug no Zanthus Design System! Preencha as informações abaixo para nos ajudar a reproduzir e resolver o problema.
+
+* type: textarea
+  id: descricao
+  attributes:
+  label: Descrição
+  description: O que está acontecendo? Inclua contexto, prints ou logs se possível.
+  placeholder: "Ao utilizar o componente X no tema dark, o texto some..."
+  validations:
+  required: true
+
+* type: textarea
+  id: reproduzir
+  attributes:
+  label: Passos para reproduzir
+  description: Como podemos simular o erro?
+  placeholder: "1. Ir para...
+
+2. Clicar em...
+3. Observar que..."
+   validations:
+   required: true
+
+* type: dropdown
+  id: ambiente
+  attributes:
+  label: Ambiente afetado
+  options:
+  \- Storybook
+  \- Playground
+  \- Produção
+  \- Localhost
+  \- Outro
+  multiple: true
+
+* type: input
+  id: versao
+  attributes:
+  label: Versão do Design System (se aplicável)
+  placeholder: "ex: 0.1.0"
+
+* type: textarea
+  id: contexto-adicional
+  attributes:
+  label: Contexto adicional
+  description: Algo mais que devamos saber? Dependências, configurações personalizadas, etc.
+  placeholder: "Estou usando o pacote tokens isolado via CDN..."
