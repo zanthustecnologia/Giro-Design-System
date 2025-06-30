@@ -79,12 +79,12 @@ const Template: StoryFn<ButtonProps & { displayIcon?: boolean; icon?: React.Reac
   icon,
   ...args
 }) => {
-  const { displayIcon } = args;
+  const { displayIcon, to, type } = args;
 
   return (
     <BrowserRouter>
       <div className="storybook-container">
-        <Button {...args} icon={displayIcon === false || icon === 'none' ? undefined : icon} />
+        <Button {...args} icon={displayIcon === false || icon === 'none' ? undefined : icon} href={to} as={type === 'link' ? 'a' : 'button'} />
       </div>
     </BrowserRouter>
   );

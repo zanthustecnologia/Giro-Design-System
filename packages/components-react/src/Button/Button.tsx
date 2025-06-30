@@ -87,7 +87,7 @@ const Button: React.FC<ButtonProps> = ({
         tabIndex={disabled ? -1 : 0}
         className={buttonClasses}
         onClick={handleClick}
-        {...props}
+
       >
         {icon && iconPosition === 'left' && (
           <span className="zds-button--icon zds-button--icon--left">{icon}</span>

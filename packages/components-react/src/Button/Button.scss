@@ -1,4 +1,4 @@
-@use '../../../tokens/index.scss' as *;
+@use '../../../tokens/build/css/tokens.css' as *;
 
 .storybook-button-container {
   display: flex;
@@ -42,12 +42,13 @@
   box-sizing: border-box;
 
   /* Body/Small/Medium 14 */
-  font-family: var(--font-family-primary);
-  font-size: var(--font-size-14);
+  font-family: var(--typography-font-family-primary);
+  font-size: var(--typography-font-size-14);
   font-style: normal;
-  font-weight: var(--font-weight-medium);
+  font-weight: var(--typography-font-weight-medium);
 
- text-decoration: none;
+  text-decoration: none;
+
   &--lg {
     height: 44px;
     padding: 0 var(--spacing-24);
@@ -65,7 +66,6 @@
   width: 100%;
 }
 
-
 /* Botões com ícone e conteúdo */
 /* Ícone à esquerda */
 .zds-button.zds-button--lg.zds-button--with-icon.zds-button--icon-position-left {
@@ -73,7 +73,7 @@
 }
 
 .zds-button.zds-button--sm.zds-button--with-icon.zds-button--icon-position-left {
-  padding: 0 var(--spacing-16) 0 var(--spacing-8 );
+  padding: 0 var(--spacing-16) 0 var(--spacing-8);
 }
 
 /* Ícone à direita */
@@ -96,7 +96,6 @@
   padding: 0 var(--spacing-16);
 }
 
-
 .zds-button.zds-button--sm.zds-button--with-icon.zds-button--no-content {
   display: flex;
   justify-content: center;
@@ -106,7 +105,6 @@
   padding: 0 var(--spacing-16);
   min-width: 0;
 }
-
 
 /* Elementos de ícone */
 .zds-button--icon--left {
@@ -138,29 +136,29 @@
 
 /* FILLED */
 .zds-button--filled {
-  background: var(--brand-color-primary-default);
-  color: var(--high-color-light) ;
+  background: var(--color-brand-primary-default);
+  color: var(--color-neutral-high-light);
   border: none;
 }
 
 .zds-button--filled:hover {
-  background: var(--brand-color-primary-medium);
+  background: var(--color-brand-primary-medium);
 }
 
 .zds-button--filled:focus {
-  outline: var(--spacing-4) solid var(--high-color-dark);
+  outline: var(--spacing-4) solid var(--color-neutral-high-dark);
   outline-offset: var(--spacing-2);
 }
 
 .zds-button--filled:active {
-  background: var(--brand-color-primary-dark);
-  color: var(--high-color-light);
+  background: var(--color-brand-primary-dark);
+  color: var(--color-neutral-high-light);
   outline: none;
 }
 
 .zds-button--filled:disabled {
-  background: var(--high-color-light);
-  color: var(--low-color-light);
+  background: var(--color-neutral-high-light);
+  color: var(--color-neutral-low-light);
   cursor: not-allowed;
   opacity: 0.5;
   outline: none;
@@ -168,52 +166,51 @@
 
 /* OUTLINED */
 .zds-button--outlined {
-  border: var(--border-width-1) solid var(--high-color-dark);
-  background-color: var(--high-color-default);
-  color: var(--brand-color-primary-default);
+  border: var(--border-width-1) solid var(--color-neutral-high-dark);
+  background-color: var(--color-neutral-high-default);
+  color: var(--color-brand-primary-default);
 }
 
-
 .zds-button--outlined * {
-  color: var(--brand-color-primary-default);
+  color: var(--color-brand-primary-default);
 }
 
 .zds-button--outlined:hover {
-  color: var(--brand-color-primary-default);
-  background-color: var(--high-color-medium);
+  color: var(--color-brand-primary-default);
+  background-color: var(--color-neutral-high-medium);
 }
 
 .zds-button--outlined:focus {
-  outline: var(--spacing-4) solid var(--high-color-dark);
-  color: var(--brand-color-primary-default);
-  background-color: var(--high-color-default);
+  outline: var(--spacing-4) solid var(--color-neutral-high-dark);
+  color: var(--color-brand-primary-default);
+  background-color: var(--color-neutral-high-default);
 }
 
 .zds-button--outlined:focus * {
-  color: var(--brand-color-primary-default);
+  color: var(--color-brand-primary-default);
 }
 
 .zds-button--outlined:active {
   outline: none;
-  color: var(--brand-color-primary-default);
-  background-color: var(--high-color-dark);
+  color: var(--color-brand-primary-default);
+  background-color: var(--color-neutral-high-dark);
 }
 
 .zds-button--outlined:active * {
-  color: var(--brand-color-primary-default);
+  color: var(--color-brand-primary-default);
 }
 
 .zds-button--outlined:disabled,
 .zds-button--outlined.disabled {
-  outline: var(--spacing-1) solid var(--high-color-light);
-  color: var(--high-color-dark);
+  outline: var(--spacing-1) solid var(--color-neutral-high-light);
+  color: var(--color-neutral-high-dark);
   cursor: not-allowed;
-  background-color: var(--high-color-default);
+  background-color: var(--color-neutral-high-default);
 }
 
 .zds-button--outlined:disabled *,
 .zds-button--outlined.disabled * {
-  color: var(--high-color-dark);
+  color: var(--color-neutral-high-dark);
 }
 
 /* TEXT */
@@ -221,7 +218,7 @@
   border: none;
   outline: none;
   background-color: transparent;
-  color: var(--brand-color-primary-default);
+  color: var(--color-brand-primary-default);
 }
 
 .zds-button.zds-button--text.zds-button--lg {
@@ -236,7 +233,7 @@
   padding: 0 var(--spacing-8);
 }
 
-/** Text--LG**/
+/** Text--LG **/
 .zds-button.zds-button--text.zds-button--lg.zds-button--with-icon.zds-button--icon-position-right {
   padding: 0 var(--spacing-8) 0 var(--spacing-12);
 }
@@ -245,7 +242,7 @@
   padding: 0 var(--spacing-12) 0 var(--spacing-8);
 }
 
-//**Text--SM*/
+/** Text--SM **/
 .zds-button.zds-button--text.zds-button--sm.zds-button--with-icon.zds-button--icon-position-right {
   padding: 0 var(--spacing-8) 0 var(--spacing-4);
 }
@@ -263,28 +260,28 @@
 }
 
 .zds-button--text * {
-  color: var(--brand-color-primary-default);
+  color: var(--color-brand-primary-default);
 }
 
 .zds-button--text:hover {
-  color: var(--brand-color-primary-default);
-  background-color: var(--high-color-medium);
+  color: var(--color-brand-primary-default);
+  background-color: var(--color-neutral-high-medium);
 }
 
 .zds-button--text:focus {
-  outline: var(--spacing-4) solid var(--high-color-dark);
-  color: var(--brand-color-primary-default);
+  outline: var(--spacing-4) solid var(--color-neutral-high-dark);
+  color: var(--color-brand-primary-default);
   background-color: transparent;
 }
 
 .zds-button--text:active {
   outline: none;
-  color: var(--brand-color-primary-default);
-  background-color: var(--high-color-dark);
+  color: var(--color-brand-primary-default);
+  background-color: var(--color-neutral-high-dark);
 }
 
 .zds-button--text:disabled {
-  color: var(--high-color-dark);
+  color: var(--color-neutral-high-dark);
   cursor: not-allowed;
   opacity: 0.5;
   outline: none;
@@ -292,5 +289,4 @@
   &:hover {
     background-color: transparent;
   }
-
 }
