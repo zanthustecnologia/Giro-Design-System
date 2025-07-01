@@ -1,0 +1,10 @@
+{
+  "color": {
+    "theme": {
+      "dark": {
+        "background": { "value": "#181818", "type": "color" },
+        "text": { "value": "#F9F9F9", "type": "color" }
+      }
+    }
+  }
+}

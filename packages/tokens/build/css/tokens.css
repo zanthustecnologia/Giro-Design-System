@@ -1,7 +1,7 @@
 /**
  * Do not edit directly, this file was auto-generated.
  */
- @import url("https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap");
+
 :root {
   --border-radius-4: 4px;
   --border-radius-8: 8px;
@@ -42,6 +42,10 @@
   --color-neutral-high-dark: #cfd0da;
   --color-neutral-high-medium: #e8e8ee;
   --color-neutral-high-light: #f5f5fa;
+  --color-theme-dark-background: #181818;
+  --color-theme-dark-text: #f9f9f9;
+  --color-theme-light-background: #f9f9f9;
+  --color-theme-light-text: #181818;
   --spacing-0: 0px;
   --spacing-4: 4px;
   --spacing-8: 8px;
