@@ -1,6 +1,5 @@
 import { Meta } from "@storybook/blocks"; 
 
-
 import Hero from "./assets/hero.png";
 import GettingStarted from "./assets/getting-started.png";
 import Foundations from "./assets/foundations.png";
@@ -11,8 +10,6 @@ import Consistency from "./assets/consistency.png";
 import Quality from "./assets/quality.png";
 import UserCentered from "./assets/user-centered.png";
 import Evolution from "./assets/evolution.png";
-
-
 
 <Meta title="Boas-vindas" />
 
@@ -112,145 +109,144 @@ import Evolution from "./assets/evolution.png";
 <style>
   {`
   /* ===== LAYOUT PRINCIPAL ===== */
-  .container {
-    margin-bottom: 48px;
-  }
+.container {
+  margin-bottom: var(--spacing-48);
+}
 
-   .container p {
-    font-family: var(--font-family-primary);
-    font-size: var(--font-size-16);
-    font-weight: var(--font-weight-regular);
-    color: var(--color-neutral-low-dark);
-  }
+.container p {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-16);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-neutral-low-dark);
+}
 
-  /* ===== HERO SECTION ===== */
-  .componente-name-module {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    position: relative;
-    background: var(--color-neutral-high-light);
-    border-radius: 5px;
-    height: 200px;
-    margin-bottom: 24px;
-    overflow: hidden;
+/* ===== HERO SECTION ===== */
+.componente-name-module {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  position: relative;
+  background: var(--color-neutral-high-light);
+  border-radius: var(--border-radius-4);
+  height: 200px;
+  margin-bottom: var(--spacing-24);
+  overflow: hidden;
+}
+
+.componente-name-module-text {
+  padding-left: var(--spacing-48);
+  max-width: 60%;
+}
+
+.componente-name-module-text h1 {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-40);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-brand-primary-default);
+}
+
+.componente-name-module-img {
+  position: absolute;
+  left: 345px;
+  top: 0;
+  height: 100%;
+  width: 200%;
+  overflow: hidden;
+}
+
+.componente-name-module-img img {
+  width: 950px;
+  margin-left: -340px;
+}
+
+/* ===== INTRO SECTION ===== */
+.component-module-intro {
+  margin-bottom: var(--spacing-56);
+}
+
+.component-module-intro .description {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-24);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-neutral-low-dark);
+}
+
+/* ===== SECTION TITLE ===== */
+.section-title h2 {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-32);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-neutral-low-default);
+  border-bottom: none;
+  margin-bottom: var(--spacing-32);
+}
+
+/* ===== CARDS SECTION ===== */
+.section-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-16);
+  margin-bottom: var(--spacing-56);
+}
+
+.card {
+  border: var(--border-width-1) solid var(--color-neutral-high-medium);
+  padding: var(--spacing-16);
+  border-radius: var(--border-radius-8);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.card img {
+  margin-bottom: var(--spacing-16);
+}
+
+.card h4 {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-20);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-neutral-low-default);
+}
+
+.card p {
+  margin-bottom: var(--spacing-24);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-16);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-neutral-low-dark);
+}
+
+/* ===== MEDIA QUERIES ===== */
+@media screen and (max-width: 800px) {
+  .componente-name-module-img {
+    left: 300px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .section-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .componente-name-module-text {
-    padding-left: 48px;
-    max-width: 60%;
-  }
-
-  .componente-name-module-text h1 {
-    font-family: var(--font-family-primary);
-    font-size: var(--font-size-40);
-    font-weight: var(--font-weight-bold);
-    color: var(--color-brand-primary-default);
+    padding-left: var(--spacing-24);
   }
 
   .componente-name-module-img {
-    position: absolute;
-    left: 345px;
+    right: 0;
+    left: 0;
     top: 0;
-    height: 100%;
-    width: 200%;
-    overflow: hidden;
+    bottom: 0;
+    height: auto;
+    width: 124%;
   }
 
   .componente-name-module-img img {
-    width: 950px;
-    margin-left: -340px;
+    width: 1200px;
+    margin-left: -24px;
+    margin-bottom: -40px;
   }
-
-  /* ===== INTRO SECTION ===== */
-  .component-module-intro {
-    margin-bottom: 54px;
-  }
-
-  .component-module-intro .description {
-    font-family: var(--font-family-primary);
-    font-size: var(--font-size-24);
-    font-weight: var(--font-weight-regular);
-    color: var(--color-neutral-low-dark);
-  }
-
-  /* ===== SECTION TITLE ===== */
-  .section-title h2 {
-    font-family: var(--font-family-primary);
-    font-size: var(--font-size-32);
-    font-weight: var(--font-weight-bold);
-    color: var(--color-neutral-low-default);
-    border-bottom: none;
-    margin-bottom: 32px;
-  }
-
-  /* ===== CARDS SECTION ===== */
-  
-  .section-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-    margin-bottom: 54px;
-  }
-
-  .card {
-    border: 1px solid var(--color-neutral-high-medium);
-    padding: 16px;
-    border-radius: 8px;
-    flex: 1;
-    display: flex;
-    flex-direction: column; 
-  }
-
-  .card img {
-    margin-bottom: 16px;
-  }
-
-  .card h4 {
-    font-family: var(--font-family-primary);
-    font-size: var(--font-size-20);
-    font-weight: var(--font-weight-bold);
-    color: var(--color-neutral-low-default);
-  }
-
-  .card  p {
-    margin-bottom: 20px;
-    font-family: var(--font-family-primary);
-    font-size: var(--font-size-16);
-    font-weight: var(--font-weight-regular);
-    color: var(--color-neutral-low-dark);
-  }
-
-  /* ===== MEDIA QUERIES ===== */
-  @media screen and (max-width: 800px) {
-    .componente-name-module-img {
-      left: 300px;
-    }
-  }
-
-  @media screen and (max-width: 600px) {
-    .section-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-
-    .componente-name-module-text {
-      padding-left: 24px;
-    }
-
-    .componente-name-module-img {
-      right: 0;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      height: auto;
-      width: 124%;
-    }
-
-    .componente-name-module-img img {
-      width: 1200px;
-      margin-left: -24px;
-      margin-bottom: -40px;
-    }
-  }
+}
   `}
 </style>
