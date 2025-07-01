@@ -1,6 +1,6 @@
-import '@zanthus/tokens/build/css/tokens.css';
-import '@zanthus/tokens/build/css/tokens-dark.css';
-import '@zanthus/tokens/build/css/tokens-light.css';
+import '../../../packages/tokens/build/css/tokens.css';
+import '../../../packages/tokens/build/css/tokens-dark.css';
+import '../../../packages/tokens/build/css/tokens-light.css';
 
 /** @type { import('@storybook/react-vite').Preview } */
 const preview = {

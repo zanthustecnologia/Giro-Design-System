@@ -1,8 +1,10 @@
 {
   "color": {
-    "neutral": {
-      "background": { "value": "#F9F9F9", "type": "color" },
-      "text": { "value": "#181818", "type": "color" }
+    "theme": {
+      "light": {
+        "background": { "value": "#F9F9F9", "type": "color" },
+        "text": { "value": "#181818", "type": "color" }
+      }
     }
   }
 }
