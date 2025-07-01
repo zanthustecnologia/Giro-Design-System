@@ -1,17 +1,27 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
-import path from 'path'; // ⬅ necessário para o alias funcionar
+import path from 'path';
 
 export default defineConfig({
   plugins: [react()],
   esbuild: {
     loader: '.jsx',
-    include: /src\\/.*\\.js$/,
+    include: /src\/.*\.js$/,  // ✅ Regex corrigida
   },
   resolve: {
     alias: {
-      '@': '/src',
-      '@zanthus/tokens': path.resolve(__dirname, '../../packages/tokens') // ⬅ alias do pacote tokens
+      '@': path.resolve(__dirname, './src'),  // ✅ Caminho correto
+      '@zanthus/tokens': path.resolve(__dirname, '../../packages/tokens')
     }
-  }
+  },
+  optimizeDeps: {
+    exclude: [
+      '@storybook/blocks',
+      '@storybook/manager-api',
+      '@storybook/preview-api',
+      '@storybook/client-api'
+    ]
+  },
+  // Adicionar configuração para assets estáticos
+  assetsInclude: ['**/*.png', '**/*.jpg', '**/*.jpeg', '**/*.gif', '**/*.svg']
 });
