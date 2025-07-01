@@ -1,0 +1,149 @@
+import { Meta } from "@storybook/blocks";
+
+<Meta title="Primeiros passos" />
+
+# Comece Aqui: Integrando o Design System da Zanthus Tecnologia
+
+Bem-vindo ao guia prático para começar a utilizar o Design System da Zanthus Tecnologia em seus projetos. Este documento foi elaborado para designers e desenvolvedores, fornecendo os passos essenciais para integrar e aproveitar ao máximo os benefícios do nosso sistema, garantindo consistência, eficiência e qualidade em suas criações.
+
+## Para Desenvolvedores
+
+Integrar o Design System em seu ambiente de desenvolvimento é um processo direto. Siga os passos abaixo para configurar seu projeto e começar a utilizar nossos componentes e tokens de design.
+
+### 1. Instalação
+
+Nosso Design System é distribuído como pacotes npm separados. Para instalá-los em seu projeto, utilize os seguintes comandos:
+
+```bash
+# Instalar tokens de design
+npm install @zanthus/tokens
+# ou
+yarn add @zanthus/tokens
+
+# Instalar componentes React
+npm install @zanthus/components-react
+# ou
+yarn add @zanthus/components-react
+
+# Instalar biblioteca de ícones
+npm install @zanthus/icons
+# ou
+yarn add @zanthus/icons
+```
+
+Certifique-se de que seu projeto React.js esteja configurado corretamente e que as dependências necessárias (como `react`, `react-dom`, `react-router-dom` para `CustomLink`, e `@fluentui/react-icons` para ícones) estejam instaladas.
+
+### 2. Importando Componentes
+
+Após a instalação, você pode importar os componentes diretamente em seus arquivos React.js:
+
+```jsx
+import React from 'react';
+import { Button } from '@zanthus/components-react';
+import { Icon } from '@zanthus/icons';
+
+function MyComponent() {
+  return (
+    <div>
+      <Button 
+        variant="filled" 
+        size="lg" 
+        onClick={() => alert('Clicado!')}
+        icon={<Icon name="add" size={16} />}
+        iconPosition="left"
+      >
+        Meu Botão
+      </Button>
+      
+      <Button 
+        type="link" 
+        to="/dashboard" 
+        variant="outlined"
+        size="sm"
+      >
+        Link Button
+      </Button>
+    </div>
+  );
+}
+
+export default MyComponent;
+```
+
+### 3. Utilizando Tokens de Design
+
+Os tokens de design (cores, tipografia, espaçamento, etc.) são a base da nossa consistência visual. Eles são expostos através de variáveis CSS que podem ser importadas diretamente.
+
+**Importando tokens CSS:**
+
+```css
+/* Importar tokens base */
+@import '@zanthus/tokens/build/css/tokens.css';
+
+/* Importar tema claro (opcional) */
+@import '@zanthus/tokens/build/css/tokens-light.css';
+
+/* Importar tema escuro (opcional) */
+@import '@zanthus/tokens/build/css/tokens-dark.css';
+```
+
+**Exemplo de uso dos tokens:**
+
+```scss
+.my-custom-element {
+  background-color: var(--color-brand-primary-default);
+  color: var(--color-neutral-high-default);
+  padding: var(--spacing-16);
+  border-radius: var(--border-radius-8);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-16);
+  font-weight: var(--font-weight-medium);
+}
+```
+
+**Tokens disponíveis:**
+
+- **Cores**: `--color-brand-*`, `--color-neutral-*`, `--color-feedback-*`
+- **Espaçamento**: `--spacing-0` até `--spacing-200`
+- **Tipografia**: `--font-family-primary`, `--font-size-*`, `--font-weight-*`
+- **Bordas**: `--border-radius-*`, `--border-width-*`
+
+### 4. Suporte a Temas
+
+O design system suporta temas claro e escuro. Para alternar entre temas:
+
+```html
+<!-- Tema claro (padrão) -->
+<html data-theme="light">
+
+<!-- Tema escuro -->
+<html data-theme="dark">
+```
+
+```javascript
+// Alternar tema via JavaScript
+function toggleTheme() {
+  const currentTheme = document.documentElement.dataset.theme;
+  const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+  document.documentElement.dataset.theme = newTheme;
+}
+```
+
+### 5. Usando Ícones
+
+Nossa biblioteca de ícones encapsula ícones do Fluent UI:
+
+```jsx
+import { Icon } from '@zanthus/icons';
+
+// Ícones disponíveis: 'add', 'delete', 'edit', 'usb', 'arrowDown', 'circle'
+<Icon name="add" size={24} />
+<Icon name="delete" size={16} className="custom-icon" />
+```
+
+
+## Suporte e Contato
+
+Se você tiver dúvidas, precisar de suporte ou quiser contribuir com o Design System, entre em contato com a equipe responsável. Estamos aqui para ajudar você a construir experiências incríveis com a Zanthus Tecnologia.
+
+Comece a criar hoje mesmo com o poder e a consistência do nosso Design System!

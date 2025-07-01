@@ -5,6 +5,7 @@ import '@zanthus/tokens/build/css/tokens-light.css';
 /** @type { import('@storybook/react-vite').Preview } */
 const preview = {
   parameters: {
+    actions: { argTypesRegex: "^on[A-Z].*" },
     controls: {
       matchers: {
         color: /(background|color)$/i,
@@ -13,7 +14,18 @@ const preview = {
     },
     a11y: {
       test: "todo"
-    }
+    },
+    options: {
+      storySort: {
+        order: [
+          'Boas-vindas',
+          'Primeiros passos', 
+          'Fundações',
+          'Componentes',
+          '*' // Todas as outras histórias
+        ]
+      }
+    },
   },
 
   globalTypes: {
