@@ -7,4 +7,9 @@ export default defineConfig({
   server: {
     port: 3002,
   },
+  resolve: {
+    alias: {
+      '@components': '../../packages/components-react/src',
+    },
+  },
 })
