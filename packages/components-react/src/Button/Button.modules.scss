@@ -42,51 +42,51 @@
   box-sizing: border-box;
 
   /* Body/Small/Medium 14 */
-  font-family: var(--typography-font-family-primary);
-  font-size: var(--typography-font-size-14);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-14);
   font-style: normal;
-  font-weight: var(--typography-font-weight-medium);
+  font-weight: var(--font-weight-medium);
 
   text-decoration: none;
 
-  &--lg {
+  &__lg {
     height: 44px;
     padding: 0 var(--spacing-24);
     min-width: 92px;
   }
 
-  &--sm {
+  &__sm {
     height: 36px;
     padding: 0 var(--spacing-16);
     min-width: 76px;
   }
 }
 
-.zds-button--full-width {
+.zds-button__full-width {
   width: 100%;
 }
 
 /* Botões com ícone e conteúdo */
 /* Ícone à esquerda */
-.zds-button.zds-button--lg.zds-button--with-icon.zds-button--icon-position-left {
+.zds-button.zds-button__lg.zds-button__with-icon.zds-button__icon-position-left {
   padding: 0 var(--spacing-24) 0 var(--spacing-16);
 }
 
-.zds-button.zds-button--sm.zds-button--with-icon.zds-button--icon-position-left {
+.zds-button.zds-button__sm.zds-button__with-icon.zds-button__icon-position-left {
   padding: 0 var(--spacing-16) 0 var(--spacing-8);
 }
 
 /* Ícone à direita */
-.zds-button.zds-button--lg.zds-button--with-icon.zds-button--icon-position-right {
+.zds-button.zds-button__lg.zds-button__with-icon.zds-button__icon-position-right {
   padding: 0 var(--spacing-16) 0 var(--spacing-24);
 }
 
-.zds-button.zds-button--sm.zds-button--with-icon.zds-button--icon-position-right {
+.zds-button.zds-button__sm.zds-button__with-icon.zds-button__icon-position-right {
   padding: 0 var(--spacing-8) 0 var(--spacing-16);
 }
 
 /* Tamanho grande */
-.zds-button.zds-button--lg.zds-button--with-icon.zds-button--no-content {
+.zds-button.zds-button__lg.zds-button__with-icon.zds-button__no-content {
   min-width: 0;
   display: flex;
   justify-content: center;
@@ -96,7 +96,7 @@
   padding: 0 var(--spacing-16);
 }
 
-.zds-button.zds-button--sm.zds-button--with-icon.zds-button--no-content {
+.zds-button.zds-button__sm.zds-button__with-icon.zds-button__no-content {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -107,25 +107,25 @@
 }
 
 /* Elementos de ícone */
-.zds-button--icon--left {
+.zds-button__icon-left {
   display: flex;
   margin-right: var(--spacing-8);
 }
 
-.zds-button--icon--right {
+.zds-button__icon-right {
   display: flex;
   margin-left: var(--spacing-8);
 }
 
 /* Remover margens em botões sem conteúdo */
-.zds-button--no-content .zds-button--icon--left,
-.zds-button--no-content .zds-button--icon--right {
+.zds-button__no-content .zds-button__icon-left,
+.zds-button__no-content .zds-button__icon-right {
   margin-right: 0;
   margin-left: 0;
 }
 
 /* Garante que, em botões sem conteúdo, o ícone da direita não tenha margem à esquerda */
-.zds-button--no-content.zds-button--icon--right {
+.zds-button__no-content.zds-button__icon-right {
   margin-left: 0;
 }
 
@@ -135,28 +135,28 @@
 }
 
 /* FILLED */
-.zds-button--filled {
+.zds-button__filled {
   background: var(--color-brand-primary-default);
   color: var(--color-neutral-high-light);
   border: none;
 }
 
-.zds-button--filled:hover {
+.zds-button__filled:hover {
   background: var(--color-brand-primary-medium);
 }
 
-.zds-button--filled:focus {
+.zds-button__filled:focus {
   outline: var(--spacing-4) solid var(--color-neutral-high-dark);
   outline-offset: var(--spacing-2);
 }
 
-.zds-button--filled:active {
+.zds-button__filled:active {
   background: var(--color-brand-primary-dark);
   color: var(--color-neutral-high-light);
   outline: none;
 }
 
-.zds-button--filled:disabled {
+.zds-button__filled:disabled {
   background: var(--color-neutral-high-light);
   color: var(--color-neutral-low-light);
   cursor: not-allowed;
@@ -165,122 +165,122 @@
 }
 
 /* OUTLINED */
-.zds-button--outlined {
+.zds-button__outlined {
   border: var(--border-width-1) solid var(--color-neutral-high-dark);
   background-color: var(--color-neutral-high-default);
   color: var(--color-brand-primary-default);
 }
 
-.zds-button--outlined * {
+.zds-button__outlined * {
   color: var(--color-brand-primary-default);
 }
 
-.zds-button--outlined:hover {
+.zds-button__outlined:hover {
   color: var(--color-brand-primary-default);
   background-color: var(--color-neutral-high-medium);
 }
 
-.zds-button--outlined:focus {
+.zds-button__outlined:focus {
   outline: var(--spacing-4) solid var(--color-neutral-high-dark);
   color: var(--color-brand-primary-default);
   background-color: var(--color-neutral-high-default);
 }
 
-.zds-button--outlined:focus * {
+.zds-button__outlined:focus * {
   color: var(--color-brand-primary-default);
 }
 
-.zds-button--outlined:active {
+.zds-button__outlined:active {
   outline: none;
   color: var(--color-brand-primary-default);
   background-color: var(--color-neutral-high-dark);
 }
 
-.zds-button--outlined:active * {
+.zds-button__outlined:active * {
   color: var(--color-brand-primary-default);
 }
 
-.zds-button--outlined:disabled,
-.zds-button--outlined.disabled {
+.zds-button__outlined:disabled,
+.zds-button__outlined.disabled {
   outline: var(--spacing-1) solid var(--color-neutral-high-light);
   color: var(--color-neutral-high-dark);
   cursor: not-allowed;
   background-color: var(--color-neutral-high-default);
 }
 
-.zds-button--outlined:disabled *,
-.zds-button--outlined.disabled * {
+.zds-button__outlined:disabled *,
+.zds-button__outlined.disabled * {
   color: var(--color-neutral-high-dark);
 }
 
 /* TEXT */
-.zds-button.zds-button--text {
+.zds-button__text {
   border: none;
   outline: none;
   background-color: transparent;
   color: var(--color-brand-primary-default);
 }
 
-.zds-button.zds-button--text.zds-button--lg {
+.zds-button__text.zds-button__lg {
   padding: 0 var(--spacing-12);
 }
 
-.zds-button.zds-button--text.zds-button--sm {
+.zds-button__text.zds-button__sm {
   padding: 0 var(--spacing-8);
 }
 
-.zds-button.zds-button--text.zds-button--sm.zds-button--with-icon.zds-button {
+.zds-button__text.zds-button__sm.zds-button__with-icon {
   padding: 0 var(--spacing-8);
 }
 
 /** Text--LG **/
-.zds-button.zds-button--text.zds-button--lg.zds-button--with-icon.zds-button--icon-position-right {
+.zds-button__text.zds-button__lg.zds-button__with-icon.zds-button__icon-position-right {
   padding: 0 var(--spacing-8) 0 var(--spacing-12);
 }
 
-.zds-button.zds-button--text.zds-button--lg.zds-button--with-icon.zds-button--icon-position-left {
+.zds-button__text.zds-button__lg.zds-button__with-icon.zds-button__icon-position-left {
   padding: 0 var(--spacing-12) 0 var(--spacing-8);
 }
 
 /** Text--SM **/
-.zds-button.zds-button--text.zds-button--sm.zds-button--with-icon.zds-button--icon-position-right {
+.zds-button__text.zds-button__sm.zds-button__with-icon.zds-button__icon-position-right {
   padding: 0 var(--spacing-8) 0 var(--spacing-4);
 }
 
-.zds-button.zds-button--text.zds-button--sm.zds-button--with-icon.zds-button--icon-position-left {
+.zds-button__text.zds-button__sm.zds-button__with-icon.zds-button__icon-position-left {
   padding: 0 var(--spacing-4) 0 var(--spacing-8);
 }
 
-.zds-button.zds-button--text.zds-button--lg.zds-button--with-icon.zds-button--no-content {
+.zds-button__text.zds-button__lg.zds-button__with-icon.zds-button__no-content {
   padding: 0 var(--spacing-16);
 }
 
-.zds-button.zds-button--text.zds-button--sm.zds-button--with-icon.zds-button--no-content {
+.zds-button__text.zds-button__sm.zds-button__with-icon.zds-button__no-content {
   padding: 0 var(--spacing-8);
 }
 
-.zds-button--text * {
+.zds-button__text * {
   color: var(--color-brand-primary-default);
 }
 
-.zds-button--text:hover {
+.zds-button__text:hover {
   color: var(--color-brand-primary-default);
   background-color: var(--color-neutral-high-medium);
 }
 
-.zds-button--text:focus {
+.zds-button__text:focus {
   outline: var(--spacing-4) solid var(--color-neutral-high-dark);
   color: var(--color-brand-primary-default);
   background-color: transparent;
 }
 
-.zds-button--text:active {
+.zds-button__text:active {
   outline: none;
   color: var(--color-brand-primary-default);
   background-color: var(--color-neutral-high-dark);
 }
 
-.zds-button--text:disabled {
+.zds-button__text:disabled {
   color: var(--color-neutral-high-dark);
   cursor: not-allowed;
   opacity: 0.5;
