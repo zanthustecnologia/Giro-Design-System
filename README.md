@@ -131,7 +131,7 @@ build/js/tokens.js          # Tokens para JavaScript
 build/json/tokens.json      # Tokens em JSON bruto
 ```
 
-### Temas
+### Temas - Aninda não implementado
 
 * Suporte a `light` e `dark` via `[data-theme]`
 * Sem herança implícita (`include: []`)

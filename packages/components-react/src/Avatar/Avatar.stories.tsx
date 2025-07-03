@@ -5,7 +5,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 interface AvatarProps {
   id?: string;
-  icon: React.ElementType;
+  icon: React.ReactNode;
   size?: 'small' | 'large';
   className?: string;
 }
@@ -24,10 +24,10 @@ const meta: Meta<AvatarProps> = {
       control: { type: 'select' },
       options: ['none', 'add16R', 'add16F', 'arrow'],
       mapping: {
-        none: Person16Regular,
-        add16R: Add16Regular,
-        add16F: Add16Filled,
-        arrow: ArrowCircleDown12Regular,
+        none: <Person16Regular />,
+        add16R: <Add16Regular />,
+        add16F: <Add16Filled />,
+        arrow: <ArrowCircleDown12Regular />,
       },
     },
     className: {
@@ -54,22 +54,7 @@ const Template = ({ icon, ...args }: AvatarProps) => {
 export const Default: Story = {
   render: Template,
   args: {
-    icon: Person16Regular,
+    icon: <Person16Regular />,
     size: 'large',
   },
 };
-// export const Small: Story = {
-//   render: Template,
-//   args: {
-//     icon: Add16Regular,
-//     size: 'small',
-//   },
-// };
-
-// export const Large: Story = {
-//   render: Template,
-//   args: {
-//     icon: Add16Filled,
-//     size: 'large',
-//   },
-// };

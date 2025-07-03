@@ -5,12 +5,12 @@ import clsx from 'clsx';
 
 interface AvatarProps {
   id?: string;
-  icon: React.ElementType;
+  icon: React.ReactNode;
   size?: 'small' | 'large';
   className?: string;
 }
 
-let Avatar = ({ id = '', icon: Icon, size = 'small', className = '' }: AvatarProps) => {
+let Avatar = ({ id = '', icon, size = 'small', className = '' }: AvatarProps) => {
   const componentId = id || useId();
   const AvatarClass = clsx(
     'zds-avatar__circle',
@@ -24,7 +24,7 @@ let Avatar = ({ id = '', icon: Icon, size = 'small', className = '' }: AvatarPro
   return (
     <div className={AvatarClass} id={componentId} role="img" aria-label={`Avatar ${size}`}>
       <div className={`zds-avatar__circle__icon`}>
-        <Icon />
+        {icon}
       </div>
     </div>
   );
