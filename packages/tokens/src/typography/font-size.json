@@ -1,57 +1,57 @@
 {
-  "typography": {
-    "fontSize": {
+  "font": {
+    "size": {
       "96": {
         "value": "96px",
-        "type": "dimension"
+        "type": "fontSize"
       },
       "64": {
         "value": "64px",
-        "type": "dimension"
+        "type": "fontSize"
       },
       "48": {
         "value": "48px",
-        "type": "dimension"
+        "type": "fontSize"
       },
       "40": {
         "value": "40px",
-        "type": "dimension"
+        "type": "fontSize"
       },
       "32": {
         "value": "32px",
-        "type": "dimension"
+        "type": "fontSize"
       },
       "28": {
         "value": "28px",
-        "type": "dimension"
+        "type": "fontSize"
       },
       "24": {
         "value": "24px",
-        "type": "dimension"
+        "type": "fontSize"
       },
       "20": {
         "value": "20px",
-        "type": "dimension"
+        "type": "fontSize"
       },
       "18": {
         "value": "18px",
-        "type": "dimension"
+        "type": "fontSize"
       },
       "16": {
         "value": "16px",
-        "type": "dimension"
+        "type": "fontSize"
       },
       "14": {
         "value": "14px",
-        "type": "dimension"
+        "type": "fontSize"
       },
       "12": {
         "value": "12px",
-        "type": "dimension"
+        "type": "fontSize"
       },
       "inherit": {
         "value": "inherit",
-        "type": "dimension"
+        "type": "fontSize"
       }
     }
   }

@@ -100,13 +100,13 @@ Default.args = {
 
 export const Variants: StoryFn<ButtonProps> = (args) => (
   <div className="storybook-container">
-    <Button type="button" variant="filled" size="lg" onClick={() => alert('clicked')}>
+    <Button  variant="filled" size="lg" onClick={() => alert('clicked')}>
       Filled Button
     </Button>
-    <Button type="button" variant="outlined" size="lg" onClick={() => alert('clicked')}>
+    <Button  variant="outlined" size="lg" onClick={() => alert('clicked')}>
       Outlined Button
     </Button>
-    <Button type="button" variant="text" size="lg" onClick={() => alert('clicked')}>
+    <Button  variant="text" size="lg" onClick={() => alert('clicked')}>
       Text Button
     </Button>
   </div>
@@ -114,10 +114,10 @@ export const Variants: StoryFn<ButtonProps> = (args) => (
 
 export const Sizes: StoryFn<ButtonProps> = () => (
   <div className="storybook-container">
-    <Button type="button" variant="filled" size="lg" icon={<Add16Filled />} onClick={() => alert('clicked')}>
+    <Button  variant="filled" size="lg" icon={<Add16Filled />} onClick={() => alert('clicked')}>
       Large Button
     </Button>
-    <Button type="button" variant="filled" size="sm" icon={<Add16Filled />} onClick={() => alert('clicked')}>
+    <Button  variant="filled" size="sm" icon={<Add16Filled />} onClick={() => alert('clicked')}>
       Small Button
     </Button>
   </div>

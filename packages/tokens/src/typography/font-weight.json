@@ -1,6 +1,6 @@
 {
-  "typography": {
-    "fontWeight": {
+  "font": {
+    "weight": {
       "regular": {
         "value": 400,
         "type": "fontWeight"
