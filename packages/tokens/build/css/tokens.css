@@ -2,6 +2,7 @@
  * Do not edit directly, this file was auto-generated.
  */
  @import url("https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap");
+
 :root {
   --border-radius-4: 4px;
   --border-radius-8: 8px;
@@ -57,21 +58,21 @@
   --spacing-120: 120px;
   --spacing-160: 160px;
   --spacing-200: 200px;
-  --typography-font-family-primary: "Figtree", sans-serif;
-  --typography-font-size-12: 12px;
-  --typography-font-size-14: 14px;
-  --typography-font-size-16: 16px;
-  --typography-font-size-18: 18px;
-  --typography-font-size-20: 20px;
-  --typography-font-size-24: 24px;
-  --typography-font-size-28: 28px;
-  --typography-font-size-32: 32px;
-  --typography-font-size-40: 40px;
-  --typography-font-size-48: 48px;
-  --typography-font-size-64: 64px;
-  --typography-font-size-96: 96px;
-  --typography-font-size-inherit: inherit;
-  --typography-font-weight-regular: 400;
-  --typography-font-weight-medium: 500;
-  --typography-font-weight-bold: 700;
+  --font-family-primary: "Figtree", sans-serif;
+  --font-size-12: 12px;
+  --font-size-14: 14px;
+  --font-size-16: 16px;
+  --font-size-18: 18px;
+  --font-size-20: 20px;
+  --font-size-24: 24px;
+  --font-size-28: 28px;
+  --font-size-32: 32px;
+  --font-size-40: 40px;
+  --font-size-48: 48px;
+  --font-size-64: 64px;
+  --font-size-96: 96px;
+  --font-size-inherit: inherit;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
 }
