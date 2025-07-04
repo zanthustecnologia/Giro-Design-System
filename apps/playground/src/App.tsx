@@ -1,14 +1,15 @@
+import { UsbStick20Regular } from '@fluentui/react-icons';
+import Avatar from '../../../packages/components-react/src/Avatar';
 import Button from '../../../packages/components-react/src/Button';
-import { useState } from 'react';
 import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
-    <>
-      <Button>teste</Button>
-    </>
+    <div className="App">
+      <Button >teste</Button>
+      <Avatar icon={<UsbStick20Regular />} size='large'/>
+    </div>
   )
 }
 
