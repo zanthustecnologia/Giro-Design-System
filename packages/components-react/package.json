@@ -1,0 +1,29 @@
+{
+  "name": "@zanthus/components-react",
+  "version": "1.0.0",
+  "description": "Biblioteca de componentes React para o Zanthus Design System",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "rollup -c ../rollup.config.js",
+    "test": "vitest",
+    "lint": "eslint src --ext .ts,.tsx",
+    "prepare": "npm run build"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.28",
+    "@types/react-dom": "^18.0.11",
+    "rollup": "^3.0.0",
+    "typescript": "^5.0.0",
+    "vitest": "^0.32.0",
+    "eslint": "^8.0.0"
+  }
+}

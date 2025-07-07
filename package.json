@@ -10,9 +10,10 @@
   ],
   "scripts": {
     "dev": "vite",
+    "build": "turbo run build --filter=./packages/components-react",
     "dev:react": "vite --config apps/playground/playground/vite.config.ts",
-    "build": "rollup -c --bundleConfigAsCjs",
     "build:tokens": "style-dictionary build --config ./packages/tokens/config/style-dictionary.config.json",
+    "build:components": "rollup -c --bundleConfigAsCjs",
     "lint": "eslint .",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006 --config-dir apps/storybook/.storybook",
@@ -73,5 +74,6 @@
   "dependencies": {
     "react": "^18.0.0",
     "react-dom": "^18.0.0"
-  }
+  },
+  "packageManager": "npm@10.9.0"
 }

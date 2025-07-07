@@ -1,12 +1,12 @@
-import resolve from '@rollup/plugin-node-resolve';
-import commonjs from '@rollup/plugin-commonjs';
 import babel from '@rollup/plugin-babel';
-import postcss from 'rollup-plugin-postcss';
+import commonjs from '@rollup/plugin-commonjs';
+import resolve from '@rollup/plugin-node-resolve';
 import typescript from '@rollup/plugin-typescript';
+import postcss from 'rollup-plugin-postcss';
 // import { terser } from '@rollup/plugin-terser';
+import dts from 'rollup-plugin-dts';
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
 import packageJson from './package.json';
-import dts from 'rollup-plugin-dts';
 
 export default {
     input: './packages/index.tsx', // Entrada principal da biblioteca
@@ -33,8 +33,8 @@ export default {
             babelHelpers: 'bundled',
         }),
         postcss({
-            extract: true, // Extrai CSS para um arquivo separado
-            minimize: true, // Minifica o CSS
+            extract: true,
+            minimize: true, 
             sourceMap: 'inline'
         }),
         typescript({
