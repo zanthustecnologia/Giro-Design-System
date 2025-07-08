@@ -89,7 +89,7 @@ O Zanthus Design System utiliza o [Turborepo](https://turbo.build/repo) para orq
 
 ```bash
 # Executa build para todos os pacotes
-npm run build
+npm run build:components
 
 # Executa apenas os tokens
 npm run build:tokens
