@@ -1,5 +1,6 @@
-@use '../../resources/scss/design-tokens' as *;
+@use '../../../tokens/build/css/tokens.css' as *;
 
+@use '../../../tokens/build/css/tokens.css' as *;
 
 .storybook__container {
     width: 250px;
@@ -13,22 +14,22 @@
 }
 
 .zds-textfield__container label {
-    color: $low-color-default;
-    font-family: $font-family-sans-serif;
-    font-size: $font-size-12;
+    color: var(--color-neutral-low-default);
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-12);
     font-style: normal;
-    font-weight: $font-weight-regular;
+    font-weight: var(--font-weight-regular);
 
     display: flex;
     align-items: center;
-    gap: $spacing-4;
-    padding-bottom: $spacing-4;
+    gap: var(--spacing-4);
+    padding-bottom: var(--spacing-4);
 }
 
 .zds-textfield__container label .zds-textfield__required {
-    color: $brand-color-primary-default;
-    font-family: $font-family-sans-serif;
-    font-size: $font-size-12;
+    color: var(--color-brand-primary-default);
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-12);
 }
 
 .zds-textfield__container .zds-textfield__box__input {
@@ -37,7 +38,7 @@
     align-items: center;
     align-self: stretch;
     width: 100%;
-    margin-top: $spacing-4;
+    margin-top: var(--spacing-4);
 }
 
 .zds-textfield__container .zds-textfield__box__input input {
@@ -45,19 +46,18 @@
     width: 100%;
     display: inline-flex;
     height: 44px;
-    padding: 0px $spacing-16;
+    padding: 0px var(--spacing-16);
     align-items: center;
     align-self: stretch;
-    border-radius: $border-radius-8;
-    border: $border-width-1 solid $high-color-dark;
+    border-radius: var(--border-radius-8);
+    border: var(--border-width-1) solid var(--color-neutral-high-dark);
     outline: none;
-    color: $low-color-default;
-    font-size: $font-size-16;
+    color: var(--color-neutral-low-default);
+    font-size: var(--font-size-16);
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
     box-sizing: border-box;
-
 }
 
 .zds-textfield__container__box {
@@ -68,43 +68,41 @@
 }
 
 .zds-textfield__helper-text {
-    font-size: $font-size-12;
-    color: $low-color-medium;
-    font-family: $font-family-sans-serif;
+    font-size: var(--font-size-12);
+    color: var(--color-neutral-low-medium);
+    font-family: var(--font-family-primary);
 
-    padding-top: $spacing-8;
+    padding-top: var(--spacing-8);
     max-width: 100%;
     word-wrap: break-word;
     overflow-wrap: break-word;
     white-space: normal;
     text-align: left;
     overflow: hidden;
-
-
 }
 
 .zds-textfield__container-tooltip {
     display: flex;
     align-items: center;
-    gap: $spacing-4;
+    gap: var(--spacing-4);
 }
 
 .zds-textfield__container .zds-textfield__box__input input:hover {
-    border: $border-width-1 solid $low-color-dark;
+    border: var(--border-width-1) solid var(--color-neutral-low-dark);
     outline: none;
-    border-radius: $border-radius-8;
+    border-radius: var(--border-radius-8);
 }
 
 .zds-textfield__container .zds-textfield__box__input input:focus-visible {
     border: none;
-    outline: $border-width-2 solid $brand-color-primary-default;
+    outline: var(--border-width-2) solid var(--color-brand-primary-default);
 }
 
 .zds-textfield__container .zds-textfield__box__input input::placeholder {
-    color: $low-color-medium;
-    font-family: $font-family-sans-serif;
-    font-weight: $font-weight-regular;
-    font-size: $font-size-16;
+    color: var(--color-neutral-low-medium);
+    font-family: var(--font-family-primary);
+    font-weight: var(--font-weight-regular);
+    font-size: var(--font-size-16);
 }
 
 .zds-textfield__container .zds-textfield__box__input .zds-textfield__icon {
@@ -113,9 +111,7 @@
     cursor: pointer;
     width: 16px;
     height: 16px;
-    background-color: $high-color-default;
-
-
+    background-color: var(--color-neutral-high-default);
 }
 
 .zds-textfield__container .zds-textfield__box__input .zds-textfield__icon svg {
@@ -129,56 +125,54 @@
 }
 
 .zds-textfield__container .zds-textfield__box__input .has-value {
-    color: $low-color-default;
-    border: $border-width-1 solid $high-color-dark;
-    font-size: $font-size-16;
+    color: var(--color-neutral-low-default);
+    border: var(--border-width-1) solid var(--color-neutral-high-dark);
+    font-size: var(--font-size-16);
 }
 
 .zds-textfield__tooltip {
-    color: $brand-color-primary-default;
+    color: var(--color-brand-primary-default);
 }
 
-
+// Estados de erro
 .zds-textfield__container.zds-textfield__error label,
 .zds-textfield__container.zds-textfield__error label .zds-textfield__required,
 .zds-textfield__container.zds-textfield__error span,
 .zds-textfield__container.zds-textfield__error .zds-textfield__tooltip,
 .zds-textfield__container.zds-textfield__error .zds-textfield__icon {
-    color: $alert-color-default;
+    color: var(--color-feedback-alert-default);
 }
 
-
 .zds-textfield__container.zds-textfield__error .zds-textfield__box__input input {
-    border: $border-width-1 solid $alert-color-default;
+    border: var(--border-width-1) solid var(--color-feedback-alert-default);
 }
 
 .zds-textfield__container.zds-textfield__error .zds-textfield__box__input input:focus-visible {
-    outline: $border-width-1 solid $alert-color-default;
+    outline: var(--border-width-1) solid var(--color-feedback-alert-default);
 }
 
+// Estados desabilitados
 .zds-textfield__container.zds-textfield__disabled label,
 .zds-textfield__container.zds-textfield__disabled .zds-textfield__box__input input::placeholder,
 .zds-textfield__container.zds-textfield__disabled span,
 .zds-textfield__container.zds-textfield__disabled .zds-textfield__tooltip,
 .zds-textfield__container.zds-textfield__disabled .zds-textfield__required,
 .zds-textfield__container.zds-textfield__disabled label .zds-textfield__required {
-    color: $high-color-dark;
+    color: var(--color-neutral-high-dark);
 }
-
 
 .zds-textfield__container.zds-textfield__disabled .zds-textfield__box__input input:disabled,
 .zds-textfield__container.zds-textfield__disabled .zds-textfield__box__input input:hover:disabled {
-    border: $border-width-1 solid $high-color-dark;
-    color: $high-color-dark;
-    background-color: $high-color-default;
+    border: var(--border-width-1) solid var(--color-neutral-high-dark);
+    color: var(--color-neutral-high-dark);
+    background-color: var(--color-neutral-high-default);
 }
 
 .zds-textfield__container.zds-textfield__disabled .zds-textfield__icon,
 .zds-textfield__container.zds-textfield__disabled .zds-textfield__required,
 .zds-textfield__container.zds-textfield__disabled label .zds-textfield__required {
     cursor: default;
-    color: $high-color-dark;
-
+    color: var(--color-neutral-high-dark);
 }
 
 .zds-textfield__container.zds-textfield__disabled .zds-textfield__wrapper-label {
