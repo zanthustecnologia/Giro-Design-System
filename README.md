@@ -89,17 +89,16 @@ O Zanthus Design System utiliza o [Turborepo](https://turbo.build/repo) para orq
 
 ```bash
 # Executa build para todos os pacotes
-npx turbo run build
+npm run build
 
 # Executa apenas os tokens
-npx turbo run build --filter=tokens
+npm run build:tokens
 
 # Executa Storybook (via scripts definidos)
-npx turbo run storybook --filter=storybook
+npx run storybook
 
 # Executa lint ou testes
-npx turbo run lint
-npx turbo run test
+npm test
 
 # Limpa cache do Turborepo
 npx turbo clean
