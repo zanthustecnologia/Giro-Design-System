@@ -9,25 +9,25 @@ import peerDepsExternal from 'rollup-plugin-peer-deps-external';
 import packageJson from './package.json';
 
 export default {
-    input: './packages/index.tsx', // Entrada principal da biblioteca
+    input: './packages/index.tsx', 
     output: [
         {
-            file: packageJson.main, // Saída para CommonJS
+            file: packageJson.main,
             format: 'cjs',
             sourcemap: true,
         },
         {
-            file: packageJson.module, // Saída para ES Modules
+            file: packageJson.module,
             format: 'esm',
             sourcemap: true,
         },
     ],
     plugins: [
-        peerDepsExternal(), // Exclui dependências externas do bundle
+        peerDepsExternal(), 
         resolve({
             extensions: ['.tsx', '.jsx', '.ts']
         }),
-        commonjs(), // Converte CommonJS para ES Modules
+        commonjs(),
         babel({
             exclude: 'node_modules/**',
             babelHelpers: 'bundled',
@@ -47,5 +47,5 @@ export default {
         },
         // terser(), // Minifica o JavaScript
     ],
-    external: ['react', 'react-dom'], // Exclui React e ReactDOM do bundle
+    external: ['react', 'react-dom'],
 };
