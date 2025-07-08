@@ -1,0 +1,59 @@
+@use '../../../tokens/build/css/tokens.css' as *;
+
+.zds-tooltip__wrapper {
+  position: relative;
+  display: flex;
+}
+
+.zds-tooltip__content {
+  position: absolute;
+  display: inline-flex;
+  white-space: nowrap; 
+  background-color: var(--color-neutral-low-dark);
+  font-size: var(--font-size-14);
+  font-family: var(--font-family-primary);
+  color: var(--color-neutral-high-default);
+  padding: var(--spacing-8) var(--spacing-16);
+  border-radius: var(--border-radius-8);
+}
+
+// Top Right: Alinha com o lado direito do trigger (âncora)
+.zds-tooltip__top-right {
+  bottom: 100%;
+  left: 0;
+  margin-bottom: var(--spacing-8);
+}
+// Top Left: Alinha com o lado esquerdo do trigger (âncora)
+.zds-tooltip__top-left {
+  bottom: 100%;
+  right: 0;
+  margin-bottom: var(--spacing-8);
+}
+
+// Left: Alinha ao topo do trigger
+.zds-tooltip__left {
+  right: 100%;
+  top: 0;
+  margin-right: var(--spacing-8);
+}
+
+// Right: Alinha ao topo do trigger
+.zds-tooltip__right {
+  left: 100%;
+  top: 0;
+  margin-left: var(--spacing-8);
+}
+
+// Bottom Left: Alinha com o lado esquerdo do trigger (âncora)
+.zds-tooltip__bottom-left {
+  top: 100%;
+  right: 0;
+  margin-top: var(--spacing-8);
+}
+
+// Bottom Right: Alinha com o lado direito do trigger (âncora)
+.zds-tooltip__bottom-right {
+  top: 100%;
+  left: 0;
+  margin-top: var(--spacing-8);
+}

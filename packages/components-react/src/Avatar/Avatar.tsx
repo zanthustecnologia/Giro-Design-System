@@ -1,5 +1,5 @@
 import React, { useId } from 'react';
-import './Avatar.modules.scss';
+import './avatar.scss';
 import clsx from 'clsx';
 
 
@@ -15,8 +15,8 @@ let Avatar = ({ id = '', icon, size = 'small', className = '' }: AvatarProps) =>
   const AvatarClass = clsx(
     'zds-avatar__circle',
     {
-      '__large': size === 'large',
-      '__small': size === 'small',
+      'zds-avatar__large': size === 'large',
+      'zds-avatar__small': size === 'small',
     },
     { [className]: className }
   );
