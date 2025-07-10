@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
-import MemoizedButton from '../Button';
+import MemoizedButton from '..';
 describe('Button', () => {
   test('renders button in the document', () => {
     render(<MemoizedButton>Click me</MemoizedButton>);

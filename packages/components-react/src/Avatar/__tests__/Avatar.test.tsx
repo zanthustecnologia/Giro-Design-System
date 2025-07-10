@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import Avatar from '../Avatar';
+import Avatar from '..';
 import { render,screen } from '@testing-library/react';
 import { DataScatter20Filled } from '@fluentui/react-icons';
 describe('Avatar', () => {

@@ -12,6 +12,7 @@ export default {
     controls: {
       sort: 'alpha',
     },
+  layout: 'centered'
   },
   argTypes: {
     children: {
@@ -83,7 +84,12 @@ const Template: StoryFn<ButtonProps & { displayIcon?: boolean; icon?: React.Reac
 
   return (
     <BrowserRouter>
-      <div className="storybook-container">
+      <div className="storybook-container" style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '48px'
+      }}>
         <Button {...args} icon={displayIcon === false || icon === 'none' ? undefined : icon} href={to} as={type === 'link' ? 'a' : 'button'} />
       </div>
     </BrowserRouter>
@@ -99,7 +105,12 @@ Default.args = {
 };
 
 export const Variants: StoryFn<ButtonProps> = (args) => (
-  <div className="storybook-container">
+  <div className="storybook-container" style={{
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: '24px'
+  }}>
     <Button  variant="filled" size="lg" onClick={() => alert('clicked')}>
       Filled Button
     </Button>
@@ -113,7 +124,12 @@ export const Variants: StoryFn<ButtonProps> = (args) => (
 );
 
 export const Sizes: StoryFn<ButtonProps> = () => (
-  <div className="storybook-container">
+  <div className="storybook-container" style={{
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: '24px'
+  }}>
     <Button  variant="filled" size="lg" icon={<Add16Filled />} onClick={() => alert('clicked')}>
       Large Button
     </Button>
@@ -124,7 +140,12 @@ export const Sizes: StoryFn<ButtonProps> = () => (
 );
 
 const TemplateWithIcons: StoryFn<ButtonProps> = (args) => (
-  <div className="storybook-container">
+  <div className="storybook-container" style={{
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: '24px'
+  }}>
     <BrowserRouter>
       <Button {...args} icon={<Add16Regular />} iconPosition="right">
         Button
