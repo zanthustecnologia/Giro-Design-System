@@ -9,7 +9,7 @@ import peerDepsExternal from 'rollup-plugin-peer-deps-external';
 import packageJson from './package.json';
 
 export default {
-    input: './packages/index.tsx', 
+    input: './packages/index.tsx',
     output: [
         {
             file: packageJson.main,
@@ -23,7 +23,7 @@ export default {
         },
     ],
     plugins: [
-        peerDepsExternal(), 
+        peerDepsExternal(),
         resolve({
             extensions: ['.tsx', '.jsx', '.ts']
         }),
@@ -33,9 +33,14 @@ export default {
             babelHelpers: 'bundled',
         }),
         postcss({
-            extract: true,
-            minimize: true, 
-            sourceMap: 'inline'
+            extract: false,
+            inject: true,
+            minimize: true,
+            sourceMap: false,
+            modules: {
+                generateScopedName: 'zds-[local]-[hash:base64:5]',
+            },
+            use: ['sass'],
         }),
         typescript({
             tsconfig: './tsconfig.json'
