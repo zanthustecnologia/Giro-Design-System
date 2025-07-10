@@ -33,14 +33,10 @@ export default {
             babelHelpers: 'bundled',
         }),
         postcss({
-            extract: false,
-            inject: true,
+            extract: 'styles.css',
+            inject: false,
             minimize: true,
-            sourceMap: false,
-            modules: {
-                generateScopedName: 'zds-[local]-[hash:base64:5]',
-            },
-            use: ['sass'],
+            sourceMap: true,
         }),
         typescript({
             tsconfig: './tsconfig.json'
@@ -50,7 +46,6 @@ export default {
             output: [{ file: "dist/index.d.ts", format: "esm" }],
             plugins: [dts.default()],
         },
-        // terser(), // Minifica o JavaScript
     ],
     external: ['react', 'react-dom'],
 };
