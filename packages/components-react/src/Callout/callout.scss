@@ -3,7 +3,8 @@
 .zds-callout__container {
     border-radius: var(--border-radius-8);
     word-break: break-word;
-    padding: var(--spacing-16);
+    padding-right: var(--spacing-16);
+    padding-left: var(--spacing-16);
     display: flex;
     align-items: center;
     min-height: 56px; 

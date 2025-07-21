@@ -1,6 +1,6 @@
 import React, { useId } from 'react';
 import clsx from 'clsx';
-import './callout.scss';
+import './Callout.scss';
 
 export interface CalloutProps {
   /** Define o tipo de callout */
