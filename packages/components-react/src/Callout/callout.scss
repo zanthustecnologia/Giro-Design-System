@@ -1,0 +1,75 @@
+@use '../../../tokens/build/css/tokens.css' as *;
+
+.zds-callout__container {
+    border-radius: var(--border-radius-8);
+    word-break: break-word;
+    padding: var(--spacing-16);
+    display: flex;
+    align-items: center;
+    min-height: 56px; 
+
+    &.zds-callout__container__with-title {
+        min-height: 84px;
+    }
+}
+
+.zds-callout__container.zds-callout {
+    &__neutral {
+        background-color: var(--color-neutral-high-medium);
+        color: var(--color-neutral-low-default);
+    }
+
+    &__brand {
+        background-color: var(--color-brand-primary-light);
+        color: var(--color-brand-primary-default);
+    }
+
+    &__color {
+        background-color: var(--color-brand-secondary-medium);
+        color: var(--color-brand-secondary-dark);
+    }
+
+    &__alert {
+        background-color: var(--color-feedback-alert-light);
+        color: var(--color-feedback-alert-dark);
+    }
+
+    &__success {
+        background-color: var(--color-feedback-success-light);
+        color: var(--color-feedback-success-dark);
+    }
+}
+
+
+span.zds-callout__title {
+    color: var(--color-neutral-low-default);
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-18);
+    font-weight: var(--font-weight-bold);
+}
+
+span.zds-callout__text {
+    color: var(--color-neutral-low-default);
+    font-size: var(--font-size-16);
+    font-weight: var(--font-weight-regular);
+    padding-top: var(--spacing-4);
+    padding-bottom: var(--spacing-4);
+}
+
+.zds-callout__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-right: var(--spacing-16);
+}
+
+.zds-callout__icon svg {
+    width: var(--spacing-24); 
+    height: var(--spacing-24);
+}
+.zds-callout__subcontent {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-8);
+    font-family: var(--font-family-primary);
+}
