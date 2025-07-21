@@ -28,6 +28,9 @@ interface StoryArgs {
 const meta: Meta<typeof Checkbox> = {
   title: 'Components/Checkbox',
   component: Checkbox,
+  parameters:{
+    layout: 'centered'
+  },
   argTypes: {
     id: {
       control: { type: 'text' },
@@ -73,12 +76,11 @@ export const Default: Story = {
     const [internalChecked, setInternalChecked] = useState<boolean>(checked);
 
     const handleChange = (): void => {
-      // Se o estado for indeterminate, redefina para false e alterne o estado de checked
       if (internalIndeterminate) {
         setInternalIndeterminate(false);
-        setInternalChecked(true); // Marca o checkbox ao sair do estado indeterminate
+        setInternalChecked(true); 
       } else {
-        setInternalChecked(!internalChecked); // Alterna o estado de checked
+        setInternalChecked(!internalChecked);
       }
     };
 

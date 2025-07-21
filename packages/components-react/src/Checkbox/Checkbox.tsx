@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useId, useState } from 'react';
 import clsx from 'clsx';
-import './checkbox.scss';
+import './Checkbox.scss';
 import CheckSmall from './CheckSmall';
 import CheckHalf from './CheckHalf';
 
@@ -78,17 +78,15 @@ const Checkbox: React.FC<CheckboxProps> = ({
     className
   );
 
-  // Sincroniza estado interno com prop checked
-  useEffect(() => {
+    useEffect(() => {
     setInternalChecked(checked);
   }, [checked]);
 
-  // Sincroniza estado interno com prop indeterminate
   useEffect(() => {
     setInternalIndeterminate(indeterminate);
   }, [indeterminate]);
 
-  // Aplica estado indeterminado no elemento DOM
+  
   useEffect(() => {
     if (elementRef.current) {
       elementRef.current.indeterminate = internalIndeterminate;
@@ -125,13 +123,13 @@ const Checkbox: React.FC<CheckboxProps> = ({
 
           {internalChecked && !internalIndeterminate && (
             <span className="zds-checkbox__icon" aria-hidden="true">
-              <CheckSmall className="zds-checkbox__svg" />
+              <CheckSmall  />
             </span>
           )}
           
           {internalIndeterminate && (
             <span className="zds-checkbox__icon" aria-hidden="true">
-              <CheckHalf className="zds-checkbox__svg" />
+              <CheckHalf />
             </span>
           )}
         </div>
