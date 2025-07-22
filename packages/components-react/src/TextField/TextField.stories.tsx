@@ -158,7 +158,7 @@ export const Disabled: Story = {
 export const Required: Story = {
   args: {
     placeholder: 'Campo obrigatório',
-    label: 'Nome *',
+    label: 'Nome ',
     required: true,
     helperText: 'Este campo é obrigatório',
   },

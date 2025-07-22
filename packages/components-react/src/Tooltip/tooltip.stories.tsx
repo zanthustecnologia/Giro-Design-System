@@ -3,6 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import Tooltip from './Tooltip';
 import Avatar from '../Avatar/Avatar';
 import { Person16Regular } from '@fluentui/react-icons';
+import { Button } from '../../..';
 
 type Story = StoryObj<typeof Tooltip>;
 
@@ -58,36 +59,9 @@ export const WithButton: Story = {
   },
   render: (args) => (
     <Tooltip {...args}>
-      <button 
-        style={{ 
-          padding: '8px 16px', 
-          backgroundColor: '#007acc', 
-          color: 'white', 
-          border: 'none', 
-          borderRadius: '4px',
-          cursor: 'pointer'
-        }}
-      >
+      <Button>
         Hover me
-      </button>
-    </Tooltip>
-  ),
-};
-
-export const WithText: Story = {
-  args: {
-    text: 'Este é um texto com tooltip',
-    position: 'bottom-right',
-  },
-  render: (args) => (
-    <Tooltip {...args}>
-      <span style={{ 
-        textDecoration: 'underline', 
-        cursor: 'help',
-        color: '#007acc'
-      }}>
-        Texto com tooltip
-      </span>
+      </Button>
     </Tooltip>
   ),
 };
