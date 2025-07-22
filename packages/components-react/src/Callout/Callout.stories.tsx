@@ -6,26 +6,41 @@ import Callout from './Callout';
 interface CalloutStoryArgs {
   type: 'neutral' | 'brand' | 'color' | 'alert' | 'success';
   text: string;
-  title: boolean;
+  title: string;
   icon: boolean;
+  showText: boolean;
+  showTitle: boolean;
 }
 
 const meta: Meta<typeof Callout> = {
   title: 'Components/Callout',
   component: Callout,
+  parameters:{
+    controls: {
+      sort: 'alpha'
+    }
+  },
   argTypes: {
     type: {
       control: { type: 'select' },
       options: ['neutral', 'brand', 'color', 'alert', 'success'],
     },
+    showText: {
+      control: { type: 'boolean' },
+    },
+    showTitle: {
+      control: { type: 'boolean' },
+    },
     title: {
-      control: { type: 'boolean' }, 
+      control: { type: 'text' },
+      if: {arg: 'showTitle', truthy: true}
     },
     text: {
-      control: { type: 'text' }, 
+      control: { type: 'text' },
+      if: { arg: 'showText', truthy: true },
     },
     icon: {
-      control: { type: 'boolean' }, 
+      control: { type: 'boolean' },
     }
   },
 };
@@ -35,16 +50,17 @@ type Story = StoryObj<CalloutStoryArgs>;
 
 export const Default: Story = {
   render: (args) => (
-    <Callout 
-      {...args} 
-      title={args.title ? 'Título do callout' : undefined} 
-      icon={args.icon ? <ShoppingBagPercent24Regular /> : undefined} 
+    <Callout
+      {...args}
+      icon={args.icon ? <ShoppingBagPercent24Regular /> : undefined}
     />
   ),
   args: {
     type: 'brand',
     text: 'Texto do callout',
-    title: false,
-    icon: false
+    title: 'Título do callout',
+    icon: false,
+    showText: true,
+    showTitle: false
   }
 };

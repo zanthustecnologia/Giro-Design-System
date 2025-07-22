@@ -19,12 +19,12 @@ export interface CalloutProps {
   [key: string]: any;
 }
 
-const Callout: React.FC<CalloutProps> = ({ 
-  type = 'neutral', 
-  title = null, 
-  text = '', 
-  icon = null, 
-  className = '', 
+const Callout: React.FC<CalloutProps> = ({
+  type = 'neutral',
+  title = null,
+  text = '',
+  icon = null,
+  className = '',
   id = ''
 }) => {
   const generatedId = useId();
@@ -49,14 +49,16 @@ const Callout: React.FC<CalloutProps> = ({
       role="alert"
       aria-labelledby={title ? titleId : undefined}
     >
-      {icon && <span className="zds-callout__icon">{icon}</span>}
-      <div className="zds-callout__subcontent">
-        {title && (
-          <span id={titleId} className="zds-callout__title">
-            {title}
-          </span>
-        )}
-        {text && <span className="zds-callout__text">{text}</span>}
+      <div className="zds-callout__content">
+        {icon && <span className="zds-callout__icon">{icon}</span>}
+        <div className="zds-callout__subcontent">
+          {title && (
+            <span id={titleId} className="zds-callout__title">
+              {title}
+            </span>
+          )}
+          {text && <span className="zds-callout__text">{text}</span>}
+        </div>
       </div>
     </div>
   );
