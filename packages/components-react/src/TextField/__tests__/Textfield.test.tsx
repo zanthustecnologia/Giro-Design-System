@@ -19,7 +19,6 @@ jest.mock('../../Tooltip/Tooltip', () => {
 describe('TextField', () => {
   const user = userEvent.setup();
 
-  // 🎯 Testes básicos de renderização
   describe('Renderização', () => {
     test('deve renderizar o campo de texto corretamente', () => {
       render(<TextField label="Nome" placeholder="Digite seu nome" />);
@@ -42,7 +41,6 @@ describe('TextField', () => {
     });
   });
 
-  // 🔄 Testes de interação e onChange
   describe('Interação e onChange', () => {
     test('deve chamar onChange quando o valor mudar', async () => {
       const mockOnChange = jest.fn();
@@ -51,7 +49,7 @@ describe('TextField', () => {
       const input = screen.getByLabelText('Nome');
       await user.type(input, 'João');
       
-      expect(mockOnChange).toHaveBeenCalledTimes(4); // J-o-ã-o
+      expect(mockOnChange).toHaveBeenCalledTimes(4); 
       expect(mockOnChange).toHaveBeenLastCalledWith('João');
     });
 
@@ -76,7 +74,7 @@ describe('TextField', () => {
       );
       
       const input = screen.getByLabelText('Nome');
-      await user.click(input); // Foco para mostrar o ícone de limpeza
+      await user.click(input); 
       
       const clearIcon = screen.getByLabelText('Limpar campo');
       await user.click(clearIcon);
@@ -85,7 +83,6 @@ describe('TextField', () => {
     });
   });
 
-  // 🚫 Testes de estado desabilitado
   describe('Estado Desabilitado', () => {
     test('deve ser desabilitado quando a prop disabled for true', () => {
       render(<TextField label="Nome" disabled />);
@@ -120,15 +117,13 @@ describe('TextField', () => {
       const input = screen.getByLabelText('Nome');
       expect(input).toHaveValue('João');
       
-      // Tenta focar (não deveria funcionar)
       await user.click(input);
       
-      // Não deve mostrar ícone de limpeza quando desabilitado
+
       expect(screen.queryByLabelText('Limpar campo')).not.toBeInTheDocument();
     });
   });
 
-  // 📏 Testes de maxLength
   describe('Limite de Caracteres', () => {
     test('deve respeitar o limite máximo de caracteres', async () => {
       const mockOnChange = jest.fn();
@@ -196,7 +191,7 @@ describe('TextField', () => {
       const input = screen.getByLabelText('Nome');
       await user.click(input);
       await user.tab(); // Criar erro
-      
+
       expect(screen.getByText('Campo obrigatório.')).toBeInTheDocument();
       
       await user.type(input, 'J');
@@ -236,7 +231,6 @@ describe('TextField', () => {
     });
   });
 
-  // 🔄 Testes de sincronização de valor
   describe('Sincronização de Valor', () => {
     test('deve atualizar valor interno quando prop value mudar', () => {
       const { rerender } = render(<TextField label="Nome" value="João" />);

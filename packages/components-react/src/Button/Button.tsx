@@ -1,6 +1,6 @@
 import React, { useId } from 'react';
 import clsx from 'clsx';
-import './button.scss';
+import './Button.scss';
 
 export interface ButtonProps {
   /** Define o elemento a ser renderizado (ex: 'button', 'a', ou outro componente) */

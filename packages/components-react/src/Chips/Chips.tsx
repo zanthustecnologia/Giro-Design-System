@@ -48,6 +48,7 @@ const Chips: React.FC<ChipsProps> = ({
     <div
       className={chipsClass}
       aria-label={`Chip: ${title}`}
+      aria-disabled={disabled}
     >
       {leftIcon && (
         <span className="zds-chips__icon__left" aria-hidden="true">
