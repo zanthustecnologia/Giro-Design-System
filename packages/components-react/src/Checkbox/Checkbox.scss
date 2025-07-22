@@ -1,0 +1,175 @@
+@use '../../../tokens/build/css/tokens.css' as *;
+
+.container-storybook-checkbox {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--spacing-16);
+}
+
+.container-storybook-left {
+  flex-shrink: 0;
+  position: relative;
+  right: 16px;
+}
+
+.zds-checkbox {
+  display: flex;
+  align-items: center;
+
+  &__box-check {
+    display: inline-flex;
+    min-height: 40px;
+    align-items: center;
+    cursor: pointer;
+    justify-content: center;
+
+    &:hover .zds-checkbox__checkmark {
+      background-color: var(--color-neutral-high-medium);
+    }
+
+    &:active .zds-checkbox__checkmark {
+      background-color: var(--color-neutral-high-dark);
+    }
+  }
+
+  &__text {
+    margin-left: var(--spacing-8);
+    cursor: pointer;
+
+    & .zds-checkbox__label {
+      font-family: var(--font-family-primary);
+      font-size: var(--font-size-16);
+      color: var(--color-neutral-low-default);
+      font-weight: var(--font-weight-regular);
+    }
+  }
+
+  &__checkmark {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    align-items: center;
+    border-radius: var(--border-radius-circular);
+    display: flex;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: var(--font-size-16);
+    font-weight: var(--font-weight-regular);
+    transition: all 0.1s ease-in-out;
+    left: 2px;
+
+    &:hover,
+    &:active,
+    &:focus {
+      background-color: var(--color-neutral-high-dark);
+    }
+
+    input[type='checkbox'] {
+      border: var(--border-width-2) solid var(--color-neutral-low-dark);
+      border-radius: var(--border-radius-4);
+      width: 18px;
+      height: 18px;
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      outline: none;
+      cursor: pointer;
+      position: relative;
+      color: var(--color-neutral-high-light);
+      margin: 0;
+
+      input[type='checkbox']:checked+.zds-checkbox__icon .zds-checkbox__svg {
+        fill: var(--color-brand-primary-default);
+      }
+
+      input[type='checkbox']:indeterminate+.zds-checkbox__icon .zds-checkbox__svg {
+        fill: var(--color-brand-primary-default);
+      }
+
+      &:checked {
+        background-color: var(--color-brand-primary-default);
+        border: var(--border-width-2) solid var(--color-brand-primary-default);
+
+        &::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 16px;
+          height: 16px;
+          border-radius: var(--border-radius-4);
+          background-size: 12px;
+        }
+      }
+
+      &:indeterminate {
+        background-color: var(--color-brand-primary-default);
+        border: var(--border-width-2) solid var(--color-brand-primary-default);
+
+        &::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 16px;
+          height: 16px;
+          border-radius: var(--border-radius-4);
+          color: var(--color-brand-primary-default);
+          background-size: 12px;
+        }
+      }
+    }
+  }
+
+  &__checkmark__indeterminate {
+    input[type='checkbox'] {
+      background-color: var(--color-brand-primary-default);
+      border: var(--border-width-2) solid var(--color-brand-primary-default);
+    }
+  }
+
+  &__disabled &__checkmark__indeterminate {
+    input[type='checkbox'] {
+      background-color: var(--color-neutral-low-light);
+      border: var(--border-width-2) solid var(--color-neutral-low-light);
+
+      &::before {
+        background-color: var(--color-neutral-low-light);
+      }
+    }
+  }
+
+  &__disabled {
+    pointer-events: none;
+
+    .zds-checkbox__text .zds-checkbox__label {
+      color: var(--color-neutral-low-light);
+    }
+
+    .zds-checkbox__checkmark input[type='checkbox'] {
+      border: var(--border-width-2) solid var(--color-neutral-low-light);
+
+      &:checked,
+      &:indeterminate {
+        background-color: var(--color-neutral-low-light);
+        border: var(--border-width-2) solid var(--color-neutral-low-light);
+      }
+    }
+  }
+}
+
+.zds-checkbox__icon {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .zds-checkbox__svg {
+    width: 100%;
+    height: 100%;
+    fill: var(--color-neutral-high-light);
+  }
+}
