@@ -47,11 +47,10 @@ const Chips: React.FC<ChipsProps> = ({
   return (
     <div
       className={chipsClass}
-      role="button"
       aria-label={`Chip: ${title}`}
     >
       {leftIcon && (
-        <span className="zds-chips__icon__left">
+        <span className="zds-chips__icon__left" aria-hidden="true">
           {leftIcon}
         </span>
       )}
