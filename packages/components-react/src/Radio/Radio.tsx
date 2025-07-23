@@ -1,5 +1,5 @@
 import React, { useCallback, useId } from 'react';
-import './styles.scss';
+import './Radio.scss';
 
 export interface RadioProps {
   /** Definirá o nome do grupo de radio */
@@ -30,7 +30,7 @@ export interface RadioProps {
  */
 const Radio: React.FC<RadioProps> = ({
   name = 'radiobutton',
-  value,
+  value = '',
   id,
   checked = false,
   className = '',
