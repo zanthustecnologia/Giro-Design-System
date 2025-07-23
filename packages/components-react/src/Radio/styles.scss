@@ -1,0 +1,125 @@
+@use '../../resources/scss/design-tokens' as *;
+
+// Base styles
+.zds-radiobutton label {
+  margin: 0;
+  padding: 0;
+}
+
+// Layout and structure
+.zds-radiobutton__box-check {
+  display: flex;
+  min-height: 40px;
+  align-items: center;
+  cursor: pointer;
+}
+
+.zds-radiobutton__empty-label {
+  margin: 0;
+  padding: 0;
+}
+
+.zds-radiobutton__box-check__text {
+  margin-left: $spacing-8;
+  font-family: $font-family-sans-serif;
+  font-size: $font-size-16;
+  color: $low-color-default;
+  font-weight: $font-weight-regular;
+  cursor: pointer;
+  text-overflow: ellipsis;
+}
+
+// Mini box styles
+.zds-radiobutton__mini-box {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: $border-radius-circular;
+  transition: all 0.1s ease-in-out;
+}
+
+// Input styles
+.zds-radiobutton input[type='radio'] {
+  border: $border-width-2 solid $low-color-dark;
+  border-radius: $border-radius-12;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  padding: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  outline: none;
+  cursor: pointer;
+  position: relative;
+  transition: all ease-in-out 0.1s;
+}
+
+.zds-radiobutton input[type='radio']:checked {
+  border: $border-width-2 solid $brand-color-primary-default;
+}
+
+.zds-radiobutton input[type='radio']:checked::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 10px;
+  height: 10px;
+  border-radius: $border-radius-circular ;
+  background-color: $brand-color-primary-default;
+}
+
+// Focus styles
+.zds-radiobutton:has(input[type='radio']:focus-visible:not(:hover)) .zds-radiobutton__mini-box {
+  background-color: $high-color-dark;
+  outline-offset: 2px;
+}
+
+// Disabled styles
+.zds-radiobutton__disabled,
+.zds-radiobutton__disabled {
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+.zds-radiobutton input[type='radio']:disabled {
+  border: $border-width-2 solid $low-color-light;
+}
+
+.zds-radiobutton input[type='radio']:disabled::before {
+  background-color: $low-color-light;
+  outline: none !important;
+}
+
+.box-check.disabled input[type='radio']:disabled:checked {
+  background-color: $low-color-light;
+}
+
+// Hover and active states
+.zds-radiobutton__mini-box:hover:not(:focus),
+.zds-radiobutton__box-check:hover:not(:focus) .zds-radiobutton__mini-box,
+.zds-radiobutton__mini-box:focus:not(:hover) {
+  background-color: $high-color-medium;
+}
+
+.zds-radiobutton__mini-box:active:not(:hover) {
+  background-color: $high-color-dark;
+}
+
+// Disabled state styles
+.zds-radiobutton__disabled {
+  opacity: 0.5;
+
+  .zds-radiobutton__box-check__text {
+    color: $low-color-light;
+  }
+
+  .zds-radiobutton__mini-box:hover,
+  .zds-radiobutton__box-check:hover {
+    background-color: transparent;
+  }
+}
