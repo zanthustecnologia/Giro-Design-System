@@ -33,10 +33,10 @@ export default {
             babelHelpers: 'bundled',
         }),
         postcss({
-            extract: 'styles.css',
-            inject: false,
-            minimize: true,
-            sourceMap: true,
+            inject: true,          
+            extract: false,         
+            minimize: true,         
+            sourceMap: false,
         }),
         typescript({
             tsconfig: './tsconfig.json'
