@@ -1,5 +1,6 @@
 import React, { useCallback, useId } from 'react';
 import './Radio.scss';
+import clsx from 'clsx';
 
 export interface RadioProps {
   /** Definirá o nome do grupo de radio */
@@ -38,6 +39,7 @@ const Radio: React.FC<RadioProps> = ({
   label = '',
   disabled = false,
 }) => {
+
   const uniqueId = useId();
   const inputId = id || uniqueId;
 
@@ -48,11 +50,19 @@ const Radio: React.FC<RadioProps> = ({
     },
     [onChange, disabled]
   );
-
-  const radioClass = `zds-radiobutton${className ? ` ${className}` : ''}`;
-  const labelClass = `zds-radiobutton__box-check ${
-    disabled ? 'zds-radiobutton__disabled' : ''
-  }`;
+ const radioClass = clsx(
+  'zds-radiobutton',
+  {
+    'zds-radiobutton--disabled': disabled, 
+  },
+  className 
+);
+  const labelClass = clsx(
+    'zds-radiobutton__box-check',
+    {
+      'zds-radiobutton__disabled': disabled,
+    }
+  );
 
   return (
     <div className={radioClass}>
@@ -63,11 +73,14 @@ const Radio: React.FC<RadioProps> = ({
             disabled={disabled}
             type="radio"
             aria-disabled={disabled}
+            aria-describedby={label ? `${inputId}-description` : undefined}
+            tabIndex={disabled ? -1 : 0}
+            role="radio"
+            aria-checked={checked}
             name={name}
             value={value}
             checked={checked}
             onChange={handleChange}
-            tabIndex={disabled ? -1 : 0}
           />
         </div>
         {label && (
