@@ -14,13 +14,12 @@ export interface RadioProps {
   /** Classes adicionais para estilização personalizada */
   className?: string;
   /** Função de callback acionada quando o valor do botão de rádio muda */
-  onChange?: (value: string | number) => void;
+  onChange?: (value: string) => void;
   /** O texto do rótulo exibido ao lado do botão de rádio */
   label?: string;
   /** Indica se o botão de rádio está desabilitado */
   disabled?: boolean;
-  /** Props adicionais para o elemento input */
-  [key: string]: any;
+
 }
 
 /**
@@ -43,20 +42,18 @@ const Radio: React.FC<RadioProps> = ({
   const uniqueId = useId();
   const inputId = id || uniqueId;
 
-  const handleChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>): void => {
-      if (disabled) return;
-      onChange?.(e.target.value);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (disabled) return;
+    onChange?.(e.target.value);
+  };
+  
+  const radioClass = clsx(
+    'zds-radiobutton',
+    {
+      'zds-radiobutton--disabled': disabled,
     },
-    [onChange, disabled]
+    className
   );
- const radioClass = clsx(
-  'zds-radiobutton',
-  {
-    'zds-radiobutton--disabled': disabled, 
-  },
-  className 
-);
   const labelClass = clsx(
     'zds-radiobutton__box-check',
     {
@@ -70,21 +67,16 @@ const Radio: React.FC<RadioProps> = ({
         <div className="zds-radiobutton__mini-box">
           <input
             id={inputId}
-            disabled={disabled}
             type="radio"
-            aria-disabled={disabled}
-            aria-describedby={label ? `${inputId}-description` : undefined}
-            tabIndex={disabled ? -1 : 0}
-            role="radio"
-            aria-checked={checked}
             name={name}
             value={value}
             checked={checked}
+            disabled={disabled}
             onChange={handleChange}
           />
         </div>
         {label && (
-          <span className="zds-radiobutton__box-check__text">{label}</span>
+          <span id={`${inputId}-description`} className="zds-radiobutton__box-check__text">{label}</span>
         )}
       </label>
     </div>

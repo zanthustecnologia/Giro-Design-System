@@ -18,8 +18,8 @@ const meta: Meta<RadioProps> = {
     label: {
       control: { type: 'text' },
     },
-    onClick: {
-      action: 'clicked',
+    onChange: {
+      action: 'changed',
     },
     disabled: {
       control: { type: 'boolean' },
@@ -34,6 +34,7 @@ const meta: Meta<RadioProps> = {
       control: { type: 'text' },
     },
   },
+  tags: ['autodocs'],
 };
 
 export default meta;
