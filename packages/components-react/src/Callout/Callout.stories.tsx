@@ -20,6 +20,7 @@ const meta: Meta<typeof Callout> = {
       sort: 'alpha'
     }
   },
+  tags: ['autodocs'],
   argTypes: {
     type: {
       control: { type: 'select' },
