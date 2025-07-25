@@ -97,7 +97,7 @@ const TextField: React.FC<TextFieldProps> = ({
     });
 
     const shouldRenderCustomIcon = !trailingIcon || inputValue.trim().length === 0 || !focus;
-    const shouldRenderClearIcon = focus && trailingIcon && inputValue.trim().length > 0;
+    const shouldRenderClearIcon = focus && inputValue.trim().length > 0;
 
     return (
         <div className={TextFieldClass}>
