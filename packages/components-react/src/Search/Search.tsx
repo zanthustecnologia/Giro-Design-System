@@ -17,6 +17,10 @@ export interface SearchProps {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   /** Função chamada quando uma tecla é pressionada */
   onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+
+  /** Classe CSS personalizada */
+  className?: string;
+
   /** ID único para o input */
   id?: string;
 }
@@ -54,15 +58,13 @@ const Search: React.FC<SearchProps> = ({
   onChange,
   onKeyDown,
   id = '',
+  className = ''
 }) => {
   const [internalValue, setInternalValue] = useState<string>('');
   const isControlled = value !== undefined && onChange !== undefined;
   const currentValue = isControlled ? value : internalValue;
   const inputId = id || useId();
 
-  /**
-   * Manipula mudanças no valor do input
-   */
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     if (disabled) return;
 
@@ -73,14 +75,11 @@ const Search: React.FC<SearchProps> = ({
     }
   };
 
-  /**
-   * Limpa o valor do campo de busca
-   */
   const clearInputSearch = (): void => {
     if (disabled) return;
 
     if (isControlled) {
-      // Criar evento sintético para modo controlado
+
       const syntheticEvent = {
         target: { value: '' },
         currentTarget: { value: '' },
@@ -91,17 +90,19 @@ const Search: React.FC<SearchProps> = ({
       setInternalValue('');
     }
   };
-
-  /**
-   * Manipula eventos de teclado no campo de busca
-   */
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>): void => {
     if (disabled) return;
     onKeyDown?.(e);
   };
-
+  const searchClass = clsx(
+    'zds-search',
+    {
+      disabled,
+      [className]: className
+    }
+  )
   return (
-    <div className={clsx('zds-search', { disabled })}>
+    <div className={searchClass}>
       <span
         className={clsx('zds-leftIcon', { disabled })}
         tabIndex={-1}
