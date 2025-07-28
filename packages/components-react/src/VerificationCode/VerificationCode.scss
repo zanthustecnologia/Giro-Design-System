@@ -1,0 +1,171 @@
+@use '../../../tokens/build/css/tokens.css' as *;
+
+
+.zds-verification-code {
+  font-family: var(--font-family-primary);
+}
+
+.zds-verification-code__container {
+  display: flex;
+  gap: var(--spacing-16);
+
+  input.zds-verification-code__input {
+    width: 40px;
+    height: 44px;
+    border: var(--border-width-1) solid var(--color-neutral-high-dark);
+    border-radius: var(--border-radius-8);
+    text-align: center;
+    font-size: var(--font-size-16);
+    font-family: var(--font-family-primary);
+    background-color: var(--color-neutral-high-default);
+    color: var(--color-neutral-low-default);
+    transition: border-color 0.2s ease-in-out, border-width 0.2s ease-in-out;
+
+    // Remover estilos padrão do input
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: textfield;
+
+    // Hover
+    &:hover:not(:disabled) {
+      border-color: var(--color-neutral-low-medium);
+    }
+
+    // Focused
+    &:focus {
+      outline: none;
+      border-width: var(--border-width-2);
+      border-color: var(--color-brand-primary-default);
+      box-shadow: 0 0 0 2px var(--color-brand-primary-light);
+    }
+
+    // Filled
+    &.zds-verification-code__filled {
+      border-color: var(--color-neutral-low-dark);
+      background-color: var(--color-neutral-high-light);
+    }
+
+    // Error state
+    &.zds-verification-code__has-error {
+      border-color: var(--color-feedback-alert-default);
+      
+      &:focus {
+        border-color: var(--color-feedback-alert-default);
+        box-shadow: 0 0 0 2px var(--color-feedback-alert-light);
+      }
+    }
+
+    // Filled + Error
+    &.zds-verification-code__filled.zds-verification-code__has-error {
+      border-width: var(--border-width-2);
+      border-color: var(--color-feedback-alert-default);
+      background-color: var(--color-feedback-alert-light);
+    }
+
+    // Disabled
+    &:disabled,
+    &.disabled,
+    &.zds-verification-code__disabled {
+      cursor: not-allowed;
+      border-color: var(--color-neutral-high-medium);
+      background-color: var(--color-neutral-high-light);
+      color: var(--color-neutral-low-light);
+      opacity: 0.6;
+      
+      &:hover {
+        border-color: var(--color-neutral-high-medium);
+      }
+    }
+
+    // Placeholder styling
+    &::placeholder {
+      color: var(--color-neutral-low-light);
+      opacity: 1;
+    }
+
+    // Webkit autofill styling
+    &:-webkit-autofill,
+    &:-webkit-autofill:hover,
+    &:-webkit-autofill:focus {
+      -webkit-box-shadow: 0 0 0 1000px var(--color-neutral-high-default) inset;
+      -webkit-text-fill-color: var(--color-neutral-low-default);
+      transition: background-color 5000s ease-in-out 0s;
+    }
+  }
+}
+
+.zds-verification-code__error {
+  margin-top: var(--spacing-8);
+  color: var(--color-feedback-alert-default);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-12);
+  font-weight: var(--font-weight-regular);
+  text-align: left;
+  line-height: 1.4;
+  animation: fadeIn 0.3s ease-out;
+}
+
+// Animação de entrada do erro
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-2px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Responsividade para mobile
+@media (max-width: 768px) {
+  .zds-verification-code__container {
+    gap: var(--spacing-12);
+
+    input.zds-verification-code__input {
+      width: 36px;
+      height: 40px;
+      font-size: var(--font-size-14);
+    }
+  }
+}
+
+// Responsividade para mobile pequeno
+@media (max-width: 360px) {
+  .zds-verification-code__container {
+    gap: var(--spacing-8);
+
+    input.zds-verification-code__input {
+      width: 32px;
+      height: 36px;
+      font-size: var(--font-size-14);
+    }
+  }
+
+  .zds-verification-code__error {
+    font-size: var(--font-size-12);
+  }
+}
+
+// Melhorias de acessibilidade
+@media (prefers-reduced-motion: reduce) {
+  .zds-verification-code__container input.zds-verification-code__input {
+    transition: none;
+  }
+  
+  .zds-verification-code__error {
+    animation: none;
+  }
+}
+
+// High contrast mode support
+@media (prefers-contrast: high) {
+  .zds-verification-code__container input.zds-verification-code__input {
+    border-width: var(--border-width-2);
+    
+    &:focus {
+      border-width: var(--border-width-4);
+    }
+  }
+}
