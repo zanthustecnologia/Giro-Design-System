@@ -18,6 +18,11 @@ export interface SearchProps {
   /** Função chamada quando uma tecla é pressionada */
   onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 
+  onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
+
+  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
+
+  onClear?: () => void;
   /** Classe CSS personalizada */
   className?: string;
 
