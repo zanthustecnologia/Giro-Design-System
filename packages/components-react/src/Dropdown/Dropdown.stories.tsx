@@ -76,14 +76,6 @@ const Template: StoryFn<TemplateArgs> = (args) => {
   );
 };
 
-export const Dropdown = Template.bind({});
-Dropdown.args = {
-  applySearch: false,
-  type: 'text',
-  showSubText: false,
-  placeholder: 'Buscar',
-};
-
 export const DropdownSimple = Template.bind({});
 DropdownSimple.args = {
   applySearch: true,
