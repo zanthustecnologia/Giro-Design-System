@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { Dismiss16Regular, Info12Regular } from '@fluentui/react-icons';
 import Tooltip from '../Tooltip/Tooltip';
-import './textfield.scss';
+import './Textfield.scss';
 import { validateInput } from './ValidationUtils';
 
 interface TextFieldProps {

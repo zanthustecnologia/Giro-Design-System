@@ -1,5 +1,5 @@
 import React, { useId } from 'react';
-import './avatar.scss';
+import './Avatar.scss';
 import clsx from 'clsx';
 
 
