@@ -1,0 +1,98 @@
+.zds-toast__container {
+    position: fixed;
+    bottom: var(--spacing-48);
+    left: var(--spacing-48);
+    z-index: 9999;
+
+    @media (max-width: 1024px) {
+        left: var(--spacing-32);
+    }
+
+    @media (max-width: 360px) {
+        left: var(--spacing-16);
+        right: var(--spacing-16);
+        bottom: var(--spacing-16);
+        padding: 0;
+    }
+}
+
+.zds-toast__show {
+    display: block;
+}
+
+.zds-toast__item {
+    position: relative;
+    background-color: var(--color-neutral-low-default);
+    margin-top: var(--spacing-16);
+    min-height: var(--spacing-48);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    padding: 0 var(--spacing-16);
+    border-radius: var(--border-radius-8);
+    transition: transform 0.4s, opacity 0.4s;
+    transform: translateX(-100%);
+    opacity: 0;
+    will-change: transform, opacity;
+
+    @media (max-width: 360px) {
+        width: fit-content;
+        max-width: 100%;
+    }
+
+    .zds-toast__message {
+        font-family: var(--font-family-primary);
+        font-size: var(--font-size-16);
+        color: var(--color-neutral-high-default);
+        margin-left: var(--spacing-16);
+    }
+
+    .zds-toast__icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .zds-toast__close {
+        cursor: pointer;
+        color: var(--color-neutral-high-default);
+        background-color: transparent;
+        border: none;
+        margin-left: var(--spacing-24);
+
+        &:focus-visible {
+            outline: 2px solid var(--color-brand-primary-light);
+            outline-offset: 2px;
+        }
+    }
+}
+
+.zds-toast__active {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.zds-toast__success {
+    .zds-toast__icon i,
+    .zds-toast__icon path {
+        color: var(--color-feedback-success-medium);
+        fill: var(--color-feedback-success-medium);
+    }
+}
+
+.zds-toast__alert {
+    .zds-toast__icon i,
+    .zds-toast__icon path {
+        color: var(--color-feedback-alert-medium);
+        fill: var(--color-feedback-alert-medium);
+    }
+}
+
+.zds-toast__info {
+    .zds-toast__icon i,
+    .zds-toast__icon path {
+        color: var(--color-brand-primary-light);
+        fill: var(--color-brand-primary-light);
+    }
+}
