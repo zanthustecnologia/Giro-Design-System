@@ -13,7 +13,12 @@ interface TextFieldProps {
     label?: string;
     placeholder?: string;
     type?: string;
+    ref?: React.Ref<HTMLInputElement>;
     onChange?: (value: string) => void;
+    onFocus?: (event: React.FocusEvent<HTMLInputElement>) => void;
+    onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
+    onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
+    readOnly?: boolean;
     disabled?: boolean;
     maxLength?: number;
     required?: boolean;
@@ -36,6 +41,9 @@ const TextField: React.FC<TextFieldProps> = ({
     placeholder = '',
     type = 'text',
     onChange = (value: string) => {},
+    onFocus = (event: React.FocusEvent<HTMLInputElement>) => {},
+    onKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {},
+    readOnly = false,
     disabled = false,
     maxLength = 30,
     required = false,
@@ -48,6 +56,7 @@ const TextField: React.FC<TextFieldProps> = ({
     trailingIcon = false,
     id = '',
     icon = null,
+    ref = null
 }) => {
     const [inputValue, setValue] = useState(value);
     const [inputError, setInputError] = useState('');
@@ -83,6 +92,11 @@ const TextField: React.FC<TextFieldProps> = ({
         setInputError(error);
         setFocus(false);
     }, [inputValue, type, maxLength, errorMessage, required]);
+
+    const handleFocus = useCallback((event: React.FocusEvent<HTMLInputElement>) => {
+        setFocus(true);
+        onFocus?.(event);
+    }, [onFocus]);
 
     useEffect(() => {
         if (value !== inputValue) {
@@ -123,12 +137,14 @@ const TextField: React.FC<TextFieldProps> = ({
                 <div className="zds-textfield__box__input">
                     <input
                         id={componentId}
+                        ref={ref}
+                        readOnly={readOnly}
                         name={name}
                         type={type}
                         value={inputValue}
                         placeholder={placeholder}
                         onChange={handleChange}
-                        onFocus={() => setFocus(true)}
+                        onFocus={handleFocus}
                         onBlur={onBlur}
                         maxLength={maxLength}
                         disabled={disabled}
