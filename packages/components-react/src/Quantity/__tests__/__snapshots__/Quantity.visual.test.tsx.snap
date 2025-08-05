@@ -1,0 +1,191 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`Quantity - Visual & CSS Tests 🖼️ Snapshot Comparisons deve manter estrutura consistente - estado disabled: quantity-disabled-state 1`] = `
+<div
+  class="zds-quantity disabled"
+>
+  <button
+    aria-label="Diminuir quantidade"
+    class="mock-button disabled"
+    data-size="lg"
+    data-variant="outlined"
+    disabled=""
+    type="button"
+  >
+    <span
+      data-testid="subtract-icon"
+    >
+      -
+    </span>
+  </button>
+  <input
+    aria-describedby=":rn:-help"
+    aria-label="Quantidade"
+    aria-valuemax="9999"
+    aria-valuemin="0"
+    aria-valuenow="3"
+    class="zds-quantity__input disabled"
+    disabled=""
+    id=":rn:"
+    min="0"
+    role="spinbutton"
+    step="1"
+    type="text"
+    value="3"
+  />
+  <button
+    aria-label="Aumentar quantidade"
+    class="mock-button disabled"
+    data-size="lg"
+    data-variant="outlined"
+    disabled=""
+    type="button"
+  >
+    <span
+      data-testid="add-icon"
+    >
+      +
+    </span>
+  </button>
+</div>
+`;
+
+exports[`Quantity - Visual & CSS Tests 🖼️ Snapshot Comparisons deve manter estrutura consistente - estado padrão: quantity-default-state 1`] = `
+<div
+  class="zds-quantity"
+>
+  <button
+    aria-label="Diminuir quantidade"
+    class="mock-button "
+    data-size="lg"
+    data-variant="outlined"
+    type="button"
+  >
+    <span
+      data-testid="subtract-icon"
+    >
+      -
+    </span>
+  </button>
+  <input
+    aria-describedby=":rm:-help"
+    aria-label="Quantidade"
+    aria-valuemax="9999"
+    aria-valuemin="0"
+    aria-valuenow="3"
+    class="zds-quantity__input"
+    id=":rm:"
+    min="0"
+    role="spinbutton"
+    step="1"
+    type="text"
+    value="3"
+  />
+  <button
+    aria-label="Aumentar quantidade"
+    class="mock-button "
+    data-size="lg"
+    data-variant="outlined"
+    type="button"
+  >
+    <span
+      data-testid="add-icon"
+    >
+      +
+    </span>
+  </button>
+</div>
+`;
+
+exports[`Quantity - Visual & CSS Tests 🖼️ Snapshot Comparisons deve manter estrutura consistente - modo decimal: quantity-decimal-mode 1`] = `
+<div
+  class="zds-quantity"
+>
+  <button
+    aria-label="Diminuir quantidade"
+    class="mock-button "
+    data-size="lg"
+    data-variant="outlined"
+    type="button"
+  >
+    <span
+      data-testid="subtract-icon"
+    >
+      -
+    </span>
+  </button>
+  <input
+    aria-describedby=":ro:-help"
+    aria-label="Quantidade"
+    aria-valuemin="0"
+    aria-valuenow="2.5"
+    class="zds-quantity__input"
+    id=":ro:"
+    min="0"
+    role="spinbutton"
+    step="0.01"
+    type="text"
+    value="2.50"
+  />
+  <button
+    aria-label="Aumentar quantidade"
+    class="mock-button "
+    data-size="lg"
+    data-variant="outlined"
+    type="button"
+  >
+    <span
+      data-testid="add-icon"
+    >
+      +
+    </span>
+  </button>
+</div>
+`;
+
+exports[`Quantity - Visual & CSS Tests 🖼️ Snapshot Comparisons deve manter estrutura consistente - size small: quantity-small-size 1`] = `
+<div
+  class="zds-quantity"
+>
+  <button
+    aria-label="Diminuir quantidade"
+    class="mock-button "
+    data-size="sm"
+    data-variant="outlined"
+    type="button"
+  >
+    <span
+      data-testid="subtract-icon"
+    >
+      -
+    </span>
+  </button>
+  <input
+    aria-describedby=":rp:-help"
+    aria-label="Quantidade"
+    aria-valuemax="9999"
+    aria-valuemin="0"
+    aria-valuenow="1"
+    class="zds-quantity__input"
+    id=":rp:"
+    min="0"
+    role="spinbutton"
+    step="1"
+    type="text"
+    value="1"
+  />
+  <button
+    aria-label="Aumentar quantidade"
+    class="mock-button "
+    data-size="sm"
+    data-variant="outlined"
+    type="button"
+  >
+    <span
+      data-testid="add-icon"
+    >
+      +
+    </span>
+  </button>
+</div>
+`;

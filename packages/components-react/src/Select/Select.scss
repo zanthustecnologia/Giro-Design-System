@@ -1,9 +1,182 @@
 
-.zds-select__container {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch; 
-    gap: var(--spacing-8);
-    position: relative;
+// =============================================================================
+// ZDS Select Component
+// =============================================================================
+
+.zds-select {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  position: relative;
+  width: 100%;
+
+  // Trigger element (wrapper for accessibility)
+  &__trigger {
     width: 100%;
+    outline: none;
+  }
+
+  // ==========================================================================
+  // Variant Styles
+  // ==========================================================================
+
+  // Outlined variant (default)
+  &--outlined {
+    .zds-textfield {
+      border: var(--border-width-1) solid var(--color-neutral-low-light);
+      border-radius: var(--border-radius-8);
+      background-color: var(--color-neutral-high-default);
+
+      &:hover:not([disabled]) {
+        border-color: var(--color-brand-primary-medium);
+      }
+
+      &:focus-within {
+        border-color: var(--color-brand-primary-default);
+        box-shadow: 0 0 0 var(--border-width-2) var(--color-brand-primary-light);
+      }
+    }
+  }
+
+  // Filled variant
+  &--filled {
+    .zds-textfield {
+      border: var(--border-width-1) solid transparent;
+      border-radius: var(--border-radius-8) var(--border-radius-8) 0 0;
+      background-color: var(--color-neutral-high-light);
+      border-bottom: var(--border-width-2) solid var(--color-neutral-low-light);
+
+      &:hover:not([disabled]) {
+        background-color: var(--color-neutral-high-medium);
+        border-bottom-color: var(--color-brand-primary-medium);
+      }
+
+      &:focus-within {
+        background-color: var(--color-neutral-high-default);
+        border-bottom-color: var(--color-brand-primary-default);
+        border-bottom-width: var(--border-width-2);
+      }
+    }
+  }
+
+  // Standard variant
+  &--standard {
+    .zds-textfield {
+      border: none;
+      border-radius: 0;
+      background-color: transparent;
+      border-bottom: var(--border-width-1) solid var(--color-neutral-low-light);
+
+      &:hover:not([disabled]) {
+        border-bottom-color: var(--color-brand-primary-medium);
+      }
+
+      &:focus-within {
+        border-bottom-color: var(--color-brand-primary-default);
+        border-bottom-width: var(--border-width-2);
+      }
+    }
+  }
+
+  // ==========================================================================
+  // State Styles
+  // ==========================================================================
+
+  // Error state
+  &--error {
+    .zds-textfield {
+      border-color: var(--color-feedback-alert-default);
+
+      &:focus-within {
+        border-color: var(--color-feedback-alert-default);
+        box-shadow: 0 0 0 var(--border-width-2) var(--color-feedback-alert-light);
+      }
+    }
+
+    &.zds-select--filled .zds-textfield {
+      border-bottom-color: var(--color-feedback-alert-default);
+    }
+
+    &.zds-select--standard .zds-textfield {
+      border-bottom-color: var(--color-feedback-alert-default);
+    }
+  }
+
+  // Disabled state
+  &--disabled {
+    .zds-textfield {
+      opacity: 0.6;
+      cursor: not-allowed;
+      background-color: var(--color-neutral-high-light);
+      border-color: var(--color-neutral-low-light);
+
+      &:hover {
+        border-color: var(--color-neutral-low-light);
+      }
+    }
+  }
+
+  // Required state indicator
+  &--required {
+    .zds-textfield__label::after {
+      content: " *";
+      color: var(--color-feedback-alert-default);
+    }
+  }
+
+  // Open state
+  &--open {
+    .zds-textfield {
+      &.zds-select--outlined {
+        border-color: var(--color-brand-primary-default);
+        box-shadow: 0 0 0 var(--border-width-2) var(--color-brand-primary-light);
+      }
+
+      &.zds-select--filled {
+        background-color: var(--color-neutral-high-default);
+        border-bottom-color: var(--color-brand-primary-default);
+      }
+
+      &.zds-select--standard {
+        border-bottom-color: var(--color-brand-primary-default);
+        border-bottom-width: var(--border-width-2);
+      }
+    }
+  }
+
+  // ==========================================================================
+  // Responsive Design
+  // ==========================================================================
+
+  @media (max-width: 768px) {
+    .zds-textfield {
+      min-height: 48px; // Touch target size
+    }
+  }
+
+  // ==========================================================================
+  // Accessibility & Focus Management
+  // ==========================================================================
+
+  // High contrast mode support
+  @media (prefers-contrast: high) {
+    &--outlined .zds-textfield {
+      border-width: var(--border-width-2);
+    }
+
+    &--filled .zds-textfield {
+      border-bottom-width: var(--border-width-4);
+    }
+
+    &--standard .zds-textfield {
+      border-bottom-width: var(--border-width-2);
+    }
+  }
+
+  // Reduced motion support
+  @media (prefers-reduced-motion: reduce) {
+    .zds-textfield {
+      transition: none;
+    }
+  }
 }

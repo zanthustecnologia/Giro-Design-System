@@ -65,7 +65,7 @@ Todos os commits devem seguir o padrão:
 
 ### Exemplos válidos:
 
-* `feat(button): adiciona botão com ícone`
+* `feat(button:invacao-533): adiciona botão com ícone`
 * `fix(grid): corrige espaçamento em telas pequenas`
 * `docs(readme): adiciona seção sobre Turborepo`
 
