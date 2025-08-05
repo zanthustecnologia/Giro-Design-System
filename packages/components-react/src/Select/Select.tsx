@@ -35,8 +35,6 @@ export interface SelectProps {
   onChange?: (selectedItems: SelectOption[]) => void;
   /** Placeholder do campo */
   placeholder?: string;
-  /** Variante visual do select */
-  variant?: 'outlined' | 'filled' | 'standard';
   /** Tipo do dropdown (single ou multiple) */
   type?: DropdownType;
   /** Label do campo */
@@ -74,7 +72,6 @@ const Select = React.memo<SelectProps>(({
   value,
   onChange,
   placeholder = 'Selecione',
-  variant = 'outlined',
   type = 'text',
   label,
   helperText,
@@ -301,7 +298,6 @@ const Select = React.memo<SelectProps>(({
   // Classes CSS
   const selectClasses = clsx(
     'zds-select',
-    `zds-select--${variant}`,
     {
       'zds-select--open': isOpen,
       'zds-select--disabled': disabled,
@@ -316,7 +312,6 @@ const Select = React.memo<SelectProps>(({
       className={selectClasses} 
       ref={selectRef} 
       id={finalId}
-      data-variant={variant}
       data-testid="select-container"
     >
       <div
