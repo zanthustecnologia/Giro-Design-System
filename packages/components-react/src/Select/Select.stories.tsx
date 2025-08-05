@@ -97,6 +97,223 @@ const mockValues: SelectOption[] = [
     id: 'item-8', 
     text: 'List-item 8', 
     subText: 'Descrição do item 8'
+  },
+  { 
+    id: 'item-9', 
+    text: 'List-item 9', 
+    subText: 'Descrição do item 9'
+  },
+  { 
+    id: 'item-10', 
+    text: 'List-item 10', 
+    disabled: true,
+    subText: 'Item desabilitado'
+  },
+  { 
+    id: 'item-11', 
+    text: 'List-item 11', 
+    subText: 'Descrição do item 11'
+  },
+  { 
+    id: 'item-12', 
+    text: 'List-item 12', 
+    subText: 'Descrição do item 12'
+  },
+  { 
+    id: 'item-13', 
+    text: 'List-item 13', 
+    subText: 'Descrição do item 13'
+  },
+  { 
+    id: 'item-14', 
+    text: 'List-item 14', 
+    subText: 'Descrição do item 14'
+  },
+  { 
+    id: 'item-15', 
+    text: 'List-item 15', 
+    disabled: true,
+    subText: 'Item desabilitado'
+  },
+  { 
+    id: 'item-16', 
+    text: 'List-item 16', 
+    subText: 'Descrição do item 16'
+  },
+  { 
+    id: 'item-17', 
+    text: 'List-item 17', 
+    subText: 'Descrição do item 17'
+  },
+  { 
+    id: 'item-18', 
+    text: 'List-item 18', 
+    subText: 'Descrição do item 18'
+  },
+  { 
+    id: 'item-19', 
+    text: 'List-item 19', 
+    subText: 'Descrição do item 19'
+  },
+  { 
+    id: 'item-20', 
+    text: 'List-item 20', 
+    subText: 'Descrição do item 20'
+  },
+  { 
+    id: 'item-21', 
+    text: 'List-item 21', 
+    disabled: true,
+    subText: 'Item desabilitado'
+  },
+  { 
+    id: 'item-22', 
+    text: 'List-item 22', 
+    subText: 'Descrição do item 22'
+  },
+  { 
+    id: 'item-23', 
+    text: 'List-item 23', 
+    subText: 'Descrição do item 23'
+  },
+  { 
+    id: 'item-24', 
+    text: 'List-item 24', 
+    subText: 'Descrição do item 24'
+  },
+  { 
+    id: 'item-25', 
+    text: 'List-item 25', 
+    subText: 'Descrição do item 25'
+  },
+  { 
+    id: 'item-26', 
+    text: 'List-item 26', 
+    subText: 'Descrição do item 26'
+  },
+  { 
+    id: 'item-27', 
+    text: 'List-item 27', 
+    subText: 'Descrição do item 27'
+  },
+  { 
+    id: 'item-28', 
+    text: 'List-item 28', 
+    disabled: true,
+    subText: 'Item desabilitado'
+  },
+  { 
+    id: 'item-29', 
+    text: 'List-item 29', 
+    subText: 'Descrição do item 29'
+  },
+  { 
+    id: 'item-30', 
+    text: 'List-item 30', 
+    subText: 'Descrição do item 30'
+  },
+  { 
+    id: 'item-31', 
+    text: 'List-item 31', 
+    subText: 'Descrição do item 31'
+  },
+  { 
+    id: 'item-32', 
+    text: 'List-item 32', 
+    subText: 'Descrição do item 32'
+  },
+  { 
+    id: 'item-33', 
+    text: 'List-item 33', 
+    subText: 'Descrição do item 33'
+  },
+  { 
+    id: 'item-34', 
+    text: 'List-item 34', 
+    subText: 'Descrição do item 34'
+  },
+  { 
+    id: 'item-35', 
+    text: 'List-item 35', 
+    disabled: true,
+    subText: 'Item desabilitado'
+  },
+  { 
+    id: 'item-36', 
+    text: 'List-item 36', 
+    subText: 'Descrição do item 36'
+  },
+  { 
+    id: 'item-37', 
+    text: 'List-item 37', 
+    subText: 'Descrição do item 37'
+  },
+  { 
+    id: 'item-38', 
+    text: 'List-item 38', 
+    subText: 'Descrição do item 38'
+  },
+  { 
+    id: 'item-39', 
+    text: 'List-item 39', 
+    subText: 'Descrição do item 39'
+  },
+  { 
+    id: 'item-40', 
+    text: 'List-item 40', 
+    subText: 'Descrição do item 40'
+  },
+  { 
+    id: 'item-41', 
+    text: 'List-item 41', 
+    subText: 'Descrição do item 41'
+  },
+  { 
+    id: 'item-42', 
+    text: 'List-item 42', 
+    disabled: true,
+    subText: 'Item desabilitado'
+  },
+  { 
+    id: 'item-43', 
+    text: 'List-item 43', 
+    subText: 'Descrição do item 43'
+  },
+  { 
+    id: 'item-44', 
+    text: 'List-item 44', 
+    subText: 'Descrição do item 44'
+  },
+  { 
+    id: 'item-45', 
+    text: 'List-item 45', 
+    subText: 'Descrição do item 45'
+  },
+  { 
+    id: 'item-46', 
+    text: 'List-item 46', 
+    subText: 'Descrição do item 46'
+  },
+  { 
+    id: 'item-47', 
+    text: 'List-item 47', 
+    subText: 'Descrição do item 47'
+  },
+  { 
+    id: 'item-48', 
+    text: 'List-item 48', 
+    subText: 'Descrição do item 48'
+  },
+  { 
+    id: 'item-49', 
+    text: 'List-item 49', 
+    disabled: true,
+    subText: 'Último item desabilitado'
+  },
+  { 
+    id: 'item-50', 
+    text: 'List-item 50', 
+    subText: 'Descrição do último item'
   }
 ];
 

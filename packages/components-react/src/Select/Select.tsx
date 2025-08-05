@@ -67,7 +67,51 @@ const Select: React.FC<SelectProps> = ({
   className = '',
   label = ''
 }) => {
-  // Estados do componente
+
+  const safeOptions = useMemo(() => {
+    if (!Array.isArray(options)) {
+      if (process.env.NODE_ENV === 'development') {
+        console.warn('Select: options deve ser um array, recebido:', typeof options, options);
+      }
+      return [];
+    }
+
+    return options.filter((option, index): option is SelectOption => {
+
+      if (!option || typeof option !== 'object') {
+        if (process.env.NODE_ENV === 'development') {
+          console.warn(`Select: opção ${index} é inválida (null/undefined):`, option);
+        }
+        return false;
+      }
+
+
+      if (!option.text || typeof option.text !== 'string') {
+        if (process.env.NODE_ENV === 'development') {
+          console.warn(`Select: opção ${index} sem text válido:`, option);
+        }
+        return false;
+      }
+
+
+      if (option.text.trim().length === 0) {
+        if (process.env.NODE_ENV === 'development') {
+          console.warn(`Select: opção ${index} com text vazio/whitespace:`, option);
+        }
+        return false;
+      }
+
+
+      if (option.text.length > 200) {
+        if (process.env.NODE_ENV === 'development') {
+          console.warn(`Select: opção ${index} com text muito longo (${option.text.length} chars):`, option.text.substring(0, 50) + '...');
+        }
+        return false;
+      }
+      return true;
+    });
+  }, [options]);
+
   const [openSelect, setOpenSelect] = useState<boolean>(false);
   const [selectedOptions, setSelectedOptions] = useState<SelectOption[]>([]);
   const itemId = useId() || id;
@@ -81,16 +125,22 @@ const Select: React.FC<SelectProps> = ({
       isUpdatingRef.current = true;
 
       const selectedItems = selectedIds.map((id) => {
-        let foundOption = options.find((option) => option.id === id);
+        let foundOption = safeOptions.find((option) => option.id === id);
         if (!foundOption && id.startsWith('dropdown-item-')) {
           const index = parseInt(id.replace('dropdown-item-', ''), 10);
-          foundOption = options[index];
+          foundOption = safeOptions[index];
         }
         return foundOption;
       }).filter((option): option is SelectOption => Boolean(option));
 
       setSelectedOptions(prevSelected => {
-        if (JSON.stringify(prevSelected) !== JSON.stringify(selectedItems)) {
+        const hasChanged = selectedItems.length !== prevSelected.length ||
+          selectedItems.some((item, index) =>
+            item.id !== prevSelected[index]?.id ||
+            item.text !== prevSelected[index]?.text
+          );
+
+        if (hasChanged) {
           onChange?.(selectedItems);
           return selectedItems;
         }
@@ -104,7 +154,7 @@ const Select: React.FC<SelectProps> = ({
 
       isUpdatingRef.current = false;
     }, 0);
-  }, [options, onChange, type]);
+  }, [safeOptions, onChange, type]);
 
   const handleFocus = () => setOpenSelect(true);
 
@@ -133,8 +183,8 @@ const Select: React.FC<SelectProps> = ({
       .join(', ');
   }, [selectedOptions]);
 
-  const generateConsistentId = (selectedItem: SelectOption): string | null => {
-    const optionIndex = options.findIndex((option) => {
+  const generateConsistentId = useCallback((selectedItem: SelectOption): string | null => {
+    const optionIndex = safeOptions.findIndex((option) => {
       return option.id === selectedItem.id ||
         option.text === selectedItem.text ||
         option === selectedItem;
@@ -143,13 +193,21 @@ const Select: React.FC<SelectProps> = ({
     return optionIndex !== -1
       ? (options[optionIndex].id || `dropdown-item-${optionIndex}`)
       : null;
-  };
+  }, [options]);
 
   const selectedIds = useMemo(() => {
     return selectedOptions.map((selectedItem) => {
-      return generateConsistentId(selectedItem);
+      const optionIndex = options.findIndex((option) => {
+        return option.id === selectedItem.id ||
+          option.text === selectedItem.text ||
+          option === selectedItem;
+      });
+
+      return optionIndex !== -1
+        ? (options[optionIndex].id || `dropdown-item-${optionIndex}`)
+        : null;
     }).filter((id): id is string => Boolean(id));
-  }, [selectedOptions, generateConsistentId]);
+  }, [selectedOptions, options]);
 
   const initialItemsSelected = useMemo(() => {
     const selectedMap: Record<string, boolean> = {};
@@ -159,7 +217,7 @@ const Select: React.FC<SelectProps> = ({
     return selectedMap;
   }, [selectedIds]);
 
-  
+
   useEffect(() => {
     if (openSelect) {
       document.addEventListener('mousedown', handleClickOutside);
@@ -195,9 +253,6 @@ const Select: React.FC<SelectProps> = ({
     }
   }, [value, options]);
 
-  /**
-   * Manipula navegação por teclado
-   */
   const handleKeyDown = useCallback((event: React.KeyboardEvent<HTMLInputElement>) => {
     const allowedKeys = ['Tab', 'Enter', ' ', 'Escape', 'ArrowDown', 'ArrowUp'];
 
