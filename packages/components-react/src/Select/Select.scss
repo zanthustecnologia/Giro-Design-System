@@ -15,75 +15,7 @@
     width: 100%;
     outline: none;
   }
-
-  // ==========================================================================
-  // Variant Styles
-  // ==========================================================================
-
-  // Outlined variant (default)
-  &--outlined {
-    .zds-textfield {
-      border: var(--border-width-1) solid var(--color-neutral-low-light);
-      border-radius: var(--border-radius-8);
-      background-color: var(--color-neutral-high-default);
-
-      &:hover:not([disabled]) {
-        border-color: var(--color-brand-primary-medium);
-      }
-
-      &:focus-within {
-        border-color: var(--color-brand-primary-default);
-        box-shadow: 0 0 0 var(--border-width-2) var(--color-brand-primary-light);
-      }
-    }
-  }
-
-  // Filled variant
-  &--filled {
-    .zds-textfield {
-      border: var(--border-width-1) solid transparent;
-      border-radius: var(--border-radius-8) var(--border-radius-8) 0 0;
-      background-color: var(--color-neutral-high-light);
-      border-bottom: var(--border-width-2) solid var(--color-neutral-low-light);
-
-      &:hover:not([disabled]) {
-        background-color: var(--color-neutral-high-medium);
-        border-bottom-color: var(--color-brand-primary-medium);
-      }
-
-      &:focus-within {
-        background-color: var(--color-neutral-high-default);
-        border-bottom-color: var(--color-brand-primary-default);
-        border-bottom-width: var(--border-width-2);
-      }
-    }
-  }
-
-  // Standard variant
-  &--standard {
-    .zds-textfield {
-      border: none;
-      border-radius: 0;
-      background-color: transparent;
-      border-bottom: var(--border-width-1) solid var(--color-neutral-low-light);
-
-      &:hover:not([disabled]) {
-        border-bottom-color: var(--color-brand-primary-medium);
-      }
-
-      &:focus-within {
-        border-bottom-color: var(--color-brand-primary-default);
-        border-bottom-width: var(--border-width-2);
-      }
-    }
-  }
-
-  // ==========================================================================
-  // State Styles
-  // ==========================================================================
-
-  // Error state
-  &--error {
+   &--error {
     .zds-textfield {
       border-color: var(--color-feedback-alert-default);
 

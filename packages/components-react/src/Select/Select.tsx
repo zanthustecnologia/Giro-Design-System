@@ -87,7 +87,7 @@ const Select = React.memo<SelectProps>(({
   const isUpdatingRef = useRef<boolean>(false);
   const selectRef = useRef<HTMLDivElement | null>(null);
   const previousValueRef = useRef<string | string[] | undefined>(value);
-  
+  const textFieldRef = useRef<HTMLInputElement | null>(null);
   // Estados
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedOptions, setSelectedOptions] = useState<SelectOption[]>([]);
@@ -194,6 +194,7 @@ const Select = React.memo<SelectProps>(({
 
       if (hasChanged) {
         onChange?.(selectedItems);
+        textFieldRef.current?.blur();
         return selectedItems;
       }
       return prevSelected;
@@ -326,6 +327,7 @@ const Select = React.memo<SelectProps>(({
         className="zds-select__trigger"
       >
         <TextField
+          ref={textFieldRef}
           name={`select-${finalId}`}
           placeholder={displayText || placeholder}
           value={displayText}

@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, useId } from 'react';
+import React, { useState, useCallback, useEffect, useId, useRef } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { Dismiss16Regular, Info12Regular } from '@fluentui/react-icons';
@@ -40,9 +40,10 @@ const TextField: React.FC<TextFieldProps> = ({
     label = '',
     placeholder = '',
     type = 'text',
-    onChange = (value: string) => {},
-    onFocus = (event: React.FocusEvent<HTMLInputElement>) => {},
-    onKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {},
+    onChange = (value: string) => { },
+    onFocus = (event: React.FocusEvent<HTMLInputElement>) => { },
+    onKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => { },
+    onBlur = (event: React.FocusEvent<HTMLInputElement>) => { },
     readOnly = false,
     disabled = false,
     maxLength = 30,
@@ -63,6 +64,10 @@ const TextField: React.FC<TextFieldProps> = ({
     const [focus, setFocus] = useState(false);
     const componentId = id || useId();
 
+    const internalRef = useRef<HTMLInputElement>(null);
+    const inputRef = (ref as React.RefObject<HTMLInputElement>) || internalRef;
+
+
     const handleChange = useCallback(
         (e: React.ChangeEvent<HTMLInputElement>) => {
             const newValue = e.target.value;
@@ -78,10 +83,14 @@ const TextField: React.FC<TextFieldProps> = ({
         if (!disabled) {
             setValue('');
             onChange?.('');
+            setFocus(false);
         }
-    }, [disabled, onChange]);
+        if (inputRef.current) {
+            inputRef.current.blur();
+        }
+    }, [disabled, onChange, inputRef]);
 
-    const onBlur = useCallback(() => {
+    const handleBlur = useCallback((event: React.FocusEvent<HTMLInputElement>) => {
         const error = validateInput({
             value: inputValue,
             type,
@@ -91,6 +100,10 @@ const TextField: React.FC<TextFieldProps> = ({
         }) || '';
         setInputError(error);
         setFocus(false);
+        if (inputRef && inputRef.current) {
+            inputRef.current.blur();
+        }
+        onBlur?.(event);
     }, [inputValue, type, maxLength, errorMessage, required]);
 
     const handleFocus = useCallback((event: React.FocusEvent<HTMLInputElement>) => {
@@ -137,7 +150,7 @@ const TextField: React.FC<TextFieldProps> = ({
                 <div className="zds-textfield__box__input">
                     <input
                         id={componentId}
-                        ref={ref}
+                        ref={inputRef}
                         readOnly={readOnly}
                         name={name}
                         type={type}
@@ -145,7 +158,7 @@ const TextField: React.FC<TextFieldProps> = ({
                         placeholder={placeholder}
                         onChange={handleChange}
                         onFocus={handleFocus}
-                        onBlur={onBlur}
+                        onBlur={handleBlur}
                         maxLength={maxLength}
                         disabled={disabled}
                         aria-invalid={!!inputError}
@@ -154,8 +167,8 @@ const TextField: React.FC<TextFieldProps> = ({
                             inputError
                                 ? `${componentId}-error`
                                 : helper && helperText
-                                ? `${componentId}-helper`
-                                : undefined
+                                    ? `${componentId}-helper`
+                                    : undefined
                         }
                     />
                     {shouldRenderCustomIcon && <span className="zds-textfield__icon">{icon}</span>}
