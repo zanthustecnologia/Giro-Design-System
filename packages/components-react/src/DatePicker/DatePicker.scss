@@ -1,0 +1,26 @@
+.zds-date-picker {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: $spacing-8;
+  position: relative;
+}
+
+.zds-textfield__container {
+  width: 100%;
+  max-width: 200px;
+}
+
+.zds-date-picker__calendar-popup {
+  position: absolute;
+  top: 100%;
+  z-index: 10;
+  margin-top: $spacing-8;
+}
+
+.zds-calendar--left {
+  left: 0;
+}
+
+.zds-calendar--right {
+  right: 0;
+}
