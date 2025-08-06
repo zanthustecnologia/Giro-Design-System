@@ -1,0 +1,161 @@
+.zds-calendar {
+  max-width: 310px;
+  height: auto;
+  padding: var(--spacing-16) 0;
+  border-radius: var(--border-radius-8);
+  border-width: var(--border-width-1);
+  border-color: var(--color-neutral-high-dark);
+  box-shadow: 0px 2px 16px 0px rgba(0, 0, 0, 0.20);
+  font-family: var(--font-family-primary);
+}
+
+.zds-calendar__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: var(--font-size-16);
+  font-weight: var(--font-weight-regular);
+  margin-bottom: var(--spacing-8);
+  color: var(--color-neutral-low-default);
+  height: 45px;
+  padding: 0px var(--spacing-24);
+}
+
+.zds-calendar__header button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: var(--font-size-16);
+  padding: var(--spacing-4) var(--spacing-8);
+}
+
+.zds-calendar__header span {
+  font-weight: var(--font-weight-medium);
+  text-transform: capitalize;
+}
+
+.zds-calendar__month-name {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.zds-calendar__month-name svg {
+  margin-left: var(--spacing-8);
+}
+
+.zds-calendar__year {
+  cursor: pointer;
+  border-radius: var(--border-radius-pill);
+  text-align: center;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  box-sizing: border-box;
+  padding: var(--spacing-4) var(--spacing-8);
+}
+
+.zds-calendar__year:hover {
+  background-color: var(--color-neutral-high-dark);
+}
+
+.zds-calendar__year-view {
+  display: grid;
+  grid-template-columns: repeat(4, 72px);
+  gap: var(--spacing-4);
+  padding: 0px var(--spacing-24);
+}
+
+.zds-calendar__year {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: var(--border-radius-pill);
+  font-size: var(--font-size-16);
+  color: var(--color-neutral-low-default);
+  height: 36px;
+  width: 72px;
+}
+
+.zds-calendar__year:hover,
+.zds-calendar__year--current {
+  background-color: var(--color-neutral-high-medium);
+  color: var(--color-neutral-low-default);
+}
+
+.zds-calendar__navigation {
+  display: flex;
+  gap: var(--spacing-24);
+}
+
+.zds-calendar__weekdays {
+  margin-bottom: var(--spacing-8);
+  padding: 0px var(--spacing-24);
+}
+
+.zds-calendar__grid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.zds-calendar__weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+.zds-calendar__weekday {
+  text-align: center;
+  font-size: var(--font-size-12);
+  color: var(--color-neutral-low-default);
+  font-weight: var(--font-weight-regular);
+  height: 40px;
+  width: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.zds-calendar__days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  padding: 0px var(--spacing-24);
+}
+
+.zds-calendar__day {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: var(--font-size-16);
+  border-radius: var(--border-radius-circular);
+  cursor: pointer;
+  color: var(--color-neutral-low-default);
+}
+
+.zds-calendar__day:hover {
+  background-color: var(--color-neutral-high-medium);
+}
+
+.zds-calendar__day--today {
+  background-color: var(--color-brand-primary-default);
+  color: var(--color-neutral-high-default);
+}
+
+.zds-calendar__day--selected {
+  background-color: var(--color-brand-primary-default);
+  color: var(--color-neutral-high-default);
+  font-weight: var(--font-weight-regular);
+}
+
+.zds-calendar__day--selected:hover {
+  background-color: var(--color-brand-primary-medium);
+}
+
+.zds-calendar__day--empty {
+  visibility: hidden;
+}
