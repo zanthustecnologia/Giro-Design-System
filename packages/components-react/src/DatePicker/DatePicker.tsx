@@ -36,8 +36,6 @@ interface DatePickerProps {
   /** Callback quando a data é alterada */
   onDateChange?: (date: Date | null) => void;
   /** Callback quando ocorre erro de validação */
-  onChange?: (value: Date | null) => void;
-  /** Callback quando ocorre erro de validação */
   onError?: (error: string) => void;
   /** Nome do campo para formulários */
   name?: string;
@@ -222,11 +220,44 @@ const DatePicker: React.FC<DatePickerProps> = ({
     setShowCalendar(prev => !prev);
   }, [disabled]);
 
- const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    // Now call your original function or state setter with the string value
-    onDateChange?.(value);
-  };
+  // ✅ Handler para mudança no TextField
+  const handleInputChange = useCallback((value: string): void => {
+    if (disabled) return;
+
+    setTextFieldValue(value);
+
+    if (value === '') {
+      setSelectedDate(null);
+      setCurrentDate(new Date());
+      setError('');
+      onDateChange?.(null);
+      return;
+    }
+
+    let parsedDate: Date | null = null;
+    let validationError = '';
+
+    if (dateRegex.test(value)) {
+      parsedDate = parseDate(value, locale);
+
+      if (parsedDate && !isNaN(parsedDate.getTime())) {
+        setSelectedDate(parsedDate);
+        setCurrentDate(parsedDate);
+        validationError = validateDate(parsedDate, value);
+      } else {
+        validationError = validateDate(null, value);
+      }
+    } else {
+      validationError = validateDate(null, value);
+    }
+
+    setError(validationError);
+    onDateChange?.(parsedDate);
+
+    if (validationError && onError) {
+      onError(validationError);
+    }
+  }, [disabled, dateRegex, locale, validateDate, onDateChange, onError]);
   // ✅ Handler para Enter no campo
   const handleKeyDown = useCallback((event: React.KeyboardEvent<HTMLInputElement>): void => {
     if (disabled) return;
@@ -262,28 +293,31 @@ const DatePicker: React.FC<DatePickerProps> = ({
       className={clsx('zds-date-picker-wrapper', className)}
     >
       <div className="zds-date-picker">
-        <TextField
-          icon={<Calendar16Regular />}
-          label={label}
-          name={name}
-          id={id}
-          required={required}
-          disabled={disabled}
-          onFocus={() => !disabled && setShowCalendar(true)}
-          onChange={handleInputChange}
+        <div 
+          className="date-picker-wrapper"
+          onClick={() => !disabled && setShowCalendar(true)}
           onKeyDown={handleKeyDown}
-          onIconClick={handleIconClick}
-          aria-label={locale === 'en-us' ? 'Open calendar' : 'Abrir calendário'}
+          role="combobox"
+          aria-label={locale === 'en-us' ? 'Date picker' : 'Seletor de data'}
           aria-expanded={showCalendar}
           aria-controls={calendarId}
           aria-haspopup="dialog"
-          placeholder={defaultPlaceholder}
-          value={textFieldValue}
-          error={error}
-          aria-invalid={!!error}
-          aria-describedby={error ? errorId : undefined}
-          autoComplete="off"
-        />
+          tabIndex={disabled ? -1 : 0}
+        >
+          <TextField
+            icon={<Calendar16Regular />}
+            label={label}
+            name={name}
+            id={id}
+            required={required}
+            disabled={disabled}
+            onChange={handleInputChange}
+            placeholder={defaultPlaceholder}
+            value={textFieldValue}
+            errorMessage={error}
+            className="date-picker-input"
+          />
+        </div>
 
         {error && (
           <span

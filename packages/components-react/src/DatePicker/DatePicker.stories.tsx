@@ -1,8 +1,10 @@
 import React from 'react';
+import type { Meta, StoryObj } from '@storybook/react';
 import DatePicker from './DatePicker';
+import type { DatePickerProps } from './DatePicker';
 
-export default {
-  title: 'Patterns/Date Picker',
+const meta: Meta<typeof DatePicker> = {
+  title: 'Pattern/Date Picker',
   component: DatePicker,
   decorators: [
     (Story) => (
@@ -41,12 +43,47 @@ export default {
       },
     },
   },
+} satisfies Meta<typeof DatePicker>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const Default: Story = {
+  args: {
+    locale: 'pt-br',
+    calendarPosition: 'left',
+  },
 };
 
-const Template = (args) => <DatePicker {...args} />;
+export const WithLabel: Story = {
+  args: {
+    locale: 'pt-br',
+    label: 'Data de nascimento',
+    calendarPosition: 'left',
+  },
+};
 
-export const Default = Template.bind({});
-Default.args = {
-  locale: 'pt-br',
-  calendarPosition: 'left', // Valor inicial para a prop calendarPosition
+export const Disabled: Story = {
+  args: {
+    locale: 'pt-br',
+    label: 'Data desabilitada',
+    disabled: true,
+    calendarPosition: 'left',
+  },
+};
+
+export const EnglishLocale: Story = {
+  args: {
+    locale: 'en-us',
+    label: 'Birth date',
+    calendarPosition: 'left',
+  },
+};
+
+export const RightPositioned: Story = {
+  args: {
+    locale: 'pt-br',
+    label: 'Data com calendário à direita',
+    calendarPosition: 'right',
+  },
 };
