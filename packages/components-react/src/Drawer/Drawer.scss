@@ -1,0 +1,300 @@
+// ✅ Overlay/Shadow do Drawer
+.zds-custom-drawer-shadow {
+  position: fixed;
+  z-index: 20;
+  background-color: var(--color-neutral-low-default); // Era: $low-color-default
+  opacity: 0.3 !important;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  transition: all 0.3s ease-in-out;
+
+  // Estado visível
+  &--visible {
+    display: block;
+  }
+
+  // Responsividade - reduz opacidade em mobile
+  @media (max-width: 768px) {
+    opacity: 0.5 !important;
+  }
+
+  // High contrast mode
+  @media (prefers-contrast: high) {
+    background-color: var(--color-neutral-low-dark);
+    opacity: 0.8 !important;
+  }
+}
+
+// ✅ Sidebar/Panel Principal do Drawer
+.zds-custom-drawer-sidebar {
+  position: fixed;
+  background-color: var(--color-neutral-high-default); // Era: $high-color-light
+  border-left: var(--border-width-1) solid var(--color-neutral-high-dark); // Era: border com $high-color-dark
+  border-radius: var(--border-radius-8) 0 0 var(--border-radius-8);
+  right: 0;
+  top: 0;
+  bottom: 0;
+  transition: all 0.3s ease-in-out;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  box-shadow: -4px 0 12px rgba(17, 17, 25, 0.1); // Sombra sutil
+  
+  // Estados
+  &--open {
+    transform: translateX(0);
+  }
+
+  &--no-padding {
+    .zds-children {
+      padding: 0 !important;
+    }
+  }
+
+  &--disabled {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  // Responsividade
+  @media (max-width: 768px) {
+    width: 100% !important; // Full width em mobile
+    border-radius: 0;
+    border-left: none;
+  }
+
+  @media (max-width: 360px) {
+    .zds-title-close {
+      padding: var(--spacing-16) var(--spacing-16) 0 var(--spacing-16);
+    }
+  }
+
+  // High contrast mode
+  @media (prefers-contrast: high) {
+    border-left-width: var(--border-width-2);
+    border-left-color: var(--color-neutral-low-default);
+  }
+
+  // Reduced motion
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+// ✅ Header com título e botão fechar
+.zds-custom-drawer-sidebar .zds-title-close {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-24) var(--spacing-24) 0 var(--spacing-24); // Era: $spacing-24
+  border-bottom: var(--border-width-1) solid var(--color-neutral-high-medium);
+  margin-bottom: var(--spacing-24);
+  min-height: 64px; // Touch target adequado
+
+  // Responsividade
+  @media (max-width: 768px) {
+    min-height: 56px;
+    padding: var(--spacing-16) var(--spacing-16) 0 var(--spacing-16);
+    margin-bottom: var(--spacing-16);
+  }
+}
+
+// ✅ Título do Drawer
+.zds-custom-drawer-sidebar .zds-title-close .zds-title {
+  font-family: var(--font-family-primary); // Era: $font-family-sans-serif
+  font-size: var(--font-size-24); // Era: $font-size-24
+  font-weight: var(--font-weight-bold); // Era: $font-weight-bold
+  line-height: 1.33; // 32px/24px = 1.33
+  color: var(--color-neutral-low-default); // Era: $low-color-default
+  letter-spacing: -0.02em; // -2% convertido para em
+  margin: 0;
+  flex: 1;
+
+  // Responsividade
+  @media (max-width: 768px) {
+    font-size: var(--font-size-20);
+    line-height: 1.2;
+  }
+
+  @media (max-width: 360px) {
+    font-size: var(--font-size-18);
+  }
+
+  // Truncate em textos longos
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// ✅ Botão de fechar
+.zds-custom-drawer-sidebar .zds-title-close .close {
+  cursor: pointer;
+  color: var(--color-brand-primary-default); // Era: $brand-color-primary-default
+  padding: var(--spacing-8);
+  border-radius: var(--border-radius-8);
+  transition: all 0.2s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  min-height: 40px; // Touch target WCAG
+  margin-left: var(--spacing-8);
+
+  // Estados de interação
+  &:hover {
+    background-color: var(--color-brand-primary-light);
+    color: var(--color-brand-primary-dark);
+    transform: scale(1.05);
+  }
+
+  &:focus {
+    outline: var(--border-width-2) solid var(--color-brand-primary-default);
+    outline-offset: var(--spacing-2);
+  }
+
+  &:active {
+    transform: scale(0.95);
+    background-color: var(--color-brand-primary-medium);
+  }
+
+  // Responsividade
+  @media (max-width: 768px) {
+    min-width: 44px;
+    min-height: 44px; // Touch target mobile
+  }
+
+  // Reduced motion
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+    transform: none;
+
+    &:hover,
+    &:active {
+      transform: none;
+    }
+  }
+}
+
+// ✅ Conteúdo do Drawer
+.zds-custom-drawer-sidebar .zds-children {
+  margin-top: var(--spacing-24); // Era: $spacing-24
+  position: relative;
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 0 var(--spacing-24);
+
+  // Custom scrollbar
+  &::-webkit-scrollbar {
+    width: var(--spacing-8);
+  }
+
+  &::-webkit-scrollbar-track {
+    background: var(--color-neutral-high-light);
+    border-radius: var(--border-radius-4);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--color-neutral-high-dark);
+    border-radius: var(--border-radius-4);
+
+    &:hover {
+      background: var(--color-neutral-low-light);
+    }
+  }
+
+  // Responsividade
+  @media (max-width: 768px) {
+    margin-top: var(--spacing-16);
+    padding: 0 var(--spacing-16);
+  }
+}
+
+// ✅ Botões de ação (se existirem)
+.zds-custom-drawer-sidebar .btns {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-12);
+  padding: var(--spacing-24);
+  border-top: var(--border-width-1) solid var(--color-neutral-high-medium);
+  margin-top: auto; // Empurra para o final
+  background-color: var(--color-neutral-high-light);
+
+  // Responsividade
+  @media (max-width: 768px) {
+    padding: var(--spacing-16);
+    gap: var(--spacing-8);
+    justify-content: stretch;
+
+    // Botões full width em mobile
+    > * {
+      flex: 1;
+    }
+  }
+
+  @media (max-width: 360px) {
+    flex-direction: column;
+    
+    > * {
+      width: 100%;
+    }
+  }
+}
+
+// ✅ Estados de loading (bonus)
+.zds-custom-drawer-sidebar--loading {
+  .zds-children {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    &::after {
+      content: '';
+      width: var(--spacing-32);
+      height: var(--spacing-32);
+      border: var(--border-width-2) solid var(--color-neutral-high-dark);
+      border-top-color: var(--color-brand-primary-default);
+      border-radius: var(--border-radius-circular);
+      animation: spin 1s linear infinite;
+    }
+  }
+}
+
+// ✅ Animação de loading
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// ✅ Estados de erro (bonus)
+.zds-custom-drawer-sidebar--error {
+  .zds-title {
+    color: var(--color-feedback-alert-default);
+  }
+
+  .close {
+    color: var(--color-feedback-alert-default);
+
+    &:hover {
+      background-color: var(--color-feedback-alert-light);
+      color: var(--color-feedback-alert-dark);
+    }
+  }
+}
+
+// ✅ Focus trap para acessibilidade
+.zds-custom-drawer-sidebar[aria-modal="true"] {
+  &:focus {
+    outline: none;
+  }
+
+  // Primeiro elemento focável
+  *:first-child {
+    &:focus {
+      outline-offset: var(--spacing-4);
+    }
+  }
+}
