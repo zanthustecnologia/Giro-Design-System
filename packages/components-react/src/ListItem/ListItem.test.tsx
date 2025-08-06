@@ -5,7 +5,7 @@ import ListItem from './ListItem';
 import type { ListItemProps } from './ListItem';
 
 // ✅ Mock dos componentes dependentes
-jest.mock('../Checkbox/Checkbox', () => {
+jest.mock('../../Checkbox/Checkbox', () => {
   return function MockCheckbox({ 
     checked, 
     onChange, 
@@ -31,7 +31,7 @@ jest.mock('../Checkbox/Checkbox', () => {
   };
 });
 
-jest.mock('../Radio/Radio', () => {
+jest.mock('../../Radio/Radio', () => {
   return function MockRadio({ 
     checked, 
     onChange, 
