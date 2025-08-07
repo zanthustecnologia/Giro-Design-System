@@ -34,7 +34,7 @@ interface YearItem {
 
 interface CalendarProps {
   /** Data do dia Atual */
-  currentDate: Date;
+  currentDate?: Date;
   /** Classe CSS adicional */
   className?: string;
   /** Dia Selecionado pelo usuário */

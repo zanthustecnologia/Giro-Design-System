@@ -9,7 +9,7 @@ type DrawerType = 'select' | 'filter' | 'form'; // Expandindo os tipos possívei
 
 export interface DrawerProps {
   /** Conteúdo do Drawer */
-  children: ReactNode;
+  children?: ReactNode;
   /** Largura do Drawer (use design tokens quando possível) */
   pWidth?: string;
   /** Callback quando o Drawer é fechado */

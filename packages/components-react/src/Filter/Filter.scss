@@ -1,5 +1,3 @@
-@use '../../resources/scss/design-tokens.scss' as *;
-
 .zds-filter {
   display: flex;
   flex-direction: column;
@@ -26,16 +24,16 @@
     flex: 1; // Faz com que o conteúdo ocupe o espaço disponível
     display: flex;
     justify-content: center;
-    gap: $spacing-24;
+    gap: var(--spacing-24); // Era: $spacing-24
   }
 
   .zds-filter-drawer--actions {
     position: sticky; // Mantém os botões fixos no fundo do Drawer
     bottom: 0; // Alinha os botões ao fundo
-    background-color: $high-color-light; // Define um fundo para os botões
+    background-color: var(--color-neutral-high-light); // Era: $high-color-light
     display: flex;
     justify-content: flex-end;
-    gap: $spacing-16;
+    gap: var(--spacing-16); // Era: $spacing-16
   }
 }
 
@@ -59,15 +57,15 @@
     top: 0;
     left: 0;
     z-index: 1000;
-    margin-top: 4px;
+    margin-top: var(--spacing-4); // Era: 4px
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    background: white;
+    border-radius: var(--border-radius-8); // Era: 8px
+    background: var(--color-neutral-high-default); // Era: white
   }
 }
 
 .zds-dropdown__container {
-  margin-top: $spacing-8;
+  margin-top: var(--spacing-8); // Era: $spacing-8
 }
 
 /**
@@ -77,7 +75,7 @@
 .zds-filter-button-content {
   display: flex;
   align-items: center;
-  gap: $spacing-8;
+  gap: var(--spacing-8); // Era: $spacing-8
 
   /**
    * Garante que o Badge status seja exibido inline corretamente
@@ -85,7 +83,7 @@
    */
   .zds-badge-container__status {
     position: static;
-    margin-left: $spacing-8;
+    margin-left: var(--spacing-8); // Era: $spacing-8
 
     .zds-badge__status {
       position: static;
@@ -107,7 +105,7 @@
   button:focus-visible {
     outline: none;
     box-shadow: none;
-    border-color: $high-color-default; // Mantém a cor do border para acessibilidade
+    border-color: var(--color-neutral-high-default); // Era: $high-color-default
   }
 
   /**
@@ -125,7 +123,7 @@
     &:focus-within {
       outline: none;
       box-shadow: none;
-      border-color: $high-color-default;
+      border-color: var(--color-neutral-high-default); // Era: $high-color-default
     }
 
     /**
@@ -155,8 +153,8 @@
        * Estilo de foco para elementos do dropdown usando tokens
        */
       &:focus {
-        outline: $spacing-4 solid $high-color-default;
-        outline-offset: $spacing-4;
+        outline: var(--spacing-4) solid var(--color-neutral-high-default); // Era: $spacing-4 solid $high-color-default
+        outline-offset: var(--spacing-4); // Era: $spacing-4
       }
     }
   }

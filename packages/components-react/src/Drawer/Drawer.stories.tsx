@@ -17,8 +17,6 @@ interface DrawerExampleProps {
   noPadding?: boolean;
   className?: string;
 }
-
-// ✅ Meta configuration para Storybook
 const meta: Meta<typeof Drawer> = {
   title: 'Components/Drawer',
   component: Drawer,
@@ -60,50 +58,7 @@ const meta: Meta<typeof Drawer> = {
         type: { summary: 'ReactNode' },
       },
     },
-    onClose: { 
-      action: 'closed',
-      table: {
-        type: { summary: '() => void' },
-      },
-    },
-    onOpen: { 
-      action: 'opened',
-      table: {
-        type: { summary: '() => void' },
-      },
-    },
-    isOpen: { 
-      control: 'boolean',
-      defaultValue: false,
-      table: {
-        type: { summary: 'boolean' },
-        defaultValue: { summary: 'false' },
-      },
-    },
-    disabled: {
-      control: 'boolean',
-      defaultValue: false,
-      table: {
-        type: { summary: 'boolean' },
-        defaultValue: { summary: 'false' },
-      },
-    },
-    closeOnOverlayClick: {
-      control: 'boolean',
-      defaultValue: true,
-      table: {
-        type: { summary: 'boolean' },
-        defaultValue: { summary: 'true' },
-      },
-    },
-    closeOnEscape: {
-      control: 'boolean',
-      defaultValue: true,
-      table: {
-        type: { summary: 'boolean' },
-        defaultValue: { summary: 'true' },
-      },
-    },
+  
   },
   decorators: [
     (Story) => (
@@ -167,11 +122,7 @@ const DrawerExample: React.FC<DrawerExampleProps> = ({
       >
         {children || (
           <div style={{ padding: '16px' }}>
-            <h3>Conteúdo do Drawer</h3>
-            <p>Este é o conteúdo padrão do drawer. Você pode adicionar qualquer elemento aqui.</p>
-            <Button variant="filled" onClick={handleCloseDrawer}>
-              Fechar Drawer
-            </Button>
+            <h3>Titulo</h3>
           </div>
         )}
       </Drawer>
@@ -191,28 +142,6 @@ export const Default: StoryFn<DrawerStoryProps> = (args): JSX.Element => (
  * Story do Drawer com conteúdo customizado
  * Demonstra como passar children customizados
  */
-export const WithCustomContent: StoryFn<DrawerStoryProps> = (args): JSX.Element => (
-  <DrawerExample {...args}>
-    <div style={{ padding: '24px' }}>
-      <h2>Conteúdo Customizado</h2>
-      <p>Este drawer contém conteúdo personalizado.</p>
-      
-      <div style={{ marginTop: '24px' }}>
-        <h4>Lista de Itens:</h4>
-        <ul>
-          <li>Item 1</li>
-          <li>Item 2</li>
-          <li>Item 3</li>
-        </ul>
-      </div>
-
-      <div style={{ marginTop: '24px', display: 'flex', gap: '12px' }}>
-        <Button variant="outlined">Cancelar</Button>
-        <Button variant="filled">Confirmar</Button>
-      </div>
-    </div>
-  </DrawerExample>
-);
 
 /**
  * Story do Drawer sem padding
@@ -397,13 +326,7 @@ const handleCloseDrawer = () => {
   },
 };
 
-WithCustomContent.parameters = {
-  docs: {
-    description: {
-      story: 'Drawer com conteúdo personalizado. Demonstra como passar children customizados para criar interfaces mais complexas.',
-    },
-  },
-};
+
 
 NoPadding.parameters = {
   docs: {
@@ -434,15 +357,10 @@ Default.args = {
   title: 'Drawer Interativo',
   pWidth: '400px',
   noPadding: false,
-  disabled: false,
   closeOnOverlayClick: true,
   closeOnEscape: true,
 };
 
-WithCustomContent.args = {
-  ...Default.args,
-  title: 'Conteúdo Customizado',
-};
 
 NoPadding.args = {
   ...Default.args,
