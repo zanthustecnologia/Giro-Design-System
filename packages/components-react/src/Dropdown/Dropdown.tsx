@@ -100,8 +100,6 @@ const Dropdown: React.FC<DropdownProps> = ({
 
   // Computações derivadas
   const searchVisible = applySearch || internalItems.length > 4;
-  const validItems = useMemo(() => validateItems(items, type), [items, type]);
-
   /**
    * Manipula mudanças no campo de busca
    */
@@ -114,6 +112,21 @@ const Dropdown: React.FC<DropdownProps> = ({
     }
   }, [searchQuery]);
 
+  const safeItems = useMemo(() => {
+    if (!Array.isArray(items)) {
+      console.warn('Dropdown: items deve ser um array. Recebido:', typeof items);
+      return [];
+    }
+    if (items.length === 0) {
+      return [];
+    }
+    return items;
+  }, [items]);
+
+  // ✅ Usar safeItems ao invés de items
+  const validItems = useMemo(() => {
+    return validateItems(safeItems, type);
+  }, [safeItems, type]);
   /**
    * Gera ID único para um item
    */
@@ -227,7 +240,7 @@ const Dropdown: React.FC<DropdownProps> = ({
    */
   const renderItemContent = useCallback((item: DropdownItem, index: number) => {
     const itemId = item.id || `dropdown-item-${index}`;
-    
+
     return (
       <div className={clsx('zds-dropdown__item-content', {
         'zds-dropdown__item-content--disabled': item.disabled
@@ -249,7 +262,7 @@ const Dropdown: React.FC<DropdownProps> = ({
           <div className="zds-dropdown__item-icon-container">
             <span
               className="zds-dropdown__item-icon"
-              onClick={(event: React.MouseEvent<HTMLSpanElement>) => 
+              onClick={(event: React.MouseEvent<HTMLSpanElement>) =>
                 handleItemClick(event as any, itemId, item)
               }
             >
