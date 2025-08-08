@@ -1,0 +1,22 @@
+.menu-container {
+  position: relative;
+  display: inline-block;
+
+  .zds-button {
+    margin-bottom: var(--spacing-4);
+  }
+
+  .zds-search {
+    padding: 0px var(--spacing-8) !important;
+  }
+}
+
+.menu-dropdown {
+  position: absolute;
+  top: 100%;
+  right: -15%;
+  z-index: 9999;
+  min-width: 200px;
+  margin-top: var(--spacing-4);
+  margin-right: var(--spacing-8);
+}
