@@ -18,8 +18,8 @@
 
 .zds-dropdown__search-container {
   display: flex;
-  width: 100%;
   padding: var(--spacing-0);
+  min-width: 210px;
 }
 
 .zds-dropdown__item.zds-dropdown__item--focused {

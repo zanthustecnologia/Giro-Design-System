@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import Search from '../Search';
 import { validateItems } from './DropdownUtils';
-import './styles.scss';
+import './Dropdown.scss';
 import Checkbox from '../Checkbox';
 
 /**
