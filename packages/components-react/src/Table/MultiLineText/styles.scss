@@ -1,0 +1,77 @@
+@use '../../resources/scss/design-tokens.scss' as *;
+
+.zds-table__container {
+  overflow-x: auto;
+  border-radius: $border-radius-8;
+  border: $border-width-1 solid $high-color-dark;
+  background-color: $high-color-default;
+}
+
+.zds-table__container.zds-table__filter {
+  border-radius: 0 0 $border-radius-8 $border-radius-8;
+}
+
+.zds-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: $font-family-sans-serif;
+  font-size: $font-size-16;
+}
+
+.zds-table__head {
+  background-color: $high-color-light;
+  text-align: left;
+}
+
+.zds-table__th {
+  padding: 0;
+  vertical-align: middle;
+}
+
+.zds-table__th-content {
+  padding: 0 $spacing-16;
+  font-weight: $font-weight-bold;
+  color: $low-color-default;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+}
+
+.zds-table__body .zds-table__td {
+  padding: 10px $spacing-16;
+  border-top: $border-width-1 solid $high-color-dark;
+  color: $low-color-default;
+}
+.zds-table__body .zds-table__row:first-child .zds-table__td {
+  border-top: $border-width-none;
+}
+
+.zds-table__row:hover {
+  //background-color: #fafafa;
+}
+
+.zds-table__empty {
+  text-align: center;
+  padding: 20px;
+  color: #999;
+}
+
+/**
+ * Table Header
+ */
+.zds-multi-line-text {
+  display: flex;
+  flex-direction: column;
+  font-family: $font-family-sans-serif;
+  font-size: $font-size-16;
+  gap: $spacing-8;
+
+  &__text1 {
+    color: $low-color-default;
+  }
+
+  &__text2 {
+    font-size: $font-size-14;
+    color: $low-color-dark;
+  }
+}

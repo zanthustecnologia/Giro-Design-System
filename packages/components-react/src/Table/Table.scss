@@ -1,0 +1,450 @@
+@use '../../resources/scss/design-tokens.scss' as *;
+
+.zds-table__container {
+  border-radius: $border-radius-8;
+  border: $border-width-1 solid $high-color-dark;
+  background-color: $high-color-default;
+  font-family: $font-family-sans-serif;
+  overflow: hidden; // Remove overflow-x auto do container principal
+}
+
+.zds-children {
+  display: flex;
+}
+
+.zds-filter-drawer--content {
+  width: 400px;
+  display: flex;
+
+  .zds-filter-drawer--group {
+    display: flex;
+    gap: $spacing-16;
+  }
+}
+
+// Novo wrapper para scroll apenas da tabela
+.zds-table__scroll-wrapper {
+  overflow-x: auto;
+
+  // Scroll horizontal para telas menores que 768px
+  @media (max-width: 768px) {
+    overflow-x: scroll;
+    -webkit-overflow-scrolling: touch; // Melhora a experiência de scroll em dispositivos iOS
+  }
+}
+
+.zds-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: $font-family-sans-serif;
+  font-size: $font-size-16;
+
+  // Define largura mínima para manter a estrutura da tabela em telas pequenas
+  @media (max-width: 768px) {
+    min-width: 600px; // Ajuste conforme necessário baseado no conteúdo da tabela
+  }
+}
+
+.zds-table__head {
+  background-color: $high-color-light;
+  text-align: left;
+}
+
+.zds-table__th {
+  padding: $spacing-0;
+  vertical-align: middle;
+}
+
+.zds-table__th-content {
+  font-weight: $font-weight-bold;
+  color: $low-color-default;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  padding: $spacing-0 $spacing-16; // Adiciona padding ao conteúdo do th
+}
+
+.zds-table__td.text-center {
+  width: 0px !important;
+}
+
+.zds-table__body .zds-table__td {
+  padding: $spacing-8 $spacing-16;
+  border-top: $border-width-1 solid $high-color-dark;
+  color: $low-color-default;
+}
+
+.zds-table__empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-32; // Adiciona padding para melhor espaçamento
+
+  &__content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: $high-color-medium;
+    border-radius: $border-radius-circular;
+    width: 100px;
+    height: 100px;
+  }
+  svg {
+    width: 76px;
+    height: 76px;
+  }
+
+  & path {
+    fill: $brand-color-primary-default;
+  }
+
+  &__title {
+    margin: $spacing-32 $spacing-0 $spacing-16 $spacing-0;
+    font-size: $font-size-24;
+    font-weight: $font-weight-bold;
+    color: $low-color-default;
+  }
+
+  &__caption {
+    font-size: $font-size-20;
+    font-weight: $font-weight-regular;
+    color: $low-color-default;
+  }
+}
+
+.zds-table__body .zds-table__row:first-child .zds-table__td {
+  border-top: $border-width-none;
+}
+
+.zds-table__body .zds-table__td:last-child {
+  justify-items: flex-end;
+}
+
+.zds-table__row:hover,
+.zds-table__row-hover {
+  background-color: $high-color-light;
+}
+
+// Garante que a paginação permaneça estática
+.zds-table__pagination {
+  background-color: $high-color-default;
+  border-top: $border-width-1 solid $high-color-dark;
+}
+
+/**
+ * Table Header - Responsivo para telas pequenas
+ */
+.zds-table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: $high-color-light;
+  padding: $spacing-12 $spacing-24;
+  border-radius: $border-radius-8 $border-radius-8 $border-width-none $border-width-none;
+  border-bottom: $border-width-1 solid $high-color-dark;
+  flex-wrap: wrap;
+  gap: $spacing-8;
+
+  // Responsividade para telas menores
+  @media (max-width: 768px) {
+    align-items: stretch;
+    padding: $spacing-8 $spacing-16;
+  }
+
+  &__search {
+    display: flex;
+    align-items: center;
+    gap: $spacing-8;
+    flex: 1;
+
+    // Em telas pequenas, ocupa toda a largura
+    @media (max-width: 768px) {
+      width: 100%;
+      margin-bottom: $spacing-8;
+    }
+
+    input {
+      border: none;
+      padding: $spacing-8 $spacing-12;
+      border-radius: $border-radius-4;
+      width: 100%;
+      background: $high-color-default;
+    }
+  }
+
+  &__filters {
+    display: flex;
+    align-items: center;
+    gap: $spacing-8;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 1000;
+
+    // Permite que os filtros se sobreponham a outros elementos da tabela
+    .zds-filter {
+      position: relative;
+    }
+  }
+
+  &__label {
+    font-weight: $font-weight-medium;
+    color: $low-color-medium;
+    font-family: $font-family-sans-serif;
+    font-size: $font-size-14;
+    white-space: nowrap;
+
+    // Oculta o label em telas menores que 1024px
+    @media (max-width: 1023px) {
+      display: none;
+    }
+  }
+}
+
+/*
+ * Table Pagination - Responsivo para telas pequenas
+ */
+.zds-table__pagination-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: $spacing-8;
+  padding: $spacing-8 $spacing-12;
+  font-size: $font-size-12;
+  border-top: $border-width-1 solid $high-color-dark;
+  background-color: $high-color-light;
+
+  // Responsividade para telas menores
+  @media (max-width: 768px) {
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: $spacing-8 $spacing-16;
+    gap: $spacing-4;
+  }
+}
+
+.zds-table__pagination-select {
+  display: flex;
+  align-items: center;
+  gap: $spacing-8;
+  letter-spacing: 0.24px;
+
+  select {
+    padding: $spacing-4 $spacing-8;
+    border-radius: $border-radius-8;
+    border: $border-width-1 solid $high-color-dark;
+    background-color: $high-color-light;
+    font-family: $font-family-sans-serif;
+  }
+}
+
+.zds-table__pagination-info {
+  display: flex;
+  gap: $spacing-8;
+  min-width: 60px;
+  text-align: center;
+  margin-left: $spacing-24;
+  font-family: $font-family-sans-serif;
+
+  span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+.zds-table__pagination-controls {
+  display: flex;
+  gap: $spacing-4;
+
+  .zds-pagination-btn {
+    background: transparent;
+    border: none;
+    padding: $spacing-4;
+    border-radius: $border-radius-4;
+    cursor: pointer;
+    transition: background 0.2s;
+
+    &:hover:not(:disabled) {
+      background-color: $high-color-medium;
+    }
+
+    &:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+  }
+}
+
+// Dropdown simples para filtros - comportamento similar ao Menu
+.zds-filter-simple-dropdown {
+  position: absolute;
+  top: 100%;
+  left: $spacing-0;
+  z-index: 9999;
+  min-width: 200px;
+  max-height: 300px;
+  overflow-y: auto;
+  background: $high-color-default;
+  border: $border-width-1 solid $high-color-dark;
+  border-radius: $border-radius-8;
+  box-shadow: 0 $spacing-4 $spacing-16 rgba($low-color-default, 0.1);
+  padding: $spacing-4;
+  margin-top: $spacing-4;
+
+  &__item {
+    padding: $spacing-8 $spacing-12;
+    cursor: pointer;
+    border-radius: $border-radius-4;
+    transition: background-color 0.15s ease;
+    color: $low-color-default;
+    font-family: $font-family-sans-serif;
+    font-size: $font-size-14;
+    line-height: 1.4;
+
+    &:hover {
+      background-color: $high-color-light;
+    }
+
+    &--selected {
+      background-color: $brand-color-primary-light;
+      color: $brand-color-primary-dark;
+      font-weight: $font-weight-medium;
+    }
+  }
+}
+
+// Dropdown com checkboxes para múltipla seleção - comportamento similar ao Menu
+.zds-filter-checkbox-dropdown {
+  position: absolute;
+  top: 100%;
+  left: $spacing-0;
+  z-index: 9999;
+  min-width: 200px;
+  max-height: 300px;
+  overflow-y: auto;
+  background: $high-color-default;
+  border: $border-width-1 solid $high-color-dark;
+  border-radius: $border-radius-8;
+  box-shadow: 0 $spacing-4 $spacing-16 rgba($low-color-default, 0.1);
+  padding: $spacing-4;
+  margin-top: $spacing-4;
+
+  &__item {
+    display: flex;
+    align-items: center;
+    padding: $spacing-8 $spacing-12;
+    cursor: pointer;
+    border-radius: $border-radius-4;
+    transition: background-color 0.15s ease;
+
+    &:hover {
+      background-color: $high-color-light;
+    }
+  }
+
+  &__checkbox {
+    margin-right: $spacing-8;
+    accent-color: $brand-color-primary-default;
+  }
+
+  &__label {
+    color: $low-color-default;
+    font-family: $font-family-sans-serif;
+    font-size: $font-size-14;
+    line-height: 1.4;
+    cursor: pointer;
+  }
+}
+
+.zds-filter-text-content {
+  padding: $spacing-16;
+  min-width: 250px;
+
+  .zds-filter-text-actions {
+    display: flex;
+    gap: $spacing-8;
+    margin-top: $spacing-16;
+    justify-content: flex-end;
+  }
+}
+
+.zds-filter-button-content {
+  display: flex;
+  align-items: center;
+  gap: $spacing-4;
+}
+
+.zds-filter-drawer {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  &--content {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-16;
+    padding: $spacing-24;
+    flex: 1;
+    overflow-y: auto;
+  }
+
+  &--actions {
+    display: flex;
+    gap: $spacing-12;
+    padding: $spacing-24;
+    border-top: $border-width-1 solid $high-color-dark;
+    margin-top: auto;
+    background-color: $high-color-default;
+
+    button {
+      flex: 1;
+    }
+  }
+}
+
+// Responsividade para telas pequenas nos filtros
+@media (max-width: 1023px) {
+  .zds-table-header {
+    align-items: center;
+    gap: $spacing-12;
+
+    &__search {
+      max-width: none;
+    }
+
+    &__filters {
+      justify-content: flex-end;
+    }
+  }
+}
+
+// Ajustes para telas muito pequenas
+@media (max-width: 480px) {
+  .zds-table-header {
+    padding: $spacing-12 $spacing-16;
+
+    &__filters {
+      justify-content: center;
+    }
+  }
+
+  .zds-filter-drawer--actions {
+    flex-direction: column;
+    gap: $spacing-8;
+
+    button {
+      width: 100%;
+    }
+  }
+}
+
+.zds-dropdown--filter {
+  margin-top: $spacing-48;
+}
