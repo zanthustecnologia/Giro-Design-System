@@ -96,6 +96,13 @@ const Select = React.memo<SelectProps>(({
   // Estados
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedOptions, setSelectedOptions] = useState<SelectOption[]>([]);
+  const [isTouched, setIsTouched] = useState<boolean>(false);
+
+  
+
+  // Lógica de validação para campo obrigatório
+  const hasValue = selectedOptions.length > 0;
+  const shouldShowRequiredError = required && isTouched && !hasValue && !disabled;
 
   // Validação e normalização das opções
   const validatedOptions = useMemo(() => {
@@ -181,6 +188,9 @@ const Select = React.memo<SelectProps>(({
 
     isUpdatingRef.current = true;
 
+    // Marca como "tocado" quando uma opção for selecionada
+    setIsTouched(true);
+
     const selectedItems = selectedIds.map((id) => {
       let foundOption = validatedOptions.find((option) => option.id === id);
       if (!foundOption && id.startsWith('dropdown-item-')) {
@@ -231,6 +241,8 @@ const Select = React.memo<SelectProps>(({
   const handleBlur = useCallback((event: React.FocusEvent<HTMLInputElement>) => {
     if (disabled) return;
 
+    setIsTouched(true);
+
     const relatedTarget = event.relatedTarget as HTMLElement | null;
 
     if (selectRef.current && relatedTarget && selectRef.current.contains(relatedTarget)) {
@@ -253,13 +265,13 @@ const Select = React.memo<SelectProps>(({
     }
     switch (event.key) {
       case 'Enter':
-        console.log('passei aqui')
       case ' ':
         event.preventDefault();
         setIsOpen(prev => !prev);
         break;
       case 'Escape':
         event.preventDefault();
+        setIsTouched(true);
         setIsOpen(false);
         break;
       case 'ArrowDown':
@@ -273,6 +285,8 @@ const Select = React.memo<SelectProps>(({
   // Click outside handler
   const handleClickOutside = useCallback((event: MouseEvent | TouchEvent) => {
     if (selectRef.current && !selectRef.current.contains(event.target as Node)) {
+      // Marca como "tocado" quando o usuário clicar fora do componente
+      setIsTouched(true);
       setIsOpen(false);
     }
   }, []);
@@ -353,18 +367,15 @@ const Select = React.memo<SelectProps>(({
           name={`select-${finalId}`}
           placeholder={displayText || placeholder}
           value={displayText}
-          // onChange={() => { }}
-          // readOnly={true}
           disabled={disabled}
-          // helper={Boolean(helperText)}
           helperText={helperText}
           errorMessage={errorMessage}
           icon={isOpen ? <ChevronUp16Regular /> : <ChevronDown16Regular />}
           required={required}
           label={label}
-          // trailingIcon={false}
-          // onFocus={(e) => e.preventDefault()} 
-          // onBlur={(e) => e.preventDefault()}
+          isTouched={isTouched}
+          hasError={shouldShowRequiredError}
+          isOpen={isOpen}
         />
       </div>
       {isOpen && !disabled && (

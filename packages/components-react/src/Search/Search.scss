@@ -5,7 +5,7 @@
   justify-content: center;
   padding: 0px var(--spacing-16);
   gap: var(--spacing-16);
-  width: 100%;
+  width: 100%; // ✅ MANTÉM: Mas será limitado pelo container pai
   height: 44px;
   border: var(--border-width-1) solid var(--color-neutral-high-dark);
   border-radius: var(--border-radius-8);
@@ -13,12 +13,14 @@
   font-weight: var(--font-weight-regular);
   position: relative;
   background-color: var(--color-neutral-high-default);
+  box-sizing: border-box; // ✅ NOVO: Inclui padding na largura
 
   .zds-leftIcon {
     color: var(--color-brand-primary-default);
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0; // ✅ NOVO: Ícone não encolhe
 
     &.disabled {
       color: var(--color-neutral-high-dark);
@@ -32,9 +34,9 @@
     font-weight: var(--font-weight-regular);
     padding: 0px;
     background-color: transparent;
-    width: 100%;
-    min-width: 0;
-    flex: 1 1 0;
+    width: auto; 
+    min-width: 0; // ✅ MANTÉM: Permite encolher
+    flex: 1; // ✅ MUDANÇA: Era '1 1 0', agora só '1' (cresce mas não força base 0)
     overflow: hidden;
 
     &::placeholder {
@@ -46,6 +48,7 @@
       border: var(--border-width-2);
     }
   }
+
 
   .zds-rightIcon {
     background-color: transparent;

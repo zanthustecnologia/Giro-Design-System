@@ -17,9 +17,23 @@
 
 .zds-dropdown__search-container {
   display: flex;
-  padding: var(--spacing-0);
-  min-width: 160px;
-
+  padding: var(--spacing-8);
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden; 
+  
+  .zds-search {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    flex: 1;
+    
+    input {
+      width: auto !important;
+      min-width: 0 !important;
+      flex: 1;
+    }
+  }
 }
 
 .zds-dropdown__item.zds-dropdown__item--focused {

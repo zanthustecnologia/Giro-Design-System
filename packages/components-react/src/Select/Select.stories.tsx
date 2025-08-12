@@ -31,7 +31,7 @@ const meta: Meta<typeof Select> = {
         type: 'text'
       }
     },
-    showSubText:{
+    showSubText: {
       control: {
         type: 'boolean'
       }
@@ -327,14 +327,15 @@ const template: StoryFn<SelectProps> = (args) => {
   const { type, helperText, placeholder, ...restArgs } = args;
 
   return (
+    <div>
       <Select
-
         {...restArgs}
         options={mockValues}
         type={type}
         helperText={helperText}
         placeholder={placeholder}
       />
+    </div>
   );
 };
 

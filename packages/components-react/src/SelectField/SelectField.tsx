@@ -1,5 +1,5 @@
-import React, { forwardRef, useEffect } from 'react';
 import clsx from 'clsx';
+import React, { forwardRef } from 'react';
 import './SelectField.scss';
 
 interface SelectFieldProps {
@@ -57,16 +57,17 @@ const SelectField = forwardRef<HTMLDivElement, SelectFieldProps>(({
   isTouched = false,
   hasError = false
 }, ref) => {
+
   // ✅ NOVA LÓGICA: Validação de required
   const isRequired = required && !disabled;
   const hasValue = Boolean(value && value.trim().length > 0);
   const shouldShowRequiredError = isRequired && isTouched && !hasValue;
-  
+
   // ✅ NOVA LÓGICA: Mensagem de erro dinâmica
-  const dynamicErrorMessage = shouldShowRequiredError && !errorMessage 
-    ? 'Este campo é obrigatório' 
+  const dynamicErrorMessage = shouldShowRequiredError && !errorMessage
+    ? 'Este campo é obrigatório'
     : errorMessage;
-  
+
   // ✅ NOVA LÓGICA: Estado de erro combinado
   const showError = hasError || shouldShowRequiredError || Boolean(errorMessage);
 
@@ -78,7 +79,7 @@ const SelectField = forwardRef<HTMLDivElement, SelectFieldProps>(({
       'zds-select-field--disabled': disabled,
       'zds-select-field--error': showError,
       'zds-select-field--required': isRequired,
-      'zds-select-field--touched': isTouched, 
+      'zds-select-field--touched': isTouched,
     },
     className
   );
@@ -92,21 +93,14 @@ const SelectField = forwardRef<HTMLDivElement, SelectFieldProps>(({
   );
 
   const displayText = hasValue ? value : placeholder;
-  useEffect(() =>{
-    console.log(showError);
-  },[showError])
+
   return (
     <div className={containerClasses} ref={ref}>
-      {/* Label */}
+
       {label && (
         <label htmlFor={id}>
           <div className="zds-select-field__container-tooltip">
             <span>{label}</span>
-            {tooltip && (
-              <div className="zds-select-field__tooltip">
-                {tooltip}
-              </div>
-            )}
           </div>
           {required && (
             <span className="zds-select-field__required">*</span>
@@ -132,7 +126,7 @@ const SelectField = forwardRef<HTMLDivElement, SelectFieldProps>(({
             name={name}
             value={value || ''}
             disabled={disabled}
-            required={required} 
+            required={required}
             className='zds-select-field__input'
           />
 
@@ -144,10 +138,8 @@ const SelectField = forwardRef<HTMLDivElement, SelectFieldProps>(({
           )}
         </div>
 
-        {/* Helper/Error Text */}
         {(helperText || showError) && (
           <div className="zds-select-field__helper-text">
-            {/* ✅ MUDANÇA: Prioriza erro dinâmico */}
             {showError ? dynamicErrorMessage : helperText}
           </div>
         )}
