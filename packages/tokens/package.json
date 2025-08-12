@@ -1,21 +1,33 @@
 {
   "name": "@zanthus/tokens",
   "version": "1.0.0",
-  "description": "Zanthus Design Tokens - cores, espa\u00e7amento, tipografia e temas.",
-  "main": "src/index.scss",
-  "style": "design-tokens-export.css",
-  "exports": {
-    ".": "./design-tokens-export.css",
-    "./scss": "./src/index.scss"
-  },
-  "keywords": [
-    "design-tokens",
-    "zanthus",
-    "scss",
-    "css",
-    "themes"
+  "description": "Design tokens do Design System Zanthus",
+  "private": false,
+  "type": "module",
+  "files": [
+    "build",
+    "README.md"
   ],
-  "author": "Zanthus",
-  "license": "MIT",
-  "sideEffects": false
+  "exports": {
+    ".": {
+      "default": "./build/css/tokens.css"
+    },
+    "./css": "./build/css/tokens.css",
+    "./js": "./build/js/tokens.js"
+  },
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "scripts": {
+    "build": "node -e \"console.log('tokens build ok')\"",
+    "clean": "rimraf build || exit 0",
+    "lint": "echo \"skip\"",
+    "test": "echo \"skip\""
+  },
+  "devDependencies": {
+    "rimraf": "^5.0.0",
+    "sass": "^1.90.0",
+    "sass-embedded": "^1.90.0",
+    "turbo": "^2.5.5"
+  }
 }

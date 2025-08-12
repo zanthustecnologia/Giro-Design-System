@@ -1,9 +1,7 @@
 import { Add16Filled, Add16Regular } from '@fluentui/react-icons';
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import { Meta, StoryFn } from '@storybook/react';
 import Button, { ButtonProps } from './Button';
-import { Icon } from '../../../icons/src/Icon';
 
 export default {
   title: 'Components/Button',
@@ -38,10 +36,10 @@ export default {
       control: { type: 'select' },
       options: ['none', 'add', 'delete', 'edit', 'arrowDown'],
       mapping: {
-        add: <Icon name="add" size={16} />,
-        delete: <Icon name="delete" size={16} />,
-        edit: <Icon name="edit" size={16} />,
-        arrowDown: <Icon name="arrowDown" size={12} />,
+        add: <Add16Regular />,
+        delete: <Add16Regular />,
+        edit: <Add16Regular />,
+        arrowDown: <Add16Regular />,
       },
       if: { arg: 'displayIcon', truthy: true },
     },
@@ -75,12 +73,12 @@ export default {
       },
     },
   },
-} as Meta<ButtonProps>;
+} as any;
 
-const Template: StoryFn<ButtonProps & { displayIcon?: boolean; icon?: React.ReactNode }> = ({
+const Template = ({
   icon,
   ...args
-}) => {
+}: any) => {
   const { displayIcon, to, type } = args;
 
   return (
@@ -98,14 +96,14 @@ const Template: StoryFn<ButtonProps & { displayIcon?: boolean; icon?: React.Reac
 };
 
 export const Default = Template.bind({});
-Default.args = {
+(Default as any).args = {
   children: 'Button',
   type: 'button',
   variant: 'filled',
   size: 'lg',
 };
 
-export const Variants: StoryFn<ButtonProps> = (args) => (
+export const Variants = (args: any) => (
   <div className="storybook-container" style={{
     display: 'flex',
     alignItems: 'center',
@@ -124,7 +122,7 @@ export const Variants: StoryFn<ButtonProps> = (args) => (
   </div>
 );
 
-export const Sizes: StoryFn<ButtonProps> = () => (
+export const Sizes = () => (
   <div className="storybook-container" style={{
     display: 'flex',
     alignItems: 'center',
@@ -140,7 +138,7 @@ export const Sizes: StoryFn<ButtonProps> = () => (
   </div>
 );
 
-const TemplateWithIcons: StoryFn<ButtonProps> = (args) => (
+const TemplateWithIcons = (args: any) => (
   <div className="storybook-container" style={{
     display: 'flex',
     alignItems: 'center',
@@ -159,7 +157,7 @@ const TemplateWithIcons: StoryFn<ButtonProps> = (args) => (
 );
 
 export const WithIcons = TemplateWithIcons.bind({});
-WithIcons.args = {
+(WithIcons as any).args = {
   type: 'button',
   variant: 'filled',
   size: 'lg',

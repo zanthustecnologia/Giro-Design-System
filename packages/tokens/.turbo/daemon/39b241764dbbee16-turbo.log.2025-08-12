@@ -1,0 +1,41 @@
+2025-08-12T12:49:33.793244Z  WARN daemon_server:listen_socket{pid_path=AbsoluteSystemPath("C:\\Users\\FELIPE~1.JOA\\AppData\\Local\\Temp\\turbod\\39b241764dbbee16\\turbod.pid") sock_path=AbsoluteSystemPath("C:\\Users\\FELIPE~1.JOA\\AppData\\Local\\Temp\\turbod\\39b241764dbbee16\\turbod.sock") running=true}: pidlock: stale pid file at "C:\\Users\\FELIPE~1.JOA\\AppData\\Local\\Temp\\turbod\\39b241764dbbee16\\turbod.pid"    
+2025-08-12T12:49:33.897242Z  WARN daemon_server: turborepo_lib::commands::daemon: daemon already running
+2025-08-12T12:49:34.001140Z  WARN daemon_server: turborepo_lib::commands::daemon: daemon already running
+2025-08-12T12:53:25.326966Z  WARN daemon_server: turborepo_lib::commands::daemon: daemon already running
+2025-08-12T12:53:25.442302Z  WARN daemon_server: turborepo_lib::commands::daemon: daemon already running
+2025-08-12T12:53:25.551519Z  WARN daemon_server: turborepo_lib::commands::daemon: daemon already running
+2025-08-12T12:54:28.167318Z  WARN daemon_server: turborepo_lib::commands::daemon: daemon already running
+2025-08-12T12:54:28.274733Z  WARN daemon_server: turborepo_lib::commands::daemon: daemon already running
+2025-08-12T12:54:28.382324Z  WARN daemon_server: turborepo_lib::commands::daemon: daemon already running
+2025-08-12T16:35:08.641361Z  WARN daemon_server: turborepo_lib::commands::daemon: daemon already running
+2025-08-12T16:35:08.748624Z  WARN daemon_server: turborepo_lib::commands::daemon: daemon already running
+2025-08-12T16:35:08.835524Z  WARN daemon_server: turborepo_lib::commands::daemon: daemon already running
+2025-08-12T16:36:26.480978Z  WARN daemon_server: turborepo_lib::commands::daemon: daemon already running
+2025-08-12T16:36:26.591303Z  WARN daemon_server: turborepo_lib::commands::daemon: daemon already running
+2025-08-12T16:36:26.680921Z  WARN daemon_server: turborepo_lib::commands::daemon: daemon already running
+2025-08-12T17:06:13.051027Z  WARN daemon_server: turborepo_lib::commands::daemon: daemon already running
+2025-08-12T17:06:13.145048Z  WARN daemon_server: turborepo_lib::commands::daemon: daemon already running
+2025-08-12T17:12:29.069657Z  WARN daemon_server:listen_socket{pid_path=AbsoluteSystemPath("C:\\Users\\FELIPE~1.JOA\\AppData\\Local\\Temp\\turbod\\39b241764dbbee16\\turbod.pid") sock_path=AbsoluteSystemPath("C:\\Users\\FELIPE~1.JOA\\AppData\\Local\\Temp\\turbod\\39b241764dbbee16\\turbod.sock") running=true}: pidlock: stale pid file at "C:\\Users\\FELIPE~1.JOA\\AppData\\Local\\Temp\\turbod\\39b241764dbbee16\\turbod.pid"    
+2025-08-12T17:12:29.202875Z  WARN daemon_server: turborepo_lib::commands::daemon: daemon already running
+2025-08-12T17:12:29.308670Z  WARN daemon_server: turborepo_lib::commands::daemon: daemon already running
+2025-08-12T17:18:21.745457Z  WARN daemon_server: turborepo_lib::commands::daemon: daemon already running
+2025-08-12T17:18:21.853775Z  WARN daemon_server: turborepo_lib::commands::daemon: daemon already running
+2025-08-12T17:18:21.943934Z  WARN daemon_server: turborepo_lib::commands::daemon: daemon already running
+2025-08-12T17:34:40.332414Z  WARN daemon_server: turborepo_lib::commands::daemon: daemon already running
+2025-08-12T17:34:40.452045Z  WARN daemon_server: turborepo_lib::commands::daemon: daemon already running
+2025-08-12T17:34:40.571088Z  WARN daemon_server: turborepo_lib::commands::daemon: daemon already running
+2025-08-12T17:36:59.328072Z  WARN daemon_server:listen_socket{pid_path=AbsoluteSystemPath("C:\\Users\\FELIPE~1.JOA\\AppData\\Local\\Temp\\turbod\\39b241764dbbee16\\turbod.pid") sock_path=AbsoluteSystemPath("C:\\Users\\FELIPE~1.JOA\\AppData\\Local\\Temp\\turbod\\39b241764dbbee16\\turbod.sock") running=true}: pidlock: stale pid file at "C:\\Users\\FELIPE~1.JOA\\AppData\\Local\\Temp\\turbod\\39b241764dbbee16\\turbod.pid"    
+2025-08-12T17:36:59.421731Z  WARN daemon_server: turborepo_lib::commands::daemon: daemon already running
+2025-08-12T17:36:59.517406Z  WARN daemon_server: turborepo_lib::commands::daemon: daemon already running
+2025-08-12T17:43:17.397690Z  WARN daemon_server: turborepo_lib::commands::daemon: daemon already running
+2025-08-12T17:43:17.501729Z  WARN daemon_server: turborepo_lib::commands::daemon: daemon already running
+2025-08-12T17:43:17.558653Z  WARN daemon_server: turborepo_lib::commands::daemon: daemon already running
+2025-08-12T17:47:45.251194Z  WARN daemon_server: turborepo_lib::commands::daemon: daemon already running
+2025-08-12T17:47:45.349014Z  WARN daemon_server: turborepo_lib::commands::daemon: daemon already running
+2025-08-12T17:47:45.449085Z  WARN daemon_server: turborepo_lib::commands::daemon: daemon already running
+2025-08-12T18:26:13.881734Z  WARN daemon_server:listen_socket{pid_path=AbsoluteSystemPath("C:\\Users\\FELIPE~1.JOA\\AppData\\Local\\Temp\\turbod\\39b241764dbbee16\\turbod.pid") sock_path=AbsoluteSystemPath("C:\\Users\\FELIPE~1.JOA\\AppData\\Local\\Temp\\turbod\\39b241764dbbee16\\turbod.sock") running=true}: pidlock: stale pid file at "C:\\Users\\FELIPE~1.JOA\\AppData\\Local\\Temp\\turbod\\39b241764dbbee16\\turbod.pid"    
+2025-08-12T18:26:13.976430Z  WARN daemon_server: turborepo_lib::commands::daemon: daemon already running
+2025-08-12T18:26:14.074234Z  WARN daemon_server: turborepo_lib::commands::daemon: daemon already running
+2025-08-12T18:28:52.568810Z  WARN daemon_server:listen_socket{pid_path=AbsoluteSystemPath("C:\\Users\\FELIPE~1.JOA\\AppData\\Local\\Temp\\turbod\\39b241764dbbee16\\turbod.pid") sock_path=AbsoluteSystemPath("C:\\Users\\FELIPE~1.JOA\\AppData\\Local\\Temp\\turbod\\39b241764dbbee16\\turbod.sock") running=true}: pidlock: stale pid file at "C:\\Users\\FELIPE~1.JOA\\AppData\\Local\\Temp\\turbod\\39b241764dbbee16\\turbod.pid"    
+2025-08-12T18:28:52.670351Z  WARN daemon_server: turborepo_lib::commands::daemon: daemon already running
+2025-08-12T18:28:52.782732Z  WARN daemon_server: turborepo_lib::commands::daemon: daemon already running

@@ -35,7 +35,7 @@ export interface ButtonProps {
   [key: string]: any;
 }
 
-const Button: React.FC<ButtonProps> = ({
+const Button = ({
   as: Component = 'button', 
   children,
   variant = 'filled',
@@ -50,7 +50,7 @@ const Button: React.FC<ButtonProps> = ({
   icon = null,
   fullWidth = false,
   ariaLabel = ''
-}) => {
+}: ButtonProps) => {
 
   const componentId = id || useId();
   const buttonClasses = clsx(
@@ -122,6 +122,5 @@ const Button: React.FC<ButtonProps> = ({
   );
 };
 
-const MemoizedButton = React.memo(Button);
-MemoizedButton.displayName = 'Button';
-export default MemoizedButton;
+Button.displayName = 'Button';
+export default Button;

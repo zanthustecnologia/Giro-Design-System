@@ -17,7 +17,7 @@ const meta: Meta<typeof VerificationCode> = {
             },
         },
         a11y: {
-            element: '#root',
+            context: '#root',
             config: {},
             options: {},
         },

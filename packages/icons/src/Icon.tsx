@@ -14,7 +14,7 @@ export interface IconProps {
   [key: string]: any;
 }
 
-export const Icon: React.FC<IconProps> = ({ name, size = 24, className = "", ...props }) => {
+export const Icon = ({ name, size = 24, className = "", ...props }: IconProps) => {
   const Component = iconMap[name];
 
   if (!Component) {

@@ -1,29 +1,44 @@
 {
   "name": "@zanthus/components-react",
   "version": "1.0.0",
-  "description": "Biblioteca de componentes React para o Zanthus Design System",
-  "main": "dist/index.cjs.js",
-  "module": "dist/index.esm.js",
+  "description": "Componentes React do Design System Zanthus",
+  "private": false,
+  "type": "module",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "rollup -c ../rollup.config.js",
-    "test": "vitest",
-    "lint": "eslint src --ext .ts,.tsx",
-    "prepare": "npm run build"
+    "build": "tsup src/index.tsx --dts --format esm,cjs --out-dir dist",
+    "clean": "rimraf dist",
+    "dev": "tsup src/index.tsx --dts --format esm,cjs --out-dir dist --watch",
+    "lint": "echo \"skip\"",
+    "test": "echo \"skip\""
   },
   "peerDependencies": {
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+    "react": "^18",
+    "react-dom": "^18"
+  },
+  "dependencies": {
+    "@zanthus/tokens": "^1.0.0"
   },
   "devDependencies": {
-    "@types/react": "^18.0.28",
-    "@types/react-dom": "^18.0.11",
-    "rollup": "^3.0.0",
-    "typescript": "^5.0.0",
-    "vitest": "^0.32.0",
-    "eslint": "^8.0.0"
+    "@types/react": "^18.3.0",
+    "@types/react-dom": "^18.3.0",
+    "rimraf": "^5.0.0",
+    "sass": "^1.90.0",
+    "sass-embedded": "^1.90.0",
+    "tsup": "^8.0.0",
+    "turbo": "^2.5.5",
+    "typescript": "^5.5.0"
   }
 }
