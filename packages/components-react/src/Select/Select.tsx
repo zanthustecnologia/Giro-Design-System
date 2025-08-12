@@ -4,6 +4,7 @@ import Dropdown, { DropdownItem, DropdownType } from '../Dropdown/Dropdown';
 import './Select.scss';
 import { ChevronUp16Regular, ChevronDown16Regular } from '@fluentui/react-icons';
 import clsx from 'clsx';
+import SelectField from '../SelectField/SelectField';
 
 /**
  * Interface para definir uma opção do Select
@@ -50,6 +51,8 @@ export interface SelectProps {
   /** Classes CSS adicionais */
   className?: string;
   /** Texto para acessibilidade */
+  showSubText?: boolean;
+  /** Aria-label do campo */
   ariaLabel?: string;
 }
 
@@ -79,7 +82,8 @@ const Select = React.memo<SelectProps>(({
   required = false,
   disabled = false,
   className,
-  ariaLabel
+  ariaLabel,
+  showSubText
 }) => {
   // Hooks e refs
   const componentId = useId();
@@ -88,6 +92,7 @@ const Select = React.memo<SelectProps>(({
   const selectRef = useRef<HTMLDivElement | null>(null);
   const previousValueRef = useRef<string | string[] | undefined>(value);
   const textFieldRef = useRef<HTMLInputElement | null>(null);
+  
   // Estados
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedOptions, setSelectedOptions] = useState<SelectOption[]>([]);
@@ -122,7 +127,7 @@ const Select = React.memo<SelectProps>(({
         }
         return false;
       }
-      
+
       return true;
     });
   }, [options]);
@@ -173,7 +178,7 @@ const Select = React.memo<SelectProps>(({
   // Handlers de evento
   const handleOptionSelect = useCallback((selectedIds: string[]) => {
     if (isUpdatingRef.current || disabled) return;
-    
+
     isUpdatingRef.current = true;
 
     const selectedItems = selectedIds.map((id) => {
@@ -207,6 +212,16 @@ const Select = React.memo<SelectProps>(({
     isUpdatingRef.current = false;
   }, [validatedOptions, onChange, type, disabled]);
 
+  const handleTriggerClick = useCallback((event: React.MouseEvent<HTMLDivElement>) => {
+    if (disabled) return;
+    
+    event.preventDefault();
+    event.stopPropagation();
+    
+    // Toggle do dropdown independente do estado atual
+    setIsOpen(prev => !prev);
+  }, [disabled]);
+
   const handleFocus = useCallback(() => {
     if (!disabled) {
       setIsOpen(true);
@@ -215,7 +230,7 @@ const Select = React.memo<SelectProps>(({
 
   const handleBlur = useCallback((event: React.FocusEvent<HTMLInputElement>) => {
     if (disabled) return;
-    
+
     const relatedTarget = event.relatedTarget as HTMLElement | null;
 
     if (selectRef.current && relatedTarget && selectRef.current.contains(relatedTarget)) {
@@ -229,19 +244,19 @@ const Select = React.memo<SelectProps>(({
 
   const handleKeyDown = useCallback((event: React.KeyboardEvent<HTMLInputElement>) => {
     if (disabled) return;
-    
+
     const allowedKeys = ['Tab', 'Enter', ' ', 'Escape', 'ArrowDown', 'ArrowUp'];
 
     if (!allowedKeys.includes(event.key)) {
       event.preventDefault();
       return;
     }
-
     switch (event.key) {
       case 'Enter':
+        console.log('passei aqui')
       case ' ':
         event.preventDefault();
-        setIsOpen(!isOpen);
+        setIsOpen(prev => !prev);
         break;
       case 'Escape':
         event.preventDefault();
@@ -309,9 +324,9 @@ const Select = React.memo<SelectProps>(({
   );
 
   return (
-    <div 
-      className={selectClasses} 
-      ref={selectRef} 
+    <div
+      className={selectClasses}
+      ref={selectRef}
       id={finalId}
       data-testid="select-container"
     >
@@ -319,27 +334,37 @@ const Select = React.memo<SelectProps>(({
         role="combobox"
         aria-expanded={isOpen}
         aria-haspopup="listbox"
+        aria-owns={isOpen ? `${finalId}-dropdown` : undefined}
+        aria-controls={`${finalId}-dropdown`}
+        aria-describedby={helperText ? `${finalId}-helper` : undefined}
+        aria-invalid={Boolean(errorMessage)}
+        aria-required={required}
         aria-label={ariaLabel || label || placeholder || 'Selecione uma opção'}
+        aria-activedescendant={selectedIds.length > 0 ? selectedIds[0] : undefined}
         tabIndex={disabled ? -1 : 0}
         onFocus={handleFocus}
         onBlur={handleBlur}
         onKeyDown={handleKeyDown}
+        onClick={handleTriggerClick}
         className="zds-select__trigger"
       >
-        <TextField
+        <SelectField
           ref={textFieldRef}
           name={`select-${finalId}`}
           placeholder={displayText || placeholder}
           value={displayText}
-          onChange={() => { }}
-          readOnly={true}
+          // onChange={() => { }}
+          // readOnly={true}
           disabled={disabled}
-          helper={Boolean(helperText)}
+          // helper={Boolean(helperText)}
           helperText={helperText}
           errorMessage={errorMessage}
           icon={isOpen ? <ChevronUp16Regular /> : <ChevronDown16Regular />}
           required={required}
           label={label}
+          // trailingIcon={false}
+          // onFocus={(e) => e.preventDefault()} 
+          // onBlur={(e) => e.preventDefault()}
         />
       </div>
       {isOpen && !disabled && (
@@ -351,6 +376,8 @@ const Select = React.memo<SelectProps>(({
           defaultSelectedIds={selectedIds}
           key={`dropdown-${selectedIds.join('-')}`}
           id={`${finalId}-dropdown`}
+          className='zds-select__dropdown'
+          showSubText={showSubText}
         />
       )}
     </div>

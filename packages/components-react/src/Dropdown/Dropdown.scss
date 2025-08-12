@@ -1,6 +1,5 @@
 .zds-dropdown__container {
   position: relative;
-  width: 100%;
   min-width: 210px;
   background-color: var(--color-neutral-high-default);
   border-radius: var(--border-radius-8);
@@ -19,7 +18,8 @@
 .zds-dropdown__search-container {
   display: flex;
   padding: var(--spacing-0);
-  min-width: 210px;
+  min-width: 160px;
+
 }
 
 .zds-dropdown__item.zds-dropdown__item--focused {
@@ -115,6 +115,7 @@
 span.zds-dropdown__title {
   font-size: var(--font-size-16);
   font-weight: var(--font-weight-regular);
+  flex: 1;
 }
 
 span.zds-dropdown__subtext {

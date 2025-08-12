@@ -372,10 +372,13 @@ const Dropdown: React.FC<DropdownProps> = ({
       className={DropdownClass}
       tabIndex={0}
       role="combobox"
-      aria-expanded="true"
+      aria-expanded={filteredItems.length > 0 ? "true" : "false"}
       aria-haspopup="listbox"
-      aria-owns={id || undefined}
+      aria-owns={id ? `${id}-listbox` : undefined}
+      aria-controls={id ? `${id}-listbox` : undefined}
+      aria-activedescendant={focusedIndex >= 0 ? `${id}-option-${focusedIndex}` : undefined}
       aria-label="Dropdown de seleção"
+      aria-describedby={searchVisible ? `${id}-search-help` : undefined}
       onKeyDown={handleKeyDown}
     >
       <ul

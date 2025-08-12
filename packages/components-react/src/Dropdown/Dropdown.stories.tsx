@@ -7,13 +7,13 @@ import { Person16Regular, UsbPlug20Filled } from '@fluentui/react-icons';
 
 const mockValues: DropdownItem[] = [
   { id: 'item-1', text: 'List-item 1', subText: 'List-item', icon: <Person16Regular /> },
-  { id: 'item-2', text: 'List-item 2', disabled: true, icon: <Person16Regular /> },
-  { id: 'item-3', text: 'List-item 3', disabled: true, subText: 'List-item', icon: <Person16Regular /> },
-  { id: 'item-4', text: 'List-item 4', subText: 'List-item', icon: <Person16Regular /> },
-  { id: 'item-5', text: 'List-item 5', subText: 'List-item', icon: <UsbPlug20Filled /> },
-  { id: 'item-6', text: 'List-item 6', subText: 'List-item', icon: <Person16Regular /> },
-  { id: 'item-7', text: 'List-item 7', subText: 'List-item', icon: <Person16Regular /> },
-  { id: 'item-8', text: 'List-item 8', subText: 'List-item', icon: <UsbPlug24Regular /> },
+  // { id: 'item-2', text: 'List-item 2', disabled: true, icon: <Person16Regular /> },
+  // { id: 'item-3', text: 'List-item 3', disabled: true, subText: 'List-item', icon: <Person16Regular /> },
+  // { id: 'item-4', text: 'List-item 4', subText: 'List-item', icon: <Person16Regular /> },
+  // { id: 'item-5', text: 'List-item 5', subText: 'List-item', icon: <UsbPlug20Filled /> },
+  // { id: 'item-6', text: 'List-item 6', subText: 'List-item', icon: <Person16Regular /> },
+  // { id: 'item-7', text: 'List-item 7', subText: 'List-item', icon: <Person16Regular /> },
+  // { id: 'item-8', text: 'List-item 8', subText: 'List-item', icon: <UsbPlug24Regular /> },
 ];
 
 const meta: Meta<typeof DropDown> = {
@@ -64,15 +64,17 @@ const Template: StoryFn<TemplateArgs> = (args) => {
   };
 
   return (
-    <DropDown
-      {...restArgs}
-      items={mockValues}
-      applySearch={applySearch}
-      placeholder='Buscar'
-      type={type}
-      onSelectionChange={handleSelectionChange}
-      showSubText={showSubText}
-    />
+  
+      <DropDown
+        {...restArgs}
+        items={mockValues}
+        applySearch={applySearch}
+        placeholder='Buscar'
+        type={type}
+        onSelectionChange={handleSelectionChange}
+        showSubText={showSubText}
+      />
+   
   );
 };
 
