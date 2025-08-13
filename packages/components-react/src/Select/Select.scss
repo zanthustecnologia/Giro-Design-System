@@ -7,10 +7,16 @@
   flex-direction: column;
   align-items: stretch;
   position: relative;
-  
+
 
   &__trigger {
     width: 100%;
     outline: none;
+  }
+   &__dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 100%;
   }
 }

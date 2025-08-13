@@ -55,7 +55,7 @@
   border-radius: var(--border-radius-8);
   border: var(--border-width-1) solid var(--color-neutral-high-dark);
   outline: none;
-  color: var(--color-neutral-low-default);
+  color: var(--color-neutral-low-medium);
   font-size: var(--font-size-16);
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -66,13 +66,6 @@
   font-family: var(--font-family-primary);
 }
 
-// ✅ PLACEHOLDER: Baseado no TextField placeholder
-.zds-select-field__display--placeholder {
-  color: var(--color-neutral-low-medium);
-  font-family: var(--font-family-primary);
-  font-weight: var(--font-weight-regular);
-  font-size: var(--font-size-16);
-}
 
 // ✅ HOVER: Igual ao TextField
 .zds-select-field__box__input .zds-select-field__display:hover {

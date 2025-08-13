@@ -50,6 +50,8 @@ export interface DropdownProps {
   defaultSelectedIds?: string[];
   /** Estado inicial dos itens selecionados (objeto com chave-valor) */
   initialItemsSelected?: Record<string, boolean>;
+  maxWidth?: string;
+  minWidth?: string;
 }
 
 /**
@@ -74,7 +76,9 @@ const Dropdown: React.FC<DropdownProps> = ({
   onSelectionChange,
   showSubText = false,
   defaultSelectedIds = [],
-  initialItemsSelected = {}
+  initialItemsSelected = {},
+  maxWidth = '250px',
+  minWidth = '210px'
 }) => {
   // Estado para controlar itens selecionados
   const [selectedItems, setSelectedItems] = useState<SelectedItemsState>(() => {
@@ -363,13 +367,29 @@ const Dropdown: React.FC<DropdownProps> = ({
     'zds-dropdown__container',
     {
       [className || '']: className,
-      'zds-dropdown__container--search-active': searchQuery.length > 0
+      'zds-dropdown__container--search-active': searchQuery.length > 0,
+      'zds-dropdown__container--fixed-width': !!maxWidth
     }
   );
+  const dropdownStyles: React.CSSProperties = useMemo(() => {
+    const styles: React.CSSProperties = {};
+
+    if (maxWidth) {
+      styles.maxWidth = typeof maxWidth === 'number' ? `${maxWidth}px` : maxWidth;
+      styles.width = typeof maxWidth === 'number' ? `${maxWidth}px` : maxWidth;
+    }
+
+    if (minWidth) {
+      styles.minWidth = typeof minWidth === 'number' ? `${minWidth}px` : minWidth;
+    }
+
+    return styles;
+  }, [maxWidth, minWidth]);
 
   return (
     <div
       className={DropdownClass}
+      style={dropdownStyles}
       tabIndex={0}
       role="combobox"
       aria-expanded={filteredItems.length > 0 ? "true" : "false"}

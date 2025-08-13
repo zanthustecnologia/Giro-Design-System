@@ -6,7 +6,6 @@ const meta: Meta<typeof Select> = {
   title: 'Components/Select',
   component: Select,
   parameters: {
-    layout: 'centered',
     controls: {
       sort: 'alpha',
     },
@@ -50,6 +49,9 @@ const meta: Meta<typeof Select> = {
       control: {
         type: 'text'
       }
+    },
+    maxWidth: {
+      control: 'number'
     },
     onChange: {
       action: 'changed'
@@ -324,16 +326,17 @@ const mockValues: SelectOption[] = [
 
 // Template tipado
 const template: StoryFn<SelectProps> = (args) => {
-  const { type, helperText, placeholder, ...restArgs } = args;
+  const { type, helperText, placeholder, maxWidth,...restArgs } = args;
 
   return (
-    <div>
+    <div style={{ width: '100%', maxWidth: '600px', margin: '0 auto' }}>
       <Select
         {...restArgs}
         options={mockValues}
         type={type}
         helperText={helperText}
         placeholder={placeholder}
+        maxWidth={maxWidth}
       />
     </div>
   );

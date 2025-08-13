@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useCallback, useRef, useMemo, useId } from 'react';
-import TextField from '../TextField/TextField';
 import Dropdown, { DropdownItem, DropdownType } from '../Dropdown/Dropdown';
 import './Select.scss';
 import { ChevronUp16Regular, ChevronDown16Regular } from '@fluentui/react-icons';
@@ -54,6 +53,8 @@ export interface SelectProps {
   showSubText?: boolean;
   /** Aria-label do campo */
   ariaLabel?: string;
+  maxWidth?: string;
+  minWidth?: string;
 }
 
 /**
@@ -83,22 +84,47 @@ const Select = React.memo<SelectProps>(({
   disabled = false,
   className,
   ariaLabel,
-  showSubText
+  showSubText,
+  maxWidth = '250px',
+  minWidth = '110px'
 }) => {
   // Hooks e refs
   const componentId = useId();
   const finalId = id || componentId;
-  const isUpdatingRef = useRef<boolean>(false);
   const selectRef = useRef<HTMLDivElement | null>(null);
-  const previousValueRef = useRef<string | string[] | undefined>(value);
-  const textFieldRef = useRef<HTMLInputElement | null>(null);
-  
+  // ✅ REMOVIDO: isUpdatingRef, previousValueRef, textFieldRef (desnecessários)
+
+  // ✅ NOVO: Validação de props em desenvolvimento
+  if (process.env.NODE_ENV === 'development') {
+    // Validar unidades CSS
+    if (maxWidth && typeof maxWidth === 'string' && 
+        !maxWidth.match(/^\d+(px|%|rem|em|vw|vh)$/)) {
+      console.warn('Select: maxWidth deve ter unidade CSS válida (px, %, rem, em, vw, vh)');
+    }
+    
+    if (minWidth && typeof minWidth === 'string' && 
+        !minWidth.match(/^\d+(px|%|rem|em|vw|vh)$/)) {
+      console.warn('Select: minWidth deve ter unidade CSS válida');
+    }
+    
+    // Validar performance
+    if (options.length > 1000) {
+      console.warn('Select: Muitas opções (>1000) podem impactar performance. Considere virtualização.');
+    }
+
+    // Validar onChange obrigatório
+    if (!onChange) {
+      console.warn('Select: onChange prop é recomendado para controle de estado.');
+    }
+  }
+
   // Estados
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedOptions, setSelectedOptions] = useState<SelectOption[]>([]);
   const [isTouched, setIsTouched] = useState<boolean>(false);
+  const [focusedOptionIndex, setFocusedOptionIndex] = useState<number>(-1);
 
-  
+
 
   // Lógica de validação para campo obrigatório
   const hasValue = selectedOptions.length > 0;
@@ -182,11 +208,9 @@ const Select = React.memo<SelectProps>(({
     return selectedMap;
   }, [selectedIds]);
 
-  // Handlers de evento
+  // ✅ SIMPLIFICADO: Handlers de evento sem refs desnecessários
   const handleOptionSelect = useCallback((selectedIds: string[]) => {
-    if (isUpdatingRef.current || disabled) return;
-
-    isUpdatingRef.current = true;
+    if (disabled) return;
 
     // Marca como "tocado" quando uma opção for selecionada
     setIsTouched(true);
@@ -200,94 +224,152 @@ const Select = React.memo<SelectProps>(({
       return foundOption;
     }).filter((option): option is SelectOption => Boolean(option));
 
-    setSelectedOptions(prevSelected => {
-      const hasChanged = selectedItems.length !== prevSelected.length ||
-        selectedItems.some((item, index) =>
-          item.id !== prevSelected[index]?.id ||
-          item.text !== prevSelected[index]?.text
-        );
+    setSelectedOptions(selectedItems);
+    onChange?.(selectedItems);
 
-      if (hasChanged) {
-        onChange?.(selectedItems);
-        textFieldRef.current?.blur();
-        return selectedItems;
-      }
-      return prevSelected;
-    });
-
+    // Fechar dropdown se não for múltipla seleção
     if (type !== 'checkbox') {
       setIsOpen(false);
     }
-
-    isUpdatingRef.current = false;
   }, [validatedOptions, onChange, type, disabled]);
+
+  // ✅ NOVO: Busca rápida por primeira letra
+  const handleQuickSearch = useCallback((char: string) => {
+    if (!isOpen || dropdownItems.length === 0) return;
+    
+    // Buscar a partir do índice atual + 1
+    const startIndex = focusedOptionIndex + 1;
+    let matchingIndex = dropdownItems.findIndex((item, index) => 
+      index >= startIndex && 
+      item.text.toLowerCase().startsWith(char) &&
+      !item.disabled
+    );
+    
+    // Se não encontrou após o índice atual, buscar do início
+    if (matchingIndex === -1) {
+      matchingIndex = dropdownItems.findIndex(item => 
+        item.text.toLowerCase().startsWith(char) &&
+        !item.disabled
+      );
+    }
+    
+    if (matchingIndex >= 0) {
+      setFocusedOptionIndex(matchingIndex);
+    }
+  }, [isOpen, focusedOptionIndex, dropdownItems]);
 
   const handleTriggerClick = useCallback((event: React.MouseEvent<HTMLDivElement>) => {
     if (disabled) return;
-    
+
     event.preventDefault();
     event.stopPropagation();
-    
+
     // Toggle do dropdown independente do estado atual
     setIsOpen(prev => !prev);
   }, [disabled]);
 
-  const handleFocus = useCallback(() => {
-    if (!disabled) {
-      setIsOpen(true);
-    }
-  }, [disabled]);
-
-  const handleBlur = useCallback((event: React.FocusEvent<HTMLInputElement>) => {
+  const handleBlur = useCallback((event: React.FocusEvent<HTMLDivElement>) => {
     if (disabled) return;
-
-    setIsTouched(true);
-
     const relatedTarget = event.relatedTarget as HTMLElement | null;
 
     if (selectRef.current && relatedTarget && selectRef.current.contains(relatedTarget)) {
-      return;
+      return; // Não fechar se foco está dentro do select
     }
-
     setTimeout(() => {
+      setIsTouched(true);
       setIsOpen(false);
-    }, 150);
+      setFocusedOptionIndex(-1); // ✅ Reset foco quando blur
+    }, 200);
   }, [disabled]);
-
-  const handleKeyDown = useCallback((event: React.KeyboardEvent<HTMLInputElement>) => {
+  // ✅ MELHORADO: Navegação por teclado com foco em opções
+  const handleKeyDown = useCallback((event: React.KeyboardEvent<HTMLDivElement>) => {
     if (disabled) return;
 
-    const allowedKeys = ['Tab', 'Enter', ' ', 'Escape', 'ArrowDown', 'ArrowUp'];
-
-    if (!allowedKeys.includes(event.key)) {
-      event.preventDefault();
-      return;
-    }
     switch (event.key) {
       case 'Enter':
       case ' ':
         event.preventDefault();
-        setIsOpen(prev => !prev);
+        event.stopPropagation();
+        if (isOpen && focusedOptionIndex >= 0) {
+          // Selecionar opção focada
+          const optionId = dropdownItems[focusedOptionIndex]?.id;
+          if (optionId) {
+            handleOptionSelect([optionId]);
+          }
+        } else {
+          setIsOpen(prev => !prev);
+          if (!isOpen) {
+            setFocusedOptionIndex(0);
+          }
+        }
         break;
       case 'Escape':
         event.preventDefault();
+        event.stopPropagation();
         setIsTouched(true);
         setIsOpen(false);
+        setFocusedOptionIndex(-1);
+        // ✅ Devolver foco para o trigger
+        selectRef.current?.focus();
         break;
       case 'ArrowDown':
+        event.preventDefault();
+        event.stopPropagation();
+        if (!isOpen) {
+          setIsOpen(true);
+          setFocusedOptionIndex(0);
+        } else {
+          setFocusedOptionIndex(prev => 
+            prev < dropdownItems.length - 1 ? prev + 1 : 0
+          );
+        }
+        break;
       case 'ArrowUp':
         event.preventDefault();
-        if (!isOpen) setIsOpen(true);
+        event.stopPropagation();
+        if (isOpen) {
+          setFocusedOptionIndex(prev => 
+            prev > 0 ? prev - 1 : dropdownItems.length - 1
+          );
+        }
+        break;
+      case 'Home':
+        if (isOpen) {
+          event.preventDefault();
+          setFocusedOptionIndex(0);
+        }
+        break;
+      case 'End':
+        if (isOpen) {
+          event.preventDefault();
+          setFocusedOptionIndex(dropdownItems.length - 1);
+        }
+        break;
+      case 'Tab':
+        // ✅ Permitir navegação natural com Tab
+        if (isOpen) {
+          setIsOpen(false);
+          setIsTouched(true);
+          setFocusedOptionIndex(-1);
+        }
+        break;
+      default:
+        // ✅ Busca por primeira letra (Type-ahead)
+        if (event.key.length === 1 && !event.ctrlKey && !event.altKey && !event.metaKey) {
+          handleQuickSearch(event.key.toLowerCase());
+        }
         break;
     }
-  }, [isOpen, disabled]);
+  }, [isOpen, disabled, focusedOptionIndex, dropdownItems, handleOptionSelect]);
 
   // Click outside handler
   const handleClickOutside = useCallback((event: MouseEvent | TouchEvent) => {
-    if (selectRef.current && !selectRef.current.contains(event.target as Node)) {
-      // Marca como "tocado" quando o usuário clicar fora do componente
+    const target = event.target as Node;
+
+    if (selectRef.current && !selectRef.current.contains(target)) {
       setIsTouched(true);
       setIsOpen(false);
+      setFocusedOptionIndex(-1); // ✅ Reset foco quando fechar
     }
   }, []);
 
@@ -307,32 +389,48 @@ const Select = React.memo<SelectProps>(({
     };
   }, [isOpen, handleClickOutside]);
 
-  // Sincronização com value prop
+  // ✅ SIMPLIFICADO: Sincronização com value prop sem refs
   useEffect(() => {
-    if (value !== previousValueRef.current) {
-      previousValueRef.current = value;
+    if (value !== undefined) {
+      const valueArray = Array.isArray(value) ? value : [value];
+      const newSelectedOptions = valueArray
+        .map((val) => validatedOptions.find((option) => option.id === val || option.text === val))
+        .filter((option): option is SelectOption => Boolean(option));
 
-      if (value !== undefined) {
-        const valueArray = Array.isArray(value) ? value : [value];
-        const newSelectedOptions = valueArray
-          .map((val) => validatedOptions.find((option) => option.id === val || option.text === val))
-          .filter((option): option is SelectOption => Boolean(option));
-
-        setSelectedOptions(newSelectedOptions);
-      } else {
-        setSelectedOptions([]);
-      }
+      setSelectedOptions(newSelectedOptions);
+    } else {
+      setSelectedOptions([]);
     }
   }, [value, validatedOptions]);
 
-  // Classes CSS
+
+  // ✅ OTIMIZADO: Estilos sem duplicação width/maxWidth
+  const containerStyles: React.CSSProperties = useMemo(() => {
+    const styles: React.CSSProperties = {};
+
+    if (minWidth) {
+      styles.minWidth = typeof minWidth === 'number' ? `${minWidth}px` : minWidth;
+    }
+
+    if (maxWidth) {
+      const maxWidthValue = typeof maxWidth === 'number' ? `${maxWidth}px` : maxWidth;
+      // ✅ Usar apenas maxWidth para limitar, não width
+      styles.maxWidth = maxWidthValue;
+    }
+
+    return styles;
+  }, [maxWidth, minWidth]);
+
+
+  // ✅ MELHORADO: Classes CSS com estados visuais
   const selectClasses = clsx(
     'zds-select',
     {
-      'zds-select--open': isOpen,
       'zds-select--disabled': disabled,
-      'zds-select--error': Boolean(errorMessage),
+      'zds-select--error': Boolean(errorMessage) || shouldShowRequiredError,
+      'zds-select--focused': isOpen,
       'zds-select--required': required,
+      'zds-select--touched': isTouched,
     },
     className
   );
@@ -343,6 +441,7 @@ const Select = React.memo<SelectProps>(({
       ref={selectRef}
       id={finalId}
       data-testid="select-container"
+      style={containerStyles}
     >
       <div
         role="combobox"
@@ -354,16 +453,18 @@ const Select = React.memo<SelectProps>(({
         aria-invalid={Boolean(errorMessage)}
         aria-required={required}
         aria-label={ariaLabel || label || placeholder || 'Selecione uma opção'}
-        aria-activedescendant={selectedIds.length > 0 ? selectedIds[0] : undefined}
+        aria-activedescendant={
+          isOpen && focusedOptionIndex >= 0 
+            ? dropdownItems[focusedOptionIndex]?.id 
+            : selectedIds.length > 0 ? selectedIds[0] : undefined
+        }
         tabIndex={disabled ? -1 : 0}
-        onFocus={handleFocus}
         onBlur={handleBlur}
         onKeyDown={handleKeyDown}
         onClick={handleTriggerClick}
         className="zds-select__trigger"
       >
         <SelectField
-          ref={textFieldRef}
           name={`select-${finalId}`}
           placeholder={displayText || placeholder}
           value={displayText}
@@ -379,17 +480,20 @@ const Select = React.memo<SelectProps>(({
         />
       </div>
       {isOpen && !disabled && (
-        <Dropdown
-          items={dropdownItems}
-          type={type}
-          onSelectionChange={handleOptionSelect}
-          initialItemsSelected={initialItemsSelected}
-          defaultSelectedIds={selectedIds}
-          key={`dropdown-${selectedIds.join('-')}`}
-          id={`${finalId}-dropdown`}
-          className='zds-select__dropdown'
-          showSubText={showSubText}
-        />
+        <div className='zds-select__dropdown'>
+
+          <Dropdown
+            items={dropdownItems}
+            type={type}
+            onSelectionChange={handleOptionSelect}
+            initialItemsSelected={initialItemsSelected}
+            defaultSelectedIds={selectedIds}
+            key={`dropdown-${selectedIds.join('-')}`}
+            id={`${finalId}-dropdown`}
+            showSubText={showSubText}
+            maxWidth={maxWidth}
+          />
+        </div>
       )}
     </div>
   );
