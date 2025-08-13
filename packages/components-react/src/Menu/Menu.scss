@@ -1,9 +1,9 @@
 .menu-container {
   position: relative;
   display: inline-block;
-
+  gap: var(--spacing-8);
   .zds-button {
-    margin-bottom: var(--spacing-4);
+    margin-bottom: var(--spacing-8);
   }
 
   .zds-search {
