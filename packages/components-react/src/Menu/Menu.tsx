@@ -1,8 +1,7 @@
-import React, { useState, useRef, useEffect, useCallback, ReactNode, ReactElement } from 'react';
+import React, { useState, useRef, useEffect, useCallback, ReactNode, ReactElement, useMemo } from 'react';
 import Dropdown from '../Dropdown/Dropdown';
-import Button from '../Button/Button';
-import { MoreVertical16Regular } from '@fluentui/react-icons';
 import './Menu.scss';
+import { clsx } from 'clsx';
 
 // ✅ Definir interfaces TypeScript
 export interface MenuItem {
@@ -21,77 +20,57 @@ export interface MenuItem {
 }
 
 export interface MenuProps {
-  /** Elemento React que será usado como âncora do menu */
-  children?: ReactElement;
-  
+  /** Elemento React que será usado como âncora do menu (obrigatório) */
+  children: ReactElement;
+
   /** Array de itens do menu */
   menuItems?: MenuItem[];
-  
+
   /** Callback executado quando um item do menu é clicado */
   onMenuItemClick?: (item: MenuItem) => void;
-  
+
   /** Callback executado quando o menu é aberto/fechado */
   onToggle?: (isOpen: boolean) => void;
-  
+
   /** Tipo do dropdown */
   type?: 'text' | 'checkbox' | 'icon';
-  
+
   /** Habilita campo de busca */
   applySearch?: boolean;
-  
+
   /** Placeholder do campo de busca */
   placeholder?: string;
-  
+
   /** Controla exibição do subtexto */
   showSubText?: boolean;
-  
-  /** Controla exibição dos ícones */
-  showIcons?: boolean;
-  
+
   /** Classes CSS adicionais */
   className?: string;
-  
+
   /** ID único do componente */
   id?: string;
 }
 
 const Menu: React.FC<MenuProps> = ({
   children,
-  menuItems = [
-    {
-      id: 'item-1',
-      text: 'Editar usuário',
-    },
-    {
-      id: 'item-2',
-      text: 'Visualizar detalhes',
-    },
-    {
-      id: 'item-3',
-      text: 'Remover usuário',
-    },
-  ],
+  menuItems = [],
   onMenuItemClick,
   onToggle,
   type = 'text',
   applySearch = false,
   placeholder = '',
   showSubText = false,
-  showIcons = false,
   className,
   id,
 }) => {
-  // ✅ Estados tipados
+
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
-  
-  // ✅ Refs tipadas
   const anchorRef = useRef<HTMLElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const menuContainerRef = useRef<HTMLDivElement>(null);
+  const [selectedItems, setSelectedItems] = useState<string[]>([]);
+  const [focusedItemIndex, setFocusedItemIndex] = useState<number>(-1);
 
-  /**
-   * Fecha o menu e executa callback de toggle se fornecido
-   */
   const closeMenu = useCallback((): void => {
     setIsMenuOpen(false);
     if (onToggle) {
@@ -99,9 +78,7 @@ const Menu: React.FC<MenuProps> = ({
     }
   }, [onToggle]);
 
-  /**
-   * Abre o menu e executa callback de toggle se fornecido
-   */
+
   const openMenu = useCallback((): void => {
     setIsMenuOpen(true);
     if (onToggle) {
@@ -109,9 +86,6 @@ const Menu: React.FC<MenuProps> = ({
     }
   }, [onToggle]);
 
-  /**
-   * Alterna a visibilidade do dropdown
-   */
   const toggleDropdown = useCallback((): void => {
     if (isMenuOpen) {
       closeMenu();
@@ -120,67 +94,115 @@ const Menu: React.FC<MenuProps> = ({
     }
   }, [isMenuOpen, closeMenu, openMenu]);
 
-  /**
-   * Função melhorada para fechar o menu ao clicar fora
-   * Verifica se o clique foi fora de todos os elementos do menu
-   */
+  const initialItemsSelected = useMemo(() => {
+    const selectedMap: Record<string, boolean> = {};
+    selectedItems.forEach((id) => {
+      selectedMap[id] = true;
+    });
+    return selectedMap;
+  }, [selectedItems, menuItems])
+
   const handleClickOutside = useCallback(
     (event: MouseEvent): void => {
-      // Verifica se o menu está aberto antes de processar
+
       if (!isMenuOpen) return;
 
       const target = event.target as Node;
-
-      // Verifica se o clique foi dentro do container principal do menu
       if (menuContainerRef.current?.contains(target)) {
         return;
       }
-
-      // Verifica se o clique foi no elemento âncora (botão/children)
       if (anchorRef.current?.contains(target)) {
         return;
       }
 
-      // Verifica se o clique foi dentro do dropdown
       if (dropdownRef.current?.contains(target)) {
         return;
       }
-
-      // Se chegou até aqui, o clique foi fora do menu - fecha o menu
       closeMenu();
     },
     [isMenuOpen, closeMenu]
   );
 
-  /**
-   * Função para fechar o menu ao pressionar a tecla Escape
-   */
+
+
   const handleKeyDown = useCallback(
     (event: KeyboardEvent): void => {
-      if (event.key === 'Escape' && isMenuOpen) {
-        closeMenu();
-        // Retorna o foco para o elemento âncora após fechar
-        if (anchorRef.current) {
-          anchorRef.current.focus();
-        }
+      if (!isMenuOpen) return;
+
+      switch (event.key) {
+        case 'Escape':
+          event.preventDefault();
+          closeMenu();
+          if (anchorRef.current) {
+            anchorRef.current.focus();
+          }
+          break;
+
+        case 'ArrowDown':
+          event.preventDefault();
+          setFocusedItemIndex(prev => {
+            const nextIndex = prev < menuItems.length - 1 ? prev + 1 : 0;
+            return nextIndex;
+          });
+          break;
+
+        case 'ArrowUp':
+          event.preventDefault();
+          setFocusedItemIndex(prev => {
+            const nextIndex = prev > 0 ? prev - 1 : menuItems.length - 1;
+            return nextIndex;
+          });
+          break;
+
+        case 'Enter':
+        case ' ':
+          event.preventDefault();
+          if (focusedItemIndex >= 0 && focusedItemIndex < menuItems.length) {
+            const selectedItem = menuItems[focusedItemIndex];
+            if (selectedItem && !selectedItem.disabled && onMenuItemClick) {
+              onMenuItemClick(selectedItem);
+            }
+            if (type !== 'checkbox') {
+              closeMenu();
+            }
+          }
+          break;
+
+        case 'Home':
+          event.preventDefault();
+          setFocusedItemIndex(0);
+          break;
+
+        case 'End':
+          event.preventDefault();
+          setFocusedItemIndex(menuItems.length - 1);
+          break;
       }
     },
-    [isMenuOpen, closeMenu]
+    [isMenuOpen, closeMenu, focusedItemIndex, menuItems, onMenuItemClick, type]
   );
+  useEffect(() => {
+    if (!isMenuOpen) {
+      setFocusedItemIndex(-1);
+    }
+  }, [isMenuOpen]);
 
-  /**
-   * Manipula a seleção de itens do menu
-   */
   const handleSelectionChange = useCallback(
     (selectedIds: string[]): void => {
-      if (selectedIds.length > 0 && menuItems.length > 0) {
-        const selectedItem = menuItems.find((item) => item.id === selectedIds[0]);
-        if (selectedItem && onMenuItemClick) {
+
+      setSelectedItems(selectedIds);
+
+
+      if (selectedIds.length > 0 && menuItems.length > 0 && onMenuItemClick) {
+
+        const lastSelectedId = selectedIds[selectedIds.length - 1];
+        const selectedItem = menuItems.find((item) => item.id === lastSelectedId);
+
+        if (selectedItem) {
           onMenuItemClick(selectedItem);
         }
       }
 
-      // Fecha o menu após seleção apenas para tipos que não são checkbox
       if (type !== 'checkbox') {
         closeMenu();
       }
@@ -188,15 +210,13 @@ const Menu: React.FC<MenuProps> = ({
     [menuItems, onMenuItemClick, type, closeMenu]
   );
 
-  // Effect para adicionar listeners de eventos quando o menu está aberto
+
+
   useEffect(() => {
     if (isMenuOpen) {
-      // Adiciona listener para cliques fora do menu
       document.addEventListener('mousedown', handleClickOutside);
-      // Adiciona listener para tecla Escape
       document.addEventListener('keydown', handleKeyDown);
 
-      // Cleanup function para remover os listeners
       return () => {
         document.removeEventListener('mousedown', handleClickOutside);
         document.removeEventListener('keydown', handleKeyDown);
@@ -204,46 +224,39 @@ const Menu: React.FC<MenuProps> = ({
     }
   }, [isMenuOpen, handleClickOutside, handleKeyDown]);
 
-  /**
-   * Renderiza a âncora do menu
-   * Se children for fornecido, usa children; caso contrário, usa o botão padrão
-   */
   const renderAnchor = (): ReactElement => {
-    if (children) {
-      return React.cloneElement(children, {
-        ref: anchorRef,
-        onClick: toggleDropdown,
-        'aria-expanded': isMenuOpen,
-        'aria-haspopup': 'menu' as const,
-      });
-    }
-
-    return (
-      <Button
-        ref={anchorRef}
-        variant="text"
-        onClick={toggleDropdown}
-        icon={<MoreVertical16Regular />}
-        aria-expanded={isMenuOpen}
-        aria-haspopup="menu"
-        aria-label="Abrir menu de ações"
-      />
-    );
+    return React.cloneElement(children, {
+      ref: anchorRef,
+      onClick: (e: React.MouseEvent) => {
+        if (children.props.onClick) {
+          children.props.onClick(e);
+        }
+        toggleDropdown();
+      },
+      'aria-expanded': isMenuOpen,
+      'aria-haspopup': 'menu' as const,
+      ...children.props,
+    });
   };
 
+  const menuClass = clsx(
+    'zds-menu__container',
+    className
+  )
   return (
-    <div 
-      ref={menuContainerRef} 
-      className={`menu-container ${className || ''}`} 
+    <div
+      ref={menuContainerRef}
+      className={menuClass}
       id={id}
     >
       {renderAnchor()}
       {isMenuOpen && (
-        <div ref={dropdownRef} className="menu-dropdown">
+        <div ref={dropdownRef} className="zds-menu__dropdown">
           <Dropdown
             type={type}
             items={menuItems}
             onSelectionChange={handleSelectionChange}
+            initialItemsSelected={initialItemsSelected}
             applySearch={applySearch}
             placeholder={placeholder}
             showSubText={showSubText}

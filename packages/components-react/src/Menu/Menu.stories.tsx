@@ -1,106 +1,63 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { MoreVertical16Regular, Edit16Regular, Eye16Regular, Delete16Regular, Settings16Regular, Person16Regular, Mail16Regular, Phone16Regular } from '@fluentui/react-icons';
+import { 
+  MoreVertical16Regular, 
+  Edit16Regular, 
+  Eye16Regular, 
+  Delete16Regular, 
+  Settings16Regular, 
+  Person16Regular, 
+  Mail16Regular, 
+  Phone16Regular,
+  ChevronDown16Regular,
+  Alert16Regular,
+  Share16Regular,
+  ArrowDownload16Regular,
+  Filter16Regular,
+} from '@fluentui/react-icons';
 import Menu, { MenuItem, MenuProps } from './Menu';
 import Button from '../Button/Button';
 
 /**
- * Dados mock para os itens do menu com texto simples
+ * Dados mock básicos
  */
-const mockMenuItems: MenuItem[] = [
-  {
-    id: 'edit-user',
-    text: 'Editar usuário',
-    value: 'edit',
-  },
-  {
-    id: 'view-details',
-    text: 'Visualizar detalhes',
-    value: 'view',
-  },
-  {
-    id: 'remove-user',
-    text: 'Remover usuário',
-    value: 'remove',
-  },
+const basicMenuItems: MenuItem[] = [
+  { id: 'edit', text: 'Editar', value: 'edit', icon: <Edit16Regular /> },
+  { id: 'view', text: 'Visualizar', value: 'view', icon: <Eye16Regular /> },
+  { id: 'delete', text: 'Excluir', value: 'delete', icon: <Delete16Regular /> },
 ];
 
 /**
- * Dados mock para os itens do menu com ícones
+ * Dados mock para menu de usuário
  */
-const mockMenuItemsWithIcons: MenuItem[] = [
-  {
-    id: 'edit-user',
-    text: 'Editar usuário',
-    value: 'edit',
-    icon: <Edit16Regular />,
-  },
-  {
-    id: 'view-details',
-    text: 'Visualizar detalhes',
-    value: 'view',
-    icon: <Eye16Regular />,
-  },
-  {
-    id: 'remove-user',
-    text: 'Remover usuário',
-    value: 'remove',
-    icon: <Delete16Regular />,
-  },
+const userMenuItems: MenuItem[] = [
+  { id: 'profile', text: 'Meu Perfil', value: 'profile', icon: <Person16Regular /> },
+  { id: 'settings', text: 'Configurações', value: 'settings', icon: <Settings16Regular /> },
+  { id: 'logout', text: 'Sair', value: 'logout' },
 ];
 
 /**
- * Dados mock para os itens do menu com checkbox
+ * Dados mock para filtros
  */
-const mockCheckboxItems: MenuItem[] = [
-  {
-    id: 'show-email',
-    text: 'Mostrar e-mail',
-    subText: 'Exibe o e-mail do usuário',
-    value: 'email',
-    icon: <Mail16Regular />,
-  },
-  {
-    id: 'show-phone',
-    text: 'Mostrar telefone',
-    subText: 'Exibe o telefone do usuário',
-    value: 'phone',
-    icon: <Phone16Regular />,
-  },
-  {
-    id: 'show-profile',
-    text: 'Mostrar perfil',
-    subText: 'Exibe informações do perfil',
-    value: 'profile',
-    icon: <Person16Regular />,
-    disabled: true,
-  },
-  {
-    id: 'show-profile-2',
-    text: 'Mostrar perfil',
-    subText: 'Exibe informações do perfil',
-    value: 'profile',
-    icon: <Person16Regular />,
-    disabled: true,
-  },
-  {
-    id: 'show-profile-3',
-    text: 'Mostrar perfil',
-    subText: 'Exibe informações do perfil',
-    value: 'profile',
-    icon: <Person16Regular />,
-    disabled: true,
-  },
+const filterMenuItems: MenuItem[] = [
+  { id: 'all', text: 'Todos os itens', value: 'all' },
+  { id: 'active', text: 'Apenas ativos', value: 'active' },
+  { id: 'inactive', text: 'Apenas inativos', value: 'inactive' },
+  { id: 'pending', text: 'Pendentes', value: 'pending' },
 ];
 
-// ✅ Definir interface estendida para controles do Storybook
-interface StoryArgs extends MenuProps {
-  useCustomAnchor?: boolean;
-  anchorVariant?: 'text' | 'outlined' | 'filled';
-  anchorText?: string;
-}
+const bulkActionItems: MenuItem[] = [
+  { id: 'export', text: 'Exportar selecionados', value: 'export', icon: <ArrowDownload16Regular /> },
+  { id: 'share', text: 'Compartilhar', value: 'share', icon: <Share16Regular /> },
+  { id: 'archive', text: 'Arquivar', value: 'archive' },
+  { id: 'delete-bulk', text: 'Excluir selecionados', value: 'delete-bulk', icon: <Delete16Regular /> },
+];
 
-const meta: Meta<StoryArgs> = {
+const mockAction = (actionName: string) => (data: any) => {
+  console.log(`${actionName}:`, data);
+};
+
+const meta: Meta<MenuProps> = {
   title: 'Components/Menu',
   component: Menu,
   parameters: {
@@ -108,466 +65,303 @@ const meta: Meta<StoryArgs> = {
   },
   decorators: [
     (Story) => (
-      <div style={{ height: '40vh', padding: '20px' }}>
+      <div style={{ 
+        height: '50vh', 
+        padding: '2rem',
+        display: 'flex',
+        alignItems: 'flex-start',
+        justifyContent: 'center'
+      }}>
         <Story />
       </div>
     ),
   ],
   argTypes: {
     children: {
-      table: {
-        disable: true,
-      },
+      description: 'Elemento React que servirá como âncora/trigger do menu',
+      table: { disable: true }
     },
     menuItems: {
-      table: {
-        disable: true,
-      },
+      description: 'Array de itens que compõem o menu',
+      table: { disable: true }
     },
     onMenuItemClick: {
-      table: {
-        disable: true,
-      },
+      description: 'Callback executado quando um item é clicado',
+      table: { disable: true }
     },
     onToggle: {
-      table: {
-        disable: true,
-      },
+      description: 'Callback executado quando o menu abre/fecha',
+      table: { disable: true }
     },
     type: {
       control: 'select',
       options: ['text', 'checkbox', 'icon'],
-      description: 'Tipo do dropdown que define o comportamento dos itens',
-      defaultValue: 'text',
+      description: 'Tipo de dropdown que define o comportamento dos itens',
     },
     applySearch: {
       control: 'boolean',
-      description: 'Habilita campo de busca para filtrar itens do menu',
-      defaultValue: false,
+      description: 'Habilita campo de busca para filtrar itens',
     },
     placeholder: {
       control: 'text',
-      description: 'Placeholder do campo de busca (quando habilitado)',
-      defaultValue: 'Buscar...',
+      description: 'Placeholder do campo de busca',
     },
     showSubText: {
       control: 'boolean',
-      description: 'Controla a exibição do subtexto nos itens do menu',
-      defaultValue: false,
-    },
-    showIcons: {
-      control: 'boolean',
-      description: 'Controla se os ícones são exibidos nos itens do menu',
-      defaultValue: false,
-    },
-    useCustomAnchor: {
-      control: 'boolean',
-      description: 'Define se deve usar um botão customizado como âncora',
-      defaultValue: false,
-    },
-    anchorVariant: {
-      control: 'select',
-      options: ['text', 'outlined', 'filled'],
-      description: 'Variante do botão âncora customizado',
-      defaultValue: 'outlined',
-      if: { arg: 'useCustomAnchor', eq: true },
-    },
-    anchorText: {
-      control: 'text',
-      description: 'Texto do botão âncora customizado',
-      defaultValue: 'Ações',
-      if: { arg: 'useCustomAnchor', eq: true },
+      description: 'Exibe subtexto nos itens do menu',
     },
     className: {
       control: 'text',
-      description: 'Classes CSS adicionais para personalização',
+      description: 'Classes CSS adicionais',
     },
     id: {
       control: 'text',
-      description: 'ID único do componente para identificação',
+      description: 'ID único do componente',
     },
   },
 };
 
 export default meta;
-type Story = StoryObj<StoryArgs>;
+type Story = StoryObj<MenuProps>;
 
-/**
- * Template principal para o componente Menu com controle total de todas as props
- */
-const Template = (args: StoryArgs) => {
-  const {
-    showIcons = false,
-    useCustomAnchor = false,
-    anchorVariant = 'outlined',
-    anchorText = 'Ações',
-    type = 'text',
-    applySearch = false,
-    placeholder = 'Buscar...',
-    showSubText = false,
-    className,
-    id,
-    ...restArgs
-  } = args;
-
-  /**
-   * Função para lidar com cliques nos itens do menu
-   */
-  const handleMenuItemClick = (item: MenuItem): void => {
-    console.log('Item clicado:', item);
-    // Para demonstração no Storybook, você pode usar actions addon aqui
-  };
-
-  /**
-   * Função para controlar o toggle do menu
-   */
-  const handleToggle = (isOpen: boolean): void => {
-    console.log('Menu toggled:', isOpen);
-    // Para demonstração no Storybook, você pode usar actions addon aqui
-  };
-
-  /**
-   * Seleciona os itens baseado no tipo e configurações
-   */
-  const getMenuItems = (): MenuItem[] => {
-    let baseItems: MenuItem[];
-
-    // Seleciona o conjunto base de itens baseado no tipo
-    if (type === 'checkbox') {
-      baseItems = mockCheckboxItems;
-    } else {
-      baseItems = showIcons ? mockMenuItemsWithIcons : mockMenuItems;
-    }
-
-    // Processa os itens baseado nas configurações
-    return baseItems.map((item) => ({
-      ...item,
-      // Controla a exibição de ícones
-      icon: showIcons ? item.icon : undefined,
-      // Controla a exibição do subtexto
-      subText: showSubText ? item.subText : undefined,
-    }));
-  };
-
-  /**
-   * Renderiza a âncora customizada se habilitada
-   */
-  const renderCustomAnchor = (): React.ReactElement | undefined => {
-    if (!useCustomAnchor) return undefined;
-
-    return <Button variant={anchorVariant} text={anchorText} icon={<Settings16Regular />} />;
-  };
-
-  return (
-    <Menu
-      {...restArgs}
-      type={type}
-      menuItems={getMenuItems()}
-      onToggle={handleToggle}
-      onMenuItemClick={handleMenuItemClick}
-      applySearch={applySearch}
-      placeholder={placeholder}
-      showSubText={showSubText}
-      showIcons={showIcons}
-      className={className}
-      id={id}
-    >
-      {renderCustomAnchor()}
-    </Menu>
-  );
-};
-
-/**
- * Story principal com controle total de todas as propriedades
- * Permite configurar completamente o comportamento do Menu através dos controles do Storybook
- */
 export const Default: Story = {
-  render: Template,
   args: {
-    type: 'text',
-    showIcons: false,
-    useCustomAnchor: false,
-    anchorVariant: 'outlined',
-    anchorText: 'Ações',
-    applySearch: false,
-    placeholder: 'Buscar...',
-    showSubText: false,
-    className: '',
-    id: 'menu-example',
+    menuItems: basicMenuItems,
+    onMenuItemClick: mockAction('onMenuItemClick'),
+    onToggle: mockAction('onToggle'),
   },
+  render: (args) => (
+    <Menu {...args}>
+      <Button
+        variant="text"
+        icon={<MoreVertical16Regular />}
+        aria-label="Abrir menu de ações"
+      />
+    </Menu>
+  ),
   parameters: {
     docs: {
       source: {
         code: `
-function Example() {
-  const menuItems = [
-    { id: 'edit', text: 'Editar usuário', value: 'edit' },
-    { id: 'view', text: 'Visualizar detalhes', value: 'view' },
-    { id: 'remove', text: 'Remover usuário', value: 'remove' },
-  ];
-
-  const handleMenuItemClick = (item) => {
-    console.log('Item clicado:', item);
-  };
-
-  const handleToggle = (isOpen) => {
-    console.log('Menu toggled:', isOpen);
-  };
-
-  return (
-    <Menu
-      type="text"
-      menuItems={menuItems}
-      onMenuItemClick={handleMenuItemClick}
-      onToggle={handleToggle}
-    />
-  );
-}
-        `.trim(),
+<Menu 
+  menuItems={menuItems}
+  onMenuItemClick={handleMenuItemClick}
+>
+  <Button
+    variant="text"
+    icon={<MoreVertical16Regular />}
+    aria-label="Abrir menu de ações"
+  />
+</Menu>
+        `,
       },
     },
   },
 };
 
 /**
- * Menu com ícones nos itens
- * Mostra ícones ao lado do texto para melhor identificação visual
+ * Story 2: Menu com Botão Customizado
+ * Demonstra flexibilidade de usar qualquer botão como âncora
  */
-export const MenuWithIcons: Story = {
-  render: Template,
+export const CustomButton: Story = {
   args: {
-    type: 'icon',
-    showIcons: true,
-    useCustomAnchor: false,
-    applySearch: false,
-    showSubText: false,
+    menuItems: basicMenuItems,
+    onMenuItemClick: mockAction('onMenuItemClick'),
   },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-import { Edit16Regular, Eye16Regular, Delete16Regular } from '@fluentui/react-icons';
-
-function Example() {
-  const menuItems = [
-    {
-      id: 'edit',
-      text: 'Editar usuário',
-      value: 'edit',
-      icon: <Edit16Regular />,
-    },
-    {
-      id: 'view',
-      text: 'Visualizar detalhes',
-      value: 'view',
-      icon: <Eye16Regular />,
-    },
-    {
-      id: 'remove',
-      text: 'Remover usuário',
-      value: 'remove',
-      icon: <Delete16Regular />,
-    },
-  ];
-
-  const handleMenuItemClick = (item) => {
-    console.log('Item clicado:', item);
-  };
-
-  return (
-    <Menu
-      type="icon"
-      menuItems={menuItems}
-      showIcons={true}
-      onMenuItemClick={handleMenuItemClick}
-    />
-  );
-}
-        `.trim(),
-      },
-    },
-  },
-};
-
-/**
- * Menu com campo de busca
- * Permite filtrar os itens do menu através de busca
- */
-export const MenuWithSearch: Story = {
-  render: Template,
-  args: {
-    type: 'text',
-    showIcons: true,
-    useCustomAnchor: false,
-    applySearch: true,
-    placeholder: 'Buscar ações...',
-    showSubText: false,
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-import { Edit16Regular, Eye16Regular, Delete16Regular } from '@fluentui/react-icons';
-
-function Example() {
-  const menuItems = [
-    {
-      id: 'edit',
-      text: 'Editar usuário',
-      value: 'edit',
-      icon: <Edit16Regular />,
-    },
-    {
-      id: 'view',
-      text: 'Visualizar detalhes',
-      value: 'view',
-      icon: <Eye16Regular />,
-    },
-    {
-      id: 'remove',
-      text: 'Remover usuário',
-      value: 'remove',
-      icon: <Delete16Regular />,
-    },
-  ];
-
-  const handleMenuItemClick = (item) => {
-    console.log('Item clicado:', item);
-  };
-
-  return (
-    <Menu
-      type="text"
-      menuItems={menuItems}
-      showIcons={true}
-      applySearch={true}
-      placeholder="Buscar ações..."
-      onMenuItemClick={handleMenuItemClick}
-    />
-  );
-}
-        `.trim(),
-      },
-    },
-  },
-};
-
-/**
- * Menu com botão customizado como âncora
- * Utiliza um botão personalizado ao invés do padrão de três pontos
- */
-export const MenuWithCustomButton: Story = {
-  render: Template,
-  args: {
-    type: 'text',
-    showIcons: false,
-    useCustomAnchor: true,
-    anchorVariant: 'outlined',
-    anchorText: 'Ações',
-    applySearch: false,
-    showSubText: false,
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-import { Settings16Regular } from '@fluentui/react-icons';
-import Button from '../Button/Button';
-
-function Example() {
-  const menuItems = [
-    { id: 'edit', text: 'Editar usuário', value: 'edit' },
-    { id: 'view', text: 'Visualizar detalhes', value: 'view' },
-    { id: 'remove', text: 'Remover usuário', value: 'remove' },
-  ];
-
-  const handleMenuItemClick = (item) => {
-    console.log('Item clicado:', item);
-  };
-
-  return (
-    <Menu
-      type="text"
-      menuItems={menuItems}
-      onMenuItemClick={handleMenuItemClick}
-    >
+  render: (args) => (
+    <Menu {...args}>
       <Button
         variant="outlined"
         text="Ações"
         icon={<Settings16Regular />}
       />
     </Menu>
-  );
-}
-        `.trim(),
+  ),
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<Menu menuItems={menuItems} onMenuItemClick={handleMenuItemClick}>
+  <Button
+    variant="outlined"
+    text="Ações"
+    icon={<Settings16Regular />}
+  />
+</Menu>
+        `,
+      },
+    },
+  },
+};
+
+export const LinkAnchor: Story = {
+  args: {
+    menuItems: filterMenuItems,
+    onMenuItemClick: mockAction('onMenuItemClick'),
+  },
+  render: (args) => (
+    <Menu {...args}>
+      <Button variant="text" icon={<ChevronDown16Regular />}>
+        Filtrar
+      </Button>
+    </Menu>
+  ),
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<Menu menuItems={filterItems} onMenuItemClick={handleMenuItemClick}>
+  <a href="#" className="filter-link">
+    Filtrar <ChevronDown16Regular />
+  </a>
+</Menu>
+        `,
       },
     },
   },
 };
 
 /**
- * Menu com checkboxes e busca
- * Combina seleção múltipla com capacidade de filtrar itens
+ * Story 5: Menu com Busca
+ * Demonstra funcionalidade de busca integrada
  */
-export const MenuWithCheckboxesAndSearch: Story = {
-  render: Template,
+export const WithSearch: Story = {
   args: {
-    type: 'checkbox',
-    showIcons: true,
-    useCustomAnchor: false,
+    menuItems: bulkActionItems,
+    onMenuItemClick: mockAction('onMenuItemClick'),
     applySearch: true,
-    showSubText: true,
-    placeholder: 'Buscar opções...',
+    placeholder: 'Buscar ações...',
   },
+  render: (args) => (
+    <Menu {...args}>
+      <Button
+        variant="filled"
+        text="Ações em Lote"
+        icon={<Settings16Regular />}
+      />
+    </Menu>
+  ),
   parameters: {
     docs: {
       source: {
         code: `
-import { Mail16Regular, Phone16Regular, Person16Regular } from '@fluentui/react-icons';
-
-function Example() {
-  const menuItems = [
-    {
-      id: 'show-email',
-      text: 'Mostrar e-mail',
-      subText: 'Exibe o e-mail do usuário',
-      value: 'email',
-      icon: <Mail16Regular />,
-    },
-    {
-      id: 'show-phone',
-      text: 'Mostrar telefone',
-      subText: 'Exibe o telefone do usuário',
-      value: 'phone',
-      icon: <Phone16Regular />,
-    },
-    {
-      id: 'show-profile',
-      text: 'Mostrar perfil',
-      subText: 'Exibe informações do perfil',
-      value: 'profile',
-      icon: <Person16Regular />,
-    },
-  ];
-
-  const handleMenuItemClick = (item) => {
-    console.log('Item selecionado:', item);
-  };
-
-  return (
-    <Menu
-      type="checkbox"
-      menuItems={menuItems}
-      showIcons={true}
-      showSubText={true}
-      applySearch={true}
-      placeholder="Buscar opções..."
-      onMenuItemClick={handleMenuItemClick}
-    />
-  );
-}
-        `.trim(),
+<Menu 
+  menuItems={bulkActionItems}
+  onMenuItemClick={handleMenuItemClick}
+  applySearch={true}
+  placeholder="Buscar ações..."
+>
+  <Button
+    variant="filled"
+    text="Ações em Lote"
+    icon={<Settings16Regular />}
+  />
+</Menu>
+        `,
       },
     },
   },
 };
+
+/**
+ * Story 6: Menu Checkbox
+ * Demonstra tipo checkbox para seleções múltiplas
+ */
+export const CheckboxType: Story = {
+  args: {
+    menuItems: [
+      { id: 'email', text: 'Mostrar e-mail', subText: 'Exibir endereço de e-mail', icon: <Mail16Regular /> },
+      { id: 'phone', text: 'Mostrar telefone', subText: 'Exibir número de telefone', icon: <Phone16Regular /> },
+      { id: 'profile', text: 'Mostrar perfil completo', subText: 'Todas as informações do perfil', icon: <Person16Regular /> },
+    ],
+    type: 'checkbox',
+    showSubText: true,
+    onMenuItemClick: mockAction('onMenuItemClick'),
+  },
+  render: (args) => (
+    <Menu {...args}>
+      <Button
+        variant="outlined"
+        text="Configurar Exibição"
+        icon={<Filter16Regular />}
+      />
+    </Menu>
+  ),
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<Menu 
+  menuItems={configItems}
+  type="checkbox"
+  showSubText={true}
+  onMenuItemClick={handleMenuItemClick}
+>
+  <Button
+    variant="outlined"
+    text="Configurar Exibição"
+    icon={<Filter16Regular />}
+  />
+</Menu>
+        `,
+      },
+    },
+  },
+};
+
+/**
+ * Story 7: Menu com Notificação
+ * Demonstra uso com badge/contador
+ */
+export const WithNotification: Story = {
+  args: {
+    menuItems: [
+      { id: 'read-all', text: 'Marcar todas como lidas', icon: <Mail16Regular /> },
+      { id: 'settings', text: 'Configurações de notificação', icon: <Settings16Regular /> },
+    ],
+    onMenuItemClick: mockAction('onMenuItemClick'),
+  },
+  render: (args) => (
+    <Menu {...args}>
+      <div style={{ position: 'relative' }}>
+        <Button
+          variant="text"
+          icon={<Alert16Regular />}
+          aria-label="Notificações"
+        />
+        <div style={{
+          position: 'absolute',
+          top: '-4px',
+          right: '-4px',
+          background: '#ff4444',
+          color: 'white',
+          borderRadius: '50%',
+          width: '16px',
+          height: '16px',
+          fontSize: '10px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          fontWeight: 'bold'
+        }}>
+          3
+        </div>
+      </div>
+    </Menu>
+  ),
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<Menu menuItems={notificationItems} onMenuItemClick={handleMenuItemClick}>
+  <div className="notification-trigger">
+    <Button variant="text" icon={<Alert16Regular />} />
+    <span className="badge">3</span>
+  </div>
+</Menu>
+        `,
+      },
+    },
+  },
+};
+
