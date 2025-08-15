@@ -87,10 +87,10 @@ const Badge: React.FC<BadgeProps> = ({
     if (disabled) return;
     
     if (event.key === 'Enter' || event.key === ' ') {
-      event.preventDefault();
-      event.stopPropagation();
-      
+      // Só previne a propagação se há um onClick definido
       if (onClick) {
+        event.preventDefault();
+        event.stopPropagation();
         onClick();
       }
     }

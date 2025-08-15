@@ -44,18 +44,6 @@ export interface FilterProps {
   /** Callback chamado quando a seleção muda */
   onSelectionChange?: (selectedItems: string[]) => void;
   
-  // ✅ Configuração do badge
-  /** Valor base para calcular o incremento */
-  baseCount?: number;
-  /** Se deve mostrar o contador incremental (+X) em vez do total */
-  showIncremental?: boolean;
-  /** Valor máximo para exibição no badge (padrão: 99) */
-  badgeMaxValue?: number;
-  /** Callback chamado quando o badge é clicado */
-  onBadgeClick?: () => void;
-  /** Label personalizado para o badge */
-  badgeAriaLabel?: string;
-  
   // ✅ Compatibilidade com a API anterior (deprecated)
   /** @deprecated Use selectedItems.length em vez disso */
   selectedCount?: number;
@@ -80,12 +68,6 @@ const Filter: React.FC<FilterProps> = ({
   defaultSelectedItems = [],
   onSelectionChange,
   
-  // ✅ Configuração do badge
-  baseCount = 0,
-  showIncremental = false,
-  badgeMaxValue = 99,
-  onBadgeClick,
-  badgeAriaLabel,  
   selectedCount,
 }) => {
   const [showContent, setShowContent] = useState<boolean>(false);
@@ -109,6 +91,19 @@ const Filter: React.FC<FilterProps> = ({
 
   // ✅ Calcula a contagem atual (nova API tem prioridade sobre a deprecated)
   const currentSelectedCount = selectedItems.length || selectedCount || 0;
+
+  // ✅ Integração automática com Dropdown - monitora mudanças nos children
+  useEffect(() => {
+    // Se há children e eles são um Dropdown, podemos integrar automaticamente
+    if (React.isValidElement(children) && children.type && 
+        (children.type as any).displayName === 'Dropdown') {
+      
+      // Se o Dropdown tem defaultSelectedIds e não estamos controlados externamente
+      if (!isControlled && children.props.defaultSelectedIds) {
+        setInternalSelectedItems(children.props.defaultSelectedIds);
+      }
+    }
+  }, [children, isControlled]);
 
   // Usa a ref externa se fornecida, senão usa a interna
   const buttonRef = externalButtonRef || internalButtonRef;
@@ -145,7 +140,6 @@ const Filter: React.FC<FilterProps> = ({
 
   /**
    * Alterna a visibilidade do conteúdo
-   * Remove o foco do botão quando o filtro é aberto
    */
   const handleToggleContent = () => {
     const newState = !showContent;
@@ -156,18 +150,6 @@ const Filter: React.FC<FilterProps> = ({
     // Executa callbacks específicos baseados no estado
     if (newState) {
       onOpen?.();
-
-      // Remove o foco do botão quando o filtro é aberto
-      setTimeout(() => {
-        if (buttonRef.current) {
-          buttonRef.current.blur();
-        }
-        // Remove foco de qualquer elemento ativo
-        const activeElement = document.activeElement as HTMLElement;
-        if (activeElement && activeElement.blur) {
-          activeElement.blur();
-        }
-      }, 0);
     } else {
       onClose?.();
     }
@@ -191,97 +173,113 @@ const Filter: React.FC<FilterProps> = ({
   };
 
   /**
-   * Calcula o valor a ser exibido no badge
-   * Aplicando a mesma lógica do IncrementalCounterDemo
+   * Determina se o filtro tem múltipla seleção baseado no children
    */
-  const getBadgeValue = () => {
-    if (showIncremental) {
-      // Para modo incremental: calcula a diferença (total - base)
-      const increment = currentSelectedCount - baseCount;
-      return increment > 0 ? increment : 0;
+  const isMultipleSelection = () => {
+    if (React.isValidElement(children) && children.type && 
+        (children.type as any).displayName === 'Dropdown') {
+      return children.props.type === 'checkbox';
+    }
+    return false;
+  };
+
+  /**
+   * Obtém o texto do primeiro item selecionado do Dropdown
+   */
+  const getFirstSelectedItemText = () => {
+    if (!React.isValidElement(children) || !children.type || 
+        (children.type as any).displayName !== 'Dropdown') {
+      return null;
     }
 
-    // Para modo normal: retorna o total
-    return currentSelectedCount;
+    const dropdownItems = children.props.items || [];
+    const firstSelectedId = selectedItems[0];
+    
+    if (!firstSelectedId) return null;
+
+    const firstItem = dropdownItems.find((item: any) => item.id === firstSelectedId);
+    return firstItem?.text || null;
+  };
+
+  /**
+   * Gera o texto do botão baseado na seleção
+   * Se múltipla seleção: mostra primeiro item + badge com incremento
+   * Se única seleção: mostra o item ou texto padrão
+   */
+  const getButtonText = () => {
+    if (!isMultipleSelection() || currentSelectedCount === 0) {
+      return buttonText;
+    }
+
+    if (currentSelectedCount === 1) {
+      const firstItemText = getFirstSelectedItemText();
+      return firstItemText || buttonText;
+    }
+
+    // Para múltipla seleção com mais de 1 item
+    const firstItemText = getFirstSelectedItemText();
+    return firstItemText || buttonText;
+  };
+
+  /**
+   * Calcula o valor a ser exibido no badge
+   * Para múltipla seleção: incremento baseado em +X (onde X = total - 1)
+   */
+  const getBadgeValue = () => {
+    if (!isMultipleSelection() || currentSelectedCount <= 1) {
+      return 0;
+    }
+    
+    // Badge mostra +X onde X é o número de itens além do primeiro
+    return currentSelectedCount - 1;
   };
   
   /**
    * Calcula o texto a ser exibido no badge
-   * Aplicando a mesma lógica do IncrementalCounterDemo
    */
   const getBadgeText = () => {
-    // Badge só aparece quando há mais de 1 item
-    if (currentSelectedCount <= 1) {
-      return '';
-    }
-
     const value = getBadgeValue();
+    const maxValue = 99;
 
     if (value <= 0) {
       return '';
     }
 
-    if (showIncremental && value > 0) {
-      return `+${value > badgeMaxValue ? `${badgeMaxValue}+` : value}`;
-    }
-
-    return value > badgeMaxValue ? `${badgeMaxValue}+` : value.toString();
+    // Para incremento, sempre mostra +X
+    return `+${value > maxValue ? `${maxValue}+` : value}`;
   };
 
   /**
    * Determina se deve mostrar o badge
-   * Badge só aparece quando há mais de 1 item selecionado
-   * Aplicando a mesma lógica do IncrementalCounterDemo
+   * Badge só aparece para filtros múltiplos com mais de 1 item selecionado
    */
-  const shouldShowBadge = currentSelectedCount > 1;
+  const shouldShowBadge = isMultipleSelection() && currentSelectedCount > 1;
 
   useEffect(() =>{
     console.log('Badge value:', getBadgeValue(), 'Selected count:', currentSelectedCount, 'Show badge:', shouldShowBadge)
   },[getBadgeValue, selectedItems, currentSelectedCount, shouldShowBadge])
 
   /**
-   * Manipula o clique no badge
-   */
-  const handleBadgeClick = () => {
-    if (onBadgeClick) {
-      onBadgeClick();
-    } else {
-      // Comportamento padrão: limpar seleções
-      updateSelectedItems([]);
-    }
-  };
-
-  /**
    * Renderiza o conteúdo do botão - Badge como wrapper ou texto padrão
    */
   const renderButtonContent = () => {
+    const displayText = getButtonText();
+    
     if (shouldShowBadge) {
       const badgeText = getBadgeText();
       return (
-        <div 
-          className="zds-filter-button-content"
-          onClick={(e) => {
-            // Verifica se o clique foi especificamente no badge
-            const target = e.target as HTMLElement;
-            const badgeElement = target.closest('.zds-filter-badge');
-            if (badgeElement) {
-              // Se clicou no badge, previne o toggle do filtro
-              e.stopPropagation();
-            }
-          }}
-        >
-          <span>{buttonText}</span>
+        <div className="zds-filter-button-content">
+          <span>{displayText}</span>
           <Badge
             type="status"
             value={badgeText}
-            onClick={handleBadgeClick}
-            aria-label={badgeAriaLabel || `${currentSelectedCount} itens selecionados${showIncremental ? ` (+${getBadgeValue()} novos)` : ''}`}
+            aria-label={`${currentSelectedCount} itens selecionados`}
             className="zds-filter-badge"
           />
         </div>
       );
     }
-    return buttonText;
+    return displayText;
   };
 
   /**
@@ -330,6 +328,13 @@ const Filter: React.FC<FilterProps> = ({
       if (!children.props.defaultSelectedIds && !children.props.selectedIds) {
         injectedProps.defaultSelectedIds = selectedItems;
       }
+      
+      // Se não é controlado externamente, força uso do estado interno
+      if (!isControlled) {
+        injectedProps.defaultSelectedIds = selectedItems;
+        // Remove selectedIds se existir para evitar conflitos
+        delete injectedProps.selectedIds;
+      }
     }
 
     return React.cloneElement(children, injectedProps);
@@ -338,8 +343,7 @@ const Filter: React.FC<FilterProps> = ({
   return (
     <div className={clsx('zds-filter', `zds-filter--${filterPosition}`, className, {
       'zds-filter--dropdown-open': showContent,
-      'zds-filter--with-badge': shouldShowBadge,
-      'zds-filter--incremental': showIncremental && shouldShowBadge
+      'zds-filter--with-badge': shouldShowBadge
     })}>
       <span ref={buttonRef}>
         <Button variant={variant} icon={getDisplayIcon()} iconPosition='right' onClick={handleToggleContent} onFocus={handleButtonFocus}>

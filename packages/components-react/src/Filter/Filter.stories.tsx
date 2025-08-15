@@ -31,7 +31,7 @@ const meta: Meta<typeof Filter> = {
     filterPosition: {
       control: {
         type: 'select',
-        options: ['left', 'right'], // ✅ Correct placement
+        options: ['left', 'right'],
       },
       description: 'Posição do dropdown',
       table: {
@@ -42,7 +42,7 @@ const meta: Meta<typeof Filter> = {
     variant: {
       control: {
         type: 'select',
-        options: ['filled', 'outlined', 'text'], // ✅ Correct placement
+        options: ['filled', 'outlined', 'text'],
       },
       description: 'Variante do botão',
       table: {
@@ -95,15 +95,12 @@ type Story = StoryObj<typeof meta>;
 const Template = (args: FilterProps) => {
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
 
-  const handleOptionToggle = (value: string) => {
-    setSelectedValues(prev => 
-      prev.includes(value)
-        ? prev.filter(v => v !== value)
-        : [...prev, value]
-    );
+  const handleSelectionChange = (selectedIds: string[]) => {
+    setSelectedValues(selectedIds);
   };
 
-  const displayText = selectedValues.length > 0 
+
+  const displayText = selectedValues.length > 0
     ? `${selectedValues.length} selected`
     : args.buttonText || 'Filter';
 
@@ -112,8 +109,21 @@ const Template = (args: FilterProps) => {
       <Filter
         {...args}
         buttonText={displayText}
-      >
         
+        >
+        <Dropdown
+          items={[
+            { id: '1', text: 'Option 1' },
+            { id: '2', text: 'Option 2' },
+            { id: '3', text: 'Option 3' },
+          ]}
+          type="checkbox"
+          applySearch={true}
+          placeholder="Select options..."
+          onSelectionChange={handleSelectionChange}
+          showSubText={true}
+          defaultSelectedIds={selectedValues}
+        />
       </Filter>
     </div>
   );
@@ -168,7 +178,7 @@ export const FilledVariant: Story = {
   }
 };
 
-// ✅ Story com Calendar
+
 export const WithCalendar: Story = {
   render: (args: FilterProps) => {
     const [selectedDate, setSelectedDate] = useState<Date | null>(null);
@@ -278,7 +288,7 @@ export const WithDropdown: Story = {
   }
 };
 
-// ✅ Story com Dropdown de posição direita
+
 export const WithDropdownRightPosition: Story = {
   render: (args: FilterProps) => {
     const [selectedItems, setSelectedItems] = useState<string[]>(['2']);
@@ -368,15 +378,12 @@ export const WithIncrementalBadge: Story = {
           <p><strong>Incremento:</strong> +{incrementalCount > 0 ? incrementalCount : 0}</p>
           <p><strong>Badge mostra:</strong> {incrementalCount > 0 ? `+${incrementalCount}` : 'Somente texto'}</p>
         </div>
-        
+
         <Filter
           {...args}
           buttonText="Tecnologias"
-          selectedCount={selectedItems.length}
-          baseCount={baseCount}
-          showIncremental={true}
-          onBadgeClick={handleBadgeClick}
-          badgeAriaLabel={`${incrementalCount} tecnologias adicionais selecionadas. Clique para resetar.`}
+          selectedItems={selectedItems}
+          onSelectionChange={handleSelectionChange}
         >
           <Dropdown
             items={dropdownItems}
@@ -404,196 +411,39 @@ export const WithIncrementalBadge: Story = {
   }
 };
 
-// // ✅ Story demonstrando contador incremental simples
-// export const IncrementalCounterDemo: Story = {
-//   render: (args: FilterProps) => {
-//     const [totalCount, setTotalCount] = useState(1); // Começa com 1 (base)
-//     const baseCount = 1;
-
-//     const addItem = () => setTotalCount(prev => prev + 1);
-//     const removeItem = () => setTotalCount(prev => Math.max(baseCount, prev - 1));
-//     const reset = () => setTotalCount(baseCount);
-
-//     return (
-//       <div style={{ padding: '2rem', minHeight: '400px' }}>
-//         <div style={{ marginBottom: '2rem', display: 'flex', gap: '1rem', alignItems: 'center' }}>
-//           <button onClick={addItem} style={{ padding: '0.5rem 1rem', background: '#3b45f2', color: 'white', border: 'none', borderRadius: '4px' }}>
-//             + Adicionar Item
-//           </button>
-//           <button onClick={removeItem} style={{ padding: '0.5rem 1rem', background: '#e81e42', color: 'white', border: 'none', borderRadius: '4px' }}>
-//             - Remover Item
-//           </button>
-//           <button onClick={reset} style={{ padding: '0.5rem 1rem', background: '#88898c', color: 'white', border: 'none', borderRadius: '4px' }}>
-//             Reset
-//           </button>
-//         </div>
-
-//         <div style={{ marginBottom: '2rem', padding: '1rem', background: '#f5f5f5', borderRadius: '8px' }}>
-//           <h4>📊 Status do Contador</h4>
-//           <p><strong>Base (sempre ativo):</strong> {baseCount}</p>
-//           <p><strong>Total selecionado:</strong> {totalCount}</p>
-//           <p><strong>Incremento:</strong> +{totalCount - baseCount}</p>
-//           <p><strong>Regra:</strong> Badge só aparece com mais de 1 item selecionado</p>
-//           <p><strong>Badge exibe:</strong> {totalCount > 1 ? `+${totalCount - baseCount}` : 'Oculto (≤1 item)'}</p>
-//         </div>
-
-//         <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
-//           <div>
-//             <h5>🎯 Exemplo: 5 itens (base=1)</h5>
-//             <Filter
-//               {...args}
-//               buttonText="Categorias"
-//               selectedCount={5}
-//               baseCount={1}
-//               showIncremental={true}
-//               badgeAriaLabel="4 categorias adicionais selecionadas"
-//             >
-//               <div style={{ padding: '1rem', background: 'white', borderRadius: '8px', width: '200px' }}>
-//                 <p>Badge mostra: <strong>+4</strong></p>
-//                 <p>(5 total - 1 base = +4)</p>
-//               </div>
-//             </Filter>
-//           </div>
-
-//           <div>
-//             <h5>🔄 Contador Dinâmico</h5>
-//             <Filter
-//               {...args}
-//               buttonText="Produtos"
-//               selectedCount={totalCount}
-//               baseCount={baseCount}
-//               showIncremental={true}
-//               badgeAriaLabel={`${totalCount - baseCount} produtos adicionais`}
-//             >
-//               <div style={{ padding: '1rem', background: 'white', borderRadius: '8px', width: '200px' }}>
-//                 <p>Use os botões acima para testar</p>
-//                 <p>Badge: {totalCount > 1 ? `+${totalCount - baseCount}` : 'Oculto (≤1 item)'}</p>
-//               </div>
-//             </Filter>
-//           </div>
-//         </div>
-//       </div>
-//     );
-//   },
-//   args: {
-//     filterPosition: 'left',
-//     variant: 'outlined',
-//   },
-//   parameters: {
-//     docs: {
-//       description: {
-//         story: 'Demonstração interativa do contador incremental. O badge mostra "+X" onde X = total - base. **Regra importante:** O badge só aparece quando há mais de 1 item selecionado, caso contrário apenas o texto é exibido.'
-//       }
-//     }
-//   }
-// };
-
-// // ✅ Story demonstrando o gerenciamento interno de itens
-// export const InternalStateManagement: Story = {
-//   render: (args: FilterProps) => {
-//     // ✅ Usando o hook personalizado para gerenciar estado
-//     const filterState = useFilterState(['1', '3']); // Inicia com 2 itens selecionados
-
-//     const dropdownItems: DropdownItem[] = [
-//       { id: '1', text: 'JavaScript', subText: 'Linguagem base' },
-//       { id: '2', text: 'TypeScript', subText: 'Superset tipado' },
-//       { id: '3', text: 'React', subText: 'Biblioteca UI' },
-//       { id: '4', text: 'Vue.js', subText: 'Framework progressivo' },
-//       { id: '5', text: 'Angular', subText: 'Plataforma completa' },
-//     ];
-
-//     return (
-//       <div style={{ padding: '2rem', minHeight: '500px' }}>
-//         <div style={{ marginBottom: '2rem', padding: '1rem', background: '#f5f5f5', borderRadius: '8px' }}>
-//           <h4>🔧 Gerenciamento Interno de Estado</h4>
-//           <p><strong>Itens selecionados:</strong> {filterState.selectedItems.join(', ') || 'Nenhum'}</p>
-//           <p><strong>Contagem:</strong> {filterState.count}</p>
-//           <p><strong>Regra do Badge:</strong> Só aparece com mais de 1 item selecionado</p>
-//           <p><strong>Badge mostra:</strong> {filterState.count > 1 ? `+${filterState.count - 1} (${filterState.count} total)` : 'Oculto (≤1 item)'}</p>
-          
-//           <div style={{ marginTop: '1rem', display: 'flex', gap: '0.5rem' }}>
-//             <button onClick={() => filterState.clearItems()} style={{ padding: '0.25rem 0.5rem', fontSize: '12px' }}>
-//               Limpar Tudo
-//             </button>
-//             <button onClick={() => filterState.addItem('2')} style={{ padding: '0.25rem 0.5rem', fontSize: '12px' }}>
-//               + TypeScript
-//             </button>
-//             <button onClick={() => filterState.toggleItem('4')} style={{ padding: '0.25rem 0.5rem', fontSize: '12px' }}>
-//               Toggle Vue.js
-//             </button>
-//           </div>
-//         </div>
-
-//         {/* ✅ Filter com gerenciamento automático */}
-//         <Filter
-//           {...args}
-//           buttonText="Tecnologias"
-//           selectedItems={filterState.selectedItems}
-//           onSelectionChange={filterState.setSelectedItems}
-//           baseCount={1}
-//           showIncremental={true}
-//           badgeAriaLabel={`${filterState.count - 1} tecnologias adicionais selecionadas`}
-//         >
-//           <Dropdown
-//             items={dropdownItems}
-//             type="checkbox"
-//             applySearch={true}
-//             placeholder="Buscar tecnologias..."
-//             showSubText={true}
-//             defaultSelectedIds={filterState.selectedItems}
-//           />
-//         </Filter>
-//       </div>
-//     );
-//   },
-//   args: {
-//     filterPosition: 'left',
-//     variant: 'outlined',
-//   },
-//   parameters: {
-//     docs: {
-//       description: {
-//         story: 'Demonstra o gerenciamento interno de itens selecionados usando o hook `useFilterState`. O Filter sincroniza automaticamente com o Dropdown e atualiza o badge baseado na seleção.'
-//       }
-//     }
-//   }
-// };
-
-// ✅ Story demonstrando modo não controlado (mais simples)
-export const UncontrolledFilter: Story = {
+// ✅ Story demonstrando badge automático
+export const AutomaticBadge: Story = {
   render: (args: FilterProps) => {
     const dropdownItems: DropdownItem[] = [
-      { id: '1', text: 'Ativo', subText: 'Itens ativos' },
-      { id: '2', text: 'Inativo', subText: 'Itens inativos' },
-      { id: '3', text: 'Pendente', subText: 'Aguardando aprovação' },
-      { id: '4', text: 'Arquivado', subText: 'Itens arquivados' },
+      { id: '1', text: 'JavaScript', subText: 'Linguagem versátil' },
+      { id: '2', text: 'TypeScript', subText: 'JavaScript tipado' },
+      { id: '3', text: 'React', subText: 'Biblioteca para UI' },
+      { id: '4', text: 'Vue.js', subText: 'Framework progressivo' },
+      { id: '5', text: 'Angular', subText: 'Plataforma completa' },
     ];
 
     return (
       <div style={{ padding: '2rem', minHeight: '400px' }}>
-        <div style={{ marginBottom: '2rem', padding: '1rem', background: '#e8f4fd', borderRadius: '8px' }}>
-          <h4>🎯 Modo Não Controlado (Simples)</h4>
-          <p>O Filter gerencia seu próprio estado interno automaticamente.</p>
-          <p>Ideal para casos simples onde você não precisa acessar o estado externamente.</p>
-          <ul>
-            <li>✅ Sem necessidade de useState</li>
-            <li>✅ Badge atualiza automaticamente</li>
-            <li>✅ Integração automática com Dropdown</li>
+        <div style={{ marginBottom: '2rem', padding: '1rem', background: '#f0f9ff', borderRadius: '8px', border: '1px solid #0ea5e9' }}>
+          <h4 style={{ margin: '0 0 1rem 0', color: '#0c4a6e' }}>🎯 Badge Automático</h4>
+          <p>O Filter detecta automaticamente quando é um filtro múltiplo (Dropdown com type="checkbox") e mostra o badge apenas quando há mais de 1 item selecionado.</p>
+          <ul style={{ margin: 0, paddingLeft: '1.5rem' }}>
+            <li>✅ Badge aparece automaticamente para filtros múltiplos</li>
+            <li>✅ Só mostra quando há mais de 1 item selecionado</li>
+            <li>✅ Não precisa de configuração adicional</li>
+            <li>✅ Estado interno gerenciado automaticamente</li>
           </ul>
         </div>
 
         <Filter
           {...args}
-          buttonText="Status"
-          defaultSelectedItems={['1']} // Estado inicial
-          baseCount={1}
-          showIncremental={true}
-          onSelectionChange={(items) => console.log('Seleção mudou:', items)}
+          buttonText="Tecnologias"
         >
           <Dropdown
             items={dropdownItems}
             type="checkbox"
-            placeholder="Filtrar por status..."
+            applySearch={true}
+            placeholder="Buscar tecnologias..."
             showSubText={true}
           />
         </Filter>
@@ -607,7 +457,143 @@ export const UncontrolledFilter: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Modo não controlado onde o Filter gerencia o estado interno automaticamente. Use `defaultSelectedItems` para definir o estado inicial e `onSelectionChange` para monitorar mudanças.'
+        story: 'Demonstração do comportamento automático do badge. O Filter detecta automaticamente que é um filtro múltiplo e exibe o badge quando há mais de 1 item selecionado. Não requer configuração adicional.'
+      }
+    }
+  }
+};
+
+// ✅ Story demonstrando o comportamento: Primeiro item + contador incremental
+export const FirstItemPlusIncrement: Story = {
+  render: (args: FilterProps) => {
+    const [selectedItems, setSelectedItems] = useState<string[]>(['javascript', 'react', 'typescript']);
+
+    const dropdownItems: DropdownItem[] = [
+      { id: 'javascript', text: 'JavaScript', subText: 'Linguagem de programação' },
+      { id: 'typescript', text: 'TypeScript', subText: 'Superset do JavaScript' },
+      { id: 'react', text: 'React', subText: 'Biblioteca para UI' },
+      { id: 'vue', text: 'Vue.js', subText: 'Framework progressivo' },
+      { id: 'angular', text: 'Angular', subText: 'Plataforma completa' },
+      { id: 'svelte', text: 'Svelte', subText: 'Framework compilado' },
+      { id: 'nextjs', text: 'Next.js', subText: 'Framework React' },
+      { id: 'nuxt', text: 'Nuxt.js', subText: 'Framework Vue' },
+    ];
+
+    const handleSelectionChange = (newSelection: string[]) => {
+      setSelectedItems(newSelection);
+    };
+
+    const addRandomItem = () => {
+      const unselectedItems = dropdownItems.filter(item => item.id && !selectedItems.includes(item.id));
+      if (unselectedItems.length > 0) {
+        const randomItem = unselectedItems[Math.floor(Math.random() * unselectedItems.length)];
+        if (randomItem.id) {
+          setSelectedItems([...selectedItems, randomItem.id]);
+        }
+      }
+    };
+
+    const removeLastItem = () => {
+      if (selectedItems.length > 0) {
+        setSelectedItems(selectedItems.slice(0, -1));
+      }
+    };
+
+    const reset = () => setSelectedItems([]);
+
+    return (
+      <div style={{ padding: '2rem', minHeight: '500px' }}>
+        <div style={{ marginBottom: '2rem', padding: '1rem', background: '#f8fafc', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
+          <h4 style={{ margin: '0 0 1rem 0', color: '#1e293b' }}>🎯 Comportamento: Primeiro Item + Contador</h4>
+          
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginBottom: '1rem' }}>
+            <div>
+              <strong>Regras:</strong>
+              <ul style={{ fontSize: '14px', marginTop: '0.5rem' }}>
+                <li>0 itens: Texto padrão</li>
+                <li>1 item: Nome do item</li>
+                <li>2+ itens: Primeiro item + badge (+X)</li>
+              </ul>
+            </div>
+            
+            <div>
+              <strong>Estado Atual:</strong>
+              <br />Selecionados: {selectedItems.length}
+              <br />Primeiro: {selectedItems[0] ? dropdownItems.find(item => item.id === selectedItems[0])?.text : 'Nenhum'}
+              <br />Badge: {selectedItems.length > 1 ? `+${selectedItems.length - 1}` : 'Oculto'}
+            </div>
+          </div>
+
+          <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+            <button 
+              onClick={addRandomItem}
+              disabled={selectedItems.length >= dropdownItems.length}
+              style={{ 
+                padding: '0.5rem 1rem', 
+                background: selectedItems.length >= dropdownItems.length ? '#94a3b8' : '#10b981', 
+                color: 'white', 
+                border: 'none', 
+                borderRadius: '4px',
+                cursor: selectedItems.length >= dropdownItems.length ? 'not-allowed' : 'pointer'
+              }}
+            >
+              ➕ Adicionar Item
+            </button>
+            <button 
+              onClick={removeLastItem}
+              disabled={selectedItems.length === 0}
+              style={{ 
+                padding: '0.5rem 1rem', 
+                background: selectedItems.length === 0 ? '#94a3b8' : '#ef4444', 
+                color: 'white', 
+                border: 'none', 
+                borderRadius: '4px',
+                cursor: selectedItems.length === 0 ? 'not-allowed' : 'pointer'
+              }}
+            >
+              ➖ Remover Item
+            </button>
+            <button 
+              onClick={reset}
+              style={{ 
+                padding: '0.5rem 1rem', 
+                background: '#6366f1', 
+                color: 'white', 
+                border: 'none', 
+                borderRadius: '4px',
+                cursor: 'pointer'
+              }}
+            >
+              🔄 Reset
+            </button>
+          </div>
+        </div>
+
+        <Filter
+          {...args}
+          buttonText="Selecionar Tecnologias"
+          selectedItems={selectedItems}
+          onSelectionChange={handleSelectionChange}
+        >
+          <Dropdown
+            items={dropdownItems}
+            type="checkbox"
+            applySearch={true}
+            placeholder="Buscar tecnologias..."
+            showSubText={true}
+          />
+        </Filter>
+      </div>
+    );
+  },
+  args: {
+    filterPosition: 'left',
+    variant: 'outlined',
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: '**Comportamento Automático**: O Filter mostra o nome do primeiro item selecionado como texto do botão e um badge com "+X" para os itens adicionais. Esse comportamento é completamente automático e interno ao componente.'
       }
     }
   }
