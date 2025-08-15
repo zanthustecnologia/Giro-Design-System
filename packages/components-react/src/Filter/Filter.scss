@@ -24,16 +24,16 @@
     flex: 1; // Faz com que o conteúdo ocupe o espaço disponível
     display: flex;
     justify-content: center;
-    gap: var(--spacing-24); // Era: $spacing-24
+    gap: var(--spacing-24);
   }
 
   .zds-filter-drawer--actions {
     position: sticky; // Mantém os botões fixos no fundo do Drawer
     bottom: 0; // Alinha os botões ao fundo
-    background-color: var(--color-neutral-high-light); // Era: $high-color-light
+    background-color: var(--color-neutral-high-light); // Define um fundo para os botões
     display: flex;
     justify-content: flex-end;
-    gap: var(--spacing-16); // Era: $spacing-16
+    gap: var(--spacing-16);
   }
 }
 
@@ -57,15 +57,15 @@
     top: 0;
     left: 0;
     z-index: 1000;
-    margin-top: var(--spacing-4); // Era: 4px
+    margin-top: var(--spacing-4);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    border-radius: var(--border-radius-8); // Era: 8px
-    background: var(--color-neutral-high-default); // Era: white
+    border-radius: var(--border-radius-8);
+    background: var(--color-neutral-high-default);
   }
 }
 
 .zds-dropdown__container {
-  margin-top: var(--spacing-8); // Era: $spacing-8
+  margin-top: var(--spacing-8);
 }
 
 /**
@@ -75,7 +75,7 @@
 .zds-filter-button-content {
   display: flex;
   align-items: center;
-  gap: var(--spacing-8); // Era: $spacing-8
+  gap: var(--spacing-8);
 
   /**
    * Garante que o Badge status seja exibido inline corretamente
@@ -83,11 +83,37 @@
    */
   .zds-badge-container__status {
     position: static;
-    margin-left: var(--spacing-8); // Era: $spacing-8
+    margin-left: var(--spacing-8);
 
     .zds-badge__status {
       position: static;
       margin: 0;
+    }
+  }
+
+  /**
+   * Estilos específicos para o badge do filtro
+   */
+  .zds-filter-badge {
+    position: static;
+    margin: 0;
+    flex-shrink: 0;
+  }
+}
+
+/**
+ * Estilos específicos para filtro com badge incremental
+ */
+.zds-filter--incremental {
+  .zds-filter-button-content {
+    .zds-filter-badge {
+      background-color: var(--color-brand-secondary-default);
+      color: var(--color-neutral-low-default);
+      font-weight: var(--font-weight-medium);
+      
+      &:hover {
+        background-color: var(--color-brand-secondary-dark);
+      }
     }
   }
 }
@@ -105,7 +131,7 @@
   button:focus-visible {
     outline: none;
     box-shadow: none;
-    border-color: var(--color-neutral-high-default); // Era: $high-color-default
+    border-color: var(--color-neutral-high-default); // Mantém a cor do border para acessibilidade
   }
 
   /**
@@ -123,7 +149,7 @@
     &:focus-within {
       outline: none;
       box-shadow: none;
-      border-color: var(--color-neutral-high-default); // Era: $high-color-default
+      border-color: var(--color-neutral-high-default);
     }
 
     /**
@@ -153,8 +179,8 @@
        * Estilo de foco para elementos do dropdown usando tokens
        */
       &:focus {
-        outline: var(--spacing-4) solid var(--color-neutral-high-default); // Era: $spacing-4 solid $high-color-default
-        outline-offset: var(--spacing-4); // Era: $spacing-4
+        outline: var(--spacing-4) solid var(--color-neutral-high-default);
+        outline-offset: var(--spacing-4);
       }
     }
   }
