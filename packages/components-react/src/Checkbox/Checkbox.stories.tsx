@@ -28,9 +28,10 @@ interface StoryArgs {
 const meta: Meta<typeof Checkbox> = {
   title: 'Components/Checkbox',
   component: Checkbox,
-  parameters:{
-    layout: 'centered'
+  parameters: {
+    layout: 'centered',
   },
+  tags: ['autodocs'],
   argTypes: {
     id: {
       control: { type: 'text' },
@@ -78,7 +79,7 @@ export const Default: Story = {
     const handleChange = (): void => {
       if (internalIndeterminate) {
         setInternalIndeterminate(false);
-        setInternalChecked(true); 
+        setInternalChecked(true);
       } else {
         setInternalChecked(!internalChecked);
       }

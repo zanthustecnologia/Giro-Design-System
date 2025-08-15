@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { Dismiss16Regular, Info12Regular } from '@fluentui/react-icons';
 import Tooltip from '../Tooltip/Tooltip';
-import './textfield.scss';
+import './Textfield.scss';
 import { validateInput } from './ValidationUtils';
 
 interface TextFieldProps {
@@ -97,7 +97,7 @@ const TextField: React.FC<TextFieldProps> = ({
     });
 
     const shouldRenderCustomIcon = !trailingIcon || inputValue.trim().length === 0 || !focus;
-    const shouldRenderClearIcon = focus && trailingIcon && inputValue.trim().length > 0;
+    const shouldRenderClearIcon = focus && inputValue.trim().length > 0;
 
     return (
         <div className={TextFieldClass}>

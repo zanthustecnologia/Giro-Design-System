@@ -1,0 +1,92 @@
+
+.zds-search {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0px var(--spacing-16);
+  gap: var(--spacing-16);
+  width: 100%;
+  height: 44px;
+  border: var(--border-width-1) solid var(--color-neutral-high-dark);
+  border-radius: var(--border-radius-8);
+  font-size: var(--font-size-16);
+  font-weight: var(--font-weight-regular);
+  position: relative;
+  background-color: var(--color-neutral-high-default);
+
+  .zds-leftIcon {
+    color: var(--color-brand-primary-default);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &.disabled {
+      color: var(--color-neutral-high-dark);
+    }
+  }
+
+  input {
+    border: 0;
+    outline: 0;
+    font-size: var(--font-size-16);
+    font-weight: var(--font-weight-regular);
+    padding: 0px;
+    background-color: transparent;
+    width: 100%;
+    min-width: 0;
+    flex: 1 1 0;
+    overflow: hidden;
+
+    &::placeholder {
+      color: var(--color-neutral-low-medium);
+    }
+
+    &:focus {
+      border-color: var(--color-brand-primary-default);
+      border: var(--border-width-2);
+    }
+  }
+
+  .zds-rightIcon {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+  }
+
+  &:hover {
+    border: var(--border-width-1) solid var(--color-neutral-low-default);
+  }
+
+  &:focus-within {
+    outline: var(--border-width-2) solid var(--color-brand-primary-default);
+
+    .zds-search {
+      border: none;
+    }
+
+    &:hover {
+      border: var(--border-width-1) solid transparent; // impede o hover de aparecer quando o input estiver focado
+    }
+  }
+
+  &.disabled {
+    border: var(--border-width-1) solid var(--color-neutral-high-medium);
+    color: var(--color-neutral-high-dark);
+
+    input {
+      background-color: transparent;
+      color: var(--color-neutral-high-dark);
+
+      &::placeholder {
+        color: var(--color-neutral-high-dark);
+      }
+    }
+  }
+}

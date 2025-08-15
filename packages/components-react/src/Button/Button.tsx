@@ -6,7 +6,7 @@ export interface ButtonProps {
   /** Define o elemento a ser renderizado (ex: 'button', 'a', ou outro componente) */
   as?: React.ElementType;
   /** Define o texto principal do botão */
-  children: React.ReactNode;
+  children?: React.ReactNode;
   /** Define tipo do botão entre as opções */
   variant?: 'filled' | 'outlined' | 'text';
   /** Define a posição do ícone entre as opções */
