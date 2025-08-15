@@ -1,24 +1,29 @@
 {
-  "name": "zanthus-design-system",
+  "name": "zanthus-design-system-monorepo",
   "version": "0.0.3",
-  "type": "module",
-  "main": "dist/index.cjs",
-  "module": "dist/index.esm.js",
-  "types": "dist/index.d.types",
-  "files": [
-    "dist"
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "apps/*"
   ],
   "scripts": {
-    "dev": "vite",
-    "build": "turbo run build --filter=./packages/components-react",
-    "dev:react": "vite --config apps/playground/playground/vite.config.ts",
-    "build:tokens": "style-dictionary build --config ./packages/tokens/config/style-dictionary.config.json",
-    "build:components": "rollup -c --bundleConfigAsCjs",
-    "test": "jest --config jest.config.ts",
-    "lint": "eslint .",
-    "preview": "vite preview",
-    "storybook": "storybook dev -p 6006 --config-dir apps/storybook/.storybook",
-    "build-storybook": "storybook build"
+    "build": "turbo run build",
+    "build:tokens": "turbo run build:tokens",
+    "build:components": "turbo run build:components",
+    "build:icons": "turbo run build:icons",
+    "dev": "turbo run dev",
+    "dev:playground": "turbo run dev --filter=playground",
+    "storybook": "turbo run storybook --filter=@zanthus/components-react",
+    "storybook:only": "cd packages/components-react && npm run storybook",
+    "storybook:dev": "turbo run storybook --filter=@zanthus/components-react --no-deps",
+    "storybook:build": "turbo run storybook:build",
+    "test": "turbo run test",
+    "test:watch": "turbo run test:watch",
+    "lint": "turbo run lint",
+    "lint:fix": "turbo run lint:fix",
+    "type-check": "turbo run type-check",
+    "clean": "turbo run clean",
+    "preview": "vite preview"
   },
   "peerDependencies": {
     "@fluentui/react-icons": "^2.0.303",

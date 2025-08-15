@@ -1,0 +1,15 @@
+{
+  "name": "@zanthus/typescript-config",
+  "version": "1.0.0",
+  "description": "TypeScript configurations for Zanthus Design System",
+  "main": "index.js",
+  "files": [
+    "*.json"
+  ],
+  "scripts": {
+    "build": "echo 'No build required'",
+    "clean": "echo 'No clean required'",
+    "lint": "echo 'No lint required'",
+    "test": "echo 'No test required'"
+  }
+}

@@ -1,11 +1,20 @@
 {
   "name": "@zanthus/tokens",
+  "version": "1.0.0",
+  "main": "build/js/tokens.js",
+  "types": "build/js/tokens.d.ts",
+  "files": ["build/**"],
   "scripts": {
     "build": "npm run build:tokens",
     "build:tokens": "style-dictionary build --config ./config/style-dictionary.config.json",
     "dev": "npm run build:tokens -- --watch",
     "clean": "rimraf build dist",
     "lint": "echo 'No linting for tokens'",
-    "test": "echo 'No tests for tokens'"
+    "test": "echo 'No tests for tokens'",
+    "type-check": "echo 'No type checking for tokens'"
+  },
+  "devDependencies": {
+    "style-dictionary": "^4.4.0",
+    "rimraf": "^5.0.0"
   }
 }
