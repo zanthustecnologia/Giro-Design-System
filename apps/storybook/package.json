@@ -1,0 +1,19 @@
+{
+  "name": "storybook",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
+  },
+  "devDependencies": {
+    "storybook": "9.0.15",
+    "@storybook/react-vite": "9.0.15",
+    "@storybook/addon-a11y": "9.0.15",
+    "@storybook/addon-docs": "9.0.15",
+    "@storybook/addon-onboarding": "9.0.15",
+    "@storybook/addon-vitest": "9.0.15",
+    "vite": "6.3.5",
+    "@vitejs/plugin-react": "^4.6.0"
+  }
+}

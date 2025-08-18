@@ -6,7 +6,7 @@ import postcss from 'rollup-plugin-postcss';
 // import { terser } from '@rollup/plugin-terser';
 import dts from 'rollup-plugin-dts';
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
-import packageJson from './package.json';
+import packageJson from '../package.json';
 
 export default {
     input: './packages/index.tsx',

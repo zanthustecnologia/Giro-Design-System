@@ -1,6 +1,6 @@
 import React from "react";
 import { UsbPlug24Regular } from "@fluentui/react-icons";
-import type { Meta, StoryFn } from '@storybook/react';
+import type { Meta, StoryFn } from '@storybook/react-vite';
 import DropDown, { DropdownItem, DropdownProps } from "./Dropdown";
 
 import { Person16Regular, UsbPlug20Filled } from '@fluentui/react-icons';
@@ -56,7 +56,7 @@ interface TemplateArgs extends Omit<DropdownProps, 'items'> {
   // Propriedades específicas do template se necessário
 }
 
-const Template: StoryFn<TemplateArgs> = (args) => {
+const Template: StoryFn<TemplateArgs> = (args: any) => {
   const { applySearch, type, showSubText, ...restArgs } = args;
 
   const handleSelectionChange = (selectedIds: string[]): void => {
