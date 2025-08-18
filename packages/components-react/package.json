@@ -6,8 +6,13 @@
   "main": "dist/index.cjs",
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
-  "files": ["dist"],
-  "sideEffects": ["**/*.css", "**/*.scss"],
+  "files": [
+    "dist"
+  ],
+  "sideEffects": [
+    "**/*.css",
+    "**/*.scss"
+  ],
   "scripts": {
     "clean": "rimraf dist",
     "build": "npm run clean && rollup -c rollup.config.cjs --bundleConfigAsCjs",
@@ -28,9 +33,16 @@
     "postcss": "^8.4.47",
     "rimraf": "^6.0.1",
     "rollup": "^4.21.2",
-    "rollup-plugin-dts": "^6.3.3",
+    "rollup-plugin-dts": "6.2.3",
     "rollup-plugin-postcss": "^4.0.2",
     "sass": "^1.80.3",
     "typescript": "^5.5.4"
+  },
+  "dependencies": {
+    "@fluentui/react-icons": "^2.0.307",
+    "clsx": "^2.1.1",
+    "i18next": "^25.3.6",
+    "react-i18next": "^15.6.1",
+    "react-router-dom": "^7.8.1"
   }
 }

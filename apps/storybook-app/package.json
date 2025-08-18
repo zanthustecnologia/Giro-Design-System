@@ -6,14 +6,15 @@
     "build-storybook": "storybook build"
   },
   "devDependencies": {
-    "storybook": "9.1.2",
-    "@storybook/react-vite": "9.1.2",
-    "@storybook/builder-vite": "9.1.2",
     "@storybook/addon-a11y": "9.1.2",
     "@storybook/addon-docs": "9.1.2",
     "@storybook/addon-onboarding": "9.1.2",
     "@storybook/addon-vitest": "9.1.2",
-    "vite": "6.3.5",
-    "@vitejs/plugin-react": "^4.7.0"
+    "@storybook/builder-vite": "9.1.2",
+    "@storybook/react-vite": "9.1.2",
+    "@vitejs/plugin-react": "^4.7.0",
+    "sass": "^1.90.0",
+    "storybook": "9.1.2",
+    "vite": "6.3.5"
   }
 }

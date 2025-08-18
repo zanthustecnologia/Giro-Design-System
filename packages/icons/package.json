@@ -1,41 +1,29 @@
 {
   "name": "@zanthus/icons",
   "version": "1.0.1",
-  "description": "Biblioteca de ícones baseada no Fluent UI para o Zanthus Design System",
+  "description": "Icon library for Zanthus design system (React + TS)",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
-  "types": "dist/index.d.ts",
-  "files": ["dist"],
+  "types": "dist/types/index.d.ts",
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "clean": "rimraf dist",
-    "build": "npm run clean && rollup -c",
-    "dev": "rollup -c --watch",
-    "test": "echo \"No tests for icons yet\"",
-    "lint": "eslint src --ext .ts,.tsx",
-    "typecheck": "tsc --noEmit"
-  },
-  "dependencies": {
-    "@fluentui/react-icons": "^2.0.303"
+    "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\"",
+    "build": "npm run clean && rollup -c && tsc -p ./tsconfig.build.json"
   },
   "peerDependencies": {
-    "react": "^18 || ^19",
-    "react-dom": "^18 || ^19"
+    "react": "^18.0.0"
+  },
+  "dependencies": {
+    "@fluentui/react-icons": "^2.0.307"
   },
   "devDependencies": {
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "typescript": "^5.5.4",
-    "@types/react": "^18.3.23",
-    "@types/react-dom": "^18.3.7",
-    "rollup": "^4.21.2",
-    "@rollup/plugin-node-resolve": "^15.3.0",
-    "@rollup/plugin-commonjs": "^26.0.0",
+    "@rollup/plugin-commonjs": "^26.0.3",
     "@rollup/plugin-json": "^6.1.0",
-    "@rollup/plugin-typescript": "^12.1.2",
-    "rollup-plugin-dts": "^6.3.3",
-    "rimraf": "^6.0.1"
-  },
-  "publishConfig": {
-    "access": "public"
+    "@rollup/plugin-node-resolve": "^15.3.1",
+    "@rollup/plugin-typescript": "^11.1.6",
+    "typescript": "^5.9.2"
   }
 }

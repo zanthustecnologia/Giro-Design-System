@@ -15,6 +15,9 @@
     "build-storybook": "turbo run build-storybook --filter=storybook-app --config-dir apps/storybook/.storybook"
   },
   "devDependencies": {
+    "@rollup/rollup-win32-x64-msvc": "^4.46.3",
+    "rollup": "^4.46.3",
+    "rollup-plugin-dts": "6.2.3",
     "turbo": "^2.5.4"
   }
 }

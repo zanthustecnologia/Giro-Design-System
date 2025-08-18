@@ -1,30 +1,24 @@
-const resolve = require("@rollup/plugin-node-resolve").default;
-const commonjs = require("@rollup/plugin-commonjs");
-const json = require("@rollup/plugin-json");
-const typescript = require("@rollup/plugin-typescript");
-const dts = require("rollup-plugin-dts").default;
+// Rollup 4 — build ESM + CJS
+const { nodeResolve } = require('@rollup/plugin-node-resolve');
+const commonjs = require('@rollup/plugin-commonjs');
+const json = require('@rollup/plugin-json');
+const typescript = require('@rollup/plugin-typescript');
 
-const external = ["react", "react-dom", "@fluentui/react-icons"];
-
-module.exports = [
-  {
-    input: "src/index.ts",
-    external,
-    plugins: [
-      resolve({ extensions: [".mjs", ".js", ".ts", ".tsx", ".json"] }),
-      commonjs(),
-      json(),
-      typescript({ declaration: false })
-    ],
-    output: [
-      { file: "dist/index.esm.js", format: "esm", sourcemap: true },
-      { file: "dist/index.cjs.js", format: "cjs", sourcemap: true, exports: "named" }
-    ]
-  },
-  {
-    input: "src/index.ts",
-    external,
-    plugins: [dts()],
-    output: [{ file: "dist/index.d.ts", format: "es" }]
-  }
-];
+module.exports = {
+  input: 'src/index.tsx', // ajuste se seu entry for .ts
+  output: [
+    { file: 'dist/index.esm.js', format: 'esm', sourcemap: true },
+    { file: 'dist/index.cjs.js', format: 'cjs', sourcemap: true, exports: 'named' }
+  ],
+  external: [
+    'react',
+    'react/jsx-runtime',
+    '@fluentui/react-icons'
+  ],
+  plugins: [
+    nodeResolve({ extensions: ['.mjs', '.js', '.jsx', '.ts', '.tsx', '.json'] }),
+    commonjs(),
+    json(),
+    typescript({ tsconfig: './tsconfig.json' })
+  ]
+};

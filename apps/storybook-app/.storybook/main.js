@@ -13,7 +13,6 @@ const config = {
 
   // Addons recomendados
   addons: [
-    '@storybook/addon-essentials',  // actions, controls, docs, backgrounds, viewport, etc.
     '@storybook/addon-a11y'         // acessibilidade
     // '@storybook/addon-interactions' // (opcional) se usar testes interativos com play function
   ],
