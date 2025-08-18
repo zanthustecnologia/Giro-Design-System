@@ -12,8 +12,7 @@
     "lint": "turbo run lint",
     "typecheck": "turbo run typecheck",
     "test": "turbo run test",
-    "storybook": "turbo run storybook --filter=storybook-app",
-    "build-storybook": "turbo run build-storybook --filter=storybook-app"
+    "build-storybook": "turbo run build-storybook --filter=storybook-app --config-dir apps/storybook/.storybook"
   },
   "devDependencies": {
     "turbo": "^2.5.4"

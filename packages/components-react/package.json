@@ -15,7 +15,7 @@
     "test": "jest --config jest.config.ts",
     "lint": "eslint .",
     "preview": "vite preview",
-    "storybook": "storybook dev -p 6006 --config-dir apps/storybook/.storybook",
+    "storybook": "storybook dev -p 6006 --config-dir ../../apps/storybook-app/.storybook",
     "build-storybook": "storybook build"
   },
   "peerDependencies": {
