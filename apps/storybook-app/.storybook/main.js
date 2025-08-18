@@ -4,8 +4,10 @@ const config = {
     name: '@storybook/react-vite',
     options: {}
   },
-  stories: ['../stories/**/*.mdx', '../stories/**/*.stories.@(js|jsx|ts|tsx)'],
-  addons: []
+  stories: [
+    "../stories/**/*.mdx",
+    "../../../packages/components-react/src/**/*.stories.@(js|jsx|tsx)",
+  ]
 };
 
 export default config;
