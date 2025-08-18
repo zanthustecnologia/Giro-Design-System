@@ -1,16 +1,59 @@
 {
-    "$schema": "https://turborepo.com/schema.json",
-    "globalDependencies": [
-        "tsconfig.json"
-    ],
-    "tasks": {
-        "build": {
-            "dependsOn": [
-                "^build"
-            ],
-                "outputs": [
-                    "packages/*/dist/**"
-                ]
-        }
+  "$schema": "https://turborepo.com/schema.json",
+  "globalDependencies": [
+    "package.json",
+    "tsconfig.json",
+    "turbo.json"
+  ],
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**", "build/**", "storybook-static/**"]
+    },
+    "build:tokens": {
+      "inputs": ["src/**/*.json", "config/**"],
+      "outputs": ["build/**"]
+    },
+    "build:components": {
+      "dependsOn": ["@zanthus/tokens#build:tokens"],
+      "inputs": ["src/**/*.{ts,tsx,scss,css}", "rollup.config.js"],
+      "outputs": ["dist/**"]
+    },
+    "build:icons": {
+      "dependsOn": ["@zanthus/tokens#build:tokens"],
+      "inputs": ["src/**/*.{ts,tsx,svg}", "rollup.config.js"],
+      "outputs": ["dist/**"]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "storybook": {
+      "dependsOn": ["@zanthus/components-react#build:components"],
+      "cache": false,
+      "persistent": true
+    },
+    "build-storybook": {
+      "dependsOn": ["@zanthus/components-react#build:components"],
+      "outputs": ["storybook-static/**"]
+    },
+    "test": {
+      "dependsOn": ["^build"],
+      "outputs": ["coverage/**"]
+    },
+    "test:watch": {
+      "cache": false,
+      "persistent": true
+    },
+    "lint": {
+      "outputs": []
+    },
+    "typecheck": {
+      "dependsOn": ["^build"],
+      "outputs": []
+    },
+    "clean": {
+      "cache": false
     }
+  }
 }
