@@ -131,10 +131,10 @@ export const Sizes: StoryFn<ButtonProps> = () => (
     justifyContent: 'center',
     gap: '24px'
   }}>
-    <Button  variant="filled" size="lg" icon={<Add16Filled />} onClick={() => alert('clicked')}>
+    <Button  variant="filled" size="lg" icon={<Icon name="add" size={16} />} onClick={() => alert('clicked')}>
       Large Button
     </Button>
-    <Button  variant="filled" size="sm" icon={<Add16Filled />} onClick={() => alert('clicked')}>
+    <Button  variant="filled" size="sm" icon={<Icon name="add" size={16} />} onClick={() => alert('clicked')}>
       Small Button
     </Button>
   </div>

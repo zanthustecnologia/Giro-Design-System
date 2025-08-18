@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import Tooltip from './Tooltip';
 import Avatar from '../Avatar/Avatar';
 import { Person16Regular } from '@fluentui/react-icons';
-import { Button } from '../../..';
+import { Button } from '..';
 
 type Story = StoryObj<typeof Tooltip>;
 

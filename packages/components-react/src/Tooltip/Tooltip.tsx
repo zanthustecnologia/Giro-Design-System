@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import './tooltip.scss';
+import './Tooltip.scss';
 import clsx from 'clsx';
 
 
