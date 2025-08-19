@@ -1,7 +1,20 @@
-import React, { createContext, useContext, useState, useEffect, useCallback, useRef, ReactNode } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useCallback,
+  useRef,
+  ReactNode,
+} from 'react';
 import clsx from 'clsx';
 import './Toast.scss';
-import { CheckmarkCircle20Filled, Dismiss16Regular, Warning20Filled, Info20Filled } from '@fluentui/react-icons';
+import {
+  CheckmarkCircle20Filled,
+  Dismiss16Regular,
+  Warning20Filled,
+  Info20Filled,
+} from '@fluentui/react-icons';
 
 /**
  * Tipos de toast disponíveis
@@ -16,7 +29,7 @@ export interface ToastMessage {
   message: string;
   type: ToastType;
   active: boolean;
-  timeout: NodeJS.Timeout | null;
+  timeout: ReturnType<typeof setTimeout> | null; // <- agnóstico (browser/Node)
   closed: boolean;
   time: number | null;
   persistent: boolean;
@@ -55,6 +68,7 @@ interface ToastContextType {
 
 /**
  * Evento customizado de toast
+ * (usar CustomEvent genérico quando disponível na sua versão do TS)
  */
 interface ToastEvent extends CustomEvent {
   detail: ToastMessage;
@@ -73,16 +87,16 @@ export const ToastInfoIcon: React.FC = () => <Info20Filled />;
 const toastVariants: Record<ToastType, ToastVariant> = {
   success: {
     icon: <ToastSuccessIcon />,
-    className: 'zds-toast__success'
+    className: 'zds-toast__success',
   },
   alert: {
     icon: <ToastAlertIcon />,
-    className: 'zds-toast__alert'
+    className: 'zds-toast__alert',
   },
   info: {
     icon: <ToastInfoIcon />,
-    className: 'zds-toast__info'
-  }
+    className: 'zds-toast__info',
+  },
 };
 
 const MAX_TOASTS = 5;
@@ -94,21 +108,21 @@ const ToastContext = createContext<ToastContextType | undefined>(undefined);
  */
 function useToastState() {
   const [toastMessages, setToastMessages] = useState<ToastMessage[]>([]);
-  const timeoutsRef = useRef<NodeJS.Timeout[]>([]);
-  const closeTimeoutsRef = useRef<NodeJS.Timeout[]>([]);
+  const timeoutsRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+  const closeTimeoutsRef = useRef<ReturnType<typeof setTimeout>[]>([]);
 
   const clearToast = useCallback((id: string): void => {
     setToastMessages((prevMessages) => {
       const newMessages = [...prevMessages];
       const index = newMessages.findIndex((message) => message.id === id);
       if (index === -1) return newMessages;
-      
+
       newMessages[index].active = false;
       if (newMessages[index].timeout) {
         clearTimeout(newMessages[index].timeout!);
         newMessages[index].timeout = null;
       }
-      
+
       // Close animation timeout
       const closeTimeout = setTimeout(() => {
         setToastMessages((prev) => {
@@ -118,7 +132,7 @@ function useToastState() {
           return arr;
         });
       }, 450);
-      
+
       closeTimeoutsRef.current.push(closeTimeout);
       return newMessages;
     });
@@ -129,7 +143,7 @@ function useToastState() {
     setToastMessages,
     clearToast,
     timeoutsRef,
-    closeTimeoutsRef
+    closeTimeoutsRef,
   };
 }
 
@@ -139,8 +153,8 @@ function useToastState() {
 interface UseToastEffectsProps {
   setToastMessages: React.Dispatch<React.SetStateAction<ToastMessage[]>>;
   clearToast: (id: string) => void;
-  timeoutsRef: React.MutableRefObject<NodeJS.Timeout[]>;
-  closeTimeoutsRef: React.MutableRefObject<NodeJS.Timeout[]>;
+  timeoutsRef: React.MutableRefObject<ReturnType<typeof setTimeout>[]>;
+  closeTimeoutsRef: React.MutableRefObject<ReturnType<typeof setTimeout>[]>;
   message?: string;
   variant?: ToastType;
   persistent?: boolean;
@@ -158,12 +172,12 @@ function useToastEffects({
   message,
   variant,
   persistent,
-  duration
+  duration,
 }: UseToastEffectsProps): void {
   useEffect(() => {
     const handleToastEvent = (event: Event): void => {
       const toastEvent = event as ToastEvent;
-      
+
       setToastMessages((prevMessages) => {
         const activeToasts = prevMessages.filter((msg) => !msg.closed);
         if (activeToasts.length >= MAX_TOASTS) {
@@ -181,7 +195,7 @@ function useToastEffects({
           const newMessages = [...prevMessages];
           const index = newMessages.findIndex((message) => message.id === toastEvent.detail.id);
           if (index === -1) return newMessages;
-          
+
           if (!newMessages[index].persistent && newMessages[index].time) {
             const time = setTimeout(() => {
               clearToast(toastEvent.detail.id);
@@ -189,7 +203,7 @@ function useToastEffects({
             newMessages[index].timeout = time;
             timeoutsRef.current.push(time);
           }
-          
+
           newMessages[index].active = true;
           return newMessages;
         });
@@ -197,7 +211,7 @@ function useToastEffects({
     };
 
     window.addEventListener('toast', handleToastEvent);
-    
+
     return () => {
       window.removeEventListener('toast', handleToastEvent);
       timeoutsRef.current.forEach(clearTimeout);
@@ -217,20 +231,21 @@ function useToastEffects({
 /**
  * Gera um ID único para o toast
  */
-const ToastId = (): string => `${Date.now()}-${Math.random().toString(36).slice(2, 11)}`;
+const ToastId = (): string =>
+  `${Date.now()}-${Math.random().toString(36).slice(2, 11)}`;
 
 /**
  * Função global para disparar um toast.
  */
 const toast = (
-  message: string, 
-  type: ToastType = 'info', 
-  time: number = 5000, 
+  message: string,
+  type: ToastType = 'info',
+  time: number = 5000,
   persistent: boolean = false
 ): void => {
   let toastType: ToastType = 'info';
   let toastTime: number | null = time;
-  
+
   if (type === 'success') toastType = 'success';
   else if (type === 'alert') toastType = 'alert';
 
@@ -247,10 +262,10 @@ const toast = (
       timeout: null,
       closed: false,
       time: toastTime,
-      persistent
-    }
+      persistent,
+    },
   }) as ToastEvent;
-  
+
   window.dispatchEvent(event);
 };
 
@@ -267,19 +282,14 @@ interface UseToastProviderProps {
 /**
  * Hook customizado para gerenciar o estado e efeitos dos toasts.
  */
-function useToastProvider({ 
-  variant = 'info', 
-  message, 
-  persistent = false, 
-  duration = 5000 
+function useToastProvider({
+  variant = 'info',
+  message,
+  persistent = false,
+  duration = 5000,
 }: UseToastProviderProps = {}) {
-  const {
-    toastMessages,
-    setToastMessages,
-    clearToast,
-    timeoutsRef,
-    closeTimeoutsRef
-  } = useToastState();
+  const { toastMessages, setToastMessages, clearToast, timeoutsRef, closeTimeoutsRef } =
+    useToastState();
 
   useToastEffects({
     setToastMessages,
@@ -289,7 +299,7 @@ function useToastProvider({
     message,
     variant,
     persistent,
-    duration
+    duration,
   });
 
   const getVariant = useCallback((type: ToastType): ToastVariant => {
@@ -299,7 +309,7 @@ function useToastProvider({
   return {
     toastMessages,
     clearToast,
-    getVariant
+    getVariant,
   };
 }
 
@@ -311,21 +321,26 @@ const ToastProvider: React.FC<ToastProviderProps> = ({ children, ...props }) => 
 
   const contextValue: ToastContextType = {
     toast,
-    clearToast
+    clearToast,
   };
 
   return (
     <ToastContext.Provider value={contextValue}>
       <div
-        className={clsx('zds-toast__container', toastMessages.length > 0 && 'zds-toast__show')}
+        className={clsx(
+          'zds-toast__container',
+          toastMessages.length > 0 && 'zds-toast__show'
+        )}
         role="status"
         aria-live="polite"
       >
         {toastMessages.map((toastMessage) => {
           if (toastMessage.closed) return null;
-          
-          const { icon, className } = getVariant(toastMessage.type || props.variant || 'info');
-          
+
+          const { icon, className } = getVariant(
+            toastMessage.type || props.variant || 'info'
+          );
+
           return (
             <div
               key={toastMessage.id}
@@ -335,9 +350,7 @@ const ToastProvider: React.FC<ToastProviderProps> = ({ children, ...props }) => 
                 toastMessage.active && 'zds-toast__active'
               )}
             >
-              <span className="zds-toast__icon">
-                {icon}
-              </span>
+              <span className="zds-toast__icon">{icon}</span>
               <span className="zds-toast__message">{toastMessage.message}</span>
               <button
                 type="button"
