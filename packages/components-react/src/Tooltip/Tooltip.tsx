@@ -2,8 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import './tooltip.scss';
 import clsx from 'clsx';
 
-
-
 interface TooltipProps {
   text: React.ReactNode;
   position?: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left' | 'left' | 'right';
@@ -12,7 +10,7 @@ interface TooltipProps {
 
 const Tooltip: React.FC<TooltipProps> = ({ text, children, position = 'top-right' }) => {
   const [visible, setVisible] = useState(false);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const tooltipRef = useRef<HTMLDivElement | null>(null);
 
   const handleMouseEnter = () => {
@@ -63,6 +61,5 @@ const Tooltip: React.FC<TooltipProps> = ({ text, children, position = 'top-right
     </div>
   );
 };
-
 
 export default Tooltip;

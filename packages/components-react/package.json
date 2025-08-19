@@ -1,29 +1,49 @@
 {
   "name": "@zanthus/components-react",
-  "version": "1.0.0",
-  "description": "Biblioteca de componentes React para o Zanthus Design System",
-  "main": "dist/index.cjs.js",
+  "version": "1.0.6",
+  "private": false,
+  "description": "Biblioteca de componentes React do Zanthus DS",
+  "main": "dist/index.cjs",
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist"
   ],
+  "sideEffects": [
+    "**/*.css",
+    "**/*.scss"
+  ],
   "scripts": {
-    "build": "rollup -c ../rollup.config.js",
-    "test": "vitest",
-    "lint": "eslint src --ext .ts,.tsx",
-    "prepare": "npm run build"
+    "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\"",
+    "gen:barrel": "node ./scripts/generate-barrel.mjs",
+    "build": "npm run clean && rollup -c rollup.config.cjs --bundleConfigAsCjs",
+    "dev": "rollup -c rollup.config.cjs --bundleConfigAsCjs -w",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "lint": "echo \"(adicione eslint aqui)\""
   },
   "peerDependencies": {
     "react": "^18.0.0",
     "react-dom": "^18.0.0"
   },
   "devDependencies": {
-    "@types/react": "^18.0.28",
-    "@types/react-dom": "^18.0.11",
-    "rollup": "^3.0.0",
-    "typescript": "^5.0.0",
-    "vitest": "^0.32.0",
-    "eslint": "^8.0.0"
+    "@rollup/plugin-commonjs": "^26.0.0",
+    "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-node-resolve": "^15.3.0",
+    "@rollup/plugin-typescript": "^12.1.2",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.47",
+    "rimraf": "^6.0.1",
+    "rollup": "^4.21.2",
+    "rollup-plugin-dts": "6.2.3",
+    "rollup-plugin-postcss": "^4.0.2",
+    "sass": "^1.80.3",
+    "typescript": "^5.5.4"
+  },
+  "dependencies": {
+    "@fluentui/react-icons": "^2.0.307",
+    "clsx": "^2.1.1",
+    "i18next": "^25.3.6",
+    "react-i18next": "^15.6.1",
+    "react-router-dom": "^7.8.1"
   }
 }
