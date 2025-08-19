@@ -26,7 +26,8 @@ module.exports = [
       commonjs(),
       json(),
       postcss({
-        extract: true, // gera um .css ao lado do bundle
+        extract: false, // NÃO gera arquivo .css externo
+        inject: true,   // INJETA o CSS no JS automaticamente
         modules: {
           generateScopedName: "[name]__[local]___[hash:base64:5]",
         },
@@ -36,18 +37,18 @@ module.exports = [
       typescript({
         tsconfig: path.resolve(__dirname, "tsconfig.json"),
         declaration: true,
-        declarationDir: "dist",
+        declarationDir: path.resolve(__dirname, "../../dist"),
         rootDir: "src",
       }),
     ],
     output: [
       {
-        file: pkg.module, // dist/index.esm.js
+        file: path.resolve(__dirname, "../../dist/index.esm.js"),
         format: "esm",
         sourcemap: true,
       },
       {
-        file: pkg.main, // dist/index.cjs
+        file: path.resolve(__dirname, "../../dist/index.cjs"),
         format: "cjs",
         sourcemap: true,
         exports: "named",
