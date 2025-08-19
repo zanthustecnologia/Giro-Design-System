@@ -1,24 +1,21 @@
-// AUTO-GERADO por scripts/generate-barrel.mjs
-// Não edite manualmente: rode "npm run gen:barrel" após adicionar/renomear componentes.
-
-export * from "./Avatar/Avatar";
-export * from "./Button/Button";
-export * from "./Callout/Callout";
-export * from "./Checkbox/Checkbox";
-export * from "./Chips/Chips";
-export * from "./Dialog/Dialog";
-export * from "./Dropdown/Dropdown";
-export * from "./ListItem/ListItem";
-export * from "./Quantity/Quantity";
-export * from "./Radio/Radio";
-export * from "./Search/Search";
-export * from "./TextField/TextField";
-export * from "./Toast/Toast";
-export * from "./Tooltip/Tooltip";
-export * from "./VerificationCode/VerificationCode";
-export { default as Calendar } from "./Calendar/Calendar";
-export type { CalendarProps } from "./Calendar/Calendar";
-export type { Locale as CalendarLocale } from "./Calendar/Calendar";
-export { default as DatePicker } from "./DatePicker/DatePicker";
-export type { DatePickerProps } from "./DatePicker/DatePicker";
-export type { Locale as DatePickerLocale } from "./DatePicker/DatePicker";
+export { default as Avatar } from './Avatar/Avatar';
+export { default as Button } from './Button/Button';
+export { default as Callout } from './Callout/Callout';
+export { default as Checkbox } from './Checkbox/Checkbox';
+export { default as Chips } from './Chips/Chips';
+export { default as Dialog } from './Dialog/Dialog';
+export { default as Dropdown } from './Dropdown/Dropdown';
+export { default as ListItem } from './ListItem/ListItem';
+export { default as Quantity } from './Quantity/Quantity';
+export { default as Radio } from './Radio/Radio';
+export { default as Search } from './Search/Search';
+export { default as TextField } from './TextField/TextField';
+export { default as Toast } from './Toast/Toast';
+export { default as Tooltip } from './Tooltip/Tooltip';
+export { default as VerificationCode } from './VerificationCode/VerificationCode';
+export { default as Calendar } from './Calendar/Calendar';
+export type { CalendarProps } from './Calendar/Calendar';
+export type { Locale as CalendarLocale } from './Calendar/Calendar';
+export { default as DatePicker } from './DatePicker/DatePicker';
+export type { DatePickerProps } from './DatePicker/DatePicker';
+export type { Locale as DatePickerLocale } from './DatePicker/DatePicker';
