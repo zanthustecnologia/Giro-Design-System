@@ -12,7 +12,8 @@ node_modules
 dist
 dist-ssr
 *.local
-.turbo
+*.turbo/
+*.cookies/
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
