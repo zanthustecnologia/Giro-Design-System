@@ -3,7 +3,7 @@ import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
 import typescript from '@rollup/plugin-typescript';
 import postcss from 'rollup-plugin-postcss';
-import dts from 'rollup-plugin-dts';
+import {dts} from 'rollup-plugin-dts';
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
 import packageJson from './package.json' assert { type: 'json' };
 
@@ -47,6 +47,6 @@ export default [
   {
     input: 'src/index.tsx',
     output: [{ file: 'dist/index.d.ts', format: 'esm' }],
-    plugins: [dts()],
+    // plugins: [dts()],
   },
 ];
