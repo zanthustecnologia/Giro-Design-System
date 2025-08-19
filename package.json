@@ -12,9 +12,15 @@
     "lint": "turbo run lint",
     "typecheck": "turbo run typecheck",
     "test": "turbo run test",
-    "build-storybook": "turbo run build-storybook --filter=storybook-app --config-dir apps/storybook/.storybook"
+    "build-storybook": "turbo run build-storybook --filter=storybook-app --config-dir apps/storybook/.storybook",
+
+    "changeset": "changeset",
+    "changeset:version": "changeset version",
+    "changeset:publish": "changeset publish --provenance --tag latest",
+    "release": "npm run changeset:version && npm run build && npm run changeset:publish"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.29.6",
     "@rollup/rollup-win32-x64-msvc": "^4.46.3",
     "rollup": "^4.46.3",
     "rollup-plugin-dts": "6.2.3",
