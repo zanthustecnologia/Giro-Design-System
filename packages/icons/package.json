@@ -1,6 +1,6 @@
 {
   "name": "@zanthus/icons",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Icon library for Zanthus design system (React + TS)",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",

@@ -1,8 +1,10 @@
 {
   "name": "@zanthus/tokens",
-  "version": "0.0.1",
+  "version": "0.1.1",
   "private": false,
-  "files": ["build"],
+  "files": [
+    "build"
+  ],
   "scripts": {
     "build": "style-dictionary build --config ./config/style-dictionary.config.json"
   },

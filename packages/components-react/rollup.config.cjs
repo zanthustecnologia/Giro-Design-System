@@ -15,7 +15,6 @@ module.exports = [
     external: [
       ...Object.keys(pkg.peerDependencies || {}),
       ...Object.keys(pkg.dependencies || {}).filter((d) =>
-        // mantenha libs de runtime se quiser bundlar (aqui marcamos todas como externas exceto css/scss)
         !/\.(css|scss)$/.test(d)
       ),
     ],
@@ -37,18 +36,18 @@ module.exports = [
       typescript({
         tsconfig: path.resolve(__dirname, "tsconfig.json"),
         declaration: true,
-        declarationDir: path.resolve(__dirname, "../../dist"),
+         declarationDir: path.resolve(__dirname, "dist"),
         rootDir: "src",
       }),
     ],
     output: [
       {
-        file: path.resolve(__dirname, "../../dist/index.esm.js"),
+        file: path.resolve(__dirname, "dist/index.esm.js"),
         format: "esm",
         sourcemap: true,
       },
       {
-        file: path.resolve(__dirname, "../../dist/index.cjs"),
+        file: path.resolve(__dirname, "dist/index.cjs"),
         format: "cjs",
         sourcemap: true,
         exports: "named",
