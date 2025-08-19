@@ -21,10 +21,10 @@
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "lint": "echo \"(adicione eslint aqui)\""
 },
-  "peerDependencies": {
-    "react": "^18 || ^19",
-    "react-dom": "^18 || ^19"
-  },
+"peerDependencies": {
+  "react": "^18.0.0",
+  "react-dom": "^18.0.0"
+},
   "devDependencies": {
     "@rollup/plugin-commonjs": "^26.0.0",
     "@rollup/plugin-json": "^6.1.0",
