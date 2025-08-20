@@ -1,5 +1,4 @@
 import React, { useState, useCallback, useEffect, useId, useRef } from 'react';
-import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { Dismiss16Regular, Info12Regular } from '@fluentui/react-icons';
 import Tooltip from '../Tooltip/Tooltip';

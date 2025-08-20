@@ -7,11 +7,13 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+.npmrc
 node_modules
 dist
 dist-ssr
 *.local
-
+*.turbo/
+*.cookies/
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
@@ -22,6 +24,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
 
 *storybook.log
 storybook-static

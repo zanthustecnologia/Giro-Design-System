@@ -3,7 +3,7 @@ import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { Meta, StoryFn } from '@storybook/react';
 import Button, { ButtonProps } from './Button';
-import { Icon } from '../../../icons/src/Icon';
+import { Icon } from '../../../icons/src';
 
 export default {
   title: 'Components/Button',
@@ -38,7 +38,7 @@ export default {
       control: { type: 'select' },
       options: ['none', 'add', 'delete', 'edit', 'arrowDown'],
       mapping: {
-        add: <Icon name="add" size={16} />,
+        add: <Icon name='add' size={16} />,
         delete: <Icon name="delete" size={16} />,
         edit: <Icon name="edit" size={16} />,
         arrowDown: <Icon name="arrowDown" size={12} />,
