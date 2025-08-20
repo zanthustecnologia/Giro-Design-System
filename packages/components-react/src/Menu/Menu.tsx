@@ -21,7 +21,7 @@ export interface MenuItem {
 
 export interface MenuProps {
   /** Elemento React que será usado como âncora do menu (obrigatório) */
-  children: ReactElement;
+  children: ReactElement<any, any>;
 
   /** Array de itens do menu */
   menuItems?: MenuItem[];
@@ -33,7 +33,7 @@ export interface MenuProps {
   onToggle?: (isOpen: boolean) => void;
 
   /** Tipo do dropdown */
-  type?: 'text' | 'checkbox' | 'icon';
+  type?: 'text' | 'icon';
 
   /** Habilita campo de busca */
   applySearch?: boolean;
@@ -162,9 +162,6 @@ const Menu: React.FC<MenuProps> = ({
             if (selectedItem && !selectedItem.disabled && onMenuItemClick) {
               onMenuItemClick(selectedItem);
             }
-            if (type !== 'checkbox') {
-              closeMenu();
-            }
           }
           break;
 
@@ -203,9 +200,7 @@ const Menu: React.FC<MenuProps> = ({
         }
       }
 
-      if (type !== 'checkbox') {
-        closeMenu();
-      }
+     
     },
     [menuItems, onMenuItemClick, type, closeMenu]
   );
@@ -224,6 +219,7 @@ const Menu: React.FC<MenuProps> = ({
     }
   }, [isMenuOpen, handleClickOutside, handleKeyDown]);
 
+
   const renderAnchor = (): ReactElement => {
     return React.cloneElement(children, {
       ref: anchorRef,
@@ -233,8 +229,8 @@ const Menu: React.FC<MenuProps> = ({
         }
         toggleDropdown();
       },
-      'aria-expanded': isMenuOpen,
-      'aria-haspopup': 'menu' as const,
+      'aria-expanded': isMenuOpen ? 'true' : 'false',
+      'aria-haspopup': 'menu',
       ...children.props,
     });
   };

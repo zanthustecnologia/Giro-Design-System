@@ -13,7 +13,6 @@ import {
   Alert16Regular,
   Share16Regular,
   ArrowDownload16Regular,
-  Filter16Regular,
 } from '@fluentui/react-icons';
 import Menu, { MenuItem, MenuProps } from './Menu';
 import Button from '../Button/Button';
@@ -22,19 +21,11 @@ import Button from '../Button/Button';
  * Dados mock básicos
  */
 const basicMenuItems: MenuItem[] = [
-  { id: 'edit', text: 'Editar', value: 'edit', icon: <Edit16Regular /> },
-  { id: 'view', text: 'Visualizar', value: 'view', icon: <Eye16Regular /> },
-  { id: 'delete', text: 'Excluir', value: 'delete', icon: <Delete16Regular /> },
+  { id: 'edit', text: 'Editar', value: 'edit', subText: 'Arquivar', icon: <Edit16Regular /> },
+  { id: 'view', text: 'Visualizar', value: 'view', subText: 'Ver detalhes', icon: <Eye16Regular /> },
+  { id: 'delete', text: 'Excluir', value: 'delete', subText: 'Remover', icon: <Delete16Regular /> },
 ];
 
-/**
- * Dados mock para menu de usuário
- */
-const userMenuItems: MenuItem[] = [
-  { id: 'profile', text: 'Meu Perfil', value: 'profile', icon: <Person16Regular /> },
-  { id: 'settings', text: 'Configurações', value: 'settings', icon: <Settings16Regular /> },
-  { id: 'logout', text: 'Sair', value: 'logout' },
-];
 
 /**
  * Dados mock para filtros
@@ -130,15 +121,19 @@ export const Default: Story = {
     onMenuItemClick: mockAction('onMenuItemClick'),
     onToggle: mockAction('onToggle'),
   },
-  render: (args) => (
-    <Menu {...args}>
-      <Button
-        variant="text"
-        icon={<MoreVertical16Regular />}
-        aria-label="Abrir menu de ações"
-      />
-    </Menu>
-  ),
+  render: (args) => {
+    const { showSubText } = args;
+    {console.log('showSubText:', showSubText)}
+    return (
+      <Menu {...args} showSubText={showSubText}>
+        <Button
+          variant="text"
+          icon={<MoreVertical16Regular />}
+          aria-label="Abrir menu de ações"
+        />
+      </Menu>
+    );
+  },
   parameters: {
     docs: {
       source: {
@@ -255,52 +250,6 @@ export const WithSearch: Story = {
     variant="filled"
     text="Ações em Lote"
     icon={<Settings16Regular />}
-  />
-</Menu>
-        `,
-      },
-    },
-  },
-};
-
-/**
- * Story 6: Menu Checkbox
- * Demonstra tipo checkbox para seleções múltiplas
- */
-export const CheckboxType: Story = {
-  args: {
-    menuItems: [
-      { id: 'email', text: 'Mostrar e-mail', subText: 'Exibir endereço de e-mail', icon: <Mail16Regular /> },
-      { id: 'phone', text: 'Mostrar telefone', subText: 'Exibir número de telefone', icon: <Phone16Regular /> },
-      { id: 'profile', text: 'Mostrar perfil completo', subText: 'Todas as informações do perfil', icon: <Person16Regular /> },
-    ],
-    type: 'checkbox',
-    showSubText: true,
-    onMenuItemClick: mockAction('onMenuItemClick'),
-  },
-  render: (args) => (
-    <Menu {...args}>
-      <Button
-        variant="outlined"
-        text="Configurar Exibição"
-        icon={<Filter16Regular />}
-      />
-    </Menu>
-  ),
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<Menu 
-  menuItems={configItems}
-  type="checkbox"
-  showSubText={true}
-  onMenuItemClick={handleMenuItemClick}
->
-  <Button
-    variant="outlined"
-    text="Configurar Exibição"
-    icon={<Filter16Regular />}
   />
 </Menu>
         `,

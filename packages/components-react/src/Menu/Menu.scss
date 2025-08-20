@@ -1,19 +1,15 @@
 .zds-menu__container {
   position: relative;
-  display: inline-block;
-  
-  .zds-button {
-    margin-bottom: var(--spacing-8);
-  }
-
+  display: flex;
+  justify-content: flex-start;
   .zds-search {
-    padding: var(--spacing-0) var(--spacing-8); // ✅ Remove !important
+    padding: var(--spacing-0) var(--spacing-8); 
   }
 }
 
 .zds-menu__dropdown {
   position: absolute;
   top: 100%;
-  right: 0; // ✅ Valor semântico
-  margin-top: var(--spacing-4);
+  right: 0; 
+  margin-top: var(--spacing-8);
 }
