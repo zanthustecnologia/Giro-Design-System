@@ -30,6 +30,7 @@
     "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^15.3.0",
     "@rollup/plugin-typescript": "^12.1.2",
+    "@types/node": "^24.3.0",
     "autoprefixer": "^10.4.20",
     "postcss": "^8.4.47",
     "rimraf": "^6.0.1",

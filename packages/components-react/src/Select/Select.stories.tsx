@@ -6,6 +6,7 @@ const meta: Meta<typeof Select> = {
   title: 'Components/Select',
   component: Select,
   parameters: {
+    layout: 'centered',
     controls: {
       sort: 'alpha',
     },
@@ -55,6 +56,22 @@ const meta: Meta<typeof Select> = {
     },
     onChange: {
       action: 'changed'
+    },
+    tooltip: {
+      control: {
+        type: 'boolean'
+      }
+    },
+    tooltipText: {
+      control: {
+        type: 'text'
+      }
+    },
+    positionTooltip: {
+      control: {
+        type: 'select',
+        options: ['top-right', 'top-left', 'bottom-right', 'bottom-left', 'left', 'right']
+      }
     }
   }
 };
@@ -352,7 +369,9 @@ Default.args = {
   helperText: 'Este é um campo de seleção',
   placeholder: 'Selecione',
   label: 'Selecione um item',
-  required: false
+  required: false,
+  tooltip: true,
+  tooltipText: 'Selecione um item da lista'
 };
 
 Default.parameters = {

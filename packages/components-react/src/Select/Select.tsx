@@ -5,6 +5,7 @@ import { ChevronUp16Regular, ChevronDown16Regular } from '@fluentui/react-icons'
 import clsx from 'clsx';
 import SelectField from '../SelectField/SelectField';
 
+
 /**
  * Interface para definir uma opção do Select
  */
@@ -55,6 +56,9 @@ export interface SelectProps {
   ariaLabel?: string;
   maxWidth?: string;
   minWidth?: string;
+  tooltip?: boolean;
+  tooltipText?: string;
+  positionTooltip?: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left' | 'left' | 'right';
 }
 
 /**
@@ -86,7 +90,10 @@ const Select = React.memo<SelectProps>(({
   ariaLabel,
   showSubText,
   maxWidth = '250px',
-  minWidth = '110px'
+  minWidth = '110px',
+  tooltip = false,
+  tooltipText = 'tooltip',
+  positionTooltip = 'top-right'
 }) => {
   // Hooks e refs
   const componentId = useId();
@@ -477,6 +484,8 @@ const Select = React.memo<SelectProps>(({
           isTouched={isTouched}
           hasError={shouldShowRequiredError}
           isOpen={isOpen}
+          tooltip={tooltip}
+          tooltipText={tooltipText}
         />
       </div>
       {isOpen && !disabled && (
