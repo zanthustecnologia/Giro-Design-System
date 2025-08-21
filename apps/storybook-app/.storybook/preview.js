@@ -4,6 +4,9 @@ import '../../../packages/tokens/build/css/tokens.css';
 const preview = {
   parameters: {
     // actions: { argTypesRegex: "^on[A-Z].*" },
+    docs:{
+      autodocs: true
+    },
     controls: {
       matchers: {
         color: /(background|color)$/i,
