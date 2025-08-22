@@ -54,13 +54,13 @@ const Checkbox: React.FC<CheckboxProps> = ({
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     if (disabled) return;
     
-    const newChecked = e.target.checked;
+    const newChecked = !internalChecked;
     setInternalChecked(newChecked);
 
     if (internalIndeterminate) {
       setInternalIndeterminate(false);
     }
-    
+    e.stopPropagation();
     onChange?.(e);
   };
 
@@ -80,6 +80,8 @@ const Checkbox: React.FC<CheckboxProps> = ({
 
     useEffect(() => {
     setInternalChecked(checked);
+    console.log(checked);
+    console.log(internalChecked)
   }, [checked]);
 
   useEffect(() => {
@@ -144,7 +146,7 @@ const Checkbox: React.FC<CheckboxProps> = ({
   );
 };
 
+
 const MemoizedCheckbox = React.memo(Checkbox);
 MemoizedCheckbox.displayName = 'Checkbox';
-
 export default MemoizedCheckbox;
