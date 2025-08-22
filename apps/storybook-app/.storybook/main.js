@@ -12,10 +12,14 @@ const config = {
   ],
 
   // Addons recomendados
-  addons: [
-    '@storybook/addon-a11y'         // acessibilidade
-    // '@storybook/addon-interactions' // (opcional) se usar testes interativos com play function
-  ],
+   addons: [
+    "@chromatic-com/storybook",
+    "@storybook/addon-docs",
+    "@storybook/addon-onboarding",
+    "@storybook/addon-a11y",
+    "@storybook/addon-vitest"
+  ]
+,
 
   // Docs por autodocs (opcional, mas útil no DS)
   docs: {
