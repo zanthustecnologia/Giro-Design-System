@@ -90,7 +90,7 @@ const Select = React.memo<SelectProps>(({
   ariaLabel,
   showSubText,
   maxWidth = '250px',
-  minWidth = '110px',
+  minWidth = '210px',
   tooltip = false,
   tooltipText = 'tooltip',
   positionTooltip = 'top-right'
@@ -376,7 +376,7 @@ const Select = React.memo<SelectProps>(({
     if (selectRef.current && !selectRef.current.contains(target)) {
       setIsTouched(true);
       setIsOpen(false);
-      setFocusedOptionIndex(-1); // ✅ Reset foco quando fechar
+      setFocusedOptionIndex(-1);
     }
   }, []);
 

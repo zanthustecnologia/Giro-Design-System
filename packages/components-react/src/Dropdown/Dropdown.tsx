@@ -77,8 +77,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   showSubText = false,
   defaultSelectedIds = [],
   initialItemsSelected = {},
-  maxWidth = '250px',
-  minWidth = '210px'
+  maxWidth = '350px',
 }) => {
   // Estado para controlar itens selecionados
   const [selectedItems, setSelectedItems] = useState<SelectedItemsState>(() => {
@@ -379,17 +378,13 @@ const Dropdown: React.FC<DropdownProps> = ({
       styles.width = typeof maxWidth === 'number' ? `${maxWidth}px` : maxWidth;
     }
 
-    if (minWidth) {
-      styles.minWidth = typeof minWidth === 'number' ? `${minWidth}px` : minWidth;
-    }
 
     return styles;
-  }, [maxWidth, minWidth]);
+  }, [maxWidth]);
 
   return (
     <div
       className={DropdownClass}
-      style={dropdownStyles}
       tabIndex={0}
       role="combobox"
       aria-expanded={filteredItems.length > 0 ? "true" : "false"}
@@ -400,6 +395,7 @@ const Dropdown: React.FC<DropdownProps> = ({
       aria-label="Dropdown de seleção"
       aria-describedby={searchVisible ? `${id}-search-help` : undefined}
       onKeyDown={handleKeyDown}
+      style={dropdownStyles}
     >
       <ul
         className="zds-dropdown__list"
