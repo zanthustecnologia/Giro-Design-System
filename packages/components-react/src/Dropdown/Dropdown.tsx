@@ -237,6 +237,9 @@ const Dropdown: React.FC<DropdownProps> = ({
       toggleSelection(itemId, item);
     }
   }, [toggleSelection]);
+  const handleMouseDown = () =>{
+    
+  }
 
   /**
    * Renderiza o conteúdo de um item
