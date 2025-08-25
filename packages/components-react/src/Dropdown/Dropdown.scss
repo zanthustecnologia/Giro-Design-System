@@ -72,9 +72,9 @@
   font-family: var(--font-family-primary);
   box-sizing: border-box;
   width: 100%;
-  max-width: 100%; // ✅ NOVO: Não excede largura do container
-  min-width: 0; // ✅ NOVO: Permite encolher
-  overflow: hidden; // ✅ NOVO: Esconde overflow
+  max-width: 100%; 
+  min-width: 0; 
+  overflow: hidden; 
 
   &:hover {
     background-color: var(--color-neutral-high-medium);
@@ -106,7 +106,7 @@
   justify-content: flex-start;
   gap: var(--spacing-8);
   align-items: center;
-  width: 100%; // ✅ NOVO: Ocupa largura total
+  width: 100%; 
   min-width: 0; // ✅ NOVO: Permite encolher
   overflow: hidden; // ✅ NOVO: Esconde overflow
 
