@@ -486,6 +486,7 @@ const Select = React.memo<SelectProps>(({
           isOpen={isOpen}
           tooltip={tooltip}
           tooltipText={tooltipText}
+          positionTooltip={positionTooltip}
         />
       </div>
       {isOpen && !disabled && (
