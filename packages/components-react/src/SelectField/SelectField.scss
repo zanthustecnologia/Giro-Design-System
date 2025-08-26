@@ -44,11 +44,9 @@
 }
 
 .zds-select-field__display {
+   display: inline-block;
   flex: 1 1 auto;
   min-width: 0;
-  width: auto;
-  display: flex;
-  align-items: center;
   height: 44px;
   padding: 0 var(--spacing-16);
   border-radius: var(--border-radius-8);
@@ -63,8 +61,9 @@
   cursor: pointer;
   background-color: var(--color-neutral-high-default);
   font-family: var(--font-family-primary);
-  padding: 0 var(--spacing-16);
   position: relative;
+  line-height: 44px; 
+  vertical-align: middle; 
 }
 
 .zds-select-field__box__input .zds-select-field__display:hover {
@@ -85,9 +84,10 @@
 
 
 .zds-select-field__box__input .zds-select-field__icon {
-  flex: 0 0 auto;
   position: absolute;
-  right: 16px;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
   width: 16px;
   height: 16px;
   display: flex;

@@ -508,6 +508,8 @@ const Select = React.memo<SelectProps>(({
             id={`${finalId}-dropdown`}
             showSubText={showSubText}
             maxWidth={maxWidth}
+            minWidth={minWidth}
+            width={width}
           />
         </div>
       )}

@@ -351,7 +351,7 @@ const template: StoryFn<SelectProps> = (args) => {
   const { type, helperText, placeholder, maxWidth,minWidth,width,...restArgs } = args;
 
   return (
-    <div style={{ width: '100%', maxWidth: '250px', margin: '0 auto' }}>
+  
       <Select
         {...restArgs}
         options={mockValues}
@@ -362,7 +362,7 @@ const template: StoryFn<SelectProps> = (args) => {
         minWidth={minWidth}
         width={width}
       />
-    </div>
+
   );
 };
 
