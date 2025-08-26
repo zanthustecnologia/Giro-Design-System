@@ -50,8 +50,9 @@ export interface DropdownProps {
   defaultSelectedIds?: string[];
   /** Estado inicial dos itens selecionados (objeto com chave-valor) */
   initialItemsSelected?: Record<string, boolean>;
-  maxWidth?: string;
-  minWidth?: string;
+  width?: string | number;
+  maxWidth?: string | number;
+  minWidth?: string | number;
 }
 
 /**
@@ -77,7 +78,9 @@ const Dropdown: React.FC<DropdownProps> = ({
   showSubText = false,
   defaultSelectedIds = [],
   initialItemsSelected = {},
-  maxWidth = '350px',
+  maxWidth,
+  minWidth,
+  width
 }) => {
   // Estado para controlar itens selecionados
   const [selectedItems, setSelectedItems] = useState<SelectedItemsState>(() => {
@@ -209,23 +212,12 @@ const Dropdown: React.FC<DropdownProps> = ({
     });
   }, [onSelectionChange, type]);
 
-  /**
-   * Sincroniza itens internos com props
-   */
+
   useEffect(() => {
     setInternalItems(validItems);
   }, [validItems]);
 
-  /**
-   * Effect para debug de mudanças na seleção
-   */
-  useEffect(() => {
-    // Debug log removido para produção
-  }, [selectedItems]);
 
-  /**
-   * Manipula clique em um item
-   */
   const handleItemClick = useCallback((
     event: React.MouseEvent<HTMLLIElement>,
     itemId: string,
@@ -237,13 +229,7 @@ const Dropdown: React.FC<DropdownProps> = ({
       toggleSelection(itemId, item);
     }
   }, [toggleSelection]);
-  const handleMouseDown = () =>{
-    
-  }
 
-  /**
-   * Renderiza o conteúdo de um item
-   */
   const renderItemContent = useCallback((item: DropdownItem, index: number) => {
     const itemId = item.id || `dropdown-item-${index}`;
 
@@ -297,16 +283,10 @@ const Dropdown: React.FC<DropdownProps> = ({
     );
   }, [type, selectedItems, toggleSelection, handleItemClick, showSubText]);
 
-  /**
-   * Determina se o dropdown permite múltipla seleção
-   */
   const isMultiSelectable = useMemo(() => {
     return type === 'checkbox';
   }, [type]);
 
-  /**
-   * Filtra itens baseado na query de busca
-   */
   const filteredItems = useMemo(() => {
     if (!searchQuery.trim()) {
       return internalItems;
@@ -319,9 +299,6 @@ const Dropdown: React.FC<DropdownProps> = ({
     });
   }, [internalItems, searchQuery]);
 
-  /**
-   * Manipula navegação por teclado
-   */
   const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLDivElement>) => {
     if (isSearchFocused) return;
 
@@ -380,10 +357,15 @@ const Dropdown: React.FC<DropdownProps> = ({
       styles.maxWidth = typeof maxWidth === 'number' ? `${maxWidth}px` : maxWidth;
       styles.width = typeof maxWidth === 'number' ? `${maxWidth}px` : maxWidth;
     }
-
+    if (minWidth) {
+      styles.minWidth = typeof minWidth === 'number' ? `${minWidth}px` : minWidth;
+    }
+    if (width) {
+      styles.width = typeof width === 'number' ? `${width}px` : width;
+    }
 
     return styles;
-  }, [maxWidth]);
+  }, [maxWidth, minWidth, width]);
 
   return (
     <div
@@ -468,5 +450,4 @@ const Dropdown: React.FC<DropdownProps> = ({
 // Memorized component para performance
 const MemoizedDropdown = React.memo(Dropdown);
 MemoizedDropdown.displayName = 'Dropdown';
-
 export default MemoizedDropdown;

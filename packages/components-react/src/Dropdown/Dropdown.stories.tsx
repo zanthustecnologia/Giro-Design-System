@@ -47,6 +47,18 @@ const meta: Meta<typeof DropDown> = {
         disable: true,
       },
     },
+    width:{
+      control: 'number',
+      description: 'Largura do dropdown'
+    },
+    maxWidth: {
+      control: 'number',
+      description: 'Largura máxima do dropdown'
+    },
+    minWidth: {
+      control: 'number',
+      description: 'Largura mínima do dropdown'
+    },
   },
 }
 
@@ -57,7 +69,7 @@ interface TemplateArgs extends Omit<DropdownProps, 'items'> {
 }
 
 const Template: StoryFn<TemplateArgs> = (args) => {
-  const { applySearch, type, showSubText, ...restArgs } = args;
+  const { applySearch, type, showSubText,maxWidth, minWidth, width ,...restArgs } = args;
 
   const handleSelectionChange = (selectedIds: string[]): void => {
     console.log('Selected items:', selectedIds);
@@ -72,6 +84,9 @@ const Template: StoryFn<TemplateArgs> = (args) => {
       type={type}
       onSelectionChange={handleSelectionChange}
       showSubText={showSubText}
+      maxWidth={maxWidth}
+      minWidth={minWidth}
+      width={width}
     />
   );
 };
@@ -82,7 +97,6 @@ DropdownSimple.args = {
   type: 'text',
   showSubText: true,
   placeholder: 'Buscar',
-  maxWidth: '250px'
 };
 
 export const DropdownCheckbox = Template.bind({});
