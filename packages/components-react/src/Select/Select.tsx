@@ -145,6 +145,7 @@ const Select = React.memo<SelectProps>(({
       if (process.env.NODE_ENV === 'development') {
         console.warn('Select: options deve ser um array, recebido:', typeof options, options);
       }
+      
       return [];
     }
 

@@ -30,18 +30,18 @@ describe('Select Component', () => {
   // ✅ 1. RENDERIZAÇÃO BÁSICA
   it('deve renderizar corretamente', () => {
     renderSelect();
-    
+
     expect(screen.getByRole('combobox')).toBeInTheDocument();
-    expect(screen.getByPlaceholderText('Selecione')).toBeInTheDocument();
+    expect(screen.getByText('Selecione')).toBeInTheDocument();
   });
 
   // ✅ 2. ABRIR/FECHAR DROPDOWN
   it('deve abrir dropdown ao clicar', async () => {
     renderSelect();
-    
+
     const input = screen.getByRole('combobox');
     await user.click(input);
-    
+
     await waitFor(() => {
       expect(screen.getByText('Opção 1')).toBeInTheDocument();
     });
@@ -49,16 +49,16 @@ describe('Select Component', () => {
 
   it('deve fechar dropdown com Escape', async () => {
     renderSelect();
-    
+
     const input = screen.getByRole('combobox');
     await user.click(input);
-    
+
     await waitFor(() => {
       expect(screen.getByText('Opção 1')).toBeInTheDocument();
     });
-    
+
     await user.keyboard('{Escape}');
-    
+
     await waitFor(() => {
       expect(screen.queryByText('Opção 1')).not.toBeInTheDocument();
     });
@@ -68,16 +68,16 @@ describe('Select Component', () => {
   it('deve selecionar opção e chamar onChange', async () => {
     const mockOnChange = jest.fn();
     renderSelect({ onChange: mockOnChange });
-    
+
     const input = screen.getByRole('combobox');
     await user.click(input);
-    
+
     await waitFor(() => {
       expect(screen.getByText('Opção 1')).toBeInTheDocument();
     });
-    
+
     await user.click(screen.getByText('Opção 1'));
-    
+
     expect(mockOnChange).toHaveBeenCalledWith([
       expect.objectContaining({
         id: 'item-1',
@@ -89,11 +89,11 @@ describe('Select Component', () => {
   // ✅ 4. NAVEGAÇÃO POR TECLADO
   it('deve abrir dropdown com Enter', async () => {
     renderSelect();
-    
+
     const input = screen.getByRole('combobox');
     input.focus();
     await user.keyboard('{Enter}');
-    
+
     await waitFor(() => {
       expect(screen.getByText('Opção 1')).toBeInTheDocument();
     });
@@ -102,23 +102,23 @@ describe('Select Component', () => {
   // ✅ 5. ESTADOS BÁSICOS
   it('deve mostrar valor inicial', () => {
     renderSelect({ value: ['item-1'] });
-    
+
     const input = screen.getByRole('combobox') as HTMLInputElement;
     expect(input.value).toBe('Opção 1');
   });
 
   it('deve mostrar erro quando fornecido', () => {
     renderSelect({ errorMessage: 'Campo obrigatório' });
-    
+
     expect(screen.getByText('Campo obrigatório')).toBeInTheDocument();
   });
 
   // ✅ 6. ACESSIBILIDADE BÁSICA
   it('deve ter atributos ARIA corretos', () => {
     renderSelect({ required: true });
-    
+
     const input = screen.getByRole('combobox');
-    
+
     expect(input).toHaveAttribute('aria-expanded', 'false');
     expect(input).toHaveAttribute('aria-haspopup', 'listbox');
     expect(input).toHaveAttribute('aria-required', 'true');
@@ -126,12 +126,12 @@ describe('Select Component', () => {
 
   it('deve atualizar aria-expanded ao abrir', async () => {
     renderSelect();
-    
+
     const input = screen.getByRole('combobox');
     expect(input).toHaveAttribute('aria-expanded', 'false');
-    
+
     await user.click(input);
-    
+
     await waitFor(() => {
       expect(input).toHaveAttribute('aria-expanded', 'true');
     });
@@ -147,12 +147,12 @@ describe('Select Component', () => {
     ] as SelectOption[];
 
     const consoleSpy = jest.spyOn(console, 'warn').mockImplementation();
-    
+
     renderSelect({ options: corruptedOptions });
-    
+
     const input = screen.getByRole('combobox');
     await user.click(input);
-    
+
     await waitFor(() => {
       expect(screen.getByText('Válida')).toBeInTheDocument();
       expect(screen.queryByText('Sem ID')).not.toBeInTheDocument();
@@ -177,13 +177,13 @@ describe('Select Component', () => {
 
   it('deve limpar event listeners ao desmontar', () => {
     const removeEventListenerSpy = jest.spyOn(document, 'removeEventListener');
-    
+
     const { unmount } = renderSelect();
     unmount();
-    
+
     expect(removeEventListenerSpy).toHaveBeenCalledWith('mousedown', expect.any(Function));
     expect(removeEventListenerSpy).toHaveBeenCalledWith('touchstart', expect.any(Function));
-    
+
     removeEventListenerSpy.mockRestore();
   });
 });
