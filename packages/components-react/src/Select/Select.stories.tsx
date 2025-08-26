@@ -67,6 +67,11 @@ const meta: Meta<typeof Select> = {
         type: 'text'
       }
     },
+    width: {
+      control: {
+        type: 'number'
+      }
+    },
     positionTooltip: {
       control: {
         type: 'select',
@@ -343,10 +348,10 @@ const mockValues: SelectOption[] = [
 
 // Template tipado
 const template: StoryFn<SelectProps> = (args) => {
-  const { type, helperText, placeholder, maxWidth,minWidth,...restArgs } = args;
+  const { type, helperText, placeholder, maxWidth,minWidth,width,...restArgs } = args;
 
   return (
-    <div style={{ width: '100%', maxWidth: '600px', margin: '0 auto' }}>
+    <div style={{ width: '100%', maxWidth: '250px', margin: '0 auto' }}>
       <Select
         {...restArgs}
         options={mockValues}
@@ -355,6 +360,7 @@ const template: StoryFn<SelectProps> = (args) => {
         placeholder={placeholder}
         maxWidth={maxWidth}
         minWidth={minWidth}
+        width={width}
       />
     </div>
   );

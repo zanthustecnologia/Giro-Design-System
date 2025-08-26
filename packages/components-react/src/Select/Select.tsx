@@ -58,6 +58,7 @@ export interface SelectProps {
   minWidth?: string;
   tooltip?: boolean;
   tooltipText?: string;
+  width?: string;
   positionTooltip?: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left' | 'left' | 'right';
 }
 
@@ -89,8 +90,9 @@ const Select = React.memo<SelectProps>(({
   className,
   ariaLabel,
   showSubText,
-  maxWidth = '210px',
-  minWidth = '210px',
+  maxWidth,
+  minWidth,
+  width,
   tooltip = false,
   tooltipText = 'tooltip',
   positionTooltip = 'top-right'
@@ -423,6 +425,10 @@ const Select = React.memo<SelectProps>(({
       const maxWidthValue = typeof maxWidth === 'number' ? `${maxWidth}px` : maxWidth;
 
       styles.maxWidth = maxWidthValue;
+    }
+
+    if (width) {
+      styles.width = typeof width === 'number' ? `${width}px` : width;
     }
 
     return styles;

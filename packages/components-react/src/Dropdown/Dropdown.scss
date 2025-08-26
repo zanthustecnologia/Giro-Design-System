@@ -106,9 +106,9 @@
   justify-content: flex-start;
   gap: var(--spacing-8);
   align-items: center;
-  width: 100%; // ✅ NOVO: Ocupa largura total
-  min-width: 0; // ✅ NOVO: Permite encolher
-  overflow: hidden; // ✅ NOVO: Esconde overflow
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
 
   &--disabled {
     span.zds-dropdown__title,

@@ -50,8 +50,9 @@ export interface DropdownProps {
   defaultSelectedIds?: string[];
   /** Estado inicial dos itens selecionados (objeto com chave-valor) */
   initialItemsSelected?: Record<string, boolean>;
-  maxWidth?: string;
-  minWidth?: string;
+  width?: string | number;
+  maxWidth?: string | number;
+  minWidth?: string | number;
 }
 
 /**
@@ -77,7 +78,9 @@ const Dropdown: React.FC<DropdownProps> = ({
   showSubText = false,
   defaultSelectedIds = [],
   initialItemsSelected = {},
-  maxWidth = '350px',
+  maxWidth,
+  minWidth,
+  width
 }) => {
   // Estado para controlar itens selecionados
   const [selectedItems, setSelectedItems] = useState<SelectedItemsState>(() => {
@@ -196,21 +199,20 @@ const Dropdown: React.FC<DropdownProps> = ({
           [itemId]: !prevSelected[itemId],
         };
       } else {
+        // Modo text/icon: apenas seleção única
         newSelected = prevSelected[itemId] ? {} : { [itemId]: true };
       }
+
+      if (onSelectionChange) {
+        const selectedIds = Object.keys(newSelected).filter(key => newSelected[key]);
+        onSelectionChange(selectedIds);
+      }
+
       return newSelected;
     });
-  }, [type]);
-  useEffect(() => {
-    if (onSelectionChange) {
-      const selectedIds = Object.keys(selectedItems).filter(key => selectedItems[key]);
-      onSelectionChange(selectedIds);
-    }
-  }, [selectedItems, onSelectionChange]);
+  }, [onSelectionChange, type]);
 
-  /**
-   * Sincroniza itens internos com props
-   */
+
   useEffect(() => {
     setInternalItems(validItems);
   }, [validItems]);
@@ -228,6 +230,9 @@ const Dropdown: React.FC<DropdownProps> = ({
     }
   }, [toggleSelection]);
 
+  /**
+   * Renderiza o conteúdo de um item
+   */
   const renderItemContent = useCallback((item: DropdownItem, index: number) => {
     const itemId = item.id || `dropdown-item-${index}`;
 
@@ -281,6 +286,9 @@ const Dropdown: React.FC<DropdownProps> = ({
     );
   }, [type, selectedItems, toggleSelection, handleItemClick, showSubText]);
 
+  /**
+   * Determina se o dropdown permite múltipla seleção
+   */
   const isMultiSelectable = useMemo(() => {
     return type === 'checkbox';
   }, [type]);
@@ -358,10 +366,15 @@ const Dropdown: React.FC<DropdownProps> = ({
       styles.maxWidth = typeof maxWidth === 'number' ? `${maxWidth}px` : maxWidth;
       styles.width = typeof maxWidth === 'number' ? `${maxWidth}px` : maxWidth;
     }
-
+    if (minWidth) {
+      styles.minWidth = typeof minWidth === 'number' ? `${minWidth}px` : minWidth;
+    }
+    if (width) {
+      styles.width = typeof width === 'number' ? `${width}px` : width;
+    }
 
     return styles;
-  }, [maxWidth]);
+  }, [maxWidth, minWidth, width]);
 
   return (
     <div
@@ -446,5 +459,4 @@ const Dropdown: React.FC<DropdownProps> = ({
 // Memorized component para performance
 const MemoizedDropdown = React.memo(Dropdown);
 MemoizedDropdown.displayName = 'Dropdown';
-
 export default MemoizedDropdown;
