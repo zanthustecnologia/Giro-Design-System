@@ -196,18 +196,17 @@ const Dropdown: React.FC<DropdownProps> = ({
           [itemId]: !prevSelected[itemId],
         };
       } else {
-        // Modo text/icon: apenas seleção única
         newSelected = prevSelected[itemId] ? {} : { [itemId]: true };
       }
-
-      if (onSelectionChange) {
-        const selectedIds = Object.keys(newSelected).filter(key => newSelected[key]);
-        onSelectionChange(selectedIds);
-      }
-
       return newSelected;
     });
-  }, [onSelectionChange, type]);
+  }, [type]);
+  useEffect(() => {
+    if (onSelectionChange) {
+      const selectedIds = Object.keys(selectedItems).filter(key => selectedItems[key]);
+      onSelectionChange(selectedIds);
+    }
+  }, [selectedItems, onSelectionChange]);
 
   /**
    * Sincroniza itens internos com props
@@ -216,16 +215,7 @@ const Dropdown: React.FC<DropdownProps> = ({
     setInternalItems(validItems);
   }, [validItems]);
 
-  /**
-   * Effect para debug de mudanças na seleção
-   */
-  useEffect(() => {
-    // Debug log removido para produção
-  }, [selectedItems]);
 
-  /**
-   * Manipula clique em um item
-   */
   const handleItemClick = useCallback((
     event: React.MouseEvent<HTMLLIElement>,
     itemId: string,
@@ -238,9 +228,6 @@ const Dropdown: React.FC<DropdownProps> = ({
     }
   }, [toggleSelection]);
 
-  /**
-   * Renderiza o conteúdo de um item
-   */
   const renderItemContent = useCallback((item: DropdownItem, index: number) => {
     const itemId = item.id || `dropdown-item-${index}`;
 
@@ -294,9 +281,6 @@ const Dropdown: React.FC<DropdownProps> = ({
     );
   }, [type, selectedItems, toggleSelection, handleItemClick, showSubText]);
 
-  /**
-   * Determina se o dropdown permite múltipla seleção
-   */
   const isMultiSelectable = useMemo(() => {
     return type === 'checkbox';
   }, [type]);
@@ -316,9 +300,6 @@ const Dropdown: React.FC<DropdownProps> = ({
     });
   }, [internalItems, searchQuery]);
 
-  /**
-   * Manipula navegação por teclado
-   */
   const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLDivElement>) => {
     if (isSearchFocused) return;
 

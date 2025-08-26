@@ -89,7 +89,7 @@ const Select = React.memo<SelectProps>(({
   className,
   ariaLabel,
   showSubText,
-  maxWidth = '250px',
+  maxWidth = '210px',
   minWidth = '210px',
   tooltip = false,
   tooltipText = 'tooltip',
@@ -285,10 +285,10 @@ const Select = React.memo<SelectProps>(({
     setTimeout(() => {
       setIsTouched(true);
       setIsOpen(false);
-      setFocusedOptionIndex(-1); // ✅ Reset foco quando blur
+      setFocusedOptionIndex(-1); 
     }, 200);
   }, [disabled]);
-  // ✅ MELHORADO: Navegação por teclado com foco em opções
+ 
   const handleKeyDown = useCallback((event: React.KeyboardEvent<HTMLDivElement>) => {
     if (disabled) return;
 
@@ -353,7 +353,7 @@ const Select = React.memo<SelectProps>(({
         }
         break;
       case 'Tab':
-        // ✅ Permitir navegação natural com Tab
+        
         if (isOpen) {
           setIsOpen(false);
           setIsTouched(true);
@@ -361,7 +361,7 @@ const Select = React.memo<SelectProps>(({
         }
         break;
       default:
-        // ✅ Busca por primeira letra (Type-ahead)
+        
         if (event.key.length === 1 && !event.ctrlKey && !event.altKey && !event.metaKey) {
           handleQuickSearch(event.key.toLowerCase());
         }
@@ -396,7 +396,7 @@ const Select = React.memo<SelectProps>(({
     };
   }, [isOpen, handleClickOutside]);
 
-  // ✅ SIMPLIFICADO: Sincronização com value prop sem refs
+  
   useEffect(() => {
     if (value !== undefined) {
       const valueArray = Array.isArray(value) ? value : [value];
@@ -411,7 +411,7 @@ const Select = React.memo<SelectProps>(({
   }, [value, validatedOptions]);
 
 
-  // ✅ OTIMIZADO: Estilos sem duplicação width/maxWidth
+  
   const containerStyles: React.CSSProperties = useMemo(() => {
     const styles: React.CSSProperties = {};
 
@@ -421,7 +421,7 @@ const Select = React.memo<SelectProps>(({
 
     if (maxWidth) {
       const maxWidthValue = typeof maxWidth === 'number' ? `${maxWidth}px` : maxWidth;
-      // ✅ Usar apenas maxWidth para limitar, não width
+
       styles.maxWidth = maxWidthValue;
     }
 

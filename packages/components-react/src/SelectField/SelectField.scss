@@ -63,33 +63,27 @@
   cursor: pointer;
   background-color: var(--color-neutral-high-default);
   font-family: var(--font-family-primary);
-}
-.zds-select-field__display {
-  padding-right: calc(var(--spacing-16) + 24px); // 16px ícone + 8px gap
+  padding-right: 32px; 
+  position: relative;
 }
 
-
-// ✅ HOVER: Igual ao TextField
 .zds-select-field__box__input .zds-select-field__display:hover {
   border: var(--border-width-1) solid var(--color-neutral-low-dark);
   outline: none;
   border-radius: var(--border-radius-8);
 }
 
-// ✅ FOCUS: Igual ao TextField
 .zds-select-field__box__input .zds-select-field__display:focus-visible {
   border: none;
   outline: var(--border-width-2) solid var(--color-brand-primary-default);
 }
 
-// ✅ ESTADO ABERTO: Quando o dropdown está aberto
 .zds-select-field.zds-select-field--open .zds-select-field__box__input .zds-select-field__display {
   border: none;
   outline: var(--border-width-2) solid var(--color-brand-primary-default);
 }
 
 
-// ✅ ÍCONE: Baseado no TextField icon
 .zds-select-field__box__input .zds-select-field__icon {
   flex: 0 0 auto;
   position: absolute;
@@ -108,7 +102,6 @@
   height: 16px;
 }
 
-// ✅ HELPER TEXT: Igual ao TextField
 .zds-select-field__helper-text {
   font-size: var(--font-size-12);
   color: var(--color-neutral-low-medium);
@@ -122,7 +115,6 @@
   overflow: hidden;
 }
 
-// ✅ TOOLTIP CONTAINER: Igual ao TextField
 .zds-select-field__container-tooltip {
   display: flex;
   align-items: center;

@@ -343,7 +343,7 @@ const mockValues: SelectOption[] = [
 
 // Template tipado
 const template: StoryFn<SelectProps> = (args) => {
-  const { type, helperText, placeholder, maxWidth,...restArgs } = args;
+  const { type, helperText, placeholder, maxWidth,minWidth,...restArgs } = args;
 
   return (
     <div style={{ width: '100%', maxWidth: '600px', margin: '0 auto' }}>
@@ -354,6 +354,7 @@ const template: StoryFn<SelectProps> = (args) => {
         helperText={helperText}
         placeholder={placeholder}
         maxWidth={maxWidth}
+        minWidth={minWidth}
       />
     </div>
   );
@@ -371,7 +372,9 @@ Default.args = {
   label: 'Selecione um item',
   required: false,
   tooltip: true,
-  tooltipText: 'Selecione um item da lista'
+  tooltipText: 'Selecione um item da lista',
+  maxWidth: '250px',
+  minWidth: '250px'
 };
 
 Default.parameters = {
