@@ -86,8 +86,16 @@ const meta: Meta<MenuProps> = {
     },
     type: {
       control: 'select',
-      options: ['text', 'checkbox', 'icon'],
+      options: ['text', 'icon'],
       description: 'Tipo de dropdown que define o comportamento dos itens',
+    },
+    minWidth: {
+      control: 'text',
+      description: 'Largura mínima do menu',
+    },
+    maxWidth: {
+      control: 'text',
+      description: 'Largura máxima do menu',
     },
     applySearch: {
       control: 'boolean',
@@ -123,7 +131,6 @@ export const Default: Story = {
   },
   render: (args) => {
     const { showSubText } = args;
-    {console.log('showSubText:', showSubText)}
     return (
       <Menu {...args} showSubText={showSubText}>
         <Button

@@ -2,6 +2,7 @@
   position: relative;
   display: flex;
   justify-content: flex-start;
+  
   .zds-search {
     padding: var(--spacing-0) var(--spacing-8); 
   }
@@ -10,6 +11,6 @@
 .zds-menu__dropdown {
   position: absolute;
   top: 100%;
-  right: 0; 
   margin-top: var(--spacing-8);
+  z-index: 1000;
 }

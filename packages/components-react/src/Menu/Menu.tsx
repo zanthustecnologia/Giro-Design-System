@@ -16,7 +16,7 @@ export interface MenuItem {
   /** Estado desabilitado */
   disabled?: boolean;
   /** Valor customizado do item */
-  value?: any;
+  value?: unknown;
 }
 
 export interface MenuProps {
@@ -49,6 +49,9 @@ export interface MenuProps {
 
   /** ID único do componente */
   id?: string;
+  maxWidth?: string | number;
+
+  minWidth?: string | number;
 }
 
 const Menu: React.FC<MenuProps> = ({
@@ -62,6 +65,8 @@ const Menu: React.FC<MenuProps> = ({
   showSubText = false,
   className,
   id,
+  maxWidth = '210px',
+  minWidth
 }) => {
 
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
@@ -186,23 +191,18 @@ const Menu: React.FC<MenuProps> = ({
 
   const handleSelectionChange = useCallback(
     (selectedIds: string[]): void => {
-
-      setSelectedItems(selectedIds);
-
-
       if (selectedIds.length > 0 && menuItems.length > 0 && onMenuItemClick) {
-
         const lastSelectedId = selectedIds[selectedIds.length - 1];
         const selectedItem = menuItems.find((item) => item.id === lastSelectedId);
 
         if (selectedItem) {
           onMenuItemClick(selectedItem);
+          closeMenu();
         }
       }
-
-     
+      setSelectedItems(selectedIds);
     },
-    [menuItems, onMenuItemClick, type, closeMenu]
+    [menuItems, onMenuItemClick, closeMenu]
   );
 
 
@@ -221,9 +221,13 @@ const Menu: React.FC<MenuProps> = ({
 
 
   const renderAnchor = (): ReactElement => {
+    const dropdownId = `${id || 'menu'}-dropdown`;
     return React.cloneElement(children, {
       ref: anchorRef,
       onClick: (e: React.MouseEvent) => {
+        if (dropdownRef.current && dropdownRef.current.contains(e.target as Node)) {
+          return;
+        }
         if (children.props.onClick) {
           children.props.onClick(e);
         }
@@ -231,7 +235,7 @@ const Menu: React.FC<MenuProps> = ({
       },
       'aria-expanded': isMenuOpen ? 'true' : 'false',
       'aria-haspopup': 'menu',
-      ...children.props,
+      'aria-controls': isMenuOpen ? dropdownId: undefined
     });
   };
 
@@ -239,6 +243,9 @@ const Menu: React.FC<MenuProps> = ({
     'zds-menu__container',
     className
   )
+  const dropdownClass = clsx(
+    'zds-menu__dropdown',
+  );
   return (
     <div
       ref={menuContainerRef}
@@ -247,7 +254,13 @@ const Menu: React.FC<MenuProps> = ({
     >
       {renderAnchor()}
       {isMenuOpen && (
-        <div ref={dropdownRef} className="zds-menu__dropdown">
+        <div
+          ref={dropdownRef}
+          className={dropdownClass}
+          role="menu"
+          aria-label="Menu de ações"
+          id={`${id || 'menu'}-dropdown`}
+        >
           <Dropdown
             type={type}
             items={menuItems}
@@ -257,6 +270,8 @@ const Menu: React.FC<MenuProps> = ({
             placeholder={placeholder}
             showSubText={showSubText}
             aria-label="Menu de ações"
+            minWidth={minWidth}
+            maxWidth={maxWidth}
           />
         </div>
       )}
