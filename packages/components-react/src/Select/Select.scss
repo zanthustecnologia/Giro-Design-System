@@ -1,0 +1,11 @@
+// =============================================================================
+// ZDS Select Component
+// =============================================================================
+
+.zds-select {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  position: relative;
+  gap: var(--spacing-8);
+}

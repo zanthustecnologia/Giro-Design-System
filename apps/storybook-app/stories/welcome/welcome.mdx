@@ -1,0 +1,252 @@
+import { Meta } from "@storybook/addon-docs/blocks"; 
+
+import Hero from "./assets/hero.png";
+import GettingStarted from "./assets/getting-started.png";
+import Foundations from "./assets/foundations.png";
+import Components from "./assets/components.png";
+
+import Simplicity from "./assets/simplicity.png";
+import Consistency from "./assets/consistency.png";
+import Quality from "./assets/quality.png";
+import UserCentered from "./assets/user-centered.png";
+import Evolution from "./assets/evolution.png";
+
+<Meta title="Boas-vindas" />
+
+<div className="container">
+  <div className='componente-name-module'>
+  <div className='componente-name-module-text'>
+    <h1>Zanthus Design System</h1>
+  </div>
+  <div className='componente-name-module-img'>
+    <img src={Hero} alt="Integrate your tools with Storybook to connect workflows." />
+  </div>
+</div>
+
+
+  <div className='component-module-intro'>
+    <span className='description'>Aqui você encontra o guia do nosso design system, documentação dos componentes e recursos para criar experiências digitais excepcionais com qualidade, acessibilidade e consistência.</span> 
+  </div>
+
+  <div className='section-title'>
+  <h2>O que você encontrará aqui</h2>
+  </div>
+  
+  <div className="section-grid">
+    
+    <div className="card">
+      <img src={GettingStarted} alt="Um ícone de uma lâmpada incandescente"/>
+      <h4>Primeiros passos</h4>
+      <p>Boas-vindas e instruções sobre como utilizar o Zanthus Design System</p>
+      <a href="#" target="_blank">Saiba mais</a>
+    </div>
+
+    <div className="card">
+      <img src={Foundations} alt="Tudo sobre os design tokens: cor, tipografia, espaçamento e bordas"/>
+      <h4>Fundações</h4>
+      <p>Tudo sobre os design tokens: cor, tipografia, espaçamento e bordas</p>
+      <a href="#" target="_blank">Saiba mais</a>
+    </div>
+
+    <div className="card">
+      <img src={Components} alt="A representation of typography and image assets" />
+      <h4>Componentes</h4>
+      <p>Toda a informação e guias sobre cada componente</p>
+      <a href="#" target="_blank">Saiba mais</a>
+    </div>
+  </div>
+
+  <div className='section-title'>
+  <h2>Princípios do nosso design system</h2>
+  </div>
+  
+  <div className="section-grid">
+    
+    <div className="card">
+      <img src={Simplicity} alt="Um ícone de uma lâmpada incandescente"/>
+      <h4>Simplicidade</h4>
+      <p>Nosso design system foi projetado para ser simples e intuitivo, composto por elementos universais, facilmente reconhecíveis e modernos. </p>
+      
+    </div>
+
+    <div className="card">
+      <img src={Consistency} alt="Tudo sobre os design tokens: cor, tipografia, espaçamento e bordas"/>
+      <h4>Consistência</h4>
+      <p>Cada elemento foi projetado para funcionar com harmonia em conjunto, garantindo uma experiência consistente e coesa.</p>
+      
+    </div>
+
+    <div className="card">
+      <img src={Quality} alt="A representation of typography and image assets" />
+      <h4>Qualidade</h4>
+      <p>Respeitamos o tempo dos usuário por meio de um trabalho cuidadoso e atenção a cada detalhe.</p>
+      
+    </div>
+
+    <div className="card">
+      <img src={UserCentered} alt="Tudo sobre os design tokens: cor, tipografia, espaçamento e bordas"/>
+      <h4>Usuário em primeiro lugar</h4>
+      <p>No centro de cada decisão estão os desejos e as necessidades dos usuários. Nosso design system é focado em pessoas reais.</p>
+      
+    </div>
+
+    <div className="card">
+      <img src={Evolution} alt="A representation of typography and image assets" />
+      <h4>Evolução contínua</h4>
+      <p>Nosso design system é dinâmico, estando sempre em evolução e aprimoramento.</p>
+      
+    </div>
+
+  </div>
+
+  <div className='section-title'>
+  <h2>Feedback</h2>
+  </div>
+  <p>Nos ajude a aprimorar o design system fornecendo feedback, tirando dúvidas e deixando qualquer outro comentário <a href="https://forms.gle/QbXn8K3qBb1m1W737" target="_blank">neste formulário</a></p>
+</div>
+
+
+<style>
+  {`
+  /* ===== LAYOUT PRINCIPAL ===== */
+.container {
+  margin-bottom: var(--spacing-48);
+}
+
+.container p {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-16);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-neutral-low-dark);
+}
+
+/* ===== HERO SECTION ===== */
+.componente-name-module {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  position: relative;
+  background: var(--color-neutral-high-light);
+  border-radius: var(--border-radius-4);
+  height: 200px;
+  margin-bottom: var(--spacing-24);
+  overflow: hidden;
+}
+
+.componente-name-module-text {
+  padding-left: var(--spacing-48);
+  max-width: 60%;
+}
+
+.componente-name-module-text h1 {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-40);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-brand-primary-default);
+}
+
+.componente-name-module-img {
+  position: absolute;
+  left: 345px;
+  top: 0;
+  height: 100%;
+  width: 200%;
+  overflow: hidden;
+}
+
+.componente-name-module-img img {
+  width: 950px;
+  margin-left: -340px;
+}
+
+/* ===== INTRO SECTION ===== */
+.component-module-intro {
+  margin-bottom: var(--spacing-56);
+}
+
+.component-module-intro .description {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-24);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-neutral-low-dark);
+}
+
+/* ===== SECTION TITLE ===== */
+.section-title h2 {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-32);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-neutral-low-default);
+  border-bottom: none;
+  margin-bottom: var(--spacing-32);
+}
+
+/* ===== CARDS SECTION ===== */
+.section-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-16);
+  margin-bottom: var(--spacing-56);
+}
+
+.card {
+  border: var(--border-width-1) solid var(--color-neutral-high-medium);
+  padding: var(--spacing-16);
+  border-radius: var(--border-radius-8);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.card img {
+  margin-bottom: var(--spacing-16);
+}
+
+.card h4 {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-20);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-neutral-low-default);
+}
+
+.card p {
+  margin-bottom: var(--spacing-24);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-16);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-neutral-low-dark);
+}
+
+/* ===== MEDIA QUERIES ===== */
+@media screen and (max-width: 800px) {
+  .componente-name-module-img {
+    left: 300px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .section-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .componente-name-module-text {
+    padding-left: var(--spacing-24);
+  }
+
+  .componente-name-module-img {
+    right: 0;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    height: auto;
+    width: 124%;
+  }
+
+  .componente-name-module-img img {
+    width: 1200px;
+    margin-left: -24px;
+    margin-bottom: -40px;
+  }
+}
+  `}
+</style>
