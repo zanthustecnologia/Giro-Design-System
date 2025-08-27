@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import Search from '../Search';
 import { validateItems } from './DropdownUtils';
-import './styles.scss';
+import './Dropdown.scss';
 import Checkbox from '../Checkbox';
 
 /**
@@ -50,6 +50,9 @@ export interface DropdownProps {
   defaultSelectedIds?: string[];
   /** Estado inicial dos itens selecionados (objeto com chave-valor) */
   initialItemsSelected?: Record<string, boolean>;
+  width?: string | number;
+  maxWidth?: string | number;
+  minWidth?: string | number;
 }
 
 /**
@@ -74,7 +77,10 @@ const Dropdown: React.FC<DropdownProps> = ({
   onSelectionChange,
   showSubText = false,
   defaultSelectedIds = [],
-  initialItemsSelected = {}
+  initialItemsSelected = {},
+  maxWidth,
+  minWidth,
+  width
 }) => {
   // Estado para controlar itens selecionados
   const [selectedItems, setSelectedItems] = useState<SelectedItemsState>(() => {
@@ -98,13 +104,9 @@ const Dropdown: React.FC<DropdownProps> = ({
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [isSearchFocused, setIsSearchFocused] = useState<boolean>(false);
 
-  // Computações derivadas
-  const searchVisible = applySearch || internalItems.length > 4;
-  const validItems = useMemo(() => validateItems(items, type), [items, type]);
 
-  /**
-   * Manipula mudanças no campo de busca
-   */
+  const searchVisible = applySearch || internalItems.length > 4;
+
   const handleSearchChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;
     setInputValue(newValue);
@@ -114,24 +116,30 @@ const Dropdown: React.FC<DropdownProps> = ({
     }
   }, [searchQuery]);
 
-  /**
-   * Gera ID único para um item
-   */
+  const safeItems = useMemo(() => {
+    if (!Array.isArray(items)) {
+      console.warn('Dropdown: items deve ser um array. Recebido:', typeof items);
+      return [];
+    }
+    if (items.length === 0) {
+      return [];
+    }
+    return items;
+  }, [items]);
+
+  const validItems = useMemo(() => {
+    return validateItems(safeItems, type);
+  }, [safeItems, type]);
+
   const generateItemId = useCallback((item: DropdownItem, index: number): string => {
     return item.id || `dropdown-item-${index}`;
   }, []);
 
-  /**
-   * Executa a busca com base no valor atual do input
-   */
   const executeSearch = useCallback(() => {
     setSearchQuery(inputValue.trim());
     setFocusedIndex(-1);
   }, [inputValue]);
 
-  /**
-   * Limpa o campo de busca e resultados
-   */
   const handleSearchClear = useCallback(() => {
     setInputValue('');
     setSearchQuery('');
@@ -139,9 +147,6 @@ const Dropdown: React.FC<DropdownProps> = ({
     setIsSearchFocused(false);
   }, []);
 
-  /**
-   * Manipula teclas pressionadas no campo de busca
-   */
   const handleSearchKeyDown = useCallback((event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
       event.preventDefault();
@@ -164,9 +169,7 @@ const Dropdown: React.FC<DropdownProps> = ({
     }
   }, [executeSearch, handleSearchClear, inputValue]);
 
-  /**
-   * Alterna a seleção de um item
-   */
+
   const toggleSelection = useCallback((itemId: string, item: DropdownItem) => {
     if (item?.disabled) return;
 
@@ -174,42 +177,32 @@ const Dropdown: React.FC<DropdownProps> = ({
       let newSelected: SelectedItemsState;
 
       if (type === 'checkbox') {
-        // Modo checkbox: permite múltipla seleção
         newSelected = {
           ...prevSelected,
           [itemId]: !prevSelected[itemId],
         };
       } else {
-        // Modo text/icon: apenas seleção única
         newSelected = prevSelected[itemId] ? {} : { [itemId]: true };
       }
-
-      if (onSelectionChange) {
-        const selectedIds = Object.keys(newSelected).filter(key => newSelected[key]);
-        onSelectionChange(selectedIds);
-      }
-
       return newSelected;
     });
   }, [onSelectionChange, type]);
 
-  /**
-   * Sincroniza itens internos com props
-   */
+
+  useEffect(() => {
+    if (!onSelectionChange) return;
+    const selectedIds = Object.keys(selectedItems).filter(key => selectedItems[key]);
+    if (selectedIds.length > 0) {
+      onSelectionChange(selectedIds);
+    }
+  }, [selectedItems, onSelectionChange])
+
+
   useEffect(() => {
     setInternalItems(validItems);
   }, [validItems]);
 
-  /**
-   * Effect para debug de mudanças na seleção
-   */
-  useEffect(() => {
-    // Debug log removido para produção
-  }, [selectedItems]);
 
-  /**
-   * Manipula clique em um item
-   */
   const handleItemClick = useCallback((
     event: React.MouseEvent<HTMLLIElement>,
     itemId: string,
@@ -222,12 +215,9 @@ const Dropdown: React.FC<DropdownProps> = ({
     }
   }, [toggleSelection]);
 
-  /**
-   * Renderiza o conteúdo de um item
-   */
   const renderItemContent = useCallback((item: DropdownItem, index: number) => {
     const itemId = item.id || `dropdown-item-${index}`;
-    
+
     return (
       <div className={clsx('zds-dropdown__item-content', {
         'zds-dropdown__item-content--disabled': item.disabled
@@ -249,9 +239,11 @@ const Dropdown: React.FC<DropdownProps> = ({
           <div className="zds-dropdown__item-icon-container">
             <span
               className="zds-dropdown__item-icon"
-              onClick={(event: React.MouseEvent<HTMLSpanElement>) => 
-                handleItemClick(event as any, itemId, item)
-              }
+              onClick={(event: React.MouseEvent<HTMLSpanElement>) => {
+                event.preventDefault();
+                event.stopPropagation();
+                handleItemClick(event as any, itemId, item);
+              }}
             >
               {item.icon}
             </span>
@@ -278,16 +270,10 @@ const Dropdown: React.FC<DropdownProps> = ({
     );
   }, [type, selectedItems, toggleSelection, handleItemClick, showSubText]);
 
-  /**
-   * Determina se o dropdown permite múltipla seleção
-   */
   const isMultiSelectable = useMemo(() => {
     return type === 'checkbox';
   }, [type]);
 
-  /**
-   * Filtra itens baseado na query de busca
-   */
   const filteredItems = useMemo(() => {
     if (!searchQuery.trim()) {
       return internalItems;
@@ -300,9 +286,6 @@ const Dropdown: React.FC<DropdownProps> = ({
     });
   }, [internalItems, searchQuery]);
 
-  /**
-   * Manipula navegação por teclado
-   */
   const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLDivElement>) => {
     if (isSearchFocused) return;
 
@@ -350,20 +333,41 @@ const Dropdown: React.FC<DropdownProps> = ({
     'zds-dropdown__container',
     {
       [className || '']: className,
-      'zds-dropdown__container--search-active': searchQuery.length > 0
+      'zds-dropdown__container--search-active': searchQuery.length > 0,
+      'zds-dropdown__container--fixed-width': !!maxWidth
     }
   );
+  const dropdownStyles: React.CSSProperties = useMemo(() => {
+    const styles: React.CSSProperties = {};
+
+    if (maxWidth) {
+      styles.maxWidth = typeof maxWidth === 'number' ? `${maxWidth}px` : maxWidth;
+      styles.width = typeof maxWidth === 'number' ? `${maxWidth}px` : maxWidth;
+    }
+    if (minWidth) {
+      styles.minWidth = typeof minWidth === 'number' ? `${minWidth}px` : minWidth;
+    }
+    if (width) {
+      styles.width = typeof width === 'number' ? `${width}px` : width;
+    }
+
+    return styles;
+  }, [maxWidth, minWidth, width]);
 
   return (
     <div
       className={DropdownClass}
       tabIndex={0}
       role="combobox"
-      aria-expanded="true"
+      aria-expanded={filteredItems.length > 0 ? "true" : "false"}
       aria-haspopup="listbox"
-      aria-owns={id || undefined}
+      aria-owns={id ? `${id}-listbox` : undefined}
+      aria-controls={id ? `${id}-listbox` : undefined}
+      aria-activedescendant={focusedIndex >= 0 ? `${id}-option-${focusedIndex}` : undefined}
       aria-label="Dropdown de seleção"
+      aria-describedby={searchVisible ? `${id}-search-help` : undefined}
       onKeyDown={handleKeyDown}
+      style={dropdownStyles}
     >
       <ul
         className="zds-dropdown__list"
@@ -391,12 +395,12 @@ const Dropdown: React.FC<DropdownProps> = ({
             const itemId = generateItemId(item, index);
             return (
               <li
-                key={itemId}
-                role="option"
-                aria-selected={!!selectedItems[itemId]}
-                aria-labelledby={`dropdown-item-${itemId}-label`}
-                aria-describedby={item.subText ? `dropdown-item-${itemId}-desc` : undefined}
-                className={clsx('zds-dropdown__item', {
+                  key={itemId}
+                  role="option"
+                  aria-selected={!!selectedItems[itemId]}
+                  aria-labelledby={`dropdown-item-${itemId}-label`}
+                  aria-describedby={item.subText ? `dropdown-item-${itemId}-desc` : undefined}
+                  className={clsx('zds-dropdown__item', {
                   [`zds-dropdown__item--${type}`]: type,
                   'zds-dropdown__item--selected': selectedItems[itemId],
                   'zds-dropdown__item--focused': focusedIndex === index,
@@ -404,7 +408,10 @@ const Dropdown: React.FC<DropdownProps> = ({
                 })}
                 tabIndex={focusedIndex === index ? 0 : -1}
                 onFocus={() => setFocusedIndex(index)}
-                onClick={(event) => handleItemClick(event, itemId, item)}
+                onClick={(event) => {
+                  handleItemClick(event, itemId, item)
+                
+                }}
                 onMouseDown={(e: React.MouseEvent<HTMLLIElement>) => {
                   if (!item.disabled) {
                     e.preventDefault();
@@ -433,5 +440,4 @@ const Dropdown: React.FC<DropdownProps> = ({
 // Memorized component para performance
 const MemoizedDropdown = React.memo(Dropdown);
 MemoizedDropdown.displayName = 'Dropdown';
-
 export default MemoizedDropdown;

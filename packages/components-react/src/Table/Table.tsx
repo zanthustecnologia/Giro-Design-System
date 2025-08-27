@@ -24,7 +24,7 @@ export interface TableColumn {
   key: string;
   label: ReactNode;
   type?: TableColumnType;
-  format?: string; // Para tipo datetime
+  format?: string; 
   render?: (row: TableRowData, index?: number) => ReactNode; // Para tipo custom ou renderização personalizada
   align?: TableAlign;
   style?: CSSProperties;
