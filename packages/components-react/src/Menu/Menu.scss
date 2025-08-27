@@ -13,4 +13,14 @@
   top: 100%;
   margin-top: var(--spacing-8);
   z-index: 1000;
+  
+  &--left {
+    left: 0;
+    right: auto;
+  }
+  
+  &--right {
+    right: 0;
+    left: auto;
+  }
 }

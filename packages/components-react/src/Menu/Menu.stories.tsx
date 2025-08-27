@@ -109,6 +109,11 @@ const meta: Meta<MenuProps> = {
       control: 'boolean',
       description: 'Exibe subtexto nos itens do menu',
     },
+    position: {
+      control: 'select',
+      options: ['left', 'right', 'auto'],
+      description: 'Posição do menu em relação ao elemento âncora',
+    },
     className: {
       control: 'text',
       description: 'Classes CSS adicionais',
@@ -321,3 +326,6 @@ export const WithNotification: Story = {
   },
 };
 
+/**
+ * Menu com posicionamento à esquerda
+ */

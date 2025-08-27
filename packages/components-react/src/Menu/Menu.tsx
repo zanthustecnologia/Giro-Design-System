@@ -52,6 +52,9 @@ export interface MenuProps {
   maxWidth?: string | number;
 
   minWidth?: string | number;
+
+  /** Posição do menu em relação ao elemento âncora */
+  position?: 'left' | 'right' | 'auto';
 }
 
 const Menu: React.FC<MenuProps> = ({
@@ -66,7 +69,8 @@ const Menu: React.FC<MenuProps> = ({
   className,
   id,
   maxWidth = '210px',
-  minWidth
+  minWidth,
+  position = 'left'
 }) => {
 
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
@@ -75,6 +79,30 @@ const Menu: React.FC<MenuProps> = ({
   const menuContainerRef = useRef<HTMLDivElement>(null);
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const [focusedItemIndex, setFocusedItemIndex] = useState<number>(-1);
+  const [calculatedPosition, setCalculatedPosition] = useState<'left' | 'right'>(() => {
+    return position === 'auto' ? 'left' : position;
+  });
+
+  // Função para calcular a posição do dropdown
+  const calculateDropdownPosition = useCallback((): 'left' | 'right' => {
+    if (position !== 'auto') {
+      return position;
+    }
+
+    if (!anchorRef.current) {
+      return 'left';
+    }
+
+    const anchorRect = anchorRef.current.getBoundingClientRect();
+    const viewportWidth = window.innerWidth;
+    const dropdownWidth = typeof maxWidth === 'string' ? parseInt(maxWidth) : maxWidth;
+    
+    // Se há espaço suficiente à direita, usa 'left' (dropdown alinhado à esquerda do anchor)
+    // Se não há espaço à direita, usa 'right' (dropdown alinhado à direita do anchor)
+    const spaceOnRight = viewportWidth - anchorRect.right;
+    
+    return spaceOnRight >= dropdownWidth ? 'left' : 'right';
+  }, [position, maxWidth]);
 
   const closeMenu = useCallback((): void => {
     setIsMenuOpen(false);
@@ -85,11 +113,14 @@ const Menu: React.FC<MenuProps> = ({
 
 
   const openMenu = useCallback((): void => {
+    // Calcular posição antes de abrir o menu
+    const newPosition = calculateDropdownPosition();
+    setCalculatedPosition(newPosition);
     setIsMenuOpen(true);
     if (onToggle) {
       onToggle(true);
     }
-  }, [onToggle]);
+  }, [onToggle, calculateDropdownPosition]);
 
   const toggleDropdown = useCallback((): void => {
     if (isMenuOpen) {
@@ -245,6 +276,7 @@ const Menu: React.FC<MenuProps> = ({
   )
   const dropdownClass = clsx(
     'zds-menu__dropdown',
+    `zds-menu__dropdown--${calculatedPosition}`
   );
   return (
     <div
