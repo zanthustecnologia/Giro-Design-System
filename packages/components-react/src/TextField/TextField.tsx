@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, useId, useRef } from 'react';
+import React, { useState, useCallback, useEffect, useId } from 'react';
 import clsx from 'clsx';
 import { Dismiss16Regular, Info12Regular } from '@fluentui/react-icons';
 import Tooltip from '../Tooltip/Tooltip';
@@ -12,12 +12,7 @@ interface TextFieldProps {
     label?: string;
     placeholder?: string;
     type?: string;
-    ref?: React.Ref<HTMLInputElement>;
     onChange?: (value: string) => void;
-    onFocus?: (event: React.FocusEvent<HTMLInputElement>) => void;
-    onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
-    onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
-    readOnly?: boolean;
     disabled?: boolean;
     maxLength?: number;
     required?: boolean;
@@ -39,11 +34,7 @@ const TextField: React.FC<TextFieldProps> = ({
     label = '',
     placeholder = '',
     type = 'text',
-    onChange = (value: string) => { },
-    onFocus = (event: React.FocusEvent<HTMLInputElement>) => { },
-    onKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => { },
-    onBlur = (event: React.FocusEvent<HTMLInputElement>) => { },
-    readOnly = false,
+    onChange = (value: string) => {},
     disabled = false,
     maxLength = 30,
     required = false,
@@ -56,16 +47,11 @@ const TextField: React.FC<TextFieldProps> = ({
     trailingIcon = false,
     id = '',
     icon = null,
-    ref = null
 }) => {
     const [inputValue, setValue] = useState(value);
     const [inputError, setInputError] = useState('');
     const [focus, setFocus] = useState(false);
     const componentId = id || useId();
-
-    const internalRef = useRef<HTMLInputElement>(null);
-    const inputRef = (ref as React.RefObject<HTMLInputElement>) || internalRef;
-
 
     const handleChange = useCallback(
         (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -82,14 +68,10 @@ const TextField: React.FC<TextFieldProps> = ({
         if (!disabled) {
             setValue('');
             onChange?.('');
-            setFocus(false);
         }
-        if (inputRef.current) {
-            inputRef.current.blur();
-        }
-    }, [disabled, onChange, inputRef]);
+    }, [disabled, onChange]);
 
-    const handleBlur = useCallback((event: React.FocusEvent<HTMLInputElement>) => {
+    const onBlur = useCallback(() => {
         const error = validateInput({
             value: inputValue,
             type,
@@ -99,16 +81,7 @@ const TextField: React.FC<TextFieldProps> = ({
         }) || '';
         setInputError(error);
         setFocus(false);
-        if (inputRef && inputRef.current) {
-            inputRef.current.blur();
-        }
-        onBlur?.(event);
     }, [inputValue, type, maxLength, errorMessage, required]);
-
-    const handleFocus = useCallback((event: React.FocusEvent<HTMLInputElement>) => {
-        setFocus(true);
-        onFocus?.(event);
-    }, [onFocus]);
 
     useEffect(() => {
         if (value !== inputValue) {
@@ -149,15 +122,13 @@ const TextField: React.FC<TextFieldProps> = ({
                 <div className="zds-textfield__box__input">
                     <input
                         id={componentId}
-                        ref={inputRef}
-                        readOnly={readOnly}
                         name={name}
                         type={type}
                         value={inputValue}
                         placeholder={placeholder}
                         onChange={handleChange}
-                        onFocus={handleFocus}
-                        onBlur={handleBlur}
+                        onFocus={() => setFocus(true)}
+                        onBlur={onBlur}
                         maxLength={maxLength}
                         disabled={disabled}
                         aria-invalid={!!inputError}
@@ -166,8 +137,8 @@ const TextField: React.FC<TextFieldProps> = ({
                             inputError
                                 ? `${componentId}-error`
                                 : helper && helperText
-                                    ? `${componentId}-helper`
-                                    : undefined
+                                ? `${componentId}-helper`
+                                : undefined
                         }
                     />
                     {shouldRenderCustomIcon && <span className="zds-textfield__icon">{icon}</span>}
