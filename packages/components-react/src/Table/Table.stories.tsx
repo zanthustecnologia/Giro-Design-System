@@ -87,6 +87,7 @@ const promotionColumns = [
     label: '',
     render: (row: any) => (
       <Menu
+        position='right'
         menuItems={[
           { id: 'edit', text: 'Editar' },
           { id: 'duplicate', text: 'Duplicar' },

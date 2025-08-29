@@ -1,5 +1,5 @@
 // Filter.tsx
-import React, { useState, useRef, useEffect, ReactNode, ReactElement } from 'react';
+import React, { useState, useRef, useEffect, ReactNode, ReactElement, useCallback } from 'react';
 import Button from '../Button';
 import Dropdown, { DropdownItem, DropdownType } from '../Dropdown/Dropdown';
 import './Filter.scss';
@@ -41,7 +41,7 @@ export interface FilterProps {
   /** Classes CSS adicionais */
   className?: string;
 }
-
+// ✅ CORREÇÃO: Problema de loop infinito no useEffect
 const Filter: React.FC<FilterProps> = ({
   items = [],
   type = 'checkbox',
@@ -64,19 +64,22 @@ const Filter: React.FC<FilterProps> = ({
   const [internalSelectedIds, setInternalSelectedIds] = useState<string[]>(selectedIds);
   const filterRef = useRef<HTMLDivElement>(null);
 
-  // Sincronizar com prop externa
+  // ✅ CORREÇÃO: Sincronizar com prop externa apenas quando selectedIds realmente muda
   useEffect(() => {
-    setInternalSelectedIds(selectedIds);
-  }, [selectedIds]);
+    // Comparar arrays para evitar loops desnecessários
+    if (JSON.stringify(selectedIds) !== JSON.stringify(internalSelectedIds)) {
+      setInternalSelectedIds(selectedIds);
+    }
+  }, [selectedIds]); // ✅ Remover internalSelectedIds das dependências
 
-  // Handler para mudança de seleção
-  const handleSelectionChange = (newSelectedIds: string[]) => {
+  // ✅ CORREÇÃO: Memoizar handler para evitar re-criações
+  const handleSelectionChange = useCallback((newSelectedIds: string[]) => {
     setInternalSelectedIds(newSelectedIds);
     onSelectionChange?.(newSelectedIds);
-  };
+  }, [onSelectionChange]);
 
-  // Handle toggle
-  const handleToggle = () => {
+  // ✅ CORREÇÃO: Handle toggle otimizado
+  const handleToggle = useCallback(() => {
     if (disabled) return;
     
     const newState = !isOpen;
@@ -90,9 +93,9 @@ const Filter: React.FC<FilterProps> = ({
     }
     
     onToggle?.(newState);
-  };
+  }, [disabled, isOpen, onOpen, onClose, onToggle]);
 
-  // Close on outside click
+  // ✅ CORREÇÃO: Close on outside click otimizado
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (filterRef.current && !filterRef.current.contains(event.target as Node)) {
@@ -104,11 +107,14 @@ const Filter: React.FC<FilterProps> = ({
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [isOpen, onClose, onToggle]);
+  }, [isOpen]); // ✅ Dependências otimizadas
 
-  // Close on Escape key
+  // ✅ CORREÇÃO: Close on Escape key otimizado
   useEffect(() => {
     const handleEscape = (event: KeyboardEvent) => {
       if (event.key === 'Escape' && isOpen) {
@@ -118,38 +124,44 @@ const Filter: React.FC<FilterProps> = ({
       }
     };
 
-    document.addEventListener('keydown', handleEscape);
+    if (isOpen) {
+      document.addEventListener('keydown', handleEscape);
+    }
+    
     return () => document.removeEventListener('keydown', handleEscape);
-  }, [isOpen, onClose, onToggle]);
+  }, [isOpen]); // ✅ Dependências otimizadas
 
+  // ✅ Resto do componente...
   return (
-    <div className="filter-container" ref={filterRef}>
+    <div ref={filterRef} className={`filter-container ${className}`}>
       <Button
-        className={`filter-button filter-button--${variant} ${isOpen ? 'filter-button--open' : ''}`}
+        variant={variant}
         onClick={handleToggle}
         disabled={disabled}
+        className="filter-button"
         aria-expanded={isOpen}
         aria-haspopup="true"
-        variant={variant}
       >
-        {icon && <span className="filter-icon">{icon}</span>}
-        <span className="filter-text">{buttonText}</span>
-        <span className={`filter-arrow ${isOpen ? 'filter-arrow--up' : 'filter-arrow--down'}`}>
+        {icon && <span className="filter-button__icon">{icon}</span>}
+        <span className="filter-button__text">{buttonText}</span>
+        <span className={`filter-button__arrow ${isOpen ? 'filter-button__arrow--open' : ''}`}>
           ▼
         </span>
       </Button>
-      
+
       {isOpen && (
-        <div className={`filter-dropdown filter-dropdown--${position}`}>''
+        <div className={`filter-dropdown filter-dropdown--${position}`}>
+          {children ? (
+            children
+          ) : (
             <Dropdown
               items={items}
               type={type}
+              defaultSelectedIds={internalSelectedIds} // ✅ Usar estado interno
+              onSelectionChange={handleSelectionChange} // ✅ Usar handler memoizado
               placeholder={placeholder}
-              defaultSelectedIds={internalSelectedIds}
-              onSelectionChange={handleSelectionChange}
-                applySearch={enableSearch}
-                showSubText={true}
-              />   
+            />
+          )}
         </div>
       )}
     </div>
