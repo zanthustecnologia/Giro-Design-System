@@ -1,6 +1,5 @@
 import React, { useId, useRef, useState, useEffect, useMemo, useCallback } from 'react';
 import clsx from 'clsx';
-import moment from 'moment';
 import './Calendar.scss';
 import { ChevronLeft16Regular, ChevronRight16Regular, ChevronDown16Regular, ChevronUp16Regular } from '@fluentui/react-icons';
 import { useTranslation } from 'react-i18next';
@@ -13,7 +12,7 @@ interface DayItem {
   type: 'day';
   key: number;
   day: number;
-  date: moment.Moment;
+  date: Date;
   isToday: boolean;
   isSelected: boolean;
   label: string;
@@ -43,8 +42,8 @@ interface CalendarProps {
   onDateChange?: (date: Date) => void;
   /** Função que é executada quando um dia é selecionado */
   onDaySelect?: (date: Date) => void;
-  minDate?: Date,
-  maxDate?: Date,
+  minDate?: Date;
+  maxDate?: Date;
   /** Locale do calendário ('pt-br' ou 'en-us') */
   locale?: Locale;
   /** Formato de exibição da data ('dd/mm/yyyy' ou 'mm/dd/yyyy') */
@@ -64,32 +63,28 @@ const Calendar: React.FC<CalendarProps> = ({
   onDaySelect,
   locale = 'pt-br',
   format = 'dd/mm/yyyy',
-  id = ''
+  id = '',
+  minDate,
+  maxDate
 }) => {
   const { t, i18n } = useTranslation();
   const componentId = id || useId();
   const calendarRef = useRef<HTMLDivElement>(null);
   const [changeView, setChangeView] = useState<boolean>(false);
   const [announcement, setAnnouncement] = useState<string>('');
-  const [yearRangeStart, setYearRangeStart] = useState<number>(moment(currentDate).year() - 13);
+  const [yearRangeStart, setYearRangeStart] = useState<number>(currentDate.getFullYear() - 13);
 
   // ✅ Effect para configuração de idioma
   useEffect(() => {
     i18n.changeLanguage(locale);
-    moment.locale(locale === 'en-us' ? 'en' : 'pt-br');
   }, [locale, i18n]);
 
-  // ✅ Memoizar cálculos pesados - moments
-  const currentMoment = useMemo((): moment.Moment => moment(currentDate), [currentDate]);
-  const selectedMoment = useMemo((): moment.Moment | null => 
-    selectedDate ? moment(selectedDate) : null, [selectedDate]);
-
-  // ✅ Memoizar valores derivados do momento atual
+  // ✅ Memoizar valores derivados da data atual
   const { month, year, daysInMonth } = useMemo(() => ({
-    month: currentMoment.month(),
-    year: currentMoment.year(),
-    daysInMonth: currentMoment.daysInMonth()
-  }), [currentMoment]);
+    month: currentDate.getMonth(),
+    year: currentDate.getFullYear(),
+    daysInMonth: new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate()
+  }), [currentDate]);
 
   // ✅ Weekdays para cada idioma - memoizado com tipos
   const weekDaysLabels = useMemo((): string[] => 
@@ -102,21 +97,29 @@ const Calendar: React.FC<CalendarProps> = ({
   /**
    * Retorna o formato de data conforme a prop format e locale.
    */
-  const getDateFormat = useCallback((): string => {
-    if (format === 'mm/dd/yyyy' || locale === 'en-us') return 'MMMM DD, YYYY';
-    return 'DD [de] MMMM [de] YYYY';
-  }, [format, locale]);
+  const getDateFormat = useCallback((date: Date): string => {
+    const options: Intl.DateTimeFormatOptions = {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    };
+
+    if (locale === 'en-us') {
+      return date.toLocaleDateString('en-US', options);
+    }
+    return date.toLocaleDateString('pt-BR', options);
+  }, [locale]);
 
   /**
    * Verifica se o dia é hoje.
    */
   const isToday = useCallback((day: number): boolean => {
-    const today = moment();
+    const today = new Date();
     return (
       !selectedDate &&
-      day === today.date() &&
-      month === today.month() &&
-      year === today.year()
+      day === today.getDate() &&
+      month === today.getMonth() &&
+      year === today.getFullYear()
     );
   }, [selectedDate, month, year]);
 
@@ -125,36 +128,48 @@ const Calendar: React.FC<CalendarProps> = ({
    */
   const isSelected = useCallback((day: number): boolean => {
     return Boolean(
-      selectedMoment &&
-      selectedMoment.date() === day &&
-      selectedMoment.month() === month &&
-      selectedMoment.year() === year
+      selectedDate &&
+      selectedDate.getDate() === day &&
+      selectedDate.getMonth() === month &&
+      selectedDate.getFullYear() === year
     );
-  }, [selectedMoment, month, year]);
+  }, [selectedDate, month, year]);
+
+  /**
+   * Verifica se uma data está dentro dos limites permitidos.
+   */
+  const isDateInRange = useCallback((date: Date): boolean => {
+    if (minDate && date < minDate) return false;
+    if (maxDate && date > maxDate) return false;
+    return true;
+  }, [minDate, maxDate]);
 
   /**
    * Retorna o nome do mês conforme o locale.
    */
   const getMonthName = useCallback((): string => {
-    // Garante que o moment use o locale correto para o nome do mês
-    return currentMoment
-      .locale(locale === 'en-us' ? 'en' : 'pt-br')
-      .format('MMMM');
-  }, [currentMoment, locale]);
+    const monthNames = locale === 'en-us' 
+      ? ['January', 'February', 'March', 'April', 'May', 'June',
+         'July', 'August', 'September', 'October', 'November', 'December']
+      : ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+         'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+    
+    return monthNames[month];
+  }, [month, locale]);
 
   // ✅ Memoizar array de dias - tipado e otimizado
   const daysArray = useMemo((): CalendarItem[] => {
     const days: CalendarItem[] = [];
-    const startDay = moment([year, month]).day();
+    const firstDayOfMonth = new Date(year, month, 1).getDay();
     
     // Dias vazios para alinhar o início do mês
-    for (let i = 0; i < startDay; i++) {
+    for (let i = 0; i < firstDayOfMonth; i++) {
       days.push({ type: 'empty', key: `empty-${i}` });
     }
     
     // Dias do mês
     for (let i = 1; i <= daysInMonth; i++) {
-      const date = moment([year, month, i]);
+      const date = new Date(year, month, i);
       days.push({
         type: 'day',
         key: i,
@@ -162,7 +177,7 @@ const Calendar: React.FC<CalendarProps> = ({
         date,
         isToday: isToday(i),
         isSelected: isSelected(i),
-        label: date.format(getDateFormat()),
+        label: getDateFormat(date),
       });
     }
     return days;
@@ -183,10 +198,15 @@ const Calendar: React.FC<CalendarProps> = ({
 
   // ✅ Memoizar handlers para evitar re-renders desnecessários
   const handleSelectDay = useCallback((day: number): void => {
-    const selectedDay = moment([year, month, day]).toDate();
+    const selectedDay = new Date(year, month, day);
+    
+    if (!isDateInRange(selectedDay)) {
+      return;
+    }
+
     onDateChange?.(selectedDay);
     onDaySelect?.(selectedDay);
-  }, [year, month, onDateChange, onDaySelect]);
+  }, [year, month, onDateChange, onDaySelect, isDateInRange]);
 
   /**
    * Navega para o mês anterior ou range de anos anterior.
@@ -196,15 +216,15 @@ const Calendar: React.FC<CalendarProps> = ({
       setYearRangeStart((prev) => prev - 20);
       setAnnouncement(locale === 'en-us' ? 'Previous years displayed' : 'Anos anteriores exibidos');
     } else {
-      const newDate = currentMoment.clone().subtract(1, 'month');
-      onDateChange?.(newDate.toDate());
+      const newDate = new Date(year, month - 1, 1);
+      onDateChange?.(newDate);
       setAnnouncement(
         locale === 'en-us'
-          ? `Month changed to ${newDate.format('MMMM YYYY')}`
-          : `Mês alterado para ${newDate.format('MMMM [de] YYYY')}`
+          ? `Month changed to ${newDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}`
+          : `Mês alterado para ${newDate.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' })}`
       );
     }
-  }, [changeView, locale, currentMoment, onDateChange]);
+  }, [changeView, locale, year, month, onDateChange]);
 
   /**
    * Navega para o próximo mês ou range de anos seguinte.
@@ -214,15 +234,15 @@ const Calendar: React.FC<CalendarProps> = ({
       setYearRangeStart((prev) => prev + 20);
       setAnnouncement(locale === 'en-us' ? 'Next years displayed' : 'Próximos anos exibidos');
     } else {
-      const newDate = currentMoment.clone().add(1, 'month');
-      onDateChange?.(newDate.toDate());
+      const newDate = new Date(year, month + 1, 1);
+      onDateChange?.(newDate);
       setAnnouncement(
         locale === 'en-us'
-          ? `Month changed to ${newDate.format('MMMM YYYY')}`
-          : `Mês alterado para ${newDate.format('MMMM [de] YYYY')}`
+          ? `Month changed to ${newDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}`
+          : `Mês alterado para ${newDate.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' })}`
       );
     }
-  }, [changeView, locale, currentMoment, onDateChange]);
+  }, [changeView, locale, year, month, onDateChange]);
 
   /**
    * Alterna entre visualização de mês e ano.
@@ -259,7 +279,8 @@ const Calendar: React.FC<CalendarProps> = ({
    */
   const handleYearSelect = useCallback((selectedYear: number): void => {
     setChangeView(false);
-    onDateChange?.(moment([selectedYear, month, 1]).toDate());
+    const newDate = new Date(selectedYear, month, 1);
+    onDateChange?.(newDate);
     setAnnouncement(
       locale === 'en-us' 
         ? `Year changed to ${selectedYear}` 
@@ -324,6 +345,8 @@ const Calendar: React.FC<CalendarProps> = ({
       }
 
       const dayItem = item as DayItem;
+      const isDisabled = !isDateInRange(dayItem.date);
+      
       return (
         <div
           key={dayItem.key}
@@ -332,23 +355,27 @@ const Calendar: React.FC<CalendarProps> = ({
             {
               'zds-calendar__day--today': dayItem.isToday,
               'zds-calendar__day--selected': dayItem.isSelected,
+              'zds-calendar__day--disabled': isDisabled,
             }
           )}
-          onClick={() => handleSelectDay(dayItem.day)}
-          onKeyDown={(e) => handleDayKeyDown(e, dayItem.day)}
-          tabIndex={0}
+          onClick={isDisabled ? undefined : () => handleSelectDay(dayItem.day)}
+          onKeyDown={isDisabled ? undefined : (e) => handleDayKeyDown(e, dayItem.day)}
+          tabIndex={isDisabled ? -1 : 0}
           role="gridcell"
           aria-selected={dayItem.isSelected}
           aria-current={dayItem.isToday ? 'date' : undefined}
+          aria-disabled={isDisabled}
           aria-label={`${dayItem.day} ${getMonthName()} ${year}${
             dayItem.isToday ? ` (${t('today')})` : ''
-          }${dayItem.isSelected ? ` (${t('selected')})` : ''}`}
+          }${dayItem.isSelected ? ` (${t('selected')})` : ''}${
+            isDisabled ? ` (${t('disabled')})` : ''
+          }`}
         >
           {dayItem.day}
         </div>
       );
     });
-  }, [daysArray, handleSelectDay, handleDayKeyDown, getMonthName, year, t]);
+  }, [daysArray, handleSelectDay, handleDayKeyDown, getMonthName, year, t, isDateInRange]);
 
   // ✅ Memoizar componentes de weekdays para evitar re-renders
   const weekdaysComponent = useMemo((): React.ReactNode | null => {
@@ -372,9 +399,9 @@ const Calendar: React.FC<CalendarProps> = ({
   // ✅ Sempre que abrir a view de anos, centraliza o range no ano atual
   useEffect(() => {
     if (changeView) {
-      setYearRangeStart(currentMoment.year() - 13);
+      setYearRangeStart(year - 13);
     }
-  }, [changeView, currentMoment]);
+  }, [changeView, year]);
 
   return (
     <div
@@ -437,8 +464,8 @@ const Calendar: React.FC<CalendarProps> = ({
                   ? "Show previous years"
                   : "Mostrar anos anteriores")
                 : (locale === 'en-us'
-                  ? `Previous month, ${currentMoment.clone().subtract(1, 'month').format('MMMM YYYY')}`
-                  : `Mês anterior, ${currentMoment.clone().subtract(1, 'month').format('MMMM [de] YYYY')}`)
+                  ? `Previous month, ${new Date(year, month - 1, 1).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}`
+                  : `Mês anterior, ${new Date(year, month - 1, 1).toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' })}`)
             }
             type="button"
             className="zds-calendar__nav-button"
@@ -454,8 +481,8 @@ const Calendar: React.FC<CalendarProps> = ({
                   ? "Show next years"
                   : "Mostrar próximos anos")
                 : (locale === 'en-us'
-                  ? `Next month, ${currentMoment.clone().add(1, 'month').format('MMMM YYYY')}`
-                  : `Próximo mês, ${currentMoment.clone().add(1, 'month').format('MMMM [de] YYYY')}`)
+                  ? `Next month, ${new Date(year, month + 1, 1).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}`
+                  : `Próximo mês, ${new Date(year, month + 1, 1).toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' })}`)
             }
             type="button"
             className="zds-calendar__nav-button"
