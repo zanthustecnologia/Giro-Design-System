@@ -94,7 +94,10 @@ const promotionColumns = [
           { id: 'pause', text: row.status === 'Ativa' ? 'Pausar' : 'Ativar' },
           { id: 'delete', text: 'Excluir' },
         ]}
-        onMenuItemClick={(item: any) => console.log(`${item.text} promoção:`, row.name)}
+        onMenuItemClick={(item: any) => {
+          console.log(`${item.text} promoção:`, row.name);
+          // Adicionar lógica específica para cada ação aqui se necessário
+        }}
       >
         <MoreVertical16Regular style={{ cursor: 'pointer' }} />
       </Menu>

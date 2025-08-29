@@ -150,8 +150,8 @@ const TableHeader: React.FC<TableHeaderProps> = ({
                   {filters}
                 </div>
               )}
-              
-              <p>Filtros</p>
+
+              <span className='zds-table-header__filter-label'>Filtros</span>
               {/* Filtros usando componente Filter */}
               {filterItems && filterItems.map((filterItem, index) => (
                 <Filter

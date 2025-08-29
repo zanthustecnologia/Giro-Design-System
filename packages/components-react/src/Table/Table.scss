@@ -204,7 +204,16 @@
     }
   }
 }
-.zds-table-header__filters-content{
+
+.zds-table-header__filter-label {
+  font-weight: var(--font-weight-medium);
+  color: var(--color-neutral-low-default);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-16);
+  white-space: nowrap;
+}
+
+.zds-table-header__filters-content {
   display: flex;
   flex-direction: row;
   gap: var(--spacing-16);
