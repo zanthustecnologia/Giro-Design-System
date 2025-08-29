@@ -1,3 +1,70 @@
+// Filter Component Styles
+.filter-container {
+  position: relative;
+  display: inline-block;
+}
+
+.filter-button {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-8);
+  
+  .filter-icon {
+    display: flex;
+    align-items: center;
+  }
+  
+  .filter-text {
+    display: flex;
+    align-items: center;
+  }
+  
+  .filter-arrow {
+    display: flex;
+    align-items: center;
+    transition: transform 0.2s ease;
+    font-size: 12px;
+    
+    &--up {
+      transform: rotate(180deg);
+    }
+    
+    &--down {
+      transform: rotate(0deg);
+    }
+  }
+  
+  &--open {
+    .filter-arrow {
+      transform: rotate(180deg);
+    }
+  }
+}
+
+.filter-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 9999;
+  min-width: 200px;
+  max-height: 300px;
+  overflow-y: auto;
+  background: var(--color-neutral-high-default);
+  border: var(--border-width-1) solid var(--color-neutral-high-dark);
+  border-radius: var(--border-radius-8);
+  box-shadow: 0 var(--spacing-4) var(--spacing-16) rgba(17, 17, 25, 0.15);
+  margin-top: var(--spacing-4);
+  
+  &--left {
+    left: 0;
+  }
+  
+  &--right {
+    right: 0;
+    left: auto;
+  }
+}
+
 .zds-filter {
   display: flex;
   flex-direction: column;

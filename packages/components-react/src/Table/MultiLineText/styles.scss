@@ -1,25 +1,23 @@
-@use '../../resources/scss/design-tokens.scss' as *;
-
 .zds-table__container {
   overflow-x: auto;
-  border-radius: $border-radius-8;
-  border: $border-width-1 solid $high-color-dark;
-  background-color: $high-color-default;
+  border-radius: var(--border-radius-8);
+  border: var(--border-width-1) solid var(--color-neutral-high-dark);
+  background-color: var(--color-neutral-high-default);
 }
 
 .zds-table__container.zds-table__filter {
-  border-radius: 0 0 $border-radius-8 $border-radius-8;
+  border-radius: 0 0 var(--border-radius-8) var(--border-radius-8);
 }
 
 .zds-table {
   width: 100%;
   border-collapse: collapse;
-  font-family: $font-family-sans-serif;
-  font-size: $font-size-16;
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-16);
 }
 
 .zds-table__head {
-  background-color: $high-color-light;
+  background-color: var(--color-neutral-high-light);
   text-align: left;
 }
 
@@ -29,31 +27,31 @@
 }
 
 .zds-table__th-content {
-  padding: 0 $spacing-16;
-  font-weight: $font-weight-bold;
-  color: $low-color-default;
+  padding: 0 var(--spacing-16);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-neutral-low-default);
   min-height: 44px;
   display: flex;
   align-items: center;
 }
 
 .zds-table__body .zds-table__td {
-  padding: 10px $spacing-16;
-  border-top: $border-width-1 solid $high-color-dark;
-  color: $low-color-default;
+  padding: var(--spacing-12) var(--spacing-16);
+  border-top: var(--border-width-1) solid var(--color-neutral-high-dark);
+  color: var(--color-neutral-low-default);
 }
 .zds-table__body .zds-table__row:first-child .zds-table__td {
-  border-top: $border-width-none;
+  border-top: var(--border-width-none);
 }
 
 .zds-table__row:hover {
-  //background-color: #fafafa;
+  background-color: var(--color-neutral-high-light);
 }
 
 .zds-table__empty {
   text-align: center;
-  padding: 20px;
-  color: #999;
+  padding: var(--spacing-24);
+  color: var(--color-neutral-low-medium);
 }
 
 /**
@@ -62,16 +60,16 @@
 .zds-multi-line-text {
   display: flex;
   flex-direction: column;
-  font-family: $font-family-sans-serif;
-  font-size: $font-size-16;
-  gap: $spacing-8;
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-16);
+  gap: var(--spacing-8);
 
   &__text1 {
-    color: $low-color-default;
+    color: var(--color-neutral-low-default);
   }
 
   &__text2 {
-    font-size: $font-size-14;
-    color: $low-color-dark;
+    font-size: var(--font-size-14);
+    color: var(--color-neutral-low-dark);
   }
 }

@@ -1,19 +1,33 @@
 // Filter.tsx
 import React, { useState, useRef, useEffect, ReactNode, ReactElement } from 'react';
 import Button from '../Button';
+import Dropdown, { DropdownItem, DropdownType } from '../Dropdown/Dropdown';
+import './Filter.scss';
 
 // ✅ Definir as variantes de botão disponíveis
 type FilterButtonVariant = 'filled' | 'outlined' | 'text';
 
 export interface FilterProps {
-  /** Conteúdo a ser renderizado quando aberto */
+  /** Items para o dropdown (quando não usar children customizado) */
+  items?: DropdownItem[];
+  /** Tipo do dropdown */
+  type?: DropdownType;
+  /** IDs selecionados */
+  selectedIds?: string[];
+  /** Callback quando seleção muda */
+  onSelectionChange?: (selectedIds: string[]) => void;
+  /** Placeholder do dropdown */
+  placeholder?: string;
+  /** Habilita busca no dropdown */
+  enableSearch?: boolean;
+  /** Conteúdo customizado (sobrescreve o dropdown padrão) */
   children?: ReactNode;
-  /** Texto da variante de filtro que assume o valor escolhido */
+  /** Texto do botão do filtro */
   buttonText?: string | ReactNode;
   /** Ícone do botão */
   icon?: ReactElement;
   /** Variante do botão */
-  variant?: FilterButtonVariant; // ✅ Usar o tipo correto
+  variant?: FilterButtonVariant;
   /** Callback chamado quando o estado do filtro muda */
   onToggle?: (isOpen: boolean) => void;
   /** Callback chamado quando o filtro é aberto */
@@ -24,10 +38,17 @@ export interface FilterProps {
   position?: 'left' | 'right';
   /** Se o filtro está desabilitado */
   disabled?: boolean;
+  /** Classes CSS adicionais */
   className?: string;
 }
 
 const Filter: React.FC<FilterProps> = ({
+  items = [],
+  type = 'checkbox',
+  selectedIds = [],
+  onSelectionChange,
+  placeholder = 'Selecionar...',
+  enableSearch = false,
   children,
   buttonText = 'Filter',
   icon,
@@ -40,7 +61,19 @@ const Filter: React.FC<FilterProps> = ({
   className = ''
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [internalSelectedIds, setInternalSelectedIds] = useState<string[]>(selectedIds);
   const filterRef = useRef<HTMLDivElement>(null);
+
+  // Sincronizar com prop externa
+  useEffect(() => {
+    setInternalSelectedIds(selectedIds);
+  }, [selectedIds]);
+
+  // Handler para mudança de seleção
+  const handleSelectionChange = (newSelectedIds: string[]) => {
+    setInternalSelectedIds(newSelectedIds);
+    onSelectionChange?.(newSelectedIds);
+  };
 
   // Handle toggle
   const handleToggle = () => {
@@ -107,8 +140,16 @@ const Filter: React.FC<FilterProps> = ({
       </Button>
       
       {isOpen && (
-        <div className={`filter-dropdown filter-dropdown--${position}`}>
-          {children}
+        <div className={`filter-dropdown filter-dropdown--${position}`}>''
+            <Dropdown
+              items={items}
+              type={type}
+              placeholder={placeholder}
+              defaultSelectedIds={internalSelectedIds}
+              onSelectionChange={handleSelectionChange}
+                applySearch={enableSearch}
+                showSubText={true}
+              />   
         </div>
       )}
     </div>

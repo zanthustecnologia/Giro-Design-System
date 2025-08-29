@@ -1,11 +1,10 @@
-@use '../../resources/scss/design-tokens.scss' as *;
-
 .zds-table__container {
-  border-radius: $border-radius-8;
-  border: $border-width-1 solid $high-color-dark;
-  background-color: $high-color-default;
-  font-family: $font-family-sans-serif;
-  overflow: hidden; // Remove overflow-x auto do container principal
+  border-radius: var(--border-radius-8);
+  border: var(--border-width-1) solid var(--color-neutral-high-dark);
+  background-color: var(--color-neutral-high-default);
+  font-family: var(--font-family-primary);
+  overflow: visible;
+  position: relative;
 }
 
 .zds-children {
@@ -18,50 +17,48 @@
 
   .zds-filter-drawer--group {
     display: flex;
-    gap: $spacing-16;
+    gap: var(--spacing-16);
   }
 }
 
-// Novo wrapper para scroll apenas da tabela
 .zds-table__scroll-wrapper {
   overflow-x: auto;
+  overflow-y: hidden;
 
-  // Scroll horizontal para telas menores que 768px
   @media (max-width: 768px) {
     overflow-x: scroll;
-    -webkit-overflow-scrolling: touch; // Melhora a experiência de scroll em dispositivos iOS
+    -webkit-overflow-scrolling: touch;
   }
 }
 
 .zds-table {
   width: 100%;
   border-collapse: collapse;
-  font-family: $font-family-sans-serif;
-  font-size: $font-size-16;
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-16);
 
-  // Define largura mínima para manter a estrutura da tabela em telas pequenas
   @media (max-width: 768px) {
-    min-width: 600px; // Ajuste conforme necessário baseado no conteúdo da tabela
+    min-width: 600px;
   }
 }
 
 .zds-table__head {
-  background-color: $high-color-light;
+  background-color: var(--color-neutral-high-light);
   text-align: left;
 }
 
 .zds-table__th {
-  padding: $spacing-0;
+  padding: var(--spacing-0);
   vertical-align: middle;
 }
 
 .zds-table__th-content {
-  font-weight: $font-weight-bold;
-  color: $low-color-default;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-neutral-low-default);
   min-height: 44px;
   display: flex;
   align-items: center;
-  padding: $spacing-0 $spacing-16; // Adiciona padding ao conteúdo do th
+  padding: var(--spacing-0) var(--spacing-16);
 }
 
 .zds-table__td.text-center {
@@ -69,9 +66,9 @@
 }
 
 .zds-table__body .zds-table__td {
-  padding: $spacing-8 $spacing-16;
-  border-top: $border-width-1 solid $high-color-dark;
-  color: $low-color-default;
+  padding: var(--spacing-8) var(--spacing-16);
+  border-top: var(--border-width-1) solid var(--color-neutral-high-dark);
+  color: var(--color-neutral-low-default);
 }
 
 .zds-table__empty {
@@ -79,42 +76,43 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: $spacing-32; // Adiciona padding para melhor espaçamento
+  padding: var(--spacing-32);
 
   &__content {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: $high-color-medium;
-    border-radius: $border-radius-circular;
+    background-color: var(--color-neutral-high-medium);
+    border-radius: var(--border-radius-circular);
     width: 100px;
     height: 100px;
   }
+
   svg {
     width: 76px;
     height: 76px;
   }
 
   & path {
-    fill: $brand-color-primary-default;
+    fill: var(--color-brand-primary-default);
   }
 
   &__title {
-    margin: $spacing-32 $spacing-0 $spacing-16 $spacing-0;
-    font-size: $font-size-24;
-    font-weight: $font-weight-bold;
-    color: $low-color-default;
+    margin: var(--spacing-32) var(--spacing-0) var(--spacing-16) var(--spacing-0);
+    font-size: var(--font-size-24);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-neutral-low-default);
   }
 
   &__caption {
-    font-size: $font-size-20;
-    font-weight: $font-weight-regular;
-    color: $low-color-default;
+    font-size: var(--font-size-20);
+    font-weight: var(--font-weight-regular);
+    color: var(--color-neutral-low-default);
   }
 }
 
 .zds-table__body .zds-table__row:first-child .zds-table__td {
-  border-top: $border-width-none;
+  border-top: var(--border-width-none);
 }
 
 .zds-table__body .zds-table__td:last-child {
@@ -123,128 +121,135 @@
 
 .zds-table__row:hover,
 .zds-table__row-hover {
-  background-color: $high-color-light;
+  background-color: var(--color-neutral-high-light);
 }
 
-// Garante que a paginação permaneça estática
 .zds-table__pagination {
-  background-color: $high-color-default;
-  border-top: $border-width-1 solid $high-color-dark;
+  background: var(--color-neutral-high-light);
+  border-top: var(--border-width-1) solid var(--color-neutral-high-dark);
+  font-family: var(--font-family-primary);
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  font-size: var(--font-size-12);
+  color: var(--color-neutral-low-default);
+  border-radius: 0 0 var(--border-radius-8) var(--border-radius-8);
+  border-bottom: var(--border-width-1) solid var(--color-neutral-high-dark);
+  gap: var(--spacing-8);
 }
 
-/**
- * Table Header - Responsivo para telas pequenas
- */
 .zds-table-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: $high-color-light;
-  padding: $spacing-12 $spacing-24;
-  border-radius: $border-radius-8 $border-radius-8 $border-width-none $border-width-none;
-  border-bottom: $border-width-1 solid $high-color-dark;
+  background: var(--color-neutral-high-light);
+  padding: var(--spacing-12) var(--spacing-24);
+  border-radius: var(--border-radius-8) var(--border-radius-8) var(--border-radius-none) var(--border-radius-none);
+  border-bottom: var(--border-width-1) solid var(--color-neutral-high-dark);
   flex-wrap: wrap;
-  gap: $spacing-8;
+  gap: var(--spacing-8);
+  position: relative;
+  z-index: 1500;
+  overflow: visible;
 
-  // Responsividade para telas menores
   @media (max-width: 768px) {
     align-items: stretch;
-    padding: $spacing-8 $spacing-16;
+    padding: var(--spacing-8) var(--spacing-16);
   }
 
   &__search {
     display: flex;
     align-items: center;
-    gap: $spacing-8;
+    gap: var(--spacing-8);
     flex: 1;
 
-    // Em telas pequenas, ocupa toda a largura
     @media (max-width: 768px) {
       width: 100%;
-      margin-bottom: $spacing-8;
+      margin-bottom: var(--spacing-8);
     }
 
     input {
       border: none;
-      padding: $spacing-8 $spacing-12;
-      border-radius: $border-radius-4;
+      padding: var(--spacing-8) var(--spacing-12);
+      border-radius: var(--border-radius-4);
       width: 100%;
-      background: $high-color-default;
+      background: var(--color-neutral-high-default);
     }
   }
 
   &__filters {
     display: flex;
     align-items: center;
-    gap: $spacing-8;
+    gap: var(--spacing-8);
     flex-wrap: wrap;
     position: relative;
-    z-index: 1000;
+    z-index: 2000;
 
-    // Permite que os filtros se sobreponham a outros elementos da tabela
-    .zds-filter {
+    .filter-container {
       position: relative;
+      z-index: 2001;
     }
   }
 
   &__label {
-    font-weight: $font-weight-medium;
-    color: $low-color-medium;
-    font-family: $font-family-sans-serif;
-    font-size: $font-size-14;
+    font-weight: var(--font-weight-medium);
+    color: var(--color-neutral-low-medium);
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-14);
     white-space: nowrap;
 
-    // Oculta o label em telas menores que 1024px
     @media (max-width: 1023px) {
       display: none;
     }
   }
 }
+.zds-table-header__filters-content{
+  display: flex;
+  flex-direction: row;
+  gap: var(--spacing-16);
+}
 
-/*
- * Table Pagination - Responsivo para telas pequenas
- */
 .zds-table__pagination-container {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  gap: $spacing-8;
-  padding: $spacing-8 $spacing-12;
-  font-size: $font-size-12;
-  border-top: $border-width-1 solid $high-color-dark;
-  background-color: $high-color-light;
+  gap: var(--spacing-8);
+  padding: var(--spacing-8) var(--spacing-12);
+  font-size: var(--font-size-12);
+  border-top: var(--border-width-1) solid var(--color-neutral-high-dark);
+  background-color: var(--color-neutral-high-light);
 
-  // Responsividade para telas menores
   @media (max-width: 768px) {
     flex-wrap: wrap;
     justify-content: center;
-    padding: $spacing-8 $spacing-16;
-    gap: $spacing-4;
+    padding: var(--spacing-8) var(--spacing-16);
+    gap: var(--spacing-4);
   }
 }
 
 .zds-table__pagination-select {
   display: flex;
   align-items: center;
-  gap: $spacing-8;
+  gap: var(--spacing-8);
   letter-spacing: 0.24px;
 
   select {
-    padding: $spacing-4 $spacing-8;
-    border-radius: $border-radius-8;
-    border: $border-width-1 solid $high-color-dark;
-    background-color: $high-color-light;
-    font-family: $font-family-sans-serif;
+    padding: var(--spacing-4) var(--spacing-8);
+    border-radius: var(--border-radius-8);
+    border: var(--border-width-1) solid var(--color-neutral-high-dark);
+    background-color: var(--color-neutral-high-light);
+    font-family: var(--font-family-primary);
   }
 }
 
 .zds-table__pagination-info {
   display: flex;
-  gap: $spacing-8;
+  gap: var(--spacing-8);
   min-width: 60px;
   text-align: center;
-  margin-left: $spacing-24;
-  font-family: $font-family-sans-serif;
+  margin-left: var(--spacing-24);
+  font-family: var(--font-family-primary);
 
   span {
     display: flex;
@@ -261,116 +266,97 @@
 
 .zds-table__pagination-controls {
   display: flex;
-  gap: $spacing-4;
-
-  .zds-pagination-btn {
-    background: transparent;
-    border: none;
-    padding: $spacing-4;
-    border-radius: $border-radius-4;
-    cursor: pointer;
-    transition: background 0.2s;
-
-    &:hover:not(:disabled) {
-      background-color: $high-color-medium;
-    }
-
-    &:disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
-    }
-  }
+  gap: var(--spacing-4);
+  padding-right: var(--spacing-8);
 }
 
-// Dropdown simples para filtros - comportamento similar ao Menu
 .zds-filter-simple-dropdown {
   position: absolute;
   top: 100%;
-  left: $spacing-0;
-  z-index: 9999;
+  left: var(--spacing-0);
+  z-index: 10000;
   min-width: 200px;
   max-height: 300px;
   overflow-y: auto;
-  background: $high-color-default;
-  border: $border-width-1 solid $high-color-dark;
-  border-radius: $border-radius-8;
-  box-shadow: 0 $spacing-4 $spacing-16 rgba($low-color-default, 0.1);
-  padding: $spacing-4;
-  margin-top: $spacing-4;
+  background: var(--color-neutral-high-default);
+  border: var(--border-width-1) solid var(--color-neutral-high-dark);
+  border-radius: var(--border-radius-8);
+  box-shadow: 0 var(--spacing-8) var(--spacing-24) rgba(17, 17, 25, 0.15);
+  padding: var(--spacing-4);
+  margin-top: var(--spacing-4);
 
   &__item {
-    padding: $spacing-8 $spacing-12;
+    padding: var(--spacing-8) var(--spacing-12);
     cursor: pointer;
-    border-radius: $border-radius-4;
+    border-radius: var(--border-radius-4);
     transition: background-color 0.15s ease;
-    color: $low-color-default;
-    font-family: $font-family-sans-serif;
-    font-size: $font-size-14;
+    color: var(--color-neutral-low-default);
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-14);
     line-height: 1.4;
 
     &:hover {
-      background-color: $high-color-light;
+      background-color: var(--color-neutral-high-light);
     }
 
     &--selected {
-      background-color: $brand-color-primary-light;
-      color: $brand-color-primary-dark;
-      font-weight: $font-weight-medium;
+      background-color: var(--color-brand-primary-light);
+      color: var(--color-brand-primary-dark);
+      font-weight: var(--font-weight-medium);
     }
   }
 }
 
-// Dropdown com checkboxes para múltipla seleção - comportamento similar ao Menu
 .zds-filter-checkbox-dropdown {
   position: absolute;
   top: 100%;
-  left: $spacing-0;
-  z-index: 9999;
+  left: var(--spacing-0);
+  z-index: 10000;
   min-width: 200px;
   max-height: 300px;
   overflow-y: auto;
-  background: $high-color-default;
-  border: $border-width-1 solid $high-color-dark;
-  border-radius: $border-radius-8;
-  box-shadow: 0 $spacing-4 $spacing-16 rgba($low-color-default, 0.1);
-  padding: $spacing-4;
-  margin-top: $spacing-4;
+  background: var(--color-neutral-high-default);
+  border: var(--border-width-1) solid var(--color-neutral-high-dark);
+  border-radius: var(--border-radius-8);
+  box-shadow: 0 var(--spacing-8) var(--spacing-24) rgba(17, 17, 25, 0.15);
+  padding: var(--spacing-4);
+  margin-top: var(--spacing-4);
 
   &__item {
     display: flex;
     align-items: center;
-    padding: $spacing-8 $spacing-12;
+    padding: var(--spacing-8) var(--spacing-12);
     cursor: pointer;
-    border-radius: $border-radius-4;
+    border-radius: var(--border-radius-4);
     transition: background-color 0.15s ease;
 
     &:hover {
-      background-color: $high-color-light;
+      background-color: var(--color-neutral-high-light);
     }
   }
 
   &__checkbox {
-    margin-right: $spacing-8;
-    accent-color: $brand-color-primary-default;
+    margin-right: var(--spacing-8);
+    accent-color: var(--color-brand-primary-default);
   }
 
   &__label {
-    color: $low-color-default;
-    font-family: $font-family-sans-serif;
-    font-size: $font-size-14;
+    color: var(--color-neutral-low-default);
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-14);
     line-height: 1.4;
     cursor: pointer;
   }
 }
 
 .zds-filter-text-content {
-  padding: $spacing-16;
+  padding: var(--spacing-16);
   min-width: 250px;
 
   .zds-filter-text-actions {
     display: flex;
-    gap: $spacing-8;
-    margin-top: $spacing-16;
+    gap: var(--spacing-8);
+    margin-top: var(--spacing-16);
     justify-content: flex-end;
   }
 }
@@ -378,7 +364,7 @@
 .zds-filter-button-content {
   display: flex;
   align-items: center;
-  gap: $spacing-4;
+  gap: var(--spacing-4);
 }
 
 .zds-filter-drawer {
@@ -389,19 +375,19 @@
   &--content {
     display: flex;
     flex-direction: column;
-    gap: $spacing-16;
-    padding: $spacing-24;
+    gap: var(--spacing-16);
+    padding: var(--spacing-24);
     flex: 1;
     overflow-y: auto;
   }
 
   &--actions {
     display: flex;
-    gap: $spacing-12;
-    padding: $spacing-24;
-    border-top: $border-width-1 solid $high-color-dark;
+    gap: var(--spacing-12);
+    padding: var(--spacing-24);
+    border-top: var(--border-width-1) solid var(--color-neutral-high-dark);
     margin-top: auto;
-    background-color: $high-color-default;
+    background-color: var(--color-neutral-high-default);
 
     button {
       flex: 1;
@@ -409,11 +395,10 @@
   }
 }
 
-// Responsividade para telas pequenas nos filtros
 @media (max-width: 1023px) {
   .zds-table-header {
     align-items: center;
-    gap: $spacing-12;
+    gap: var(--spacing-12);
 
     &__search {
       max-width: none;
@@ -425,10 +410,9 @@
   }
 }
 
-// Ajustes para telas muito pequenas
 @media (max-width: 480px) {
   .zds-table-header {
-    padding: $spacing-12 $spacing-16;
+    padding: var(--spacing-12) var(--spacing-16);
 
     &__filters {
       justify-content: center;
@@ -437,7 +421,7 @@
 
   .zds-filter-drawer--actions {
     flex-direction: column;
-    gap: $spacing-8;
+    gap: var(--spacing-8);
 
     button {
       width: 100%;
@@ -446,5 +430,17 @@
 }
 
 .zds-dropdown--filter {
-  margin-top: $spacing-48;
+  margin-top: var(--spacing-48);
+  position: relative;
+  z-index: 10001;
+}
+
+// Específico para o Filter component no TableHeader com z-index mais alto
+.zds-table-header .filter-container {
+  .filter-dropdown {
+    z-index: 10000;
+    box-shadow: 0 var(--spacing-8) var(--spacing-24) rgba(17, 17, 25, 0.2);
+    transform: translateZ(0);
+    will-change: transform;
+  }
 }

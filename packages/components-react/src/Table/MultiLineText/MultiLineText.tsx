@@ -1,5 +1,5 @@
 import React from 'react';
-import './styles.scss';
+
 
 // Interface para as props do componente
 interface MultiLineTextProps {
