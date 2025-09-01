@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import type { Meta, StoryFn } from '@storybook/react';
 import Table from './Table';
 import TableHeader from './TableHeader';
@@ -228,6 +228,32 @@ const promotionData = [
   },
 ];
 
+// Colunas básicas para stories simples (sem ações)
+const basicColumns = [
+  { key: 'code', label: 'Código' },
+  { key: 'name', label: 'Nome' },
+  { key: 'description', label: 'Descrição' },
+  { key: 'type', label: 'Tipo' },
+  { key: 'startDate', label: 'Data Início' },
+  { key: 'endDate', label: 'Data Fim' },
+  { 
+    key: 'status', 
+    label: 'Status',
+    render: (row: any) => (
+      <Chips 
+        title={row.status}
+        label={row.status}
+        variant={
+          row.status === 'Ativa' ? 'success' : 
+          row.status === 'Inativa' ? 'alert' : 
+          row.status === 'Agendada' ? 'brand' :
+          'neutral'
+        } 
+      />
+    ),
+  },
+];
+
 // ✅ STORY DEFAULT - Configurável via Controls
 export const Default: StoryFn = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -240,6 +266,90 @@ export const Default: StoryFn = () => {
   const [showFilters, setShowFilters] = useState(true);
   const [showPagination, setShowPagination] = useState(true);
   const [showSelection, setShowSelection] = useState(false);
+
+  // ✅ CORREÇÃO: Handler memoizado para evitar re-criação a cada render
+  const handleMenuAction = useCallback((action: string, row: any) => {
+    console.log(`${action} promoção:`, row.name);
+    // Adicionar lógica específica para cada ação aqui se necessário
+  }, []);
+
+  // ✅ CORREÇÃO: Colunas memoizadas para evitar re-criação
+  const memoizedColumns = useMemo(() => [
+    {
+      key: 'code',
+      label: 'Cód.',
+      render: (row: any) => (
+        <span style={{ fontWeight: 500, fontFamily: 'monospace' }}>{row.code}</span>
+      ),
+    },
+    {
+      key: 'name',
+      label: 'Nome da promoção',
+      render: (row: any) => (
+        <div>
+          <div style={{ fontWeight: 500 }}>{row.name}</div>
+          <div style={{ fontSize: '12px', color: '#666' }}>{row.description}</div>
+        </div>
+      ),
+    },
+    {
+      key: 'type',
+      label: 'Tipo',
+      render: (row: any) => (
+        <Chips 
+          title={row.type} 
+          type={row.type === 'Desconto' ? 'success' : row.type === 'Frete Grátis' ? 'brand' : 'neutral'} 
+        />
+      ),
+    },
+    {
+      key: 'startDate',
+      label: 'Início',
+      render: (row: any) => (
+        <span>{row.startDate}</span>
+      ),
+    },
+    {
+      key: 'endDate',
+      label: 'Término',
+      render: (row: any) => (
+        <span>{row.endDate}</span>
+      ),
+    },
+    {
+      key: 'status',
+      label: 'Status',
+      render: (row: any) => (
+        <Chips 
+          title={row.status} 
+          type={
+            row.status === 'Ativa' ? 'success' : 
+            row.status === 'Inativa' ? 'alert' : 
+            row.status === 'Agendada' ? 'brand' :
+            'neutral'
+          } 
+        />
+      ),
+    },
+    {
+      key: 'actions',
+      label: '',
+      render: (row: any) => (
+        <Menu
+          position='right'
+          menuItems={[
+            { id: 'edit', text: 'Editar' },
+            { id: 'duplicate', text: 'Duplicar' },
+            { id: 'pause', text: row.status === 'Ativa' ? 'Pausar' : 'Ativar' },
+            { id: 'delete', text: 'Excluir' },
+          ]}
+          // onMenuItemClick={(item: any) => handleMenuAction(item.text, row)}
+        >
+          <MoreVertical16Regular style={{ cursor: 'pointer' }} />
+        </Menu>
+      ),
+    },
+  ], []);
   
   // Dados para filtros
   const statusItems = [
@@ -352,7 +462,7 @@ export const Default: StoryFn = () => {
       
       {/* Tabela */}
       <Table
-        columns={promotionColumns}
+        columns={memoizedColumns}
         dataSource={paginatedData}
         rowSelection={showSelection ? {
           selectedRowKeys: selectedKeys,
@@ -379,7 +489,7 @@ export const Default: StoryFn = () => {
 export const Basic: StoryFn = () => (
   <div style={{ padding: '20px' }}>
     <Table 
-      columns={promotionColumns}
+      columns={basicColumns}
       dataSource={promotionData.slice(0, 5)}
     />
   </div>
@@ -389,7 +499,7 @@ export const Basic: StoryFn = () => (
 export const Loading: StoryFn = () => (
   <div style={{ padding: '20px' }}>
     <Table 
-      columns={promotionColumns}
+      columns={basicColumns}
       dataSource={[]}
       loading={true}
     />
@@ -400,7 +510,7 @@ export const Loading: StoryFn = () => (
 export const Empty: StoryFn = () => (
   <div style={{ padding: '20px' }}>
     <Table 
-      columns={promotionColumns}
+      columns={basicColumns}
       dataSource={[]}
     />
   </div>
@@ -441,7 +551,7 @@ export const WithSelection: StoryFn = () => {
       </div>
       
       <Table
-        columns={promotionColumns}
+        columns={basicColumns}
         dataSource={promotionData.slice(0, 6)}
         rowSelection={{
           selectedRowKeys: selectedKeys,

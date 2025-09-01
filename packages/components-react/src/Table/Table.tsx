@@ -50,14 +50,11 @@ export interface TableProps {
   };
 }
 
-// ✅ HOOK SIMPLES DE SELEÇÃO (30 linhas vs 100+)
 const useSelection = (
   dataSource: TableRowData[],
   rowSelection?: TableProps['rowSelection']
 ) => {
   const [internalKeys, setInternalKeys] = useState<(string | number)[]>([]);
-  
-  // Controlled vs Uncontrolled
   const selectedKeys = rowSelection?.selectedRowKeys ?? internalKeys;
   const selectedSet = useMemo(() => new Set(selectedKeys), [selectedKeys]);
   

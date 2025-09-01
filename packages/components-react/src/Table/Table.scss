@@ -216,6 +216,7 @@
 .zds-table-header__filters-content {
   display: flex;
   flex-direction: row;
+  align-items: center;
   gap: var(--spacing-16);
 }
 
@@ -228,6 +229,7 @@
   font-size: var(--font-size-12);
   border-top: var(--border-width-1) solid var(--color-neutral-high-dark);
   background-color: var(--color-neutral-high-light);
+  color: var(--color-neutral-low-default);
 
   @media (max-width: 768px) {
     flex-wrap: wrap;
