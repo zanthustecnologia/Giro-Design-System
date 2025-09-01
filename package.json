@@ -1,6 +1,6 @@
 {
   "name": "zanthus-design-system-monorepo",
-  "private": false,
+  "private": true,
   "packageManager": "npm@10.9.0",
   "workspaces": [
     "apps/*",
