@@ -35,7 +35,7 @@ export interface ButtonProps {
   [key: string]: any;
 }
 
-const Button: React.FC<ButtonProps> = ({
+const Button = React.forwardRef<HTMLElement, ButtonProps>(({
   as: Component = 'button', 
   children,
   variant = 'filled',
@@ -50,7 +50,7 @@ const Button: React.FC<ButtonProps> = ({
   icon = null,
   fullWidth = false,
   ariaLabel = ''
-}) => {
+}, ref) => {
 
   const componentId = id || useId();
   const buttonClasses = clsx(
@@ -80,6 +80,7 @@ const Button: React.FC<ButtonProps> = ({
   if (href) {
     return (
       <Component
+        ref={ref}
         href={disabled ? '#' : href}
         target={external ? '_blank' : undefined}
         rel={external ? 'noopener noreferrer' : undefined}
@@ -103,6 +104,7 @@ const Button: React.FC<ButtonProps> = ({
 
   return (
     <Component
+      ref={ref}
       disabled={disabled}
       aria-label={ariaLabel || (typeof children === 'string' ? children : undefined)}
       type="button"
@@ -120,8 +122,9 @@ const Button: React.FC<ButtonProps> = ({
       )}
     </Component>
   );
-};
+});
 
 const MemoizedButton = React.memo(Button);
 MemoizedButton.displayName = 'Button';
+Button.displayName = 'Button';
 export default MemoizedButton;

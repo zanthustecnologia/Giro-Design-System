@@ -189,7 +189,13 @@ const Dropdown: React.FC<DropdownProps> = ({
   }, [onSelectionChange, type]);
 
 
+  // Ignora o disparo inicial do onSelectionChange para evitar fechamento imediato do menu
+  const isFirstRender = React.useRef(true);
   useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
     if (!onSelectionChange) return;
     const selectedIds = Object.keys(selectedItems).filter(key => selectedItems[key]);
     if (selectedIds.length > 0) {
@@ -409,6 +415,7 @@ const Dropdown: React.FC<DropdownProps> = ({
                 tabIndex={focusedIndex === index ? 0 : -1}
                 onFocus={() => setFocusedIndex(index)}
                 onClick={(event) => {
+                  event.stopPropagation()
                   handleItemClick(event, itemId, item)
                 
                 }}

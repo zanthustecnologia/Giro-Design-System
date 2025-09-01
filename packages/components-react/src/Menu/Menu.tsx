@@ -227,11 +227,8 @@ const Menu: React.FC<MenuProps> = ({
         const selectedItem = menuItems.find((item) => item.id === lastSelectedId);
 
         if (selectedItem) {
-          // ✅ CORREÇÃO: Usar setTimeout para evitar conflito de eventos
-          setTimeout(() => {
-            onMenuItemClick(selectedItem);
-            closeMenu();
-          }, 0);
+          onMenuItemClick(selectedItem);
+          closeMenu();
         }
       }
       setSelectedItems(selectedIds);
@@ -259,9 +256,6 @@ const Menu: React.FC<MenuProps> = ({
     return React.cloneElement(children, {
       ref: anchorRef,
       onClick: (e: React.MouseEvent) => {
-        // ✅ CORREÇÃO: Prevenir propagação de eventos
-        e.stopPropagation();
-        
         if (dropdownRef.current && dropdownRef.current.contains(e.target as Node)) {
           return;
         }
