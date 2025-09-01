@@ -1,6 +1,5 @@
 .zds-dropdown__container {
   position: relative;
-  width: 100%;
   min-width: 210px;
   background-color: var(--color-neutral-high-default);
   border-radius: var(--border-radius-8);
@@ -19,6 +18,7 @@
 
 .zds-dropdown__search-container {
   display: flex;
+  padding: var(--spacing-8);
   width: 100%;
   box-sizing: border-box;
   overflow: hidden;
@@ -30,14 +30,6 @@
   color: var(--color-neutral-low-default);
   padding: var(--spacing-0) var(--spacing-16);
   border-radius: var(--border-radius-8);
-<<<<<<< HEAD
-  border: none;
-}
-
-.zds-dropdown__item--selected span.zds-dropdown__title,
-.zds-dropdown__item--selected span.zds-dropdown__subtext {
-  color: var(--color-brand-primary-default);
-=======
   display: flex;
   align-items: center;
   flex-direction: row;
