@@ -1,404 +1,210 @@
-import React, { useState, useRef, useEffect, ReactNode, ReactElement, RefObject } from 'react';
-import Button from '../Button/Button';
-import Badge from '../Badge/Badge';
-import { Filter16Regular, ChevronDown16Regular, ChevronUp16Regular } from '@fluentui/react-icons';
+// Filter.tsx
+import React, { useState, useRef, useEffect, ReactNode, ReactElement, useCallback } from 'react';
+import Button from '../Button';
+import Dropdown, { DropdownItem, DropdownType } from '../Dropdown/Dropdown';
 import './Filter.scss';
-import clsx from 'clsx';
 
-// ✅ Definir tipos e interfaces TypeScript
-export type FilterPosition = 'left' | 'right';
-export type ButtonVariant = 'filled' | 'outlined' | 'text';
-export type Locale = 'pt-br' | 'en-us';
+// ✅ Definir as variantes de botão disponíveis
+type FilterButtonVariant = 'filled' | 'outlined' | 'text';
 
 export interface FilterProps {
-  /** Idioma da data */
-  locale?: Locale;
-  /** Posição do conteúdo do filtro */
-  filterPosition?: FilterPosition;
-  /** Conteúdo a ser renderizado quando aberto */
+  /** Items para o dropdown (quando não usar children customizado) */
+  items?: DropdownItem[];
+  /** Tipo do dropdown */
+  type?: DropdownType;
+  /** IDs selecionados */
+  selectedIds?: string[];
+  /** Callback quando seleção muda */
+  onSelectionChange?: (selectedIds: string[]) => void;
+  /** Placeholder do dropdown */
+  placeholder?: string;
+  /** Habilita busca no dropdown */
+  enableSearch?: boolean;
+  /** Conteúdo customizado (sobrescreve o dropdown padrão) */
   children?: ReactNode;
   /** Texto do botão do filtro */
   buttonText?: string | ReactNode;
   /** Ícone do botão */
   icon?: ReactElement;
   /** Variante do botão */
-  variant?: ButtonVariant;
+  variant?: FilterButtonVariant;
   /** Callback chamado quando o estado do filtro muda */
   onToggle?: (isOpen: boolean) => void;
   /** Callback chamado quando o filtro é aberto */
   onOpen?: () => void;
   /** Callback chamado quando o filtro é fechado */
   onClose?: () => void;
-  /** Callback chamado quando o botão recebe foco */
-  onButtonFocus?: (event: React.FocusEvent<HTMLButtonElement>) => void;
-  /** Referência externa para o botão */
-  buttonRef?: RefObject<HTMLSpanElement>;
+  /** Posição do dropdown */
+  position?: 'left' | 'right';
+  /** Se o filtro está desabilitado */
+  disabled?: boolean;
   /** Classes CSS adicionais */
   className?: string;
-  
-  // ✅ Gerenciamento interno de itens selecionados
-  /** Array de IDs dos itens selecionados (controlado externamente) */
-  selectedItems?: string[];
-  /** Array inicial de IDs selecionados (não controlado) */
-  defaultSelectedItems?: string[];
-  /** Callback chamado quando a seleção muda */
-  onSelectionChange?: (selectedItems: string[]) => void;
-  
-  // ✅ Compatibilidade com a API anterior (deprecated)
-  /** @deprecated Use selectedItems.length em vez disso */
-  selectedCount?: number;
+  /** Callback para aplicar filtros */
+  onApplyFilter?: (selectedIds: string[]) => void;
+  /** Callback para limpar filtros */
+  onClearFilter?: () => void;
+  /** Texto do botão aplicar */
+  applyText?: string;
+  /** Texto do botão limpar */
+  clearText?: string;
 }
-
+// ✅ CORREÇÃO: Problema de loop infinito no useEffect
 const Filter: React.FC<FilterProps> = ({
-  locale = 'pt-br',
-  filterPosition = 'left',
+  items = [],
+  type = 'checkbox',
+  selectedIds = [],
+  onSelectionChange,
+  placeholder = 'Selecionar...',
+  enableSearch = false,
   children,
-  buttonText = 'Filtrar',
+  buttonText = 'Filter',
   icon,
   variant = 'outlined',
   onToggle,
   onOpen,
   onClose,
-  onButtonFocus,
-  buttonRef: externalButtonRef,
+  position = 'left',
+  disabled = false,
   className = '',
-  
-  // ✅ Gerenciamento de itens selecionados
-  selectedItems: controlledSelectedItems,
-  defaultSelectedItems = [],
-  onSelectionChange,
-  
-  selectedCount,
+  onApplyFilter,
+  onClearFilter,
+  applyText = 'Aplicar',
+  clearText = 'Limpar'
 }) => {
-  const [showContent, setShowContent] = useState<boolean>(false);
-  const internalButtonRef = useRef<HTMLSpanElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const [internalSelectedIds, setInternalSelectedIds] = useState<string[]>(selectedIds);
+  const filterRef = useRef<HTMLDivElement>(null);
 
-  // ✅ Estado interno para itens selecionados (controlled vs uncontrolled)
-  const [internalSelectedItems, setInternalSelectedItems] = useState<string[]>(defaultSelectedItems);
-  
-  // Determina se é controlado externamente ou não
-  const isControlled = controlledSelectedItems !== undefined;
-  const selectedItems = isControlled ? controlledSelectedItems : internalSelectedItems;
-
-  // ✅ Hook para atualizar itens selecionados
-  const updateSelectedItems = (newItems: string[]) => {
-    if (!isControlled) {
-      setInternalSelectedItems(newItems);
-    }
-    onSelectionChange?.(newItems);
-  };
-
-  // ✅ Calcula a contagem atual (nova API tem prioridade sobre a deprecated)
-  const currentSelectedCount = selectedItems.length || selectedCount || 0;
-
-  // ✅ Integração automática com Dropdown - monitora mudanças nos children
+  // ✅ CORREÇÃO: Sincronizar com prop externa apenas quando selectedIds realmente muda
   useEffect(() => {
-    // Se há children e eles são um Dropdown, podemos integrar automaticamente
-    if (React.isValidElement(children) && children.type && 
-        (children.type as any).displayName === 'Dropdown') {
-      
-      // Se o Dropdown tem defaultSelectedIds e não estamos controlados externamente
-      if (!isControlled && children.props.defaultSelectedIds) {
-        setInternalSelectedItems(children.props.defaultSelectedIds);
-      }
+    // Comparar arrays para evitar loops desnecessários
+    if (JSON.stringify(selectedIds) !== JSON.stringify(internalSelectedIds)) {
+      setInternalSelectedIds(selectedIds);
     }
-  }, [children, isControlled]);
+  }, [selectedIds]); // ✅ Remover internalSelectedIds das dependências
 
-  // Usa a ref externa se fornecida, senão usa a interna
-  const buttonRef = externalButtonRef || internalButtonRef;
+  // ✅ CORREÇÃO: Memoizar handler para evitar re-criações
+  const handleSelectionChange = useCallback((newSelectedIds: string[]) => {
+    setInternalSelectedIds(newSelectedIds);
+    onSelectionChange?.(newSelectedIds);
+  }, [onSelectionChange]);
 
-  /**
-   * Fecha o conteúdo ao clicar fora do botão ou do conteúdo
-   * Modificado para manter seleções do dropdown quando aplicável
-   */
-  useEffect(() => {
-    if (!showContent) return;
+  // ✅ NOVO: Handlers para modo filter
+  const handleApplyFilter = useCallback((appliedIds: string[]) => {
+    setInternalSelectedIds(appliedIds);
+    onApplyFilter?.(appliedIds);
+    
+    // Fechar o dropdown após aplicar
+    setIsOpen(false);
+    onClose?.();
+    onToggle?.(false);
+  }, [onApplyFilter, onClose, onToggle]);
 
-    /**
-     * Manipula cliques fora do componente
-     * Mantém estado das seleções nos dropdowns
-     */
-    const handleClickOutside = (event: MouseEvent) => {
-      const target = event.target as Node;
-      if (
-        buttonRef.current &&
-        !buttonRef.current.contains(target) &&
-        contentRef.current &&
-        !contentRef.current.contains(target)
-      ) {
-        setShowContent(false);
-        onToggle?.(false);
-        onClose?.();
-        // Nota: Não limpa as seleções do dropdown aqui para manter o estado
-      }
-    };
+  const handleClearFilter = useCallback(() => {
+    setInternalSelectedIds([]);
+    onClearFilter?.();
+    
+    // Fechar o dropdown após limpar
+    setIsOpen(false);
+    onClose?.();
+    onToggle?.(false);
+  }, [onClearFilter, onClose, onToggle]);
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [showContent, onToggle, onClose, buttonRef]);
-
-  /**
-   * Alterna a visibilidade do conteúdo
-   */
-  const handleToggleContent = () => {
-    const newState = !showContent;
-    setShowContent(newState);
-
-    if (onToggle) onToggle(newState);
-
-    // Executa callbacks específicos baseados no estado
+  // ✅ CORREÇÃO: Handle toggle otimizado
+  const handleToggle = useCallback(() => {
+    if (disabled) return;
+    
+    const newState = !isOpen;
+    setIsOpen(newState);
+    
+    // Call appropriate callbacks
     if (newState) {
       onOpen?.();
     } else {
       onClose?.();
     }
-  };
-
-  /**
-   * Fecha o conteúdo programaticamente
-   */
-  const handleCloseContent = () => {
-    setShowContent(false);
-    if (onToggle) onToggle(false);
-    if (onClose) onClose();
-  };
-
-  /**
-   * Manipula o foco no botão
-   * Executa callback personalizado se fornecido
-   */
-  const handleButtonFocus = (event: React.FocusEvent<HTMLButtonElement>) => {
-    onButtonFocus?.(event);
-  };
-
-  /**
-   * Determina se o filtro tem múltipla seleção baseado no children
-   */
-  const isMultipleSelection = () => {
-    if (React.isValidElement(children) && children.type && 
-        (children.type as any).displayName === 'Dropdown') {
-      return children.props.type === 'checkbox';
-    }
-    return false;
-  };
-
-  /**
-   * Obtém o texto do primeiro item selecionado do Dropdown
-   */
-  const getFirstSelectedItemText = () => {
-    if (!React.isValidElement(children) || !children.type || 
-        (children.type as any).displayName !== 'Dropdown') {
-      return null;
-    }
-
-    const dropdownItems = children.props.items || [];
-    const firstSelectedId = selectedItems[0];
     
-    if (!firstSelectedId) return null;
+    onToggle?.(newState);
+  }, [disabled, isOpen, onOpen, onClose, onToggle]);
 
-    const firstItem = dropdownItems.find((item: any) => item.id === firstSelectedId);
-    return firstItem?.text || null;
-  };
-
-  /**
-   * Gera o texto do botão baseado na seleção
-   * Se múltipla seleção: mostra primeiro item + badge com incremento
-   * Se única seleção: mostra o item ou texto padrão
-   */
-  const getButtonText = () => {
-    if (!isMultipleSelection() || currentSelectedCount === 0) {
-      return buttonText;
-    }
-
-    if (currentSelectedCount === 1) {
-      const firstItemText = getFirstSelectedItemText();
-      return firstItemText || buttonText;
-    }
-
-    // Para múltipla seleção com mais de 1 item
-    const firstItemText = getFirstSelectedItemText();
-    return firstItemText || buttonText;
-  };
-
-  /**
-   * Calcula o valor a ser exibido no badge
-   * Para múltipla seleção: incremento baseado em +X (onde X = total - 1)
-   */
-  const getBadgeValue = () => {
-    if (!isMultipleSelection() || currentSelectedCount <= 1) {
-      return 0;
-    }
-    
-    // Badge mostra +X onde X é o número de itens além do primeiro
-    return currentSelectedCount - 1;
-  };
-  
-  /**
-   * Calcula o texto a ser exibido no badge
-   */
-  const getBadgeText = () => {
-    const value = getBadgeValue();
-    const maxValue = 99;
-
-    if (value <= 0) {
-      return '';
-    }
-
-    // Para incremento, sempre mostra +X
-    return `+${value > maxValue ? `${maxValue}+` : value}`;
-  };
-
-  /**
-   * Determina se deve mostrar o badge
-   * Badge só aparece para filtros múltiplos com mais de 1 item selecionado
-   */
-  const shouldShowBadge = isMultipleSelection() && currentSelectedCount > 1;
-
-  useEffect(() =>{
-    console.log('Badge value:', getBadgeValue(), 'Selected count:', currentSelectedCount, 'Show badge:', shouldShowBadge)
-  },[getBadgeValue, selectedItems, currentSelectedCount, shouldShowBadge])
-
-  /**
-   * Renderiza o conteúdo do botão - Badge como wrapper ou texto padrão
-   */
-  const renderButtonContent = () => {
-    const displayText = getButtonText();
-    
-    if (shouldShowBadge) {
-      const badgeText = getBadgeText();
-      return (
-        <div className="zds-filter-button-content">
-          <span>{displayText}</span>
-          <Badge
-            type="status"
-            value={badgeText}
-            aria-label={`${currentSelectedCount} itens selecionados`}
-            className="zds-filter-badge"
-          />
-        </div>
-      );
-    }
-    return displayText;
-  };
-
-  /**
-   * Determina qual ícone usar baseado no estado e no ícone fornecido
-   * @returns {JSX.Element} Ícone a ser exibido
-   */
-  const getDisplayIcon = () => {
-    // Se o ícone padrão for usado (Filter16Regular), mantém o mesmo ícone
-    if (React.isValidElement(icon) && icon.type === Filter16Regular) {
-      return icon;
-    }
-
-    // Para outros ícones, alterna entre ChevronDown e ChevronUp
-    if (showContent) {
-      return <ChevronUp16Regular />;
-    }
-
-    return icon || <ChevronDown16Regular />;
-  };
-
-  /**
-   * Renderiza os children com props automaticamente injetadas
-   */
-  const renderChildren = () => {
-    if (!React.isValidElement(children)) {
-      return children;
-    }
-
-    // Props que serão injetadas nos children
-    const injectedProps: any = {
-      onClose: handleCloseContent,
+  // ✅ CORREÇÃO: Close on outside click otimizado
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (filterRef.current && !filterRef.current.contains(event.target as Node)) {
+        if (isOpen) {
+          setIsOpen(false);
+          onClose?.();
+          onToggle?.(false);
+        }
+      }
     };
 
-    // Se o children é um Dropdown, injeta também onSelectionChange
-    if (children.type && (children.type as any).displayName === 'Dropdown') {
-      injectedProps.onSelectionChange = (selectedIds: string[]) => {
-        // Chama o callback original do Dropdown se existir
-        if (children.props.onSelectionChange) {
-          children.props.onSelectionChange(selectedIds);
-        }
-        // Atualiza o estado interno do Filter
-        updateSelectedItems(selectedIds);
-      };
-
-      // Define selectedItems padrão se não estiver definido
-      if (!children.props.defaultSelectedIds && !children.props.selectedIds) {
-        injectedProps.defaultSelectedIds = selectedItems;
-      }
-      
-      // Se não é controlado externamente, força uso do estado interno
-      if (!isControlled) {
-        injectedProps.defaultSelectedIds = selectedItems;
-        // Remove selectedIds se existir para evitar conflitos
-        delete injectedProps.selectedIds;
-      }
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
     }
+    
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [isOpen]); // ✅ Dependências otimizadas
 
-    return React.cloneElement(children, injectedProps);
-  };
+  // ✅ CORREÇÃO: Close on Escape key otimizado
+  useEffect(() => {
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && isOpen) {
+        setIsOpen(false);
+        onClose?.();
+        onToggle?.(false);
+      }
+    };
 
+    if (isOpen) {
+      document.addEventListener('keydown', handleEscape);
+    }
+    
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, [isOpen]); // ✅ Dependências otimizadas
+
+  // ✅ Resto do componente...
   return (
-    <div className={clsx('zds-filter', `zds-filter--${filterPosition}`, className, {
-      'zds-filter--dropdown-open': showContent,
-      'zds-filter--with-badge': shouldShowBadge
-    })}>
-      <span ref={buttonRef}>
-        <Button variant={variant} icon={getDisplayIcon()} iconPosition='right' onClick={handleToggleContent} onFocus={handleButtonFocus}>
-          {renderButtonContent()}
-        </Button>
-      </span>
-      {showContent && (
-        <div ref={contentRef} className='zds-filter__content'>
-          {renderChildren()}
+    <div ref={filterRef} className={`filter-container ${className}`}>
+      <Button
+        variant={variant}
+        onClick={handleToggle}
+        disabled={disabled}
+        className="filter-button"
+        aria-expanded={isOpen}
+        aria-haspopup="true"
+      >
+        {icon && <span className="filter-button__icon">{icon}</span>}
+        <span className="filter-button__text">{buttonText}</span>
+        <span className={`filter-button__arrow ${isOpen ? 'filter-button__arrow--open' : ''}`}>
+          ▼
+        </span>
+      </Button>
+
+      {isOpen && (
+        <div className={`filter-dropdown filter-dropdown--${position}`}>
+          {children ? (
+            children
+          ) : (
+            <Dropdown
+              items={items}
+              type={type}
+              defaultSelectedIds={internalSelectedIds}
+              onSelectionChange={handleSelectionChange}
+              placeholder={placeholder}
+              applySearch={enableSearch}
+              filter={true}
+              onApplyFilter={handleApplyFilter}
+              onClearFilter={handleClearFilter}
+              applyText={applyText}
+              clearText={clearText}
+            />
+          )}
         </div>
       )}
     </div>
   );
-};
-
-// ✅ Hook personalizado para gerenciar estado do Filter externamente
-export const useFilterState = (initialItems: string[] = []) => {
-  const [selectedItems, setSelectedItems] = useState<string[]>(initialItems);
-
-  const addItem = (itemId: string) => {
-    setSelectedItems(prev => 
-      prev.includes(itemId) ? prev : [...prev, itemId]
-    );
-  };
-
-  const removeItem = (itemId: string) => {
-    setSelectedItems(prev => prev.filter(id => id !== itemId));
-  };
-
-  const toggleItem = (itemId: string) => {
-    setSelectedItems(prev =>
-      prev.includes(itemId)
-        ? prev.filter(id => id !== itemId)
-        : [...prev, itemId]
-    );
-  };
-
-  const clearItems = () => {
-    setSelectedItems([]);
-  };
-
-  const hasItem = (itemId: string) => {
-    return selectedItems.includes(itemId);
-  };
-
-  return {
-    selectedItems,
-    setSelectedItems,
-    addItem,
-    removeItem,
-    toggleItem,
-    clearItems,
-    hasItem,
-    count: selectedItems.length,
-  };
 };
 
 export default Filter;

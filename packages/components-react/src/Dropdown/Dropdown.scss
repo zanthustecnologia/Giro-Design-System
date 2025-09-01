@@ -169,5 +169,20 @@ span.zds-dropdown__subtext {
 .zds-dropdown__item:focus {
   outline: 2px solid var(--color-brand-primary-default);
   outline-offset: -2px;
+}
 
+// Estilos para os botões do modo filter
+.zds-dropdown__filter-actions {
+  display: flex;
+  gap: var(--spacing-8);
+  padding: var(--spacing-12) var(--spacing-16);
+  border-top: var(--border-width-1) solid var(--color-neutral-high-dark);
+  background-color: var(--color-neutral-high-light);
+  border-radius: 0 0 var(--border-radius-8) var(--border-radius-8);
+  justify-content: flex-end;
+
+  button {
+    flex: 0 0 auto;
+    min-width: 80px;
+  }
 }

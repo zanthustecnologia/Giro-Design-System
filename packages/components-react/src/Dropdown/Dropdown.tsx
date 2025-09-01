@@ -4,6 +4,7 @@ import Search from '../Search';
 import { validateItems } from './DropdownUtils';
 import './Dropdown.scss';
 import Checkbox from '../Checkbox';
+import Button from '../Button';
 
 /**
  * Interface para definir um item do dropdown
@@ -53,6 +54,16 @@ export interface DropdownProps {
   width?: string | number;
   maxWidth?: string | number;
   minWidth?: string | number;
+  /** Modo filter - adiciona botões de aplicar e limpar */
+  filter?: boolean;
+  /** Callback para aplicar filtros (modo filter) */
+  onApplyFilter?: (selectedIds: string[]) => void;
+  /** Callback para limpar filtros (modo filter) */
+  onClearFilter?: () => void;
+  /** Texto do botão aplicar (modo filter) */
+  applyText?: string;
+  /** Texto do botão limpar (modo filter) */
+  clearText?: string;
 }
 
 /**
@@ -80,7 +91,12 @@ const Dropdown: React.FC<DropdownProps> = ({
   initialItemsSelected = {},
   maxWidth,
   minWidth,
-  width
+  width,
+  filter = false,
+  onApplyFilter,
+  onClearFilter,
+  applyText = 'Aplicar',
+  clearText = 'Limpar'
 }) => {
   // Estado para controlar itens selecionados
   const [selectedItems, setSelectedItems] = useState<SelectedItemsState>(() => {
@@ -103,6 +119,10 @@ const Dropdown: React.FC<DropdownProps> = ({
   const [inputValue, setInputValue] = useState<string>('');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [isSearchFocused, setIsSearchFocused] = useState<boolean>(false);
+
+  // Estados específicos para o modo filter
+  const [tempSelectedItems, setTempSelectedItems] = useState<SelectedItemsState>({});
+  const [hasFilterChanges, setHasFilterChanges] = useState<boolean>(false);
 
 
   const searchVisible = applySearch || internalItems.length > 4;
@@ -173,6 +193,25 @@ const Dropdown: React.FC<DropdownProps> = ({
   const toggleSelection = useCallback((itemId: string, item: DropdownItem) => {
     if (item?.disabled) return;
 
+    // No modo filter, atualizamos apenas o estado temporário
+    if (filter) {
+      setTempSelectedItems((prevSelected) => {
+        let newSelected: SelectedItemsState;
+        if (type === 'checkbox') {
+          newSelected = {
+            ...prevSelected,
+            [itemId]: !prevSelected[itemId],
+          };
+        } else {
+          newSelected = prevSelected[itemId] ? {} : { [itemId]: true };
+        }
+        return newSelected;
+      });
+      setHasFilterChanges(true);
+      return;
+    }
+
+    // Modo normal - atualiza o estado real
     setSelectedItems((prevSelected) => {
       let newSelected: SelectedItemsState;
 
@@ -186,7 +225,41 @@ const Dropdown: React.FC<DropdownProps> = ({
       }
       return newSelected;
     });
-  }, [onSelectionChange, type]);
+  }, [filter, type]);
+
+  // Funções para o modo filter
+  const handleApplyFilter = useCallback(() => {
+    if (!filter) return;
+    
+    setSelectedItems(tempSelectedItems);
+    const selectedIds = Object.keys(tempSelectedItems).filter(key => tempSelectedItems[key]);
+    
+    if (onApplyFilter) {
+      onApplyFilter(selectedIds);
+    }
+    
+    setHasFilterChanges(false);
+  }, [filter, tempSelectedItems, onApplyFilter]);
+
+  const handleClearFilter = useCallback(() => {
+    if (!filter) return;
+    
+    setTempSelectedItems({});
+    setSelectedItems({});
+    
+    if (onClearFilter) {
+      onClearFilter();
+    }
+    
+    setHasFilterChanges(false);
+  }, [filter, onClearFilter]);
+
+  // Sincroniza tempSelectedItems com selectedItems no modo filter
+  useEffect(() => {
+    if (filter) {
+      setTempSelectedItems(selectedItems);
+    }
+  }, [filter, selectedItems]);
 
 
   // Ignora o disparo inicial do onSelectionChange para evitar fechamento imediato do menu
@@ -223,6 +296,7 @@ const Dropdown: React.FC<DropdownProps> = ({
 
   const renderItemContent = useCallback((item: DropdownItem, index: number) => {
     const itemId = item.id || `dropdown-item-${index}`;
+    const currentSelection = filter ? tempSelectedItems : selectedItems;
 
     return (
       <div className={clsx('zds-dropdown__item-content', {
@@ -230,7 +304,7 @@ const Dropdown: React.FC<DropdownProps> = ({
       })}>
         {type === 'checkbox' && (
           <Checkbox
-            checked={!!selectedItems[itemId]}
+            checked={!!currentSelection[itemId]}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
               event.preventDefault();
               event.stopPropagation();
@@ -274,7 +348,7 @@ const Dropdown: React.FC<DropdownProps> = ({
         </div>
       </div>
     );
-  }, [type, selectedItems, toggleSelection, handleItemClick, showSubText]);
+  }, [type, selectedItems, tempSelectedItems, filter, toggleSelection, handleItemClick, showSubText]);
 
   const isMultiSelectable = useMemo(() => {
     return type === 'checkbox';
@@ -399,16 +473,17 @@ const Dropdown: React.FC<DropdownProps> = ({
         {filteredItems.length > 0 ? (
           filteredItems.map((item, index) => {
             const itemId = generateItemId(item, index);
+            const currentSelection = filter ? tempSelectedItems : selectedItems;
             return (
               <li
                   key={itemId}
                   role="option"
-                  aria-selected={!!selectedItems[itemId]}
+                  aria-selected={!!currentSelection[itemId]}
                   aria-labelledby={`dropdown-item-${itemId}-label`}
                   aria-describedby={item.subText ? `dropdown-item-${itemId}-desc` : undefined}
                   className={clsx('zds-dropdown__item', {
                   [`zds-dropdown__item--${type}`]: type,
-                  'zds-dropdown__item--selected': selectedItems[itemId],
+                  'zds-dropdown__item--selected': currentSelection[itemId],
                   'zds-dropdown__item--focused': focusedIndex === index,
                   'zds-dropdown__item--disabled': item.disabled
                 })}
@@ -440,6 +515,28 @@ const Dropdown: React.FC<DropdownProps> = ({
           </li>
         )}
       </ul>
+      
+      {/* Botões do modo filter */}
+      {filter && (
+        <div className="zds-dropdown__filter-actions">
+          <Button
+            variant="secondary"
+            size="small"
+            onClick={handleClearFilter}
+            disabled={!hasFilterChanges && Object.keys(selectedItems).length === 0}
+          >
+            {clearText}
+          </Button>
+          <Button
+            variant="primary"
+            size="small"
+            onClick={handleApplyFilter}
+            disabled={!hasFilterChanges}
+          >
+            {applyText}
+          </Button>
+        </div>
+      )}
     </div>
   );
 };

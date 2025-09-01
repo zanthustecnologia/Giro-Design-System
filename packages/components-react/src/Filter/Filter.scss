@@ -1,197 +1,67 @@
-.zds-filter {
-  display: flex;
-  flex-direction: column;
-  position: relative;
-}
-
-.zds-calendar {
-  position: absolute; // Posiciona o calendário sem afetar o layout do TextField
-  left: 0px; // Alinha o calendário à esquerda por padrão
-  top: 50px;
-}
-
-.zds-calendar--right {
-  left: auto; // Remove o alinhamento à esquerda
-  right: 0px; // Alinha o calendário à direita
-}
-
-.zds-filter-drawer {
-  display: flex;
-  flex-direction: column;
-  height: 100%; // Certifica-se de que o Drawer ocupa toda a altura disponível
-
-  .zds-filter-drawer--content {
-    flex: 1; // Faz com que o conteúdo ocupe o espaço disponível
-    display: flex;
-    justify-content: center;
-    gap: var(--spacing-24);
-  }
-
-  .zds-filter-drawer--actions {
-    position: sticky; // Mantém os botões fixos no fundo do Drawer
-    bottom: 0; // Alinha os botões ao fundo
-    background-color: var(--color-neutral-high-light); // Define um fundo para os botões
-    display: flex;
-    justify-content: flex-end;
-    gap: var(--spacing-16);
-  }
-}
-
-.zds-custom-drawer-sidebar {
-  display: flex;
-  flex-direction: column;
-}
-
-.zds-children {
-  display: flex;
-  justify-content: center;
-  height: 100%;
-}
-
-.zds-filter-with-calendar {
+// Filter Component Styles
+.filter-container {
   position: relative;
   display: inline-block;
-
-  .zds-filter-calendar-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 1000;
-    margin-top: var(--spacing-4);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    border-radius: var(--border-radius-8);
-    background: var(--color-neutral-high-default);
-  }
 }
 
-.zds-dropdown__container {
-  margin-top: var(--spacing-8);
-}
-
-/**
- * Estilos para o Filter com Badge
- * Garante que o Badge seja exibido corretamente dentro do botão do Filter
- */
-.zds-filter-button-content {
+.filter-button {
   display: flex;
   align-items: center;
   gap: var(--spacing-8);
-
-  /**
-   * Garante que o Badge status seja exibido inline corretamente
-   * e permaneça visível mesmo quando o dropdown está aberto
-   */
-  .zds-badge-container__status {
-    position: static;
-    margin-left: var(--spacing-8);
-
-    .zds-badge__status {
-      position: static;
-      margin: 0;
+  
+  .filter-icon {
+    display: flex;
+    align-items: center;
+  }
+  
+  .filter-text {
+    display: flex;
+    align-items: center;
+  }
+  
+  .filter-arrow {
+    display: flex;
+    align-items: center;
+    transition: transform 0.2s ease;
+    font-size: 12px;
+    
+    &--up {
+      transform: rotate(180deg);
+    }
+    
+    &--down {
+      transform: rotate(0deg);
     }
   }
-
-  /**
-   * Estilos específicos para o badge do filtro
-   */
-  .zds-filter-badge {
-    position: static;
-    margin: 0;
-    flex-shrink: 0;
-  }
-}
-
-/**
- * Estilos específicos para filtro com badge incremental
- */
-.zds-filter--incremental {
-  .zds-filter-button-content {
-    .zds-filter-badge {
-      background-color: var(--color-brand-secondary-default);
-      color: var(--color-neutral-low-default);
-      font-weight: var(--font-weight-medium);
-      
-      &:hover {
-        background-color: var(--color-brand-secondary-dark);
-      }
+  
+  &--open {
+    .filter-arrow {
+      transform: rotate(180deg);
     }
   }
 }
 
-/**
- * Estilos para impedir foco no botão quando dropdown está aberto
- * Seguindo diretrizes do projeto usando apenas tokens CSS
- */
-.zds-filter--dropdown-open {
-  /**
-   * Remove outline e previne indicadores visuais de foco
-   * quando dropdown estiver aberto
-   */
-  button:focus,
-  button:focus-visible {
-    outline: none;
-    box-shadow: none;
-    border-color: var(--color-neutral-high-default); // Mantém a cor do border para acessibilidade
+.filter-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 9999;
+  min-width: 200px;
+  max-height: 300px;
+  // overflow-y: auto;
+  // box-shadow: 0 var(--spacing-4) var(--spacing-16) rgba(17, 17, 25, 0.15);
+  // margin-top: var(--spacing-4);
+  
+  &--left {
+    left: 0;
   }
-
-  /**
-   * Impede eventos de pointer quando dropdown está aberto
-   * para evitar interferência no comportamento do foco
-   */
-  button {
-    pointer-events: none;
-
-    /**
-     * Remove qualquer estado de foco visual do botão
-     */
-    &:focus,
-    &:focus-visible,
-    &:focus-within {
-      outline: none;
-      box-shadow: none;
-      border-color: var(--color-neutral-high-default);
-    }
-
-    /**
-     * Reabilita eventos de pointer apenas para o conteúdo interno
-     * permitindo interação com o Badge
-     */
-    .zds-filter-button-content {
-      pointer-events: auto;
-    }
+  
+  &--right {
+    right: 0;
+    left: auto;
   }
+  
+  // Os estilos dos botões de aplicar/limpar são tratados pelo componente Dropdown
+  // via .zds-dropdown__filter-actions
 }
 
-/**
- * Estilos específicos para garantir que o dropdown receba foco
- * quando aberto, usando tokens do design system
- */
-.zds-filter--dropdown-open {
-  /**
-   * Garante que elementos dentro do dropdown sejam focáveis
-   */
-  .zds-dropdown {
-    input[type='text'],
-    input[type='checkbox'] {
-      pointer-events: auto;
-
-      /**
-       * Estilo de foco para elementos do dropdown usando tokens
-       */
-      &:focus {
-        outline: var(--spacing-4) solid var(--color-neutral-high-default);
-        outline-offset: var(--spacing-4);
-      }
-    }
-  }
-}
-
-/**
- * Estilos específicos para manter Badge visível no estado de foco
- * e durante abertura do dropdown
- */
-.zds-filter:focus-within .zds-filter-button-content .zds-badge-container__status,
-.zds-filter--dropdown-open .zds-filter-button-content .zds-badge-container__status {
-  opacity: 1;
-  visibility: visible;
-}
