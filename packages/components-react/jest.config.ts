@@ -7,12 +7,15 @@ const config: Config = {
     "\\.(css|scss)$": "identity-obj-proxy",
     "\\.(svg|png|jpg|jpeg|gif)$": "<rootDir>/__mocks__/fileMock.js"
   },
+
   transform: {
-    "^.+\\.(js|jsx|ts|tsx)$": ["babel-jest", { presets: [
-      ["@babel/preset-env", { targets: { node: "current" } }],
-      ["@babel/preset-react", { runtime: "automatic" }],
-      "@babel/preset-typescript"
-    ]}]
+    "^.+\\.(js|jsx|ts|tsx)$": ["babel-jest", {
+      presets: [
+        ["@babel/preset-env", { targets: { node: "current" } }],
+        ["@babel/preset-react", { runtime: "automatic" }],
+        "@babel/preset-typescript"
+      ]
+    }]
   },
   testMatch: ["**/__tests__/**/*.(spec|test).[jt]s?(x)"],
   moduleDirectories: ["node_modules", "src"],

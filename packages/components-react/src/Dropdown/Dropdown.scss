@@ -14,28 +14,6 @@
   scrollbar-width: thin;
   scrollbar-color: var(--color-neutral-low-medium) transparent;
   margin: 0;  
-  // &--fixed-width {
-  //   .zds-dropdown__search-container {
-  //     width: 100%;
-      
-  //     .zds-search {
-  //       width: 100% !important;
-  //       min-width: 0 !important;
-  //       max-width: 100% !important;
-        
-  //       input {
-  //         width: auto !important;
-  //         min-width: 0 !important;
-  //         flex: 1 !important;
-  //       }
-  //     }
-  //   }
-    
-  //   .zds-dropdown__item {
-  //     width: 100%;
-  //     max-width: 100%;
-  //   }
-  // }
 }
 
 .zds-dropdown__search-container {
@@ -44,19 +22,6 @@
   width: 100%;
   box-sizing: border-box;
   overflow: hidden;
-
-  // .zds-search {
-  //   width: 100% !important;
-  //   min-width: 0 !important;
-  //   max-width: 100% !important;
-  //   flex: 1;
-
-  //   input {
-  //     width: auto !important;
-  //     min-width: 0 !important;
-  //     flex: 1;
-  //   }
-  // }
 }
 
 .zds-dropdown__item {
@@ -72,9 +37,9 @@
   font-family: var(--font-family-primary);
   box-sizing: border-box;
   width: 100%;
-  max-width: 100%; // ✅ NOVO: Não excede largura do container
-  min-width: 0; // ✅ NOVO: Permite encolher
-  overflow: hidden; // ✅ NOVO: Esconde overflow
+  max-width: 100%; 
+  min-width: 0; 
+  overflow: hidden; 
 
   &:hover {
     background-color: var(--color-neutral-high-medium);
@@ -106,8 +71,8 @@
   justify-content: flex-start;
   gap: var(--spacing-8);
   align-items: center;
-  width: 100%;
-  min-width: 0;
+  width: 100%; 
+  min-width: 0; 
   overflow: hidden;
 
   &--disabled {
@@ -124,32 +89,31 @@
   flex-direction: column;
   align-items: flex-start;
   gap: var(--spacing-4);
-  flex: 1; 
-  min-width: 0; // ✅ NOVO: Permite encolher
-  overflow: hidden; // ✅ NOVO: Esconde overflow
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
 }
 
-// ✅ CHAVE: Truncamento de textos
 span.zds-dropdown__title {
   font-size: var(--font-size-16);
   font-weight: var(--font-weight-regular);
   width: 100%;
-  min-width: 0; // ✅ NOVO: Permite encolher
-  white-space: nowrap; // ✅ NOVO: Não quebra linha
-  text-overflow: ellipsis; // ✅ NOVO: Adiciona "..."
-  overflow: hidden; // ✅ NOVO: Esconde texto excedente
-  display: block; // ✅ NOVO: Força comportamento de bloco
+  min-width: 0; 
+  white-space: nowrap; 
+  text-overflow: ellipsis; 
+  overflow: hidden; 
+  display: block; 
 }
 
 span.zds-dropdown__subtext {
   font-size: var(--font-size-14);
   font-weight: var(--font-weight-regular);
   width: 100%;
-  min-width: 0; // ✅ NOVO: Permite encolher
-  white-space: nowrap; // ✅ NOVO: Não quebra linha
-  text-overflow: ellipsis; // ✅ NOVO: Adiciona "..."
-  overflow: hidden; // ✅ NOVO: Esconde texto excedente
-  display: block; // ✅ NOVO: Força comportamento de bloco
+  min-width: 0;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: block;
 }
 
 .zds-dropdown__item-icon {
@@ -159,10 +123,9 @@ span.zds-dropdown__subtext {
   width: 16px;
   height: 16px;
   color: var(--color-neutral-low-default);
-  flex-shrink: 0; // ✅ NOVO: Ícone não encolhe
+  flex-shrink: 0; 
 }
 
-// ✅ NOVO: Container do ícone não encolhe
 .zds-dropdown__item-icon-container {
   flex-shrink: 0;
   width: 16px;
@@ -181,7 +144,6 @@ span.zds-dropdown__subtext {
   text-align: center;
   width: 100%;
   box-sizing: border-box;
-  // ✅ NOVO: Truncar se necessário
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
