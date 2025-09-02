@@ -95,7 +95,7 @@ const TextField: React.FC<TextFieldProps> = ({
         [className]: className,
     });
 
-    const shouldRenderCustomIcon = !trailingIcon || inputValue.trim().length === 0 || !focus;
+    const shouldRenderCustomIcon = inputValue.trim().length === 0;
     const shouldRenderClearIcon = focus && inputValue.trim().length > 0;
 
     return (
