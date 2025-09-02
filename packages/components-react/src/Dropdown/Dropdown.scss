@@ -169,5 +169,11 @@ span.zds-dropdown__subtext {
 .zds-dropdown__item:focus {
   outline: 2px solid var(--color-brand-primary-default);
   outline-offset: -2px;
-
+}
+.zds-dropdown__container-filter{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: flex-end;
+  gap: var(--spacing-16);
 }

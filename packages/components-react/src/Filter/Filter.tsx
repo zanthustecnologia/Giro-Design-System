@@ -3,33 +3,31 @@ import React, { useState, useRef, useEffect, ReactNode, ReactElement, useCallbac
 import Button from '../Button';
 import Dropdown, { DropdownItem, DropdownType } from '../Dropdown/Dropdown';
 import './Filter.scss';
-
+import Badge from '../Badge';
+import { ChevronDownRegular } from '@fluentui/react-icons/fonts';
+import clsx from 'clsx';
 // ✅ Definir as variantes de botão disponíveis
 type FilterButtonVariant = 'filled' | 'outlined' | 'text';
 
 export interface FilterProps {
-  /** Items para o dropdown (quando não usar children customizado) */
+  /** Items para o dropdown */
   items?: DropdownItem[];
   /** Tipo do dropdown */
   type?: DropdownType;
   /** IDs selecionados */
   selectedIds?: string[];
-  /** Callback quando seleção muda */
-  onSelectionChange?: (selectedIds: string[]) => void;
+  /** Callback quando aplicar filtros */
+  onApplyFilter?: (selectedIds: string[]) => void;
   /** Placeholder do dropdown */
   placeholder?: string;
   /** Habilita busca no dropdown */
   enableSearch?: boolean;
-  /** Conteúdo customizado (sobrescreve o dropdown padrão) */
-  children?: ReactNode;
   /** Texto do botão do filtro */
   buttonText?: string | ReactNode;
   /** Ícone do botão */
   icon?: ReactElement;
   /** Variante do botão */
   variant?: FilterButtonVariant;
-  /** Callback chamado quando o estado do filtro muda */
-  onToggle?: (isOpen: boolean) => void;
   /** Callback chamado quando o filtro é aberto */
   onOpen?: () => void;
   /** Callback chamado quando o filtro é fechado */
@@ -46,14 +44,12 @@ const Filter: React.FC<FilterProps> = ({
   items = [],
   type = 'checkbox',
   selectedIds = [],
-  onSelectionChange,
+  onApplyFilter,
   placeholder = 'Selecionar...',
   enableSearch = false,
-  children,
   buttonText = 'Filter',
   icon,
   variant = 'outlined',
-  onToggle,
   onOpen,
   onClose,
   position = 'left',
@@ -61,48 +57,59 @@ const Filter: React.FC<FilterProps> = ({
   className = ''
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [internalSelectedIds, setInternalSelectedIds] = useState<string[]>(selectedIds);
   const filterRef = useRef<HTMLDivElement>(null);
 
-  // ✅ CORREÇÃO: Sincronizar com prop externa apenas quando selectedIds realmente muda
-  useEffect(() => {
-    // Comparar arrays para evitar loops desnecessários
-    if (JSON.stringify(selectedIds) !== JSON.stringify(internalSelectedIds)) {
-      setInternalSelectedIds(selectedIds);
+  // ✅ FUNÇÃO ATUALIZADA: Gerar texto dinâmico baseado nos filtros selecionados
+  const getButtonText = useCallback(() => {
+    if (!selectedIds || selectedIds.length === 0) {
+      return buttonText; // Texto original quando nada selecionado
     }
-  }, [selectedIds]); // ✅ Remover internalSelectedIds das dependências
 
-  // ✅ CORREÇÃO: Memoizar handler para evitar re-criações
-  const handleSelectionChange = useCallback((newSelectedIds: string[]) => {
-    setInternalSelectedIds(newSelectedIds);
-    onSelectionChange?.(newSelectedIds);
-  }, [onSelectionChange]);
+    // Encontrar o primeiro item selecionado
+    const firstSelectedItem = items?.find(item => item.id === selectedIds[0]);
+    const firstItemText = firstSelectedItem?.text || selectedIds[0];
 
-  // ✅ CORREÇÃO: Handle toggle otimizado
+    // Sempre retorna apenas o nome do primeiro filtro
+    // O badge vai mostrar a quantidade de filtros adicionais
+    return firstItemText;
+  }, [selectedIds, items, buttonText]);
+
+  // ✅ NOVA FUNÇÃO: Calcular valor do badge (filtros adicionais)
+  const getBadgeValue = useCallback(() => {
+    if (!selectedIds || selectedIds.length <= 1) {
+      return null; // Não mostra badge para 0 ou 1 filtro
+    }
+    return selectedIds.length - 1; // Quantidade de filtros além do primeiro
+  }, [selectedIds]);
+
+  // Handler para abrir/fechar dropdown
   const handleToggle = useCallback(() => {
     if (disabled) return;
-    
+
     const newState = !isOpen;
     setIsOpen(newState);
-    
-    // Call appropriate callbacks
+
     if (newState) {
       onOpen?.();
     } else {
       onClose?.();
     }
-    
-    onToggle?.(newState);
-  }, [disabled, isOpen, onOpen, onClose, onToggle]);
+  }, [disabled, isOpen, onOpen, onClose]);
 
-  // ✅ CORREÇÃO: Close on outside click otimizado
+  // Handler para aplicar filtro
+  const handleApplyFilter = useCallback((newSelectedIds: string[]) => {
+    onApplyFilter?.(newSelectedIds);
+    setIsOpen(false);
+    onClose?.();
+  }, [onApplyFilter, onClose]);
+
+  // Close on outside click
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (filterRef.current && !filterRef.current.contains(event.target as Node)) {
         if (isOpen) {
           setIsOpen(false);
           onClose?.();
-          onToggle?.(false);
         }
       }
     };
@@ -110,30 +117,32 @@ const Filter: React.FC<FilterProps> = ({
     if (isOpen) {
       document.addEventListener('mousedown', handleClickOutside);
     }
-    
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [isOpen]); // ✅ Dependências otimizadas
 
-  // ✅ CORREÇÃO: Close on Escape key otimizado
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [isOpen, onClose]);
+
+  // Close on Escape key
   useEffect(() => {
     const handleEscape = (event: KeyboardEvent) => {
       if (event.key === 'Escape' && isOpen) {
         setIsOpen(false);
         onClose?.();
-        onToggle?.(false);
       }
     };
 
     if (isOpen) {
       document.addEventListener('keydown', handleEscape);
     }
-    
-    return () => document.removeEventListener('keydown', handleEscape);
-  }, [isOpen]); // ✅ Dependências otimizadas
 
-  // ✅ Resto do componente...
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, [isOpen, onClose]);
+
+  const filterClass = clsx('zds-filter__container', className);
+  const dropdownClass = clsx('zds-filter__dropdown', {
+    [`zds-filter__dropdown--${position}`]: position
+  });
   return (
-    <div ref={filterRef} className={`filter-container ${className}`}>
+    <div ref={filterRef} className={filterClass}>
       <Button
         variant={variant}
         onClick={handleToggle}
@@ -142,26 +151,30 @@ const Filter: React.FC<FilterProps> = ({
         aria-expanded={isOpen}
         aria-haspopup="true"
       >
-        {icon && <span className="filter-button__icon">{icon}</span>}
-        <span className="filter-button__text">{buttonText}</span>
-        <span className={`filter-button__arrow ${isOpen ? 'filter-button__arrow--open' : ''}`}>
-          ▼
-        </span>
+        <div className='zds-filter-button__content'>
+          {icon && <span className="zds-filter-button__icon">{icon}</span>}
+          <span className="zds-filter-button__text">{getButtonText()}</span>
+          {getBadgeValue() && (
+            <Badge value={`+${getBadgeValue()}`} type='status' />
+          )}
+          <span className={`zds-filter-button__arrow ${isOpen ? 'zds-filter-button__arrow--open' : ''}`}>
+            <ChevronDownRegular />
+          </span>
+
+        </div>
       </Button>
 
       {isOpen && (
-        <div className={`filter-dropdown filter-dropdown--${position}`}>
-          {children ? (
-            children
-          ) : (
-            <Dropdown
-              items={items}
-              type={type}
-              defaultSelectedIds={internalSelectedIds} // ✅ Usar estado interno
-              onSelectionChange={handleSelectionChange} // ✅ Usar handler memoizado
-              placeholder={placeholder}
-            />
-          )}
+        <div className={dropdownClass}>
+          <Dropdown
+            items={items}
+            type={type}
+            defaultSelectedIds={selectedIds}
+            placeholder={placeholder}
+            applySearch={enableSearch}
+            filter={true}
+            onSelectionChange={handleApplyFilter}
+          />
         </div>
       )}
     </div>
