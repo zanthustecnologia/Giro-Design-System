@@ -1,357 +1,309 @@
-import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useId, KeyboardEvent, useMemo } from 'react';
 import clsx from 'clsx';
-import TextField from '../TextField/TextField';
+import TextField from '../TextField';
 import Calendar from '../Calendar/Calendar';
 import { Calendar16Regular } from '@fluentui/react-icons';
-import { formatDate, parseDate } from './DateUtils';
+import { formatDate, parseDate, applyDateMask, isValidDateFormat } from './DateUtils';
 import './DatePicker.scss';
 
-// ✅ Types para o componente
-type Locale = 'pt-br' | 'en-us';
-type CalendarPosition = 'left' | 'right';
+export type DatePickerLocale = 'pt-br' | 'en-us';
+export type CalendarPosition = 'left' | 'right';
 
-interface DatePickerProps {
-  /** Idioma da data */
-  locale?: Locale;
+export interface DatePickerProps {
+  /** Locale para formatação da data */
+  locale?: DatePickerLocale;
   /** Posição do calendário */
   calendarPosition?: CalendarPosition;
-  /** Data inicial selecionada */
-  defaultDate?: Date | null;
+  /** Texto de ajuda */
+  helperText?: string;
+  /** Se o campo é obrigatório */
+  required?: boolean;
+  /** Label do campo */
+  label?: string;
+  /** Valor controlado da data */
+  value?: Date | null;
+  /** Valor inicial para modo não controlado */
+  defaultValue?: Date | null;
+  /** Callback chamado quando a data muda */
+  onChange?: (date: Date | null) => void;
+  /** Se o campo está desabilitado */
+  disabled?: boolean;
+  /** Mensagem de erro */
+  error?: string;
   /** Data mínima permitida */
   minDate?: Date;
   /** Data máxima permitida */
   maxDate?: Date;
-  /** Label do campo de entrada */
-  label?: string;
-  /** Placeholder personalizado */
-  placeholder?: string;
-  /** Se o campo é obrigatório */
-  required?: boolean;
-  /** Se o campo está desabilitado */
-  disabled?: boolean;
-  /** Classe CSS adicional */
+  /** Classes CSS adicionais */
   className?: string;
-  /** ID único do componente */
-  id?: string;
-  /** Callback quando a data é alterada */
-  onDateChange?: (date: Date | null) => void;
-  /** Callback quando ocorre erro de validação */
-  onError?: (error: string) => void;
-  /** Nome do campo para formulários */
-  name?: string;
-  /** Função de validação customizada */
-  customValidator?: (date: Date | null, value: string) => string | null;
+  /** ID para testes */
+  'data-testid'?: string;
 }
 
-/**
- * DatePicker component for selecting dates with calendar popup.
- * Provides both text input and calendar selection for dates.
- */
 const DatePicker: React.FC<DatePickerProps> = ({
   locale = 'pt-br',
   calendarPosition = 'left',
-  defaultDate = null,
+  helperText = '',
+  required = false,
+  label = 'Data',
+  value,
+  defaultValue,
+  onChange,
+  disabled = false,
+  error: externalError,
   minDate,
   maxDate,
-  label = 'Data',
-  placeholder,
-  required = false,
-  disabled = false,
-  className,
-  id,
-  onDateChange,
-  onError,
-  name,
-  customValidator
+  className = '',
+  'data-testid': testId,
 }) => {
+  // ✅ IDs únicos para acessibilidade
+  const fieldId = useId();
+  const calendarId = `${fieldId}-calendar`;
+  const errorId = `${fieldId}-error`;
+  const helperTextId = `${fieldId}-help`;
+
+  // ✅ Suporte controlled/uncontrolled adequado
+  const isControlled = value !== undefined;
+  const [internalDate, setInternalDate] = useState<Date | null>(defaultValue || null);
+  const [tempInputValue, setTempInputValue] = useState<string>('');
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [internalError, setInternalError] = useState<string>('');
   const [showCalendar, setShowCalendar] = useState<boolean>(false);
-  const [selectedDate, setSelectedDate] = useState<Date | null>(defaultDate);
-  const [currentDate, setCurrentDate] = useState<Date>(defaultDate || new Date());
-  const [textFieldValue, setTextFieldValue] = useState<string>('');
-  const [error, setError] = useState<string>('');
+  const [currentDate, setCurrentDate] = useState<Date>(new Date());
   const wrapperRef = useRef<HTMLDivElement>(null);
-  const errorId = useMemo(() => id ? `${id}-error` : 'zds-date-picker-error', [id]);
-  const calendarId = useMemo(() => id ? `${id}-calendar` : 'calendar-popup', [id]);
 
-  // ✅ Regex para validação baseada no locale
-  const dateRegex = useMemo((): RegExp => {
-    return locale === 'en-us'
-      ? /^(0[1-9]|1[0-2])\/(0[1-9]|[12][0-9]|3[01])\/\d{4}$/
-      : /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/;
-  }, [locale]);
+  // ✅ Estados derivados - uma única fonte de verdade
+  const currentSelectedDate = isControlled ? value : internalDate;
+  const currentError = externalError || internalError;
+  const displayValue = isEditing ? tempInputValue : (currentSelectedDate ? formatDate(currentSelectedDate, locale) : '');
 
-  // ✅ Placeholder baseado no locale
-  const defaultPlaceholder = useMemo((): string => {
-    if (placeholder) return placeholder;
-    return locale === 'en-us' ? 'MM/DD/YYYY' : 'DD/MM/YYYY';
-  }, [locale, placeholder]);
+  // ✅ Combinar helperText normal com mensagem de erro
+  const combinedHelperText = useMemo(() => {
+    const texts = [];
+    if (helperText) {
+      texts.push(helperText);
+    }
+    if (currentError) {
+      texts.push(currentError);
+    }
+    return texts.join(' • ');
+  }, [helperText, currentError]);
 
   // ✅ Click outside handler
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent): void => {
+    function handleClickOutside(event: MouseEvent) {
       if (wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
         setShowCalendar(false);
       }
-    };
-
+    }
     if (showCalendar) {
       document.addEventListener('mousedown', handleClickOutside);
     }
-
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [showCalendar]);
 
-  // ✅ Escape key handler para fechar calendar
-  useEffect(() => {
-    const handleEscapeKey = (event: KeyboardEvent): void => {
-      if (event.key === 'Escape' && showCalendar) {
-        setShowCalendar(false);
-      }
-    };
-
-    if (showCalendar) {
-      document.addEventListener('keydown', handleEscapeKey);
+  // ✅ Handler unificado para mudança de data - SEMPRE chama onChange
+  const handleDateChange = useCallback((newDate: Date | null) => {
+    if (!isControlled) {
+      setInternalDate(newDate);
     }
-
-    return () => {
-      document.removeEventListener('keydown', handleEscapeKey);
-    };
-  }, [showCalendar]);
-
-  // ✅ Validação de data com range
-  const validateDate = useCallback((date: Date | null, inputValue: string): string => {
-    // Validação customizada primeiro
-    if (customValidator) {
-      const customError = customValidator(date, inputValue);
-      if (customError) return customError;
+    onChange?.(newDate);
+    setIsEditing(false);
+    setTempInputValue('');
+    setInternalError('');
+    if (newDate) {
+      setCurrentDate(newDate);
     }
+  }, [isControlled, onChange]);
 
-    // Validação de data inválida
-    if (inputValue && !date) {
-      return locale === 'en-us' ? 'Invalid date' : 'Data inválida';
-    }
+  const handleIconClick = () => {
+    setShowCalendar((prev) => !prev);
+  };
 
-    // Validação de range
-    if (date) {
-      if (minDate && date < minDate) {
-        return locale === 'en-us'
-          ? `Date must be after ${formatDate(minDate, locale)}`
-          : `Data deve ser posterior a ${formatDate(minDate, locale)}`;
-      }
-
-      if (maxDate && date > maxDate) {
-        return locale === 'en-us'
-          ? `Date must be before ${formatDate(maxDate, locale)}`
-          : `Data deve ser anterior a ${formatDate(maxDate, locale)}`;
-      }
-    }
-
-    // Validação de campo obrigatório
-    if (required && !date && !inputValue) {
-      return locale === 'en-us' ? 'Date is required' : 'Data é obrigatória';
-    }
-
-    return '';
-  }, [customValidator, locale, minDate, maxDate, required]);
-
-  // ✅ Handler para seleção de dia no calendário
-  const handleDaySelect = useCallback((newSelectedDate: Date): void => {
-    if (disabled) return;
-
-    setSelectedDate(newSelectedDate);
-    setCurrentDate(newSelectedDate);
-    setTextFieldValue(formatDate(newSelectedDate, locale));
-    setShowCalendar(false);
-
-    const validationError = validateDate(newSelectedDate, formatDate(newSelectedDate, locale));
-    setError(validationError);
-
-    // Callbacks
-    onDateChange?.(newSelectedDate);
-    if (validationError && onError) {
-      onError(validationError);
-    }
-  }, [disabled, locale, validateDate, onDateChange, onError]);
-
-  // ✅ Handler para mudança no TextField
-  const handleTextFieldChange = useCallback((value: string): void => {
-    if (disabled) return;
-
-    setTextFieldValue(value);
-
-    if (value === '') {
-      setSelectedDate(null);
-      setCurrentDate(new Date());
-      setError('');
-      onDateChange?.(null);
-      return;
-    }
-
-    let parsedDate: Date | null = null;
-    let validationError = '';
-
-    if (dateRegex.test(value)) {
-      parsedDate = parseDate(value, locale);
-
-      if (parsedDate && !isNaN(parsedDate.getTime())) {
-        setSelectedDate(parsedDate);
-        setCurrentDate(parsedDate);
-        validationError = validateDate(parsedDate, value);
-      } else {
-        validationError = validateDate(null, value);
-      }
-    } else {
-      validationError = validateDate(null, value);
-    }
-
-    setError(validationError);
-    onDateChange?.(parsedDate);
-
-    if (validationError && onError) {
-      onError(validationError);
-    }
-  }, [disabled, dateRegex, locale, validateDate, onDateChange, onError]);
-
-  // ✅ Handler para clique no ícone
-  const handleIconClick = useCallback((): void => {
-    if (disabled) return;
-    setShowCalendar(prev => !prev);
-  }, [disabled]);
-
-  // ✅ Handler para mudança no TextField
-  const handleInputChange = useCallback((value: string): void => {
-    if (disabled) return;
-
-    setTextFieldValue(value);
-
-    if (value === '') {
-      setSelectedDate(null);
-      setCurrentDate(new Date());
-      setError('');
-      onDateChange?.(null);
-      return;
-    }
-
-    let parsedDate: Date | null = null;
-    let validationError = '';
-
-    if (dateRegex.test(value)) {
-      parsedDate = parseDate(value, locale);
-
-      if (parsedDate && !isNaN(parsedDate.getTime())) {
-        setSelectedDate(parsedDate);
-        setCurrentDate(parsedDate);
-        validationError = validateDate(parsedDate, value);
-      } else {
-        validationError = validateDate(null, value);
-      }
-    } else {
-      validationError = validateDate(null, value);
-    }
-
-    setError(validationError);
-    onDateChange?.(parsedDate);
-
-    if (validationError && onError) {
-      onError(validationError);
-    }
-  }, [disabled, dateRegex, locale, validateDate, onDateChange, onError]);
-  // ✅ Handler para Enter no campo
-  const handleKeyDown = useCallback((event: React.KeyboardEvent<HTMLInputElement>): void => {
-    if (disabled) return;
-
-    if (event.key === 'Enter') {
-      event.preventDefault();
-      handleTextFieldChange((event.target as HTMLInputElement).value);
-    } else if (event.key === 'ArrowDown' && !showCalendar) {
-      event.preventDefault();
+  const handleFieldClick = () => {
+    if (!disabled) {
       setShowCalendar(true);
     }
-  }, [disabled, handleTextFieldChange, showCalendar]);
+  };
 
-  // ✅ Sincronizar valor quando locale muda
-  useEffect(() => {
-    if (selectedDate) {
-      setTextFieldValue(formatDate(selectedDate, locale));
+  const handleFieldFocus = () => {
+    if (!disabled) {
+      setShowCalendar(true);
     }
-  }, [locale, selectedDate]);
+  };
 
-  // ✅ Inicializar com defaultDate
-  useEffect(() => {
-    if (defaultDate && !selectedDate) {
-      setSelectedDate(defaultDate);
-      setCurrentDate(defaultDate);
-      setTextFieldValue(formatDate(defaultDate, locale));
+  // ✅ FUNÇÃO CORRIGIDA: Permite números e barras da máscara
+  const filterNumericInput = (inputValue: string): string => {
+    // Permite apenas números e barras (para manter a máscara)
+    return inputValue.replace(/[^\d/]/g, '');
+  };
+
+  // ✅ Handler para prevenir teclas não numéricas
+  const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+    const { key, ctrlKey, metaKey } = event;
+
+    // ✅ NOVA FUNCIONALIDADE: Enter fecha calendário se data válida
+    if (key === 'Enter') {
+      if (showCalendar) {
+        // Se há uma data válida selecionada, fechar calendário
+        if (currentSelectedDate) {
+          setShowCalendar(false);
+          event.preventDefault();
+          return;
+        }
+        // Se a data digitada está completa e válida, processar e fechar
+        if (tempInputValue.length === 10 && isValidDateFormat(tempInputValue, locale)) {
+          const parsedDate = parseDate(tempInputValue, locale);
+          if (parsedDate && !isNaN(parsedDate.getTime())) {
+            handleDateChange(parsedDate);
+            setShowCalendar(false);
+            event.preventDefault();
+            return;
+          }
+        }
+      } else {
+        // Se calendário está fechado, Enter abre o calendário
+        setShowCalendar(true);
+        event.preventDefault();
+        return;
+      }
     }
-  }, [defaultDate, selectedDate, locale]);
+
+    // ✅ Escape sempre fecha o calendário
+    if (key === 'Escape') {
+      if (showCalendar) {
+        setShowCalendar(false);
+        event.preventDefault();
+        return;
+      }
+    }
+
+    // Permite teclas de controle (Backspace, Delete, Tab, etc.)
+    const controlKeys = [
+      'Backspace', 'Delete', 'Tab', 'ArrowLeft', 'ArrowRight',
+      'ArrowUp', 'ArrowDown', 'Home', 'End'
+    ];
+
+    // Permite Ctrl+A, Ctrl+C, Ctrl+V, Ctrl+X (atalhos de teclado)
+    const isCtrlCommand = ctrlKey || metaKey;
+    const allowedCtrlKeys = ['a', 'c', 'v', 'x'];
+
+    // Se é uma tecla de controle ou atalho permitido, deixa passar
+    if (controlKeys.includes(key) || (isCtrlCommand && allowedCtrlKeys.includes(key.toLowerCase()))) {
+      return;
+    }
+
+    // Se não é um número (0-9), previne a entrada
+    if (!/^\d$/.test(key)) {
+      event.preventDefault();
+    }
+  };
+
+  const handleDaySelect = (newSelectedDate: Date) => {
+    setShowCalendar(false);
+    handleDateChange(newSelectedDate);
+  };
+
+  const handleTextFieldChange = (value: string) => {
+    // ✅ Filtra caracteres inválidos, mantendo números e barras
+    const filteredValue = filterNumericInput(value);
+
+    // ✅ Remove barras para processar apenas números
+    const numbersOnly = filteredValue.replace(/[^\d]/g, '');
+
+    // ✅ Aplica máscara progressiva em tempo real
+    const maskedValue = applyDateMask(numbersOnly, locale);
+
+    // ✅ Atualizar valor temporário SEMPRE (máscara em tempo real)
+    setTempInputValue(maskedValue);
+    setIsEditing(true);
+
+    // ✅ Limpar erro se campo estiver vazio
+    if (maskedValue === '') {
+      setInternalError('');
+      handleDateChange(null);
+      setCurrentDate(new Date());
+      return;
+    }
+
+    // ✅ Validar apenas quando data estiver completa (10 caracteres)
+    if (maskedValue.length === 10) {
+      if (isValidDateFormat(maskedValue, locale)) {
+        const parsedDate = parseDate(maskedValue, locale);
+        if (parsedDate && !isNaN(parsedDate.getTime())) {
+          setInternalError('');
+          handleDateChange(parsedDate);
+          setCurrentDate(parsedDate);
+        } else {
+          setInternalError('Data inválida');
+          handleDateChange(null);
+        }
+      } else {
+        setInternalError('Data inválida');
+        handleDateChange(null);
+      }
+    } else {
+      // ✅ Data incompleta - limpar erro mas não validar ainda
+      setInternalError('');
+      // ✅ Não chamar handleDateChange para data incompleta
+    }
+  };
+
+  // ✅ Effect para atualizar valor do campo quando data muda
+  useEffect(() => {
+    if (!isEditing && currentSelectedDate) {
+      setTempInputValue(formatDate(currentSelectedDate, locale));
+    }
+  }, [locale, currentSelectedDate, isEditing]);
 
   return (
-    <div
-      ref={wrapperRef}
-      className={clsx('zds-date-picker-wrapper', className)}
-    >
-      <div className="zds-date-picker">
-        <div 
-          className="date-picker-wrapper"
-          onClick={() => !disabled && setShowCalendar(true)}
+    <div ref={wrapperRef}>
+      <div className={clsx('zds-date-picker')}>
+        <div
+          onClick={handleFieldClick}
+          onFocus={handleFieldFocus}
           onKeyDown={handleKeyDown}
-          role="combobox"
-          aria-label={locale === 'en-us' ? 'Date picker' : 'Seletor de data'}
-          aria-expanded={showCalendar}
-          aria-controls={calendarId}
-          aria-haspopup="dialog"
-          tabIndex={disabled ? -1 : 0}
+          style={{ cursor: 'pointer' }}
         >
           <TextField
-            icon={<Calendar16Regular />}
-            label={label}
-            name={name}
-            id={id}
+            type="tel"
+            icon={<Calendar16Regular onClick={handleIconClick} style={{ cursor: 'pointer' }} />}
+            onChange={(e: string) => {
+              handleTextFieldChange(e);
+            }}
+            aria-label="Open calendar"
+            aria-expanded={showCalendar}
+            aria-controls="calendar-popup"
+            placeholder={locale === 'en-us' ? 'MM/DD/YYYY' : 'DD/MM/YYYY'}
+            value={displayValue}
+            errorMessage={undefined}
+            aria-invalid={!!currentError}
+            aria-describedby={combinedHelperText ? helperTextId : undefined}
+            maxLength={10}
+            helper={combinedHelperText ? true : false}
+            helperText={combinedHelperText}
             required={required}
-            disabled={disabled}
-            onChange={handleInputChange}
-            placeholder={defaultPlaceholder}
-            value={textFieldValue}
-            errorMessage={error}
-            className="date-picker-input"
+            label={label}
           />
         </div>
-
-        {error && (
-          <span
-            id={errorId}
-            className="zds-date-picker__error"
-            role="alert"
-            aria-live="polite"
-          >
-            {error}
-          </span>
-        )}
-
         <div
           className={clsx(
             'zds-date-picker__calendar-popup',
-            `zds-calendar--${calendarPosition}`,
-            showCalendar && 'zds-calendar--visible'
+            calendarPosition === 'left' && 'zds-calendar--left',
+            calendarPosition === 'right' && 'zds-calendar--right'
           )}
-          role="dialog"
-          aria-modal="true"
-          aria-label={locale === 'en-us' ? 'Choose date' : 'Escolher data'}
-          id={calendarId}
         >
           {showCalendar && (
             <Calendar
-              selectedDate={selectedDate}
+              selectedDate={currentSelectedDate}
               currentDate={currentDate}
               onDateChange={setCurrentDate}
               onDaySelect={handleDaySelect}
               locale={locale}
               format={locale === 'en-us' ? 'mm/dd/yyyy' : 'dd/mm/yyyy'}
-              minDate={minDate}
-              maxDate={maxDate}
-              className="zds-date-picker__calendar"
+
             />
           )}
         </div>
@@ -360,9 +312,4 @@ const DatePicker: React.FC<DatePickerProps> = ({
   );
 };
 
-DatePicker.displayName = 'DatePicker';
-
 export default React.memo(DatePicker);
-
-// ✅ Exportar tipos para uso em outros componentes
-export type { DatePickerProps, Locale, CalendarPosition };

@@ -5,29 +5,26 @@
   position: relative;
 }
 
-.date-picker-wrapper {
-  position: relative;
-  width: 100%;
-  
-  &:focus {
-    outline: none;
-  }
-  
-  .date-picker-input {
-    pointer-events: none; // Prevent direct input interaction
-  }
-}
-
 .zds-textfield__container {
   width: 100%;
-  max-width: 200px;
+  max-width: 280px;
+  
+  @media (max-width: 360px) {
+    max-width: 100%;
+    min-width: 280px;
+  }
+  
+  @media (max-width: 768px) {
+    max-width: 320px;
+  }
 }
 
 .zds-date-picker__calendar-popup {
   position: absolute;
   top: 100%;
-  z-index: 10;
+  z-index: 1000;
   margin-top: var(--spacing-8);
+  box-shadow: 0 var(--spacing-8) var(--spacing-24) rgba(17, 17, 25, 0.25);
 }
 
 .zds-calendar--left {
