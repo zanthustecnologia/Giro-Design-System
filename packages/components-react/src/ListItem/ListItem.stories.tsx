@@ -1,4 +1,4 @@
-import React from "react";
+import React, { JSX } from "react";
 import type { Meta, StoryObj } from '@storybook/react';
 import ListItem from "./ListItem";
 import type { ListItemProps } from "./ListItem";
