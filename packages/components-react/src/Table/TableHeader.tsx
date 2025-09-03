@@ -38,8 +38,6 @@ interface TableHeaderProps {
     placeholder?: string;
     /** Habilita busca no dropdown */
     enableSearch?: boolean;
-    /** Conteúdo customizado do dropdown (sobrescreve items) */
-    content?: React.ReactNode;
     /** Posição do dropdown */
     position?: 'left' | 'right';
     /** Se está desabilitado */
@@ -160,17 +158,16 @@ const TableHeader: React.FC<TableHeaderProps> = ({
                   icon={filterItem.icon || <Filter16Regular />}
                   position={filterItem.position || 'left'}
                   disabled={filterItem.disabled}
-                  onToggle={filterItem.onToggle}
                   variant="outlined"
                   items={filterItem.items}
                   type={filterItem.type}
                   selectedIds={filterItem.selectedIds}
-                  onSelectionChange={filterItem.onSelectionChange}
+                  onApplyFilter={filterItem.onSelectionChange}
                   placeholder={filterItem.placeholder}
                   enableSearch={filterItem.enableSearch}
-                >
-                  {filterItem.content}
-                </Filter>
+                  onOpen={() => filterItem.onToggle?.(true)}
+                  onClose={() => filterItem.onToggle?.(false)}
+                />
               ))}
             </div>
           ) : (

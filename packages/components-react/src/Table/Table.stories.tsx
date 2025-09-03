@@ -73,7 +73,7 @@ const promotionColumns = [
     render: (row: any) => (
       <Chips 
         title={row.status} 
-        type={
+        variant={
           row.status === 'Ativa' ? 'success' : 
           row.status === 'Inativa' ? 'alert' : 
           row.status === 'Agendada' ? 'brand' :
@@ -298,7 +298,7 @@ export const Default: StoryFn = () => {
       render: (row: any) => (
         <Chips 
           title={row.type} 
-          type={row.type === 'Desconto' ? 'success' : row.type === 'Frete Grátis' ? 'brand' : 'neutral'} 
+          variant={row.type === 'Desconto' ? 'success' : row.type === 'Frete Grátis' ? 'brand' : 'neutral'} 
         />
       ),
     },
@@ -432,9 +432,7 @@ export const Default: StoryFn = () => {
           filterItems={showFilters ? [
             {
               id: 'status-filter',
-              buttonText: selectedStatus.length > 0 
-                ? `Status (${selectedStatus.length})` 
-                : 'Status',
+              buttonText: 'teste',
               icon: <Settings16Regular />,
               items: statusItems,
               type: 'checkbox',
