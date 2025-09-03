@@ -1,5 +1,12 @@
 # @zanthus/components-react
 
+## 2.0.0
+
+### Major Changes
+
+- -> fix: Ajustes no calendar, datepicker e textfield
+  -> feat: Componentes de Select e menu adicionados a lib
+
 ## 1.0.0
 
 ### Major Changes
