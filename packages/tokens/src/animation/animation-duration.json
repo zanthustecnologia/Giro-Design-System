@@ -1,0 +1,18 @@
+{
+  "animation": {
+    "duration": {
+      "fast": {
+        "value": "150ms",
+        "type": "duration"
+      },
+      "medium": {
+        "value": "300ms",
+        "type": "duration"
+      },
+      "slow": {
+        "value": "600ms",
+        "type": "duration"
+      }
+    }
+  }
+}

@@ -2,6 +2,18 @@
  * Do not edit directly, this file was auto-generated.
  */
 
+export const AnimationDelayNone = "0ms";
+export const AnimationDelayShort = "120ms";
+export const AnimationDelayLong = "240ms";
+export const AnimationDurationFast = "150ms";
+export const AnimationDurationMedium = "300ms";
+export const AnimationDurationSlow = "600ms";
+export const AnimationEasingStandard = "cubic-bezier(0.4,0,0.2,1)";
+export const AnimationEasingDecelerate = "cubic-bezier(0,0,0.2,1)";
+export const AnimationEasingAccelerate = "cubic-bezier(0.4,0,1,1)";
+export const AnimationKeyframeFadeIn = "fadeIn";
+export const AnimationKeyframeFadeOut = "fadeOut";
+export const AnimationKeyframeSlideInUp = "slideInUp";
 export const BorderRadius4 = "4px";
 export const BorderRadius8 = "8px";
 export const BorderRadius12 = "12px";
@@ -41,6 +53,12 @@ export const ColorNeutralHighDefault = "#ffffff";
 export const ColorNeutralHighDark = "#cfd0da";
 export const ColorNeutralHighMedium = "#e8e8ee";
 export const ColorNeutralHighLight = "#f5f5fa";
+export const ElevationLevel0 = "none";
+export const ElevationLevel1 = "0px 1px 2px rgba(0,0,0,0.14)";
+export const ElevationLevel2 = "0px 2px 4px rgba(0,0,0,0.14)";
+export const ElevationLevel3 = "0px 4px 8px rgba(0,0,0,0.14)";
+export const ElevationLevel4 = "0px 6px 12px rgba(0,0,0,0.14)";
+export const ElevationLevel5 = "0px 8px 16px rgba(0,0,0,0.14)";
 export const Spacing0 = "0px";
 export const Spacing4 = "4px";
 export const Spacing8 = "8px";

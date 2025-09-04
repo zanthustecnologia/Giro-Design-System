@@ -1,0 +1,18 @@
+{
+  "animation": {
+    "delay": {
+      "none": {
+        "value": "0ms",
+        "type": "duration"
+      },
+      "short": {
+        "value": "120ms",
+        "type": "duration"
+      },
+      "long": {
+        "value": "240ms",
+        "type": "duration"
+      }
+    }
+  }
+}

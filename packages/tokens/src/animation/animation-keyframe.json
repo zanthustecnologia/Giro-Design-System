@@ -1,0 +1,18 @@
+{
+  "animation": {
+    "keyframe": {
+      "fade-in": {
+        "value": "fadeIn",
+        "type": "keyframe"
+      },
+      "fade-out": {
+        "value": "fadeOut",
+        "type": "keyframe"
+      },
+      "slide-in-up": {
+        "value": "slideInUp",
+        "type": "keyframe"
+      }
+    }
+  }
+}
