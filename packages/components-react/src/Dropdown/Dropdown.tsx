@@ -103,9 +103,8 @@ const Dropdown: React.FC<DropdownProps> = ({
   const [inputValue, setInputValue] = useState<string>('');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [isSearchFocused, setIsSearchFocused] = useState<boolean>(false);
-
-
   const searchVisible = applySearch || internalItems.length > 4;
+  const isFirstRender = React.useRef(true);
 
   const handleSearchChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;
@@ -188,19 +187,14 @@ const Dropdown: React.FC<DropdownProps> = ({
     });
   }, [onSelectionChange, type]);
 
-
-  // Ignora o disparo inicial do onSelectionChange para evitar fechamento imediato do menu
-  const isFirstRender = React.useRef(true);
   useEffect(() => {
     if (isFirstRender.current) {
       isFirstRender.current = false;
       return;
     }
     if (!onSelectionChange) return;
-    const selectedIds = Object.keys(selectedItems).filter(key => selectedItems[key]);
-    if (selectedIds.length > 0) {
-      onSelectionChange(selectedIds);
-    }
+    const selectedIds = Object.keys(selectedItems).filter(key => selectedItems[key]); 
+    onSelectionChange(selectedIds);
   }, [selectedItems, onSelectionChange])
 
 
@@ -275,6 +269,7 @@ const Dropdown: React.FC<DropdownProps> = ({
       </div>
     );
   }, [type, selectedItems, toggleSelection, handleItemClick, showSubText]);
+
 
   const isMultiSelectable = useMemo(() => {
     return type === 'checkbox';
@@ -401,12 +396,12 @@ const Dropdown: React.FC<DropdownProps> = ({
             const itemId = generateItemId(item, index);
             return (
               <li
-                  key={itemId}
-                  role="option"
-                  aria-selected={!!selectedItems[itemId]}
-                  aria-labelledby={`dropdown-item-${itemId}-label`}
-                  aria-describedby={item.subText ? `dropdown-item-${itemId}-desc` : undefined}
-                  className={clsx('zds-dropdown__item', {
+                key={itemId}
+                role="option"
+                aria-selected={!!selectedItems[itemId]}
+                aria-labelledby={`dropdown-item-${itemId}-label`}
+                aria-describedby={item.subText ? `dropdown-item-${itemId}-desc` : undefined}
+                className={clsx('zds-dropdown__item', {
                   [`zds-dropdown__item--${type}`]: type,
                   'zds-dropdown__item--selected': selectedItems[itemId],
                   'zds-dropdown__item--focused': focusedIndex === index,
@@ -417,7 +412,7 @@ const Dropdown: React.FC<DropdownProps> = ({
                 onClick={(event) => {
                   event.stopPropagation()
                   handleItemClick(event, itemId, item)
-                
+
                 }}
                 onMouseDown={(e: React.MouseEvent<HTMLLIElement>) => {
                   if (!item.disabled) {
