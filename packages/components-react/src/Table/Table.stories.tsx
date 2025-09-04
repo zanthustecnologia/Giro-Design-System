@@ -3,10 +3,9 @@ import type { Meta, StoryFn } from '@storybook/react';
 import Table from './Table';
 import TableHeader from './TableHeader';
 import TablePagination from './TablePagination';
-import Avatar from '../Avatar';
 import Chips from '../Chips';
 import Menu from '../Menu/Menu';
-import { Person16Regular, MoreVertical16Regular, Settings16Regular, Calendar16Regular } from '@fluentui/react-icons';
+import {MoreVertical16Regular, Settings16Regular, Calendar16Regular } from '@fluentui/react-icons';
 
 const meta: Meta<typeof Table> = {
   title: 'Components/Table',
@@ -73,7 +72,7 @@ const promotionColumns = [
     render: (row: any) => (
       <Chips 
         title={row.status} 
-        variant={
+        type={
           row.status === 'Ativa' ? 'success' : 
           row.status === 'Inativa' ? 'alert' : 
           row.status === 'Agendada' ? 'brand' :
@@ -243,7 +242,7 @@ const basicColumns = [
       <Chips 
         title={row.status}
         label={row.status}
-        variant={
+        type={
           row.status === 'Ativa' ? 'success' : 
           row.status === 'Inativa' ? 'alert' : 
           row.status === 'Agendada' ? 'brand' :
@@ -267,11 +266,6 @@ export const Default: StoryFn = () => {
   const [showPagination, setShowPagination] = useState(true);
   const [showSelection, setShowSelection] = useState(false);
 
-  // ✅ CORREÇÃO: Handler memoizado para evitar re-criação a cada render
-  const handleMenuAction = useCallback((action: string, row: any) => {
-    console.log(`${action} promoção:`, row.name);
-    // Adicionar lógica específica para cada ação aqui se necessário
-  }, []);
 
   // ✅ CORREÇÃO: Colunas memoizadas para evitar re-criação
   const memoizedColumns = useMemo(() => [
@@ -298,7 +292,7 @@ export const Default: StoryFn = () => {
       render: (row: any) => (
         <Chips 
           title={row.type} 
-          variant={row.type === 'Desconto' ? 'success' : row.type === 'Frete Grátis' ? 'brand' : 'neutral'} 
+          type={row.type === 'Desconto' ? 'success' : row.type === 'Frete Grátis' ? 'brand' : 'neutral'} 
         />
       ),
     },
@@ -485,12 +479,12 @@ export const Default: StoryFn = () => {
 
 // ✅ STORY BÁSICA - Apenas a tabela
 export const Basic: StoryFn = () => (
-  <div style={{ padding: '20px' }}>
+
     <Table 
       columns={basicColumns}
       dataSource={promotionData.slice(0, 5)}
     />
-  </div>
+
 );
 
 // ✅ STORY LOADING - Estado de carregamento

@@ -7,9 +7,6 @@
   position: relative;
 }
 
-.zds-children {
-  display: flex;
-}
 
 .zds-filter-drawer--content {
   width: 400px;
@@ -23,7 +20,7 @@
 
 .zds-table__scroll-wrapper {
   overflow-x: auto;
-  overflow-y: hidden;
+  overflow-y: visible;
 
   @media (max-width: 768px) {
     overflow-x: scroll;
@@ -69,6 +66,14 @@
   padding: var(--spacing-8) var(--spacing-16);
   border-top: var(--border-width-1) solid var(--color-neutral-high-dark);
   color: var(--color-neutral-low-default);
+  
+  // Ensure cells with dropdown menus have proper stacking context
+  &:has(.zds-menu__container),
+  &.has-dropdown {
+    position: relative;
+    z-index: auto;
+    overflow: visible;
+  }
 }
 
 .zds-table__empty {
@@ -124,6 +129,25 @@
   background-color: var(--color-neutral-high-light);
 }
 
+// Ensure table rows with dropdown menus can display properly
+.zds-table__row:has(.zds-menu__container),
+.zds-table__row.has-dropdown {
+  position: relative;
+  z-index: auto;
+}
+
+// Menu containers within table cells need special handling
+.zds-table__td .zds-menu__container {
+  position: relative;
+  z-index: auto;
+  
+  .zds-menu__dropdown {
+    z-index: 2500; // Higher than table header z-index
+  }
+}
+.zds-table-header__search{
+  width: 360px;
+}
 .zds-table__pagination {
   background: var(--color-neutral-high-light);
   border-top: var(--border-width-1) solid var(--color-neutral-high-dark);
@@ -230,6 +254,7 @@
   border-top: var(--border-width-1) solid var(--color-neutral-high-dark);
   background-color: var(--color-neutral-high-light);
   color: var(--color-neutral-low-default);
+  border-radius: 0 0 var(--border-radius-8) var(--border-radius-8);
 
   @media (max-width: 768px) {
     flex-wrap: wrap;

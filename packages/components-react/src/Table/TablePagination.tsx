@@ -1,7 +1,6 @@
 import React from 'react';
 import { ChevronLeft16Regular, ChevronRight16Regular } from '@fluentui/react-icons';
 import './Table.scss';
-import { Button } from '..';
 
 interface TablePaginationProps {
   /** Página atual */

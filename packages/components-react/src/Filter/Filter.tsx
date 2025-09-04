@@ -2,9 +2,10 @@
 import React, { useState, useRef, useEffect, ReactNode, ReactElement, useCallback } from 'react';
 import Button from '../Button';
 import Dropdown, { DropdownItem, DropdownType } from '../Dropdown/Dropdown';
+import Calendar from '../Calendar/Calendar';
 import './Filter.scss';
 import Badge from '../Badge';
-import { ChevronDownRegular } from '@fluentui/react-icons/fonts';
+import { ChevronDownRegular, CalendarRegular } from '@fluentui/react-icons/fonts';
 import clsx from 'clsx';
 // ✅ Definir as variantes de botão disponíveis
 type FilterButtonVariant = 'filled' | 'outlined' | 'text';
@@ -13,7 +14,7 @@ export interface FilterProps {
   /** Items para o dropdown */
   items?: DropdownItem[];
   /** Tipo do dropdown */
-  type?: DropdownType;
+  type?: DropdownType | 'calendar';
   /** IDs selecionados */
   selectedIds?: string[];
   /** Callback quando aplicar filtros */
@@ -38,6 +39,18 @@ export interface FilterProps {
   disabled?: boolean;
   /** Classes CSS adicionais */
   className?: string;
+
+  // ✅ Props específicas para Calendar
+  /** Data selecionada (quando type='calendar') */
+  selectedDate?: Date | null;
+  /** Callback quando data é selecionada */
+  onDateSelect?: (date: Date) => void;
+  /** Data mínima permitida */
+  minDate?: Date;
+  /** Data máxima permitida */
+  maxDate?: Date;
+  /** Locale do calendar */
+  locale?: 'pt-br' | 'en-us';
 }
 // ✅ CORREÇÃO: Problema de loop infinito no useEffect
 const Filter: React.FC<FilterProps> = ({
@@ -54,13 +67,32 @@ const Filter: React.FC<FilterProps> = ({
   onClose,
   position = 'left',
   disabled = false,
-  className = ''
+  className = '',
+  // ✅ Props específicas para Calendar
+  selectedDate,
+  onDateSelect,
+  minDate,
+  maxDate,
+  locale = 'pt-br'
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [currentCalendarDate, setCurrentCalendarDate] = useState<Date>(new Date());
   const filterRef = useRef<HTMLDivElement>(null);
 
-  // ✅ FUNÇÃO ATUALIZADA: Gerar texto dinâmico baseado nos filtros selecionados
+  // ✅ FUNÇÃO ATUALIZADA: Gerar texto dinâmico baseado no tipo
   const getButtonText = useCallback(() => {
+    // Para filtros de calendar
+    if (type === 'calendar') {
+      if (selectedDate) {
+        const formattedDate = selectedDate.toLocaleDateString(
+          locale === 'en-us' ? 'en-US' : 'pt-BR'
+        );
+        return formattedDate;
+      }
+      return buttonText; // Texto original quando nada selecionado
+    }
+
+    // Para filtros normais
     if (!selectedIds || selectedIds.length === 0) {
       return buttonText; // Texto original quando nada selecionado
     }
@@ -72,7 +104,7 @@ const Filter: React.FC<FilterProps> = ({
     // Sempre retorna apenas o nome do primeiro filtro
     // O badge vai mostrar a quantidade de filtros adicionais
     return firstItemText;
-  }, [selectedIds, items, buttonText]);
+  }, [type, selectedDate, selectedIds, items, buttonText, locale]);
 
   // ✅ NOVA FUNÇÃO: Calcular valor do badge (filtros adicionais)
   const getBadgeValue = useCallback(() => {
@@ -166,15 +198,28 @@ const Filter: React.FC<FilterProps> = ({
 
       {isOpen && (
         <div className={dropdownClass}>
-          <Dropdown
-            items={items}
-            type={type}
-            defaultSelectedIds={selectedIds}
-            placeholder={placeholder}
-            applySearch={enableSearch}
-            filter={true}
-            onSelectionChange={handleApplyFilter}
-          />
+          {type === 'calendar' ? (
+            <Calendar
+              currentDate={currentCalendarDate}
+              selectedDate={selectedDate}
+              onDaySelect={onDateSelect}
+              minDate={minDate}
+              maxDate={maxDate}
+              locale={locale}
+              id={`filter-calendar-${filterRef.current?.id || ''}`}
+              aria-label="Selecionar data para filtro"
+            />
+          ) : (
+            <Dropdown
+              items={items}
+              type={type as DropdownType}
+              defaultSelectedIds={selectedIds}
+              placeholder={placeholder}
+              applySearch={enableSearch}
+              filter={true}
+              onSelectionChange={handleApplyFilter}
+            />
+          )}
         </div>
       )}
     </div>

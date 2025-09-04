@@ -266,3 +266,33 @@ export const MultipleFilters: Story = {
     );
   },
 };
+
+// ✅ NOVO: Filter com Calendar integrado
+export const CalendarFilter: Story = {
+  render: () => {
+    const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+    
+    const handleDateSelect = (date: Date) => {
+      setSelectedDate(date);
+      console.log('✅ Data selecionada no Filter:', date);
+    };
+
+    return (
+      <div style={{ padding: '2rem', minHeight: '500px' }}>
+        <h3 style={{ marginBottom: '1rem' }}>Filter com Calendar Integrado</h3>
+        
+        <div style={{ marginBottom: '2rem' }}>
+          <Filter
+            type="calendar"
+            buttonText="Selecionar Data"
+            selectedDate={selectedDate}
+            onDateSelect={handleDateSelect}
+            locale="pt-br"
+            variant="outlined"
+            position="left"
+          />
+        </div>
+      </div>
+    );
+  },
+};

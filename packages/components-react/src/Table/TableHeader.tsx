@@ -62,7 +62,6 @@ const TableHeader: React.FC<TableHeaderProps> = ({
   searchPlaceholder = 'Pesquisar...',
   showSearch = true,
   showFilters = false,
-  showClearSearch = true,
   filters,
   filterItems = [],
   className = '',
@@ -127,12 +126,13 @@ const TableHeader: React.FC<TableHeaderProps> = ({
     <div className={`zds-table-header ${className}`.trim()}>
       {/* Campo de busca */}
       {showSearch && (onSearchChange || onSearch) && (
-        <div className="zds-table-header__search">
+        <div >
           <Search
             value={internalSearchValue}
             onChange={handleInputChange}
             onKeyDown={handleKeyDown}
             placeholder={searchPlaceholder}
+            className="zds-table-header__search"
           />
         </div>
       )}
