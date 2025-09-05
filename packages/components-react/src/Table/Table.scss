@@ -120,6 +120,9 @@
 .zds-table__body .zds-table__row:first-child .zds-table__td {
   border-top: var(--border-width-none);
 }
+.zds-table__empty-cell{
+  height: 768px;
+}
 
 .zds-table__body .zds-table__td:last-child {
   justify-items: flex-end;
