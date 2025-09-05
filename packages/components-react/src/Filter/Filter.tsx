@@ -165,6 +165,9 @@ const Filter: React.FC<FilterProps> = ({
         onClick={handleToggle}
         disabled={disabled}
         className="filter-button"
+        icon={ <ChevronDownRegular className='zds-filter-button__icon' />}
+        iconPosition='right'
+        size='lg'
       >
         <div className='zds-filter-button__content'>
           {icon && <span className="zds-filter-button__icon">{icon}</span>}
@@ -173,7 +176,7 @@ const Filter: React.FC<FilterProps> = ({
             <Badge value={`+${getBadgeValue()}`} type='status' />
           )}
           <span className={`zds-filter-button__arrow ${isOpen ? 'zds-filter-button__arrow--open' : ''}`}>
-            <ChevronDownRegular className='zds-filter-button__icon' />
+           
           </span>
         </div>
       </Button>
