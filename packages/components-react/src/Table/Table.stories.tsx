@@ -3,6 +3,7 @@ import type { Meta, StoryFn } from '@storybook/react';
 import Table from './Table';
 import TableHeader from './TableHeader';
 import TablePagination from './TablePagination';
+import { createActionsColumn, type TableAction } from './utils/tableActions';
 import Chips from '../Chips';
 import Menu from '../Menu/Menu';
 import {MoreVertical16Regular, Settings16Regular, Calendar16Regular } from '@fluentui/react-icons';
@@ -23,86 +24,44 @@ const meta: Meta<typeof Table> = {
 
 export default meta;
 
-// 📋 DADOS MOCK - PROMOÇÕES
-const promotionColumns = [
+// 📋 DEFINIÇÕES DE AÇÕES PARA PROMOÇÕES
+const promotionActions: TableAction[] = [
   {
-    key: 'code',
-    label: 'Cód.',
-    render: (row: any) => (
-      <span style={{ fontWeight: 500, fontFamily: 'monospace' }}>{row.code}</span>
-    ),
+    key: 'edit',
+    label: 'Editar',
+    onClick: (row) => {
+      console.log('Editando promoção:', row.name);
+      // Lógica de edição aqui
+    }
   },
   {
-    key: 'name',
-    label: 'Nome da promoção',
-    render: (row: any) => (
-      <div>
-        <div style={{ fontWeight: 500 }}>{row.name}</div>
-        <div style={{ fontSize: '12px', color: '#666' }}>{row.description}</div>
-      </div>
-    ),
+    key: 'duplicate',
+    label: 'Duplicar',
+    onClick: (row) => {
+      console.log('Duplicando promoção:', row.name);
+      // Lógica de duplicação aqui
+    }
   },
   {
-    key: 'type',
-    label: 'Tipo',
-    render: (row: any) => (
-      <Chips 
-        title={row.type} 
-        type={row.type === 'Desconto' ? 'success' : row.type === 'Frete Grátis' ? 'brand' : 'neutral'} 
-      />
-    ),
+    key: 'pause',
+    label: (row) => row.status === 'Ativa' ? 'Pausar' : 'Ativar',
+    onClick: (row) => {
+      const action = row.status === 'Ativa' ? 'Pausando' : 'Ativando';
+      console.log(`${action} promoção:`, row.name);
+      // Lógica de pausar/ativar aqui
+    }
   },
   {
-    key: 'startDate',
-    label: 'Início',
-    render: (row: any) => (
-      <span>{row.startDate}</span>
-    ),
-  },
-  {
-    key: 'endDate',
-    label: 'Término',
-    render: (row: any) => (
-      <span>{row.endDate}</span>
-    ),
-  },
-  {
-    key: 'status',
-    label: 'Status',
-    render: (row: any) => (
-      <Chips 
-        title={row.status} 
-        type={
-          row.status === 'Ativa' ? 'success' : 
-          row.status === 'Inativa' ? 'alert' : 
-          row.status === 'Agendada' ? 'brand' :
-          'neutral'
-        } 
-      />
-    ),
-  },
-  {
-    key: 'actions',
-    label: '',
-    render: (row: any) => (
-      <Menu
-        position='right'
-        menuItems={[
-          { id: 'edit', text: 'Editar' },
-          { id: 'duplicate', text: 'Duplicar' },
-          { id: 'pause', text: row.status === 'Ativa' ? 'Pausar' : 'Ativar' },
-          { id: 'delete', text: 'Excluir' },
-        ]}
-        onMenuItemClick={(item: any) => {
-          console.log(`${item.text} promoção:`, row.name);
-          // Adicionar lógica específica para cada ação aqui se necessário
-        }}
-      >
-        <MoreVertical16Regular style={{ cursor: 'pointer' }} />
-      </Menu>
-    ),
-  },
+    key: 'delete',
+    label: 'Excluir',
+    onClick: (row) => {
+      console.log('Excluindo promoção:', row.name);
+      // Lógica de exclusão aqui
+    },
+    danger: true
+  }
 ];
+
 
 const promotionData = [
   {
@@ -266,6 +225,33 @@ export const Default: StoryFn = () => {
   const [showPagination, setShowPagination] = useState(true);
   const [showSelection, setShowSelection] = useState(false);
 
+  // 📋 Ações para tabela com filtros
+  const filteredTableActions: TableAction[] = [
+    {
+      key: 'edit',
+      label: 'Editar',
+      onClick: (row) => console.log('Editando:', row.name),
+    },
+    {
+      key: 'duplicate',
+      label: 'Duplicar',
+      onClick: (row) => console.log('Duplicando:', row.name),
+    },
+    {
+      key: 'pause',
+      label: (row) => row.status === 'Ativa' ? 'Pausar' : 'Ativar',
+      onClick: (row) => {
+        const action = row.status === 'Ativa' ? 'Pausando' : 'Ativando';
+        console.log(`${action}:`, row.name);
+      }
+    },
+    {
+      key: 'delete',
+      label: 'Excluir',
+      onClick: (row) => console.log('Excluindo:', row.name),
+      danger: true
+    }
+  ];
 
   // ✅ CORREÇÃO: Colunas memoizadas para evitar re-criação
   const memoizedColumns = useMemo(() => [
@@ -325,25 +311,9 @@ export const Default: StoryFn = () => {
         />
       ),
     },
-    {
-      key: 'actions',
-      label: '',
-      render: (row: any) => (
-        <Menu
-          position='right'
-          menuItems={[
-            { id: 'edit', text: 'Editar' },
-            { id: 'duplicate', text: 'Duplicar' },
-            { id: 'pause', text: row.status === 'Ativa' ? 'Pausar' : 'Ativar' },
-            { id: 'delete', text: 'Excluir' },
-          ]}
-          // onMenuItemClick={(item: any) => handleMenuAction(item.text, row)}
-        >
-          <MoreVertical16Regular style={{ cursor: 'pointer' }} />
-        </Menu>
-      ),
-    },
-  ], []);
+    // ✅ Usando helper function para ações
+    createActionsColumn(filteredTableActions),
+  ], [filteredTableActions]);
   
   // Dados para filtros
   const statusItems = [
@@ -426,7 +396,7 @@ export const Default: StoryFn = () => {
           filterItems={showFilters ? [
             {
               id: 'status-filter',
-              buttonText: 'teste',
+              buttonText: 'Status',
               icon: <Settings16Regular />,
               items: statusItems,
               type: 'checkbox',
@@ -553,6 +523,110 @@ export const WithSelection: StoryFn = () => {
           },
         }}
       />
+    </div>
+  );
+};
+
+// ⭐ NOVA STORY: Demonstrando diferentes padrões de ações com helper function
+export const TableActionsPatterns: StoryFn = () => {
+  // 📋 Ações condicionais para usuários
+  const userActions: TableAction[] = [
+    {
+      key: 'view',
+      label: 'Ver perfil',
+      onClick: (row) => console.log('Visualizando:', row.name),
+    },
+    {
+      key: 'edit',
+      label: 'Editar',
+      onClick: (row) => console.log('Editando:', row.name),
+      disabled: (row) => row.role === 'admin', // Admins não podem ser editados
+    },
+    {
+      key: 'reset',
+      label: 'Resetar senha',
+      onClick: (row) => console.log('Resetando senha de:', row.name),
+      // Só visível para usuários inativos
+      disabled: (row) => row.status === 'active',
+    },
+    {
+      key: 'delete',
+      label: 'Excluir',
+      onClick: (row) => console.log('Excluindo:', row.name),
+      danger: true,
+      // Não pode excluir admins
+      disabled: (row) => row.role === 'admin',
+    }
+  ];
+
+  const userColumns = [
+    {
+      key: 'name',
+      label: 'Usuário',
+      render: (row: any) => (
+        <div>
+          <div style={{ fontWeight: 500 }}>{row.name}</div>
+          <div style={{ fontSize: '12px', color: '#666' }}>{row.email}</div>
+        </div>
+      ),
+    },
+    {
+      key: 'role',
+      label: 'Função',
+      render: (row: any) => (
+        <Chips 
+          title={row.role} 
+          type={row.role === 'admin' ? 'brand' : 'neutral'} 
+        />
+      ),
+    },
+    {
+      key: 'status',
+      label: 'Status',
+      render: (row: any) => (
+        <Chips 
+          title={row.status} 
+          type={row.status === 'active' ? 'success' : 'alert'} 
+        />
+      ),
+    },
+    // ✅ Ações condicionais usando helper
+    createActionsColumn(userActions),
+  ];
+
+  const userData = [
+    { id: 1, name: 'João Silva', email: 'joao@empresa.com', role: 'admin', status: 'active' },
+    { id: 2, name: 'Maria Santos', email: 'maria@empresa.com', role: 'user', status: 'active' },
+    { id: 3, name: 'Pedro Costa', email: 'pedro@empresa.com', role: 'user', status: 'inactive' },
+    { id: 4, name: 'Ana Oliveira', email: 'ana@empresa.com', role: 'user', status: 'active' },
+  ];
+
+  return (
+    <div style={{ padding: '20px' }}>
+      <h3>🎯 Padrões de Ações com Helper Function</h3>
+      <p>Esta tabela demonstra diferentes padrões de ações:</p>
+      <ul>
+        <li>✅ <strong>Ações condicionais:</strong> botões desabilitados baseados nos dados</li>
+        <li>🎨 <strong>Ações perigosas:</strong> visual diferenciado para ações destrutivas</li>
+        <li>🔧 <strong>Lógica dinâmica:</strong> labels e comportamentos baseados no contexto</li>
+        <li>🚀 <strong>API limpa:</strong> separação clara entre dados e ações</li>
+      </ul>
+      
+      <Table
+        columns={userColumns}
+        dataSource={userData}
+      />
+      
+      <div style={{ marginTop: '20px', padding: '16px', backgroundColor: '#f8f9fa', borderRadius: '8px' }}>
+        <h4>💡 Vantagens do Helper Function:</h4>
+        <ul>
+          <li><strong>Código mais limpo:</strong> separação entre definição de ações e estrutura da tabela</li>
+          <li><strong>Reutilização:</strong> ações podem ser facilmente reutilizadas em diferentes contextos</li>
+          <li><strong>Flexibilidade:</strong> suporte a ações condicionais e dinâmicas</li>
+          <li><strong>Manutenibilidade:</strong> mudanças nas ações não afetam a estrutura da tabela</li>
+          <li><strong>Performance:</strong> memoização automática dos componentes</li>
+        </ul>
+      </div>
     </div>
   );
 };
