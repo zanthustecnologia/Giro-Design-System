@@ -18,8 +18,8 @@
 }
 
 .zds-table__scroll-wrapper {
-  overflow-x: auto;
-  // overflow-y: visible;
+  overflow-x: visible;
+
 
   @media (max-width: 768px) {
     overflow-x: scroll;
@@ -66,6 +66,7 @@
   padding: var(--spacing-8) var(--spacing-16);
   border-top: var(--border-width-1) solid var(--color-neutral-high-dark);
   color: var(--color-neutral-low-default);
+  height: 44px;
   
   // Ensure cells with dropdown menus have proper stacking context
   &:has(.zds-menu__container),
