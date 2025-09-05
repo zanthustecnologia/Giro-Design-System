@@ -57,10 +57,10 @@ const useSelection = (
   const [internalKeys, setInternalKeys] = useState<(string | number)[]>([]);
   const selectedKeys = rowSelection?.selectedRowKeys ?? internalKeys;
   const selectedSet = useMemo(() => new Set(selectedKeys), [selectedKeys]);
-  
+
   const handleChange = useCallback((newKeys: (string | number)[]) => {
     const newRows = dataSource.filter((_, index) => newKeys.includes(index));
-    
+
     if (rowSelection?.selectedRowKeys !== undefined) {
       // Controlled
       rowSelection.onChange?.(newKeys, newRows);
@@ -70,23 +70,23 @@ const useSelection = (
       rowSelection?.onChange?.(newKeys, newRows);
     }
   }, [dataSource, rowSelection]);
-  
+
   const toggleRow = useCallback((key: string | number) => {
     const newKeys = selectedSet.has(key)
       ? selectedKeys.filter(k => k !== key)
       : [...selectedKeys, key];
     handleChange(newKeys);
   }, [selectedKeys, selectedSet, handleChange]);
-  
+
   const toggleAll = useCallback(() => {
     const allKeys = dataSource.map((_, index) => index);
     const newKeys = selectedKeys.length === dataSource.length ? [] : allKeys;
     handleChange(newKeys);
   }, [dataSource, selectedKeys.length, handleChange]);
-  
+
   const isAllSelected = selectedKeys.length === dataSource.length && dataSource.length > 0;
   const isIndeterminate = selectedKeys.length > 0 && selectedKeys.length < dataSource.length;
-  
+
   return {
     selectedSet,
     selectedKeys,
@@ -102,9 +102,9 @@ const renderCell = (column: TableColumn, row: TableRowData, index: number): Reac
   if (column.render) {
     return column.render(row, index);
   }
-  
+
   const value = row[column.key];
-  
+
   switch (column.type) {
     case 'datetime':
       if (!value) return '';
@@ -134,16 +134,16 @@ const Table: React.FC<TableProps> = ({
     console.warn('Table: columns e dataSource devem ser arrays');
     return null;
   }
-  
+
   const { selectedSet, toggleRow, toggleAll, isAllSelected, isIndeterminate } = useSelection(
     dataSource,
     rowSelection
   );
-  
+
   // Colunas finais com checkbox se necessário
   const finalColumns = useMemo(() => {
     if (!rowSelection) return columns;
-    
+
     const checkboxColumn: TableColumn = {
       key: '__checkbox__',
       label: (
@@ -165,10 +165,12 @@ const Table: React.FC<TableProps> = ({
       },
       align: 'center',
     };
-    
+
     return [checkboxColumn, ...columns];
   }, [columns, rowSelection, isAllSelected, isIndeterminate, toggleAll, selectedSet, toggleRow, dataSource]);
-  
+  const tableId = useMemo(() =>
+    `table-${Math.random().toString(36).substr(2, 9)}`, []
+  );
   // Loading state
   if (loading) {
     return (
@@ -179,7 +181,7 @@ const Table: React.FC<TableProps> = ({
       </div>
     );
   }
-  
+
   // Empty state
   const emptyText = locale.emptyText || (
     <div className="zds-table__empty">
@@ -192,11 +194,17 @@ const Table: React.FC<TableProps> = ({
       </div>
     </div>
   );
-  
+
   return (
     <div className={clsx('zds-table__container', className)}>
       <div className="zds-table__scroll-wrapper">
-        <table className="zds-table" role="table">
+        <table 
+        className="zds-table"
+          role="table"
+          aria-label="Tabela de dados"
+          aria-describedby={loading ? `${tableId}-loading` : undefined}
+          aria-rowcount={dataSource.length + 1}
+        >
           <thead className="zds-table__head">
             <tr>
               {finalColumns.map((column) => (

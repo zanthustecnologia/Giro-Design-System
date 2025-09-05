@@ -1,11 +1,11 @@
 // Filter.tsx
-import React, { useState, useRef, useEffect, ReactNode, ReactElement, useCallback } from 'react';
+import React, { useState, useRef, useEffect, ReactNode, ReactElement, useCallback, useMemo } from 'react';
 import Button from '../Button';
 import Dropdown, { DropdownItem, DropdownType } from '../Dropdown/Dropdown';
 import Calendar from '../Calendar/Calendar';
 import './Filter.scss';
 import Badge from '../Badge';
-import { ChevronDownRegular, CalendarRegular } from '@fluentui/react-icons/fonts';
+import { ChevronDownRegular } from '@fluentui/react-icons';
 import clsx from 'clsx';
 // ✅ Definir as variantes de botão disponíveis
 type FilterButtonVariant = 'filled' | 'outlined' | 'text';
@@ -80,30 +80,16 @@ const Filter: React.FC<FilterProps> = ({
   const filterRef = useRef<HTMLDivElement>(null);
 
   // ✅ FUNÇÃO ATUALIZADA: Gerar texto dinâmico baseado no tipo
-  const getButtonText = useCallback(() => {
-    // Para filtros de calendar
-    if (type === 'calendar') {
-      if (selectedDate) {
-        const formattedDate = selectedDate.toLocaleDateString(
-          locale === 'en-us' ? 'en-US' : 'pt-BR'
-        );
-        return formattedDate;
-      }
-      return buttonText; // Texto original quando nada selecionado
+  
+  const buttonDisplayText = useMemo(() => {
+    if (type === 'calendar' && selectedDate) {
+      return selectedDate.toLocaleDateString(locale === 'pt-br' ? 'pt-BR' : 'en-US');
     }
 
-    // Para filtros normais
-    if (!selectedIds || selectedIds.length === 0) {
-      return buttonText; // Texto original quando nada selecionado
-    }
+    if (!selectedIds?.length) return buttonText;
 
-    // Encontrar o primeiro item selecionado
-    const firstSelectedItem = items?.find(item => item.id === selectedIds[0]);
-    const firstItemText = firstSelectedItem?.text || selectedIds[0];
-
-    // Sempre retorna apenas o nome do primeiro filtro
-    // O badge vai mostrar a quantidade de filtros adicionais
-    return firstItemText;
+    const firstItem = items?.find(item => item.id === selectedIds[0]);
+    return firstItem?.text || selectedIds[0];
   }, [type, selectedDate, selectedIds, items, buttonText, locale]);
 
   // ✅ NOVA FUNÇÃO: Calcular valor do badge (filtros adicionais)
@@ -111,7 +97,7 @@ const Filter: React.FC<FilterProps> = ({
     if (!selectedIds || selectedIds.length <= 1) {
       return null; // Não mostra badge para 0 ou 1 filtro
     }
-    return selectedIds.length - 1; // Quantidade de filtros além do primeiro
+    return selectedIds.length - 1;
   }, [selectedIds]);
 
   // Handler para abrir/fechar dropdown
@@ -135,7 +121,6 @@ const Filter: React.FC<FilterProps> = ({
     onClose?.();
   }, [onApplyFilter, onClose]);
 
-  // Close on outside click
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (filterRef.current && !filterRef.current.contains(event.target as Node)) {
@@ -180,19 +165,16 @@ const Filter: React.FC<FilterProps> = ({
         onClick={handleToggle}
         disabled={disabled}
         className="filter-button"
-        aria-expanded={isOpen}
-        aria-haspopup="true"
       >
         <div className='zds-filter-button__content'>
           {icon && <span className="zds-filter-button__icon">{icon}</span>}
-          <span className="zds-filter-button__text">{getButtonText()}</span>
+          <span className="zds-filter-button__text">{buttonDisplayText}</span>
           {getBadgeValue() && (
             <Badge value={`+${getBadgeValue()}`} type='status' />
           )}
           <span className={`zds-filter-button__arrow ${isOpen ? 'zds-filter-button__arrow--open' : ''}`}>
-            <ChevronDownRegular />
+            <ChevronDownRegular className='zds-filter-button__icon' />
           </span>
-
         </div>
       </Button>
 
