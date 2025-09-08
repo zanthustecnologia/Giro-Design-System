@@ -25,11 +25,45 @@ export function formatDate(date: Date, locale: Locale = 'pt-br'): string {
 }
 
 /**
- * Converte uma string de data para objeto Date conforme o locale.
- * @param dateString - String da data no formato dd/mm/yyyy ou mm/dd/yyyy
- * @param locale - Locale para interpretação ('pt-br' ou 'en-us')
- * @returns Date object ou null se inválida
+ * Aplica máscara de data conforme o usuário digita.
+ * @param value - Valor atual do input
+ * @param locale - Locale para determinar o formato da máscara
+ * @returns String com a máscara aplicada
  */
+export function applyDateMask(value: string, locale: Locale = 'pt-br'): string {
+  // Remove todos os caracteres que não são dígitos
+  const digitsOnly = value.replace(/\D/g, '');
+  
+  // Limita a 8 dígitos (DDMMAAAA ou MMDDAAAA)
+  const limitedDigits = digitsOnly.slice(0, 8);
+  
+  // Aplica a máscara baseada no locale
+  let masked = '';
+  
+  for (let i = 0; i < limitedDigits.length; i++) {
+    // Adiciona barras nas posições corretas
+    if (i === 2 || i === 4) {
+      masked += '/';
+    }
+    masked += limitedDigits[i];
+  }
+  
+  return masked;
+}
+
+/**
+ * Valida se uma string está no formato correto de data para o locale.
+ * @param value - String a ser validada
+ * @param locale - Locale para validação
+ * @returns true se o formato está correto
+ */
+export function isValidDateFormat(value: string, locale: Locale = 'pt-br'): boolean {
+  const dateRegex = locale === 'en-us'
+    ? /^(0[1-9]|1[0-2])\/(0[1-9]|[12][0-9]|3[01])\/\d{4}$/
+    : /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/;
+  
+  return dateRegex.test(value);
+}
 export function parseDate(dateString: string, locale: Locale = 'pt-br'): Date | null {
   if (!dateString || typeof dateString !== 'string') {
     return null;
