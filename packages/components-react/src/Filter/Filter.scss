@@ -7,7 +7,7 @@
 .zds-filter__button {
   display: flex;
   align-items: center;
-  gap: var(--spacing-8);
+  // gap: var(--spacing-8);
   
   .zds-filter__icon {
     display: flex;
@@ -61,7 +61,7 @@
 .zds-filter-button__content{
   display: flex;
   align-items: center;
-  gap: var(--spacing-8);
+
   justify-content: center;
 }
 .zds-filter-button__arrow{
@@ -69,7 +69,7 @@
   align-items: center; 
 }
 .zds-filter-button__icon{
-    display: flex; 
+    // display: flex; 
   width: 16px;
   height: 16px;
 }

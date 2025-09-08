@@ -97,29 +97,6 @@ const TableHeader: React.FC<TableHeaderProps> = ({
     }
   };
 
-  // Handler para o botão de busca
-  const handleSearchSubmit = () => {
-    if (onSearch) {
-      onSearch(internalSearchValue);
-    } else if (onSearchChange) {
-      onSearchChange(internalSearchValue);
-    }
-  };
-
-  // Handler para limpar busca
-  const handleClearSearch = () => {
-    setInternalSearchValue('');
-    if (onSearchChange) {
-      onSearchChange('');
-    }
-  };
-
-  // Se não mostrar nem busca nem filtros, não renderizar nada
-  if (!showSearch && !showFilters) {
-    return null;
-  }
-
-  // Verificar se há filtros para mostrar
   const hasFilters = filters || (filterItems && filterItems.length > 0);
 
   return (
@@ -155,7 +132,7 @@ const TableHeader: React.FC<TableHeaderProps> = ({
                 <Filter
                   key={filterItem.id || index}
                   buttonText={filterItem.buttonText}
-                  icon={filterItem.icon || <Filter16Regular />}
+                  icon={filterItem.icon}
                   position={filterItem.position || 'left'}
                   disabled={filterItem.disabled}
                   variant="outlined"

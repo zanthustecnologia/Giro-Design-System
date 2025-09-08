@@ -5,7 +5,7 @@ import Dropdown, { DropdownItem, DropdownType } from '../Dropdown/Dropdown';
 import Calendar from '../Calendar/Calendar';
 import './Filter.scss';
 import Badge from '../Badge';
-import { ChevronDownRegular } from '@fluentui/react-icons';
+import { ChevronDownRegular, Calendar16Regular} from '@fluentui/react-icons';
 import clsx from 'clsx';
 // ✅ Definir as variantes de botão disponíveis
 type FilterButtonVariant = 'filled' | 'outlined' | 'text';
@@ -164,8 +164,7 @@ const Filter: React.FC<FilterProps> = ({
         variant={variant}
         onClick={handleToggle}
         disabled={disabled}
-        className="filter-button"
-        icon={ <ChevronDownRegular className='zds-filter-button__icon' />}
+        icon={type === 'calendar' ? <Calendar16Regular /> :   <ChevronDownRegular />}
         iconPosition='right'
         size='lg'
       >

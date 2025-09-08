@@ -177,17 +177,6 @@ export const RightPosition: Story = {
   },
 };
 
-export const FilledVariant: Story = {
-  render: FilterTemplate,
-  args: {
-    items: statusItems,
-    buttonText: 'Status',
-    type: 'checkbox',
-    variant: 'filled',
-    position: 'left',
-  },
-};
-
 export const Disabled: Story = {
   render: FilterTemplate,
   args: {
@@ -267,7 +256,7 @@ export const MultipleFilters: Story = {
   },
 };
 
-// ✅ NOVO: Filter com Calendar integrado
+
 export const CalendarFilter: Story = {
   render: () => {
     const [selectedDate, setSelectedDate] = useState<Date | null>(null);
@@ -279,8 +268,7 @@ export const CalendarFilter: Story = {
 
     return (
       <div style={{ padding: '2rem', minHeight: '500px' }}>
-        <h3 style={{ marginBottom: '1rem' }}>Filter com Calendar Integrado</h3>
-        
+      
         <div style={{ marginBottom: '2rem' }}>
           <Filter
             type="calendar"
