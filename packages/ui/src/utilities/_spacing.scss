@@ -1,0 +1,21 @@
+// Tokens (SCSS) vindos do pacote de tokens
+@use "../../../tokens/build/scss/tokens.scss" as tok;
+
+// Mapa de espaçamentos usando os tokens
+$spacing: (
+  0: tok.$spacing-0,
+  4: tok.$spacing-4,
+  8: tok.$spacing-8,
+  12: tok.$spacing-12,
+  16: tok.$spacing-16,
+  24: tok.$spacing-24,
+  32: tok.$spacing-32,
+  40: tok.$spacing-40,
+  48: tok.$spacing-48,
+  56: tok.$spacing-56,
+  64: tok.$spacing-64,
+  80: tok.$spacing-80,
+  120: tok.$spacing-120,
+  160: tok.$spacing-160,
+  200: tok.$spacing-200
+);

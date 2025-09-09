@@ -1,0 +1,40 @@
+@use "sass:map";
+@use "sass:string";
+
+// Breakpoints
+$breakpoints: (
+  sm: 640px,
+  md: 768px,
+  lg: 1024px,
+  xl: 1280px,
+  4xl: 1536px
+) !default;
+
+// Função para escapar classes iniciando com número
+@function escape-class($class) {
+  $class-str: "#{$class}"; // converte para string
+
+  // se começar com número, escapa sempre
+  @if string.index($class-str, "2xl") == 1 {
+    @return "\\32xl"; // exemplo: .\32xl\:grid-cols-6
+  }
+
+  @return $class-str;
+}
+
+// Mixin respond (media query)
+@mixin respond($size) {
+  @media (min-width: map.get($breakpoints, $size)) {
+    @content;
+  }
+}
+
+// Mixin utility (gera classes responsivas)
+@mixin utility($bp, $selector) {
+  $escaped-bp: escape-class($bp);
+  @include respond($bp) {
+    .#{$escaped-bp}\:#{$selector} {
+      @content;
+    }
+  }
+}
