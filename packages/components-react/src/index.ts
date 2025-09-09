@@ -1,16 +1,19 @@
+import { TableProps } from './Table/Table';
 export { default as Avatar } from './Avatar';
 export { default as Button } from './Button';
 export { default as Calendar } from './Calendar';
 export { default as Callout } from './Callout';
 export { default as Checkbox } from './Checkbox';
 export { default as Chips } from './Chips';
-export { default as DatePicker } from './DatePicker';
+export { default as DatePicker } from './DatePicker'
+export {default as Filter} from './Filter';
 export { default as ListItem } from './ListItem';
 export { default as Menu } from './Menu';
 export { default as Quantity } from './Quantity';
 export { default as Radio } from './Radio';
 export { default as Search } from './Search';
 export { default as Select } from './Select';
+export { default as Table, TableHeader, TablePagination, type TableProps, type TablePaginationProps, type TableHeaderProps } from './Table';
 export { default as TextField } from './TextField';
 export { default as Toast } from './Toast';
 export { default as Tooltip } from './Tooltip';
