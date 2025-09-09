@@ -3,9 +3,6 @@ import './Dialog.scss';
 import Button from '../Button/Button';
 import clsx from 'clsx';
 
-/**
- * Props do componente Dialog
- */
 export interface DialogProps {
 
   children?: ReactNode;
@@ -51,11 +48,9 @@ const Dialog: React.FC<DialogProps> = ({
 }) => {
   const dialogRef = useRef<HTMLDivElement>(null);
   const generatedId = useId();
-  const id = propId || generatedId; // Usa propId se fornecido
+  const id = propId || generatedId; 
 
-  /**
-   * Handler para ação OK.
-   */
+
   const handleOk = useCallback((): void => {
     if (fnOk) fnOk();
     if (onClose) onClose();
@@ -88,9 +83,7 @@ const Dialog: React.FC<DialogProps> = ({
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [show, handleCancel]); // ✅ handleCancel adicionado às dependências
-
-  // Early return se Dialog não está visível
+  }, [show, handleCancel]); 
   if (!show) return null;
 
   return (
@@ -105,8 +98,8 @@ const Dialog: React.FC<DialogProps> = ({
           role="dialog"
           aria-modal="true"
           id={id}
-          aria-labelledby={`zds-dialog-title-${id}`}
-          aria-describedby={`zds-dialog-desc-${id}`}
+          aria-labelledby={`zds-dialog__title-${id}`}
+          aria-describedby={`zds-dialog__desc-${id}`}
           tabIndex={-1}
           ref={dialogRef}
         >
