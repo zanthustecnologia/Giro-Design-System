@@ -13,11 +13,11 @@ export interface DialogProps {
   /** Texto do corpo do Dialog */
   text?: ReactNode;
   /** Texto do botão de confirmação */
-  textOk?: string;
+  textConfirm?: string;
   /** Texto do botão de cancelamento */
   textCancel?: string;
   /** Função chamada ao confirmar */
-  fnOk?: () => void;
+  fnConfirm?: () => void;
   /** Função chamada ao cancelar */
   fnCancel?: () => void;
   /** Função chamada ao fechar o Dialog */
@@ -38,9 +38,9 @@ const Dialog: React.FC<DialogProps> = ({
   show,
   title,
   text,
-  textOk = 'OK',
+  textConfirm = 'OK',
   textCancel = 'Cancelar',
-  fnOk,
+  fnConfirm,
   fnCancel,
   onClose,
   className,
@@ -51,10 +51,10 @@ const Dialog: React.FC<DialogProps> = ({
   const id = propId || generatedId; 
 
 
-  const handleOk = useCallback((): void => {
-    if (fnOk) fnOk();
+  const handleConfirm = useCallback((): void => {
+    if (fnConfirm) fnConfirm();
     if (onClose) onClose();
-  }, [fnOk, onClose]);
+  }, [fnConfirm, onClose]);
 
   /**
    * Handler para ação Cancelar.
@@ -120,8 +120,8 @@ const Dialog: React.FC<DialogProps> = ({
                 {textCancel}
               </Button>
             )}
-            <Button variant="filled" onClick={handleOk}>
-              {textOk}
+            <Button variant="filled" onClick={handleConfirm}>
+              {textConfirm}
             </Button>
           </div>
         </div>
