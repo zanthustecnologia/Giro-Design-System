@@ -171,10 +171,10 @@ const Filter: React.FC<FilterProps> = ({
         <div className='zds-filter-button__content'>
           {icon && <span className="zds-filter-button__icon">{icon}</span>}
           <span className="zds-filter-button__text">{buttonDisplayText}</span>
-          {getBadgeValue() && (
-            <Badge value={`+${getBadgeValue()}`} type='status' />
-          )}
           <span className={`zds-filter-button__arrow ${isOpen ? 'zds-filter-button__arrow--open' : ''}`}>
+          {getBadgeValue() && (
+            <Badge badgeValue={`+${getBadgeValue()}`} type='status' />
+          )}
            
           </span>
         </div>

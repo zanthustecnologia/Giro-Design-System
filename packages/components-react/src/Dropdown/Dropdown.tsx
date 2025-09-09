@@ -186,9 +186,7 @@ const Dropdown: React.FC<DropdownProps> = ({
 
   const toggleSelection = useCallback((itemId: string, item: DropdownItem) => {
     if (item?.disabled) return;
-
     if (filter) {
-      // No modo filter, atualiza apenas o estado temporário
       setTempSelectedItems((prevSelected) => {
         let newSelected: SelectedItemsState;
         if (type === 'checkbox') {
@@ -202,9 +200,10 @@ const Dropdown: React.FC<DropdownProps> = ({
         return newSelected;
       });
     } else {
-      // No modo normal, atualiza o estado real e chama callback
+
       setSelectedItems((prevSelected) => {
         let newSelected: SelectedItemsState;
+ 
         if (type === 'checkbox') {
           newSelected = {
             ...prevSelected,
@@ -242,7 +241,6 @@ const Dropdown: React.FC<DropdownProps> = ({
   }, [filter, onSelectionChange]);
 
 
-  // Ignora o disparo inicial do onSelectionChange para evitar fechamento imediato do menu
   const isFirstRender = React.useRef(true);
   useEffect(() => {
     if (isFirstRender.current) {
@@ -251,9 +249,7 @@ const Dropdown: React.FC<DropdownProps> = ({
     }
     if (!onSelectionChange) return;
     const selectedIds = Object.keys(selectedItems).filter(key => selectedItems[key]);
-    if (selectedIds.length > 0) {
       onSelectionChange(selectedIds);
-    }
   }, [selectedItems, onSelectionChange])
 
 
@@ -285,7 +281,7 @@ const Dropdown: React.FC<DropdownProps> = ({
       })}>
         {type === 'checkbox' && (
           <Checkbox
-            checked={!!currentSelection[itemId]}
+            checked={currentSelection[itemId]}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
               event.preventDefault();
               event.stopPropagation();

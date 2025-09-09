@@ -3,7 +3,7 @@
 }
 
 .zds-badge {
-  background-color: var(--color-feedback-alert-default); // Era: $alert-color-default
+  // background-color: var(--color-feedback-alert-default); // Era: $alert-color-default
   font-weight: var(--font-weight-bold); // Era: $font-weight-bold
   font-size: var(--font-size-12); // Era: $font-size-12
   position: absolute;
@@ -26,9 +26,8 @@
     border-radius: var(--border-radius-pill); // Era: $border-radius-pill
     background-color: var(--color-brand-primary-default); // Era: $brand-color-primary-default
     border: 2px solid var(--color-neutral-high-default); // Era: 2px $high-color-default
-
     span {
-      color: var(--color-neutral-high-default); // Era: $high-color-default
+      color: var(--color-neutral-high-default) !important; // Era: $high-color-default
     }
   }
 }
