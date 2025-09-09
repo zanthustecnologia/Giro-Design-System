@@ -12,7 +12,7 @@ export interface BadgeProps {
   /** Conteúdo a ser envolvido pelo badge */
   children?: ReactNode;
   /** Valor a ser exibido no badge (número, texto ou null) */
-  value?: BadgeValue;
+  badgeValue?: BadgeValue;
   /** Classes CSS adicionais */
   className?: string;
   /** ID único do componente */
@@ -34,7 +34,7 @@ export interface BadgeProps {
  */
 const Badge: React.FC<BadgeProps> = ({
   children,
-  value = null,
+  badgeValue = null,
   type = 'notification',
   className = '',
   id,
@@ -44,7 +44,7 @@ const Badge: React.FC<BadgeProps> = ({
   'aria-label': ariaLabel,
 }) => {
   // ✅ Verificações de estado
-  const isEmpty = value === null || value === undefined || value === '';
+  const isEmpty = badgeValue === null || badgeValue === undefined || badgeValue === '';
   const isClickable = onClick && !disabled;
 
   /**
@@ -62,7 +62,7 @@ const Badge: React.FC<BadgeProps> = ({
     return inputValue;
   };
 
-  const displayValue = getDisplayValue(value);
+  const displayValue = getDisplayValue(badgeValue);
 
   /**
    * Manipula clique no badge
@@ -124,7 +124,7 @@ const Badge: React.FC<BadgeProps> = ({
       >
         <div
           className={clsx('zds-badge', {
-            'zds-badge-large': typeof value === 'number' && value > maxValue,
+            'zds-badge-large': typeof badgeValue === 'number' && badgeValue > maxValue,
             'zds-badge-empty': isEmpty,
             'zds-badge-has-value': !isEmpty,
           })}
