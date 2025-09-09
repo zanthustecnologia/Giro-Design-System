@@ -5,7 +5,7 @@ import Dropdown, { DropdownItem, DropdownType } from '../Dropdown/Dropdown';
 import Calendar from '../Calendar/Calendar';
 import './Filter.scss';
 import Badge from '../Badge';
-import { ChevronDownRegular, Calendar16Regular} from '@fluentui/react-icons';
+import { ChevronDownRegular, Calendar16Regular } from '@fluentui/react-icons';
 import clsx from 'clsx';
 // ✅ Definir as variantes de botão disponíveis
 type FilterButtonVariant = 'filled' | 'outlined' | 'text';
@@ -80,7 +80,7 @@ const Filter: React.FC<FilterProps> = ({
   const filterRef = useRef<HTMLDivElement>(null);
 
   // ✅ FUNÇÃO ATUALIZADA: Gerar texto dinâmico baseado no tipo
-  
+
   const buttonDisplayText = useMemo(() => {
     if (type === 'calendar' && selectedDate) {
       return selectedDate.toLocaleDateString(locale === 'pt-br' ? 'pt-BR' : 'en-US');
@@ -94,11 +94,30 @@ const Filter: React.FC<FilterProps> = ({
 
   // ✅ NOVA FUNÇÃO: Calcular valor do badge (filtros adicionais)
   const getBadgeValue = useCallback(() => {
+    console.log('🔍 Debug Badge:', {
+      selectedIds,
+      length: selectedIds?.length,
+      shouldShow: selectedIds && selectedIds.length > 1
+    });
+
     if (!selectedIds || selectedIds.length <= 1) {
-      return null; // Não mostra badge para 0 ou 1 filtro
+      return null;
     }
-    return selectedIds.length - 1;
+    const badgeValue = selectedIds.length - 1;
+    console.log('🎯 Badge Value:', badgeValue);
+    return badgeValue;
   }, [selectedIds]);
+
+  // ✅ No JSX, adicione log também
+  {
+    (() => {
+      const badgeValue = getBadgeValue();
+      console.log('🎨 Renderizando Badge:', badgeValue);
+      return badgeValue && (
+        <Badge value={`+${badgeValue}`} type='status' />
+      );
+    })()
+  }
 
   // Handler para abrir/fechar dropdown
   const handleToggle = useCallback(() => {
@@ -164,7 +183,7 @@ const Filter: React.FC<FilterProps> = ({
         variant={variant}
         onClick={handleToggle}
         disabled={disabled}
-        icon={type === 'calendar' ? <Calendar16Regular /> :   <ChevronDownRegular />}
+        icon={type === 'calendar' ? <Calendar16Regular /> : <ChevronDownRegular />}
         iconPosition='right'
         size='lg'
       >
@@ -175,7 +194,7 @@ const Filter: React.FC<FilterProps> = ({
             <Badge value={`+${getBadgeValue()}`} type='status' />
           )}
           <span className={`zds-filter-button__arrow ${isOpen ? 'zds-filter-button__arrow--open' : ''}`}>
-           
+
           </span>
         </div>
       </Button>

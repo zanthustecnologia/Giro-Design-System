@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useEffect, useMemo } from 'react';
 import './Badge.scss';
 
 // ✅ Types para o componente
@@ -44,7 +44,27 @@ const Badge: React.FC<BadgeProps> = ({
   'aria-label': ariaLabel,
 }) => {
   // ✅ Verificações de estado
-  const isEmpty = value === null || value === undefined || value === '';
+  const isEmpty = useMemo(() => {
+    if (value === null || value === undefined) return true;
+    if (typeof value === 'string' && value.trim() === '') return true;
+    if (typeof value === 'number' && value === 0 && type === 'notification') return true;
+
+    // ✅ Para status, aceitar qualquer valor válido
+    if (type === 'status') {
+      if (typeof value === 'number' && value >= 0) return false;
+      if (typeof value === 'string' && value.trim() !== '') return false;
+      return true; // Se chegou aqui, é vazio
+    }
+
+    // ✅ Para notification, aceitar números > 0 e strings não vazias
+    if (type === 'notification') {
+      if (typeof value === 'number' && value > 0) return false;
+      if (typeof value === 'string' && value.trim() !== '') return false;
+      return true;
+    }
+
+    return true; // Default: vazio
+  }, [value, type]);
   const isClickable = onClick && !disabled;
 
   /**
@@ -54,11 +74,11 @@ const Badge: React.FC<BadgeProps> = ({
    */
   const getDisplayValue = (inputValue: BadgeValue): string | number => {
     if (inputValue === null || inputValue === undefined) return '';
-    
+
     if (typeof inputValue === 'number') {
       return inputValue > maxValue ? `${maxValue}+` : inputValue;
     }
-    
+
     return inputValue;
   };
 
@@ -70,10 +90,10 @@ const Badge: React.FC<BadgeProps> = ({
    */
   const handleClick = (event: React.MouseEvent<HTMLDivElement>): void => {
     if (disabled) return;
-    
+
     event.preventDefault();
     event.stopPropagation();
-    
+
     if (onClick) {
       onClick();
     }
@@ -85,11 +105,11 @@ const Badge: React.FC<BadgeProps> = ({
    */
   const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>): void => {
     if (disabled) return;
-    
+
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
       event.stopPropagation();
-      
+
       if (onClick) {
         onClick();
       }
@@ -97,29 +117,11 @@ const Badge: React.FC<BadgeProps> = ({
   };
 
   // ✅ Props comuns para acessibilidade
-  const commonProps = {
-    className: clsx(className, {
-      'zds-badge--disabled': disabled,
-      'zds-badge--clickable': isClickable,
-    }),
-    id,
-    onClick: isClickable ? handleClick : undefined,
-    onKeyDown: isClickable ? handleKeyDown : undefined,
-    role: isClickable ? 'button' : undefined,
-    tabIndex: isClickable ? 0 : undefined,
-    'aria-label': ariaLabel || (
-      type === 'notification' && !isEmpty 
-        ? `${displayValue} notificações` 
-        : undefined
-    ),
-    'aria-disabled': disabled,
-    'data-testid': 'badge',
-  };
 
   // ✅ Renderização do badge tipo notification
   if (type === 'notification') {
     return (
-      <div 
+      <div
         className={clsx('zds-badge-container')}
       >
         <div
@@ -131,7 +133,7 @@ const Badge: React.FC<BadgeProps> = ({
           data-testid="badge-notification"
         >
           {!isEmpty && (
-            <span 
+            <span
               className="zds-badge__value"
               aria-hidden={ariaLabel ? 'true' : 'false'}
             >
@@ -150,17 +152,17 @@ const Badge: React.FC<BadgeProps> = ({
 
   // ✅ Renderização do badge tipo status
   return (
-    <div 
+    <div
       className={clsx('zds-badge-container__status')}
     >
-      <div 
+      <div
         className={clsx('zds-badge__status', {
           'zds-badge__status--empty': isEmpty,
         })}
         data-testid="badge-status"
       >
         {!isEmpty && (
-          <span 
+          <span
             className="zds-badge__status-value"
             aria-hidden={ariaLabel ? 'true' : 'false'}
           >

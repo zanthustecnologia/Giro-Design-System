@@ -251,9 +251,8 @@ const Dropdown: React.FC<DropdownProps> = ({
     }
     if (!onSelectionChange) return;
     const selectedIds = Object.keys(selectedItems).filter(key => selectedItems[key]);
-    if (selectedIds.length > 0) {
       onSelectionChange(selectedIds);
-    }
+    
   }, [selectedItems, onSelectionChange])
 
 
