@@ -1,0 +1,451 @@
+.zds-table__container {
+
+  background-color: var(--color-neutral-high-default);
+  font-family: var(--font-family-primary);
+  // overflow: visible;
+
+}
+
+
+.zds-filter-drawer--content {
+  width: 400px;
+  display: flex;
+
+  .zds-filter-drawer--group {
+    display: flex;
+    gap: var(--spacing-16);
+  }
+}
+
+.zds-table__scroll-wrapper {
+  overflow-x: visible;
+
+
+  @media (max-width: 768px) {
+    overflow-x: scroll;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+.zds-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-16);
+
+  @media (max-width: 768px) {
+    min-width: 600px;
+  }
+}
+
+.zds-table__head {
+  background-color: var(--color-neutral-high-light);
+  text-align: left;
+  height: 44px;
+}
+
+.zds-table__th {
+  padding: var(--spacing-0);
+  vertical-align: middle;
+}
+
+.zds-table__th-content {
+  font-weight: var(--font-weight-bold);
+  color: var(--color-neutral-low-default);
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-0) var(--spacing-16);
+}
+
+.zds-table__td.text-center {
+  width: 0px !important;
+}
+
+.zds-table__body .zds-table__td {
+  padding: var(--spacing-8) var(--spacing-16);
+  border-top: var(--border-width-1) solid var(--color-neutral-high-dark);
+  color: var(--color-neutral-low-default);
+  height: 44px;
+  
+  // Ensure cells with dropdown menus have proper stacking context
+  &:has(.zds-menu__container),
+  &.has-dropdown {
+    position: relative;
+    z-index: auto;
+    overflow: visible;
+  }
+}
+
+.zds-table__empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-32);
+
+  &__content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-neutral-high-medium);
+    border-radius: var(--border-radius-circular);
+    width: 100px;
+    height: 100px;
+  }
+
+  svg {
+    width: 76px;
+    height: 76px;
+  }
+
+  & path {
+    fill: var(--color-brand-primary-default);
+  }
+
+  &__title {
+    margin: var(--spacing-32) var(--spacing-0) var(--spacing-16) var(--spacing-0);
+    font-size: var(--font-size-24);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-neutral-low-default);
+  }
+
+  &__caption {
+    font-size: var(--font-size-20);
+    font-weight: var(--font-weight-regular);
+    color: var(--color-neutral-low-default);
+  }
+}
+
+.zds-table__body .zds-table__row{
+  height: 64px;
+}
+.zds-table__body .zds-table__row:first-child .zds-table__td {
+  border-top: var(--border-width-none);
+  
+}
+.zds-table__empty-cell{
+  height: 500px;
+}
+
+.zds-table__body .zds-table__td:last-child {
+  justify-items: flex-end;
+}
+
+.zds-table__row:hover,
+.zds-table__row-hover {
+  background-color: var(--color-neutral-high-light);
+}
+
+// Ensure table rows with dropdown menus can display properly
+.zds-table__row:has(.zds-menu__container),
+.zds-table__row.has-dropdown {
+  position: relative;
+  z-index: auto;
+}
+
+// Menu containers within table cells need special handling
+.zds-table__td .zds-menu__container {
+  position: relative;
+  z-index: auto;
+  
+  .zds-menu__dropdown {
+    z-index: 2500; // Higher than table header z-index
+  }
+}
+.zds-table-header__search{
+  width: 360px;
+}
+.zds-table__pagination {
+  background: var(--color-neutral-high-light);
+  border-top: var(--border-width-1) solid var(--color-neutral-high-dark);
+  font-family: var(--font-family-primary);
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  font-size: var(--font-size-12);
+  color: var(--color-neutral-low-default);
+  border-radius: 0 0 var(--border-radius-8) var(--border-radius-8);
+  border-bottom: var(--border-width-1) solid var(--color-neutral-high-dark);
+  gap: var(--spacing-8);
+  height: 44px;
+}
+
+.zds-table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--color-neutral-high-light);
+  padding: var(--spacing-12) var(--spacing-24);
+  border-radius: var(--border-radius-8) var(--border-radius-8) var(--border-radius-none) var(--border-radius-none);
+  border-bottom: var(--border-width-1) solid var(--color-neutral-high-dark);
+  flex-wrap: wrap;
+  gap: var(--spacing-8);
+  position: relative;
+  z-index: 1500;
+  overflow: visible;
+
+  @media (max-width: 768px) {
+    align-items: stretch;
+    padding: var(--spacing-8) var(--spacing-16);
+  }
+
+  &__search {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-8);
+    flex: 1;
+
+    @media (max-width: 768px) {
+      width: 100%;
+      margin-bottom: var(--spacing-8);
+    }
+
+    input {
+      border: none;
+      padding: var(--spacing-8) var(--spacing-12);
+      border-radius: var(--border-radius-4);
+      width: 100%;
+      background: var(--color-neutral-high-default);
+    }
+  }
+
+  &__filters {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-8);
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 2000;
+
+    .filter-container {
+      position: relative;
+      z-index: 2001;
+    }
+  }
+
+  &__label {
+    font-weight: var(--font-weight-medium);
+    color: var(--color-neutral-low-medium);
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-14);
+    white-space: nowrap;
+
+    @media (max-width: 1023px) {
+      display: none;
+    }
+  }
+}
+
+.zds-table-header__filter-label {
+  font-weight: var(--font-weight-medium);
+  color: var(--color-neutral-low-default);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-16);
+  white-space: nowrap;
+}
+
+.zds-table-header__filters-content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--spacing-16);
+}
+
+.zds-table__pagination-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: var(--spacing-8);
+  padding: var(--spacing-8) var(--spacing-12);
+  font-size: var(--font-size-12);
+  border-top: var(--border-width-1) solid var(--color-neutral-high-dark);
+  background-color: var(--color-neutral-high-light);
+  color: var(--color-neutral-low-default);
+  border-radius: 0 0 var(--border-radius-8) var(--border-radius-8);
+
+  @media (max-width: 768px) {
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: var(--spacing-8) var(--spacing-16);
+    gap: var(--spacing-4);
+  }
+}
+
+.zds-table__pagination-select {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-8);
+  letter-spacing: 0.24px;
+
+  select {
+    padding: var(--spacing-4) var(--spacing-8);
+    border-radius: var(--border-radius-8);
+    border: var(--border-width-1) solid var(--color-neutral-high-dark);
+    background-color: var(--color-neutral-high-light);
+    font-family: var(--font-family-primary);
+  }
+}
+
+.zds-table__pagination-info {
+  display: flex;
+  gap: var(--spacing-8);
+  min-width: 60px;
+  text-align: center;
+  margin-left: var(--spacing-24);
+  font-family: var(--font-family-primary);
+
+  span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+.zds-table__pagination-controls {
+  display: flex;
+  gap: var(--spacing-16);
+  padding-right: var(--spacing-8);
+}
+
+.zds-filter-simple-dropdown {
+  position: absolute;
+  top: 100%;
+  left: var(--spacing-0);
+  z-index: 10000;
+  min-width: 200px;
+  max-height: 300px;
+  overflow-y: auto;
+  background: var(--color-neutral-high-default);
+  border: var(--border-width-1) solid var(--color-neutral-high-dark);
+  border-radius: var(--border-radius-8);
+  box-shadow: 0 var(--spacing-8) var(--spacing-24) rgba(17, 17, 25, 0.15);
+  padding: var(--spacing-4);
+  margin-top: var(--spacing-4);
+
+  &__item {
+    padding: var(--spacing-8) var(--spacing-12);
+    cursor: pointer;
+    border-radius: var(--border-radius-4);
+    transition: background-color 0.15s ease;
+    color: var(--color-neutral-low-default);
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-14);
+    line-height: 1.4;
+
+    &:hover {
+      background-color: var(--color-neutral-high-light);
+    }
+
+    &--selected {
+      background-color: var(--color-brand-primary-light);
+      color: var(--color-brand-primary-dark);
+      font-weight: var(--font-weight-medium);
+    }
+  }
+}
+
+
+
+.zds-filter-text-content {
+  padding: var(--spacing-16);
+  min-width: 250px;
+
+  .zds-filter-text-actions {
+    display: flex;
+    gap: var(--spacing-8);
+    margin-top: var(--spacing-16);
+    justify-content: flex-end;
+  }
+}
+
+.zds-filter-button-content {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
+}
+
+.zds-filter-drawer {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  &--content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-16);
+    padding: var(--spacing-24);
+    flex: 1;
+    overflow-y: auto;
+  }
+
+  &--actions {
+    display: flex;
+    gap: var(--spacing-12);
+    padding: var(--spacing-24);
+    border-top: var(--border-width-1) solid var(--color-neutral-high-dark);
+    margin-top: auto;
+    background-color: var(--color-neutral-high-default);
+
+    button {
+      flex: 1;
+    }
+  }
+}
+
+@media (max-width: 1023px) {
+  .zds-table-header {
+    align-items: center;
+    gap: var(--spacing-12);
+
+    &__search {
+      max-width: none;
+    }
+
+    &__filters {
+      justify-content: flex-end;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .zds-table-header {
+    padding: var(--spacing-12) var(--spacing-16);
+
+    &__filters {
+      justify-content: center;
+    }
+  }
+
+  .zds-filter-drawer--actions {
+    flex-direction: column;
+    gap: var(--spacing-8);
+
+    button {
+      width: 100%;
+    }
+  }
+}
+
+.zds-dropdown--filter {
+  margin-top: var(--spacing-48);
+  position: relative;
+  z-index: 10001;
+}
+
+// Específico para o Filter component no TableHeader com z-index mais alto
+.zds-table-header .filter-container {
+  .filter-dropdown {
+    z-index: 10000;
+    box-shadow: 0 var(--spacing-8) var(--spacing-24) rgba(17, 17, 25, 0.2);
+    transform: translateZ(0);
+    will-change: transform;
+  }
+}

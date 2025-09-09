@@ -4,6 +4,7 @@ import Search from '../Search';
 import { validateItems } from './DropdownUtils';
 import './Dropdown.scss';
 import Checkbox from '../Checkbox';
+import Button from '../Button';
 
 /**
  * Interface para definir um item do dropdown
@@ -23,12 +24,12 @@ export interface DropdownItem {
 
 /**
  * Tipos possíveis para o dropdown
- */
+*/
 export type DropdownType = 'text' | 'checkbox' | 'icon';
 
 /**
  * Interface para as propriedades do componente Dropdown
- */
+*/
 export interface DropdownProps {
   /** Classes CSS adicionais */
   className?: string;
@@ -53,6 +54,8 @@ export interface DropdownProps {
   width?: string | number;
   maxWidth?: string | number;
   minWidth?: string | number;
+  /** Define se o componente esta sendo usado para filtro */
+  filter?: boolean;
 }
 
 /**
@@ -80,7 +83,8 @@ const Dropdown: React.FC<DropdownProps> = ({
   initialItemsSelected = {},
   maxWidth,
   minWidth,
-  width
+  width,
+  filter = false
 }) => {
   // Estado para controlar itens selecionados
   const [selectedItems, setSelectedItems] = useState<SelectedItemsState>(() => {
@@ -104,8 +108,18 @@ const Dropdown: React.FC<DropdownProps> = ({
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [isSearchFocused, setIsSearchFocused] = useState<boolean>(false);
 
+  // Estados para modo filter
+  const [tempSelectedItems, setTempSelectedItems] = useState<SelectedItemsState>({});
+
 
   const searchVisible = applySearch || internalItems.length > 4;
+
+  // Sincronizar tempSelectedItems com selectedItems
+  useEffect(() => {
+    if (filter) {
+      setTempSelectedItems(selectedItems);
+    }
+  }, [selectedItems, filter]);
 
   const handleSearchChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;
@@ -172,24 +186,61 @@ const Dropdown: React.FC<DropdownProps> = ({
 
   const toggleSelection = useCallback((itemId: string, item: DropdownItem) => {
     if (item?.disabled) return;
+    if (filter) {
+      setTempSelectedItems((prevSelected) => {
+        let newSelected: SelectedItemsState;
+        if (type === 'checkbox') {
+          newSelected = {
+            ...prevSelected,
+            [itemId]: !prevSelected[itemId],
+          };
+        } else {
+          newSelected = prevSelected[itemId] ? {} : { [itemId]: true };
+        }
+        return newSelected;
+      });
+    } else {
 
-    setSelectedItems((prevSelected) => {
-      let newSelected: SelectedItemsState;
+      setSelectedItems((prevSelected) => {
+        let newSelected: SelectedItemsState;
+ 
+        if (type === 'checkbox') {
+          newSelected = {
+            ...prevSelected,
+            [itemId]: !prevSelected[itemId],
+          };
+        } else {
+          newSelected = prevSelected[itemId] ? {} : { [itemId]: true };
+        }
+        return newSelected;
+      });
+    }
+  }, [filter, type]);
 
-      if (type === 'checkbox') {
-        newSelected = {
-          ...prevSelected,
-          [itemId]: !prevSelected[itemId],
-        };
-      } else {
-        newSelected = prevSelected[itemId] ? {} : { [itemId]: true };
-      }
-      return newSelected;
-    });
-  }, [onSelectionChange, type]);
+  // Funções para modo filter
+  const handleApplyFilter = useCallback(() => {
+    if (!filter) return;
+    
+    // Aplicar as seleções temporárias
+    setSelectedItems(tempSelectedItems);
+    
+    // Chamar callback se existir
+    const selectedIds = Object.keys(tempSelectedItems).filter(key => tempSelectedItems[key]);
+    onSelectionChange?.(selectedIds);
+  }, [filter, tempSelectedItems, onSelectionChange]);
+
+  const handleClearFilter = useCallback(() => {
+    if (!filter) return;
+    
+    // Limpar tanto o estado temporário quanto o real
+    setTempSelectedItems({});
+    setSelectedItems({});
+    
+    // Chamar callback
+    onSelectionChange?.([]);
+  }, [filter, onSelectionChange]);
 
 
-  // Ignora o disparo inicial do onSelectionChange para evitar fechamento imediato do menu
   const isFirstRender = React.useRef(true);
   useEffect(() => {
     if (isFirstRender.current) {
@@ -198,9 +249,7 @@ const Dropdown: React.FC<DropdownProps> = ({
     }
     if (!onSelectionChange) return;
     const selectedIds = Object.keys(selectedItems).filter(key => selectedItems[key]);
-    if (selectedIds.length > 0) {
       onSelectionChange(selectedIds);
-    }
   }, [selectedItems, onSelectionChange])
 
 
@@ -223,6 +272,8 @@ const Dropdown: React.FC<DropdownProps> = ({
 
   const renderItemContent = useCallback((item: DropdownItem, index: number) => {
     const itemId = item.id || `dropdown-item-${index}`;
+    // Usar estado temporário no modo filter, estado real no modo normal
+    const currentSelection = filter ? tempSelectedItems : selectedItems;
 
     return (
       <div className={clsx('zds-dropdown__item-content', {
@@ -230,7 +281,7 @@ const Dropdown: React.FC<DropdownProps> = ({
       })}>
         {type === 'checkbox' && (
           <Checkbox
-            checked={!!selectedItems[itemId]}
+            checked={currentSelection[itemId]}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
               event.preventDefault();
               event.stopPropagation();
@@ -274,7 +325,7 @@ const Dropdown: React.FC<DropdownProps> = ({
         </div>
       </div>
     );
-  }, [type, selectedItems, toggleSelection, handleItemClick, showSubText]);
+  }, [type, selectedItems, tempSelectedItems, filter, toggleSelection, handleItemClick, showSubText]);
 
   const isMultiSelectable = useMemo(() => {
     return type === 'checkbox';
@@ -399,35 +450,38 @@ const Dropdown: React.FC<DropdownProps> = ({
         {filteredItems.length > 0 ? (
           filteredItems.map((item, index) => {
             const itemId = generateItemId(item, index);
+            const currentSelection = filter ? tempSelectedItems : selectedItems;
             return (
-              <li
+              <>
+                <li
                   key={itemId}
                   role="option"
-                  aria-selected={!!selectedItems[itemId]}
+                  aria-selected={!!currentSelection[itemId]}
                   aria-labelledby={`dropdown-item-${itemId}-label`}
                   aria-describedby={item.subText ? `dropdown-item-${itemId}-desc` : undefined}
                   className={clsx('zds-dropdown__item', {
-                  [`zds-dropdown__item--${type}`]: type,
-                  'zds-dropdown__item--selected': selectedItems[itemId],
-                  'zds-dropdown__item--focused': focusedIndex === index,
-                  'zds-dropdown__item--disabled': item.disabled
-                })}
-                tabIndex={focusedIndex === index ? 0 : -1}
-                onFocus={() => setFocusedIndex(index)}
-                onClick={(event) => {
-                  event.stopPropagation()
-                  handleItemClick(event, itemId, item)
-                
-                }}
-                onMouseDown={(e: React.MouseEvent<HTMLLIElement>) => {
-                  if (!item.disabled) {
-                    e.preventDefault();
-                    setFocusedIndex(index);
-                  }
-                }}
-              >
-                {renderItemContent(item, index)}
-              </li>
+                    [`zds-dropdown__item--${type}`]: type,
+                    'zds-dropdown__item--selected': currentSelection[itemId],
+                    'zds-dropdown__item--focused': focusedIndex === index,
+                    'zds-dropdown__item--disabled': item.disabled
+                  })}
+                  tabIndex={focusedIndex === index ? 0 : -1}
+                  onFocus={() => setFocusedIndex(index)}
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    handleItemClick(event, itemId, item);
+
+                  }}
+                  onMouseDown={(e: React.MouseEvent<HTMLLIElement>) => {
+                    if (!item.disabled) {
+                      e.preventDefault();
+                      setFocusedIndex(index);
+                    }
+                  }}
+                >
+                  {renderItemContent(item, index)}
+                </li>
+              </>
             );
           })
         ) : (
@@ -438,6 +492,23 @@ const Dropdown: React.FC<DropdownProps> = ({
           >
             Nenhum item corresponde à sua busca
           </li>
+        )}
+        {filter && (
+          <div className='zds-dropdown__container-filter'>
+            <Button 
+              size='sm' 
+              variant='outlined'
+              onClick={handleClearFilter}
+            >
+              Limpar
+            </Button>
+            <Button 
+              size='sm'
+              onClick={handleApplyFilter}
+            >
+              Aplicar
+            </Button>
+          </div>
         )}
       </ul>
     </div>
