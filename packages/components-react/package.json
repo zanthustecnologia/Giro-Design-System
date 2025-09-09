@@ -1,6 +1,6 @@
 {
   "name": "@zanthus/components-react",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "private": false,
   "description": "Biblioteca de componentes React do Zanthus DS",
   "main": "dist/index.cjs",
