@@ -8,7 +8,8 @@ const config = {
   // Onde o SB vai procurar suas stories
   stories: [
     '../stories/**/*.mdx',
-    '../../../packages/components-react/src/**/*.stories.@(js|jsx|ts|tsx|mdx)'
+    '../../../packages/ui/storybook/**/*.stories.@(js|jsx|ts|tsx|mdx)',
+    '../../../packages/components-react/src/**/*.stories.@(js|jsx|ts|tsx|mdx)',
   ],
 
   // Addons recomendados

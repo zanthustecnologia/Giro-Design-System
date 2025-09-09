@@ -1,0 +1,31 @@
+@use "sass:map";
+@use "./breakpoints" as *;
+
+// --------------------------------------
+// Default Gaps por breakpoint
+// --------------------------------------
+$gap-defaults: (
+  base: 16px,  // mobile
+  sm: 24px,    // small
+  md: 32px,    // medium
+  lg: 40px,    // large
+  xl: 48px,    // extra large
+  2xl: 56px    // 2xl
+) !default;
+
+// --------------------------------------
+// Gap default aplicado em grid/flex
+// --------------------------------------
+.grid,
+.flex {
+  gap: map.get($gap-defaults, base);
+}
+
+// Responsivo vem depois
+@each $bp, $gap in $gap-defaults {
+  @if $bp != base {
+    @include utility($bp, "gap-default") {
+      gap: $gap;
+    }
+  }
+}
