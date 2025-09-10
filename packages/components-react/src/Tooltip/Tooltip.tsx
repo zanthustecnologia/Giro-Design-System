@@ -54,13 +54,14 @@ const Tooltip: React.FC<TooltipProps> = ({ id, text, children, position = 'top-r
   )
   return (
     <div
-      className='zds-tooltip__wrapper'
+      className={clsx('zds-tooltip__wrapper')}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onFocus={handleMouseEnter}
       onBlur={handleMouseLeave}
       onKeyDown={handleKeyDown}
       tabIndex={0}
+      aria-describedby={visible ? tooltipId : undefined}
     >
       {children}
       {visible && (
@@ -69,6 +70,7 @@ const Tooltip: React.FC<TooltipProps> = ({ id, text, children, position = 'top-r
           className={tooltipClass}
           role='tooltip'
           id={tooltipId}
+          aria-describedby={tooltipId}
           aria-hidden={!visible}
         >
           {text}
