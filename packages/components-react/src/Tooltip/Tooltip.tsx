@@ -1,17 +1,19 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useId, useRef, useState } from 'react';
 import './tooltip.scss';
 import clsx from 'clsx';
 
-interface TooltipProps {
+export interface TooltipProps {
+  id?: string;
   text: React.ReactNode;
   position?: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left' | 'left' | 'right';
   children: React.ReactNode;
 }
 
-const Tooltip: React.FC<TooltipProps> = ({ text, children, position = 'top-right' }) => {
+const Tooltip: React.FC<TooltipProps> = ({ id, text, children, position = 'top-right' }) => {
   const [visible, setVisible] = useState(false);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const tooltipRef = useRef<HTMLDivElement | null>(null);
+  const tooltipId = id || useId();
 
   const handleMouseEnter = () => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
@@ -25,8 +27,17 @@ const Tooltip: React.FC<TooltipProps> = ({ text, children, position = 'top-right
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Escape') {
-      setVisible(false);
+    switch (e.key) {
+      case 'Escape':
+        setVisible(false);
+        break;
+      case 'Enter':
+      case ' ': 
+        e.preventDefault();
+        setVisible(!visible);
+        break;
+      default:
+        break;
     }
   };
 
@@ -37,7 +48,10 @@ const Tooltip: React.FC<TooltipProps> = ({ text, children, position = 'top-right
       }
     };
   }, []);
-
+  const tooltipClass = clsx(
+    'zds-tooltip__content',
+    `zds-tooltip__${position}`,
+  )
   return (
     <div
       className='zds-tooltip__wrapper'
@@ -52,8 +66,10 @@ const Tooltip: React.FC<TooltipProps> = ({ text, children, position = 'top-right
       {visible && (
         <div
           ref={tooltipRef}
-          className={`zds-tooltip__content zds-tooltip__${position}`}
+          className={tooltipClass}
           role='tooltip'
+          id={tooltipId}
+          aria-hidden={!visible}
         >
           {text}
         </div>
