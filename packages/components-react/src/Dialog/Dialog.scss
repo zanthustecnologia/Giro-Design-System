@@ -20,11 +20,12 @@
 
 // Dialog container
 .zds-dialog {
-  background: var(--color-neutral-high-default); 
+  background: var(--color-neutral-high-default);
   border-radius: var(--border-radius-16);
-  border-width: var(--border-width-1);
+  border: var(--border-width-1) solid var(--color-neutral-high-dark);
   padding: var(--spacing-24);
   width: 400px;
+  max-width: calc(100vw - var(--spacing-32));
   display: flex;
   flex-direction: column;
   box-sizing: border-box;

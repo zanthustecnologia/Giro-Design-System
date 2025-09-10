@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useId, useCallback, ReactNode } from 'react';
 import './Dialog.scss';
 import Button from '../Button/Button';
 import clsx from 'clsx';
+import { useFocusTrap } from './utils/DialogUtils';
 
 export interface DialogProps {
 
@@ -48,8 +49,9 @@ const Dialog: React.FC<DialogProps> = ({
 }) => {
   const dialogRef = useRef<HTMLDivElement>(null);
   const generatedId = useId();
-  const id = propId || generatedId; 
+  const id = propId || generatedId;
 
+  const containerRef = useFocusTrap(show);
 
   const handleConfirm = useCallback((): void => {
     if (fnConfirm) fnConfirm();
@@ -83,14 +85,14 @@ const Dialog: React.FC<DialogProps> = ({
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [show, handleCancel]); 
+  }, [show, handleCancel]);
   if (!show) return null;
 
   return (
     <>
       {/* Backdrop/Overlay */}
       <div className="zds-dialog__overlay" />
-      
+
       {/* Wrapper do Dialog */}
       <div className="zds-dialog__wrapper">
         <div
@@ -98,21 +100,21 @@ const Dialog: React.FC<DialogProps> = ({
           role="dialog"
           aria-modal="true"
           id={id}
-          aria-labelledby={`zds-dialog__title-${id}`}
-          aria-describedby={`zds-dialog__desc-${id}`}
+          aria-labelledby={`zds-dialog-title-${id}`}
+          aria-describedby={`zds-dialog-desc-${id}`}
           tabIndex={-1}
-          ref={dialogRef}
+          ref={containerRef}
         >
           {/* Título */}
           <div id={`zds-dialog-title-${id}`} className="zds-dialog__title">
             {title}
           </div>
-          
+
           {/* Conteúdo/Texto */}
           <div id={`zds-dialog-desc-${id}`} className="zds-dialog__text">
             {text}
           </div>
-          
+
           {/* Ações/Botões */}
           <div className="zds-dialog__actions">
             {!!(textCancel && textCancel.trim()) && (
