@@ -1,0 +1,11 @@
+{
+  "name": "@zanthus/ui",
+  "version": "1.0.0",
+  "main": "dist/ui.css",
+  "scripts": {
+    "build": "sass src/index.scss dist/ui.css --no-source-map"
+  },
+  "devDependencies": {
+    "sass": "^1.77.0"
+  }
+}
