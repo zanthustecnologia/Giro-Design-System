@@ -164,22 +164,63 @@ const Quantity: React.FC<QuantityProps> = ({
    * Permite alterações de valor via teclado (setas direita/esquerda)
    */
   const handleInputKeyDown = useCallback(
-    (e: React.KeyboardEvent<HTMLInputElement>) => {
-      if (disabled) return;
+  (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (disabled) return;
 
-      if (e.key === 'ArrowRight') {
+    switch (e.key) {
+      case 'ArrowUp':
+      case 'ArrowRight':
         e.preventDefault();
         increment();
-      }
-      if (e.key === 'ArrowLeft') {
+        break;
+        
+      case 'ArrowDown':
+      case 'ArrowLeft':
         e.preventDefault();
         decrement();
-      }
-    },
-    [disabled, increment, decrement]
-  );
+        break;
+        
+      case 'Enter':
+        e.preventDefault();
+        if (inputRef.current) {
+          inputRef.current.blur();
+        }
+        break;
+        
+      case 'Escape':
+        e.preventDefault();
+        if (inputRef.current) {
+          setInputValue(decimal ? computedValue.toFixed(decimalPlaces) : String(computedValue));
+          inputRef.current.blur();
+        }
+        break;
+        
+      case 'Home':
+        e.preventDefault();
+        const minValue = 0;
+        if (!isControlled) {
+          setValue(minValue);
+          setInputValue(decimal ? minValue.toFixed(decimalPlaces) : String(minValue));
+        }
+        onChange?.(minValue);
+        break;
+        
+      case 'End':
+        if (!decimal) {
+          e.preventDefault();
+          const maxValue = 9999;
+          if (!isControlled) {
+            setValue(maxValue);
+            setInputValue(String(maxValue));
+          }
+          onChange?.(maxValue);
+        }
+        break;
+    }
+  },
+  [disabled, increment, decrement, decimal, decimalPlaces, isControlled, onChange, computedValue]
+);
 
-  // Gera ID único se não fornecido
   const uniqueId = useId();
   const inputId = id || uniqueId;
 
@@ -210,8 +251,9 @@ const Quantity: React.FC<QuantityProps> = ({
         aria-valuenow={computedValue}
         aria-valuemin={0}
         aria-valuemax={decimal ? undefined : 9999}
-        aria-describedby={`${inputId}-help`}
         disabled={disabled}
+         inputMode={decimal ? 'decimal' : 'numeric'}
+
       />
       <Button 
         variant='outlined' 
