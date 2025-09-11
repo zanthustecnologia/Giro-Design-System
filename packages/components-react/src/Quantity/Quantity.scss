@@ -10,6 +10,8 @@
     text-align: center;
     color: var(--color-neutral-low-default);
     font-family: var(--font-family-primary);
+    padding-right: 16px;
+    padding-left: 16px;
     
     &::placeholder {
       display: flex;
