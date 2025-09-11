@@ -2,6 +2,10 @@
   "name": "@zanthus/ui",
   "version": "1.0.0",
   "main": "dist/ui.css",
+    "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "scripts": {
     "build": "sass src/index.scss dist/ui.css --no-source-map"
   },
