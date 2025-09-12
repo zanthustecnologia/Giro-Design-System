@@ -7,6 +7,7 @@ export { default as Checkbox } from './Checkbox';
 export { default as Chips } from './Chips';
 export {default as Container} from './Container';
 export { default as DatePicker } from './DatePicker'
+export {default as Dialog} from './Dialog';
 export {default as Filter} from './Filter';
 export { default as ListItem } from './ListItem';
 export { default as Menu } from './Menu';
