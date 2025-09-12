@@ -21,9 +21,7 @@ export interface QuantityProps {
   size?: 'lg' | 'sm';
   /** Define o número de casas decimais quando decimal for true */
   decimalPlaces?: number;
-  /** Valor do incremento/decremento */
   step?: number;
-  /** ID personalizado para o input */
   id?: string;
   /** ClassName adicional para customização */
   className?: string;
@@ -57,16 +55,24 @@ const Quantity: React.FC<QuantityProps> = ({
   );
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Calcula o valor do step baseado nas props
   const stepValue = step !== undefined ? step : decimal ? Math.pow(10, -decimalPlaces) : 1;
 
-  // Valores computados com useMemo para otimização
   const computedValue = useMemo(() => (isControlled ? controlledValue! : value), [isControlled, controlledValue, value]);
   const isMinValue = useMemo(() => computedValue === 0, [computedValue]);
 
-  /**
-   * Sincroniza estado interno com valor controlado externamente
-   */
+  const validateProps = (decimalPlaces?: number, step?: number) => {
+    if (decimalPlaces !== undefined && (decimalPlaces < 1 || decimalPlaces > 10)) {
+      console.warn('decimalPlaces deve estar entre 1 e 10');
+    }
+    if (step !== undefined && step <= 0) {
+      console.warn('step deve ser maior que 0');
+    }
+  };
+
+  useEffect(() => {
+    validateProps(decimalPlaces, step);
+  }, []);
+
   useEffect(() => {
     if (isControlled && controlledValue !== undefined) {
       setValue(controlledValue);
@@ -74,10 +80,6 @@ const Quantity: React.FC<QuantityProps> = ({
     }
   }, [controlledValue, decimal, decimalPlaces, isControlled]);
 
-  /**
-   * Incrementa o valor atual
-   * Atualiza estado interno se não controlado e chama callback onChange
-   */
   const increment = useCallback(() => {
     if (disabled) return;
 
@@ -91,10 +93,6 @@ const Quantity: React.FC<QuantityProps> = ({
     onChange?.(newValue);
   }, [disabled, computedValue, stepValue, decimal, decimalPlaces, isControlled, onChange]);
 
-  /**
-   * Decrementa o valor atual
-   * Garante que o valor não seja menor que 0
-   */
   const decrement = useCallback(() => {
     if (disabled) return;
 
@@ -108,74 +106,65 @@ const Quantity: React.FC<QuantityProps> = ({
     onChange?.(newValue);
   }, [disabled, computedValue, stepValue, decimal, decimalPlaces, isControlled, onChange]);
 
-  /**
-   * Manipula mudanças no input
-   * Valida entrada baseada no tipo (decimal/inteiro) e aplica máscaras
-   */
-  // ...existing code...
+  const filterInput = useCallback((inputValue: string): string => {
+    if (decimal) {
+      let filtered = inputValue.replace(/[^\d.]/g, '');
+
+      const parts = filtered.split('.');
+      if (parts.length > 2) {
+        filtered = parts[0] + '.' + parts.slice(1).join('');
+      }
+
+      if (filtered.length > 1 && filtered.startsWith('0') && !filtered.startsWith('0.')) {
+        filtered = filtered.replace(/^0+/, '');
+      }
+
+      return filtered;
+    } else {
+      let filtered = inputValue.replace(/[^\d]/g, '');
+
+      if (filtered.length > 1 && filtered.startsWith('0')) {
+        filtered = filtered.replace(/^0+/, '');
+      }
+
+      return filtered || '0'; // Se ficar vazio, retorna '0'
+    }
+  }, [decimal]);
   const handleInputChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     if (disabled) return;
 
-    let newValue = event.target.value;
-    
+    const rawValue = event.target.value;
+
+    // ✅ APLICAR: Filtro em tempo real
+    const filteredValue = filterInput(rawValue);
+
+    // ✅ SEMPRE: Atualizar input com valor filtrado
+    setInputValue(filteredValue);
+
+    // ✅ PROCESSAR: Apenas valores válidos
+    if (filteredValue === '' || filteredValue === '.') {
+      if (!isControlled) {
+        setValue(0);
+      }
+      onChange?.(0);
+      return;
+    }
+
     if (decimal) {
-      // Regex que permite números decimais
-      const decimalRegex = /^[0-9]*\.?[0-9]*$/;
-
-      if (!decimalRegex.test(newValue)) {
-        return; 
+      // Estados intermediários permitidos
+      if (filteredValue.endsWith('.')) {
+        return; // "5." é válido, mas não processa ainda
       }
 
-      // Verifica se há mais de um ponto decimal
-      const dotCount = (newValue.match(/\./g) || []).length;
-      if (dotCount > 1) {
-        return; 
-      }
-
-      // Atualiza o valor do input sempre
-      setInputValue(newValue);
-
-      // Se o valor está vazio ou é apenas um ponto, define como 0
-      if (newValue === '' || newValue === '.') {
-        if (!isControlled) {
-          setValue(0);
-        }
-        onChange?.(0);
-        return;
-      }
-      
-      // Se termina com ponto, não tenta fazer parse ainda (permite digitação)
-      if (newValue.endsWith('.')) {
-        return;
-      }
-  
-      // Faz o parse do valor decimal
-      const parsedValue = parseFloat(newValue);
+      const parsedValue = parseFloat(filteredValue);
       if (!isNaN(parsedValue)) {
         if (!isControlled) {
           setValue(parsedValue);
         }
         onChange?.(parsedValue);
       }
-
     } else {
-      // Modo inteiro
-      const integerRegex = /^[0-9]*$/;
-      if (!integerRegex.test(newValue)) {
-        return;
-      }
-
-      setInputValue(newValue);
-
-      if (newValue.trim() === '') {
-        if (!isControlled) {
-          setValue(0);
-        }
-        onChange?.(0);
-        return;
-      }
-
-      const parsedValue = parseInt(newValue, 10);
+      const parsedValue = parseInt(filteredValue, 10);
       if (!isNaN(parsedValue)) {
         const validValue = Math.min(parsedValue, 9999);
         if (!isControlled) {
@@ -186,27 +175,68 @@ const Quantity: React.FC<QuantityProps> = ({
     }
   }, [disabled, decimal, isControlled, onChange]);
 
-  /**
-   * Manipula o evento de blur do input
-   * Normaliza valores decimais que terminam com ponto
-   */
-  const handleBlur = useCallback(() => {
-    if (disabled || !decimal) return;
 
-    // Se o valor termina com ponto, remove o ponto
-    if (inputValue.endsWith('.')) {
-      const newValue = inputValue.slice(0, -1);
-      setInputValue(newValue);
-      
-      const parsedValue = newValue === '' ? 0 : parseFloat(newValue);
-      if (!isNaN(parsedValue)) {
-        if (!isControlled) {
-          setValue(parsedValue);
+  const handleBlur = useCallback(() => {
+    if (disabled) return;
+
+    const currentValue = inputValue.trim();
+
+    if (decimal) {
+      if (currentValue === '' || currentValue === '.') {
+        const resetValue = computedValue;
+        setInputValue(resetValue.toFixed(decimalPlaces));
+        return;
+      }
+
+      if (currentValue.endsWith('.')) {
+        const baseValue = parseFloat(currentValue.slice(0, -1));
+        if (!isNaN(baseValue)) {
+          const formattedValue = baseValue.toFixed(decimalPlaces);
+          setInputValue(formattedValue);
+
+          if (!isControlled) {
+            setValue(baseValue);
+          }
+          onChange?.(baseValue);
         }
-        onChange?.(parsedValue);
+        return;
+      }
+
+      const parsedValue = parseFloat(currentValue);
+      if (!isNaN(parsedValue)) {
+        const normalizedValue = Math.max(0, parsedValue);
+        const formattedValue = normalizedValue.toFixed(decimalPlaces);
+        setInputValue(formattedValue);
+
+        if (!isControlled) {
+          setValue(normalizedValue);
+        }
+        onChange?.(normalizedValue);
+      } else {
+
+        setInputValue(computedValue.toFixed(decimalPlaces));
+      }
+    } else {
+
+      if (currentValue === '') {
+        setInputValue(String(computedValue));
+        return;
+      }
+
+      const parsedValue = parseInt(currentValue, 10);
+      if (isNaN(parsedValue)) {
+        setInputValue(String(computedValue));
+      } else {
+        const normalizedValue = Math.max(0, Math.min(parsedValue, 9999));
+        setInputValue(String(normalizedValue));
+        if (!isControlled) {
+          setValue(normalizedValue);
+        }
+        onChange?.(normalizedValue);
       }
     }
-  }, [disabled, decimal, inputValue, isControlled, onChange]);
+  }, [disabled, decimal, inputValue, decimalPlaces, computedValue, isControlled, onChange]);
+
 
   const handleInputKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -214,13 +244,11 @@ const Quantity: React.FC<QuantityProps> = ({
 
       switch (e.key) {
         case 'ArrowUp':
-        case 'ArrowRight':
           e.preventDefault();
           increment();
           break;
 
         case 'ArrowDown':
-        case 'ArrowLeft':
           e.preventDefault();
           decrement();
           break;
