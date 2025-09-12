@@ -11,7 +11,7 @@ export interface DrawerProps {
   /** Conteúdo do Drawer */
   children?: ReactNode;
   /** Largura do Drawer (use design tokens quando possível) */
-  pWidth?: string;
+  customWidth?: string;
   /** Callback quando o Drawer é fechado */
   onClose: () => void;
   /** Título do Drawer */
@@ -19,8 +19,7 @@ export interface DrawerProps {
   /** Tipo do Drawer (não utilizado atualmente) */
   type?: DrawerType;
   /** Remove padding do conteúdo */
-  noPadding?: boolean;
-  /** Determina se o drawer está aberto */
+  
   isOpen: boolean;
   /** Callback quando o Drawer é aberto */
   onOpen?: () => void;
@@ -66,18 +65,14 @@ export interface DrawerExampleProps {
  */
 const Drawer: React.FC<DrawerProps> = ({
   children,
-  pWidth = '0px',
+  customWidth = '0px',
   onClose,
   title = 'Título',
-  type = 'select',
-  noPadding = false,
   isOpen = false,
   onOpen,
   className = '',
   id,
   disabled = false,
-  zIndex = 21,
-  overlayZIndex = 20,
   onOverlayClick,
   closeOnOverlayClick = true,
   closeOnEscape = true,
@@ -138,16 +133,12 @@ const Drawer: React.FC<DrawerProps> = ({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, internalClose, closeOnEscape]);
 
-  /**
-   * Gerencia estados visuais baseado no prop isOpen
-   * Controla width, opacity e z-index do drawer e overlay
-   */
+
   useEffect(() => {
     if (isOpen && !disabled) {
-      setWidth(pWidth);
+      setWidth(customWidth);
       setOpacity('1.0');
-      setIndexDrawer(zIndex.toString());
-      setIndexDrawerShadow(overlayZIndex.toString());
+
       
       // Executa callback de abertura se fornecido
       if (onOpen) {
@@ -166,11 +157,10 @@ const Drawer: React.FC<DrawerProps> = ({
       document.body.style.overflow = 'unset';
     }
 
-    // Cleanup: restaura scroll do body quando componente é desmontado
     return () => {
       document.body.style.overflow = 'unset';
     };
-  }, [isOpen, pWidth, onOpen, disabled, zIndex, overlayZIndex]);
+  }, [isOpen, customWidth, onOpen, disabled]);
 
   /**
    * Previne propagação de eventos no drawer
@@ -194,8 +184,8 @@ const Drawer: React.FC<DrawerProps> = ({
     <>
       {/* Overlay/Shadow */}
       <div
-        className={clsx('zds-custom-drawer-shadow', {
-          'zds-custom-drawer-shadow--visible': opacity !== '0',
+        className={clsx('zds-custom__drawer-shadow', {
+          'zds-custom__drawer-shadow--visible': opacity !== '0',
         })}
         style={{
           opacity: opacity,
@@ -211,11 +201,10 @@ const Drawer: React.FC<DrawerProps> = ({
       {/* Drawer Panel */}
       <div
         className={clsx(
-          'zds-custom-drawer-sidebar',
+          'zds-custom__drawer-sidebar',
           {
-            'zds-custom-drawer-sidebar--open': isOpen,
-            'zds-custom-drawer-sidebar--no-padding': noPadding,
-            'zds-custom-drawer-sidebar--disabled': disabled,
+            'zds-custom__drawer-sidebar--open': isOpen,
+            'zds-custom__drawer-sidebar--disabled': disabled,
           },
           className
         )}
@@ -232,101 +221,28 @@ const Drawer: React.FC<DrawerProps> = ({
         data-testid="drawer-panel"
         id={id}
       >
-        {/* Header com título e botão de fechar */}
-        <div className={clsx('zds-title-close')}>
+     
+        <div className={clsx('zds-drawer__title-close')}>
           <div 
-            className={clsx('zds-title')} 
+            className={clsx('zds-drawer__title')} 
             id={id ? `${id}-title` : 'drawer-title'}
           >
             {title}
           </div>
-          <div 
-            className={clsx('close')} 
+          <Button 
             onClick={handleCloseClick}
-            role="button"
-            tabIndex={0}
-            aria-label="Fechar drawer"
-            onKeyDown={(event: React.KeyboardEvent<HTMLDivElement>) => {
-              if (event.key === 'Enter' || event.key === ' ') {
-                event.preventDefault();
-                internalClose();
-              }
-            }}
-            data-testid="drawer-close-button"
-          >
-            <Dismiss16Regular width={16} height={16} />
-          </div>
+            variant='outlined'
+            icon={<Dismiss16Regular />}
+            size='lg'
+          />
         </div>
-
-        {/* Conteúdo do drawer */}
         <div 
-          className={clsx('zds-children', 'flex-fill')} 
-          style={{ padding: noPadding ? '0' : '0 24px' }}
+          className={clsx('zds-drawer__children')} 
           data-testid="drawer-content"
         >
           {children}
         </div>
       </div>
-    </>
-  );
-};
-
-/**
- * Componente de exemplo que demonstra o uso do Drawer
- * Implementa um botão que abre o drawer quando clicado
- */
-export const DrawerExample: React.FC<DrawerExampleProps> = ({
-  text = 'Abrir Drawer',
-  icon,
-  children,
-  onOpen,
-  className = '',
-  variant = 'outlined',
-  disabled = false,
-}) => {
-  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
-
-  /**
-   * Manipula abertura do drawer
-   * Executa callback personalizado se fornecido
-   */
-  const handleOpenDrawer = (): void => {
-    if (disabled) return;
-    
-    setIsDrawerOpen(true);
-    if (onOpen) {
-      onOpen();
-    }
-  };
-
-  /**
-   * Manipula fechamento do drawer
-   */
-  const handleCloseDrawer = (): void => {
-    setIsDrawerOpen(false);
-  };
-
-  return (
-    <>
-      <Button 
-        variant={variant} 
-        onClick={handleOpenDrawer} 
-        icon={icon}
-        disabled={disabled}
-        data-testid="drawer-trigger-button"
-      >
-        {text}
-      </Button>
-      <Drawer 
-        isOpen={isDrawerOpen} 
-        onOpen={handleOpenDrawer} 
-        onClose={handleCloseDrawer} 
-        className={className} 
-        title="Título do Drawer"
-        disabled={disabled}
-      >
-        {children}
-      </Drawer>
     </>
   );
 };

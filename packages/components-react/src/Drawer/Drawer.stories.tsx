@@ -1,4 +1,4 @@
-import React, { useState, ReactNode } from 'react';
+import React, { useState, ReactNode, JSX } from 'react';
 import type { Meta, StoryFn } from '@storybook/react';
 import Drawer from './Drawer';
 import type { DrawerProps } from './Drawer';
@@ -13,7 +13,7 @@ interface DrawerStoryProps extends DrawerProps {
 interface DrawerExampleProps {
   children?: ReactNode;
   title?: string;
-  pWidth?: string;
+  customWidth?: string;
   noPadding?: boolean;
   className?: string;
 }
@@ -36,20 +36,12 @@ const meta: Meta<typeof Drawer> = {
         defaultValue: { summary: 'Título' },
       },
     },
-    pWidth: { 
+    customWidth: { 
       control: 'text',
       defaultValue: '400px',
       table: {
         type: { summary: 'string' },
         defaultValue: { summary: '0px' },
-      },
-    },
-    noPadding: { 
-      control: 'boolean',
-      defaultValue: false,
-      table: {
-        type: { summary: 'boolean' },
-        defaultValue: { summary: 'false' },
       },
     },
     children: { 
@@ -78,7 +70,7 @@ export default meta;
 const DrawerExample: React.FC<DrawerExampleProps> = ({ 
   children, 
   title = 'Título do Drawer',
-  pWidth = '400px',
+  customWidth = '400px',
   noPadding = false,
   className = '',
 }) => {
@@ -116,14 +108,12 @@ const DrawerExample: React.FC<DrawerExampleProps> = ({
         onOpen={handleOpenDrawer} 
         onClose={handleCloseDrawer} 
         title={title}
-        pWidth={pWidth}
-        noPadding={noPadding}
+        customWidth={customWidth}
         className={className}
       >
         {children || (
-          <div style={{ padding: '16px' }}>
+  
             <h3>Titulo</h3>
-          </div>
         )}
       </Drawer>
     </>
@@ -170,7 +160,7 @@ export const NoPadding: StoryFn<DrawerStoryProps> = (args): JSX.Element => (
  * Demonstra diferentes tamanhos de drawer
  */
 export const CustomWidth: StoryFn<DrawerStoryProps> = (args): JSX.Element => (
-  <DrawerExample {...args} pWidth="600px">
+  <DrawerExample {...args} customWidth="600px">
     <div style={{ padding: '24px' }}>
       <h2>Drawer Mais Largo</h2>
       <p>Este drawer possui 600px de largura.</p>
@@ -231,7 +221,7 @@ export const WithForm: StoryFn<DrawerStoryProps> = (args): JSX.Element => {
       <form onSubmit={handleSubmit} style={{ padding: '24px' }}>
         <h3>Cadastro de Usuário</h3>
         
-        <div style={{ marginBottom: '16px' }}>
+        <div>
           <label htmlFor="name" style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold' }}>
             Nome:
           </label>
@@ -355,8 +345,7 @@ WithForm.parameters = {
 // ✅ Args padrão para todas as stories
 Default.args = {
   title: 'Drawer Interativo',
-  pWidth: '400px',
-  noPadding: false,
+  customWidth: '400px',
   closeOnOverlayClick: true,
   closeOnEscape: true,
 };
@@ -365,17 +354,16 @@ Default.args = {
 NoPadding.args = {
   ...Default.args,
   title: 'Sem Padding',
-  noPadding: true,
 };
 
 CustomWidth.args = {
   ...Default.args,
   title: 'Largura Customizada',
-  pWidth: '600px',
+  customWidth: '600px',
 };
 
 WithForm.args = {
   ...Default.args,
   title: 'Formulário de Cadastro',
-  pWidth: '500px',
+  customWidth: '500px',
 };
