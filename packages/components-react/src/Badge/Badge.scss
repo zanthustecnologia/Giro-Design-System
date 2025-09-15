@@ -11,9 +11,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 100px;
+  border-radius: var(--border-radius-pill);
   color: var(--color-neutral-high-light);
-  padding: 0 var(--spacing-4);
+  // padding: 0 var(--spacing-4);
   background-color: var(--color-feedback-alert-default);
   font-family: var(--font-family-primary);
   width: 16px;

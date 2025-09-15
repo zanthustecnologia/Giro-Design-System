@@ -78,7 +78,7 @@ const Badge: React.FC<BadgeProps> = ({
       >
         <div
           id={componentId}
-          className={clsx('zds-badge', {
+          className={clsx('zds-badge', {            
             [className]: className
           })}
           data-testid="badge-notification"
