@@ -40,7 +40,7 @@ const meta: Meta<typeof Badge> = {
     ),
   ],
   argTypes: {
-    value: {
+    badgeValue: {
       control: {
         type: 'number',
       },
@@ -117,7 +117,7 @@ const Template: StoryFn<BadgeStoryProps> = (args): ReactElement => (
  */
 export const Default: StoryFn<BadgeStoryProps> = Template.bind({});
 Default.args = {
-  value: 0,
+  badgeValue: 1,
   type: 'notification',
 };
 
@@ -134,7 +134,7 @@ Default.parameters = {
  */
 export const WithoutValue: StoryFn<BadgeStoryProps> = Template.bind({});
 WithoutValue.args = {
-  value: null,
+  badgeValue: 10,
   type: 'notification',
 };
 
@@ -152,7 +152,7 @@ WithoutValue.parameters = {
 const statusTemplate: StoryFn<StatusStoryProps> = (args): ReactElement => (
   <Button variant={args.variant || 'outlined'}>
     Filtro
-    <Badge type={args.type} value={args.value} />
+    <Badge type={args.type} badgeValue={args.value} />
   </Button>
 );
 
