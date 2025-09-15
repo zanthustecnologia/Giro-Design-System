@@ -315,6 +315,24 @@
   padding-right: var(--spacing-8);
 }
 
+.zds-table__pagination-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 4px;
+  &:hover:not(:disabled) {
+    background-color: var(--color-neutral-high-medium);
+  }
+  &:disabled {
+    cursor: not-allowed;
+    color: var(--color-neutral-high-dark);
+  }
+}
+
 .zds-filter-simple-dropdown {
   position: absolute;
   top: 100%;
