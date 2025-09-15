@@ -54,3 +54,12 @@
   justify-content: flex-end;
   gap: var(--spacing-16);
 }
+@media (max-width: 1024px) {
+  .zds-dialog {
+    width: 312px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    position: fixed;
+  }
+}
