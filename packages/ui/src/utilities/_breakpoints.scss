@@ -1,5 +1,6 @@
 @use "sass:map";
 @use "sass:string";
+@use "sass:list";
 
 // Breakpoints
 $breakpoints: (
@@ -7,16 +8,16 @@ $breakpoints: (
   md: 768px,
   lg: 1024px,
   xl: 1280px,
-  4xl: 1536px
+  '2xl': 1536px
 ) !default;
 
-// Função para escapar classes iniciando com número
 @function escape-class($class) {
-  $class-str: "#{$class}"; // converte para string
+  $class-str: "#{$class}";
+  $first-char: string.slice($class-str, 1, 1);
+  $digits: '0', '1', '2', '3', '4', '5', '6', '7', '8', '9';
 
-  // se começar com número, escapa sempre
-  @if string.index($class-str, "2xl") == 1 {
-    @return "\\32xl"; // exemplo: .\32xl\:grid-cols-6
+  @if list.index($digits, $first-char) {
+    @return "\\" + $class-str;
   }
 
   @return $class-str;
@@ -31,7 +32,9 @@ $breakpoints: (
 
 // Mixin utility (gera classes responsivas)
 @mixin utility($bp, $selector) {
+  // A função escape-class agora funciona para '4xl' e qualquer outro caso
   $escaped-bp: escape-class($bp);
+
   @include respond($bp) {
     .#{$escaped-bp}\:#{$selector} {
       @content;

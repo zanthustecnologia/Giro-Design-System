@@ -1,7 +1,12 @@
-// Tokens (SCSS) vindos do pacote de tokens
+@use "sass:map";
+@use "./breakpoints" as *;
 @use "../../../tokens/build/scss/tokens.scss" as tok;
 
-// Mapa de espaçamentos usando os tokens
+// -----------------------------------------------------------------------------
+// Configuração
+// -----------------------------------------------------------------------------
+
+// Mapa de espaçamentos usando os tokens (o que você forneceu)
 $spacing: (
   0: tok.$spacing-0,
   4: tok.$spacing-4,
@@ -19,3 +24,68 @@ $spacing: (
   160: tok.$spacing-160,
   200: tok.$spacing-200
 );
+
+// Mapa de propriedades e seus prefixos de classe
+$properties: (
+  "m": "margin",
+  "p": "padding"
+);
+
+// Mapa de direções e seus sufixos de propriedade
+// A chave vazia '' gera a classe sem direção (ex: .m-4)
+// 'x' e 'y' são casos especiais que aplicam a duas propriedades
+$directions: (
+  "": "",
+  "t": "-top",
+  "b": "-bottom",
+  "l": "-left",
+  "r": "-right",
+  "x": ("-left", "-right"),
+  "y": ("-top", "-bottom")
+);
+
+// -----------------------------------------------------------------------------
+// Geração das Classes
+// -----------------------------------------------------------------------------
+
+// Gera as classes base (ex: .mt-4, .px-8)
+@each $prop-abbr, $prop-name in $properties {
+  @each $dir-abbr, $dir-props in $directions {
+    @each $space-key, $space-value in $spacing {
+      $selector: "#{$prop-abbr}#{$dir-abbr}-#{$space-key}";
+
+      .#{$selector} {
+        // Se for uma lista (caso de 'x' e 'y'), itera sobre ela
+        @if type-of($dir-props) == "list" {
+          @each $dir in $dir-props {
+            #{$prop-name}#{$dir}: $space-value;
+          }
+        } @else {
+          // Caso normal (t, b, l, r, e vazio)
+          #{$prop-name}#{$dir-props}: $space-value;
+        }
+      }
+    }
+  }
+}
+
+// Gera as classes responsivas (ex: md:mt-4, lg:px-8)
+@each $bp, $size in $breakpoints {
+  @each $prop-abbr, $prop-name in $properties {
+    @each $dir-abbr, $dir-props in $directions {
+      @each $space-key, $space-value in $spacing {
+        $selector: "#{$prop-abbr}#{$dir-abbr}-#{$space-key}";
+
+        @include utility($bp, $selector) {
+          @if type-of($dir-props) == "list" {
+            @each $dir in $dir-props {
+              #{$prop-name}#{$dir}: $space-value;
+            }
+          } @else {
+            #{$prop-name}#{$dir-props}: $space-value;
+          }
+        }
+      }
+    }
+  }
+}
