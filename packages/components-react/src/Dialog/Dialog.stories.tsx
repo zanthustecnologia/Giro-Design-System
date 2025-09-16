@@ -30,17 +30,17 @@ const meta: Meta<typeof Dialog> = {
       control: 'text',
       description: 'Conteúdo do Dialog'
     },
-    textConfirm: { 
+    textOk: { 
       control: 'text',
-      description: 'Texto do botão Confirmar'
+      description: 'Texto do botão OK'
     },
     textCancel: { 
       control: 'text',
       description: 'Texto do botão Cancelar'
     },
-    fnConfirm: { 
-      action: 'Confirmar clicado',
-      description: 'Função executada ao clicar Confirmar'
+    fnOk: { 
+      action: 'OK clicado',
+      description: 'Função executada ao clicar OK'
     },
     fnCancel: { 
       action: 'Cancelar clicado',
@@ -93,7 +93,7 @@ const DialogStoryWrapper: StoryFn<DialogStoryWrapperArgs> = (args) => {
       <Dialog 
         {...args} 
         show={show} 
-        fnConfirm={handleOk} 
+        fnOk={handleOk} 
         fnCancel={handleCancel} 
         onClose={handleClose}
         text={args.text || 'Conteúdo do diálogo'}
@@ -109,8 +109,8 @@ export const Default = DialogStoryWrapper.bind({});
 Default.args = {
   title: 'Título do dialogo',
   text: 'Mensagem do dialogo',
-  textConfirm: 'Ação',
-  textCancel: 'Cancelar',
+  textOk: 'Ação',
+  textCancel: '',
 };
 
 Default.parameters = {

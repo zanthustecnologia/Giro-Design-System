@@ -2,10 +2,9 @@ import React, { useState, KeyboardEvent } from 'react';
 import Search from '../Search/Search';
 import Filter from '../Filter/Filter';
 import { DropdownItem, DropdownType } from '../Dropdown/Dropdown';
-import { Filter16Regular } from '@fluentui/react-icons';
 import './Table.scss';
 
-interface TableHeaderProps {
+export interface TableHeaderProps {
   /** Valor atual da pesquisa */
   searchValue?: string;
   /** Callback quando o valor da busca muda */
