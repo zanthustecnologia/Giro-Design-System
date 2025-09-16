@@ -18,20 +18,11 @@ export interface BadgeProps {
   /** ID único do componente */
   id?: string;
   /** Se o badge está desabilitado */
-  disabled?: boolean;
-  /** Valor máximo para exibição (padrão: 99) */
   maxValue?: number;
-  /** Callback quando o badge é clicado */
-  onClick?: () => void;
   /** Props de acessibilidade customizadas */
   'aria-label'?: string;
 }
 
-/**
- * Componente Badge do Zanthus Design System
- * Renderiza um badge com ou sem valor, dependendo das propriedades fornecidas.
- * Suporta dois tipos: notification (para contadores) e status (para indicadores)
- */
 const Badge: React.FC<BadgeProps> = ({
   children,
   badgeValue = null,
@@ -40,21 +31,16 @@ const Badge: React.FC<BadgeProps> = ({
   id,
   'aria-label': ariaLabel,
 }) => {
-  // ✅ Verificações de estado
   const isEmpty = badgeValue === null || badgeValue === undefined || badgeValue === '';
   const componentId = id || useId();
-  /**
-   * Formata o valor de exibição baseado no tipo e limites
-   * @param inputValue - Valor a ser formatado
-   * @returns Valor formatado para exibição
-   */
+
   const getDisplayValue = (inputValue: BadgeValue): string | number => {
     if (inputValue === null || inputValue === undefined) return '';
 
     if (typeof inputValue === 'number') {
       if (!isFinite(inputValue)) return '';
-      if (inputValue < 0) return 0; // ou return '' para ocultar
-      if (inputValue === 0) return ''; // Badge vazio para zero
+      if (inputValue < 0) return 0; 
+      if (inputValue === 0) return ''; 
 
       return inputValue > 99 ? `${99}+` : inputValue;
     }
@@ -65,11 +51,6 @@ const Badge: React.FC<BadgeProps> = ({
   };
 
   const displayValue = getDisplayValue(badgeValue);
-
-  /**
-   * Manipula clique no badge
-   * @param event - Evento de clique
-   */
 
   if (type === 'notification') {
     return (
@@ -103,14 +84,13 @@ const Badge: React.FC<BadgeProps> = ({
     );
   }
 
-  // ✅ Renderização do badge tipo status
   return (
     <div
-      className={clsx('zds-badge-container__status')}
+      className={clsx('zds-badge__container')}
     >
       <div
         className={clsx('zds-badge__status', {
-          'zds-badge__status--empty': isEmpty,
+          'zds-badge__status__empty': isEmpty,
           [className]: className
         })}
         data-testid="badge-status"

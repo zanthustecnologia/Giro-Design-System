@@ -82,8 +82,7 @@ const Filter: React.FC<FilterProps> = ({
 
   // NOVO: Este useEffect sincroniza o calendário com a data selecionada externamente.
   useEffect(() => {
-    // Se uma data for selecionada (vinda do Redux) e for diferente da que o calendário está mostrando,
-    // atualizamos o mês/ano em exibição para corresponder à data selecionada.
+    
     if (selectedDate && selectedDate.getTime() !== currentCalendarDate.getTime()) {
       setCurrentCalendarDate(selectedDate);
     }
