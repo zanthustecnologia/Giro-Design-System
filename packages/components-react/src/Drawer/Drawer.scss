@@ -1,80 +1,116 @@
+// ✅ OVERLAY: Estados via CSS
 .zds-custom__drawer-shadow {
   position: fixed;
-  z-index: 20;
-  background-color: var(--color-neutral-low-default); // Era: $low-color-default
-  opacity: 0.3 !important;
-  -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=30); // IE8
-  filter: alpha(opacity=30); // IE5-7
+  z-index: 1000; // ← Z-index fixo no CSS
+  background-color: var(--color-neutral-low-default);
   left: 0;
   right: 0;
   bottom: 0;
   top: 0;
-  transition: all 0.3s;
+  transition: all 0.3s ease;
+  
+  // ✅ ESTADO FECHADO: Oculto por padrão
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  
+  // ✅ ESTADO ABERTO: Visível quando ativo
+  &--visible {
+    opacity: 0.3;
+    visibility: visible;
+    pointer-events: auto;
+  }
 }
 
+// ✅ DRAWER: Estados via CSS
 .zds-custom__drawer-sidebar {
   position: fixed;
-  background-color: var(--color-neutral-high-default); // Era: $high-color-light
-  border: var(--border-width-1) solid var(--color-neutral-high-dark); // Era: 1px solid $high-color-dark
+  background-color: var(--color-neutral-high-default);
+  border: var(--border-width-1) solid var(--color-neutral-high-dark);
   right: 0;
   top: 0;
   bottom: 0;
-  transition: ease-in 0.3s;
   overflow: auto;
   display: flex;
   flex-direction: column;
   font-family: var(--font-family-primary);
+  z-index: 1001; // ← Z-index fixo no CSS
+  
+  // ✅ ESTADO FECHADO: Fora da tela por padrão
+  width: 0;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(100%);
+  transition: all 0.3s ease;
+  
+  // ✅ RESPONSIVIDADE: Mobile first
+  @media (max-width: 768px) {
+    width: 100%;
 
+    right: 0;
+    transform: translateX(100%);
+    
+    &--open {
+      transform: translateX(0);
+    }
+  }
+  
+  @media (min-width: 769px) {
+    width: var(--drawer-custom-width, 400px);
+    
+    &--open {
+      transform: translateX(0);
+    }
+  }
+  
+  &--open {
+    opacity: 1;
+    visibility: visible;
+    width: var(--drawer-custom-width, 400px);
+    
+    @media (max-width: 768px) {
+      width: 100%;
+    }
+  }
+  
+  &--disabled {
+    pointer-events: none;
+    opacity: 0.6;
+  }
 }
 
 .zds-custom__drawer-sidebar .zds-drawer__title-close {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--spacing-24) var(--spacing-24) 0 var(--spacing-24); 
-  
-  
+  padding: var(--spacing-24) var(--spacing-24) 0 var(--spacing-24);
+  flex-shrink: 0;
 }
 
 .zds-custom__drawer-sidebar .zds-drawer__title-close .zds-drawer__title {
-  font-size: var(--font-size-24); 
-  font-weight: var(--font-weight-bold); 
-  color: var(--color-neutral-low-default); 
+  font-size: var(--font-size-24);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-neutral-low-default);
   display: flex;
   flex-direction: column;
   justify-content: center;
-  max-width: calc(100% - 48px); 
+  max-width: calc(100% - 48px);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  
-}
-
-.zds-custom__drawer-sidebar .zds-drawer__title-close .zds-drawer__close {
-  cursor: pointer;
-  color: var(--color-brand-primary-default); 
 }
 
 .zds-custom__drawer-sidebar .zds-drawer__children {
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  padding: var(--spacing-24) var(--spacing-24) 0 var(--spacing-24); 
-
+  flex: 1;
+  padding: var(--spacing-24);
+  overflow-y: auto;
 }
 
-.zds-drawer__children{
+.zds-drawer__children {
   font-size: var(--font-size-16);
   font-weight: var(--font-weight-regular);
   color: var(--color-neutral-low-default);
-}
-.zds-custom__drawer-sidebar .btns {
-  display: flex;
-  justify-content: flex-end;
-}
-@media (max-width: 1024px) {
-  .zds-custom__drawer-sidebar {
-    width: 100%;
-  }
 }

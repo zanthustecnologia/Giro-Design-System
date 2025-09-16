@@ -78,7 +78,9 @@ const Badge: React.FC<BadgeProps> = ({
       >
         <div
           id={componentId}
-          className={clsx('zds-badge', {            
+          className={clsx('zds-badge', {
+            [ 'zds-badge__small']: Number(badgeValue) <= 10,
+            [ 'zds-badge__large']: Number(badgeValue) > 10,
             [className]: className
           })}
           data-testid="badge-notification"

@@ -5,7 +5,6 @@ import { Dismiss16Regular } from '@fluentui/react-icons';
 import Button from '../Button/Button';
 
 // ✅ Types para o componente
-type DrawerType = 'select' | 'filter' | 'form'; // Expandindo os tipos possíveis
 
 export interface DrawerProps {
   /** Conteúdo do Drawer */
@@ -16,10 +15,7 @@ export interface DrawerProps {
   onClose: () => void;
   /** Título do Drawer */
   title?: string;
-  /** Tipo do Drawer (não utilizado atualmente) */
-  type?: DrawerType;
-  /** Remove padding do conteúdo */
-  
+  /** Determina se o drawer está aberto */
   isOpen: boolean;
   /** Callback quando o Drawer é aberto */
   onOpen?: () => void;
@@ -29,10 +25,6 @@ export interface DrawerProps {
   id?: string;
   /** Se o drawer está desabilitado */
   disabled?: boolean;
-  /** Z-index customizado para o drawer */
-  zIndex?: number;
-  /** Z-index customizado para o overlay */
-  overlayZIndex?: number;
   /** Callback chamado quando clica no overlay */
   onOverlayClick?: () => void;
   /** Se deve fechar ao clicar no overlay */
@@ -65,7 +57,7 @@ export interface DrawerExampleProps {
  */
 const Drawer: React.FC<DrawerProps> = ({
   children,
-  customWidth = '0px',
+  customWidth = '400px', // ✅ Valor padrão útil
   onClose,
   title = 'Título',
   isOpen = false,
@@ -77,23 +69,10 @@ const Drawer: React.FC<DrawerProps> = ({
   closeOnOverlayClick = true,
   closeOnEscape = true,
 }) => {
-  // ✅ Estados internos tipados
-  const [width, setWidth] = useState<string>('0px');
-  const [opacity, setOpacity] = useState<string>('0');
-  const [indexDrawer, setIndexDrawer] = useState<string>('0');
-  const [indexDrawerShadow, setIndexDrawerShadow] = useState<string>('0');
 
-  /**
-   * Manipula o fechamento interno do drawer
-   * Atualiza estados visuais e executa callback
-   */
   const internalClose = useCallback((): void => {
     if (disabled) return;
 
-    setWidth('0px');
-    setOpacity('0');
-    setIndexDrawer('0');
-    setIndexDrawerShadow('0');
     onClose();
   }, [onClose, disabled]);
 
@@ -133,13 +112,11 @@ const Drawer: React.FC<DrawerProps> = ({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, internalClose, closeOnEscape]);
 
-
+  /**
+   * Gerencia overflow do body baseado no estado isOpen
+   */
   useEffect(() => {
     if (isOpen && !disabled) {
-      setWidth(customWidth);
-      setOpacity('1.0');
-
-      
       // Executa callback de abertura se fornecido
       if (onOpen) {
         onOpen();
@@ -148,11 +125,6 @@ const Drawer: React.FC<DrawerProps> = ({
       // Previne scroll do body quando drawer está aberto
       document.body.style.overflow = 'hidden';
     } else {
-      setWidth('0px');
-      setOpacity('0');
-      setIndexDrawer('0');
-      setIndexDrawerShadow('0');
-
       // Restaura scroll do body
       document.body.style.overflow = 'unset';
     }
@@ -160,7 +132,7 @@ const Drawer: React.FC<DrawerProps> = ({
     return () => {
       document.body.style.overflow = 'unset';
     };
-  }, [isOpen, customWidth, onOpen, disabled]);
+  }, [isOpen, onOpen, disabled]);
 
   /**
    * Previne propagação de eventos no drawer
@@ -185,13 +157,8 @@ const Drawer: React.FC<DrawerProps> = ({
       {/* Overlay/Shadow */}
       <div
         className={clsx('zds-custom__drawer-shadow', {
-          'zds-custom__drawer-shadow--visible': opacity !== '0',
+          'zds-custom__drawer-shadow--visible': isOpen,
         })}
-        style={{
-          opacity: opacity,
-          display: opacity === '0' ? 'none' : 'block',
-          zIndex: indexDrawerShadow,
-        }}
         onClick={handleOverlayClick}
         role="presentation"
         aria-hidden="true"
@@ -209,10 +176,9 @@ const Drawer: React.FC<DrawerProps> = ({
           className
         )}
         style={{
-          width: width,
-          opacity: opacity,
-          zIndex: indexDrawer,
-        }}
+          // ✅ APENAS: Width customizável via CSS custom property
+          '--drawer-custom-width': customWidth,
+        } as React.CSSProperties}
         onClick={handleDrawerClick}
         role="dialog"
         aria-modal="true"

@@ -3,7 +3,7 @@
 }
 
 .zds-badge {
-  font-weight: var(--font-weight-bold); 
+  font-weight: var(--font-weight-bold);
   font-size: var(--font-size-12);
   position: absolute;
   top: -8px;
@@ -13,30 +13,33 @@
   justify-content: center;
   border-radius: var(--border-radius-pill);
   color: var(--color-neutral-high-light);
-  // padding: 0 var(--spacing-4);
+
   background-color: var(--color-feedback-alert-default);
   font-family: var(--font-family-primary);
-  width: 16px;
+ 
   height: 16px;
 
   &__status {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-left: var(--spacing-8); 
+    margin-left: var(--spacing-8);
     height: 16px;
     width: 16px;
     border-radius: var(--border-radius-pill);
     background-color: var(--color-brand-primary-default);
     border: 2px solid var(--color-neutral-high-default);
-    span {
-      color: var(--color-neutral-high-default) !important; }
-  }
-}
 
-.zds-badge__small {
-  top: -6px;
-  right: -6px;
+    span {
+      color: var(--color-neutral-high-default) !important;
+    }
+  }
+  &__small{
+     width: 16px;
+  }
+  &__large {
+    padding: 0 var(--spacing-4);
+  }
 }
 
 
