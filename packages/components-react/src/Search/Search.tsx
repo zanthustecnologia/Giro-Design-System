@@ -62,9 +62,6 @@ const Search: React.FC<SearchProps> = ({
   value,
   onChange,
   onKeyDown,
-  onFocus,
-  onBlur,
-  onClear,
   id = '',
   className = ''
 }) => {
@@ -82,15 +79,7 @@ const Search: React.FC<SearchProps> = ({
       setInternalValue(e.target.value);
     }
   };
-  const handleFocus = (e: React.FocusEvent<HTMLInputElement>): void => {
-    if (disabled) return;
-    onFocus?.(e);
-  };
 
-  const handleBlur = (e: React.FocusEvent<HTMLInputElement>): void => {
-    if (disabled) return;
-    onBlur?.(e);
-  };
   const clearInputSearch = (): void => {
     if (disabled) return;
 
@@ -105,7 +94,6 @@ const Search: React.FC<SearchProps> = ({
     } else {
       setInternalValue('');
     }
-    onClear?.();
   };
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>): void => {
     if (disabled) return;
@@ -121,12 +109,12 @@ const Search: React.FC<SearchProps> = ({
   return (
     <div className={searchClass}>
       <span
-        className={clsx('zds-search__leftIcon', { disabled })}
+        className={clsx('zds-leftIcon', { disabled })}
         tabIndex={-1}
         role="presentation"
         aria-hidden="true"
       >
-        <Search16Regular  />
+        <Search16Regular aria-describedby={inputId} />
       </span>
 
       <input
@@ -134,19 +122,28 @@ const Search: React.FC<SearchProps> = ({
         type="text"
         placeholder={placeholder}
         aria-label={placeholder}
+        aria-describedby={`${inputId}-description`}
         value={currentValue || ''}
         onChange={handleChange}
         onKeyDown={handleKeyDown}
         disabled={disabled}
-        onFocus={handleFocus}
-        onBlur={handleBlur}
       />
-      {currentValue && currentValue.length > 0 && (
-        <span className="zds-search__clearIcon" aria-hidden="true" onClick={clearInputSearch}>
-          <Dismiss16Regular />
-        </span>
-      )}
 
+      <button
+        type="button"
+        tabIndex={0}
+        className="zds-rightIcon"
+        onClick={clearInputSearch}
+        aria-label="Limpar busca"
+        style={{
+          visibility: currentValue && currentValue.length > 0 && !disabled
+            ? 'visible'
+            : 'hidden'
+        }}
+        disabled={disabled}
+      >
+        <Dismiss16Regular />
+      </button>
     </div>
   );
 };

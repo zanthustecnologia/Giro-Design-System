@@ -2,8 +2,10 @@ import React, { useEffect, useRef, useId, useCallback, ReactNode } from 'react';
 import './Dialog.scss';
 import Button from '../Button/Button';
 import clsx from 'clsx';
-import { useFocusTrap } from './utils/DialogUtils';
 
+/**
+ * Props do componente Dialog
+ */
 export interface DialogProps {
 
   children?: ReactNode;
@@ -14,11 +16,11 @@ export interface DialogProps {
   /** Texto do corpo do Dialog */
   text?: ReactNode;
   /** Texto do botão de confirmação */
-  textConfirm?: string;
+  textOk?: string;
   /** Texto do botão de cancelamento */
   textCancel?: string;
   /** Função chamada ao confirmar */
-  fnConfirm?: () => void;
+  fnOk?: () => void;
   /** Função chamada ao cancelar */
   fnCancel?: () => void;
   /** Função chamada ao fechar o Dialog */
@@ -39,9 +41,9 @@ const Dialog: React.FC<DialogProps> = ({
   show,
   title,
   text,
-  textConfirm = 'OK',
+  textOk = 'OK',
   textCancel = 'Cancelar',
-  fnConfirm,
+  fnOk,
   fnCancel,
   onClose,
   className,
@@ -49,14 +51,15 @@ const Dialog: React.FC<DialogProps> = ({
 }) => {
   const dialogRef = useRef<HTMLDivElement>(null);
   const generatedId = useId();
-  const id = propId || generatedId;
+  const id = propId || generatedId; // Usa propId se fornecido
 
-  const containerRef = useFocusTrap(show);
-
-  const handleConfirm = useCallback((): void => {
-    if (fnConfirm) fnConfirm();
+  /**
+   * Handler para ação OK.
+   */
+  const handleOk = useCallback((): void => {
+    if (fnOk) fnOk();
     if (onClose) onClose();
-  }, [fnConfirm, onClose]);
+  }, [fnOk, onClose]);
 
   /**
    * Handler para ação Cancelar.
@@ -85,14 +88,16 @@ const Dialog: React.FC<DialogProps> = ({
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [show, handleCancel]);
+  }, [show, handleCancel]); // ✅ handleCancel adicionado às dependências
+
+  // Early return se Dialog não está visível
   if (!show) return null;
 
   return (
     <>
       {/* Backdrop/Overlay */}
       <div className="zds-dialog__overlay" />
-
+      
       {/* Wrapper do Dialog */}
       <div className="zds-dialog__wrapper">
         <div
@@ -103,18 +108,18 @@ const Dialog: React.FC<DialogProps> = ({
           aria-labelledby={`zds-dialog-title-${id}`}
           aria-describedby={`zds-dialog-desc-${id}`}
           tabIndex={-1}
-          ref={containerRef}
+          ref={dialogRef}
         >
           {/* Título */}
           <div id={`zds-dialog-title-${id}`} className="zds-dialog__title">
             {title}
           </div>
-
+          
           {/* Conteúdo/Texto */}
           <div id={`zds-dialog-desc-${id}`} className="zds-dialog__text">
             {text}
           </div>
-
+          
           {/* Ações/Botões */}
           <div className="zds-dialog__actions">
             {!!(textCancel && textCancel.trim()) && (
@@ -122,8 +127,8 @@ const Dialog: React.FC<DialogProps> = ({
                 {textCancel}
               </Button>
             )}
-            <Button variant="filled" onClick={handleConfirm}>
-              {textConfirm}
+            <Button variant="filled" onClick={handleOk}>
+              {textOk}
             </Button>
           </div>
         </div>

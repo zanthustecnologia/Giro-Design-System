@@ -21,7 +21,9 @@ export interface QuantityProps {
   size?: 'lg' | 'sm';
   /** Define o número de casas decimais quando decimal for true */
   decimalPlaces?: number;
+  /** Valor do incremento/decremento */
   step?: number;
+  /** ID personalizado para o input */
   id?: string;
   /** ClassName adicional para customização */
   className?: string;
@@ -49,30 +51,22 @@ const Quantity: React.FC<QuantityProps> = ({
   // Estados internos para valor e input
   const [value, setValue] = useState<number>(isControlled ? controlledValue : defaultValue);
   const [inputValue, setInputValue] = useState<string>(
-    decimal
-      ? (isControlled ? controlledValue : defaultValue).toFixed(decimalPlaces)
+    decimal 
+      ? (isControlled ? controlledValue : defaultValue).toFixed(decimalPlaces) 
       : String(isControlled ? controlledValue : defaultValue)
   );
   const inputRef = useRef<HTMLInputElement>(null);
 
+  // Calcula o valor do step baseado nas props
   const stepValue = step !== undefined ? step : decimal ? Math.pow(10, -decimalPlaces) : 1;
 
+  // Valores computados com useMemo para otimização
   const computedValue = useMemo(() => (isControlled ? controlledValue! : value), [isControlled, controlledValue, value]);
   const isMinValue = useMemo(() => computedValue === 0, [computedValue]);
 
-  const validateProps = (decimalPlaces?: number, step?: number) => {
-    if (decimalPlaces !== undefined && (decimalPlaces < 1 || decimalPlaces > 10)) {
-      console.warn('decimalPlaces deve estar entre 1 e 10');
-    }
-    if (step !== undefined && step <= 0) {
-      console.warn('step deve ser maior que 0');
-    }
-  };
-
-  useEffect(() => {
-    validateProps(decimalPlaces, step);
-  }, []);
-
+  /**
+   * Sincroniza estado interno com valor controlado externamente
+   */
   useEffect(() => {
     if (isControlled && controlledValue !== undefined) {
       setValue(controlledValue);
@@ -80,6 +74,10 @@ const Quantity: React.FC<QuantityProps> = ({
     }
   }, [controlledValue, decimal, decimalPlaces, isControlled]);
 
+  /**
+   * Incrementa o valor atual
+   * Atualiza estado interno se não controlado e chama callback onChange
+   */
   const increment = useCallback(() => {
     if (disabled) return;
 
@@ -93,6 +91,10 @@ const Quantity: React.FC<QuantityProps> = ({
     onChange?.(newValue);
   }, [disabled, computedValue, stepValue, decimal, decimalPlaces, isControlled, onChange]);
 
+  /**
+   * Decrementa o valor atual
+   * Garante que o valor não seja menor que 0
+   */
   const decrement = useCallback(() => {
     if (disabled) return;
 
@@ -106,216 +108,99 @@ const Quantity: React.FC<QuantityProps> = ({
     onChange?.(newValue);
   }, [disabled, computedValue, stepValue, decimal, decimalPlaces, isControlled, onChange]);
 
-  const filterInput = useCallback((inputValue: string): string => {
-    if (decimal) {
-      let filtered = inputValue.replace(/[^\d.]/g, '');
+  /**
+   * Manipula mudanças no input
+   * Valida entrada baseada no tipo (decimal/inteiro) e aplica máscaras
+   */
+  const handleInputChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const newValue = e.target.value;
 
-      const parts = filtered.split('.');
-      if (parts.length > 2) {
-        filtered = parts[0] + '.' + parts.slice(1).join('');
+      // Permite limpar o campo completamente
+      if (newValue === '') {
+        setInputValue('');
+        if (!isControlled) setValue(0);
+        onChange?.(0);
+        return;
       }
 
-      if (filtered.length > 1 && filtered.startsWith('0') && !filtered.startsWith('0.')) {
-        filtered = filtered.replace(/^0+/, '');
+      // Regex para validação de entrada
+      const integerRegex = /^\d*$/;
+      const decimalRegex = /^\d*\.?\d*$/;
+
+      // Valida formato baseado no tipo
+      if (!decimal && !integerRegex.test(newValue)) return;
+      if (decimal && !decimalRegex.test(newValue)) return;
+
+      // Limita tamanho para valores inteiros
+      if (!decimal && newValue.length > 4) return;
+
+      // Remove zero inicial quando usuario digita novo numero
+      let finalValue = newValue;
+      if (inputValue === '0' && newValue.length === 2 && /^\d+$/.test(newValue)) {
+        finalValue = newValue.slice(1);
+        setInputValue(finalValue);
+      } else {
+        setInputValue(newValue);
       }
 
-      return filtered;
-    } else {
-      let filtered = inputValue.replace(/[^\d]/g, '');
+      const parsedValue = decimal ? parseFloat(finalValue) : parseInt(finalValue, 10);
 
-      if (filtered.length > 1 && filtered.startsWith('0')) {
-        filtered = filtered.replace(/^0+/, '');
-      }
-
-      return filtered || '0'; // Se ficar vazio, retorna '0'
-    }
-  }, [decimal]);
-  const handleInputChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    if (disabled) return;
-
-    const rawValue = event.target.value;
-
-    // ✅ APLICAR: Filtro em tempo real
-    const filteredValue = filterInput(rawValue);
-
-    // ✅ SEMPRE: Atualizar input com valor filtrado
-    setInputValue(filteredValue);
-
-    // ✅ PROCESSAR: Apenas valores válidos
-    if (filteredValue === '' || filteredValue === '.') {
-      if (!isControlled) {
-        setValue(0);
-      }
-      onChange?.(0);
-      return;
-    }
-
-    if (decimal) {
-      // Estados intermediários permitidos
-      if (filteredValue.endsWith('.')) {
-        return; // "5." é válido, mas não processa ainda
-      }
-
-      const parsedValue = parseFloat(filteredValue);
       if (!isNaN(parsedValue)) {
-        if (!isControlled) {
-          setValue(parsedValue);
+        // Valida casas decimais
+        if (decimal) {
+          const [, decimalPart] = finalValue.split('.');
+          if (decimalPart && decimalPart.length > decimalPlaces) return;
         }
+
+        if (!isControlled) setValue(parsedValue);
         onChange?.(parsedValue);
       }
-    } else {
-      const parsedValue = parseInt(filteredValue, 10);
-      if (!isNaN(parsedValue)) {
-        const validValue = Math.min(parsedValue, 9999);
-        if (!isControlled) {
-          setValue(validValue);
-        }
-        onChange?.(validValue);
-      }
-    }
-  }, [disabled, decimal, isControlled, onChange]);
+    },
+    [decimal, decimalPlaces, isControlled, onChange, inputValue]
+  );
 
-
-  const handleBlur = useCallback(() => {
-    if (disabled) return;
-
-    const currentValue = inputValue.trim();
-
-    if (decimal) {
-      if (currentValue === '' || currentValue === '.') {
-        const resetValue = computedValue;
-        setInputValue(resetValue.toFixed(decimalPlaces));
-        return;
-      }
-
-      if (currentValue.endsWith('.')) {
-        const baseValue = parseFloat(currentValue.slice(0, -1));
-        if (!isNaN(baseValue)) {
-          const formattedValue = baseValue.toFixed(decimalPlaces);
-          setInputValue(formattedValue);
-
-          if (!isControlled) {
-            setValue(baseValue);
-          }
-          onChange?.(baseValue);
-        }
-        return;
-      }
-
-      const parsedValue = parseFloat(currentValue);
-      if (!isNaN(parsedValue)) {
-        const normalizedValue = Math.max(0, parsedValue);
-        const formattedValue = normalizedValue.toFixed(decimalPlaces);
-        setInputValue(formattedValue);
-
-        if (!isControlled) {
-          setValue(normalizedValue);
-        }
-        onChange?.(normalizedValue);
-      } else {
-
-        setInputValue(computedValue.toFixed(decimalPlaces));
-      }
-    } else {
-
-      if (currentValue === '') {
-        setInputValue(String(computedValue));
-        return;
-      }
-
-      const parsedValue = parseInt(currentValue, 10);
-      if (isNaN(parsedValue)) {
-        setInputValue(String(computedValue));
-      } else {
-        const normalizedValue = Math.max(0, Math.min(parsedValue, 9999));
-        setInputValue(String(normalizedValue));
-        if (!isControlled) {
-          setValue(normalizedValue);
-        }
-        onChange?.(normalizedValue);
-      }
-    }
-  }, [disabled, decimal, inputValue, decimalPlaces, computedValue, isControlled, onChange]);
-
-
+  /**
+   * Permite alterações de valor via teclado (setas direita/esquerda)
+   */
   const handleInputKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
       if (disabled) return;
 
-      switch (e.key) {
-        case 'ArrowUp':
-          e.preventDefault();
-          increment();
-          break;
-
-        case 'ArrowDown':
-          e.preventDefault();
-          decrement();
-          break;
-
-        case 'Enter':
-          e.preventDefault();
-          if (inputRef.current) {
-            inputRef.current.blur();
-          }
-          break;
-
-        case 'Escape':
-          e.preventDefault();
-          if (inputRef.current) {
-            setInputValue(decimal ? computedValue.toFixed(decimalPlaces) : String(computedValue));
-            inputRef.current.blur();
-          }
-          break;
-
-        case 'Home':
-          e.preventDefault();
-          const minValue = 0;
-          if (!isControlled) {
-            setValue(minValue);
-            setInputValue(decimal ? minValue.toFixed(decimalPlaces) : String(minValue));
-          }
-          onChange?.(minValue);
-          break;
-
-        case 'End':
-          if (!decimal) {
-            e.preventDefault();
-            const maxValue = 9999;
-            if (!isControlled) {
-              setValue(maxValue);
-              setInputValue(String(maxValue));
-            }
-            onChange?.(maxValue);
-          }
-          break;
+      if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        increment();
+      }
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        decrement();
       }
     },
-    [disabled, increment, decrement, decimal, decimalPlaces, isControlled, onChange, computedValue]
+    [disabled, increment, decrement]
   );
 
+  // Gera ID único se não fornecido
   const uniqueId = useId();
   const inputId = id || uniqueId;
 
   return (
     <div className={clsx('zds-quantity', { disabled }, className)}>
-      <Button
-        variant='outlined'
-        size={size}
-        type='button'
+      <Button 
+        variant='outlined' 
+        size={size} 
+        type='button' 
         icon={<Subtract16Regular />}
-        onClick={decrement}
-        disabled={disabled || isMinValue}
-        aria-label='Diminuir quantidade'
+        onClick={decrement} 
+        disabled={disabled || isMinValue} 
+        aria-label='Diminuir quantidade' 
       />
-
+    
       <input
         ref={inputRef}
         className={clsx('zds-quantity__input', { disabled })}
         type='text'
         value={inputValue}
         onChange={handleInputChange}
-        onBlur={handleBlur}
         onKeyDown={handleInputKeyDown}
         id={inputId}
         min='0'
@@ -325,21 +210,20 @@ const Quantity: React.FC<QuantityProps> = ({
         aria-valuenow={computedValue}
         aria-valuemin={0}
         aria-valuemax={decimal ? undefined : 9999}
+        aria-describedby={`${inputId}-help`}
         disabled={disabled}
-        inputMode={decimal ? 'decimal' : 'numeric'}
-
       />
-      <Button
-        variant='outlined'
-        size={size}
-        type='button'
-        onClick={increment}
-        disabled={disabled}
-        aria-label='Aumentar quantidade'
-        icon={<Add16Regular />}
-
-      />
-
+      <Button 
+        variant='outlined' 
+        size={size} 
+        type='button' 
+        onClick={increment}  
+        disabled={disabled} 
+        aria-label='Aumentar quantidade' 
+        icon={ <Add16Regular />}
+        
+        />
+      
     </div>
   );
 };
