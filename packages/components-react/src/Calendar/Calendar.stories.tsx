@@ -114,7 +114,6 @@ const Template = (args: TemplateArgs): JSX.Element => {
    */
   const handleDaySelect = (newSelectedDate: Date): void => {
     setSelectedDate(newSelectedDate);
-    console.log(newSelectedDate)
     args.onDaySelect?.(newSelectedDate);
   };
 
