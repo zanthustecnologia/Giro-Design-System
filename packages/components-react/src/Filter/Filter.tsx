@@ -76,10 +76,28 @@ const Filter: React.FC<FilterProps> = ({
   locale = 'pt-br'
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [currentCalendarDate, setCurrentCalendarDate] = useState<Date>(new Date());
+  const [currentCalendarDate, setCurrentCalendarDate] = useState<Date>(() => 
+    selectedDate || new Date()
+  );
   const filterRef = useRef<HTMLDivElement>(null);
 
-  // ✅ FUNÇÃO ATUALIZADA: Gerar texto dinâmico baseado no tipo
+  useEffect(() => {
+    if (selectedDate) {
+      setCurrentCalendarDate(selectedDate);
+    }
+  }, [selectedDate]);
+
+  const handleCalendarNavigation = useCallback((date: Date) => {
+    setCurrentCalendarDate(date);
+  }, []);
+
+  const handleDateSelection = useCallback((date: Date) => {
+ 
+    onDateSelect?.(date);
+    setIsOpen(false);
+    onClose?.();
+  }, [onDateSelect, onClose]);
+
   
   const buttonDisplayText = useMemo(() => {
     if (type === 'calendar' && selectedDate) {
@@ -92,15 +110,13 @@ const Filter: React.FC<FilterProps> = ({
     return firstItem?.text || selectedIds[0];
   }, [type, selectedDate, selectedIds, items, buttonText, locale]);
 
-  // ✅ NOVA FUNÇÃO: Calcular valor do badge (filtros adicionais)
   const getBadgeValue = useCallback(() => {
     if (!selectedIds || selectedIds.length <= 1) {
-      return null; // Não mostra badge para 0 ou 1 filtro
+      return null; 
     }
     return selectedIds.length - 1;
   }, [selectedIds]);
 
-  // Handler para abrir/fechar dropdown
   const handleToggle = useCallback(() => {
     if (disabled) return;
 
@@ -114,7 +130,6 @@ const Filter: React.FC<FilterProps> = ({
     }
   }, [disabled, isOpen, onOpen, onClose]);
 
-  // Handler para aplicar filtro
   const handleApplyFilter = useCallback((newSelectedIds: string[]) => {
     onApplyFilter?.(newSelectedIds);
     setIsOpen(false);
@@ -138,7 +153,6 @@ const Filter: React.FC<FilterProps> = ({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isOpen, onClose]);
 
-  // Close on Escape key
   useEffect(() => {
     const handleEscape = (event: KeyboardEvent) => {
       if (event.key === 'Escape' && isOpen) {
@@ -186,7 +200,8 @@ const Filter: React.FC<FilterProps> = ({
             <Calendar
               currentDate={currentCalendarDate}
               selectedDate={selectedDate}
-              onDaySelect={onDateSelect}
+              onDaySelect={handleDateSelection}
+              onDateChange={handleCalendarNavigation}
               minDate={minDate}
               maxDate={maxDate}
               locale={locale}
