@@ -6,11 +6,15 @@
 
   .zds-quantity__input {
     border: none;
-    max-width: 40px;
+    width: 6ch; 
+    min-width: 3ch; 
+    max-width: 10ch;
     text-align: center;
     color: var(--color-neutral-low-default);
     font-family: var(--font-family-primary);
-    
+    padding-right: var(--spacing-8);
+    padding-left: var(--spacing-8);
+
     &::placeholder {
       display: flex;
       align-items: center;
@@ -19,7 +23,7 @@
       font-weight: var(--font-weight-regular);
       color: var(--color-neutral-low-medium);
     }
-    
+
     &.disabled {
       color: var(--color-neutral-low-light);
     }
@@ -39,7 +43,7 @@
     &:active {
       outline: none;
     }
-    
+
     &:disabled {
       background-color: transparent;
     }
@@ -49,11 +53,11 @@
 // Variações de tamanho
 .zds-quantity--sm {
   gap: var(--spacing-4);
-  
+
   .zds-quantity__input {
     max-width: 24px;
     font-size: var(--font-size-14);
-    
+
     &::placeholder {
       font-size: var(--font-size-14);
     }
@@ -62,11 +66,11 @@
 
 .zds-quantity--lg {
   gap: var(--spacing-8);
-  
+
   .zds-quantity__input {
     max-width: 30px;
     font-size: var(--font-size-16);
-    
+
     &::placeholder {
       font-size: var(--font-size-16);
     }
@@ -77,7 +81,7 @@
 .zds-quantity.disabled {
   pointer-events: none;
   opacity: 0.6;
-  
+
   .zds-quantity__input {
     color: var(--color-neutral-low-light);
     cursor: not-allowed;
@@ -91,7 +95,7 @@
     outline-offset: var(--spacing-4);
     border-radius: var(--border-radius-4);
   }
-  
+
   &:focus-visible {
     outline: var(--border-width-2) solid var(--color-brand-primary-default);
     outline-offset: var(--spacing-4);
