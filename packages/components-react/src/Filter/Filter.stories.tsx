@@ -212,7 +212,7 @@ export const CalendarFilter: Story = {
             type="calendar"
             buttonText={selectedDate ? selectedDate.toLocaleDateString('pt-BR') : "Selecionar Data"}
             selectedDate={selectedDate}
-            onDateSelect={date=> console.log(date)}
+            onDateSelect={handleDateSelect}
             locale="pt-br"
             variant="outlined"
             position="left"
