@@ -3,24 +3,24 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+  width: 100%;
+  height: 44px;
+  box-sizing: border-box;
   padding: 0px var(--spacing-16);
   gap: var(--spacing-16);
-  width: 100%; // ✅ MANTÉM: Mas será limitado pelo container pai
-  height: 44px;
   border: var(--border-width-1) solid var(--color-neutral-high-dark);
   border-radius: var(--border-radius-8);
+  background-color: var(--color-neutral-high-default);
   font-size: var(--font-size-16);
   font-weight: var(--font-weight-regular);
-  position: relative;
-  background-color: var(--color-neutral-high-default);
-  box-sizing: border-box; // ✅ NOVO: Inclui padding na largura
 
-  .zds-leftIcon {
-    color: var(--color-brand-primary-default);
+  &__leftIcon {
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-shrink: 0; // ✅ NOVO: Ícone não encolhe
+    flex-shrink: 0;
+    color: var(--color-brand-primary-default);
 
     &.disabled {
       color: var(--color-neutral-high-dark);
@@ -28,39 +28,53 @@
   }
 
   input {
+
+    flex: 1;
+    min-width: 0;
+    width: auto;
+    padding: 0px;
     border: 0;
     outline: 0;
+    overflow: hidden;
+    background-color: transparent;
     font-size: var(--font-size-16);
     font-weight: var(--font-weight-regular);
-    padding: 0px;
-    background-color: transparent;
-    width: auto; 
-    min-width: 0; // ✅ MANTÉM: Permite encolher
-    flex: 1; // ✅ MUDANÇA: Era '1 1 0', agora só '1' (cresce mas não força base 0)
-    overflow: hidden;
-
     &::placeholder {
       color: var(--color-neutral-low-medium);
     }
 
-    &:focus {
-      border-color: var(--color-brand-primary-default);
-      border: var(--border-width-2);
+    &:-webkit-autofill,
+    &:-webkit-autofill:hover,
+    &:-webkit-autofill:focus,
+    &:-webkit-autofill:active {
+      -webkit-box-shadow: 0 0 0 1000px var(--color-neutral-high-default) inset !important;
+      box-shadow: 0 0 0 1000px var(--color-neutral-high-default) inset !important;
+      -webkit-transition: background-color 5000s ease-in-out 0s !important;
+      transition: background-color 5000s ease-in-out 0s !important;
+      background-color: transparent !important;
+      background-image: none !important;
+      color: var(--color-neutral-low-default) !important;
+      -webkit-text-fill-color: var(--color-neutral-low-default) !important;
+    }
+
+    &:-moz-autofill {
+      background-color: transparent !important;
+      background-image: none !important;
+      box-shadow: 0 0 0 1000px var(--color-neutral-high-default) inset !important;
+      color: var(--color-neutral-low-default) !important;
+    }
+
+    &:-ms-input-placeholder {
+      background-color: transparent !important;
+      color: var(--color-neutral-low-default) !important;
     }
   }
-
-
-  .zds-rightIcon {
-    background-color: transparent;
-    border: none;
+  &__clearIcon {
+    position: absolute;
+    right: 16px;
+    width: 16px;
+    height: 16px;
     cursor: pointer;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0px;
-    margin: 0px;
-    box-sizing: border-box;
   }
 
   &:hover {
@@ -69,13 +83,9 @@
 
   &:focus-within {
     outline: var(--border-width-2) solid var(--color-brand-primary-default);
-
-    .zds-search {
-      border: none;
-    }
-
+    border: var(--border-width-1) solid transparent;
     &:hover {
-      border: var(--border-width-1) solid transparent; // impede o hover de aparecer quando o input estiver focado
+      border: var(--border-width-1) solid transparent;
     }
   }
 
@@ -84,12 +94,22 @@
     color: var(--color-neutral-high-dark);
 
     input {
-      background-color: transparent;
       color: var(--color-neutral-high-dark);
 
       &::placeholder {
         color: var(--color-neutral-high-dark);
       }
     }
+
+    .zds-search__leftIcon,
+    .zds-search__clearIcon {
+      color: var(--color-neutral-high-dark);
+      cursor: not-allowed;
+    }
+    
+  }
+  &:-webkit-autofill-strong-password,
+  &:-webkit-autofill-strong-password-viewable {
+    background-color: var(--color-neutral-high-default) !important;
   }
 }

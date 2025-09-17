@@ -2,7 +2,7 @@ import React from 'react';
 import { ChevronLeft16Regular, ChevronRight16Regular } from '@fluentui/react-icons';
 import './Table.scss';
 
-export interface TablePaginationProps {
+interface TablePaginationProps {
   /** Página atual */
   currentPage: number;
   /** Total de itens */
@@ -31,15 +31,16 @@ const TablePagination: React.FC<TablePaginationProps> = ({
   disabled = false,
   className = '',
 }) => {
-  // Cálculos simples
+  // Cálculos
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   const startItem = totalItems > 0 ? (currentPage - 1) * itemsPerPage + 1 : 0;
   const endItem = Math.min(currentPage * itemsPerPage, totalItems);
   
+  // Lógica para habilitar/desabilitar botões
   const canGoPrev = currentPage > 1 && !disabled;
   const canGoNext = currentPage < totalPages && !disabled;
   
-  // Handlers simples
+  // Handlers
   const handlePrevious = () => {
     if (canGoPrev) {
       onPageChange(currentPage - 1);
@@ -83,7 +84,7 @@ const TablePagination: React.FC<TablePaginationProps> = ({
       <div className="zds-table__pagination-info">
         <span>
           {totalItems > 0 
-            ? `${startItem}–${endItem}`
+            ? `${startItem}–${endItem} de ${totalItems}`
             : '0 itens'
           }
         </span>
@@ -91,10 +92,25 @@ const TablePagination: React.FC<TablePaginationProps> = ({
       
       {/* Controles de navegação */}
       <div className="zds-table__pagination-controls">
-     
-          <ChevronLeft16Regular   onClick={handlePrevious}/>
-          <ChevronRight16Regular onClick={handleNext} />
-      
+        {/* CORREÇÃO: Ícone envolvido por um <button> com lógica 'disabled' */}
+        <button
+          className="zds-table__pagination-button"
+          onClick={handlePrevious}
+          disabled={!canGoPrev}
+          aria-label="Página anterior"
+        >
+          <ChevronLeft16Regular />
+        </button>
+        
+        {/* CORREÇÃO: Ícone envolvido por um <button> com lógica 'disabled' */}
+        <button
+          className="zds-table__pagination-button"
+          onClick={handleNext}
+          disabled={!canGoNext}
+          aria-label="Próxima página"
+        >
+          <ChevronRight16Regular />
+        </button>
       </div>
     </div>
   );
