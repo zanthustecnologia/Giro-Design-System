@@ -2,7 +2,7 @@ import React from 'react';
 import { ChevronLeft16Regular, ChevronRight16Regular } from '@fluentui/react-icons';
 import './Table.scss';
 
-interface TablePaginationProps {
+export interface TablePaginationProps {
   /** Página atual */
   currentPage: number;
   /** Total de itens */
