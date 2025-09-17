@@ -1,87 +1,179 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { ToastProvider, toast, ToastType } from './Toast';
+import { ToastProvider, useToast, ToastType } from './Toast';
 import Button from '../Button/Button';
 
-// Tipos para as props do story
-interface ToastStoryArgs {
+// ✅ COMPONENTE PARA DEMONSTRAR O USO DO TOAST
+const ToastDemo: React.FC<{
   variant: ToastType;
   message: string;
   persistent: boolean;
   duration: number;
-}
+}> = ({ variant, message, persistent, duration }) => {
+  const { showToast, hideAllToasts } = useToast();
+
+  const handleShowToast = () => {
+    showToast(message, variant, {
+      persistent,
+      duration: persistent ? undefined : duration,
+    });
+  };
+
+  return (
+    <div style={{ 
+      display: 'flex', 
+      gap: '16px', 
+      justifyContent: 'center', 
+      alignItems: 'center',
+      flexWrap: 'wrap'
+    }}>
+      <Button onClick={handleShowToast}>
+        Exibir Toast {variant.charAt(0).toUpperCase() + variant.slice(1)}
+      </Button>
+      
+      <Button variant="outlined" onClick={hideAllToasts}>
+        Limpar Todos
+      </Button>
+    </div>
+  );
+};
+
+// ✅ COMPONENTE PARA DEMONSTRAR MÚLTIPLOS TIPOS
+const MultipleToastDemo: React.FC = () => {
+  const { showToast, hideAllToasts } = useToast();
+
+  const handleSuccess = () => {
+    showToast('Operação realizada com sucesso!', 'success');
+  };
+
+  const handleAlert = () => {
+    showToast('Atenção: algo requer sua atenção', 'alert');
+  };
+
+  const handleInfo = () => {
+    showToast('Informação importante para você', 'info');
+  };
+
+  const handlePersistent = () => {
+    showToast('Este toast não desaparece automaticamente', 'info', {
+      persistent: true
+    });
+  };
+
+  const handleLongDuration = () => {
+    showToast('Este toast fica visível por 10 segundos', 'success', {
+      duration: 10000
+    });
+  };
+
+  const handleLongMessage = () => {
+    showToast(
+      'Esta é uma mensagem muito longa para testar como o toast se comporta com textos extensos que podem quebrar em múltiplas linhas',
+      'info'
+    );
+  };
+
+  return (
+    <div style={{ 
+      display: 'grid', 
+      gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+      gap: '16px',
+      padding: '16px'
+    }}>
+      <Button onClick={handleSuccess} variant="primary">
+        Toast Sucesso
+      </Button>
+      
+      <Button onClick={handleAlert} variant="outlined">
+        Toast Alerta
+      </Button>
+      
+      <Button onClick={handleInfo} variant="secondary">
+        Toast Info
+      </Button>
+      
+      <Button onClick={handlePersistent} variant="primary">
+        Toast Persistente
+      </Button>
+      
+      <Button onClick={handleLongDuration} variant="outlined">
+        Toast 10s
+      </Button>
+      
+      <Button onClick={handleLongMessage} variant="secondary">
+        Mensagem Longa
+      </Button>
+      
+      <Button onClick={hideAllToasts} variant="outlined">
+        Limpar Todos
+      </Button>
+    </div>
+  );
+};
 
 const meta: Meta<typeof ToastProvider> = {
   title: 'Components/Toast',
   component: ToastProvider,
   decorators: [
     (Story) => (
-      <div style={{ height: '50vh' }}>
+      <div style={{ minHeight: '60vh', padding: '20px' }}>
         <Story />
       </div>
     ),
   ],
   argTypes: {
-    variant: {
-      control: { type: 'select' },
-      options: ['info', 'success', 'alert'] as ToastType[],
-    },
-    message: {
-      control: { type: 'text' },
-      defaultValue: 'Mensagem de exemplo',
-    },
-    persistent: {
-      control: { type: 'boolean' },
-      defaultValue: false,
-    },
-    duration: {
-      control: { type: 'number' },
-      defaultValue: 5000,
+    maxToasts: {
+      control: { type: 'number', min: 1, max: 10 },
+      description: 'Número máximo de toasts simultâneos',
+      defaultValue: 5,
     },
   },
 };
 
 export default meta;
-type Story = StoryObj<ToastStoryArgs>;
-
-const getMessageByVariant = (variant: ToastType): string => {
-  switch (variant) {
-    case 'success':
-      return 'Texto do toast de sucesso';
-    case 'alert':
-      return 'Texto do toast de alerta';
-    case 'info':
-    default:
-      return 'Texto do toast informativo';
-  }
-};
+type Story = StoryObj<typeof ToastProvider>;
 
 export const Default: Story = {
   render: (args) => (
-    <ToastProvider>
-      <div style={{ display: 'flex', gap: 16, justifyContent: 'center', alignItems: 'center' }}>
-        <Button onClick={() => toast(getMessageByVariant(args.variant), args.variant, 5000, false)}>
-          Exibir toast
-        </Button>
-      </div>
+    <ToastProvider maxToasts={args.maxToasts}>
+      <ToastDemo
+        variant="info"
+        message="Mensagem de toast padrão"
+        persistent={false}
+        duration={5000}
+      />
     </ToastProvider>
   ),
   args: {
-    variant: 'info',
-    persistent: false,
-    duration: 5000,
-    message: 'Mensagem de exemplo',
+    maxToasts: 5,
   },
   parameters: {
     docs: {
+      description: {
+        story: 'Toast básico com comportamento padrão (desaparece automaticamente em 5 segundos).',
+      },
       source: {
         code: `
-import { ToastProvider, toast } from './Toast';
+import { ToastProvider, useToast } from './Toast';
+import Button from '../Button/Button';
 
+const MyComponent = () => {
+  const { showToast } = useToast();
+
+  const handleClick = () => {
+    showToast('Mensagem de toast padrão', 'info');
+  };
+
+  return (
+    <Button onClick={handleClick}>
+      Exibir Toast
+    </Button>
+  );
+};
+
+// Wrapper da aplicação
 <ToastProvider>
-  <Button onClick={() => toast('Mensagem de exemplo', 'info', 5000, false)}>
-    Exibir toast
-  </Button>
+  <MyComponent />
 </ToastProvider>
         `.trim(),
       },
@@ -89,32 +181,222 @@ import { ToastProvider, toast } from './Toast';
   },
 };
 
-export const Persistent: Story = {
+export const AllVariants: Story = {
   render: (args) => (
-    <ToastProvider>
-      <Button onClick={() => toast(getMessageByVariant(args.variant), args.variant, args.duration, args.persistent)}>
-        Exibir toast
-      </Button>
+    <ToastProvider maxToasts={args.maxToasts}>
+      <MultipleToastDemo />
     </ToastProvider>
   ),
   args: {
-    variant: 'info',
-    message: 'Texto do toast informativo',
-    persistent: true,
-    duration: 5000,
+    maxToasts: 5,
   },
   parameters: {
     docs: {
+      description: {
+        story: 'Demonstração de todos os tipos de toast disponíveis: success, alert, info, persistente e com duração customizada.',
+      },
       source: {
         code: `
-import { ToastProvider, toast } from './Toast';
+const { showToast, hideAllToasts } = useToast();
 
-<ToastProvider>
-  <Button onClick={() => toast('Texto do toast informativo', 'info', 5000, true)}>
-    Exibir toast persistente
-  </Button>
-</ToastProvider>
+// Toast de sucesso
+showToast('Operação realizada com sucesso!', 'success');
+
+// Toast de alerta
+showToast('Atenção: algo requer sua atenção', 'alert');
+
+// Toast informativo
+showToast('Informação importante para você', 'info');
+
+// Toast persistente (não desaparece automaticamente)
+showToast('Este toast não desaparece automaticamente', 'info', {
+  persistent: true
+});
+
+// Toast com duração customizada (10 segundos)
+showToast('Este toast fica visível por 10 segundos', 'success', {
+  duration: 10000
+});
+
+// Limpar todos os toasts
+hideAllToasts();
         `.trim(),
+      },
+    },
+  },
+};
+
+export const Success: Story = {
+  render: (args) => (
+    <ToastProvider maxToasts={args.maxToasts}>
+      <ToastDemo
+        variant="success"
+        message="Operação realizada com sucesso!"
+        persistent={false}
+        duration={5000}
+      />
+    </ToastProvider>
+  ),
+  args: {
+    maxToasts: 5,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Toast de sucesso com ícone de checkmark e cor verde.',
+      },
+    },
+  },
+};
+
+export const Alert: Story = {
+  render: (args) => (
+    <ToastProvider maxToasts={args.maxToasts}>
+      <ToastDemo
+        variant="alert"
+        message="Atenção: algo requer sua atenção"
+        persistent={false}
+        duration={5000}
+      />
+    </ToastProvider>
+  ),
+  args: {
+    maxToasts: 5,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Toast de alerta com ícone de warning e cor vermelha.',
+      },
+    },
+  },
+};
+
+export const Persistent: Story = {
+  render: (args) => (
+    <ToastProvider maxToasts={args.maxToasts}>
+      <ToastDemo
+        variant="info"
+        message="Este toast não desaparece automaticamente"
+        persistent={true}
+        duration={5000}
+      />
+    </ToastProvider>
+  ),
+  args: {
+    maxToasts: 5,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Toast persistente que só desaparece quando o usuário clica no botão de fechar ou pressiona ESC.',
+      },
+      source: {
+        code: `
+const { showToast } = useToast();
+
+showToast('Este toast não desaparece automaticamente', 'info', {
+  persistent: true
+});
+        `.trim(),
+      },
+    },
+  },
+};
+
+export const LongMessage: Story = {
+  render: (args) => (
+    <ToastProvider maxToasts={args.maxToasts}>
+      <ToastDemo
+        variant="info"
+        message="Esta é uma mensagem muito longa para testar como o toast se comporta com textos extensos que podem quebrar em múltiplas linhas e garantir que a interface permaneça legível e acessível mesmo com conteúdo extenso."
+        persistent={false}
+        duration={8000}
+      />
+    </ToastProvider>
+  ),
+  args: {
+    maxToasts: 5,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Toast com mensagem longa para testar quebra de linha e responsividade.',
+      },
+    },
+  },
+};
+
+export const CustomDuration: Story = {
+  render: (args) => (
+    <ToastProvider maxToasts={args.maxToasts}>
+      <ToastDemo
+        variant="success"
+        message="Este toast fica visível por 10 segundos"
+        persistent={false}
+        duration={10000}
+      />
+    </ToastProvider>
+  ),
+  args: {
+    maxToasts: 5,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Toast com duração customizada de 10 segundos.',
+      },
+      source: {
+        code: `
+const { showToast } = useToast();
+
+showToast('Este toast fica visível por 10 segundos', 'success', {
+  duration: 10000
+});
+        `.trim(),
+      },
+    },
+  },
+};
+
+export const MultipleToasts: Story = {
+  render: (args) => {
+    const MultipleDemo: React.FC = () => {
+      const { showToast, hideAllToasts } = useToast();
+
+      const handleMultiple = () => {
+        showToast('Primeiro toast', 'info');
+        setTimeout(() => showToast('Segundo toast', 'success'), 1000);
+        setTimeout(() => showToast('Terceiro toast', 'alert'), 2000);
+        setTimeout(() => showToast('Quarto toast', 'info'), 3000);
+        setTimeout(() => showToast('Quinto toast', 'success'), 4000);
+      };
+
+      return (
+        <div style={{ display: 'flex', gap: '16px', justifyContent: 'center' }}>
+          <Button onClick={handleMultiple}>
+            Exibir Múltiplos Toasts
+          </Button>
+          <Button variant="outlined" onClick={hideAllToasts}>
+            Limpar Todos
+          </Button>
+        </div>
+      );
+    };
+
+    return (
+      <ToastProvider maxToasts={args.maxToasts}>
+        <MultipleDemo />
+      </ToastProvider>
+    );
+  },
+  args: {
+    maxToasts: 3,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Demonstração de múltiplos toasts sendo exibidos em sequência, respeitando o limite máximo configurado.',
       },
     },
   },

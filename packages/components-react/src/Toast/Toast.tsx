@@ -1,12 +1,5 @@
-import React, {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-  useCallback,
-  useRef,
-  ReactNode,
-} from 'react';
+// ✅ NOVA IMPLEMENTAÇÃO SIMPLIFICADA
+import React, { createContext, useContext, useState, useCallback, useRef, useEffect, useMemo, ReactNode } from 'react';
 import clsx from 'clsx';
 import './Toast.scss';
 import {
@@ -16,370 +9,280 @@ import {
   Info20Filled,
 } from '@fluentui/react-icons';
 
-/**
- * Tipos de toast disponíveis
- */
 export type ToastType = 'success' | 'alert' | 'info';
 
-/**
- * Interface para uma mensagem de toast
- */
 export interface ToastMessage {
   id: string;
   message: string;
   type: ToastType;
-  active: boolean;
-  timeout: ReturnType<typeof setTimeout> | null; // <- agnóstico (browser/Node)
-  closed: boolean;
-  time: number | null;
-  persistent: boolean;
-}
-
-/**
- * Interface para variant de toast
- */
-interface ToastVariant {
-  icon: React.ReactNode;
-  className: string;
-}
-
-/**
- * Props do ToastProvider
- */
-export interface ToastProviderProps {
-  children: ReactNode;
-  /** Tipo de toast (success, alert, info) */
-  variant?: ToastType;
-  /** Mensagem exibida ao montar o componente */
-  message?: string;
-  /** Se true, o toast só fecha ao clicar no X */
   persistent?: boolean;
-  /** Tempo de exibição em ms (padrão: 5000) */
+  duration?: number;
+  timestamp: number;
+}
+
+export interface ToastOptions {
+  persistent?: boolean;
   duration?: number;
 }
 
-/**
- * Contexto do Toast
- */
 interface ToastContextType {
-  toast: (message: string, type?: ToastType, time?: number, persistent?: boolean) => void;
-  clearToast: (id: string) => void;
+  showToast: (message: string, type?: ToastType, options?: ToastOptions) => string;
+  hideToast: (id: string) => void;
+  hideAllToasts: () => void;
 }
 
-/**
- * Evento customizado de toast
- * (usar CustomEvent genérico quando disponível na sua versão do TS)
- */
-interface ToastEvent extends CustomEvent {
-  detail: ToastMessage;
-}
+const sanitizeMessage = (message: string): string => {
+  if (typeof message !== 'string') return 'Mensagem inválida';
+  
+  return message
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#x27;')
+    .replace(/&/g, '&amp;')
+    .slice(0, 500); 
+};
 
-/**
- * Ícones para cada tipo de toast.
- */
-export const ToastSuccessIcon: React.FC = () => <CheckmarkCircle20Filled />;
-export const ToastAlertIcon: React.FC = () => <Warning20Filled />;
-export const ToastInfoIcon: React.FC = () => <Info20Filled />;
-
-/**
- * Modelos de toast únicos.
- */
-const toastVariants: Record<ToastType, ToastVariant> = {
-  success: {
-    icon: <ToastSuccessIcon />,
-    className: 'zds-toast__success',
-  },
-  alert: {
-    icon: <ToastAlertIcon />,
-    className: 'zds-toast__alert',
-  },
-  info: {
-    icon: <ToastInfoIcon />,
-    className: 'zds-toast__info',
-  },
+const generateId = (): string => {
+  return `toast-${Date.now()}-${Math.random().toString(36).slice(2, 11)}`;
 };
 
 const MAX_TOASTS = 5;
+const DEFAULT_DURATION = 5000;
 
 const ToastContext = createContext<ToastContextType | undefined>(undefined);
 
-/**
- * Hook para gerenciar o estado dos toasts.
- */
-function useToastState() {
-  const [toastMessages, setToastMessages] = useState<ToastMessage[]>([]);
-  const timeoutsRef = useRef<ReturnType<typeof setTimeout>[]>([]);
-  const closeTimeoutsRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+const toastVariants = {
+  success: {
+    icon: <CheckmarkCircle20Filled />,
+    className: 'zds-toast__success',
+  },
+  alert: {
+    icon: <Warning20Filled />,
+    className: 'zds-toast__alert',
+  },
+  info: {
+    icon: <Info20Filled />,
+    className: 'zds-toast__info',
+  },
+} as const;
 
-  const clearToast = useCallback((id: string): void => {
-    setToastMessages((prevMessages) => {
-      const newMessages = [...prevMessages];
-      const index = newMessages.findIndex((message) => message.id === id);
-      if (index === -1) return newMessages;
-
-      newMessages[index].active = false;
-      if (newMessages[index].timeout) {
-        clearTimeout(newMessages[index].timeout!);
-        newMessages[index].timeout = null;
-      }
-
-      // Close animation timeout
-      const closeTimeout = setTimeout(() => {
-        setToastMessages((prev) => {
-          const arr = [...prev];
-          const idx = arr.findIndex((msg) => msg.id === id);
-          if (idx !== -1) arr[idx].closed = true;
-          return arr;
-        });
-      }, 450);
-
-      closeTimeoutsRef.current.push(closeTimeout);
-      return newMessages;
-    });
-  }, []);
-
-  return {
-    toastMessages,
-    setToastMessages,
-    clearToast,
-    timeoutsRef,
-    closeTimeoutsRef,
-  };
+interface ToastItemProps {
+  toast: ToastMessage;
+  onClose: (id: string) => void;
+  isVisible: boolean;
 }
 
-/**
- * Props para o hook useToastEffects
- */
-interface UseToastEffectsProps {
-  setToastMessages: React.Dispatch<React.SetStateAction<ToastMessage[]>>;
-  clearToast: (id: string) => void;
-  timeoutsRef: React.MutableRefObject<ReturnType<typeof setTimeout>[]>;
-  closeTimeoutsRef: React.MutableRefObject<ReturnType<typeof setTimeout>[]>;
-  message?: string;
-  variant?: ToastType;
-  persistent?: boolean;
-  duration?: number;
-}
-
-/**
- * Hook para lidar com efeitos colaterais dos toasts.
- */
-function useToastEffects({
-  setToastMessages,
-  clearToast,
-  timeoutsRef,
-  closeTimeoutsRef,
-  message,
-  variant,
-  persistent,
-  duration,
-}: UseToastEffectsProps): void {
-  useEffect(() => {
-    const handleToastEvent = (event: Event): void => {
-      const toastEvent = event as ToastEvent;
-
-      setToastMessages((prevMessages) => {
-        const activeToasts = prevMessages.filter((msg) => !msg.closed);
-        if (activeToasts.length >= MAX_TOASTS) {
-          const firstToast = activeToasts[0];
-          if (firstToast && firstToast.id) {
-            clearToast(firstToast.id);
-          }
-        }
-        return [...prevMessages, toastEvent.detail];
-      });
-
-      // Ativa apenas o toast recém-adicionado
-      setTimeout(() => {
-        setToastMessages((prevMessages) => {
-          const newMessages = [...prevMessages];
-          const index = newMessages.findIndex((message) => message.id === toastEvent.detail.id);
-          if (index === -1) return newMessages;
-
-          if (!newMessages[index].persistent && newMessages[index].time) {
-            const time = setTimeout(() => {
-              clearToast(toastEvent.detail.id);
-            }, newMessages[index].time!);
-            newMessages[index].timeout = time;
-            timeoutsRef.current.push(time);
-          }
-
-          newMessages[index].active = true;
-          return newMessages;
-        });
-      }, 150);
-    };
-
-    window.addEventListener('toast', handleToastEvent);
-
-    return () => {
-      window.removeEventListener('toast', handleToastEvent);
-      timeoutsRef.current.forEach(clearTimeout);
-      closeTimeoutsRef.current.forEach(clearTimeout);
-      timeoutsRef.current = [];
-      closeTimeoutsRef.current = [];
-    };
-  }, [setToastMessages, clearToast, timeoutsRef, closeTimeoutsRef]);
-
-  useEffect(() => {
-    if (message) {
-      toast(message, variant, duration, persistent);
+const ToastItem: React.FC<ToastItemProps> = ({ toast, onClose, isVisible }) => {
+  const variant = toastVariants[toast.type];
+  
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (event.key === 'Escape') {
+      onClose(toast.id);
     }
-  }, [message, variant, persistent, duration]);
-}
-
-/**
- * Gera um ID único para o toast
- */
-const ToastId = (): string =>
-  `${Date.now()}-${Math.random().toString(36).slice(2, 11)}`;
-
-/**
- * Função global para disparar um toast.
- */
-const toast = (
-  message: string,
-  type: ToastType = 'info',
-  time: number = 5000,
-  persistent: boolean = false
-): void => {
-  let toastType: ToastType = 'info';
-  let toastTime: number | null = time;
-
-  if (type === 'success') toastType = 'success';
-  else if (type === 'alert') toastType = 'alert';
-
-  if (persistent) {
-    toastTime = null;
-  }
-
-  const event: ToastEvent = new CustomEvent('toast', {
-    detail: {
-      id: ToastId(),
-      message,
-      type: toastType,
-      active: false,
-      timeout: null,
-      closed: false,
-      time: toastTime,
-      persistent,
-    },
-  }) as ToastEvent;
-
-  window.dispatchEvent(event);
-};
-
-/**
- * Props para o hook useToastProvider
- */
-interface UseToastProviderProps {
-  variant?: ToastType;
-  message?: string;
-  persistent?: boolean;
-  duration?: number;
-}
-
-/**
- * Hook customizado para gerenciar o estado e efeitos dos toasts.
- */
-function useToastProvider({
-  variant = 'info',
-  message,
-  persistent = false,
-  duration = 5000,
-}: UseToastProviderProps = {}) {
-  const { toastMessages, setToastMessages, clearToast, timeoutsRef, closeTimeoutsRef } =
-    useToastState();
-
-  useToastEffects({
-    setToastMessages,
-    clearToast,
-    timeoutsRef,
-    closeTimeoutsRef,
-    message,
-    variant,
-    persistent,
-    duration,
-  });
-
-  const getVariant = useCallback((type: ToastType): ToastVariant => {
-    return toastVariants[type] || toastVariants.info;
-  }, []);
-
-  return {
-    toastMessages,
-    clearToast,
-    getVariant,
-  };
-}
-
-/**
- * Provider de Toast que gerencia o estado e renderização dos toasts
- */
-const ToastProvider: React.FC<ToastProviderProps> = ({ children, ...props }) => {
-  const { toastMessages, clearToast, getVariant } = useToastProvider(props);
-
-  const contextValue: ToastContextType = {
-    toast,
-    clearToast,
   };
 
   return (
-    <ToastContext.Provider value={contextValue}>
-      <div
-        className={clsx(
-          'zds-toast__container',
-          toastMessages.length > 0 && 'zds-toast__show'
-        )}
-        role="status"
-        aria-live="polite"
+    <div
+      className={clsx(
+        'zds-toast__item',
+        variant.className,
+        isVisible && 'zds-toast__active'
+      )}
+      role={toast.type === 'alert' ? 'alert' : 'status'}
+      aria-live={toast.type === 'alert' ? 'assertive' : 'polite'}
+      aria-atomic="true"
+      tabIndex={toast.persistent ? 0 : -1}
+      onKeyDown={handleKeyDown}
+    >
+      <span className="zds-toast__icon" aria-hidden="true">
+        {variant.icon}
+      </span>
+      <span 
+        className="zds-toast__message"
+        dangerouslySetInnerHTML={{ __html: sanitizeMessage(toast.message) }}
+      />
+      <button
+        type="button"
+        className="zds-toast__close"
+        aria-label={`Fechar notificação: ${toast.message.slice(0, 50)}${toast.message.length > 50 ? '...' : ''}`}
+        onClick={() => onClose(toast.id)}
       >
-        {toastMessages.map((toastMessage) => {
-          if (toastMessage.closed) return null;
+        <Dismiss16Regular aria-hidden="true" />
+      </button>
+    </div>
+  );
+};
 
-          const { icon, className } = getVariant(
-            toastMessage.type || props.variant || 'info'
-          );
+interface ToastContainerProps {
+  toasts: ToastMessage[];
+  onClose: (id: string) => void;
+  visibleToasts: Set<string>;
+}
 
-          return (
-            <div
-              key={toastMessage.id}
-              className={clsx(
-                'zds-toast__item',
-                className,
-                toastMessage.active && 'zds-toast__active'
-              )}
-            >
-              <span className="zds-toast__icon">{icon}</span>
-              <span className="zds-toast__message">{toastMessage.message}</span>
-              <button
-                type="button"
-                className="zds-toast__close"
-                aria-label="Fechar toast"
-                aria-atomic="true"
-                onClick={() => clearToast(toastMessage.id)}
-              >
-                <Dismiss16Regular />
-              </button>
-            </div>
-          );
-        })}
-      </div>
+const ToastContainer: React.FC<ToastContainerProps> = ({ toasts, onClose, visibleToasts }) => {
+  if (toasts.length === 0) return null;
+
+  return (
+    <div 
+      className="zds-toast__container"
+      role="log"
+      aria-label="Notificações do sistema"
+    >
+      {toasts.map(toast => (
+        <ToastItem
+          key={toast.id}
+          toast={toast}
+          onClose={onClose}
+          isVisible={visibleToasts.has(toast.id)}
+        />
+      ))}
+    </div>
+  );
+};
+
+export interface ToastProviderProps {
+  children: ReactNode;
+  maxToasts?: number;
+}
+
+export const ToastProvider: React.FC<ToastProviderProps> = ({ 
+  children, 
+  maxToasts = MAX_TOASTS 
+}) => {
+  const [toasts, setToasts] = useState<ToastMessage[]>([]);
+  const [visibleToasts, setVisibleToasts] = useState<Set<string>>(new Set());
+  const timeouts = useRef<Map<string, NodeJS.Timeout>>(new Map());
+
+  const clearToastTimeout = useCallback((id: string) => {
+    const timeoutId = timeouts.current.get(id);
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+      timeouts.current.delete(id);
+    }
+  }, []);
+
+  const showToast = useCallback((
+    message: string, 
+    type: ToastType = 'info', 
+    options: ToastOptions = {}
+  ): string => {
+    const id = generateId();
+    const sanitizedMessage = sanitizeMessage(message);
+    
+    if (!sanitizedMessage || sanitizedMessage === 'Mensagem inválida') {
+      console.warn('Toast: Mensagem inválida ou vazia');
+      return '';
+    }
+
+    const newToast: ToastMessage = {
+      id,
+      message: sanitizedMessage,
+      type,
+      persistent: options.persistent || false,
+      duration: options.duration || DEFAULT_DURATION,
+      timestamp: Date.now(),
+    };
+
+    // ✅ LIMITE DE TOASTS
+    setToasts(prev => {
+      const filtered = prev.slice(-(maxToasts - 1));
+      return [...filtered, newToast];
+    });
+
+    // ✅ ANIMAÇÃO DE ENTRADA
+    setTimeout(() => {
+      setVisibleToasts(prev => new Set([...prev, id]));
+    }, 50);
+
+    // ✅ AUTO-HIDE SE NÃO FOR PERSISTENTE
+    if (!newToast.persistent) {
+      const timeoutId = setTimeout(() => {
+        hideToast(id);
+      }, newToast.duration);
+      
+      timeouts.current.set(id, timeoutId);
+    }
+
+    return id;
+  }, [maxToasts]);
+
+  const hideToast = useCallback((id: string) => {
+    clearToastTimeout(id);
+    
+    // ✅ ANIMAÇÃO DE SAÍDA
+    setVisibleToasts(prev => {
+      const newSet = new Set(prev);
+      newSet.delete(id);
+      return newSet;
+    });
+
+    // ✅ REMOÇÃO APÓS ANIMAÇÃO
+    setTimeout(() => {
+      setToasts(prev => prev.filter(toast => toast.id !== id));
+    }, 450);
+  }, [clearToastTimeout]);
+
+  const hideAllToasts = useCallback(() => {
+    timeouts.current.forEach(clearTimeout);
+    timeouts.current.clear();
+    
+    setVisibleToasts(new Set());
+    setTimeout(() => {
+      setToasts([]);
+    }, 450);
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      timeouts.current.forEach(clearTimeout);
+      timeouts.current.clear();
+    };
+  }, []);
+
+  const contextValue = useMemo<ToastContextType>(() => ({
+    showToast,
+    hideToast,
+    hideAllToasts,
+  }), [showToast, hideToast, hideAllToasts]);
+
+  return (
+    <ToastContext.Provider value={contextValue}>
       {children}
+      <ToastContainer 
+        toasts={toasts} 
+        onClose={hideToast}
+        visibleToasts={visibleToasts}
+      />
     </ToastContext.Provider>
   );
 };
 
-/**
- * Hook para acessar o contexto de toast.
- */
-const useToast = (): ToastContextType => {
+export const useToast = (): ToastContextType => {
   const context = useContext(ToastContext);
-  if (context === undefined) {
+  if (!context) {
     throw new Error('useToast must be used within a ToastProvider');
   }
   return context;
 };
 
-export { ToastProvider, toast, useToast };
+
+export const Toast = (() => {
+  let toastContext: ToastContextType | null = null;
+  
+  const setContext = (context: ToastContextType) => {
+    toastContext = context;
+  };
+  
+  const show = (message: string, type: ToastType = 'info', options?: ToastOptions) => {
+    if (!toastContext) {
+      console.error('Toast context not available. Make sure ToastProvider is mounted.');
+      return '';
+    }
+    return toastContext.showToast(message, type, options);
+  };
+  
+  return { show, setContext };
+})();
+
 export default ToastProvider;
