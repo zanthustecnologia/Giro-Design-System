@@ -9,7 +9,7 @@ const ToastDemo: React.FC<{
   message: string;
   persistent: boolean;
   duration: number;
-}> = ({ variant, message, persistent, duration }) => {
+}> = ({ variant = 'alert', message, persistent, duration }) => {
   const { showToast, hideAllToasts } = useToast();
 
   const handleShowToast = () => {
@@ -181,50 +181,6 @@ const MyComponent = () => {
   },
 };
 
-export const AllVariants: Story = {
-  render: (args) => (
-    <ToastProvider maxToasts={args.maxToasts}>
-      <MultipleToastDemo />
-    </ToastProvider>
-  ),
-  args: {
-    maxToasts: 5,
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'Demonstração de todos os tipos de toast disponíveis: success, alert, info, persistente e com duração customizada.',
-      },
-      source: {
-        code: `
-const { showToast, hideAllToasts } = useToast();
-
-// Toast de sucesso
-showToast('Operação realizada com sucesso!', 'success');
-
-// Toast de alerta
-showToast('Atenção: algo requer sua atenção', 'alert');
-
-// Toast informativo
-showToast('Informação importante para você', 'info');
-
-// Toast persistente (não desaparece automaticamente)
-showToast('Este toast não desaparece automaticamente', 'info', {
-  persistent: true
-});
-
-// Toast com duração customizada (10 segundos)
-showToast('Este toast fica visível por 10 segundos', 'success', {
-  duration: 10000
-});
-
-// Limpar todos os toasts
-hideAllToasts();
-        `.trim(),
-      },
-    },
-  },
-};
 
 export const Success: Story = {
   render: (args) => (
@@ -304,29 +260,6 @@ showToast('Este toast não desaparece automaticamente', 'info', {
   },
 };
 
-export const LongMessage: Story = {
-  render: (args) => (
-    <ToastProvider maxToasts={args.maxToasts}>
-      <ToastDemo
-        variant="info"
-        message="Esta é uma mensagem muito longa para testar como o toast se comporta com textos extensos que podem quebrar em múltiplas linhas e garantir que a interface permaneça legível e acessível mesmo com conteúdo extenso."
-        persistent={false}
-        duration={8000}
-      />
-    </ToastProvider>
-  ),
-  args: {
-    maxToasts: 5,
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'Toast com mensagem longa para testar quebra de linha e responsividade.',
-      },
-    },
-  },
-};
-
 export const CustomDuration: Story = {
   render: (args) => (
     <ToastProvider maxToasts={args.maxToasts}>
@@ -354,49 +287,6 @@ showToast('Este toast fica visível por 10 segundos', 'success', {
   duration: 10000
 });
         `.trim(),
-      },
-    },
-  },
-};
-
-export const MultipleToasts: Story = {
-  render: (args) => {
-    const MultipleDemo: React.FC = () => {
-      const { showToast, hideAllToasts } = useToast();
-
-      const handleMultiple = () => {
-        showToast('Primeiro toast', 'info');
-        setTimeout(() => showToast('Segundo toast', 'success'), 1000);
-        setTimeout(() => showToast('Terceiro toast', 'alert'), 2000);
-        setTimeout(() => showToast('Quarto toast', 'info'), 3000);
-        setTimeout(() => showToast('Quinto toast', 'success'), 4000);
-      };
-
-      return (
-        <div style={{ display: 'flex', gap: '16px', justifyContent: 'center' }}>
-          <Button onClick={handleMultiple}>
-            Exibir Múltiplos Toasts
-          </Button>
-          <Button variant="outlined" onClick={hideAllToasts}>
-            Limpar Todos
-          </Button>
-        </div>
-      );
-    };
-
-    return (
-      <ToastProvider maxToasts={args.maxToasts}>
-        <MultipleDemo />
-      </ToastProvider>
-    );
-  },
-  args: {
-    maxToasts: 3,
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'Demonstração de múltiplos toasts sendo exibidos em sequência, respeitando o limite máximo configurado.',
       },
     },
   },
