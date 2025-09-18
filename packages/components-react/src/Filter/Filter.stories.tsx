@@ -189,6 +189,70 @@ export const Disabled: Story = {
   },
 };
 
+// ✅ NOVO: Story para testar o filtro de calendário
+export const CalendarFilter: Story = {
+  render: () => {
+    const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+    
+    const handleDateSelect = (date: Date) => {
+      setSelectedDate(date);
+      console.log(date);
+      console.log('✅ Data selecionada no Filter:', date.toLocaleDateString('pt-BR'));
+    };
+
+    const handleClearDate = () => {
+      setSelectedDate(null);
+      console.log('✅ Data limpa no Filter');
+    };
+
+    return (
+      <div style={{ padding: '2rem', minHeight: '500px' }}>
+        <div style={{ marginBottom: '2rem' }}>
+          <Filter
+            type="calendar"
+            buttonText={selectedDate ? selectedDate.toLocaleDateString('pt-BR') : "Selecionar Data"}
+            selectedDate={selectedDate}
+            onDateSelect={handleDateSelect}
+            locale="pt-br"
+            variant="outlined"
+            position="left"
+          />
+        </div>
+        
+        {/* ✅ Botão para limpar data para testes */}
+        {selectedDate && (
+          <div style={{ marginBottom: '1rem' }}>
+            <button onClick={handleClearDate} style={{
+              padding: '8px 16px',
+              background: '#dc3545',
+              color: 'white',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer'
+            }}>
+              Limpar Data
+            </button>
+          </div>
+        )}
+        
+        {/* ✅ Debug info */}
+        <div style={{ 
+          padding: '1rem', 
+          background: '#f8f9fa', 
+          borderRadius: '8px',
+          fontFamily: 'monospace',
+          fontSize: '14px'
+        }}>
+          <h4 style={{ margin: '0 0 1rem 0' }}>Estado do Filtro:</h4>
+          <p><strong>Data Selecionada:</strong> {selectedDate ? selectedDate.toString() : 'Nenhuma'}</p>
+          <p><strong>Data Formatada (pt-BR):</strong> {selectedDate ? selectedDate.toLocaleDateString('pt-BR') : 'N/A'}</p>
+          <p><strong>Timestamp:</strong> {selectedDate ? selectedDate.getTime() : 'N/A'}</p>
+        </div>
+      </div>
+    );
+  },
+};
+
 // ✅ EXEMPLO AVANÇADO - Múltiplos filtros trabalhando juntos
 export const MultipleFilters: Story = {
   render: () => {
@@ -250,35 +314,6 @@ export const MultipleFilters: Story = {
               </span>
             ))}
           </div>
-        </div>
-      </div>
-    );
-  },
-};
-
-
-export const CalendarFilter: Story = {
-  render: () => {
-    const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-    
-    const handleDateSelect = (date: Date) => {
-      setSelectedDate(date);
-      console.log('✅ Data selecionada no Filter:', date);
-    };
-
-    return (
-      <div style={{ padding: '2rem', minHeight: '500px' }}>
-      
-        <div style={{ marginBottom: '2rem' }}>
-          <Filter
-            type="calendar"
-            buttonText="Selecionar Data"
-            selectedDate={selectedDate}
-            onDateSelect={handleDateSelect}
-            locale="pt-br"
-            variant="outlined"
-            position="left"
-          />
         </div>
       </div>
     );

@@ -1,6 +1,10 @@
 {
   "name": "@zanthus/components-react",
-  "version": "1.0.6",
+  "version": "2.0.9",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "private": false,
   "description": "Biblioteca de componentes React do Zanthus DS",
   "main": "dist/index.cjs",

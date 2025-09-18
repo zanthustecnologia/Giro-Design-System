@@ -1,3 +1,4 @@
+// Filter.tsx
 import React, { useState, useRef, useEffect, ReactNode, ReactElement, useCallback, useMemo } from 'react';
 import Button from '../Button';
 import Dropdown, { DropdownItem, DropdownType } from '../Dropdown/Dropdown';
@@ -6,7 +7,7 @@ import './Filter.scss';
 import Badge from '../Badge';
 import { ChevronDownRegular, Calendar16Regular} from '@fluentui/react-icons';
 import clsx from 'clsx';
-
+// ✅ Definir as variantes de botão disponíveis
 type FilterButtonVariant = 'filled' | 'outlined' | 'text';
 
 export interface FilterProps {
@@ -39,7 +40,7 @@ export interface FilterProps {
   /** Classes CSS adicionais */
   className?: string;
 
-  // Props específicas para Calendar
+  // ✅ Props específicas para Calendar
   /** Data selecionada (quando type='calendar') */
   selectedDate?: Date | null;
   /** Callback quando data é selecionada */
@@ -51,7 +52,7 @@ export interface FilterProps {
   /** Locale do calendar */
   locale?: 'pt-br' | 'en-us';
 }
-
+// ✅ CORREÇÃO: Problema de loop infinito no useEffect
 const Filter: React.FC<FilterProps> = ({
   items = [],
   type = 'checkbox',
@@ -67,7 +68,7 @@ const Filter: React.FC<FilterProps> = ({
   position = 'left',
   disabled = false,
   className = '',
-  // Props do Calendar
+  // ✅ Props específicas para Calendar
   selectedDate,
   onDateSelect,
   minDate,
@@ -75,23 +76,29 @@ const Filter: React.FC<FilterProps> = ({
   locale = 'pt-br'
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [currentCalendarDate, setCurrentCalendarDate] = useState<Date>(() => 
+    selectedDate || new Date()
+  );
   const filterRef = useRef<HTMLDivElement>(null);
-  
-  // ALTERADO: Inicializamos o estado com a data selecionada (se houver) ou com a data atual.
-  const [currentCalendarDate, setCurrentCalendarDate] = useState<Date>(selectedDate || new Date());
 
-  // NOVO: Este useEffect sincroniza o calendário com a data selecionada externamente.
   useEffect(() => {
-    
-    if (selectedDate && selectedDate.getTime() !== currentCalendarDate.getTime()) {
+    if (selectedDate) {
       setCurrentCalendarDate(selectedDate);
     }
-    // Se a data for limpa externamente (definida como null), resetamos o calendário para a data de hoje.
-    if (!selectedDate) {
-        setCurrentCalendarDate(new Date());
-    }
-  }, [selectedDate]); // A dependência é a prop `selectedDate` vinda de fora.
+  }, [selectedDate]);
 
+  const handleCalendarNavigation = useCallback((date: Date) => {
+    setCurrentCalendarDate(date);
+  }, []);
+
+  const handleDateSelection = useCallback((date: Date) => {
+ 
+    onDateSelect?.(date);
+    setIsOpen(false);
+    onClose?.();
+  }, [onDateSelect, onClose]);
+
+  
   const buttonDisplayText = useMemo(() => {
     if (type === 'calendar' && selectedDate) {
       return selectedDate.toLocaleDateString(locale === 'pt-br' ? 'pt-BR' : 'en-US');
@@ -105,15 +112,17 @@ const Filter: React.FC<FilterProps> = ({
 
   const getBadgeValue = useCallback(() => {
     if (!selectedIds || selectedIds.length <= 1) {
-      return null;
+      return null; 
     }
     return selectedIds.length - 1;
   }, [selectedIds]);
 
   const handleToggle = useCallback(() => {
     if (disabled) return;
+
     const newState = !isOpen;
     setIsOpen(newState);
+
     if (newState) {
       onOpen?.();
     } else {
@@ -136,9 +145,11 @@ const Filter: React.FC<FilterProps> = ({
         }
       }
     };
+
     if (isOpen) {
       document.addEventListener('mousedown', handleClickOutside);
     }
+
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isOpen, onClose]);
 
@@ -149,9 +160,11 @@ const Filter: React.FC<FilterProps> = ({
         onClose?.();
       }
     };
+
     if (isOpen) {
       document.addEventListener('keydown', handleEscape);
     }
+
     return () => document.removeEventListener('keydown', handleEscape);
   }, [isOpen, onClose]);
 
@@ -159,14 +172,13 @@ const Filter: React.FC<FilterProps> = ({
   const dropdownClass = clsx('zds-filter__dropdown', {
     [`zds-filter__dropdown--${position}`]: position
   });
-
   return (
     <div ref={filterRef} className={filterClass}>
       <Button
         variant={variant}
         onClick={handleToggle}
         disabled={disabled}
-        icon={type === 'calendar' ? <Calendar16Regular /> : <ChevronDownRegular />}
+        icon={type === 'calendar' ? <Calendar16Regular /> :   <ChevronDownRegular />}
         iconPosition='right'
         size='lg'
       >
@@ -177,6 +189,7 @@ const Filter: React.FC<FilterProps> = ({
           {getBadgeValue() && (
             <Badge badgeValue={`+${getBadgeValue()}`} type='status' />
           )}
+           
           </span>
         </div>
       </Button>
@@ -187,11 +200,8 @@ const Filter: React.FC<FilterProps> = ({
             <Calendar
               currentDate={currentCalendarDate}
               selectedDate={selectedDate}
-              onDaySelect={(date) => {
-                onDateSelect?.(date);
-                setIsOpen(false);
-              }}
-              onDateChange={setCurrentCalendarDate}
+              onDaySelect={handleDateSelection}
+              onDateChange={handleCalendarNavigation}
               minDate={minDate}
               maxDate={maxDate}
               locale={locale}

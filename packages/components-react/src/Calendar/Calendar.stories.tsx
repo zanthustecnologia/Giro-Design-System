@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { JSX, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import Calendar from './Calendar';
 import type { CalendarProps } from './Calendar';

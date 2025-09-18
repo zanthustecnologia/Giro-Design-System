@@ -24,7 +24,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-
+# Exceto o dist do UI
+!/packages/ui/dist
 
 *storybook.log
 storybook-static

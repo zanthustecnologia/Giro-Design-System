@@ -5,7 +5,7 @@ import { DropdownItem, DropdownType } from '../Dropdown/Dropdown';
 import { Filter16Regular } from '@fluentui/react-icons';
 import './Table.scss';
 
-interface TableHeaderProps {
+export interface TableHeaderProps {
   /** Valor atual da pesquisa */
   searchValue?: string;
   /** Callback quando o valor da busca muda */
@@ -133,7 +133,7 @@ const TableHeader: React.FC<TableHeaderProps> = ({
                   key={filterItem.id || index}
                   buttonText={filterItem.buttonText}
                   icon={filterItem.icon}
-                  position={filterItem.position || 'left'}
+                  position={filterItem.position || 'right'}
                   disabled={filterItem.disabled}
                   variant="outlined"
                   items={filterItem.items}
