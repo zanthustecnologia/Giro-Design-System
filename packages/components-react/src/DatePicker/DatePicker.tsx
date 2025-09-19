@@ -270,8 +270,8 @@ const DatePicker: React.FC<DatePickerProps> = ({
           <TextField
             type="tel"
             icon={<Calendar16Regular onClick={handleIconClick} style={{ cursor: 'pointer' }} />}
-            onChange={(e: string) => {
-              handleTextFieldChange(e);
+            onChange={(e: string | number) => {
+              handleTextFieldChange(String(e));
             }}
             aria-label="Open calendar"
             aria-expanded={showCalendar}
