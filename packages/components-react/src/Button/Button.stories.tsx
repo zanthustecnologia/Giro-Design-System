@@ -44,7 +44,6 @@ export default {
     iconPosition: {
       control: { type: 'select' },
       options: ['none', 'left', 'right'],
-      if: { arg: 'displayIcon', truthy: true },
     },
     fullWidth: {
       control: { type: 'boolean' },
