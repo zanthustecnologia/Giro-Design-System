@@ -32,6 +32,8 @@ export interface SelectProps {
   options: SelectOption[];
   /** Valor(es) selecionado(s) */
   value?: string | string[];
+  /** Valor inicial para seleção (usado apenas na primeira renderização) */
+  initialValue?: string | string[];
   /** Callback para mudanças na seleção */
   onChange?: (selectedItems: SelectOption[]) => void;
   /** Placeholder do campo */
@@ -79,6 +81,7 @@ const Select = React.memo<SelectProps>(({
   id,
   options = [],
   value,
+  initialValue,
   onChange,
   placeholder = 'Selecione',
   type = 'text',
@@ -129,7 +132,20 @@ const Select = React.memo<SelectProps>(({
 
   // Estados
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [selectedOptions, setSelectedOptions] = useState<SelectOption[]>([]);
+  const [selectedOptions, setSelectedOptions] = useState<SelectOption[]>(() => {
+    // Se tem value controlado, não usar initialValue
+    if (value !== undefined) {
+      return [];
+    }
+    
+    // Se tem initialValue, processar na inicialização
+    if (initialValue !== undefined) {
+      // Inicializar com array vazio primeiro, será populado no useEffect
+      return [];
+    }
+    
+    return [];
+  });
   const [isTouched, setIsTouched] = useState<boolean>(false);
   const [focusedOptionIndex, setFocusedOptionIndex] = useState<number>(-1);
 
@@ -335,7 +351,8 @@ const Select = React.memo<SelectProps>(({
         }
         break;
       case 'ArrowUp':
-        event.preventDefault();
+   
+      event.preventDefault();
         event.stopPropagation();
         if (isOpen) {
           setFocusedOptionIndex(prev => 
@@ -402,16 +419,26 @@ const Select = React.memo<SelectProps>(({
   
   useEffect(() => {
     if (value !== undefined) {
+      // Valor controlado - sempre usar value
       const valueArray = Array.isArray(value) ? value : [value];
       const newSelectedOptions = valueArray
         .map((val) => validatedOptions.find((option) => option.id === val || option.text === val))
         .filter((option): option is SelectOption => Boolean(option));
 
       setSelectedOptions(newSelectedOptions);
-    } else {
+    } else if (initialValue !== undefined && selectedOptions.length === 0) {
+      // Valor inicial não controlado - só aplicar se ainda não há seleções
+      const initialValueArray = Array.isArray(initialValue) ? initialValue : [initialValue];
+      const newSelectedOptions = initialValueArray
+        .map((val) => validatedOptions.find((option) => option.id === val || option.text === val))
+        .filter((option): option is SelectOption => Boolean(option));
+
+      setSelectedOptions(newSelectedOptions);
+    } else if (value === undefined && initialValue === undefined && selectedOptions.length > 0) {
+      // Nenhum valor definido - limpar seleções apenas se havia seleções
       setSelectedOptions([]);
     }
-  }, [value, validatedOptions]);
+  }, [value, initialValue, validatedOptions]);
 
 
   
