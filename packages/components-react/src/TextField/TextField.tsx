@@ -8,11 +8,11 @@ import { validateInput } from './ValidationUtils';
 interface TextFieldProps {
     name?: string;
     className?: string;
-    value?: string;
+    value?: string | number;
     label?: string;
     placeholder?: string;
     type?: string;
-    onChange?: (value: string) => void;
+    onChange?: (value: string | number) => void;
     disabled?: boolean;
     maxLength?: number;
     required?: boolean;
@@ -95,8 +95,8 @@ const TextField: React.FC<TextFieldProps> = ({
         [className]: className,
     });
 
-    const shouldRenderCustomIcon = inputValue.trim().length === 0;
-    const shouldRenderClearIcon = focus && inputValue.trim().length > 0;
+    const shouldRenderCustomIcon = typeof inputValue === 'string' && inputValue.trim().length === 0;
+    const shouldRenderClearIcon = focus && typeof inputValue === 'string' && inputValue.trim().length > 0;
 
     return (
         <div className={TextFieldClass}>
