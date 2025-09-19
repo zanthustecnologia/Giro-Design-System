@@ -31,7 +31,7 @@ export interface SelectProps {
   /** Array de opções para seleção - obrigatório */
   options: SelectOption[];
   /** Valor(es) selecionado(s) */
-  value?: string | string[];
+  value?: string | string[] | number | number[];
   /** Callback para mudanças na seleção */
   onChange?: (selectedItems: SelectOption[]) => void;
   /** Placeholder do campo */
@@ -319,7 +319,6 @@ const Select = React.memo<SelectProps>(({
         setIsTouched(true);
         setIsOpen(false);
         setFocusedOptionIndex(-1);
-        // ✅ Devolver foco para o trigger
         selectRef.current?.focus();
         break;
       case 'ArrowDown':
