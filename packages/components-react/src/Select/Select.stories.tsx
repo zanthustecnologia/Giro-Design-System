@@ -423,3 +423,63 @@ function Example() {
     },
   },
 };
+
+/**
+ * Story com Valor Inicial - Select com initialValue
+ * Demonstra o componente Select com um valor pré-selecionado
+ */
+export const WithInitialValue: StoryFn<SelectProps> = template.bind({});
+WithInitialValue.args = {
+  type: 'text',
+  helperText: 'Select com valor inicial pré-selecionado',
+  placeholder: 'Selecione',
+  label: 'Selecione um item',
+  initialValue: 'item-3', // Define item-3 como valor inicial
+  required: false,
+  tooltip: true,
+  tooltipText: 'Este select tem um valor inicial',
+  maxWidth: '250px',
+  minWidth: '250px'
+};
+
+WithInitialValue.parameters = {
+  docs: {
+    source: {
+      code: `
+/**
+ * Exemplo de uso do componente Select com valor inicial.
+ * - Prop initialValue para definir seleção inicial.
+ * - Útil para formulários com valores padrão.
+ * - Não interfere com controle por value.
+ */
+function Example() {
+  const [selectedValue, setSelectedValue] = useState<string>('');
+  
+  const options: SelectOption[] = [
+    { id: 'item-1', text: 'List item', subText: 'Descrição do item 1' },
+    { id: 'item-2', text: 'List-item 2', subText: 'Item desabilitado' },
+    { id: 'item-3', text: 'List-item 3', subText: 'Item inicial selecionado' },
+    { id: 'item-4', text: 'List-item 4', subText: 'Descrição do item 4' }
+  ];
+
+  const handleChange = (selectedItems: SelectOption[]): void => {
+    setSelectedValue(selectedItems[0]?.id || '');
+    console.log('Item selecionado:', selectedItems[0]);
+  };
+
+  return (
+    <Select
+      options={options}
+      type="text"
+      label="Selecione um item"
+      placeholder="Escolha uma opção"
+      helperText="Select com valor inicial pré-selecionado"
+      initialValue="item-3"
+      onChange={handleChange}
+    />
+  );
+}
+      `.trim(),
+    },
+  },
+};

@@ -1,7 +1,7 @@
 import React from 'react';
 
 export interface ValidationParams {
-  value: string;
+  value: string | number;
   maxLength?: number;
   type?: string;
   errorMessage?: string;
@@ -15,11 +15,11 @@ export const validateInput = ({
   errorMessage, 
   required 
 }: ValidationParams): string => {
-  if (required && value.trim() === '') {
+  if (required && (typeof value === 'string' ? value.trim() === '' : value === undefined)) {
     return errorMessage || 'Campo obrigatório.';
   }
 
-  if (required && maxLength && value.length > maxLength) {
+  if (required && maxLength && (typeof value === 'string' ? value.length > maxLength : String(value).length > maxLength)) {
     return errorMessage || `Campo deve ter no máximo ${maxLength} caracteres.`;
   }
 

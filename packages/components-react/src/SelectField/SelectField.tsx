@@ -40,10 +40,6 @@ interface SelectFieldProps {
   hasError?: boolean;
 }
 
-/**
- * Campo de entrada específico para Select
- * Baseado na estrutura visual do TextField
- */
 const SelectField = forwardRef<HTMLDivElement, SelectFieldProps>(({
   id,
   name,
