@@ -61,7 +61,11 @@
 .zds-table__td.text-center {
   width: 0px !important;
 }
-
+.zds-table-header__filters-placeholder{
+  font-size: var(--font-size-12);
+  color: var(--color-neutral-low-default);
+  font-family: var(--font-family-primary);
+}
 .zds-table__body .zds-table__td {
   padding: var(--spacing-8) var(--spacing-16);
   border-top: var(--border-width-1) solid var(--color-neutral-high-dark);

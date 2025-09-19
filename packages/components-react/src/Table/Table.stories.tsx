@@ -1,9 +1,10 @@
 import React, { useState, useCallback, useMemo } from 'react';
 import type { Meta, StoryFn } from '@storybook/react';
 import Table from './Table';
-import TableHeader from './TableHeader';
+import TableHeader, { FilterItem } from './TableHeader';
 import TablePagination from './TablePagination';
 import Chips from '../Chips';
+import Button from '../Button';
 import Menu from '../Menu/Menu';
 import {MoreVertical16Regular, Settings16Regular, Calendar16Regular } from '@fluentui/react-icons';
 
@@ -32,7 +33,9 @@ const promotionData = [
     type: 'Desconto',
     startDate: '24/11/2024',
     endDate: '30/11/2024',
-    status: 'Ativa'
+    status: 'Ativa',
+    startDateObj: new Date(2024, 10, 24), 
+    endDateObj: new Date(2024, 10, 30)
   },
   {
     id: 2,
@@ -42,7 +45,9 @@ const promotionData = [
     type: 'Frete Grátis',
     startDate: '01/12/2024',
     endDate: '25/12/2024',
-    status: 'Agendada'
+    status: 'Agendada',
+    startDateObj: new Date(2024, 11, 1),
+    endDateObj: new Date(2024, 11, 25)
   },
   {
     id: 3,
@@ -52,7 +57,9 @@ const promotionData = [
     type: 'Desconto',
     startDate: '01/11/2024',
     endDate: '31/12/2024',
-    status: 'Ativa'
+    status: 'Ativa',
+    startDateObj: new Date(2024, 10, 1),
+    endDateObj: new Date(2024, 11, 31)
   },
   {
     id: 4,
@@ -62,7 +69,9 @@ const promotionData = [
     type: 'Desconto',
     startDate: '15/01/2024',
     endDate: '28/02/2024',
-    status: 'Expirada'
+    status: 'Expirada',
+    startDateObj: new Date(2024, 0, 15),
+    endDateObj: new Date(2024, 1, 28)
   },
   {
     id: 5,
@@ -72,7 +81,9 @@ const promotionData = [
     type: 'Cashback',
     startDate: '01/10/2024',
     endDate: '31/10/2024',
-    status: 'Inativa'
+    status: 'Inativa',
+    startDateObj: new Date(2024, 9, 1),
+    endDateObj: new Date(2024, 9, 31)
   },
   {
     id: 6,
@@ -82,7 +93,9 @@ const promotionData = [
     type: 'Desconto',
     startDate: '01/01/2024',
     endDate: '31/12/2024',
-    status: 'Ativa'
+    status: 'Ativa',
+    startDateObj: new Date(2024, 0, 1),
+    endDateObj: new Date(2024, 11, 31)
   },
   {
     id: 7,
@@ -92,7 +105,9 @@ const promotionData = [
     type: 'Frete Grátis',
     startDate: '15/11/2024',
     endDate: '15/12/2024',
-    status: 'Agendada'
+    status: 'Agendada',
+    startDateObj: new Date(2024, 10, 15),
+    endDateObj: new Date(2024, 11, 15)
   },
   {
     id: 8,
@@ -102,48 +117,10 @@ const promotionData = [
     type: 'Combo',
     startDate: '01/12/2024',
     endDate: '31/01/2025',
-    status: 'Agendada'
-  },
-  {
-    id: 9,
-    code: 'PROMO009',
-    name: 'Combo Produtos',
-    description: 'Desconto na compra de 2 ou mais produtos',
-    type: 'Combo',
-    startDate: '01/12/2024',
-    endDate: '31/01/2025',
-    status: 'Agendada'
-  },
-  {
-    id: 9,
-    code: 'PROMO009',
-    name: 'Combo Produtos',
-    description: 'Desconto na compra de 2 ou mais produtos',
-    type: 'Combo',
-    startDate: '01/12/2024',
-    endDate: '31/01/2025',
-    status: 'Agendada'
-  },
-  {
-    id: 9,
-    code: 'PROMO009',
-    name: 'Combo Produtos',
-    description: 'Desconto na compra de 2 ou mais produtos',
-    type: 'Combo',
-    startDate: '01/12/2024',
-    endDate: '31/01/2025',
-    status: 'Agendada'
-  },
-  {
-    id: 9,
-    code: 'PROMO009',
-    name: 'Combo Produtos',
-    description: 'Desconto na compra de 2 ou mais produtos',
-    type: 'Combo',
-    startDate: '01/12/2024',
-    endDate: '31/01/2025',
-    status: 'Agendada'
-  },
+    status: 'Agendada',
+    startDateObj: new Date(2024, 11, 1),
+    endDateObj: new Date(2025, 0, 31)
+  }
 ];
 
 // Colunas básicas para stories simples (sem ações)
@@ -200,7 +177,22 @@ export const Default: StoryFn = () => {
   const [selectedKeys, setSelectedKeys] = useState<(string | number)[]>([]);
   const [selectedStatus, setSelectedStatus] = useState<string[]>([]);
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
+  const [startDateFilter, setStartDateFilter] = useState<Date | null>(null);
+  const [endDateFilter, setEndDateFilter] = useState<Date | null>(null);
   const [showSearch, setShowSearch] = useState(true);
+
+  // ✅ NOVO: Função para limpar todos os filtros
+  const clearAllFilters = () => {
+    setSelectedStatus([]);
+    setSelectedTypes([]);
+    setStartDateFilter(null);
+    setEndDateFilter(null);
+    setSearchValue('');
+  };
+
+  // ✅ NOVO: Contador de filtros ativos
+  const activeFiltersCount = selectedStatus.length + selectedTypes.length + 
+    (startDateFilter ? 1 : 0) + (endDateFilter ? 1 : 0);
   const [showFilters, setShowFilters] = useState(true);
   const [showPagination, setShowPagination] = useState(true);
   const [showSelection, setShowSelection] = useState(false);
@@ -337,6 +329,26 @@ export const Default: StoryFn = () => {
       return selectedTypes.some(type => typeMap[type] === item.type);
     });
   }
+  if (startDateFilter) {
+    console.log('Aplicando filtro data início:', startDateFilter);
+    filteredData = filteredData.filter(item => {
+      // Filtrar promoções que começam na data selecionada ou depois
+      const result = item.startDateObj >= startDateFilter;
+      console.log(`Item ${item.code}: ${item.startDateObj.toLocaleDateString()} >= ${startDateFilter.toLocaleDateString()} = ${result}`);
+      return result;
+    });
+  }
+
+  // ✅ NOVO: Filtro por data de fim
+  if (endDateFilter) {
+    console.log('Aplicando filtro data fim:', endDateFilter);
+    filteredData = filteredData.filter(item => {
+      // Filtrar promoções que terminam na data selecionada ou antes
+      const result = item.endDateObj <= endDateFilter;
+      console.log(`Item ${item.code}: ${item.endDateObj.toLocaleDateString()} <= ${endDateFilter.toLocaleDateString()} = ${result}`);
+      return result;
+    });
+  }
   
   // Paginação
   const totalItems = filteredData.length;
@@ -353,6 +365,70 @@ export const Default: StoryFn = () => {
     setItemsPerPage(newItemsPerPage);
     setCurrentPage(1);
   };
+
+  // ✅ FILTROS: Tipagem segura sem any
+  const filterItems = useMemo((): FilterItem[] => {
+    if (!showFilters) return [];
+
+    return [
+      {
+        id: 'status-filter',
+        buttonText: selectedStatus.length > 0 
+          ? `Status (${selectedStatus.length})` 
+          : 'Status',
+        items: statusItems,
+        type: 'checkbox',
+        selectedIds: selectedStatus,
+        onSelectionChange: setSelectedStatus,
+        placeholder: 'Selecione status...',
+        position: 'left'
+      },
+      {
+        id: 'type-filter',
+        buttonText: selectedTypes.length > 0 
+          ? `Tipo (${selectedTypes.length})` 
+          : 'Tipo',
+        items: typeItems,
+        type: 'checkbox',
+        selectedIds: selectedTypes,
+        onSelectionChange: setSelectedTypes,
+        placeholder: 'Selecione tipos...',
+        position: 'left'
+      },
+      {
+        id: 'start-date-filter',
+        buttonText: startDateFilter 
+          ? `Data Início: ${startDateFilter.toLocaleDateString('pt-BR')}` 
+          : 'Data Início',
+        type: 'calendar',
+        selectedDate: startDateFilter,
+        onDateSelect: (date: Date) => {
+          console.log('Data início selecionada:', date);
+          setStartDateFilter(date);
+        },
+        minDate: new Date(2024, 0, 1),
+        maxDate: new Date(2025, 11, 31),
+        placeholder: 'Selecione data de início...',
+        position: 'right'
+      },
+      {
+        id: 'end-date-filter',
+        buttonText: endDateFilter 
+          ? `Data Fim: ${endDateFilter.toLocaleDateString('pt-BR')}` 
+          : 'Data Fim',
+        type: 'calendar',
+        selectedDate: endDateFilter,
+        onDateSelect: (date: Date) => {
+          console.log('Data fim selecionada:', date);
+          setEndDateFilter(date);
+        },
+        minDate: startDateFilter || new Date(2024, 0, 1),
+        maxDate: new Date(2025, 11, 31),
+        placeholder: 'Selecione data de fim...',
+        position: 'right'
+      }
+    ];
+  }, [showFilters, selectedStatus, selectedTypes, startDateFilter, endDateFilter, statusItems, typeItems]);
   
   return (      
       <div>
@@ -363,31 +439,33 @@ export const Default: StoryFn = () => {
           showSearch={showSearch}
           showFilters={showFilters}
           searchPlaceholder="Buscar por nome, código ou descrição..."
-          filterItems={showFilters ? [
-            {
-              id: 'status-filter',
-              buttonText: 'Status',
-              items: statusItems,
-              type: 'checkbox',
-              selectedIds: selectedStatus,
-              onSelectionChange: setSelectedStatus,
-              placeholder: 'Selecione status...',
-              position: 'left'
-            },
-            {
-              id: 'type-filter',
-              buttonText: selectedTypes.length > 0 
-                ? `Tipo (${selectedTypes.length})` 
-                : 'Tipo',
-              items: typeItems,
-              type: 'checkbox',
-              selectedIds: selectedTypes,
-              onSelectionChange: setSelectedTypes,
-              placeholder: 'Selecione tipos...',
-              position: 'left'
-            }
-          ] : []}
+          filterItems={filterItems}
         />
+      )}
+
+      {/* ✅ NOVO: Indicador de filtros ativos */}
+      {activeFiltersCount > 0 && (
+        <div style={{ 
+          display: 'flex', 
+          alignItems: 'center', 
+          gap: 'var(--spacing-12)', 
+          marginBottom: 'var(--spacing-16)',
+          padding: 'var(--spacing-8) var(--spacing-12)',
+          backgroundColor: 'var(--color-neutral-50)',
+          borderRadius: 'var(--border-radius-8)',
+          fontSize: 'var(--font-size-14)'
+        }}>
+          <span style={{ fontWeight: 500 }}>
+            {activeFiltersCount} filtro{activeFiltersCount > 1 ? 's' : ''} ativo{activeFiltersCount > 1 ? 's' : ''}
+          </span>
+          <Button
+            text="Limpar filtros"
+            variant="text"
+            size="small"
+            onClick={clearAllFilters}
+            style={{ fontSize: 'var(--font-size-12)' }}
+          />
+        </div>
       )}
       
       {/* Tabela */}
@@ -435,6 +513,287 @@ export const Loading: StoryFn = () => (
     />
   </div>
 );
+
+// ✅ STORY CALENDAR FILTERS - Demonstração dos filtros de calendário
+export const CalendarFilters: StoryFn = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [searchValue, setSearchValue] = useState('');
+  const [selectedStatus, setSelectedStatus] = useState<string[]>([]);
+  const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
+  const [startDateFilter, setStartDateFilter] = useState<Date | null>(null);
+  const [endDateFilter, setEndDateFilter] = useState<Date | null>(null);
+  const [itemsPerPage, setItemsPerPage] = useState(5);
+
+  // Handler para mudança de itens por página
+  const handleItemsPerPageChange = useCallback((newItemsPerPage: number) => {
+    setItemsPerPage(newItemsPerPage);
+    setCurrentPage(1); // Reset para primeira página
+  }, []);
+
+  // Lógica de filtragem (mesmo código da story Default)
+  let filteredData = promotionData;
+  
+  if (searchValue) {
+    filteredData = filteredData.filter(item =>
+      item.name.toLowerCase().includes(searchValue.toLowerCase()) ||
+      item.code.toLowerCase().includes(searchValue.toLowerCase()) ||
+      item.description.toLowerCase().includes(searchValue.toLowerCase())
+    );
+  }
+  
+  if (selectedStatus.length > 0) {
+    filteredData = filteredData.filter(item => {
+      const statusMap: Record<string, string> = {
+        'ativa': 'Ativa',
+        'inativa': 'Inativa',
+        'agendada': 'Agendada',
+        'expirada': 'Expirada'
+      };
+      return selectedStatus.some(status => statusMap[status] === item.status);
+    });
+  }
+  
+  if (selectedTypes.length > 0) {
+    filteredData = filteredData.filter(item => {
+      const typeMap: Record<string, string> = {
+        'desconto': 'Desconto',
+        'frete-gratis': 'Frete Grátis',
+        'cashback': 'Cashback',
+        'combo': 'Combo'
+      };
+      return selectedTypes.some(type => typeMap[type] === item.type);
+    });
+  }
+
+  if (startDateFilter) {
+    filteredData = filteredData.filter(item => {
+      return item.startDateObj >= startDateFilter;
+    });
+  }
+
+  if (endDateFilter) {
+    filteredData = filteredData.filter(item => {
+      return item.endDateObj <= endDateFilter;
+    });
+  }
+
+  const totalItems = filteredData.length;
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const paginatedData = filteredData.slice(startIndex, startIndex + itemsPerPage);
+
+  const clearAllFilters = () => {
+    setSelectedStatus([]);
+    setSelectedTypes([]);
+    setStartDateFilter(null);
+    setEndDateFilter(null);
+    setSearchValue('');
+  };
+
+  const activeFiltersCount = selectedStatus.length + selectedTypes.length + 
+    (startDateFilter ? 1 : 0) + (endDateFilter ? 1 : 0);
+
+  // ✅ FILTROS: Tipagem segura para CalendarFilters
+  const filterItems: FilterItem[] = useMemo(() => [
+    {
+      id: 'status-filter',
+      buttonText: selectedStatus.length > 0 
+        ? `Status (${selectedStatus.length})` 
+        : 'Status',
+      items: [
+        { id: 'ativa', text: 'Ativa' },
+        { id: 'inativa', text: 'Inativa' },
+        { id: 'agendada', text: 'Agendada' },
+        { id: 'expirada', text: 'Expirada' }
+      ],
+      type: 'checkbox',
+      selectedIds: selectedStatus,
+      onSelectionChange: setSelectedStatus,
+      placeholder: 'Selecione status...',
+      position: 'left'
+    },
+    {
+      id: 'type-filter',
+      buttonText: selectedTypes.length > 0 
+        ? `Tipo (${selectedTypes.length})` 
+        : 'Tipo',
+      items: [
+        { id: 'desconto', text: 'Desconto' },
+        { id: 'frete-gratis', text: 'Frete Grátis' },
+        { id: 'cashback', text: 'Cashback' },
+        { id: 'combo', text: 'Combo' }
+      ],
+      type: 'checkbox',
+      selectedIds: selectedTypes,
+      onSelectionChange: setSelectedTypes,
+      placeholder: 'Selecione tipos...',
+      position: 'left'
+    },
+    {
+      id: 'start-date-filter',
+      buttonText: startDateFilter 
+        ? `Data Início: ${startDateFilter.toLocaleDateString('pt-BR')}` 
+        : 'Data Início',
+      type: 'calendar',
+      selectedDate: startDateFilter,
+      onDateSelect: (date: Date) => {
+        console.log('CalendarFilters - Data início selecionada:', date);
+        setStartDateFilter(date);
+      },
+      minDate: new Date(2024, 0, 1),
+      maxDate: new Date(2025, 11, 31),
+      placeholder: 'Filtrar promoções que começam a partir desta data...',
+      position: 'left'
+    },
+    {
+      id: 'end-date-filter',
+      buttonText: endDateFilter 
+        ? `Data Fim: ${endDateFilter.toLocaleDateString('pt-BR')}` 
+        : 'Data Fim',
+      type: 'calendar',
+      selectedDate: endDateFilter,
+      onDateSelect: (date: Date) => {
+        console.log('CalendarFilters - Data fim selecionada:', date);
+        setEndDateFilter(date);
+      },
+      minDate: startDateFilter || new Date(2024, 0, 1),
+      maxDate: new Date(2025, 11, 31),
+      placeholder: 'Filtrar promoções que terminam até esta data...',
+      position: 'left'
+    }
+  ], [selectedStatus, selectedTypes, startDateFilter, endDateFilter]);
+
+  return (
+    <div style={{ padding: '20px', minHeight: '600px' }}>
+      <h3 style={{ marginBottom: 'var(--spacing-16)' }}>
+        Filtros de Calendário - Demonstração
+      </h3>
+      
+      {/* Header com filtros incluindo calendário */}
+      <TableHeader
+        searchValue={searchValue}
+        onSearchChange={setSearchValue}
+        searchPlaceholder="Buscar promoções..."
+        showSearch={true}
+        showFilters={true}
+        filterItems={filterItems}
+      />
+
+      {/* Indicador de filtros ativos */}
+      {activeFiltersCount > 0 && (
+        <div style={{ 
+          display: 'flex', 
+          alignItems: 'center', 
+          gap: 'var(--spacing-12)', 
+          marginBottom: 'var(--spacing-16)',
+          padding: 'var(--spacing-8) var(--spacing-12)',
+          backgroundColor: 'var(--color-neutral-50)',
+          borderRadius: 'var(--border-radius-8)',
+          fontSize: 'var(--font-size-14)'
+        }}>
+          <span style={{ fontWeight: 500 }}>
+            {activeFiltersCount} filtro{activeFiltersCount > 1 ? 's' : ''} ativo{activeFiltersCount > 1 ? 's' : ''}
+          </span>
+          <Button
+            text="Limpar filtros"
+            variant="text"
+            size="small"
+            onClick={clearAllFilters}
+            style={{ fontSize: 'var(--font-size-12)' }}
+          />
+        </div>
+      )}
+      
+      {/* Informações sobre os filtros de data */}
+      {(startDateFilter || endDateFilter) && (
+        <div style={{ 
+          marginBottom: 'var(--spacing-16)',
+          padding: 'var(--spacing-12)',
+          backgroundColor: 'var(--color-brand-50)',
+          borderRadius: 'var(--border-radius-8)',
+          fontSize: 'var(--font-size-14)'
+        }}>
+          <strong>Filtros de data ativos:</strong>
+          <ul style={{ margin: 'var(--spacing-4) 0 0 var(--spacing-16)' }}>
+            {startDateFilter && (
+              <li>Promoções que iniciam a partir de: <strong>{startDateFilter.toLocaleDateString('pt-BR')}</strong></li>
+            )}
+            {endDateFilter && (
+              <li>Promoções que terminam até: <strong>{endDateFilter.toLocaleDateString('pt-BR')}</strong></li>
+            )}
+          </ul>
+        </div>
+      )}
+      
+      {/* Tabela */}
+      <Table
+        columns={basicColumns}
+        dataSource={paginatedData}
+      />
+      
+      {/* Paginação */}
+      {totalItems > 0 && (
+        <TablePagination
+          currentPage={currentPage}
+          totalItems={totalItems}
+          itemsPerPage={itemsPerPage}
+          onPageChange={setCurrentPage}
+          onItemsPerPageChange={handleItemsPerPageChange}
+          pageSizeOptions={[5, 10, 15]}
+        />
+      )}
+      
+      {/* Estatísticas */}
+      <div style={{ 
+        marginTop: 'var(--spacing-16)',
+        padding: 'var(--spacing-12)',
+        backgroundColor: 'var(--color-neutral-50)',
+        borderRadius: 'var(--border-radius-8)',
+        fontSize: 'var(--font-size-14)'
+      }}>
+        <strong>Resultados:</strong> {filteredData.length} de {promotionData.length} promoções
+      </div>
+    </div>
+  );
+};
+
+/*
+✅ IMPLEMENTAÇÃO DOS FILTROS DE CALENDÁRIO - DOCUMENTAÇÃO
+
+1. ESTRUTURA DE DADOS:
+   - Cada item de promoção agora inclui propriedades `startDateObj` e `endDateObj` como objetos Date
+   - Mantidas as strings de data originais (`startDate`, `endDate`) para exibição
+
+2. FILTROS IMPLEMENTADOS:
+   - Data Início: Filtra promoções que começam na data selecionada ou depois
+   - Data Fim: Filtra promoções que terminam na data selecionada ou antes
+
+3. INTERFACE DOS FILTROS:
+   - Botões mostram a data selecionada quando ativa
+   - Placeholder explicativo para cada filtro
+   - Contador de filtros ativos
+   - Botão "Limpar filtros" para resetar todos os filtros
+
+4. LÓGICA DE FILTRAGEM:
+   - Filtros são aplicados em sequência (busca → status → tipo → datas)
+   - Filtros de data usam comparação de objetos Date
+   - Resultados são paginados após aplicação dos filtros
+
+5. STORIES DISPONÍVEIS:
+   - `Default`: Tabela completa com todos os controles
+   - `CalendarFilters`: Demonstração específica dos filtros de calendário
+   - `Basic`: Tabela simples sem filtros
+   - `Loading`: Estado de carregamento
+
+6. EXEMPLO DE USO:
+   - Selecionar "Data Início: 01/12/2024" mostra apenas promoções que começam em dezembro
+   - Selecionar "Data Fim: 30/11/2024" mostra apenas promoções que terminam até novembro
+   - Combinar ambos os filtros cria um range específico
+
+7. INTEGRAÇÃO:
+   - Os filtros de calendário seguem a mesma interface dos outros filtros
+   - Podem ser combinados com filtros de status e tipo
+   - Funcionam em conjunto com busca por texto
+*/
 
 // ✅ STORY EMPTY - Sem dados
 export const Empty: StoryFn = () => (
