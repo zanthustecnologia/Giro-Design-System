@@ -2,7 +2,6 @@ import React from "react";
 import { UsbPlug24Regular } from "@fluentui/react-icons";
 import type { Meta, StoryFn } from '@storybook/react';
 import DropDown, { DropdownItem, DropdownProps } from "./Dropdown";
-
 import { Person16Regular, UsbPlug20Filled } from '@fluentui/react-icons';
 
 const mockValues: DropdownItem[] = [
@@ -76,20 +75,28 @@ const Template: StoryFn<TemplateArgs> = (args) => {
   };
 
   return (
-    <div>
-      <DropDown
-        {...restArgs}
-        items={mockValues}
-        applySearch={applySearch}
-        placeholder='Buscar'
-        type={type}
-        onSelectionChange={handleSelectionChange}
-        showSubText={showSubText}
-        maxWidth={maxWidth}
-        minWidth={minWidth}
-        width={width}
-      />
-    </div>
+    <div style={{
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'flex-start',
+      minHeight: '100vh',
+      padding: '40px 20px'
+    }}>
+      <div style={{ position: 'relative', width: '210px' }}>
+        <DropDown
+          {...restArgs}
+          items={mockValues}
+          applySearch={applySearch}
+          placeholder='Buscar'
+          type={type}
+          onSelectionChange={handleSelectionChange}
+          showSubText={showSubText}
+          maxWidth={maxWidth}
+          minWidth={minWidth}
+          width={width}
+        />
+      </div>
+    </div >
   );
 };
 

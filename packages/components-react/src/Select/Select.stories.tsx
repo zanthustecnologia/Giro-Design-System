@@ -348,10 +348,10 @@ const mockValues: SelectOption[] = [
 
 // Template tipado
 const template: StoryFn<SelectProps> = (args) => {
-  const { type, helperText, placeholder, maxWidth,minWidth,width,...restArgs } = args;
+  const { type, helperText, placeholder, maxWidth, minWidth, width, ...restArgs } = args;
 
   return (
-  
+  <div style={{ width: '210px', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
       <Select
         {...restArgs}
         options={mockValues}
@@ -362,6 +362,7 @@ const template: StoryFn<SelectProps> = (args) => {
         minWidth={minWidth}
         width={width}
       />
+    </div>
 
   );
 };

@@ -1,5 +1,5 @@
 .zds-dropdown__container {
-  position: relative;
+  position: absolute;
   min-width: 210px;
   background-color: var(--color-neutral-high-default);
   border-radius: var(--border-radius-8);
@@ -13,8 +13,11 @@
   scroll-behavior: smooth;
   scrollbar-width: thin;
   scrollbar-color: var(--color-neutral-low-medium) transparent;
-  margin: 0;  
+  margin: 0;
+  z-index: 9999;
+  left: 0;
 }
+
 
 .zds-dropdown__search-container {
   display: flex;
@@ -37,9 +40,9 @@
   font-family: var(--font-family-primary);
   box-sizing: border-box;
   width: 100%;
-  max-width: 100%; 
-  min-width: 0; 
-  overflow: hidden; 
+  max-width: 100%;
+  min-width: 0;
+  overflow: hidden;
 
   &:hover {
     background-color: var(--color-neutral-high-medium);
@@ -58,6 +61,7 @@
   }
 
   &--selected {
+
     span.zds-dropdown__title,
     span.zds-dropdown__subtext {
       color: var(--color-brand-primary-default);
@@ -71,11 +75,12 @@
   justify-content: flex-start;
   gap: var(--spacing-8);
   align-items: center;
-  width: 100%; 
-  min-width: 0; 
+  width: 100%;
+  min-width: 0;
   overflow: hidden;
 
   &--disabled {
+
     span.zds-dropdown__title,
     span.zds-dropdown__subtext {
       pointer-events: none;
@@ -98,11 +103,11 @@ span.zds-dropdown__title {
   font-size: var(--font-size-16);
   font-weight: var(--font-weight-regular);
   width: 100%;
-  min-width: 0; 
-  white-space: nowrap; 
-  text-overflow: ellipsis; 
-  overflow: hidden; 
-  display: block; 
+  min-width: 0;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: block;
 }
 
 span.zds-dropdown__subtext {
@@ -123,7 +128,7 @@ span.zds-dropdown__subtext {
   width: 16px;
   height: 16px;
   color: var(--color-neutral-low-default);
-  flex-shrink: 0; 
+  flex-shrink: 0;
 }
 
 .zds-dropdown__item-icon-container {
@@ -156,7 +161,7 @@ span.zds-dropdown__subtext {
   align-items: flex-start;
   padding: var(--spacing-16);
   gap: var(--spacing-16);
-  width: 100%; 
+  width: 100%;
   box-sizing: border-box;
   margin: 0;
 }
@@ -170,7 +175,8 @@ span.zds-dropdown__subtext {
   outline: 2px solid var(--color-brand-primary-default);
   outline-offset: -2px;
 }
-.zds-dropdown__container-filter{
+
+.zds-dropdown__container-filter {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
