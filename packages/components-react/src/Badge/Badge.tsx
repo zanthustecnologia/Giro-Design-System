@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useId } from 'react';
 import './Badge.scss';
 
 // ✅ Types para o componente
@@ -18,120 +18,56 @@ export interface BadgeProps {
   /** ID único do componente */
   id?: string;
   /** Se o badge está desabilitado */
-  disabled?: boolean;
-  /** Valor máximo para exibição (padrão: 99) */
   maxValue?: number;
-  /** Callback quando o badge é clicado */
-  onClick?: () => void;
   /** Props de acessibilidade customizadas */
   'aria-label'?: string;
 }
 
-/**
- * Componente Badge do Zanthus Design System
- * Renderiza um badge com ou sem valor, dependendo das propriedades fornecidas.
- * Suporta dois tipos: notification (para contadores) e status (para indicadores)
- */
 const Badge: React.FC<BadgeProps> = ({
   children,
   badgeValue = null,
   type = 'notification',
   className = '',
   id,
-  disabled = false,
-  maxValue = 99,
-  onClick,
   'aria-label': ariaLabel,
 }) => {
-  // ✅ Verificações de estado
   const isEmpty = badgeValue === null || badgeValue === undefined || badgeValue === '';
-  const isClickable = onClick && !disabled;
+  const componentId = id || useId();
 
-  /**
-   * Formata o valor de exibição baseado no tipo e limites
-   * @param inputValue - Valor a ser formatado
-   * @returns Valor formatado para exibição
-   */
   const getDisplayValue = (inputValue: BadgeValue): string | number => {
     if (inputValue === null || inputValue === undefined) return '';
-    
+
     if (typeof inputValue === 'number') {
-      return inputValue > maxValue ? `${maxValue}+` : inputValue;
+      if (!isFinite(inputValue)) return '';
+      if (inputValue < 0) return 0; 
+      if (inputValue === 0) return ''; 
+
+      return inputValue > 99 ? `${99}+` : inputValue;
     }
-    
-    return inputValue;
+
+    // ✅ Sanitizar strings
+    const sanitized = String(inputValue).trim();
+    return sanitized.length > 10 ? `${sanitized.slice(0, 7)}...` : sanitized;
   };
 
   const displayValue = getDisplayValue(badgeValue);
 
-  /**
-   * Manipula clique no badge
-   * @param event - Evento de clique
-   */
-  const handleClick = (event: React.MouseEvent<HTMLDivElement>): void => {
-    if (disabled) return;
-    
-    event.preventDefault();
-    event.stopPropagation();
-    
-    if (onClick) {
-      onClick();
-    }
-  };
-
-  /**
-   * Manipula navegação por teclado
-   * @param event - Evento de teclado
-   */
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>): void => {
-    if (disabled) return;
-    
-    if (event.key === 'Enter' || event.key === ' ') {
-      event.preventDefault();
-      event.stopPropagation();
-      
-      if (onClick) {
-        onClick();
-      }
-    }
-  };
-
-  // ✅ Props comuns para acessibilidade
-  const commonProps = {
-    className: clsx(className, {
-      'zds-badge--disabled': disabled,
-      'zds-badge--clickable': isClickable,
-    }),
-    id,
-    onClick: isClickable ? handleClick : undefined,
-    onKeyDown: isClickable ? handleKeyDown : undefined,
-    role: isClickable ? 'button' : undefined,
-    tabIndex: isClickable ? 0 : undefined,
-    'aria-label': ariaLabel || (
-      type === 'notification' && !isEmpty 
-        ? `${displayValue} notificações` 
-        : undefined
-    ),
-    'aria-disabled': disabled,
-    'data-testid': 'badge',
-  };
-
-  // ✅ Renderização do badge tipo notification
   if (type === 'notification') {
     return (
-      <div 
-        className={clsx('zds-badge-container')}
+      <div
+        className={clsx('zds-badge__container')}
       >
         <div
+          id={componentId}
           className={clsx('zds-badge', {
-            'zds-badge-large': typeof badgeValue === 'number' && badgeValue > maxValue,
-            'zds-badge-empty': isEmpty,
-            'zds-badge-has-value': !isEmpty,
+            [ 'zds-badge__small']: Number(badgeValue) <= 10,
+            [ 'zds-badge__large']: Number(badgeValue) > 10,
+            [className]: className
           })}
           data-testid="badge-notification"
         >
           {!isEmpty && (
-            <span 
+            <span
               className="zds-badge__value"
               aria-hidden={ariaLabel ? 'true' : 'false'}
             >
@@ -148,19 +84,19 @@ const Badge: React.FC<BadgeProps> = ({
     );
   }
 
-  // ✅ Renderização do badge tipo status
   return (
-    <div 
-      className={clsx('zds-badge-container__status')}
+    <div
+      className={clsx('zds-badge__container')}
     >
-      <div 
+      <div
         className={clsx('zds-badge__status', {
-          'zds-badge__status--empty': isEmpty,
+          'zds-badge__status__empty': isEmpty,
+          [className]: className
         })}
         data-testid="badge-status"
       >
         {!isEmpty && (
-          <span 
+          <span
             className="zds-badge__status-value"
             aria-hidden={ariaLabel ? 'true' : 'false'}
           >

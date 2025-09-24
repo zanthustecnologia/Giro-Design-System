@@ -1,50 +1,56 @@
-.zds-badge-container {
+.zds-badge__container {
   position: relative;
 }
 
 .zds-badge {
-  font-weight: var(--font-weight-bold); // Era: $font-weight-bold
-  font-size: var(--font-size-12); // Era: $font-size-12
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-12);
   position: absolute;
   top: -8px;
   right: -8px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: var(--border-radius-pill); // Era: $border-radius-pill
-  color: var(--color-neutral-high-light); // Era: $high-color-light
-  padding: 0 var(--spacing-4); // Era: $spacing-4
+  border-radius: var(--border-radius-pill);
+  color: var(--color-neutral-high-light);
+  background-color: var(--color-feedback-alert-default);
+  font-family: var(--font-family-primary);
+
+  height: 16px;
 
   &__status {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-left: var(--spacing-8); // Era: $spacing-8
+    margin-left: var(--spacing-8);
     height: 20px;
     width: 20px;
-    border-radius: var(--border-radius-pill); // Era: $border-radius-pill
-    background-color: var(--color-brand-primary-default); // Era: $brand-color-primary-default
-    border: 2px solid var(--color-neutral-high-default); // Era: 2px $high-color-default
+    border-radius: var(--border-radius-pill);
+    background-color: var(--color-brand-primary-default);
+    border: var(--border-width-2) solid var(--color-neutral-high-default);
+    font-family: var(--font-family-primary);
+
     span {
-      color: var(--color-neutral-high-default) !important; // Era: $high-color-default
+      color: var(--color-neutral-high-default) !important;
     }
+  }
+
+  &__small {
+    width: 16px;
+  }
+
+  &__large {
+    padding: 0 var(--spacing-4);
   }
 }
 
-.zds-badge-small {
-  top: -6px;
-  right: -6px;
-}
 
-.zds-badge-large {
-  border-radius: var(--border-radius-24); // Era: $border-radius-24
-}
 
-.zds-badge-empty {
+.zds-badge__status__empty {
   width: 8px;
   height: 8px;
-  background-color: var(--color-feedback-alert-default); // Era: $alert-color-default
-  border-radius: var(--border-radius-pill); // Era: $border-radius-pill
+  background-color: var(--color-feedback-alert-default);
+  border-radius: var(--border-radius-pill);
   padding: 0px;
   top: -2px;
   right: -2px;

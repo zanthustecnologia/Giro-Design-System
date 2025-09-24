@@ -15,9 +15,6 @@ interface StatusStoryProps {
   variant?: 'outlined' | 'filled' | 'text';
 }
 
-/**
- * Configurações padrão do Storybook para o componente Badge
- */
 const meta: Meta<typeof Badge> = {
   title: 'Pattern/Badge',
   component: Badge,
@@ -40,7 +37,7 @@ const meta: Meta<typeof Badge> = {
     ),
   ],
   argTypes: {
-    value: {
+    badgeValue: {
       control: {
         type: 'number',
       },
@@ -75,15 +72,7 @@ const meta: Meta<typeof Badge> = {
         type: { summary: 'string' },
       },
     },
-    disabled: {
-      control: 'boolean',
-      description: 'Se o badge está desabilitado',
-      table: {
-        type: { summary: 'boolean' },
-        defaultValue: { summary: 'false' },
-      },
-    },
-    maxValue: {
+   maxValue: {
       control: 'number',
       description: 'Valor máximo para exibição',
       table: {
@@ -91,33 +80,22 @@ const meta: Meta<typeof Badge> = {
         defaultValue: { summary: '99' },
       },
     },
-    onClick: {
-      action: 'clicked',
-      description: 'Callback quando o badge é clicado',
-      table: {
-        type: { summary: '() => void' },
-      },
+  
     },
-  },
-};
+  };
+
 
 export default meta;
 
-/**
- * Template para renderizar o componente Badge
- */
 const Template: StoryFn<BadgeStoryProps> = (args): ReactElement => (
   <Badge {...args}>
     <Avatar icon={<Add16Regular />} />
   </Badge>
 );
 
-/**
- * História Padrão para o Badge
- */
 export const Default: StoryFn<BadgeStoryProps> = Template.bind({});
 Default.args = {
-  value: 0,
+  badgeValue: 1,
   type: 'notification',
 };
 
@@ -125,51 +103,6 @@ Default.parameters = {
   docs: {
     description: {
       story: 'Badge padrão com valor zero exibido sobre um Avatar.',
-    },
-  },
-};
-
-/**
- * Badge sem valor (apenas indicador visual)
- */
-export const WithoutValue: StoryFn<BadgeStoryProps> = Template.bind({});
-WithoutValue.args = {
-  value: null,
-  type: 'notification',
-};
-
-WithoutValue.parameters = {
-  docs: {
-    description: {
-      story: 'Badge sem valor, mostrando apenas um indicador visual pequeno.',
-    },
-  },
-};
-
-/**
- * Template para badge de status em botão
- */
-const statusTemplate: StoryFn<StatusStoryProps> = (args): ReactElement => (
-  <Button variant={args.variant || 'outlined'}>
-    Filtro
-    <Badge type={args.type} value={args.value} />
-  </Button>
-);
-
-/**
- * Badge do tipo status
- */
-export const Status: StoryFn<StatusStoryProps> = statusTemplate.bind({});
-Status.args = {
-  value: 1,
-  type: 'status',
-  variant: 'outlined',
-};
-
-Status.parameters = {
-  docs: {
-    description: {
-      story: 'Badge do tipo status usado em botões para indicar filtros ativos ou estados.',
     },
   },
 };
