@@ -9,8 +9,9 @@ export interface ButtonProps {
   children?: React.ReactNode;
   /** Define tipo do botão entre as opções */
   variant?: 'filled' | 'outlined' | 'text';
+  iconOnly?: boolean;
   /** Define a posição do ícone entre as opções */
-  iconPosition?: 'left' | 'right';
+  iconPosition?: 'none' | 'left' | 'right';
   /** Define a rota caso o botão seja usado como link */
   href?: string;
   /** Indica se o link é externo */
@@ -36,7 +37,7 @@ export interface ButtonProps {
 }
 
 const Button = React.forwardRef<HTMLElement, ButtonProps>(({
-  as: Component = 'button', 
+  as: Component = 'button',
   children,
   variant = 'filled',
   iconPosition = 'left',
@@ -49,23 +50,39 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
   id = '',
   icon = null,
   fullWidth = false,
-  ariaLabel = ''
+  ariaLabel = '',
+  iconOnly = false
 }, ref) => {
 
   const componentId = id || useId();
+  
+  const hasContent = children && React.Children.count(children) > 0;
+  
   const buttonClasses = clsx(
     'zds-button',
     `zds-button__${variant}`,
     `zds-button__${size}`,
     {
-      'zds-button__with-icon': icon,
-      [`zds-button__icon-position-${iconPosition}`]: icon,
-      'zds-button__no-content': !children,
+      'zds-button__with-icon': icon && !iconOnly,
+      [`zds-button__icon-position-${iconPosition}`]: icon && !iconOnly, 
+      'zds-button__no-content': icon && !hasContent && !iconOnly,
       'zds-button__full-width': fullWidth,
-      'zds-button__disabled': disabled,
+      'zds-button__icon-only': iconOnly,
       [className]: className,
     }
   );
+
+  const getAriaLabel = () => {
+    if (ariaLabel) return ariaLabel;
+    if (iconOnly && !ariaLabel) {
+      if (process.env.NODE_ENV === 'development') {
+        console.warn('Button: Icon-only buttons should have an ariaLabel for accessibility');
+      }
+      return 'Botão de ação'; // Fallback genérico
+    }
+    if (typeof children === 'string') return children;
+    return undefined;
+  };
 
   const handleClick = (e: React.MouseEvent<HTMLElement>) => {
     if (disabled) {
@@ -77,6 +94,31 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
     }
   };
 
+  const renderContent = () => {
+    if (iconOnly && icon) {
+      return (
+        <span className="zds-button__icon-only" aria-hidden="true">
+          {icon}
+        </span>
+      );
+    }
+    return (
+      <>
+        {icon && iconPosition === 'left' && (
+          <span className="zds-button__icon-left" aria-hidden="true">
+            {icon}
+          </span>
+        )}
+        {children}
+        {icon && iconPosition === 'right' && (
+          <span className="zds-button__icon-right" aria-hidden="true">
+            {icon}
+          </span>
+        )}
+      </>
+    );
+  };
+
   if (href) {
     return (
       <Component
@@ -85,19 +127,13 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
         target={external ? '_blank' : undefined}
         rel={external ? 'noopener noreferrer' : undefined}
         aria-disabled={disabled}
-        aria-label={ariaLabel}
+        aria-label={getAriaLabel()}
         tabIndex={disabled ? -1 : 0}
         className={buttonClasses}
         onClick={handleClick}
         id={componentId}
       >
-        {icon && iconPosition === 'left' && (
-          <span className="zds-button__icon zds-button__icon-left">{icon}</span>
-        )}
-        {children}
-        {icon && iconPosition === 'right' && (
-          <span className="zds-button__icon zds-button__icon-right">{icon}</span>
-        )}
+        {renderContent()}
       </Component>
     );
   }
@@ -106,20 +142,14 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
     <Component
       ref={ref}
       disabled={disabled}
-      aria-label={ariaLabel || (typeof children === 'string' ? children : undefined)}
+      aria-label={getAriaLabel()}
       type="button"
       onClick={handleClick}
       id={componentId}
       tabIndex={disabled ? -1 : 0}
       className={buttonClasses}
     >
-      {icon && iconPosition === 'left' && (
-        <span className="zds-button__icon zds-button__icon-left">{icon}</span>
-      )}
-      {children}
-      {icon && iconPosition === 'right' && (
-        <span className="zds-button__icon zds-button__icon-right">{icon}</span>
-      )}
+      {renderContent()}
     </Component>
   );
 });

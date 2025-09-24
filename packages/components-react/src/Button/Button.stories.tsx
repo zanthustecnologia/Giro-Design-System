@@ -12,7 +12,7 @@ export default {
     controls: {
       sort: 'alpha',
     },
-  layout: 'centered'
+    layout: 'centered'
   },
   tags: ['autodocs'],
   argTypes: {
@@ -31,9 +31,6 @@ export default {
       control: { type: 'select' },
       options: ['lg', 'sm'],
     },
-    displayIcon: {
-      control: { type: 'boolean' },
-    },
     icon: {
       control: { type: 'select' },
       options: ['none', 'add', 'delete', 'edit', 'arrowDown'],
@@ -43,12 +40,10 @@ export default {
         edit: <Icon name="edit" size={16} />,
         arrowDown: <Icon name="arrowDown" size={12} />,
       },
-      if: { arg: 'displayIcon', truthy: true },
     },
     iconPosition: {
       control: { type: 'select' },
-      options: ['left', 'right'],
-      if: { arg: 'displayIcon', truthy: true },
+      options: ['none', 'left', 'right'],
     },
     fullWidth: {
       control: { type: 'boolean' },
@@ -81,7 +76,7 @@ const Template: StoryFn<ButtonProps & { displayIcon?: boolean; icon?: React.Reac
   icon,
   ...args
 }) => {
-  const { displayIcon, to, type } = args;
+  const {children, to, type, iconPosition, iconOnly } = args;
 
   return (
     <BrowserRouter>
@@ -91,7 +86,9 @@ const Template: StoryFn<ButtonProps & { displayIcon?: boolean; icon?: React.Reac
         justifyContent: 'center',
         padding: '48px'
       }}>
-        <Button {...args} icon={displayIcon === false || icon === 'none' ? undefined : icon} href={to} as={type === 'link' ? 'a' : 'button'} />
+        <Button {...args} iconOnly={iconOnly} icon={iconPosition === 'none' ? undefined : icon} href={to} as={type === 'link' ? 'a' : 'button'}>
+          {children}
+        </Button>
       </div>
     </BrowserRouter>
   );
@@ -112,13 +109,13 @@ export const Variants: StoryFn<ButtonProps> = (args) => (
     justifyContent: 'center',
     gap: '24px'
   }}>
-    <Button  variant="filled" size="lg" onClick={() => alert('clicked')}>
+    <Button variant="filled" size="lg" onClick={() => alert('clicked')}>
       Filled Button
     </Button>
-    <Button  variant="outlined" size="lg" onClick={() => alert('clicked')}>
+    <Button variant="outlined" size="lg" onClick={() => alert('clicked')}>
       Outlined Button
     </Button>
-    <Button  variant="text" size="lg" onClick={() => alert('clicked')}>
+    <Button variant="text" size="lg" onClick={() => alert('clicked')}>
       Text Button
     </Button>
   </div>
@@ -131,10 +128,10 @@ export const Sizes: StoryFn<ButtonProps> = () => (
     justifyContent: 'center',
     gap: '24px'
   }}>
-    <Button  variant="filled" size="lg" icon={<Add16Filled />} onClick={() => alert('clicked')}>
+    <Button variant="filled" size="lg" icon={<Add16Filled />} onClick={() => alert('clicked')}>
       Large Button
     </Button>
-    <Button  variant="filled" size="sm" icon={<Add16Filled />} onClick={() => alert('clicked')}>
+    <Button variant="filled" size="sm" icon={<Add16Filled />} onClick={() => alert('clicked')}>
       Small Button
     </Button>
   </div>
@@ -163,4 +160,25 @@ WithIcons.args = {
   type: 'button',
   variant: 'filled',
   size: 'lg',
+};
+const TemplateIconOnly: StoryFn<ButtonProps> = (args) => (
+  <div className="storybook-container" style={{
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: '24px'
+  }}>
+    <Button icon={<Add16Regular />} iconOnly={true} {...args}>
+      teste
+    </Button>
+  </div>
+);
+
+export const IconOnly = TemplateIconOnly.bind({});
+IconOnly.args = {
+  type: 'button',
+  variant: 'filled',
+  size: 'lg',
+  iconOnly: true,
+  icon: <Add16Regular />,
 };
