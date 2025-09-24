@@ -117,41 +117,40 @@ const SelectField = forwardRef<HTMLDivElement, SelectFieldProps>(({
         </label>
       )}
 
-      {/* Container Box */ }
-  < div className = "zds-select-field__container-box" >
-  <div className="zds-select-field__box__input">
-    {/* Display */}
-    <div
-      id={id}
-      className={displayClasses}
-      data-placeholder={!hasValue ? placeholder : undefined}
-    >
-      {displayText}
-    </div>
+      {/* Container Box */}
+      < div className="zds-select-field__container-box" >
+        <div className="zds-select-field__box__input">
+          {/* Display */}
+          <div
+            id={id}
+            className={displayClasses}
+            data-placeholder={!hasValue ? placeholder : undefined}
+          >
+            {displayText}
+          </div>
 
-    {/* Hidden Input */}
-    <input
-      type="hidden"
-      name={name}
-      value={value || ''}
-      disabled={disabled}
-      required={required}
-      className='zds-select-field__input'
-    />
+          {/* Hidden Input */}
+          <input
+            type="hidden"
+            name={name}
+            value={value || ''}
+            disabled={disabled}
+            required={required}
+            className='zds-select-field__input'
+          />
 
-    {/* Icon */}
-    {icon && (
-      <div className="zds-select-field__icon">
-        {icon}
-      </div>
-    )}
-  </div>
-
-        {(helperText || showError) && (
-    <div className="zds-select-field__helper-text">
-      {showError ? dynamicErrorMessage : helperText}
-    </div>
-  )}
+          {/* Icon */}
+          {icon && (
+            <div className="zds-select-field__icon">
+              {icon}
+            </div>
+          )}
+        </div>
+        {!isOpen && (helperText || showError) && (
+          <div className="zds-select-field__helper-text">
+            {showError ? dynamicErrorMessage : helperText}
+          </div>
+        )}
       </div >
     </div >
   );
