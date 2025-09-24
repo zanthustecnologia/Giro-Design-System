@@ -8,4 +8,26 @@
   align-items: stretch;
   position: relative;
   gap: var(--spacing-8);
+  
+  // ✅ CORREÇÃO: Container isolado para o dropdown
+  isolation: isolate; // Cria novo contexto de stacking
+}
+
+// ✅ NOVO: Container específico para o trigger/botão do select
+.zds-select__trigger {
+  position: relative;
+  z-index: 1; // Garante que fica acima do backdrop
+}
+
+// ✅ NOVO: Container do dropdown dentro do select
+.zds-select__dropdown {
+  position: absolute;
+  top: 100%; // Logo abaixo do trigger
+  left: 0;
+  right: 0;
+  z-index: 999;
+  margin-top: var(--spacing-4); // Pequeno espaço visual
+  
+  // ✅ IMPORTANTE: Não afeta o layout do select
+  pointer-events: auto;
 }
