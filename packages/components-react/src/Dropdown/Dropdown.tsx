@@ -111,16 +111,16 @@ const Dropdown: React.FC<DropdownProps> = ({
   const [isSearchFocused, setIsSearchFocused] = useState<boolean>(false);
   const [tempSelectedItems, setTempSelectedItems] = useState<SelectedItemsState>({});
 
-  const infiniteScrollHook = infiniteScroll ? useInfiniteScroll({
-    status: infiniteScroll.status,
-    page: infiniteScroll.page,
-    lastPage: infiniteScroll.lastPage,
-    onLoadMore: infiniteScroll.onLoadMore,
-    threshold: infiniteScroll.threshold,
-    rootMargin: infiniteScroll.rootMargin,
-    enabled: true,
-    debug: infiniteScroll.debug
-  }) : null;
+  const infiniteScrollHook = useInfiniteScroll({
+    status: infiniteScroll?.status || 'idle',
+    page: infiniteScroll?.page || 1,
+    lastPage: infiniteScroll?.lastPage || 1,
+    onLoadMore: infiniteScroll?.onLoadMore || (() => { }),
+    threshold: infiniteScroll?.threshold,
+    rootMargin: infiniteScroll?.rootMargin,
+    enabled: !!infiniteScroll, 
+    debug: infiniteScroll?.debug
+  });
 
   const searchVisible = applySearch || internalItems.length > 4;
 
@@ -212,7 +212,7 @@ const Dropdown: React.FC<DropdownProps> = ({
 
       setSelectedItems((prevSelected) => {
         let newSelected: SelectedItemsState;
- 
+
         if (type === 'checkbox') {
           newSelected = {
             ...prevSelected,
@@ -227,7 +227,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   }, [filter, type]);
 
   const handleApplyFilter = useCallback(() => {
-    if (!filter) return;    
+    if (!filter) return;
     setSelectedItems(tempSelectedItems);
     const selectedIds = Object.keys(tempSelectedItems).filter(key => tempSelectedItems[key]);
     onSelectionChange?.(selectedIds);
@@ -237,7 +237,7 @@ const Dropdown: React.FC<DropdownProps> = ({
     if (!filter) return;
     setTempSelectedItems({});
     setSelectedItems({});
-    
+
     onSelectionChange?.([]);
   }, [filter, onSelectionChange]);
 
@@ -250,7 +250,7 @@ const Dropdown: React.FC<DropdownProps> = ({
     }
     if (!onSelectionChange) return;
     const selectedIds = Object.keys(selectedItems).filter(key => selectedItems[key]);
-      onSelectionChange(selectedIds);
+    onSelectionChange(selectedIds);
   }, [selectedItems, onSelectionChange])
 
 
@@ -449,7 +449,6 @@ const Dropdown: React.FC<DropdownProps> = ({
             const itemId = generateItemId(item, index);
             const currentSelection = filter ? tempSelectedItems : selectedItems;
             return (
-              <>
                 <li
                   key={itemId}
                   role="option"
@@ -478,7 +477,6 @@ const Dropdown: React.FC<DropdownProps> = ({
                 >
                   {renderItemContent(item, index)}
                 </li>
-              </>
             );
           })
         ) : (
@@ -492,14 +490,14 @@ const Dropdown: React.FC<DropdownProps> = ({
         )}
         {filter && (
           <div className='zds-dropdown__container-filter'>
-            <Button 
-              size='sm' 
+            <Button
+              size='sm'
               variant='outlined'
               onClick={handleClearFilter}
             >
               Limpar
             </Button>
-            <Button 
+            <Button
               size='sm'
               onClick={handleApplyFilter}
             >
@@ -509,7 +507,7 @@ const Dropdown: React.FC<DropdownProps> = ({
         )}
         {infiniteScrollHook && infiniteScrollHook.hasNextPage && (
           <li role="none" className="zds-dropdown__infinite-scroll-trigger">
-            <div 
+            <div
               ref={infiniteScrollHook.observerRef}
               className="zds-dropdown__loading-indicator"
             >
