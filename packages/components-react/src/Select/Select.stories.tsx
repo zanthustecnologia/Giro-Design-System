@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import type { Meta, StoryFn } from '@storybook/react';
 import Select, { SelectProps, SelectOption } from './Select';
+import useApiSimulation from '../Hooks/ApiSimulation';
+
 
 const meta: Meta<typeof Select> = {
   title: 'Components/Select',
@@ -351,7 +353,7 @@ const template: StoryFn<SelectProps> = (args) => {
   const { type, helperText, placeholder, maxWidth, minWidth, width, ...restArgs } = args;
 
   return (
-  <div style={{ width: '210px', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
+    <div style={{ width: '210px', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
       <Select
         {...restArgs}
         options={mockValues}
@@ -366,11 +368,58 @@ const template: StoryFn<SelectProps> = (args) => {
 
   );
 };
+export const templateInfiniteScroll: StoryFn<SelectProps> = (args) => {
+  const [options, setOptions] = useState<SelectOption[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [loadingStatus, setLoadingStatus] = useState<'idle' | 'loading' | 'succeeded' | 'failed'>('idle');
+  const [selectedValue, setSelectedValue] = useState<SelectOption[]>([]);
 
-/**
- * Story padrão - Select básico
- * Demonstra o componente Select em seu estado padrão
- */
+  const totalPages = 20;
+  const handleLoadMore = useCallback(async () => {
+    if (loadingStatus === 'loading' || currentPage >= totalPages) {
+      return;
+    }
+
+    setLoadingStatus('loading');
+
+    try {
+      // Simular API call
+      const response = useApiSimulation();
+  
+
+      // Adicionar novas opções às existentes
+      setOptions(prev => [...prev, ...response.items]);
+      setCurrentPage(prev => prev + 1);
+      setLoadingStatus('succeeded');
+    } catch (error) {
+      console.error('Erro ao carregar mais opções:', error);
+      setLoadingStatus('failed');
+    }
+  }, [currentPage, loadingStatus, totalPages]);
+
+  const handleSelectionChange = (selectedItems: SelectOption[]) => {
+    setSelectedValue(selectedItems);
+    console.log('Opções selecionadas:', selectedItems);
+  };  
+
+  useEffect(() =>{
+    console.log(options);
+  },[])
+
+  return (
+    <Select
+      options={options}
+      type="checkbox"
+      label="Selecione um item"
+      placeholder="Escolha uma opção"
+      helperText="Campo obrigatório"
+      onChange={handleSelectionChange}
+      maxWidth={'250px'}
+      minWidth='250px'
+    />
+  );
+};
+
 export const Default: StoryFn<SelectProps> = template.bind({});
 Default.args = {
   type: 'text',

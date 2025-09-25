@@ -227,24 +227,17 @@ const Dropdown: React.FC<DropdownProps> = ({
   }, [filter, type]);
 
   const handleApplyFilter = useCallback(() => {
-    if (!filter) return;
-    
-    // Aplicar as seleções temporárias
+    if (!filter) return;    
     setSelectedItems(tempSelectedItems);
-    
-    // Chamar callback se existir
     const selectedIds = Object.keys(tempSelectedItems).filter(key => tempSelectedItems[key]);
     onSelectionChange?.(selectedIds);
   }, [filter, tempSelectedItems, onSelectionChange]);
 
   const handleClearFilter = useCallback(() => {
     if (!filter) return;
-    
-    // Limpar tanto o estado temporário quanto o real
     setTempSelectedItems({});
     setSelectedItems({});
     
-    // Chamar callback
     onSelectionChange?.([]);
   }, [filter, onSelectionChange]);
 
@@ -390,9 +383,6 @@ const Dropdown: React.FC<DropdownProps> = ({
     }
   }, [filteredItems, focusedIndex, toggleSelection, isSearchFocused, handleSearchClear]);
 
-  /**
-   * Classes CSS do container principal
-   */
   const DropdownClass = clsx(
     'zds-dropdown__container',
     {
@@ -536,7 +526,6 @@ const Dropdown: React.FC<DropdownProps> = ({
   );
 };
 
-// Memorized component para performance
 const MemoizedDropdown = React.memo(Dropdown);
 MemoizedDropdown.displayName = 'Dropdown';
 export default MemoizedDropdown;
