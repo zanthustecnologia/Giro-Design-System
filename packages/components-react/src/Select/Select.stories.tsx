@@ -369,53 +369,70 @@ const template: StoryFn<SelectProps> = (args) => {
   );
 };
 export const templateInfiniteScroll: StoryFn<SelectProps> = (args) => {
-  const [options, setOptions] = useState<SelectOption[]>([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [loadingStatus, setLoadingStatus] = useState<'idle' | 'loading' | 'succeeded' | 'failed'>('idle');
+  const {
+    items,
+    currentPage,
+    totalPages,
+    status,
+    error,
+    hasNextPage,
+    actions
+  } = useApiSimulation<SelectOption>({
+    itemsPerPage: 20,
+    totalItems: 500,
+    delay: 800,
+    debug: true,
+    itemGenerator: (index, search) => {
+      const itemNumber = index + 1;
+      const departments = ['Vendas', 'Marketing', 'TI', 'RH', 'Financeiro'];
+
+      return {
+        id: `option-${itemNumber}`,
+        text: search
+          ? `${search} - Opção ${itemNumber}`
+          : `Opção ${itemNumber}`,
+        subText: search
+          ? `Resultado para "${search}" - ${departments[itemNumber % departments.length]}`
+          : `${departments[itemNumber % departments.length]} - Item ${itemNumber}`,
+        disabled: itemNumber % 25 === 0
+      };
+    }
+  });
+
   const [selectedValue, setSelectedValue] = useState<SelectOption[]>([]);
 
-  const totalPages = 20;
-  const handleLoadMore = useCallback(async () => {
-    if (loadingStatus === 'loading' || currentPage >= totalPages) {
-      return;
+  useEffect(() => {
+    if (items.length === 0 && status === 'idle') {
+      actions.loadNextPage();
     }
-
-    setLoadingStatus('loading');
-
-    try {
-      // Simular API call
-      const response = useApiSimulation();
-  
-
-      // Adicionar novas opções às existentes
-      setOptions(prev => [...prev, ...response.items]);
-      setCurrentPage(prev => prev + 1);
-      setLoadingStatus('succeeded');
-    } catch (error) {
-      console.error('Erro ao carregar mais opções:', error);
-      setLoadingStatus('failed');
-    }
-  }, [currentPage, loadingStatus, totalPages]);
+  }, [items.length, status, actions]);
 
   const handleSelectionChange = (selectedItems: SelectOption[]) => {
     setSelectedValue(selectedItems);
     console.log('Opções selecionadas:', selectedItems);
-  };  
+  };
 
-  useEffect(() =>{
-    console.log(options);
-  },[])
+
+
 
   return (
     <Select
-      options={options}
+      options={items}
       type="checkbox"
-      label="Selecione um item"
-      placeholder="Escolha uma opção"
-      helperText="Campo obrigatório"
+      placeholder="Selecione opções..."
       onChange={handleSelectionChange}
-      maxWidth={'250px'}
+      value={selectedValue.map(item => item.id!)}
+      showSubText={true}
+      infiniteScroll={{
+        status: status,
+        page: currentPage,
+        lastPage: totalPages,
+        onLoadMore: actions.loadNextPage,
+        threshold: 0.1,
+        rootMargin: '50px',
+      }}
       minWidth='250px'
+      maxWidth='250px'
     />
   );
 };
@@ -484,7 +501,7 @@ WithInitialValue.args = {
   helperText: 'Select com valor inicial pré-selecionado',
   placeholder: 'Selecione',
   label: 'Selecione um item',
-  initialValue: 'item-3', // Define item-3 como valor inicial
+  initialValue: 'item-3',
   required: false,
   tooltip: true,
   tooltipText: 'Este select tem um valor inicial',
