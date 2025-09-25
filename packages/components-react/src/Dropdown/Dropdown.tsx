@@ -5,10 +5,13 @@ import { validateItems } from './DropdownUtils';
 import './Dropdown.scss';
 import Checkbox from '../Checkbox';
 import Button from '../Button';
+import { useInfiniteScroll } from '../Hooks/InfiniteScroll';
 
 /**
  * Interface para definir um item do dropdown
  */
+
+5
 export interface DropdownItem {
   /** ID único do item (opcional, será gerado automaticamente se não fornecido) */
   id?: string;
@@ -56,6 +59,25 @@ export interface DropdownProps {
   minWidth?: string | number;
   /** Define se o componente esta sendo usado para filtro */
   filter?: boolean;
+  /**
+   * Configurações para paginação infinita
+   */
+  infiniteScroll?: {
+    /** Status atual do carregamento */
+    status: 'idle' | 'loading' | 'succeeded' | 'failed';
+    /** Página atual */
+    page: number;
+    /** Última página disponível */
+    lastPage: number;
+    /** Callback para carregar próxima página */
+    onLoadMore: () => void;
+    /** Threshold para trigger (0-1) */
+    threshold?: number;
+    /** Margem para trigger */
+    rootMargin?: string;
+    /** Debug mode */
+    debug?: boolean;
+  };
 }
 
 /**
@@ -84,7 +106,8 @@ const Dropdown: React.FC<DropdownProps> = ({
   maxWidth,
   minWidth,
   width,
-  filter = false
+  filter = false,
+  infiniteScroll
 }) => {
   // Estado para controlar itens selecionados
   const [selectedItems, setSelectedItems] = useState<SelectedItemsState>(() => {
@@ -111,6 +134,17 @@ const Dropdown: React.FC<DropdownProps> = ({
   // Estados para modo filter
   const [tempSelectedItems, setTempSelectedItems] = useState<SelectedItemsState>({});
 
+  // Hook para paginação infinita
+  const infiniteScrollHook = infiniteScroll ? useInfiniteScroll({
+    status: infiniteScroll.status,
+    page: infiniteScroll.page,
+    lastPage: infiniteScroll.lastPage,
+    onLoadMore: infiniteScroll.onLoadMore,
+    threshold: infiniteScroll.threshold,
+    rootMargin: infiniteScroll.rootMargin,
+    enabled: true,
+    debug: infiniteScroll.debug
+  }) : null;
 
   const searchVisible = applySearch || internalItems.length > 4;
 
@@ -509,6 +543,21 @@ const Dropdown: React.FC<DropdownProps> = ({
               Aplicar
             </Button>
           </div>
+        )}
+        {/* Elemento trigger para infinite scroll */}
+        {infiniteScrollHook && infiniteScrollHook.hasNextPage && (
+          <li role="none" className="zds-dropdown__infinite-scroll-trigger">
+            <div 
+              ref={infiniteScrollHook.observerRef}
+              className="zds-dropdown__loading-indicator"
+            >
+              {infiniteScroll?.status === 'loading' ? (
+                <span>Carregando...</span>
+              ) : (
+                <span style={{ visibility: 'hidden' }}>Trigger</span>
+              )}
+            </div>
+          </li>
         )}
       </ul>
     </div>
