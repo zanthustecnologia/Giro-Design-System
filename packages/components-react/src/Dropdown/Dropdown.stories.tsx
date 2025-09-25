@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { UsbPlug24Regular } from "@fluentui/react-icons";
 import type { Meta, StoryFn } from '@storybook/react';
 import DropDown, { DropdownItem, DropdownProps } from "./Dropdown";
@@ -54,6 +54,12 @@ const meta: Meta<typeof DropDown> = {
     },
     onSelectionChange: {
       action: 'selection changed',
+      table: {
+        disable: true,
+      },
+    },
+    // ✅ NOVO: Argumento para infinite scroll
+    infiniteScroll: {
       table: {
         disable: true,
       },
@@ -124,4 +130,116 @@ DropdownIcon.args = {
   showSubText: true,
   placeholder: 'Buscar com ícones',
   width: '210px'
+};
+
+// ✅ NOVA: Story com Infinite Scroll
+export const DropdownInfiniteScroll: StoryFn<TemplateArgs> = () => {
+  // Estados para controlar o infinite scroll
+  const [allItems, setAllItems] = useState<DropdownItem[]>([]);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  // Configurações da paginação
+  const ITEMS_PER_PAGE = 20;
+  const TOTAL_ITEMS = 500; // Simular um grande dataset
+  const TOTAL_PAGES = Math.ceil(TOTAL_ITEMS / ITEMS_PER_PAGE);
+
+  // ✅ Função para simular API que retorna dados paginados
+  const simulateApiCall = useCallback(async (page: number, search: string = ''): Promise<DropdownItem[]> => {
+    // Simular delay da API
+    await new Promise(resolve => setTimeout(resolve, 800));
+
+    const startIndex = page * ITEMS_PER_PAGE;
+    const endIndex = startIndex + ITEMS_PER_PAGE;
+
+    // Gerar itens simulados
+    return Array.from({ length: ITEMS_PER_PAGE }, (_, index) => {
+      const itemNumber = startIndex + index + 1;
+      const icons = [<Person16Regular />, <UsbPlug20Filled />, <UsbPlug24Regular />];
+      const departments = ['Vendas', 'Marketing', 'TI', 'RH', 'Financeiro'];
+
+      return {
+        id: `person-${itemNumber}`,
+        text: search
+          ? `${search} - Pessoa ${itemNumber}`
+          : `Pessoa ${itemNumber}`,
+        subText: search
+          ? `Resultado para "${search}" - ${departments[itemNumber % departments.length]}`
+          : `${departments[itemNumber % departments.length]} - ID: ${itemNumber}`,
+        icon: icons[itemNumber % icons.length],
+        disabled: itemNumber % 25 === 0 // Alguns itens desabilitados
+      };
+    }).filter((_, index) => startIndex + index < TOTAL_ITEMS);
+  }, []);
+
+  // ✅ Carregar próxima página
+  const loadNextPage = useCallback(async () => {
+    if (isLoading || currentPage >= TOTAL_PAGES) return;
+
+    setIsLoading(true);
+
+    try {
+      const nextPage = currentPage + 1;
+      const newItems = await simulateApiCall(nextPage - 1, searchQuery);
+
+      if (nextPage === 1) {
+        // Primeira página ou nova busca - substitui items
+        setAllItems(newItems);
+      } else {
+        // Páginas subsequentes - adiciona aos existentes
+        setAllItems(prev => [...prev, ...newItems]);
+      }
+
+      setCurrentPage(nextPage);
+
+    } catch (error) {
+      console.error('Erro ao carregar itens:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [currentPage, isLoading, searchQuery, simulateApiCall]);
+
+  useEffect(() => {
+    loadNextPage();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const handleSelectionChange = (selectedIds: string[]): void => {
+    console.log(`🎯 Selecionados: ${selectedIds.length} itens`, selectedIds);
+  };
+
+  return (
+    <div style={{
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      gap: '24px',
+      minHeight: '100vh',
+      padding: '40px 20px',
+    }}>
+
+      <div style={{ position: 'relative', width: '350px' }}>
+        <DropDown
+          items={allItems}
+          id="infinite-scroll-dropdown"
+          type="checkbox"
+          applySearch={true}
+          placeholder="Buscar pessoas... (digite e pressione Enter)"
+          showSubText={true}
+          width="100%"
+          onSelectionChange={handleSelectionChange}
+          // ✅ INFINITE SCROLL CONFIG
+          infiniteScroll={{
+            status: isLoading ? 'loading' : 'idle',
+            page: currentPage,
+            lastPage: TOTAL_PAGES,
+            onLoadMore: loadNextPage,
+            threshold: 0.1,
+            rootMargin: '50px',
+            debug: true
+          }}
+        />
+      </div>
+    </div>
+  );
 };

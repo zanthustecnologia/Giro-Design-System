@@ -7,11 +7,6 @@ import Checkbox from '../Checkbox';
 import Button from '../Button';
 import { useInfiniteScroll } from '../Hooks/InfiniteScroll';
 
-/**
- * Interface para definir um item do dropdown
- */
-
-5
 export interface DropdownItem {
   /** ID único do item (opcional, será gerado automaticamente se não fornecido) */
   id?: string;
@@ -25,14 +20,8 @@ export interface DropdownItem {
   disabled?: boolean;
 }
 
-/**
- * Tipos possíveis para o dropdown
-*/
 export type DropdownType = 'text' | 'checkbox' | 'icon';
 
-/**
- * Interface para as propriedades do componente Dropdown
-*/
 export interface DropdownProps {
   /** Classes CSS adicionais */
   className?: string;
@@ -80,18 +69,10 @@ export interface DropdownProps {
   };
 }
 
-/**
- * Interface para o estado de seleção dos itens
- */
 interface SelectedItemsState {
   [key: string]: boolean;
 }
 
-/**
- * Componente Dropdown do Zanthus Design System
- * Dropdown com busca acionada pelo Enter e navegação por teclado
- * Corrigido problema de múltiplos checkboxes
- */
 const Dropdown: React.FC<DropdownProps> = ({
   className,
   items = [],
@@ -109,7 +90,6 @@ const Dropdown: React.FC<DropdownProps> = ({
   filter = false,
   infiniteScroll
 }) => {
-  // Estado para controlar itens selecionados
   const [selectedItems, setSelectedItems] = useState<SelectedItemsState>(() => {
     if (initialItemsSelected && Object.keys(initialItemsSelected).length > 0) {
       return initialItemsSelected;
@@ -124,17 +104,13 @@ const Dropdown: React.FC<DropdownProps> = ({
     return {};
   });
 
-  // Estados internos do componente
   const [internalItems, setInternalItems] = useState<DropdownItem[]>(items);
   const [focusedIndex, setFocusedIndex] = useState<number>(-1);
   const [inputValue, setInputValue] = useState<string>('');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [isSearchFocused, setIsSearchFocused] = useState<boolean>(false);
-
-  // Estados para modo filter
   const [tempSelectedItems, setTempSelectedItems] = useState<SelectedItemsState>({});
 
-  // Hook para paginação infinita
   const infiniteScrollHook = infiniteScroll ? useInfiniteScroll({
     status: infiniteScroll.status,
     page: infiniteScroll.page,
@@ -148,7 +124,6 @@ const Dropdown: React.FC<DropdownProps> = ({
 
   const searchVisible = applySearch || internalItems.length > 4;
 
-  // Sincronizar tempSelectedItems com selectedItems
   useEffect(() => {
     if (filter) {
       setTempSelectedItems(selectedItems);
@@ -251,7 +226,6 @@ const Dropdown: React.FC<DropdownProps> = ({
     }
   }, [filter, type]);
 
-  // Funções para modo filter
   const handleApplyFilter = useCallback(() => {
     if (!filter) return;
     
@@ -306,7 +280,6 @@ const Dropdown: React.FC<DropdownProps> = ({
 
   const renderItemContent = useCallback((item: DropdownItem, index: number) => {
     const itemId = item.id || `dropdown-item-${index}`;
-    // Usar estado temporário no modo filter, estado real no modo normal
     const currentSelection = filter ? tempSelectedItems : selectedItems;
 
     return (
@@ -544,7 +517,6 @@ const Dropdown: React.FC<DropdownProps> = ({
             </Button>
           </div>
         )}
-        {/* Elemento trigger para infinite scroll */}
         {infiniteScrollHook && infiniteScrollHook.hasNextPage && (
           <li role="none" className="zds-dropdown__infinite-scroll-trigger">
             <div 
@@ -554,7 +526,7 @@ const Dropdown: React.FC<DropdownProps> = ({
               {infiniteScroll?.status === 'loading' ? (
                 <span>Carregando...</span>
               ) : (
-                <span style={{ visibility: 'hidden' }}>Trigger</span>
+                <span>Trigger</span>
               )}
             </div>
           </li>
