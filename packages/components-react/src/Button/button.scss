@@ -1,5 +1,3 @@
-
-
 .zds-button {
   position: relative;
   display: flex;
@@ -13,73 +11,147 @@
   transition: all 0.3s ease-in-out;
   cursor: pointer;
   box-sizing: border-box;
-
-  /* Body/Small/Medium 14 */
+  
   font-family: var(--font-family-primary);
   font-size: var(--font-size-14);
   font-style: normal;
   font-weight: var(--font-weight-medium);
-
   text-decoration: none;
+}
+.zds-button.zds-button__lg {
+  height: 44px;
+  padding: 0 var(--spacing-24);
+  min-width: 92px;
+}
 
-  &__lg {
-    height: 44px;
-    padding: 0 var(--spacing-24);
-    min-width: 92px;
+.zds-button.zds-button__sm {
+  height: 36px;
+  padding: 0 var(--spacing-16);
+  min-width: 76px;
+}
+
+.zds-button.zds-button__filled {
+  background: var(--color-brand-primary-default);
+  color: var(--color-neutral-high-light);
+  border: none;
+}
+
+.zds-button.zds-button__outlined {
+  border: var(--border-width-1) solid var(--color-neutral-high-dark);
+  background-color: var(--color-neutral-high-default);
+  color: var(--color-brand-primary-default);
+}
+
+.zds-button.zds-button__text {
+  border: none;
+  outline: none;
+  background-color: transparent;
+  color: var(--color-brand-primary-default);
+}
+
+.zds-button.zds-button__lg.zds-button__with-icon {
+  &.zds-button__icon-position-left {
+    padding: 0 var(--spacing-24) 0 var(--spacing-16);
   }
-
-  &__sm {
-    height: 36px;
-    padding: 0 var(--spacing-16);
-    min-width: 76px;
+  
+  &.zds-button__icon-position-right {
+    padding: 0 var(--spacing-16) 0 var(--spacing-24);
   }
 }
 
+.zds-button.zds-button__sm.zds-button__with-icon {
+  &.zds-button__icon-position-left {
+    padding: 0 var(--spacing-16) 0 var(--spacing-8);
+  }
+  
+  &.zds-button__icon-position-right {
+    padding: 0 var(--spacing-8) 0 var(--spacing-16);
+  }
+}
+
+/* 5️⃣ TEXT VARIANT SPECIFICS: Especificidade alta (3-4 classes) */
+.zds-button.zds-button__text.zds-button__lg {
+  padding: 0 var(--spacing-12);
+  
+  &.zds-button__with-icon {
+    &.zds-button__icon-position-left {
+      padding: 0 var(--spacing-12) 0 var(--spacing-8);
+    }
+    
+    &.zds-button__icon-position-right {
+      padding: 0 var(--spacing-8) 0 var(--spacing-12);
+    }
+    
+    &.zds-button__no-content {
+      padding: 0 var(--spacing-16);
+    }
+  }
+}
+
+.zds-button.zds-button__text.zds-button__sm {
+  padding: 0 var(--spacing-8);
+  
+  &.zds-button__with-icon {
+    &.zds-button__icon-position-left {
+      padding: 0 var(--spacing-4) 0 var(--spacing-8);
+    }
+    
+    &.zds-button__icon-position-right {
+      padding: 0 var(--spacing-8) 0 var(--spacing-4);
+    }
+    
+    &.zds-button__no-content {
+      padding: 0 var(--spacing-8);
+    }
+  }
+}
+
+.zds-button.zds-button__lg.zds-button__icon-only {
+  padding: 0;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  max-width: 44px;
+  max-height: 44px;
+  flex-shrink: 0;
+}
+
+.zds-button.zds-button__sm.zds-button__icon-only {
+  padding: 0;
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  max-width: 36px;
+  max-height: 36px;
+  flex-shrink: 0;
+}
+.zds-button__icon-only span{
+  width: 16px;
+  height: 16px;
+}
+.zds-button.zds-button__filled.zds-button__lg.zds-button__icon-only,
+.zds-button.zds-button__outlined.zds-button__lg.zds-button__icon-only,
+.zds-button.zds-button__text.zds-button__lg.zds-button__icon-only {
+  padding: 0;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  max-width: 44px;
+}
+
+.zds-button.zds-button__filled.zds-button__sm.zds-button__icon-only,
+.zds-button.zds-button__outlined.zds-button__sm.zds-button__icon-only,
+.zds-button.zds-button__text.zds-button__sm.zds-button__icon-only {
+  padding: 0;
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  max-width: 36px;
+}
 .zds-button__full-width {
   width: 100%;
 }
 
-/* Botões com ícone e conteúdo */
-/* Ícone à esquerda */
-.zds-button.zds-button__lg.zds-button__with-icon.zds-button__icon-position-left {
-  padding: 0 var(--spacing-24) 0 var(--spacing-16);
-}
-
-.zds-button.zds-button__sm.zds-button__with-icon.zds-button__icon-position-left {
-  padding: 0 var(--spacing-16) 0 var(--spacing-8);
-}
-
-/* Ícone à direita */
-.zds-button.zds-button__lg.zds-button__with-icon.zds-button__icon-position-right {
-  padding: 0 var(--spacing-16) 0 var(--spacing-24);
-}
-
-.zds-button.zds-button__sm.zds-button__with-icon.zds-button__icon-position-right {
-  padding: 0 var(--spacing-8) 0 var(--spacing-16);
-}
-
-/* Tamanho grande */
-.zds-button.zds-button__lg.zds-button__with-icon.zds-button__no-content {
-  min-width: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 44px !important;
-  height: 44px;
-  padding: 0 var(--spacing-16);
-}
-
-.zds-button.zds-button__sm.zds-button__with-icon.zds-button__no-content {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 36px !important;
-  height: 36px;
-  padding: 0 var(--spacing-16);
-  min-width: 0;
-}
-
-/* Elementos de ícone */
 .zds-button__icon-left {
   display: flex;
   margin-right: var(--spacing-8);
@@ -90,46 +162,35 @@
   margin-left: var(--spacing-8);
 }
 
-/* Remover margens em botões sem conteúdo */
-.zds-button__no-content .zds-button__icon-left,
-.zds-button__no-content .zds-button__icon-right {
-  margin-right: 0;
-  margin-left: 0;
+/* 9️⃣ NO-CONTENT OVERRIDES: Remove margens quando sem conteúdo */
+.zds-button.zds-button__no-content .zds-button__icon-left,
+.zds-button.zds-button__no-content .zds-button__icon-right {
+  margin: 0;
 }
 
-/* Garante que, em botões sem conteúdo, o ícone da direita não tenha margem à esquerda */
-.zds-button__no-content.zds-button__icon-right {
-  margin-left: 0;
-}
-
+/* 🔟 STATES: Hover, Focus, Active, Disabled */
 .zds-button:hover,
 .zds-button:hover * {
   text-decoration: none;
 }
 
-/* FILLED */
-.zds-button__filled {
-  background: var(--color-brand-primary-default);
-  color: var(--color-neutral-high-light);
-  border: none;
-}
-
-.zds-button__filled:hover {
+/* FILLED STATES */
+.zds-button.zds-button__filled:hover {
   background: var(--color-brand-primary-medium);
 }
 
-.zds-button__filled:focus {
+.zds-button.zds-button__filled:focus {
   outline: var(--spacing-4) solid var(--color-neutral-high-dark);
   outline-offset: var(--spacing-2);
 }
 
-.zds-button__filled:active {
+.zds-button.zds-button__filled:active {
   background: var(--color-brand-primary-dark);
   color: var(--color-neutral-high-light);
   outline: none;
 }
 
-.zds-button__filled:disabled {
+.zds-button.zds-button__filled:disabled {
   background: var(--color-neutral-high-light);
   color: var(--color-neutral-low-light);
   cursor: not-allowed;
@@ -137,123 +198,72 @@
   outline: none;
 }
 
-/* OUTLINED */
-.zds-button__outlined {
-  border: var(--border-width-1) solid var(--color-neutral-high-dark);
-  background-color: var(--color-neutral-high-default);
+/* OUTLINED STATES */
+.zds-button.zds-button__outlined * {
   color: var(--color-brand-primary-default);
 }
 
-.zds-button__outlined * {
-  color: var(--color-brand-primary-default);
-}
-
-.zds-button__outlined:hover {
+.zds-button.zds-button__outlined:hover {
   color: var(--color-brand-primary-default);
   background-color: var(--color-neutral-high-medium);
 }
 
-.zds-button__outlined:focus {
+.zds-button.zds-button__outlined:focus {
   outline: var(--spacing-4) solid var(--color-neutral-high-dark);
   color: var(--color-brand-primary-default);
   background-color: var(--color-neutral-high-default);
 }
 
-.zds-button__outlined:focus * {
+.zds-button.zds-button__outlined:focus * {
   color: var(--color-brand-primary-default);
 }
 
-.zds-button__outlined:active {
+.zds-button.zds-button__outlined:active {
   outline: none;
   color: var(--color-brand-primary-default);
   background-color: var(--color-neutral-high-dark);
 }
 
-.zds-button__outlined:active * {
+.zds-button.zds-button__outlined:active * {
   color: var(--color-brand-primary-default);
 }
 
-.zds-button__outlined:disabled,
-.zds-button__outlined.disabled {
+.zds-button.zds-button__outlined:disabled,
+.zds-button.zds-button__outlined.disabled {
   outline: var(--spacing-1) solid var(--color-neutral-high-light);
   color: var(--color-neutral-high-dark);
   cursor: not-allowed;
   background-color: var(--color-neutral-high-default);
 }
 
-.zds-button__outlined:disabled *,
-.zds-button__outlined.disabled * {
+.zds-button.zds-button__outlined:disabled *,
+.zds-button.zds-button__outlined.disabled * {
   color: var(--color-neutral-high-dark);
 }
 
-/* TEXT */
-.zds-button__text {
-  border: none;
-  outline: none;
-  background-color: transparent;
+/* TEXT STATES */
+.zds-button.zds-button__text * {
   color: var(--color-brand-primary-default);
 }
 
-.zds-button__text.zds-button__lg {
-  padding: 0 var(--spacing-12);
-}
-
-.zds-button__text.zds-button__sm {
-  padding: 0 var(--spacing-8);
-}
-
-.zds-button__text.zds-button__sm.zds-button__with-icon {
-  padding: 0 var(--spacing-8);
-}
-
-/** Text--LG **/
-.zds-button__text.zds-button__lg.zds-button__with-icon.zds-button__icon-position-right {
-  padding: 0 var(--spacing-8) 0 var(--spacing-12);
-}
-
-.zds-button__text.zds-button__lg.zds-button__with-icon.zds-button__icon-position-left {
-  padding: 0 var(--spacing-12) 0 var(--spacing-8);
-}
-
-/** Text--SM **/
-.zds-button__text.zds-button__sm.zds-button__with-icon.zds-button__icon-position-right {
-  padding: 0 var(--spacing-8) 0 var(--spacing-4);
-}
-
-.zds-button__text.zds-button__sm.zds-button__with-icon.zds-button__icon-position-left {
-  padding: 0 var(--spacing-4) 0 var(--spacing-8);
-}
-
-.zds-button__text.zds-button__lg.zds-button__with-icon.zds-button__no-content {
-  padding: 0 var(--spacing-16);
-}
-
-.zds-button__text.zds-button__sm.zds-button__with-icon.zds-button__no-content {
-  padding: 0 var(--spacing-8);
-}
-
-.zds-button__text * {
-  color: var(--color-brand-primary-default);
-}
-
-.zds-button__text:hover {
+.zds-button.zds-button__text:hover {
   color: var(--color-brand-primary-default);
   background-color: var(--color-neutral-high-medium);
 }
 
-.zds-button__text:focus {
+.zds-button.zds-button__text:focus {
   outline: var(--spacing-4) solid var(--color-neutral-high-dark);
   color: var(--color-brand-primary-default);
   background-color: transparent;
 }
 
-.zds-button__text:active {
+.zds-button.zds-button__text:active {
   outline: none;
   color: var(--color-brand-primary-default);
   background-color: var(--color-neutral-high-dark);
 }
 
-.zds-button__text:disabled {
+.zds-button.zds-button__text:disabled {
   color: var(--color-neutral-high-dark);
   cursor: not-allowed;
   opacity: 0.5;

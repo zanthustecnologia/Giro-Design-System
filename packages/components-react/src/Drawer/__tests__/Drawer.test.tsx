@@ -1,355 +1,549 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import '@testing-library/jest-dom';
 import Drawer from '../Drawer';
-import type { DrawerProps } from '../Drawer';
 
-// ✅ Mock para matchMedia (necessário para testes com media queries)
-Object.defineProperty(window, 'matchMedia', {
-  writable: true,
-  value: jest.fn().mockImplementation(query => ({
-    matches: false,
-    media: query,
-    onchange: null,
-    addListener: jest.fn(), // Deprecated
-    removeListener: jest.fn(), // Deprecated
-    addEventListener: jest.fn(),
-    removeEventListener: jest.fn(),
-    dispatchEvent: jest.fn(),
-  })),
+// Mock do componente Button para isolar testes
+jest.mock('../../Button/Button', () => {
+  return function MockButton({ onClick, icon, variant, size, ...props }: any) {
+    return (
+      <button 
+        onClick={onClick} 
+        data-testid="drawer-close-button"
+        data-variant={variant}
+        data-size={size}
+        {...props}
+      >
+        {icon} Close
+      </button>
+    );
+  };
 });
 
-// ✅ Props padrão para os testes
-const defaultProps: DrawerProps = {
-  isOpen: false,
-  onClose: jest.fn(),
-  children: <div>Test Content</div>,
-  title: 'Test Drawer',
-};
-
-// ✅ Helper para renderizar o componente com props customizadas
-const renderDrawer = (props: Partial<DrawerProps> = {}) => {
-  const mergedProps = { ...defaultProps, ...props };
-  return render(<Drawer {...mergedProps} />);
-};
-
 describe('Drawer Component', () => {
-  // ✅ Limpa mocks antes de cada teste
+  const defaultProps = {
+    isOpen: false,
+    onClose: jest.fn(),
+  };
+
   beforeEach(() => {
     jest.clearAllMocks();
-    // Restore body overflow
-    document.body.style.overflow = 'unset';
+    // Limpar estilos do body antes de cada teste
+    document.body.style.overflow = '';
   });
 
-  // ✅ Testa renderização básica
-  describe('Rendering', () => {
-    it('should render correctly when closed', () => {
-      renderDrawer({ isOpen: false });
+  afterEach(() => {
+    // Restaurar estilos do body após cada teste
+    document.body.style.overflow = '';
+  });
+
+  // ✅ GRUPO 1: Renderização Básica
+  describe('Renderização Básica', () => {
+    test('deve renderizar drawer fechado por padrão', () => {
+      render(<Drawer {...defaultProps} />);
       
       const overlay = screen.getByTestId('drawer-overlay');
       const panel = screen.getByTestId('drawer-panel');
       
-      expect(overlay).toHaveStyle({ opacity: '0', display: 'none' });
-      expect(panel).toHaveStyle({ opacity: '0' });
-      expect(panel).toHaveAttribute('aria-hidden', 'true');
+      expect(overlay).toBeInTheDocument();
+      expect(panel).toBeInTheDocument();
+      expect(overlay).not.toHaveClass('zds-custom__drawer-shadow--visible');
+      expect(panel).not.toHaveClass('zds-custom__drawer-sidebar--open');
     });
 
-    it('should render correctly when open', () => {
-      renderDrawer({ isOpen: true });
+    test('deve renderizar drawer aberto quando isOpen=true', () => {
+      render(<Drawer {...defaultProps} isOpen={true} />);
       
       const overlay = screen.getByTestId('drawer-overlay');
       const panel = screen.getByTestId('drawer-panel');
       
-      expect(overlay).toHaveStyle({ opacity: '1.0' });
-      expect(panel).toHaveStyle({ opacity: '1.0' });
-      expect(panel).toHaveAttribute('aria-hidden', 'false');
+      expect(overlay).toHaveClass('zds-custom__drawer-shadow--visible');
+      expect(panel).toHaveClass('zds-custom__drawer-sidebar--open');
     });
 
-    it('should render title correctly', () => {
-      renderDrawer({ isOpen: true, title: 'Custom Title' });
+    test('deve renderizar título padrão', () => {
+      render(<Drawer {...defaultProps} isOpen={true} />);
       
-      expect(screen.getByText('Custom Title')).toBeInTheDocument();
+      const title = screen.getByText('Título');
+      expect(title).toBeInTheDocument();
+      expect(title).toHaveClass('zds-drawer__title');
     });
 
-    it('should render children content', () => {
-      renderDrawer({ 
-        isOpen: true, 
-        children: <div data-testid="custom-content">Custom Content</div> 
-      });
+    test('deve renderizar título customizado', () => {
+      render(<Drawer {...defaultProps} isOpen={true} title="Custom Title" />);
       
-      expect(screen.getByTestId('custom-content')).toBeInTheDocument();
-      expect(screen.getByText('Custom Content')).toBeInTheDocument();
+      const title = screen.getByText('Custom Title');
+      expect(title).toBeInTheDocument();
     });
 
-    it('should render with custom width', () => {
-      renderDrawer({ isOpen: true, pWidth: '500px' });
+    test('deve renderizar children quando fornecido', () => {
+      render(
+        <Drawer {...defaultProps} isOpen={true}>
+          <div data-testid="drawer-child">Child Content</div>
+        </Drawer>
+      );
       
-      const panel = screen.getByTestId('drawer-panel');
-      expect(panel).toHaveStyle({ width: '500px' });
-    });
-
-    it('should apply no-padding class when noPadding is true', () => {
-      renderDrawer({ isOpen: true, noPadding: true });
+      const child = screen.getByTestId('drawer-child');
+      const content = screen.getByTestId('drawer-content');
       
-      const panel = screen.getByTestId('drawer-panel');
-      expect(panel).toHaveClass('zds-custom-drawer-sidebar--no-padding');
+      expect(child).toBeInTheDocument();
+      expect(content).toBeInTheDocument();
+      expect(content).toContainElement(child);
     });
 
-    it('should apply custom className', () => {
-      renderDrawer({ isOpen: true, className: 'custom-class' });
+    test('deve aplicar className customizada', () => {
+      render(<Drawer {...defaultProps} className="custom-class" />);
       
       const panel = screen.getByTestId('drawer-panel');
       expect(panel).toHaveClass('custom-class');
     });
 
-    it('should apply disabled state', () => {
-      renderDrawer({ isOpen: true, disabled: true });
+    test('deve aplicar ID customizado', () => {
+      render(<Drawer {...defaultProps} id="custom-drawer" />);
       
       const panel = screen.getByTestId('drawer-panel');
-      expect(panel).toHaveClass('zds-custom-drawer-sidebar--disabled');
+      expect(panel).toHaveAttribute('id', 'custom-drawer');
     });
   });
 
-  // ✅ Testa interações do usuário
-  describe('User Interactions', () => {
-    it('should call onClose when close button is clicked', async () => {
-      const onCloseMock = jest.fn();
-      renderDrawer({ isOpen: true, onClose: onCloseMock });
+  // ✅ GRUPO 2: Funcionalidades de Clique
+  describe('Funcionalidades de Clique', () => {
+    test('deve chamar onClose quando clica no botão fechar', async () => {
+      const onClose = jest.fn();
+      render(<Drawer {...defaultProps} isOpen={true} onClose={onClose} />);
       
       const closeButton = screen.getByTestId('drawer-close-button');
       await userEvent.click(closeButton);
       
-      expect(onCloseMock).toHaveBeenCalledTimes(1);
+      expect(onClose).toHaveBeenCalledTimes(1);
     });
 
-    it('should call onClose when overlay is clicked', async () => {
-      const onCloseMock = jest.fn();
-      renderDrawer({ isOpen: true, onClose: onCloseMock });
+    test('deve chamar onClose quando clica no overlay', async () => {
+      const onClose = jest.fn();
+      render(<Drawer {...defaultProps} isOpen={true} onClose={onClose} />);
       
       const overlay = screen.getByTestId('drawer-overlay');
       await userEvent.click(overlay);
       
-      expect(onCloseMock).toHaveBeenCalledTimes(1);
+      expect(onClose).toHaveBeenCalledTimes(1);
     });
 
-    it('should not close when overlay is clicked and closeOnOverlayClick is false', async () => {
-      const onCloseMock = jest.fn();
-      renderDrawer({ 
-        isOpen: true, 
-        onClose: onCloseMock, 
-        closeOnOverlayClick: false 
-      });
+    test('não deve fechar quando clica no overlay se closeOnOverlayClick=false', async () => {
+      const onClose = jest.fn();
+      render(
+        <Drawer 
+          {...defaultProps} 
+          isOpen={true} 
+          onClose={onClose} 
+          closeOnOverlayClick={false}
+        />
+      );
       
       const overlay = screen.getByTestId('drawer-overlay');
       await userEvent.click(overlay);
       
-      expect(onCloseMock).not.toHaveBeenCalled();
+      expect(onClose).not.toHaveBeenCalled();
     });
 
-    it('should not close when drawer content is clicked', async () => {
-      const onCloseMock = jest.fn();
-      renderDrawer({ isOpen: true, onClose: onCloseMock });
+    test('deve chamar onOverlayClick quando clica no overlay', async () => {
+      const onOverlayClick = jest.fn();
+      const onClose = jest.fn();
+      render(
+        <Drawer 
+          {...defaultProps} 
+          isOpen={true} 
+          onClose={onClose}
+          onOverlayClick={onOverlayClick}
+        />
+      );
+      
+      const overlay = screen.getByTestId('drawer-overlay');
+      await userEvent.click(overlay);
+      
+      expect(onOverlayClick).toHaveBeenCalledTimes(1);
+      expect(onClose).toHaveBeenCalledTimes(1);
+    });
+
+    test('não deve fechar quando clica no conteúdo do drawer', async () => {
+      const onClose = jest.fn();
+      render(
+        <Drawer {...defaultProps} isOpen={true} onClose={onClose}>
+          <div data-testid="drawer-content-child">Content</div>
+        </Drawer>
+      );
+      
+      const content = screen.getByTestId('drawer-content-child');
+      await userEvent.click(content);
+      
+      expect(onClose).not.toHaveBeenCalled();
+    });
+
+    test('não deve fechar quando clica no panel do drawer', async () => {
+      const onClose = jest.fn();
+      render(<Drawer {...defaultProps} isOpen={true} onClose={onClose} />);
       
       const panel = screen.getByTestId('drawer-panel');
       await userEvent.click(panel);
       
-      expect(onCloseMock).not.toHaveBeenCalled();
+      expect(onClose).not.toHaveBeenCalled();
+    });
+  });
+
+  // ✅ GRUPO 3: Navegação por Teclado
+  describe('Navegação por Teclado', () => {
+    test('deve fechar com tecla ESC', async () => {
+      const onClose = jest.fn();
+      render(<Drawer {...defaultProps} isOpen={true} onClose={onClose} />);
+      
+      fireEvent.keyDown(window, { key: 'Escape' });
+      
+      expect(onClose).toHaveBeenCalledTimes(1);
     });
 
-    it('should call onOverlayClick when overlay is clicked', async () => {
-      const onOverlayClickMock = jest.fn();
-      renderDrawer({ 
-        isOpen: true, 
-        onOverlayClick: onOverlayClickMock 
-      });
+    test('não deve fechar com ESC quando closeOnEscape=false', async () => {
+      const onClose = jest.fn();
+      render(
+        <Drawer 
+          {...defaultProps} 
+          isOpen={true} 
+          onClose={onClose}
+          closeOnEscape={false}
+        />
+      );
+      
+      fireEvent.keyDown(window, { key: 'Escape' });
+      
+      expect(onClose).not.toHaveBeenCalled();
+    });
+
+    test('não deve fechar com ESC quando drawer está fechado', async () => {
+      const onClose = jest.fn();
+      render(<Drawer {...defaultProps} isOpen={false} onClose={onClose} />);
+      
+      fireEvent.keyDown(window, { key: 'Escape' });
+      
+      expect(onClose).not.toHaveBeenCalled();
+    });
+
+    test('não deve fechar com outras teclas', async () => {
+      const onClose = jest.fn();
+      render(<Drawer {...defaultProps} isOpen={true} onClose={onClose} />);
+      
+      fireEvent.keyDown(window, { key: 'Enter' });
+      fireEvent.keyDown(window, { key: 'Space' });
+      fireEvent.keyDown(window, { key: 'Tab' });
+      
+      expect(onClose).not.toHaveBeenCalled();
+    });
+  });
+
+  // ✅ GRUPO 4: Estados do Componente
+  describe('Estados do Componente', () => {
+    test('deve aplicar classe disabled quando disabled=true', () => {
+      render(<Drawer {...defaultProps} disabled={true} />);
+      
+      const panel = screen.getByTestId('drawer-panel');
+      expect(panel).toHaveClass('zds-custom__drawer-sidebar--disabled');
+    });
+
+    test('não deve fechar quando disabled=true e clica no overlay', async () => {
+      const onClose = jest.fn();
+      render(
+        <Drawer 
+          {...defaultProps} 
+          isOpen={true} 
+          onClose={onClose} 
+          disabled={true}
+        />
+      );
       
       const overlay = screen.getByTestId('drawer-overlay');
       await userEvent.click(overlay);
       
-      expect(onOverlayClickMock).toHaveBeenCalledTimes(1);
+      expect(onClose).not.toHaveBeenCalled();
     });
-  });
 
-  // ✅ Testa navegação por teclado
-  describe('Keyboard Navigation', () => {
-    it('should close when Escape key is pressed', async () => {
-      const onCloseMock = jest.fn();
-      renderDrawer({ isOpen: true, onClose: onCloseMock });
+    test('não deve fechar quando disabled=true e clica no botão fechar', async () => {
+      const onClose = jest.fn();
+      render(
+        <Drawer 
+          {...defaultProps} 
+          isOpen={true} 
+          onClose={onClose} 
+          disabled={true}
+        />
+      );
+      
+      const closeButton = screen.getByTestId('drawer-close-button');
+      await userEvent.click(closeButton);
+      
+      expect(onClose).not.toHaveBeenCalled();
+    });
+
+    test('não deve fechar com ESC quando disabled=true', async () => {
+      const onClose = jest.fn();
+      render(
+        <Drawer 
+          {...defaultProps} 
+          isOpen={true} 
+          onClose={onClose} 
+          disabled={true}
+        />
+      );
       
       fireEvent.keyDown(window, { key: 'Escape' });
       
-      expect(onCloseMock).toHaveBeenCalledTimes(1);
+      expect(onClose).not.toHaveBeenCalled();
+    });
+  });
+
+  // ✅ GRUPO 5: Largura Customizável
+  describe('Largura Customizável', () => {
+    test('deve aplicar largura padrão 400px', () => {
+      render(<Drawer {...defaultProps} />);
+      
+      const panel = screen.getByTestId('drawer-panel');
+      expect(panel).toHaveStyle({ '--drawer-custom-width': '400px' });
     });
 
-    it('should not close on Escape when closeOnEscape is false', async () => {
-      const onCloseMock = jest.fn();
-      renderDrawer({ 
-        isOpen: true, 
-        onClose: onCloseMock, 
-        closeOnEscape: false 
+    test('deve aplicar largura customizada', () => {
+      render(<Drawer {...defaultProps} customWidth="600px" />);
+      
+      const panel = screen.getByTestId('drawer-panel');
+      expect(panel).toHaveStyle({ '--drawer-custom-width': '600px' });
+    });
+
+    test('deve aceitar larguras em diferentes unidades', () => {
+      const { rerender } = render(<Drawer {...defaultProps} customWidth="50%" />);
+      
+      let panel = screen.getByTestId('drawer-panel');
+      expect(panel).toHaveStyle({ '--drawer-custom-width': '50%' });
+      
+      rerender(<Drawer {...defaultProps} customWidth="20rem" />);
+      panel = screen.getByTestId('drawer-panel');
+      expect(panel).toHaveStyle({ '--drawer-custom-width': '20rem' });
+    });
+  });
+
+  // ✅ GRUPO 6: Callbacks e Lifecycle
+  describe('Callbacks e Lifecycle', () => {
+    test('deve chamar onOpen quando drawer abre', async () => {
+      const onOpen = jest.fn();
+      const { rerender } = render(
+        <Drawer {...defaultProps} isOpen={false} onOpen={onOpen} />
+      );
+      
+      rerender(<Drawer {...defaultProps} isOpen={true} onOpen={onOpen} />);
+      
+      await waitFor(() => {
+        expect(onOpen).toHaveBeenCalledTimes(1);
+      });
+    });
+
+    test('não deve chamar onOpen quando disabled=true', async () => {
+      const onOpen = jest.fn();
+      const { rerender } = render(
+        <Drawer {...defaultProps} isOpen={false} onOpen={onOpen} disabled={true} />
+      );
+      
+      rerender(<Drawer {...defaultProps} isOpen={true} onOpen={onOpen} disabled={true} />);
+      
+      expect(onOpen).not.toHaveBeenCalled();
+    });
+
+    test('deve gerenciar overflow do body quando abre', async () => {
+      const { rerender } = render(<Drawer {...defaultProps} isOpen={false} />);
+      
+      expect(document.body.style.overflow).toBe('');
+      
+      rerender(<Drawer {...defaultProps} isOpen={true} />);
+      
+      await waitFor(() => {
+        expect(document.body.style.overflow).toBe('hidden');
+      });
+    });
+
+    test('deve restaurar overflow do body quando fecha', async () => {
+      const { rerender } = render(<Drawer {...defaultProps} isOpen={true} />);
+      
+      await waitFor(() => {
+        expect(document.body.style.overflow).toBe('hidden');
       });
       
-      fireEvent.keyDown(window, { key: 'Escape' });
+      rerender(<Drawer {...defaultProps} isOpen={false} />);
       
-      expect(onCloseMock).not.toHaveBeenCalled();
+      await waitFor(() => {
+        expect(document.body.style.overflow).toBe('unset');
+      });
     });
 
-    it('should close when Enter is pressed on close button', async () => {
-      const onCloseMock = jest.fn();
-      renderDrawer({ isOpen: true, onClose: onCloseMock });
+    test('deve limpar overflow do body no unmount', () => {
+      const { unmount } = render(<Drawer {...defaultProps} isOpen={true} />);
       
-      const closeButton = screen.getByTestId('drawer-close-button');
-      fireEvent.keyDown(closeButton, { key: 'Enter' });
+      unmount();
       
-      expect(onCloseMock).toHaveBeenCalledTimes(1);
-    });
-
-    it('should close when Space is pressed on close button', async () => {
-      const onCloseMock = jest.fn();
-      renderDrawer({ isOpen: true, onClose: onCloseMock });
-      
-      const closeButton = screen.getByTestId('drawer-close-button');
-      fireEvent.keyDown(closeButton, { key: ' ' });
-      
-      expect(onCloseMock).toHaveBeenCalledTimes(1);
-    });
-
-    it('should not close on other keys', async () => {
-      const onCloseMock = jest.fn();
-      renderDrawer({ isOpen: true, onClose: onCloseMock });
-      
-      fireEvent.keyDown(window, { key: 'Tab' });
-      fireEvent.keyDown(window, { key: 'Enter' });
-      
-      expect(onCloseMock).not.toHaveBeenCalled();
+      expect(document.body.style.overflow).toBe('unset');
     });
   });
 
-  // ✅ Testa acessibilidade
-  describe('Accessibility', () => {
-    it('should have correct ARIA attributes when open', () => {
-      renderDrawer({ isOpen: true, id: 'test-drawer' });
+  // ✅ GRUPO 7: Acessibilidade
+  describe('Acessibilidade', () => {
+    test('deve ter atributos ARIA corretos quando aberto', () => {
+      render(<Drawer {...defaultProps} isOpen={true} />);
       
       const panel = screen.getByTestId('drawer-panel');
       
       expect(panel).toHaveAttribute('role', 'dialog');
       expect(panel).toHaveAttribute('aria-modal', 'true');
-      expect(panel).toHaveAttribute('aria-labelledby', 'test-drawer-title');
       expect(panel).toHaveAttribute('aria-hidden', 'false');
+      expect(panel).toHaveAttribute('aria-labelledby', 'drawer-title');
     });
 
-    it('should have correct ARIA attributes when closed', () => {
-      renderDrawer({ isOpen: false });
+    test('deve ter atributos ARIA corretos quando fechado', () => {
+      render(<Drawer {...defaultProps} isOpen={false} />);
       
       const panel = screen.getByTestId('drawer-panel');
       
       expect(panel).toHaveAttribute('aria-hidden', 'true');
     });
 
-    it('should have accessible close button', () => {
-      renderDrawer({ isOpen: true });
+    test('deve usar ID customizado para aria-labelledby', () => {
+      render(<Drawer {...defaultProps} isOpen={true} id="custom-drawer" />);
       
-      const closeButton = screen.getByTestId('drawer-close-button');
+      const panel = screen.getByTestId('drawer-panel');
+      const title = screen.getByText('Título');
       
-      expect(closeButton).toHaveAttribute('role', 'button');
-      expect(closeButton).toHaveAttribute('tabIndex', '0');
-      expect(closeButton).toHaveAttribute('aria-label', 'Fechar drawer');
+      expect(panel).toHaveAttribute('aria-labelledby', 'custom-drawer-title');
+      expect(title).toHaveAttribute('id', 'custom-drawer-title');
     });
 
-    it('should prevent body scroll when open', () => {
-      renderDrawer({ isOpen: true });
+    test('overlay deve ter role presentation', () => {
+      render(<Drawer {...defaultProps} />);
       
-      expect(document.body.style.overflow).toBe('hidden');
-    });
-
-    it('should restore body scroll when closed', () => {
-      const { rerender } = renderDrawer({ isOpen: true });
-      expect(document.body.style.overflow).toBe('hidden');
-      
-      rerender(<Drawer {...defaultProps} isOpen={false} />);
-      expect(document.body.style.overflow).toBe('unset');
-    });
-  });
-
-  // ✅ Testa callbacks
-  describe('Callbacks', () => {
-    it('should call onOpen when drawer opens', async () => {
-      const onOpenMock = jest.fn();
-      const { rerender } = renderDrawer({ isOpen: false, onOpen: onOpenMock });
-      
-      rerender(<Drawer {...defaultProps} isOpen={true} onOpen={onOpenMock} />);
-      
-      await waitFor(() => {
-        expect(onOpenMock).toHaveBeenCalledTimes(1);
-      });
-    });
-
-    it('should not call onOpen when drawer is already open', () => {
-      const onOpenMock = jest.fn();
-      const { rerender } = renderDrawer({ isOpen: true, onOpen: onOpenMock });
-      
-      // Clear the initial call
-      onOpenMock.mockClear();
-      
-      rerender(<Drawer {...defaultProps} isOpen={true} onOpen={onOpenMock} />);
-      
-      expect(onOpenMock).not.toHaveBeenCalled();
-    });
-  });
-
-  // ✅ Testa estados de erro/disabled
-  describe('Error States', () => {
-    it('should not respond to interactions when disabled', async () => {
-      const onCloseMock = jest.fn();
-      renderDrawer({ isOpen: true, disabled: true, onClose: onCloseMock });
-      
-      const closeButton = screen.getByTestId('drawer-close-button');
       const overlay = screen.getByTestId('drawer-overlay');
       
-      await userEvent.click(closeButton);
-      await userEvent.click(overlay);
-      fireEvent.keyDown(window, { key: 'Escape' });
-      
-      expect(onCloseMock).not.toHaveBeenCalled();
+      expect(overlay).toHaveAttribute('role', 'presentation');
+      expect(overlay).toHaveAttribute('aria-hidden', 'true');
     });
 
-    it('should handle missing children gracefully', () => {
-      renderDrawer({ isOpen: true, children: undefined });
+    test('botão fechar deve estar acessível', () => {
+      render(<Drawer {...defaultProps} isOpen={true} />);
+      
+      const closeButton = screen.getByTestId('drawer-close-button');
+      
+      expect(closeButton).toBeInTheDocument();
+      expect(closeButton).toHaveAttribute('data-variant', 'outlined');
+      expect(closeButton).toHaveAttribute('data-size', 'lg');
+    });
+  });
+
+  // ✅ GRUPO 8: Casos Extremos e Edge Cases
+  describe('Casos Extremos', () => {
+    test('deve renderizar sem children', () => {
+      render(<Drawer {...defaultProps} isOpen={true} />);
       
       const content = screen.getByTestId('drawer-content');
       expect(content).toBeInTheDocument();
+      expect(content).toBeEmptyDOMElement();
     });
-  });
 
-  // ✅ Testa z-index customizado
-  describe('Z-Index Configuration', () => {
-    it('should apply custom z-index values', () => {
-      renderDrawer({ 
-        isOpen: true, 
-        zIndex: 100, 
-        overlayZIndex: 99 
+    test('deve lidar com título muito longo', () => {
+      const longTitle = 'A'.repeat(100);
+      render(<Drawer {...defaultProps} isOpen={true} title={longTitle} />);
+      
+      const title = screen.getByText(longTitle);
+      expect(title).toBeInTheDocument();
+      expect(title).toHaveClass('zds-drawer__title');
+    });
+
+    test('deve lidar com múltiplas mudanças de estado rapidamente', async () => {
+      const onOpen = jest.fn();
+      const onClose = jest.fn();
+      const { rerender } = render(
+        <Drawer {...defaultProps} isOpen={false} onOpen={onOpen} onClose={onClose} />
+      );
+      
+      // Abrir e fechar rapidamente
+      rerender(<Drawer {...defaultProps} isOpen={true} onOpen={onOpen} onClose={onClose} />);
+      rerender(<Drawer {...defaultProps} isOpen={false} onOpen={onOpen} onClose={onClose} />);
+      rerender(<Drawer {...defaultProps} isOpen={true} onOpen={onOpen} onClose={onClose} />);
+      
+      await waitFor(() => {
+        expect(onOpen).toHaveBeenCalledTimes(2);
       });
+    });
+
+    test('deve prevenir comportamentos inesperados com event.stopPropagation', async () => {
+      const onClose = jest.fn();
+      const outerClick = jest.fn();
+      
+      render(
+        <div onClick={outerClick}>
+          <Drawer {...defaultProps} isOpen={true} onClose={onClose}>
+            <button data-testid="inner-button">Inner Button</button>
+          </Drawer>
+        </div>
+      );
+      
+      const innerButton = screen.getByTestId('inner-button');
+      await userEvent.click(innerButton);
+      
+      // Drawer não deve fechar e evento não deve propagar
+      expect(onClose).not.toHaveBeenCalled();
+      expect(outerClick).not.toHaveBeenCalled();
+    });
+
+    test('deve lidar com larguras inválidas graciosamente', () => {
+      render(<Drawer {...defaultProps} customWidth="invalid-width" />);
       
       const panel = screen.getByTestId('drawer-panel');
-      const overlay = screen.getByTestId('drawer-overlay');
-      
-      expect(panel).toHaveStyle({ zIndex: '100' });
-      expect(overlay).toHaveStyle({ zIndex: '99' });
+      expect(panel).toHaveStyle({ '--drawer-custom-width': 'invalid-width' });
+      // CSS irá usar fallback 400px
     });
   });
 
-  // ✅ Testa cleanup
-  describe('Cleanup', () => {
-    it('should cleanup event listeners on unmount', () => {
+  // ✅ GRUPO 9: Integração e Performance
+  describe('Integração e Performance', () => {
+    test('deve remover event listeners corretamente', () => {
+      const addEventListenerSpy = jest.spyOn(window, 'addEventListener');
       const removeEventListenerSpy = jest.spyOn(window, 'removeEventListener');
-      const { unmount } = renderDrawer({ isOpen: true });
       
-      unmount();
+      const { rerender } = render(<Drawer {...defaultProps} isOpen={true} />);
+      
+      expect(addEventListenerSpy).toHaveBeenCalledWith('keydown', expect.any(Function));
+      
+      rerender(<Drawer {...defaultProps} isOpen={false} />);
       
       expect(removeEventListenerSpy).toHaveBeenCalledWith('keydown', expect.any(Function));
-      expect(document.body.style.overflow).toBe('unset');
       
+      addEventListenerSpy.mockRestore();
       removeEventListenerSpy.mockRestore();
+    });
+
+    test('não deve adicionar event listeners quando closeOnEscape=false', () => {
+      const addEventListenerSpy = jest.spyOn(window, 'addEventListener');
+      
+      render(<Drawer {...defaultProps} isOpen={true} closeOnEscape={false} />);
+      
+      expect(addEventListenerSpy).not.toHaveBeenCalledWith('keydown', expect.any(Function));
+      
+      addEventListenerSpy.mockRestore();
+    });
+
+    test('deve funcionar com múltiplos drawers', () => {
+      render(
+        <>
+          <Drawer {...defaultProps} isOpen={true} id="drawer1" />
+          <Drawer {...defaultProps} isOpen={false} id="drawer2" />
+        </>
+      );
+      
+      const drawer1 = screen.getByTestId('drawer-panel');
+      expect(drawer1).toHaveAttribute('id', 'drawer1');
+      
+      const overlays = screen.getAllByTestId('drawer-overlay');
+      expect(overlays).toHaveLength(2);
     });
   });
 });
