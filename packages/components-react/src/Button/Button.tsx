@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import './Button.scss';
 
 export interface ButtonProps {
-  /** Define o elemento a ser renderizado (ex: 'button', 'a', ou outro componente) */
+  /** Define o elemento a ser renderizado (ex: 'button', 'a', ou componente de roteamento) */
   as?: React.ElementType;
   /** Define o texto principal do botão */
   children?: React.ReactNode;
@@ -12,10 +12,21 @@ export interface ButtonProps {
   iconOnly?: boolean;
   /** Define a posição do ícone entre as opções */
   iconPosition?: 'none' | 'left' | 'right';
-  /** Define a rota caso o botão seja usado como link */
+  
+  // ✅ PROPS DE NAVEGAÇÃO
+  /** URL para links externos (ex: https://example.com) */
   href?: string;
+  /** Rota interna para navegação SPA (ex: /dashboard, /profile) */
+  to?: string;
   /** Indica se o link é externo */
   external?: boolean;
+  /** Target para links (_blank, _self, etc.) */
+  target?: string;
+  /** Rel attribute para links */
+  rel?: string;
+  /** Props para React Router (replace, state, etc.) */
+  routerProps?: Record<string, any>;
+  
   /** Desabilita interações do botão */
   disabled?: boolean;
   /** Função a ser chamada quando o botão é clicado */
@@ -32,17 +43,21 @@ export interface ButtonProps {
   fullWidth?: boolean;
   /** Texto para acessibilidade */
   ariaLabel?: string;
-  /** Outros props */
+  /** Outros props específicos do elemento/componente */
   [key: string]: any;
 }
 
 const Button = React.forwardRef<HTMLElement, ButtonProps>(({
-  as: Component = 'button',
+  as,
   children,
   variant = 'filled',
   iconPosition = 'left',
   href,
+  to,
   external = false,
+  target,
+  rel,
+  routerProps = {},
   disabled = false,
   onClick,
   size = 'lg',
@@ -51,11 +66,25 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
   icon = null,
   fullWidth = false,
   ariaLabel = '',
-  iconOnly = false
+  iconOnly = false,
+  ...restProps
 }, ref) => {
 
   const componentId = id || useId();
   
+  // ✅ LÓGICA INTELIGENTE: Determinar o componente correto
+  const getComponent = (): React.ElementType => {
+    // Se 'as' foi especificado explicitamente, usar ele
+    if (as) return as;
+    
+    // Auto-detectar baseado nas props:
+    if (href) return 'a';        // Link externo/absoluto
+    if (to) return 'a';          // Link interno (fallback para 'a' se não houver router)
+    
+    return 'button';             // Padrão: button
+  };
+
+  const Component = getComponent();
   const hasContent = children && React.Children.count(children) > 0;
   
   const buttonClasses = clsx(
@@ -64,12 +93,13 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
     `zds-button__${size}`,
     {
       'zds-button__with-icon': icon && !iconOnly,
-      [`zds-button__icon-position-${iconPosition}`]: icon && !iconOnly, 
+      [`zds-button__icon-position-${iconPosition}`]: icon && !iconOnly && iconPosition !== 'none', 
       'zds-button__no-content': icon && !hasContent && !iconOnly,
       'zds-button__full-width': fullWidth,
       'zds-button__icon-only': iconOnly,
-      [className]: className,
-    }
+      'zds-button__disabled': disabled,
+    },
+    className
   );
 
   const getAriaLabel = () => {
@@ -78,7 +108,7 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
       if (process.env.NODE_ENV === 'development') {
         console.warn('Button: Icon-only buttons should have an ariaLabel for accessibility');
       }
-      return 'Botão de ação'; // Fallback genérico
+      return 'Botão de ação';
     }
     if (typeof children === 'string') return children;
     return undefined;
@@ -89,9 +119,7 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
       e.preventDefault();
       return;
     }
-    if (onClick) {
-      onClick(e);
-    }
+    onClick?.(e);
   };
 
   const renderContent = () => {
@@ -119,42 +147,65 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
     );
   };
 
-  if (href) {
-    return (
-      <Component
-        ref={ref}
-        href={disabled ? '#' : href}
-        target={external ? '_blank' : undefined}
-        rel={external ? 'noopener noreferrer' : undefined}
-        aria-disabled={disabled}
-        aria-label={getAriaLabel()}
-        tabIndex={disabled ? -1 : 0}
-        className={buttonClasses}
-        onClick={handleClick}
-        id={componentId}
-      >
-        {renderContent()}
-      </Component>
-    );
-  }
+  // ✅ PROPS BASE comuns a todos os elementos
+  const baseProps = {
+    ref,
+    id: componentId,
+    className: buttonClasses,
+    'aria-label': getAriaLabel(),
+    'aria-disabled': disabled,
+    tabIndex: disabled ? -1 : 0,
+    onClick: handleClick,
+    ...restProps, // Props específicos do elemento/componente
+  };
+
+  // ✅ PROPS ESPECÍFICOS por tipo de navegação
+  const getNavigationProps = () => {
+    // Link externo (href)
+    if (href) {
+      return {
+        href: disabled ? '#' : href,
+        target: external || target === '_blank' ? '_blank' : target,
+        rel: external || target === '_blank' ? 'noopener noreferrer' : rel,
+      };
+    }
+
+    // Link interno (to) - para React Router ou similar
+    if (to) {
+      // Se estiver usando React Router Link component
+      if (Component !== 'a') {
+        return {
+          to: disabled ? '#' : to,
+          ...routerProps, // Props extras como replace, state, etc.
+        };
+      }
+      
+      // Fallback: usar como href se for elemento 'a'
+      return {
+        href: disabled ? '#' : to,
+      };
+    }
+
+    // Button normal
+    if (Component === 'button') {
+      return {
+        type: 'button',
+        disabled,
+      };
+    }
+
+    return {};
+  };
 
   return (
     <Component
-      ref={ref}
-      disabled={disabled}
-      aria-label={getAriaLabel()}
-      type="button"
-      onClick={handleClick}
-      id={componentId}
-      tabIndex={disabled ? -1 : 0}
-      className={buttonClasses}
+      {...baseProps}
+      {...getNavigationProps()}
     >
       {renderContent()}
     </Component>
   );
 });
 
-const MemoizedButton = React.memo(Button);
-MemoizedButton.displayName = 'Button';
 Button.displayName = 'Button';
-export default MemoizedButton;
+export default Button;
