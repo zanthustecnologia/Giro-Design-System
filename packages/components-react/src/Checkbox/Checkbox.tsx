@@ -55,6 +55,7 @@ const Checkbox: React.FC<CheckboxProps> = ({
     if (disabled) return;
     
     const newChecked = e.target.checked;
+    console.log('newChecked:', newChecked);
     setInternalChecked(newChecked);
 
     if (internalIndeterminate) {
@@ -85,7 +86,11 @@ const Checkbox: React.FC<CheckboxProps> = ({
   useEffect(() => {
     setInternalIndeterminate(indeterminate);
   }, [indeterminate]);
+  useEffect(() =>{
+    console.log('internalChecked:', internalChecked);
+    console.log('checked:', checked);
 
+  },[internalChecked, checked])
   
   useEffect(() => {
     if (elementRef.current) {
@@ -102,7 +107,7 @@ const Checkbox: React.FC<CheckboxProps> = ({
       >
         <div
           className={clsx('zds-checkbox__checkmark', {
-            'zds-checkbox__checkmark__checked': internalChecked && !internalIndeterminate,
+            'zds-checkbox__checkmark__checked': checked && !internalIndeterminate,
             'zds-checkbox__checkmark__indeterminate': internalIndeterminate,
           })}
         >
