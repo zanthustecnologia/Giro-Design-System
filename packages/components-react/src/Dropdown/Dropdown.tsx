@@ -272,6 +272,7 @@ const Dropdown: React.FC<DropdownProps> = ({
 
   const renderItemContent = useCallback((item: DropdownItem, index: number) => {
     const itemId = item.id || `dropdown-item-${index}`;
+    // Usar estado temporário no modo filter, estado real no modo normal
     const currentSelection = filter ? tempSelectedItems : selectedItems;
 
     return (

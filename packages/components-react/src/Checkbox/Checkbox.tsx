@@ -53,7 +53,14 @@ const Checkbox: React.FC<CheckboxProps> = ({
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     if (disabled) return;
+    
+    const newChecked = e.target.checked;
+    setInternalChecked(newChecked);
 
+    if (internalIndeterminate) {
+      setInternalIndeterminate(false);
+    }
+    
     onChange?.(e);
   };
 
@@ -65,25 +72,20 @@ const Checkbox: React.FC<CheckboxProps> = ({
     'zds-checkbox',
     {
       'zds-checkbox__disabled': disabled,
-      'zds-checkbox__checked': checked && !internalIndeterminate,
+      'zds-checkbox__checked': internalChecked && !internalIndeterminate,
       'zds-checkbox__indeterminate': internalIndeterminate,
     },
     className
   );
 
+    useEffect(() => {
+    setInternalChecked(checked);
+  }, [checked]);
 
-  // useEffect(() => {
-  //   console.log(checked);
-  // }, [checked]);
+  useEffect(() => {
+    setInternalIndeterminate(indeterminate);
+  }, [indeterminate]);
 
-  // useEffect(() => {
-  //   setInternalIndeterminate(indeterminate);
-  // }, [indeterminate]);
-  // useEffect(() =>{
-  //   console.log('internalChecked:', internalChecked);
-  //   console.log('checked:', checked);
-
-  // },[internalChecked, checked])
   
   useEffect(() => {
     if (elementRef.current) {
@@ -100,7 +102,7 @@ const Checkbox: React.FC<CheckboxProps> = ({
       >
         <div
           className={clsx('zds-checkbox__checkmark', {
-            'zds-checkbox__checkmark__checked': checked && !internalIndeterminate,
+            'zds-checkbox__checkmark__checked': internalChecked && !internalIndeterminate,
             'zds-checkbox__checkmark__indeterminate': internalIndeterminate,
           })}
         >
@@ -110,7 +112,7 @@ const Checkbox: React.FC<CheckboxProps> = ({
             name={name}
             type="checkbox"
             value={value}
-            checked={checked}
+            checked={internalChecked}
             onChange={handleChange}
             disabled={disabled}
             aria-checked={internalIndeterminate ? 'mixed' : internalChecked}
@@ -119,13 +121,13 @@ const Checkbox: React.FC<CheckboxProps> = ({
             tabIndex={disabled ? -1 : 0}
           />
 
-          {checked && !indeterminate && (
+          {internalChecked && !internalIndeterminate && (
             <span className="zds-checkbox__icon" aria-hidden="true">
               <CheckSmall  />
             </span>
           )}
-
-          {indeterminate && (
+          
+          {internalIndeterminate && (
             <span className="zds-checkbox__icon" aria-hidden="true">
               <CheckHalf />
             </span>
