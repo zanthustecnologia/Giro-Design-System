@@ -53,13 +53,7 @@ const Checkbox: React.FC<CheckboxProps> = ({
     if (disabled) return;
     onChange?.(e);
   };
-  useEffect(() =>{
-    console.log(checked);
-  },[checked])
 
-  // const handleMouseDown = (e: React.MouseEvent<HTMLLabelElement>): void => {
-  //   e.preventDefault();
-  // };
 
   const checkboxClass = clsx(
     'zds-checkbox',
@@ -84,7 +78,6 @@ const Checkbox: React.FC<CheckboxProps> = ({
       <label 
         htmlFor={inputId} 
         className="zds-checkbox__box-check" 
-        onMouseDown={handleMouseDown}
       >
         <div
           className={clsx('zds-checkbox__checkmark', {
