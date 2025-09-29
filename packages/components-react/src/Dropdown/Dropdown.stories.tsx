@@ -113,7 +113,7 @@ export const DropdownCheckbox = Template.bind({});
 DropdownCheckbox.args = {
   type: 'checkbox',
   showSubText: true,
-  placeholder: 'Selecione múltiplos itens',
+  placeholder: 'Buscar',
   width: '210px'
 };
 
@@ -122,6 +122,6 @@ DropdownIcon.args = {
   applySearch: false,
   type: 'icon',
   showSubText: true,
-  placeholder: 'Buscar com ícones',
+  placeholder: 'Buscar',
   width: '210px'
 };

@@ -119,6 +119,7 @@ span.zds-dropdown__subtext {
   text-overflow: ellipsis;
   overflow: hidden;
   display: block;
+  color: var(--color-neutral-low-dark);
 }
 
 .zds-dropdown__item-icon {
@@ -170,7 +171,10 @@ span.zds-dropdown__subtext {
   flex-shrink: 0;
 }
 
-
+.zds-dropdown__item--checkbox{
+  padding-left: var(--spacing-8);
+  padding-right: var(--spacing-16);
+}
 .zds-dropdown__item:focus {
   outline: 2px solid var(--color-brand-primary-default);
   outline-offset: -2px;

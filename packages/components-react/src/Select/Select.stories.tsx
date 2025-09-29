@@ -6,7 +6,7 @@ const meta: Meta<typeof Select> = {
   title: 'Components/Select',
   component: Select,
   parameters: {
-    layout: 'centered',
+   
     controls: {
       sort: 'alpha',
     },
@@ -351,7 +351,7 @@ const template: StoryFn<SelectProps> = (args) => {
   const { type, helperText, placeholder, maxWidth, minWidth, width, ...restArgs } = args;
 
   return (
-  <div style={{ width: '210px', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
+  <div style={{ width: '210px', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', margin: '0 auto' }}>
       <Select
         {...restArgs}
         options={mockValues}
