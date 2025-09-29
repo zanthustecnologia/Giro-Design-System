@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import './Button.scss';
 
 export interface ButtonProps {
-  /** Define o elemento a ser renderizado (ex: 'button', 'a', ou componente de roteamento) */
+  /** Define o elemento a ser renderizado (ex: 'button', 'a', ou outro componente) */
   as?: React.ElementType;
   /** Define o texto principal do botão */
   children?: React.ReactNode;
@@ -12,21 +12,16 @@ export interface ButtonProps {
   iconOnly?: boolean;
   /** Define a posição do ícone entre as opções */
   iconPosition?: 'none' | 'left' | 'right';
-  
-  // ✅ PROPS DE NAVEGAÇÃO
-  /** URL para links externos (ex: https://example.com) */
+  /** Define a rota caso o botão seja usado como link */
   href?: string;
-  /** Rota interna para navegação SPA (ex: /dashboard, /profile) */
+  /** Define rota interna para navegação SPA (automaticamente usa React Router se disponível) */
   to?: string;
+  /** Props do React Router: replace */
+  replace?: boolean;
+  /** Props do React Router: state */
+  state?: any;
   /** Indica se o link é externo */
   external?: boolean;
-  /** Target para links (_blank, _self, etc.) */
-  target?: string;
-  /** Rel attribute para links */
-  rel?: string;
-  /** Props para React Router (replace, state, etc.) */
-  routerProps?: Record<string, any>;
-  
   /** Desabilita interações do botão */
   disabled?: boolean;
   /** Função a ser chamada quando o botão é clicado */
@@ -43,21 +38,32 @@ export interface ButtonProps {
   fullWidth?: boolean;
   /** Texto para acessibilidade */
   ariaLabel?: string;
-  /** Outros props específicos do elemento/componente */
+  /** Outros props */
   [key: string]: any;
 }
 
+// ✅ FUNÇÃO PARA DETECTAR REACT ROUTER
+const getRouterLink = () => {
+  try {
+    // Tenta importar React Router Link
+    const ReactRouter = require('react-router-dom');
+    return ReactRouter.Link;
+  } catch (error) {
+    // React Router não está disponível
+    return null;
+  }
+};
+
 const Button = React.forwardRef<HTMLElement, ButtonProps>(({
-  as,
+  as: Component = 'button',
   children,
   variant = 'filled',
   iconPosition = 'left',
   href,
   to,
+  replace,
+  state,
   external = false,
-  target,
-  rel,
-  routerProps = {},
   disabled = false,
   onClick,
   size = 'lg',
@@ -72,19 +78,29 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
 
   const componentId = id || useId();
   
-  // ✅ LÓGICA INTELIGENTE: Determinar o componente correto
-  const getComponent = (): React.ElementType => {
+  // ✅ AUTO-DETECTAR COMPONENTE baseado nas props
+  const getComponent = () => {
     // Se 'as' foi especificado explicitamente, usar ele
-    if (as) return as;
+    if (Component !== 'button') return Component;
     
-    // Auto-detectar baseado nas props:
-    if (href) return 'a';        // Link externo/absoluto
-    if (to) return 'a';          // Link interno (fallback para 'a' se não houver router)
+    // Se tem prop 'to', tentar usar React Router Link
+    if (to) {
+      const RouterLink = getRouterLink();
+      if (RouterLink) {
+        return RouterLink; // ✅ Usa React Router Link automaticamente
+      }
+      return 'a'; // ✅ Fallback para tag 'a' se não houver React Router
+    }
     
-    return 'button';             // Padrão: button
+    // Se tem prop 'href', usar tag 'a'
+    if (href) return 'a';
+    
+    // Padrão: button
+    return 'button';
   };
 
-  const Component = getComponent();
+  const FinalComponent = getComponent();
+  
   const hasContent = children && React.Children.count(children) > 0;
   
   const buttonClasses = clsx(
@@ -97,9 +113,8 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
       'zds-button__no-content': icon && !hasContent && !iconOnly,
       'zds-button__full-width': fullWidth,
       'zds-button__icon-only': iconOnly,
-      'zds-button__disabled': disabled,
-    },
-    className
+      [className]: className,
+    }
   );
 
   const getAriaLabel = () => {
@@ -119,7 +134,9 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
       e.preventDefault();
       return;
     }
-    onClick?.(e);
+    if (onClick) {
+      onClick(e);
+    }
   };
 
   const renderContent = () => {
@@ -147,65 +164,74 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
     );
   };
 
-  // ✅ PROPS BASE comuns a todos os elementos
+  // ✅ PROPS BASE comuns
   const baseProps = {
     ref,
-    id: componentId,
-    className: buttonClasses,
-    'aria-label': getAriaLabel(),
     'aria-disabled': disabled,
+    'aria-label': getAriaLabel(),
     tabIndex: disabled ? -1 : 0,
+    className: buttonClasses,
     onClick: handleClick,
-    ...restProps, // Props específicos do elemento/componente
+    id: componentId,
+    ...restProps,
   };
 
-  // ✅ PROPS ESPECÍFICOS por tipo de navegação
-  const getNavigationProps = () => {
-    // Link externo (href)
-    if (href) {
-      return {
-        href: disabled ? '#' : href,
-        target: external || target === '_blank' ? '_blank' : target,
-        rel: external || target === '_blank' ? 'noopener noreferrer' : rel,
-      };
+  // ✅ LINK INTERNO com React Router (prop 'to')
+  if (to) {
+    const RouterLink = getRouterLink();
+    
+    if (RouterLink && FinalComponent === RouterLink) {
+      // ✅ Usando React Router Link
+      return (
+        <FinalComponent
+          {...baseProps}
+          to={disabled ? '#' : to}
+          replace={replace}
+          state={state}
+        >
+          {renderContent()}
+        </FinalComponent>
+      );
+    } else {
+      // ✅ Fallback para tag 'a' normal
+      return (
+        <FinalComponent
+          {...baseProps}
+          href={disabled ? '#' : to}
+        >
+          {renderContent()}
+        </FinalComponent>
+      );
     }
+  }
 
-    // Link interno (to) - para React Router ou similar
-    if (to) {
-      // Se estiver usando React Router Link component
-      if (Component !== 'a') {
-        return {
-          to: disabled ? '#' : to,
-          ...routerProps, // Props extras como replace, state, etc.
-        };
-      }
-      
-      // Fallback: usar como href se for elemento 'a'
-      return {
-        href: disabled ? '#' : to,
-      };
-    }
+  // ✅ LINK EXTERNO (prop 'href')
+  if (href) {
+    return (
+      <FinalComponent
+        {...baseProps}
+        href={disabled ? '#' : href}
+        target={external ? '_blank' : undefined}
+        rel={external ? 'noopener noreferrer' : undefined}
+      >
+        {renderContent()}
+      </FinalComponent>
+    );
+  }
 
-    // Button normal
-    if (Component === 'button') {
-      return {
-        type: 'button',
-        disabled,
-      };
-    }
-
-    return {};
-  };
-
+  // ✅ BUTTON NORMAL
   return (
-    <Component
+    <FinalComponent
       {...baseProps}
-      {...getNavigationProps()}
+      disabled={disabled}
+      type="button"
     >
       {renderContent()}
-    </Component>
+    </FinalComponent>
   );
 });
 
+const MemoizedButton = React.memo(Button);
+MemoizedButton.displayName = 'Button';
 Button.displayName = 'Button';
-export default Button;
+export default MemoizedButton;
