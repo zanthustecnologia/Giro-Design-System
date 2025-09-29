@@ -54,6 +54,7 @@ const meta: Meta<MenuProps> = {
   parameters: {
     layout: 'centered',
   },
+  tags: ['autodocs'],
   decorators: [
     (Story) => (
       <div style={{ 

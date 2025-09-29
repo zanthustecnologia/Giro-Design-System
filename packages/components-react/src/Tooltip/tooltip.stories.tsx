@@ -13,6 +13,7 @@ const meta: Meta<typeof Tooltip> = {
   parameters: {
     layout: 'centered',
   },
+  
   argTypes: {
     position: {
       control: 'select',
@@ -23,7 +24,7 @@ const meta: Meta<typeof Tooltip> = {
       description: 'Texto a ser exibido no tooltip'
     },
     children: {
-      control: false, // Desabilita controle para children
+      control: false,
       description: 'Elemento que receberá o tooltip'
     },
   },

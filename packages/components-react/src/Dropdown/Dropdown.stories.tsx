@@ -21,6 +21,7 @@ const meta: Meta<typeof DropDown> = {
   parameters: {
     layout: 'centered'
   },
+  tags: ['autodocs'],
   argTypes: {
     applySearch: {
       control: 'boolean',

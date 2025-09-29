@@ -15,6 +15,7 @@ const meta: Meta<typeof Filter> = {
       },
     },
   },
+  tags: ['autodocs'],
   argTypes: {
     buttonText: {
       control: { type: 'text' },
