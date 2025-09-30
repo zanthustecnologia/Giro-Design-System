@@ -6,7 +6,7 @@ import TablePagination from './TablePagination';
 import Chips from '../Chips';
 import Button from '../Button';
 import Menu, { MenuItem } from '../Menu/Menu';
-import { MoreVertical16Regular, Settings16Regular, Calendar16Regular, ChevronDown16Regular, Filter16Regular, Edit16Regular, Eye16Regular, Delete16Regular } from '@fluentui/react-icons';
+import { MoreVertical16Regular, Edit16Regular, Eye16Regular, Delete16Regular } from '@fluentui/react-icons';
 import Drawer from '../Drawer';
 
 const meta: Meta<typeof Table> = {
@@ -432,22 +432,11 @@ export const Default: StoryFn = () => {
       }
     ];
   }, [showFilters, selectedStatus, selectedTypes, startDateFilter, endDateFilter, statusItems, typeItems]);
-  const basicMenuItems: MenuItem[] = [
-    { id: 'edit', text: 'Editar', value: 'edit', subText: 'Arquivar', icon: <Edit16Regular /> },
-    { id: 'view', text: 'Visualizar', value: 'view', subText: 'Ver detalhes', icon: <Eye16Regular /> },
-    { id: 'delete', text: 'Excluir', value: 'delete', subText: 'Remover', icon: <Delete16Regular /> },
-  ];
+
 
   return (
 
     <div>
-      <Menu menuItems={basicMenuItems}>
-        <Button
-          iconOnly={true}
-          icon={<MoreVertical16Regular />}
-          aria-label="Abrir menu de ações"
-        />
-      </Menu>
       {(showSearch || showFilters) && (
         <TableHeader
           searchValue={searchValue}
