@@ -5,18 +5,19 @@ import TableHeader, { FilterItem } from './TableHeader';
 import TablePagination from './TablePagination';
 import Chips from '../Chips';
 import Button from '../Button';
-import Menu from '../Menu/Menu';
-import {MoreVertical16Regular, Settings16Regular, Calendar16Regular } from '@fluentui/react-icons';
+import Menu, { MenuItem } from '../Menu/Menu';
+import { MoreVertical16Regular, Settings16Regular, Calendar16Regular, ChevronDown16Regular, Filter16Regular, Edit16Regular, Eye16Regular, Delete16Regular } from '@fluentui/react-icons';
+import Drawer from '../Drawer';
 
 const meta: Meta<typeof Table> = {
   title: 'Components/Table',
   component: Table,
   parameters: {
-    layout: 'fullscreen'
+    layout: 'centered'
   },
   tags: ['autodocs'],
   argTypes: {
-    loading: { 
+    loading: {
       control: 'boolean',
       description: 'Estado de carregamento da tabela'
     }
@@ -35,7 +36,7 @@ const promotionData = [
     startDate: '24/11/2024',
     endDate: '30/11/2024',
     status: 'Ativa',
-    startDateObj: new Date(2024, 10, 24), 
+    startDateObj: new Date(2024, 10, 24),
     endDateObj: new Date(2024, 10, 30)
   },
   {
@@ -132,19 +133,19 @@ const basicColumns = [
   { key: 'type', label: 'Tipo' },
   { key: 'startDate', label: 'Data Início' },
   { key: 'endDate', label: 'Data Fim' },
-  { 
-    key: 'status', 
+  {
+    key: 'status',
     label: 'Status',
     render: (row: any) => (
-      <Chips 
+      <Chips
         title={row.status}
         label={row.status}
         type={
-          row.status === 'Ativa' ? 'success' : 
-          row.status === 'Inativa' ? 'alert' : 
-          row.status === 'Agendada' ? 'brand' :
-          'neutral'
-        } 
+          row.status === 'Ativa' ? 'success' :
+            row.status === 'Inativa' ? 'alert' :
+              row.status === 'Agendada' ? 'brand' :
+                'neutral'
+        }
       />
     ),
   },
@@ -182,6 +183,7 @@ export const Default: StoryFn = () => {
   const [endDateFilter, setEndDateFilter] = useState<Date | null>(null);
   const [showSearch, setShowSearch] = useState(true);
 
+
   // ✅ NOVO: Função para limpar todos os filtros
   const clearAllFilters = () => {
     setSelectedStatus([]);
@@ -192,7 +194,7 @@ export const Default: StoryFn = () => {
   };
 
   // ✅ NOVO: Contador de filtros ativos
-  const activeFiltersCount = selectedStatus.length + selectedTypes.length + 
+  const activeFiltersCount = selectedStatus.length + selectedTypes.length +
     (startDateFilter ? 1 : 0) + (endDateFilter ? 1 : 0);
   const [showFilters, setShowFilters] = useState(true);
   const [showPagination, setShowPagination] = useState(true);
@@ -221,9 +223,9 @@ export const Default: StoryFn = () => {
       key: 'type',
       label: 'Tipo',
       render: (row: any) => (
-        <Chips 
-          title={row.type} 
-          type={row.type === 'Desconto' ? 'success' : row.type === 'Frete Grátis' ? 'brand' : 'neutral'} 
+        <Chips
+          title={row.type}
+          type={row.type === 'Desconto' ? 'success' : row.type === 'Frete Grátis' ? 'brand' : 'neutral'}
         />
       ),
     },
@@ -245,14 +247,14 @@ export const Default: StoryFn = () => {
       key: 'status',
       label: 'Status',
       render: (row: any) => (
-        <Chips 
-          title={row.status} 
+        <Chips
+          title={row.status}
           type={
-            row.status === 'Ativa' ? 'success' : 
-            row.status === 'Inativa' ? 'alert' : 
-            row.status === 'Agendada' ? 'brand' :
-            'neutral'
-          } 
+            row.status === 'Ativa' ? 'success' :
+              row.status === 'Inativa' ? 'alert' :
+                row.status === 'Agendada' ? 'brand' :
+                  'neutral'
+          }
         />
       ),
     },
@@ -277,7 +279,7 @@ export const Default: StoryFn = () => {
       ),
     },
   ], []);
-  
+
   // Dados para filtros
   const statusItems = [
     { id: 'ativa', text: 'Ativa' },
@@ -285,17 +287,17 @@ export const Default: StoryFn = () => {
     { id: 'agendada', text: 'Agendada' },
     { id: 'expirada', text: 'Expirada' }
   ];
-  
+
   const typeItems = [
     { id: 'desconto', text: 'Desconto' },
     { id: 'frete-gratis', text: 'Frete Grátis' },
     { id: 'cashback', text: 'Cashback' },
     { id: 'combo', text: 'Combo' }
   ];
-  
+
   // Filtros
   let filteredData = promotionData;
-  
+
   // Filtro por busca
   if (searchValue) {
     filteredData = filteredData.filter(item =>
@@ -304,7 +306,7 @@ export const Default: StoryFn = () => {
       item.description.toLowerCase().includes(searchValue.toLowerCase())
     );
   }
-  
+
   // Filtro por status
   if (selectedStatus.length > 0) {
     filteredData = filteredData.filter(item => {
@@ -317,7 +319,7 @@ export const Default: StoryFn = () => {
       return selectedStatus.some(status => statusMap[status] === item.status);
     });
   }
-  
+
   // Filtro por tipo
   if (selectedTypes.length > 0) {
     filteredData = filteredData.filter(item => {
@@ -350,18 +352,18 @@ export const Default: StoryFn = () => {
       return result;
     });
   }
-  
+
   // Paginação
   const totalItems = filteredData.length;
   const startIndex = (currentPage - 1) * itemsPerPage;
   const paginatedData = filteredData.slice(startIndex, startIndex + itemsPerPage);
-  
+
   // Handlers
   const handleSearchChange = (value: string) => {
     setSearchValue(value);
     setCurrentPage(1);
   };
-  
+
   const handleItemsPerPageChange = (newItemsPerPage: number) => {
     setItemsPerPage(newItemsPerPage);
     setCurrentPage(1);
@@ -374,8 +376,8 @@ export const Default: StoryFn = () => {
     return [
       {
         id: 'status-filter',
-        buttonText: selectedStatus.length > 0 
-          ? `Status (${selectedStatus.length})` 
+        buttonText: selectedStatus.length > 0
+          ? `Status (${selectedStatus.length})`
           : 'Status',
         items: statusItems,
         type: 'checkbox',
@@ -386,20 +388,20 @@ export const Default: StoryFn = () => {
       },
       {
         id: 'type-filter',
-        buttonText: selectedTypes.length > 0 
-          ? `Tipo (${selectedTypes.length})` 
+        buttonText: selectedTypes.length > 0
+          ? `Tipo (${selectedTypes.length})`
           : 'Tipo',
         items: typeItems,
         type: 'checkbox',
         selectedIds: selectedTypes,
         onSelectionChange: setSelectedTypes,
         placeholder: 'Selecione tipos...',
-        position: 'left'
+        position: 'right'
       },
       {
         id: 'start-date-filter',
-        buttonText: startDateFilter 
-          ? `Data Início: ${startDateFilter.toLocaleDateString('pt-BR')}` 
+        buttonText: startDateFilter
+          ? `Data Início: ${startDateFilter.toLocaleDateString('pt-BR')}`
           : 'Data Início',
         type: 'calendar',
         selectedDate: startDateFilter,
@@ -414,8 +416,8 @@ export const Default: StoryFn = () => {
       },
       {
         id: 'end-date-filter',
-        buttonText: endDateFilter 
-          ? `Data Fim: ${endDateFilter.toLocaleDateString('pt-BR')}` 
+        buttonText: endDateFilter
+          ? `Data Fim: ${endDateFilter.toLocaleDateString('pt-BR')}`
           : 'Data Fim',
         type: 'calendar',
         selectedDate: endDateFilter,
@@ -430,9 +432,22 @@ export const Default: StoryFn = () => {
       }
     ];
   }, [showFilters, selectedStatus, selectedTypes, startDateFilter, endDateFilter, statusItems, typeItems]);
-  
-  return (      
-      <div>
+  const basicMenuItems: MenuItem[] = [
+    { id: 'edit', text: 'Editar', value: 'edit', subText: 'Arquivar', icon: <Edit16Regular /> },
+    { id: 'view', text: 'Visualizar', value: 'view', subText: 'Ver detalhes', icon: <Eye16Regular /> },
+    { id: 'delete', text: 'Excluir', value: 'delete', subText: 'Remover', icon: <Delete16Regular /> },
+  ];
+
+  return (
+
+    <div>
+      <Menu menuItems={basicMenuItems}>
+        <Button
+          iconOnly={true}
+          icon={<MoreVertical16Regular />}
+          aria-label="Abrir menu de ações"
+        />
+      </Menu>
       {(showSearch || showFilters) && (
         <TableHeader
           searchValue={searchValue}
@@ -446,10 +461,10 @@ export const Default: StoryFn = () => {
 
       {/* ✅ NOVO: Indicador de filtros ativos */}
       {activeFiltersCount > 0 && (
-        <div style={{ 
-          display: 'flex', 
-          alignItems: 'center', 
-          gap: 'var(--spacing-12)', 
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 'var(--spacing-12)',
           marginBottom: 'var(--spacing-16)',
           padding: 'var(--spacing-8) var(--spacing-12)',
           backgroundColor: 'var(--color-neutral-50)',
@@ -467,8 +482,9 @@ export const Default: StoryFn = () => {
             style={{ fontSize: 'var(--font-size-12)' }}
           />
         </div>
+
       )}
-      
+
       {/* Tabela */}
       <Table
         columns={memoizedColumns}
@@ -478,7 +494,7 @@ export const Default: StoryFn = () => {
           onChange: setSelectedKeys,
         } : undefined}
       />
-      
+
       {/* Paginação condicional */}
       {showPagination && totalItems > 0 && (
         <TablePagination
@@ -497,17 +513,17 @@ export const Default: StoryFn = () => {
 // ✅ STORY BÁSICA - Apenas a tabela
 export const Basic: StoryFn = () => (
 
-    <Table 
-      columns={basicColumns}
-      dataSource={promotionData.slice(0, 5)}
-    />
+  <Table
+    columns={basicColumns}
+    dataSource={promotionData.slice(0, 5)}
+  />
 
 );
 
 // ✅ STORY LOADING - Estado de carregamento
 export const Loading: StoryFn = () => (
   <div style={{ padding: '20px' }}>
-    <Table 
+    <Table
       columns={basicColumns}
       dataSource={[]}
       loading={true}
@@ -533,7 +549,7 @@ export const CalendarFilters: StoryFn = () => {
 
   // Lógica de filtragem (mesmo código da story Default)
   let filteredData = promotionData;
-  
+
   if (searchValue) {
     filteredData = filteredData.filter(item =>
       item.name.toLowerCase().includes(searchValue.toLowerCase()) ||
@@ -541,7 +557,7 @@ export const CalendarFilters: StoryFn = () => {
       item.description.toLowerCase().includes(searchValue.toLowerCase())
     );
   }
-  
+
   if (selectedStatus.length > 0) {
     filteredData = filteredData.filter(item => {
       const statusMap: Record<string, string> = {
@@ -553,7 +569,7 @@ export const CalendarFilters: StoryFn = () => {
       return selectedStatus.some(status => statusMap[status] === item.status);
     });
   }
-  
+
   if (selectedTypes.length > 0) {
     filteredData = filteredData.filter(item => {
       const typeMap: Record<string, string> = {
@@ -590,15 +606,15 @@ export const CalendarFilters: StoryFn = () => {
     setSearchValue('');
   };
 
-  const activeFiltersCount = selectedStatus.length + selectedTypes.length + 
+  const activeFiltersCount = selectedStatus.length + selectedTypes.length +
     (startDateFilter ? 1 : 0) + (endDateFilter ? 1 : 0);
 
   // ✅ FILTROS: Tipagem segura para CalendarFilters
   const filterItems: FilterItem[] = useMemo(() => [
     {
       id: 'status-filter',
-      buttonText: selectedStatus.length > 0 
-        ? `Status (${selectedStatus.length})` 
+      buttonText: selectedStatus.length > 0
+        ? `Status (${selectedStatus.length})`
         : 'Status',
       items: [
         { id: 'ativa', text: 'Ativa' },
@@ -614,8 +630,8 @@ export const CalendarFilters: StoryFn = () => {
     },
     {
       id: 'type-filter',
-      buttonText: selectedTypes.length > 0 
-        ? `Tipo (${selectedTypes.length})` 
+      buttonText: selectedTypes.length > 0
+        ? `Tipo (${selectedTypes.length})`
         : 'Tipo',
       items: [
         { id: 'desconto', text: 'Desconto' },
@@ -631,8 +647,8 @@ export const CalendarFilters: StoryFn = () => {
     },
     {
       id: 'start-date-filter',
-      buttonText: startDateFilter 
-        ? `Data Início: ${startDateFilter.toLocaleDateString('pt-BR')}` 
+      buttonText: startDateFilter
+        ? `Data Início: ${startDateFilter.toLocaleDateString('pt-BR')}`
         : 'Data Início',
       type: 'calendar',
       selectedDate: startDateFilter,
@@ -647,8 +663,8 @@ export const CalendarFilters: StoryFn = () => {
     },
     {
       id: 'end-date-filter',
-      buttonText: endDateFilter 
-        ? `Data Fim: ${endDateFilter.toLocaleDateString('pt-BR')}` 
+      buttonText: endDateFilter
+        ? `Data Fim: ${endDateFilter.toLocaleDateString('pt-BR')}`
         : 'Data Fim',
       type: 'calendar',
       selectedDate: endDateFilter,
@@ -668,7 +684,7 @@ export const CalendarFilters: StoryFn = () => {
       <h3 style={{ marginBottom: 'var(--spacing-16)' }}>
         Filtros de Calendário - Demonstração
       </h3>
-      
+
       {/* Header com filtros incluindo calendário */}
       <TableHeader
         searchValue={searchValue}
@@ -681,10 +697,10 @@ export const CalendarFilters: StoryFn = () => {
 
       {/* Indicador de filtros ativos */}
       {activeFiltersCount > 0 && (
-        <div style={{ 
-          display: 'flex', 
-          alignItems: 'center', 
-          gap: 'var(--spacing-12)', 
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 'var(--spacing-12)',
           marginBottom: 'var(--spacing-16)',
           padding: 'var(--spacing-8) var(--spacing-12)',
           backgroundColor: 'var(--color-neutral-50)',
@@ -703,10 +719,10 @@ export const CalendarFilters: StoryFn = () => {
           />
         </div>
       )}
-      
+
       {/* Informações sobre os filtros de data */}
       {(startDateFilter || endDateFilter) && (
-        <div style={{ 
+        <div style={{
           marginBottom: 'var(--spacing-16)',
           padding: 'var(--spacing-12)',
           backgroundColor: 'var(--color-brand-50)',
@@ -724,13 +740,13 @@ export const CalendarFilters: StoryFn = () => {
           </ul>
         </div>
       )}
-      
+
       {/* Tabela */}
       <Table
         columns={basicColumns}
         dataSource={paginatedData}
       />
-      
+
       {/* Paginação */}
       {totalItems > 0 && (
         <TablePagination
@@ -742,9 +758,9 @@ export const CalendarFilters: StoryFn = () => {
           pageSizeOptions={[5, 10, 15]}
         />
       )}
-      
+
       {/* Estatísticas */}
-      <div style={{ 
+      <div style={{
         marginTop: 'var(--spacing-16)',
         padding: 'var(--spacing-12)',
         backgroundColor: 'var(--color-neutral-50)',
@@ -799,7 +815,7 @@ export const CalendarFilters: StoryFn = () => {
 // ✅ STORY EMPTY - Sem dados
 export const Empty: StoryFn = () => (
   <div style={{ padding: '20px' }}>
-    <Table 
+    <Table
       columns={basicColumns}
       dataSource={[]}
     />
@@ -809,11 +825,11 @@ export const Empty: StoryFn = () => (
 // ✅ STORY WITH SELECTION - Com seleção de linhas
 export const WithSelection: StoryFn = () => {
   const [selectedKeys, setSelectedKeys] = useState<(string | number)[]>([1, 3]);
-  
+
   return (
     <div style={{ padding: '20px' }}>
-      <div style={{ 
-        marginBottom: '16px', 
+      <div style={{
+        marginBottom: '16px',
         padding: '12px 16px',
         backgroundColor: '#f3f2f1',
         borderRadius: '6px',
@@ -839,7 +855,7 @@ export const WithSelection: StoryFn = () => {
           </button>
         )}
       </div>
-      
+
       <Table
         columns={basicColumns}
         dataSource={promotionData.slice(0, 6)}
