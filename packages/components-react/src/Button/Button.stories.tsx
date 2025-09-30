@@ -14,7 +14,7 @@ export default {
     },
     layout: 'centered'
   },
-tags: ['autodocs'],
+  tags: ['autodocs'],
   argTypes: {
     children: {
       control: { type: 'text' },

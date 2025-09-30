@@ -10,7 +10,6 @@ const meta: Meta<typeof ListItem> = {
     parameters: {
         layout: 'centered'
     },
-    tags: ['autodocs'],
     argTypes: {
         variant: {
             control: 'select',

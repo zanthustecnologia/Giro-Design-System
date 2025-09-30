@@ -18,7 +18,37 @@ const meta: Meta<typeof DatePicker> = {
       sort: 'alpha',
     },
     layout: 'centered',
-    tags: ['autodocs'],
+    docs: {
+      description: {
+        component: `
+DatePicker com máscara automática de data e proteção contra entrada inválida.
+
+**✅ Funcionalidades Principais:**
+- **🛡️ Proteção contra letras**: Aceita apenas números, impede entrada de letras
+- **📱 Teclado numérico**: Em dispositivos móveis, abre teclado numérico automaticamente
+- **Máscara automática**: Adiciona "/" automaticamente conforme o usuário digita
+- **Validação em tempo real**: Valida a data apenas quando completa (DD/MM/YYYY)
+- **Suporte a locales**: pt-br (DD/MM/YYYY) e en-us (MM/DD/YYYY)
+- **Calendário integrado**: Clique no ícone ou campo para abrir
+- **Acessibilidade**: ARIA completo e navegação por teclado (ESC, Enter, ↓)
+- **Feedback visual**: Mostra erro apenas para datas inválidas completas
+
+**🎯 Como usar:**
+1. **Digite apenas números** - letras são automaticamente bloqueadas
+2. **Em mobile**: Teclado numérico abre automaticamente
+3. A máscara adiciona as barras automaticamente
+4. Pressione ESC para fechar o calendário, Enter/↓ para abrir
+
+**📋 Exemplos de formato:**
+- pt-br: Digite "25122024" → Resultado "25/12/2024"
+- en-us: Digite "12252024" → Resultado "12/25/2024"
+
+**🚫 Entradas bloqueadas:**
+- Letras (a-z, A-Z) são automaticamente filtradas
+- Símbolos especiais (exceto números e teclas de controle)
+        `,
+      },
+    },
   },
   argTypes: {
     locale: {
