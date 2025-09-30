@@ -183,3 +183,26 @@ span.zds-dropdown__subtext {
   align-items: flex-end;
   gap: var(--spacing-16);
 }
+
+/* Estilos para infinite scroll */
+.zds-dropdown__infinite-scroll-trigger {
+  list-style: none;
+  padding: var(--spacing-8) var(--spacing-16);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+
+.zds-dropdown__loading-indicator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 32px;
+  color: var(--color-neutral-low-medium);
+  font-size: var(--font-size-16);
+  font-family: var(--font-family-primary);
+  
+  span {
+    opacity: 0.7;
+  }
+}
