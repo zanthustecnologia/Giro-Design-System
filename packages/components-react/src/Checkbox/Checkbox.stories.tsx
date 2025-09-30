@@ -190,8 +190,8 @@ export const Indeterminate: Story = {
     };
 
     return (
-      <div className="container-storybook-checkbox" style={{ display: 'flex', flexDirection: 'column', gap: '16px', justifyContent: 'center'}}>
-        <div className="container-storybook-left" style={{ flexShrink: 0, position: 'relative', right: 16 }}>
+      <div className="container-storybook-checkbox">
+        <div className="container-storybook-left">
           <Checkbox
             label="Parent (Select All)"
             indeterminate={indeterminate}

@@ -1,3 +1,17 @@
+
+.container-storybook-checkbox {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--spacing-16);
+}
+
+.container-storybook-left {
+  flex-shrink: 0;
+  position: relative;
+  right: 16px;
+}
+
 .zds-checkbox {
   display: flex;
   align-items: center;

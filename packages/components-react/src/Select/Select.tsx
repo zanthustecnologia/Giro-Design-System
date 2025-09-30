@@ -10,7 +10,6 @@ import SelectField from '../SelectField/SelectField';
  * Interface para definir uma opção do Select
  */
 export interface SelectOption {
-
   /** ID único da opção (opcional, será gerado automaticamente se não fornecido) */
   id?: string;
   /** Texto principal da opção */
@@ -63,17 +62,21 @@ export interface SelectProps {
   tooltipText?: string;
   width?: string;
   positionTooltip?: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left' | 'left' | 'right';
-  infiniteScroll?: {
-    status: 'idle' | 'loading' | 'succeeded' | 'failed';
-    page: number;
-    lastPage: number;
-    onLoadMore: () => void;
-    threshold?: number;
-    rootMargin?: string;
-  };
 }
 
-
+/**
+ * Componente Select do Zanthus Design System
+ * 
+ * @description Select customizado com suporte a variantes visuais (outlined, filled, standard),
+ * opções múltiplas, validação de dados e acessibilidade WCAG 2.1 AA.
+ * 
+ * @features
+ * - Variantes visuais consistentes com o design system
+ * - Validação robusta de opções
+ * - Suporte a teclado e screen readers
+ * - Performance otimizada com React.memo
+ * - Gerenciamento de estado eficiente
+ */
 const Select = React.memo<SelectProps>(({
   id,
   options = [],
@@ -95,8 +98,7 @@ const Select = React.memo<SelectProps>(({
   width,
   tooltip = false,
   tooltipText = 'tooltip',
-  positionTooltip = 'top-right',
-  infiniteScroll
+  positionTooltip = 'top-right'
 }) => {
   // Hooks e refs
   const componentId = useId();
@@ -107,16 +109,16 @@ const Select = React.memo<SelectProps>(({
   // ✅ NOVO: Validação de props em desenvolvimento
   if (process.env.NODE_ENV === 'development') {
     // Validar unidades CSS
-    if (maxWidth && typeof maxWidth === 'string' &&
-      !maxWidth.match(/^\d+(px|%|rem|em|vw|vh)$/)) {
+    if (maxWidth && typeof maxWidth === 'string' && 
+        !maxWidth.match(/^\d+(px|%|rem|em|vw|vh)$/)) {
       console.warn('Select: maxWidth deve ter unidade CSS válida (px, %, rem, em, vw, vh)');
     }
-
-    if (minWidth && typeof minWidth === 'string' &&
-      !minWidth.match(/^\d+(px|%|rem|em|vw|vh)$/)) {
+    
+    if (minWidth && typeof minWidth === 'string' && 
+        !minWidth.match(/^\d+(px|%|rem|em|vw|vh)$/)) {
       console.warn('Select: minWidth deve ter unidade CSS válida');
     }
-
+    
     // Validar performance
     if (options.length > 1000) {
       console.warn('Select: Muitas opções (>1000) podem impactar performance. Considere virtualização.');
@@ -135,13 +137,13 @@ const Select = React.memo<SelectProps>(({
     if (value !== undefined) {
       return [];
     }
-
+    
     // Se tem initialValue, processar na inicialização
     if (initialValue !== undefined) {
       // Inicializar com array vazio primeiro, será populado no useEffect
       return [];
     }
-
+    
     return [];
   });
   const [isTouched, setIsTouched] = useState<boolean>(false);
@@ -159,7 +161,7 @@ const Select = React.memo<SelectProps>(({
       if (process.env.NODE_ENV === 'development') {
         console.warn('Select: options deve ser um array, recebido:', typeof options, options);
       }
-
+      
       return [];
     }
 
@@ -260,23 +262,23 @@ const Select = React.memo<SelectProps>(({
   // ✅ NOVO: Busca rápida por primeira letra
   const handleQuickSearch = useCallback((char: string) => {
     if (!isOpen || dropdownItems.length === 0) return;
-
+    
     // Buscar a partir do índice atual + 1
     const startIndex = focusedOptionIndex + 1;
-    let matchingIndex = dropdownItems.findIndex((item, index) =>
-      index >= startIndex &&
+    let matchingIndex = dropdownItems.findIndex((item, index) => 
+      index >= startIndex && 
       item.text.toLowerCase().startsWith(char) &&
       !item.disabled
     );
-
+    
     // Se não encontrou após o índice atual, buscar do início
     if (matchingIndex === -1) {
-      matchingIndex = dropdownItems.findIndex(item =>
+      matchingIndex = dropdownItems.findIndex(item => 
         item.text.toLowerCase().startsWith(char) &&
         !item.disabled
       );
     }
-
+    
     if (matchingIndex >= 0) {
       setFocusedOptionIndex(matchingIndex);
     }
@@ -302,10 +304,10 @@ const Select = React.memo<SelectProps>(({
     setTimeout(() => {
       setIsTouched(true);
       setIsOpen(false);
-      setFocusedOptionIndex(-1);
+      setFocusedOptionIndex(-1); 
     }, 200);
   }, [disabled]);
-
+ 
   const handleKeyDown = useCallback((event: React.KeyboardEvent<HTMLDivElement>) => {
     if (disabled) return;
 
@@ -343,17 +345,17 @@ const Select = React.memo<SelectProps>(({
           setIsOpen(true);
           setFocusedOptionIndex(0);
         } else {
-          setFocusedOptionIndex(prev =>
+          setFocusedOptionIndex(prev => 
             prev < dropdownItems.length - 1 ? prev + 1 : 0
           );
         }
         break;
       case 'ArrowUp':
-
-        event.preventDefault();
+   
+      event.preventDefault();
         event.stopPropagation();
         if (isOpen) {
-          setFocusedOptionIndex(prev =>
+          setFocusedOptionIndex(prev => 
             prev > 0 ? prev - 1 : dropdownItems.length - 1
           );
         }
@@ -371,7 +373,7 @@ const Select = React.memo<SelectProps>(({
         }
         break;
       case 'Tab':
-
+        
         if (isOpen) {
           setIsOpen(false);
           setIsTouched(true);
@@ -379,7 +381,7 @@ const Select = React.memo<SelectProps>(({
         }
         break;
       default:
-
+        
         if (event.key.length === 1 && !event.ctrlKey && !event.altKey && !event.metaKey) {
           handleQuickSearch(event.key.toLowerCase());
         }
@@ -414,7 +416,7 @@ const Select = React.memo<SelectProps>(({
     };
   }, [isOpen, handleClickOutside]);
 
-
+  
   useEffect(() => {
     if (value !== undefined) {
       // Valor controlado - sempre usar value
@@ -439,7 +441,7 @@ const Select = React.memo<SelectProps>(({
   }, [value, initialValue, validatedOptions]);
 
 
-
+  
   const containerStyles: React.CSSProperties = useMemo(() => {
     const styles: React.CSSProperties = {};
 
@@ -493,8 +495,8 @@ const Select = React.memo<SelectProps>(({
         aria-required={required}
         aria-label={ariaLabel || label || placeholder || 'Selecione uma opção'}
         aria-activedescendant={
-          isOpen && focusedOptionIndex >= 0
-            ? dropdownItems[focusedOptionIndex]?.id
+          isOpen && focusedOptionIndex >= 0 
+            ? dropdownItems[focusedOptionIndex]?.id 
             : selectedIds.length > 0 ? selectedIds[0] : undefined
         }
         tabIndex={disabled ? -1 : 0}
@@ -536,7 +538,6 @@ const Select = React.memo<SelectProps>(({
             maxWidth={maxWidth}
             minWidth={minWidth}
             width={width}
-            infiniteScroll={infiniteScroll}
           />
         </div>
       )}

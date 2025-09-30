@@ -1,8 +1,6 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React from 'react';
 import type { Meta, StoryFn } from '@storybook/react';
 import Select, { SelectProps, SelectOption } from './Select';
-import useApiSimulation from '../Hooks/ApiSimulation';
-
 
 const meta: Meta<typeof Select> = {
   title: 'Components/Select',
@@ -353,7 +351,7 @@ const template: StoryFn<SelectProps> = (args) => {
   const { type, helperText, placeholder, maxWidth, minWidth, width, ...restArgs } = args;
 
   return (
-    <div style={{ width: '210px', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
+  <div style={{ width: '210px', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
       <Select
         {...restArgs}
         options={mockValues}
@@ -368,75 +366,11 @@ const template: StoryFn<SelectProps> = (args) => {
 
   );
 };
-export const templateInfiniteScroll: StoryFn<SelectProps> = (args) => {
-  const {
-    items,
-    currentPage,
-    totalPages,
-    status,
-    error,
-    hasNextPage,
-    actions
-  } = useApiSimulation<SelectOption>({
-    itemsPerPage: 20,
-    totalItems: 500,
-    delay: 800,
-    debug: true,
-    itemGenerator: (index, search) => {
-      const itemNumber = index + 1;
-      const departments = ['Vendas', 'Marketing', 'TI', 'RH', 'Financeiro'];
 
-      return {
-        id: `option-${itemNumber}`,
-        text: search
-          ? `${search} - Opção ${itemNumber}`
-          : `Opção ${itemNumber}`,
-        subText: search
-          ? `Resultado para "${search}" - ${departments[itemNumber % departments.length]}`
-          : `${departments[itemNumber % departments.length]} - Item ${itemNumber}`,
-        disabled: itemNumber % 25 === 0
-      };
-    }
-  });
-
-  const [selectedValue, setSelectedValue] = useState<SelectOption[]>([]);
-
-  useEffect(() => {
-    if (items.length === 0 && status === 'idle') {
-      actions.loadNextPage();
-    }
-  }, [items.length, status, actions]);
-
-  const handleSelectionChange = (selectedItems: SelectOption[]) => {
-    setSelectedValue(selectedItems);
-    console.log('Opções selecionadas:', selectedItems);
-  };
-
-
-
-
-  return (
-    <Select
-      options={items}
-      type="checkbox"
-      placeholder="Selecione opções..."
-      onChange={handleSelectionChange}
-      value={selectedValue.map(item => item.id!)}
-      showSubText={true}
-      infiniteScroll={{
-        status: status,
-        page: currentPage,
-        lastPage: totalPages,
-        onLoadMore: actions.loadNextPage,
-        threshold: 0.1,
-        rootMargin: '50px',
-      }}
-      minWidth='250px'
-      maxWidth='250px'
-    />
-  );
-};
-
+/**
+ * Story padrão - Select básico
+ * Demonstra o componente Select em seu estado padrão
+ */
 export const Default: StoryFn<SelectProps> = template.bind({});
 Default.args = {
   type: 'text',
@@ -501,7 +435,7 @@ WithInitialValue.args = {
   helperText: 'Select com valor inicial pré-selecionado',
   placeholder: 'Selecione',
   label: 'Selecione um item',
-  initialValue: 'item-3',
+  initialValue: 'item-3', // Define item-3 como valor inicial
   required: false,
   tooltip: true,
   tooltipText: 'Este select tem um valor inicial',
