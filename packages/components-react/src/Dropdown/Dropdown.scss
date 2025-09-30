@@ -119,6 +119,7 @@ span.zds-dropdown__subtext {
   text-overflow: ellipsis;
   overflow: hidden;
   display: block;
+  color: var(--color-neutral-low-dark);
 }
 
 .zds-dropdown__item-icon {
@@ -170,7 +171,10 @@ span.zds-dropdown__subtext {
   flex-shrink: 0;
 }
 
-
+.zds-dropdown__item--checkbox{
+  padding-left: var(--spacing-8);
+  padding-right: var(--spacing-16);
+}
 .zds-dropdown__item:focus {
   outline: 2px solid var(--color-brand-primary-default);
   outline-offset: -2px;
@@ -182,4 +186,27 @@ span.zds-dropdown__subtext {
   justify-content: flex-end;
   align-items: flex-end;
   gap: var(--spacing-16);
+}
+
+/* Estilos para infinite scroll */
+.zds-dropdown__infinite-scroll-trigger {
+  list-style: none;
+  padding: var(--spacing-8) var(--spacing-16);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+
+.zds-dropdown__loading-indicator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 32px;
+  color: var(--color-neutral-low-medium);
+  font-size: var(--font-size-16);
+  font-family: var(--font-family-primary);
+  
+  span {
+    opacity: 0.7;
+  }
 }

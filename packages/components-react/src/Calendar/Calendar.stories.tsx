@@ -15,6 +15,7 @@ const meta: Meta<typeof Calendar> = {
       },
     },
   },
+  tags: ['autodocs'],
   argTypes: {
     currentDate: {
       control: { type: 'date' },

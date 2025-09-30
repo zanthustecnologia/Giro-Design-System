@@ -11,12 +11,12 @@ const meta: Meta<typeof TextField> = {
   title: 'Components/TextField',
   component: TextField,
   parameters: {
-
     controls: {
       sort: 'alpha'
     },
     layout: 'centered',
   },
+  
   argTypes: {
     placeholder: { 
       control: 'text',

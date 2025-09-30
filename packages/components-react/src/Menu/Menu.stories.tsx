@@ -54,6 +54,7 @@ const meta: Meta<MenuProps> = {
   parameters: {
     layout: 'centered',
   },
+  tags: ['autodocs'],
   decorators: [
     (Story) => (
       <div style={{ 
@@ -237,7 +238,7 @@ export const WithSearch: Story = {
     menuItems: bulkActionItems,
     onMenuItemClick: mockAction('onMenuItemClick'),
     applySearch: true,
-    placeholder: 'Buscar ações...',
+    placeholder: 'Buscar',
   },
   render: (args) => (
     <Menu {...args}>
@@ -256,7 +257,7 @@ export const WithSearch: Story = {
   menuItems={bulkActionItems}
   onMenuItemClick={handleMenuItemClick}
   applySearch={true}
-  placeholder="Buscar ações..."
+  placeholder="Buscar"
 >
   <Button
     variant="filled"

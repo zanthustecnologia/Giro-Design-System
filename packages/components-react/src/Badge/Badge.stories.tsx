@@ -29,6 +29,7 @@ const meta: Meta<typeof Badge> = {
       },
     },
   },
+  tags: ['autodocs'],
   decorators: [
     (Story) => (
       <div style={{ height: '20vh' }}>
