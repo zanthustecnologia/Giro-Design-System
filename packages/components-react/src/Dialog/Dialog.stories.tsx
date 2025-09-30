@@ -16,38 +16,37 @@ const meta: Meta<typeof Dialog> = {
         component: 'Dialog é um componente de modal/dialog acessível e customizável.',
       },
     },
-    tags: ['autodocs'],
   },
   argTypes: {
-    show: {
+    show: { 
       control: 'boolean',
       description: 'Controla a visibilidade do Dialog'
     },
-    title: {
+    title: { 
       control: 'text',
       description: 'Título do Dialog'
     },
-    text: {
+    text: { 
       control: 'text',
       description: 'Conteúdo do Dialog'
     },
-    textConfirm: {
+    textConfirm: { 
       control: 'text',
       description: 'Texto do botão Confirmar'
     },
-    textCancel: {
+    textCancel: { 
       control: 'text',
       description: 'Texto do botão Cancelar'
     },
-    fnConfirm: {
+    fnConfirm: { 
       action: 'Confirmar clicado',
       description: 'Função executada ao clicar Confirmar'
     },
-    fnCancel: {
+    fnCancel: { 
       action: 'Cancelar clicado',
       description: 'Função executada ao cancelar'
     },
-    onClose: {
+    onClose: { 
       action: 'Fechado',
       description: 'Função executada ao fechar'
     },
@@ -91,11 +90,11 @@ const DialogStoryWrapper: StoryFn<DialogStoryWrapperArgs> = (args) => {
   return (
     <>
       <Button onClick={() => setShow(true)}>Abrir Dialog</Button>
-      <Dialog
-        {...args}
-        show={show}
-        fnConfirm={handleOk}
-        fnCancel={handleCancel}
+      <Dialog 
+        {...args} 
+        show={show} 
+        fnConfirm={handleOk} 
+        fnCancel={handleCancel} 
         onClose={handleClose}
         text={args.text || 'Conteúdo do diálogo'}
       />

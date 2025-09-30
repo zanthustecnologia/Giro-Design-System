@@ -17,7 +17,6 @@ const meta: Meta<typeof Chips> = {
   parameters: {
     layout: 'centered'
   },
-  
   tags: ['autodocs'],
   argTypes: {
     title: {

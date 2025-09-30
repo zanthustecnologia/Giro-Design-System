@@ -14,7 +14,6 @@ const meta: Meta<typeof Table> = {
   parameters: {
     layout: 'fullscreen'
   },
-  tags: ['autodocs'],
   argTypes: {
     loading: { 
       control: 'boolean',

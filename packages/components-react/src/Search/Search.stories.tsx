@@ -12,7 +12,6 @@ const meta: Meta<typeof Search> = {
       sort: 'alpha',
     },
   },
-  tags: ['autodocs'],
   argTypes: {
     placeholder: {
       control: { type: 'text' },

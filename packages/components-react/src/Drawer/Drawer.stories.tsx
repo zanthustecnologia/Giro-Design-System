@@ -26,7 +26,6 @@ const meta: Meta<typeof Drawer> = {
       },
     },
   },
-  tags: ['autodocs'],
   argTypes: {
     title: { 
       control: 'text',
@@ -77,10 +76,12 @@ const DrawerExample: React.FC<DrawerExampleProps> = ({
 
   const handleOpenDrawer = (): void => {
     setIsOpen(true);
+    console.log('Drawer aberto');
   };
 
   const handleCloseDrawer = (): void => {
     setIsOpen(false);
+    console.log('Drawer fechado');
   };
 
   return (

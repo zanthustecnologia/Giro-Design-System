@@ -3,29 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { ToastProvider, useToast, ToastType } from './Toast';
 import Button from '../Button/Button';
 
-
-
-const meta: Meta<typeof ToastProvider> = {
-  title: 'Components/Toast',
-  component: ToastProvider,
-  tags: ['autodocs'],
-  decorators: [
-    (Story) => (
-      <div style={{ minHeight: '60vh', padding: '20px' }}>
-        <Story />
-      </div>
-    ),
-  ],
-  argTypes: {
-    maxToasts: {
-      control: { type: 'number', min: 1, max: 10 },
-      description: 'Número máximo de toasts simultâneos',
-      defaultValue: 5,
-    },
-  },
-};
-export default meta;
-
+// ✅ COMPONENTE PARA DEMONSTRAR O USO DO TOAST
 const ToastDemo: React.FC<{
   variant: ToastType;
   message: string;
@@ -133,7 +111,26 @@ const MultipleToastDemo: React.FC = () => {
   );
 };
 
+const meta: Meta<typeof ToastProvider> = {
+  title: 'Components/Toast',
+  component: ToastProvider,
+  decorators: [
+    (Story) => (
+      <div style={{ minHeight: '60vh', padding: '20px' }}>
+        <Story />
+      </div>
+    ),
+  ],
+  argTypes: {
+    maxToasts: {
+      control: { type: 'number', min: 1, max: 10 },
+      description: 'Número máximo de toasts simultâneos',
+      defaultValue: 5,
+    },
+  },
+};
 
+export default meta;
 type Story = StoryObj<typeof ToastProvider>;
 
 export const Default: Story = {

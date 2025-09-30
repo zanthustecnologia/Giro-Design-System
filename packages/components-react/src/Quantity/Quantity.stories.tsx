@@ -8,7 +8,6 @@ const meta: Meta<typeof Quantity> = {
   parameters: {
     layout: 'centered',
   },
-  tags: ['autodocs'],
   argTypes: {
     defaultValue: {
       control: { type: 'number' },
