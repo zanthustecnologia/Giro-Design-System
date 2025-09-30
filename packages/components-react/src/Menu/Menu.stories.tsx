@@ -138,13 +138,15 @@ export const Default: Story = {
   render: (args) => {
     const { showSubText } = args;
     return (
+      <>
       <Menu {...args} showSubText={showSubText}>
         <Button
-          variant="text"
+          iconOnly={true}
           icon={<MoreVertical16Regular />}
           aria-label="Abrir menu de ações"
         />
       </Menu>
+      </>
     );
   },
   parameters: {
@@ -177,13 +179,17 @@ export const CustomButton: Story = {
     onMenuItemClick: mockAction('onMenuItemClick'),
   },
   render: (args) => (
+    <div style={{display: 'flex', flexDirection: 'column'}}>
     <Menu {...args}>
       <Button
         variant="outlined"
         text="Ações"
+        iconOnly={true}
         icon={<Settings16Regular />}
       />
     </Menu>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maxime error amet eum optio tenetur libero magni corrupti ducimus fugiat? Distinctio modi alias odit dolore laudantium, dolorem dolores inventore earum rerum?</p>
+    </div>
   ),
   parameters: {
     docs: {
@@ -290,6 +296,7 @@ export const WithNotification: Story = {
           variant="text"
           icon={<Alert16Regular />}
           aria-label="Notificações"
+          iconOnly={true}
         />
         <div style={{
           position: 'absolute',
@@ -306,7 +313,7 @@ export const WithNotification: Story = {
           justifyContent: 'center',
           fontWeight: 'bold'
         }}>
-          3
+          
         </div>
       </div>
     </Menu>

@@ -1,19 +1,19 @@
 // ✅ OVERLAY: Estados via CSS
 .zds-custom__drawer-shadow {
   position: fixed;
-  z-index: 1000; // ← Z-index fixo no CSS
+  z-index: 20;
   background-color: var(--color-neutral-low-default);
   left: 0;
   right: 0;
   bottom: 0;
   top: 0;
   transition: all 0.3s ease;
-  
+
   // ✅ ESTADO FECHADO: Oculto por padrão
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  
+
   // ✅ ESTADO ABERTO: Visível quando ativo
   &--visible {
     opacity: 0.3;
@@ -33,46 +33,46 @@
   overflow: auto;
   display: flex;
   flex-direction: column;
+  z-index: 21;
   font-family: var(--font-family-primary);
-  z-index: 1001; // ← Z-index fixo no CSS
-  
+
   // ✅ ESTADO FECHADO: Fora da tela por padrão
   width: 0;
   opacity: 0;
   visibility: hidden;
   transform: translateX(100%);
   transition: all 0.3s ease;
-  
+
   // ✅ RESPONSIVIDADE: Mobile first
   @media (max-width: 768px) {
     width: 100%;
 
     right: 0;
     transform: translateX(100%);
-    
+
     &--open {
       transform: translateX(0);
     }
   }
-  
+
   @media (min-width: 769px) {
     width: var(--drawer-custom-width, 400px);
-    
+
     &--open {
       transform: translateX(0);
     }
   }
-  
+
   &--open {
     opacity: 1;
     visibility: visible;
     width: var(--drawer-custom-width, 400px);
-    
+
     @media (max-width: 768px) {
       width: 100%;
     }
   }
-  
+
   &--disabled {
     pointer-events: none;
     opacity: 0.6;

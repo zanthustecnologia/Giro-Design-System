@@ -1,9 +1,6 @@
 .zds-table__container {
-
   background-color: var(--color-neutral-high-default);
   font-family: var(--font-family-primary);
-  // overflow: visible;
-
 }
 
 
@@ -61,22 +58,23 @@
 .zds-table__td.text-center {
   width: 0px !important;
 }
-.zds-table-header__filters-placeholder{
+
+.zds-table-header__filters-placeholder {
   font-size: var(--font-size-12);
   color: var(--color-neutral-low-default);
   font-family: var(--font-family-primary);
 }
+
 .zds-table__body .zds-table__td {
   padding: var(--spacing-8) var(--spacing-16);
   border-top: var(--border-width-1) solid var(--color-neutral-high-dark);
   color: var(--color-neutral-low-default);
   height: 44px;
-  
+
   // Ensure cells with dropdown menus have proper stacking context
   &:has(.zds-menu__container),
   &.has-dropdown {
     position: relative;
-    z-index: auto;
     overflow: visible;
   }
 }
@@ -121,14 +119,16 @@
   }
 }
 
-.zds-table__body .zds-table__row{
+.zds-table__body .zds-table__row {
   height: 64px;
 }
+
 .zds-table__body .zds-table__row:first-child .zds-table__td {
   border-top: var(--border-width-none);
-  
+
 }
-.zds-table__empty-cell{
+
+.zds-table__empty-cell {
   height: 500px;
 }
 
@@ -145,21 +145,18 @@
 .zds-table__row:has(.zds-menu__container),
 .zds-table__row.has-dropdown {
   position: relative;
-  z-index: auto;
 }
 
 // Menu containers within table cells need special handling
 .zds-table__td .zds-menu__container {
   position: relative;
-  z-index: auto;
   
-  .zds-menu__dropdown {
-    z-index: 2500; // Higher than table header z-index
-  }
 }
-.zds-table-header__search{
+
+.zds-table-header__search {
   width: 360px;
 }
+
 .zds-table__pagination {
   background: var(--color-neutral-high-light);
   border-top: var(--border-width-1) solid var(--color-neutral-high-dark);
@@ -187,7 +184,6 @@
   flex-wrap: wrap;
   gap: var(--spacing-8);
   position: relative;
-  z-index: 1500;
   overflow: visible;
 
   @media (max-width: 768px) {
@@ -220,11 +216,11 @@
     gap: var(--spacing-8);
     flex-wrap: wrap;
     position: relative;
-    z-index: 2000;
+    z-index: 10;
 
     .filter-container {
       position: relative;
-      z-index: 2001;
+      z-index: 11;
     }
   }
 
@@ -327,9 +323,11 @@
   justify-content: center;
   padding: 4px;
   border-radius: 4px;
+
   &:hover:not(:disabled) {
     background-color: var(--color-neutral-high-medium);
   }
+
   &:disabled {
     cursor: not-allowed;
     color: var(--color-neutral-high-dark);
@@ -340,7 +338,6 @@
   position: absolute;
   top: 100%;
   left: var(--spacing-0);
-  z-index: 10000;
   min-width: 200px;
   max-height: 300px;
   overflow-y: auto;
@@ -458,13 +455,11 @@
 .zds-dropdown--filter {
   margin-top: var(--spacing-48);
   position: relative;
-  z-index: 10001;
 }
 
 // Específico para o Filter component no TableHeader com z-index mais alto
 .zds-table-header .filter-container {
   .filter-dropdown {
-    z-index: 10000;
     box-shadow: 0 var(--spacing-8) var(--spacing-24) rgba(17, 17, 25, 0.2);
     transform: translateZ(0);
     will-change: transform;

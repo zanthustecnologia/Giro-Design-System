@@ -14,8 +14,8 @@
   scrollbar-width: thin;
   scrollbar-color: var(--color-neutral-low-medium) transparent;
   margin: 0;
-  z-index: 9999;
   left: 0;
+  z-index: 13;
 }
 
 
@@ -171,10 +171,11 @@ span.zds-dropdown__subtext {
   flex-shrink: 0;
 }
 
-.zds-dropdown__item--checkbox{
+.zds-dropdown__item--checkbox {
   padding-left: var(--spacing-8);
   padding-right: var(--spacing-16);
 }
+
 .zds-dropdown__item:focus {
   outline: 2px solid var(--color-brand-primary-default);
   outline-offset: -2px;
@@ -205,7 +206,7 @@ span.zds-dropdown__subtext {
   color: var(--color-neutral-low-medium);
   font-size: var(--font-size-16);
   font-family: var(--font-family-primary);
-  
+
   span {
     opacity: 0.7;
   }

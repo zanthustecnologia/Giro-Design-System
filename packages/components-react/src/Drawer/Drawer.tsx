@@ -200,6 +200,7 @@ const Drawer: React.FC<DrawerProps> = ({
             variant='outlined'
             icon={<Dismiss16Regular />}
             size='lg'
+            iconOnly={true}
           />
         </div>
         <div 

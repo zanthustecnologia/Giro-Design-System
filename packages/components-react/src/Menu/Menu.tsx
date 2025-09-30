@@ -54,7 +54,7 @@ export interface MenuProps {
   minWidth?: string | number;
 
   /** Posição do menu em relação ao elemento âncora */
-  position?: 'left' | 'right' | 'auto';
+  position?: 'left' | 'right';
 }
 
 const Menu: React.FC<MenuProps> = ({
@@ -79,30 +79,6 @@ const Menu: React.FC<MenuProps> = ({
   const menuContainerRef = useRef<HTMLDivElement>(null);
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const [focusedItemIndex, setFocusedItemIndex] = useState<number>(-1);
-  const [calculatedPosition, setCalculatedPosition] = useState<'left' | 'right'>(() => {
-    return position === 'auto' ? 'left' : position;
-  });
-
-  // Função para calcular a posição do dropdown
-  const calculateDropdownPosition = useCallback((): 'left' | 'right' => {
-    if (position !== 'auto') {
-      return position;
-    }
-
-    if (!anchorRef.current) {
-      return 'left';
-    }
-
-    const anchorRect = anchorRef.current.getBoundingClientRect();
-    const viewportWidth = window.innerWidth;
-    const dropdownWidth = typeof maxWidth === 'string' ? parseInt(maxWidth) : maxWidth;
-    
-    // Se há espaço suficiente à direita, usa 'left' (dropdown alinhado à esquerda do anchor)
-    // Se não há espaço à direita, usa 'right' (dropdown alinhado à direita do anchor)
-    const spaceOnRight = viewportWidth - anchorRect.right;
-    
-    return spaceOnRight >= dropdownWidth ? 'left' : 'right';
-  }, [position, maxWidth]);
 
   const closeMenu = useCallback((): void => {
     setIsMenuOpen(false);
@@ -113,14 +89,11 @@ const Menu: React.FC<MenuProps> = ({
 
 
   const openMenu = useCallback((): void => {
-    // Calcular posição antes de abrir o menu
-    const newPosition = calculateDropdownPosition();
-    setCalculatedPosition(newPosition);
     setIsMenuOpen(true);
     if (onToggle) {
       onToggle(true);
     }
-  }, [onToggle, calculateDropdownPosition]);
+  }, [onToggle]);
 
   const toggleDropdown = useCallback((): void => {
     if (isMenuOpen) {
@@ -276,7 +249,7 @@ const Menu: React.FC<MenuProps> = ({
   )
   const dropdownClass = clsx(
     'zds-menu__dropdown',
-    `zds-menu__dropdown--${calculatedPosition}`
+    `zds-menu__dropdown--${position}`
   );
   return (
     <div
@@ -304,6 +277,7 @@ const Menu: React.FC<MenuProps> = ({
             aria-label="Menu de ações"
             minWidth={minWidth}
             maxWidth={maxWidth}
+            className={dropdownClass}
           />
         </div>
       )}
