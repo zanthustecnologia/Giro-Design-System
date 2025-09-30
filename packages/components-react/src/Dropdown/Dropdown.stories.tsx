@@ -21,6 +21,7 @@ const meta: Meta<typeof DropDown> = {
   parameters: {
     layout: 'centered'
   },
+  tags: ['autodocs'],
   argTypes: {
     applySearch: {
       control: 'boolean',
@@ -74,67 +75,7 @@ interface TemplateArgs extends Omit<DropdownProps, 'items'> {
 }
 
 const Template: StoryFn<TemplateArgs> = (args) => {
-  const { applySearch, type, showSubText, maxWidth, minWidth, width, ...restArgs } = args;
-
-  const handleSelectionChange = (selectedIds: string[]): void => {
-    console.log('Selected items:', selectedIds);
-  };
-
-  return (
-    <div style={{
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'flex-start',
-      minHeight: '100vh',
-      padding: '40px 20px'
-    }}>
-      <div style={{ position: 'relative', width: '210px' }}>
-        <DropDown
-          {...restArgs}
-          items={mockValues}
-          applySearch={applySearch}
-          placeholder='Buscar'
-          type={type}
-          onSelectionChange={handleSelectionChange}
-          showSubText={showSubText}
-          maxWidth={maxWidth}
-          minWidth={minWidth}
-          width={width}
-        />
-      </div>
-    </div >
-  );
-};
-
-export const DropdownSimple = Template.bind({});
-DropdownSimple.args = {
-  applySearch: true,
-  type: 'text',
-  showSubText: true,
-  placeholder: 'Buscar',
-  width: '210px'
-};
-
-export const DropdownCheckbox = Template.bind({});
-DropdownCheckbox.args = {
-  type: 'checkbox',
-  showSubText: true,
-  placeholder: 'Selecione múltiplos itens',
-  width: '210px'
-};
-
-export const DropdownIcon = Template.bind({});
-DropdownIcon.args = {
-  applySearch: false,
-  type: 'icon',
-  showSubText: true,
-  placeholder: 'Buscar com ícones',
-  width: '210px'
-};
-
-// ✅ NOVA: Story com Infinite Scroll
-export const DropdownInfiniteScroll: StoryFn<TemplateArgs> = () => {
-  // Estados para controlar o infinite scroll
+  const { type } = args;
   const [allItems, setAllItems] = useState<DropdownItem[]>([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
@@ -202,8 +143,7 @@ export const DropdownInfiniteScroll: StoryFn<TemplateArgs> = () => {
 
   useEffect(() => {
     loadNextPage();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
+  }, []);
   const handleSelectionChange = (selectedIds: string[]): void => {
     console.log(`🎯 Selecionados: ${selectedIds.length} itens`, selectedIds);
   };
@@ -222,9 +162,9 @@ export const DropdownInfiniteScroll: StoryFn<TemplateArgs> = () => {
         <DropDown
           items={allItems}
           id="infinite-scroll-dropdown"
-          type="checkbox"
+          type={type}
           applySearch={true}
-          placeholder="Buscar pessoas... (digite e pressione Enter)"
+          placeholder="Buscar"
           showSubText={true}
           width="100%"
           onSelectionChange={handleSelectionChange}
@@ -242,4 +182,30 @@ export const DropdownInfiniteScroll: StoryFn<TemplateArgs> = () => {
       </div>
     </div>
   );
+};
+
+export const DropdownSimple = Template.bind({});
+DropdownSimple.args = {
+  applySearch: true,
+  type: 'text',
+  showSubText: true,
+  placeholder: 'Buscar',
+  width: '210px'
+};
+
+export const DropdownCheckbox = Template.bind({});
+DropdownCheckbox.args = {
+  type: 'checkbox',
+  showSubText: true,
+  placeholder: 'Buscar',
+  width: '210px'
+};
+
+export const DropdownIcon = Template.bind({});
+DropdownIcon.args = {
+  applySearch: false,
+  type: 'icon',
+  showSubText: true,
+  placeholder: 'Buscar',
+  width: '210px'
 };

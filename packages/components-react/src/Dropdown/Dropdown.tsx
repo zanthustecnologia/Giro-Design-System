@@ -431,7 +431,7 @@ const Dropdown: React.FC<DropdownProps> = ({
           <li role="none" className="zds-dropdown__search-container">
             <Search
               value={inputValue}
-              placeholder={placeholder || 'Digite e pressione Enter para buscar...'}
+              placeholder={placeholder || 'Buscar'}
               onChange={handleSearchChange}
               onKeyDown={handleSearchKeyDown}
               onFocus={() => setIsSearchFocused(true)}
