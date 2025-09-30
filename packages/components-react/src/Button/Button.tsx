@@ -1,4 +1,4 @@
-import React, { useId } from 'react';
+import React, { useId, useMemo } from 'react';
 import clsx from 'clsx';
 import './Button.scss';
 
@@ -12,7 +12,7 @@ export interface ButtonProps {
   iconOnly?: boolean;
   /** Define a posição do ícone entre as opções */
   iconPosition?: 'none' | 'left' | 'right';
-  
+
   // ✅ PROPS DE NAVEGAÇÃO
   /** URL para links externos (ex: https://example.com) */
   href?: string;
@@ -26,7 +26,9 @@ export interface ButtonProps {
   rel?: string;
   /** Props para React Router (replace, state, etc.) */
   routerProps?: Record<string, any>;
-  
+
+  type?: 'button' | 'submit' | 'reset';
+
   /** Desabilita interações do botão */
   disabled?: boolean;
   /** Função a ser chamada quando o botão é clicado */
@@ -62,6 +64,7 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
   onClick,
   size = 'lg',
   className = '',
+  type = 'button',
   id = '',
   icon = null,
   fullWidth = false,
@@ -71,29 +74,31 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
 }, ref) => {
 
   const componentId = id || useId();
-  
+
   // ✅ LÓGICA INTELIGENTE: Determinar o componente correto
   const getComponent = (): React.ElementType => {
     // Se 'as' foi especificado explicitamente, usar ele
     if (as) return as;
-    
+
     // Auto-detectar baseado nas props:
     if (href) return 'a';        // Link externo/absoluto
     if (to) return 'a';          // Link interno (fallback para 'a' se não houver router)
-    
+
     return 'button';             // Padrão: button
   };
 
   const Component = getComponent();
-  const hasContent = children && React.Children.count(children) > 0;
-  
+  const hasContent = useMemo(() => {
+    return children && React.Children.count(children) > 0;
+  }, [children]);
+
   const buttonClasses = clsx(
     'zds-button',
     `zds-button__${variant}`,
     `zds-button__${size}`,
     {
       'zds-button__with-icon': icon && !iconOnly,
-      [`zds-button__icon-position-${iconPosition}`]: icon && !iconOnly && iconPosition !== 'none', 
+      [`zds-button__icon-position-${iconPosition}`]: icon && !iconOnly && iconPosition !== 'none',
       'zds-button__no-content': icon && !hasContent && !iconOnly,
       'zds-button__full-width': fullWidth,
       'zds-button__icon-only': iconOnly,
@@ -147,7 +152,6 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
     );
   };
 
-  // ✅ PROPS BASE comuns a todos os elementos
   const baseProps = {
     ref,
     id: componentId,
@@ -156,12 +160,11 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
     'aria-disabled': disabled,
     tabIndex: disabled ? -1 : 0,
     onClick: handleClick,
-    ...restProps, // Props específicos do elemento/componente
+    ...restProps,
   };
 
   // ✅ PROPS ESPECÍFICOS por tipo de navegação
   const getNavigationProps = () => {
-    // Link externo (href)
     if (href) {
       return {
         href: disabled ? '#' : href,
@@ -170,26 +173,20 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
       };
     }
 
-    // Link interno (to) - para React Router ou similar
     if (to) {
-      // Se estiver usando React Router Link component
       if (Component !== 'a') {
         return {
           to: disabled ? '#' : to,
-          ...routerProps, // Props extras como replace, state, etc.
+          ...routerProps,
         };
       }
-      
-      // Fallback: usar como href se for elemento 'a'
       return {
         href: disabled ? '#' : to,
       };
     }
-
-    // Button normal
     if (Component === 'button') {
       return {
-        type: 'button',
+        type,
         disabled,
       };
     }
