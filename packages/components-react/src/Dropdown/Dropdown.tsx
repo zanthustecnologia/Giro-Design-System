@@ -5,10 +5,8 @@ import { validateItems } from './DropdownUtils';
 import './Dropdown.scss';
 import Checkbox from '../Checkbox';
 import Button from '../Button';
+import { useInfiniteScroll } from '../Hooks/InfiniteScroll';
 
-/**
- * Interface para definir um item do dropdown
- */
 export interface DropdownItem {
   /** ID único do item (opcional, será gerado automaticamente se não fornecido) */
   id?: string;
@@ -22,14 +20,8 @@ export interface DropdownItem {
   disabled?: boolean;
 }
 
-/**
- * Tipos possíveis para o dropdown
-*/
 export type DropdownType = 'text' | 'checkbox' | 'icon';
 
-/**
- * Interface para as propriedades do componente Dropdown
-*/
 export interface DropdownProps {
   /** Classes CSS adicionais */
   className?: string;
@@ -56,20 +48,31 @@ export interface DropdownProps {
   minWidth?: string | number;
   /** Define se o componente esta sendo usado para filtro */
   filter?: boolean;
+  /**
+   * Configurações para paginação infinita
+   */
+  infiniteScroll?: {
+    /** Status atual do carregamento */
+    status: 'idle' | 'loading' | 'succeeded' | 'failed';
+    /** Página atual */
+    page: number;
+    /** Última página disponível */
+    lastPage: number;
+    /** Callback para carregar próxima página */
+    onLoadMore: () => void;
+    /** Threshold para trigger (0-1) */
+    threshold?: number;
+    /** Margem para trigger */
+    rootMargin?: string;
+    /** Debug mode */
+    debug?: boolean;
+  };
 }
 
-/**
- * Interface para o estado de seleção dos itens
- */
 interface SelectedItemsState {
   [key: string]: boolean;
 }
 
-/**
- * Componente Dropdown do Zanthus Design System
- * Dropdown com busca acionada pelo Enter e navegação por teclado
- * Corrigido problema de múltiplos checkboxes
- */
 const Dropdown: React.FC<DropdownProps> = ({
   className,
   items = [],
@@ -84,9 +87,9 @@ const Dropdown: React.FC<DropdownProps> = ({
   maxWidth,
   minWidth,
   width,
-  filter = false
+  filter = false,
+  infiniteScroll
 }) => {
-  // Estado para controlar itens selecionados
   const [selectedItems, setSelectedItems] = useState<SelectedItemsState>(() => {
     if (initialItemsSelected && Object.keys(initialItemsSelected).length > 0) {
       return initialItemsSelected;
@@ -101,16 +104,23 @@ const Dropdown: React.FC<DropdownProps> = ({
     return {};
   });
 
-  // Estados internos do componente
   const [internalItems, setInternalItems] = useState<DropdownItem[]>(items);
   const [focusedIndex, setFocusedIndex] = useState<number>(-1);
   const [inputValue, setInputValue] = useState<string>('');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [isSearchFocused, setIsSearchFocused] = useState<boolean>(false);
-
-  // Estados para modo filter
   const [tempSelectedItems, setTempSelectedItems] = useState<SelectedItemsState>({});
 
+  const infiniteScrollHook = useInfiniteScroll({
+    status: infiniteScroll?.status || 'idle',
+    page: infiniteScroll?.page || 1,
+    lastPage: infiniteScroll?.lastPage || 1,
+    onLoadMore: infiniteScroll?.onLoadMore || (() => { }),
+    threshold: infiniteScroll?.threshold,
+    rootMargin: infiniteScroll?.rootMargin,
+    enabled: !!infiniteScroll, 
+    debug: infiniteScroll?.debug
+  });
 
   const searchVisible = applySearch || internalItems.length > 4;
 
@@ -202,6 +212,7 @@ const Dropdown: React.FC<DropdownProps> = ({
 
       setSelectedItems((prevSelected) => {
         let newSelected: SelectedItemsState;
+
         if (type === 'checkbox') {
           newSelected = {
             ...prevSelected,
@@ -210,27 +221,20 @@ const Dropdown: React.FC<DropdownProps> = ({
         } else {
           newSelected = prevSelected[itemId] ? {} : { [itemId]: true };
         }
-        console.log(newSelected);
         return newSelected;
       });
     }
   }, [filter, type]);
 
-
-
-
   const handleApplyFilter = useCallback(() => {
     if (!filter) return;
-
     setSelectedItems(tempSelectedItems);
-
     const selectedIds = Object.keys(tempSelectedItems).filter(key => tempSelectedItems[key]);
     onSelectionChange?.(selectedIds);
   }, [filter, tempSelectedItems, onSelectionChange]);
 
   const handleClearFilter = useCallback(() => {
     if (!filter) return;
-
     setTempSelectedItems({});
     setSelectedItems({});
 
@@ -266,15 +270,10 @@ const Dropdown: React.FC<DropdownProps> = ({
       toggleSelection(itemId, item);
     }
   }, [toggleSelection]);
+
   const renderItemContent = useCallback((item: DropdownItem, index: number) => {
     const itemId = item.id || `dropdown-item-${index}`;
     const currentSelection = filter ? tempSelectedItems : selectedItems;
-
-    const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      event.stopPropagation();
-      if (item.disabled) return;
-      toggleSelection(itemId, item);
-    };
 
     return (
       <div className={clsx('zds-dropdown__item-content', {
@@ -282,14 +281,17 @@ const Dropdown: React.FC<DropdownProps> = ({
       })}>
         {type === 'checkbox' && (
           <Checkbox
-            checked={!!currentSelection[itemId]}
-            onChange={handleCheckboxChange}
+            checked={currentSelection[itemId]}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+              event.preventDefault();
+              event.stopPropagation();
+              toggleSelection(itemId, item);
+            }}
             disabled={item.disabled}
             label=""
           />
         )}
 
-        {/* Resto do código permanece igual... */}
         {type === 'icon' && item.icon && (
           <div className="zds-dropdown__item-icon-container">
             <span
@@ -380,6 +382,7 @@ const Dropdown: React.FC<DropdownProps> = ({
         return;
     }
   }, [filteredItems, focusedIndex, toggleSelection, isSearchFocused, handleSearchClear]);
+
   const DropdownClass = clsx(
     'zds-dropdown__container',
     {
@@ -431,7 +434,7 @@ const Dropdown: React.FC<DropdownProps> = ({
           <li role="none" className="zds-dropdown__search-container">
             <Search
               value={inputValue}
-              placeholder={placeholder || 'Buscar'}
+              placeholder={placeholder || 'Digite e pressione Enter para buscar...'}
               onChange={handleSearchChange}
               onKeyDown={handleSearchKeyDown}
               onFocus={() => setIsSearchFocused(true)}
@@ -445,39 +448,35 @@ const Dropdown: React.FC<DropdownProps> = ({
           filteredItems.map((item, index) => {
             const itemId = generateItemId(item, index);
             const currentSelection = filter ? tempSelectedItems : selectedItems;
-
             return (
-              <li
-                key={itemId}
-                role="option"
-                aria-selected={!!currentSelection[itemId]}
-                aria-labelledby={`dropdown-item-${itemId}-label`}
-                aria-describedby={item.subText ? `dropdown-item-${itemId}-desc` : undefined}
-                className={clsx('zds-dropdown__item', {
-                  [`zds-dropdown__item--${type}`]: type,
-                  'zds-dropdown__item--selected': currentSelection[itemId],
-                  'zds-dropdown__item--focused': focusedIndex === index,
-                  'zds-dropdown__item--disabled': item.disabled
-                })}
-                tabIndex={focusedIndex === index ? 0 : -1}
-                onFocus={() => setFocusedIndex(index)}
-
-                {...(type !== 'checkbox' && {
-                  onClick: (event) => {
+                <li
+                  key={itemId}
+                  role="option"
+                  aria-selected={!!currentSelection[itemId]}
+                  aria-labelledby={`dropdown-item-${itemId}-label`}
+                  aria-describedby={item.subText ? `dropdown-item-${itemId}-desc` : undefined}
+                  className={clsx('zds-dropdown__item', {
+                    [`zds-dropdown__item--${type}`]: type,
+                    'zds-dropdown__item--selected': currentSelection[itemId],
+                    'zds-dropdown__item--focused': focusedIndex === index,
+                    'zds-dropdown__item--disabled': item.disabled
+                  })}
+                  tabIndex={focusedIndex === index ? 0 : -1}
+                  onFocus={() => setFocusedIndex(index)}
+                  onClick={(event) => {
                     event.stopPropagation();
                     handleItemClick(event, itemId, item);
-                  }
-                })}
 
-                onMouseDown={(e: React.MouseEvent<HTMLLIElement>) => {
-                  if (!item.disabled) {
-                    e.preventDefault();
-                    setFocusedIndex(index);
-                  }
-                }}
-              >
-                {renderItemContent(item, index)}
-              </li>
+                  }}
+                  onMouseDown={(e: React.MouseEvent<HTMLLIElement>) => {
+                    if (!item.disabled) {
+                      e.preventDefault();
+                      setFocusedIndex(index);
+                    }
+                  }}
+                >
+                  {renderItemContent(item, index)}
+                </li>
             );
           })
         ) : (
@@ -506,12 +505,25 @@ const Dropdown: React.FC<DropdownProps> = ({
             </Button>
           </div>
         )}
+        {infiniteScrollHook && infiniteScrollHook.hasNextPage && (
+          <li role="none" className="zds-dropdown__infinite-scroll-trigger">
+            <div
+              ref={infiniteScrollHook.observerRef}
+              className="zds-dropdown__loading-indicator"
+            >
+              {infiniteScroll?.status === 'loading' ? (
+                <span>Carregando...</span>
+              ) : (
+                <span>Trigger</span>
+              )}
+            </div>
+          </li>
+        )}
       </ul>
     </div>
   );
 };
 
-// Memorized component para performance
 const MemoizedDropdown = React.memo(Dropdown);
 MemoizedDropdown.displayName = 'Dropdown';
 export default MemoizedDropdown;
