@@ -75,17 +75,13 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
 
   const componentId = id || useId();
 
-  // ✅ LÓGICA INTELIGENTE: Determinar o componente correto
   const getComponent = (): React.ElementType => {
-    // Se 'as' foi especificado explicitamente, usar ele
     if (as) return as;
 
-    // Auto-detectar baseado nas props:
-    if (href) return 'a';        // Link externo/absoluto
-    if (to) return 'a';          // Link interno (fallback para 'a' se não houver router)
-
-    return 'button';             // Padrão: button
-  };
+    if (href) return 'a';   
+    if (to) return 'a'; 
+    return 'button';
+    };
 
   const Component = getComponent();
   const hasContent = useMemo(() => {
@@ -163,7 +159,6 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
     ...restProps,
   };
 
-  // ✅ PROPS ESPECÍFICOS por tipo de navegação
   const getNavigationProps = () => {
     if (href) {
       return {
