@@ -214,11 +214,9 @@
     gap: var(--spacing-8);
     flex-wrap: wrap;
     position: relative;
-    z-index: 10;
 
     .filter-container {
       position: relative;
-      z-index: 11;
     }
   }
 
