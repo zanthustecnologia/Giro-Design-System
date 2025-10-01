@@ -432,23 +432,10 @@ export const Default: StoryFn = () => {
       }
     ];
   }, [showFilters, selectedStatus, selectedTypes, startDateFilter, endDateFilter, statusItems, typeItems]);
-
-
   return (
 
     <div>
-      {(showSearch || showFilters) && (
-        <TableHeader
-          searchValue={searchValue}
-          onSearchChange={handleSearchChange}
-          showSearch={showSearch}
-          showFilters={showFilters}
-          searchPlaceholder="Buscar por nome, código ou descrição..."
-          filterItems={filterItems}
-        />
-      )}
-
-      {/* ✅ NOVO: Indicador de filtros ativos */}
+  
       {activeFiltersCount > 0 && (
         <div style={{
           display: 'flex',

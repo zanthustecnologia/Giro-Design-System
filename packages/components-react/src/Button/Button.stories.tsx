@@ -14,12 +14,12 @@ export default {
     },
     layout: 'centered'
   },
-tags: ['autodocs'],
+  tags: ['autodocs'],
   argTypes: {
     children: {
       control: { type: 'text' },
     },
-    type: {
+    typeButton: {
       control: { type: 'select' },
       options: ['button', 'link'],
     },
@@ -76,7 +76,7 @@ const Template: StoryFn<ButtonProps & { displayIcon?: boolean; icon?: React.Reac
   icon,
   ...args
 }) => {
-  const {children, to, type, iconPosition, iconOnly } = args;
+  const { children, to, typeButton, iconPosition, iconOnly } = args;
 
   return (
     <BrowserRouter>
@@ -86,7 +86,7 @@ const Template: StoryFn<ButtonProps & { displayIcon?: boolean; icon?: React.Reac
         justifyContent: 'center',
         padding: '48px'
       }}>
-        <Button {...args} iconOnly={iconOnly} icon={iconPosition === 'none' ? undefined : icon} href={to} as={type === 'link' ? 'a' : 'button'}>
+        <Button {...args} iconOnly={iconOnly} icon={iconPosition === 'none' ? undefined : icon} href={to} as={typeButton === 'link' ? 'a' : 'button'}>
           {children}
         </Button>
       </div>
