@@ -432,34 +432,10 @@ export const Default: StoryFn = () => {
       }
     ];
   }, [showFilters, selectedStatus, selectedTypes, startDateFilter, endDateFilter, statusItems, typeItems]);
-  const basicMenuItems: MenuItem[] = [
-    { id: 'edit', text: 'Editar', value: 'edit', subText: 'Arquivar', icon: <Edit16Regular /> },
-    { id: 'view', text: 'Visualizar', value: 'view', subText: 'Ver detalhes', icon: <Eye16Regular /> },
-    { id: 'delete', text: 'Excluir', value: 'delete', subText: 'Remover', icon: <Delete16Regular /> },
-  ];
-
   return (
 
     <div>
-      <Menu menuItems={basicMenuItems}>
-        <Button
-          iconOnly={true}
-          icon={<MoreVertical16Regular />}
-          aria-label="Abrir menu de ações"
-        />
-      </Menu>
-      {(showSearch || showFilters) && (
-        <TableHeader
-          searchValue={searchValue}
-          onSearchChange={handleSearchChange}
-          showSearch={showSearch}
-          showFilters={showFilters}
-          searchPlaceholder="Buscar por nome, código ou descrição..."
-          filterItems={filterItems}
-        />
-      )}
-
-      {/* ✅ NOVO: Indicador de filtros ativos */}
+  
       {activeFiltersCount > 0 && (
         <div style={{
           display: 'flex',
