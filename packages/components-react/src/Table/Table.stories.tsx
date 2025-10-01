@@ -6,7 +6,7 @@ import TablePagination from './TablePagination';
 import Chips from '../Chips';
 import Button from '../Button';
 import Menu, { MenuItem } from '../Menu/Menu';
-import { MoreVertical16Regular, Settings16Regular, Calendar16Regular, ChevronDown16Regular, Filter16Regular, Edit16Regular, Eye16Regular, Delete16Regular } from '@fluentui/react-icons';
+import { MoreVertical16Regular, Edit16Regular, Eye16Regular, Delete16Regular } from '@fluentui/react-icons';
 import Drawer from '../Drawer';
 
 const meta: Meta<typeof Table> = {

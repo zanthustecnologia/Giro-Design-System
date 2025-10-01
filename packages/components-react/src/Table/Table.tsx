@@ -24,21 +24,15 @@ export interface TableColumn {
 export type TableRowData = Record<string, any>;
 
 export interface TableProps {
-  /** Colunas da tabela */
   columns: TableColumn[];
-  /** Dados da tabela */
   dataSource: TableRowData[];
-  /** Classe CSS adicional */
   className?: string;
-  /** Estado de carregamento */
   loading?: boolean;
-  /** Configuração de seleção */
   rowSelection?: {
     selectedRowKeys?: (string | number)[];
     onChange?: (keys: (string | number)[], rows: TableRowData[]) => void;
     getCheckboxProps?: (row: TableRowData, index: number) => { disabled?: boolean };
   };
-  /** Textos customizados */
   locale?: {
     emptyText?: ReactNode;
   };
@@ -97,7 +91,6 @@ const useSelection = (
   };
 };
 
-// ✅ RENDERIZADOR DE CÉLULA SIMPLES (10 linhas vs 50+)
 const renderCell = (column: TableColumn, row: TableRowData, index: number): ReactNode => {
   if (column.render) {
     return column.render(row, index);
@@ -119,7 +112,6 @@ const renderCell = (column: TableColumn, row: TableRowData, index: number): Reac
   }
 };
 
-// ✅ COMPONENTE PRINCIPAL SIMPLIFICADO (100 linhas vs 400+)
 const Table: React.FC<TableProps> = ({
   columns = [],
   dataSource = [],
@@ -129,7 +121,6 @@ const Table: React.FC<TableProps> = ({
   locale = {},
   onRow,
 }) => {
-  // Validação básica
   if (!Array.isArray(columns) || !Array.isArray(dataSource)) {
     console.warn('Table: columns e dataSource devem ser arrays');
     return null;
@@ -140,7 +131,6 @@ const Table: React.FC<TableProps> = ({
     rowSelection
   );
 
-  // Colunas finais com checkbox se necessário
   const finalColumns = useMemo(() => {
     if (!rowSelection) return columns;
 
@@ -151,15 +141,17 @@ const Table: React.FC<TableProps> = ({
           checked={isAllSelected}
           indeterminate={isIndeterminate}
           onChange={toggleAll}
-        />
-      ),
-      render: (_, index) => {
-        const props = rowSelection.getCheckboxProps?.(dataSource[index], index) || {};
-        return (
-          <Checkbox
+          label=''
+          />
+        ),
+        render: (_, index) => {
+          const props = rowSelection.getCheckboxProps?.(dataSource[index], index) || {};
+          return (
+            <Checkbox
             checked={selectedSet.has(index)}
             onChange={() => toggleRow(index)}
             disabled={props.disabled}
+            label=''
           />
         );
       },
@@ -171,7 +163,6 @@ const Table: React.FC<TableProps> = ({
   const tableId = useMemo(() =>
     `table-${Math.random().toString(36).substr(2, 9)}`, []
   );
-  // Loading state
   if (loading) {
     return (
       <div className={clsx('zds-table__container', className)}>
@@ -182,7 +173,6 @@ const Table: React.FC<TableProps> = ({
     );
   }
 
-  // Empty state
   const emptyText = locale.emptyText || (
     <div className="zds-table__empty">
       <div className="zds-table__empty__content">
