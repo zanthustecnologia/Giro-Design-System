@@ -4,6 +4,8 @@
   align-items: flex-start;
   align-self: stretch;
   width: 100%;
+  position: relative;
+  isolation: isolate;
 }
 
 
@@ -32,6 +34,7 @@
   align-items: flex-start;
   align-self: stretch;
   width: 100%;
+  overflow: visible;
 }
 
 .zds-select-field__box__input {
@@ -41,6 +44,7 @@
   align-self: stretch;
   width: 100%;
   margin-top: var(--spacing-4);
+  overflow: visible;
 }
 
 .zds-select-field__display {

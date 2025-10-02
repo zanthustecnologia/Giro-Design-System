@@ -1,11 +1,15 @@
-// =============================================================================
-// ZDS Select Component
-// =============================================================================
-
-.zds-select {
-  display: flex;
+.zds-select {  display: flex;
   flex-direction: column;
   align-items: stretch;
   position: relative;
   gap: var(--spacing-8);
+  isolation: isolate;
+}
+
+.zds-select__dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin-top: var(--spacing-4);
 }
