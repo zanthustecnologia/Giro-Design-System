@@ -360,7 +360,9 @@
     }
   }
 }
-
+.zds-table-header__filters-content > div:last-child > div {
+  left: -140%
+}
 .zds-dropdown--filter {
   margin-top: var(--spacing-48);
   position: relative;
