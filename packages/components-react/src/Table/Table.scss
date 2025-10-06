@@ -3,7 +3,6 @@
   font-family: var(--font-family-primary);
 }
 
-
 .zds-filter-drawer--content {
   width: 400px;
   display: flex;
@@ -71,7 +70,6 @@
   color: var(--color-neutral-low-default);
   height: 44px;
 
-  // Ensure cells with dropdown menus have proper stacking context
   &:has(.zds-menu__container),
   &.has-dropdown {
     position: relative;
@@ -141,13 +139,11 @@
   background-color: var(--color-neutral-high-light);
 }
 
-// Ensure table rows with dropdown menus can display properly
 .zds-table__row:has(.zds-menu__container),
 .zds-table__row.has-dropdown {
   position: relative;
 }
 
-// Menu containers within table cells need special handling
 .zds-table__td .zds-menu__container {
   position: relative;
   
@@ -218,6 +214,7 @@
     .filter-container {
       position: relative;
     }
+  
   }
 
   &__label {
@@ -282,7 +279,6 @@
     font-family: var(--font-family-primary);
   }
 }
-
 .zds-table__pagination-info {
   display: flex;
   gap: var(--spacing-8);
@@ -330,89 +326,6 @@
   }
 }
 
-.zds-filter-simple-dropdown {
-  position: absolute;
-  top: 100%;
-  left: var(--spacing-0);
-  min-width: 200px;
-  max-height: 300px;
-  overflow-y: auto;
-  background: var(--color-neutral-high-default);
-  border: var(--border-width-1) solid var(--color-neutral-high-dark);
-  border-radius: var(--border-radius-8);
-  box-shadow: 0 var(--spacing-8) var(--spacing-24) rgba(17, 17, 25, 0.15);
-  padding: var(--spacing-4);
-  margin-top: var(--spacing-4);
-
-  &__item {
-    padding: var(--spacing-8) var(--spacing-12);
-    cursor: pointer;
-    border-radius: var(--border-radius-4);
-    transition: background-color 0.15s ease;
-    color: var(--color-neutral-low-default);
-    font-family: var(--font-family-primary);
-    font-size: var(--font-size-14);
-    line-height: 1.4;
-
-    &:hover {
-      background-color: var(--color-neutral-high-light);
-    }
-
-    &--selected {
-      background-color: var(--color-brand-primary-light);
-      color: var(--color-brand-primary-dark);
-      font-weight: var(--font-weight-medium);
-    }
-  }
-}
-
-
-
-.zds-filter-text-content {
-  padding: var(--spacing-16);
-  min-width: 250px;
-
-  .zds-filter-text-actions {
-    display: flex;
-    gap: var(--spacing-8);
-    margin-top: var(--spacing-16);
-    justify-content: flex-end;
-  }
-}
-
-.zds-filter-button-content {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-4);
-}
-
-.zds-filter-drawer {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-
-  &--content {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-16);
-    padding: var(--spacing-24);
-    flex: 1;
-    overflow-y: auto;
-  }
-
-  &--actions {
-    display: flex;
-    gap: var(--spacing-12);
-    padding: var(--spacing-24);
-    border-top: var(--border-width-1) solid var(--color-neutral-high-dark);
-    margin-top: auto;
-    background-color: var(--color-neutral-high-default);
-
-    button {
-      flex: 1;
-    }
-  }
-}
 
 @media (max-width: 1023px) {
   .zds-table-header {
