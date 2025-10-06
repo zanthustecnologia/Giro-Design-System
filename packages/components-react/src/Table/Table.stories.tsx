@@ -9,7 +9,18 @@ import Menu, { MenuItem } from '../Menu/Menu';
 import { MoreVertical16Regular, Edit16Regular, Eye16Regular, Delete16Regular } from '@fluentui/react-icons';
 import Drawer from '../Drawer';
 
-const meta: Meta<typeof Table> = {
+// ✅ ADICIONAR: Interface para props das stories
+interface TableStoryProps {
+  showHeader?: boolean;
+  showSearch?: boolean;
+  showFilters?: boolean;
+  showPagination?: boolean;
+  showSelection?: boolean;
+  itemsPerPage?: number;
+  loading?: boolean;
+}
+
+const meta: Meta<typeof TableStoryProps> = {
   title: 'Components/Table',
   component: Table,
   parameters: {
@@ -17,9 +28,42 @@ const meta: Meta<typeof Table> = {
   },
   tags: ['autodocs'],
   argTypes: {
+    // ✅ Props da tabela
     loading: {
       control: 'boolean',
       description: 'Estado de carregamento da tabela'
+    },
+    // ✅ NOVOS: Controls para header e pagination
+    showHeader: {
+      control: 'boolean',
+      description: 'Exibir cabeçalho com busca e filtros',
+      defaultValue: true
+    },
+    showSearch: {
+      control: 'boolean',
+      description: 'Exibir campo de busca no header',
+      defaultValue: true
+    },
+    showFilters: {
+      control: 'boolean',
+      description: 'Exibir filtros no header',
+      defaultValue: true
+    },
+    showPagination: {
+      control: 'boolean',
+      description: 'Exibir paginação abaixo da tabela',
+      defaultValue: true
+    },
+    showSelection: {
+      control: 'boolean',
+      description: 'Habilitar seleção de linhas',
+      defaultValue: false
+    },
+    itemsPerPage: {
+      control: { type: 'select' },
+      options: [5, 10, 15, 20, 25],
+      description: 'Itens por página inicial',
+      defaultValue: 10
     }
   },
 };
@@ -172,19 +216,48 @@ const basicColumns = [
 ];
 
 // ✅ STORY DEFAULT - Configurável via Controls
-export const Default: StoryFn = () => {
+export const Default: StoryFn = ({
+  showHeader = true,
+  showSearch = true,
+  showFilters = true,
+  showPagination = true,
+  showSelection = false,
+  itemsPerPage: initialItemsPerPage = 10,
+  loading = false
+}) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchValue, setSearchValue] = useState('');
-  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [itemsPerPage, setItemsPerPage] = useState(initialItemsPerPage);
   const [selectedKeys, setSelectedKeys] = useState<(string | number)[]>([]);
   const [selectedStatus, setSelectedStatus] = useState<string[]>([]);
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
   const [startDateFilter, setStartDateFilter] = useState<Date | null>(null);
   const [endDateFilter, setEndDateFilter] = useState<Date | null>(null);
-  const [showSearch, setShowSearch] = useState(true);
 
+  // ✅ ATUALIZAR: itemsPerPage quando prop muda
+  React.useEffect(() => {
+    setItemsPerPage(initialItemsPerPage);
+    setCurrentPage(1);
+  }, [initialItemsPerPage]);
 
-  // ✅ NOVO: Função para limpar todos os filtros
+  // ✅ LIMPAR: Filtros quando showFilters é desabilitado
+  React.useEffect(() => {
+    if (!showFilters) {
+      setSelectedStatus([]);
+      setSelectedTypes([]);
+      setStartDateFilter(null);
+      setEndDateFilter(null);
+    }
+  }, [showFilters]);
+
+  // ✅ LIMPAR: Busca quando showSearch é desabilitado
+  React.useEffect(() => {
+    if (!showSearch) {
+      setSearchValue('');
+    }
+  }, [showSearch]);
+
+  // Função para limpar todos os filtros
   const clearAllFilters = () => {
     setSelectedStatus([]);
     setSelectedTypes([]);
@@ -193,14 +266,11 @@ export const Default: StoryFn = () => {
     setSearchValue('');
   };
 
-  // ✅ NOVO: Contador de filtros ativos
+  // Contador de filtros ativos
   const activeFiltersCount = selectedStatus.length + selectedTypes.length +
     (startDateFilter ? 1 : 0) + (endDateFilter ? 1 : 0);
-  const [showFilters, setShowFilters] = useState(true);
-  const [showPagination, setShowPagination] = useState(true);
-  const [showSelection, setShowSelection] = useState(false);
 
-  // ✅ CORREÇÃO: Colunas memoizadas para evitar re-criação
+  // Colunas memoizadas
   const memoizedColumns = useMemo(() => [
     {
       key: 'code',
@@ -280,7 +350,7 @@ export const Default: StoryFn = () => {
     },
   ], []);
 
-  // Dados para filtros
+  // Dados para filtros (somente se showFilters está ativo)
   const statusItems = [
     { id: 'ativa', text: 'Ativa' },
     { id: 'inativa', text: 'Inativa' },
@@ -295,11 +365,11 @@ export const Default: StoryFn = () => {
     { id: 'combo', text: 'Combo' }
   ];
 
-  // Filtros
+  // Lógica de filtragem
   let filteredData = promotionData;
 
-  // Filtro por busca
-  if (searchValue) {
+  // Filtro por busca (somente se showSearch está ativo)
+  if (showSearch && searchValue) {
     filteredData = filteredData.filter(item =>
       item.name.toLowerCase().includes(searchValue.toLowerCase()) ||
       item.code.toLowerCase().includes(searchValue.toLowerCase()) ||
@@ -307,50 +377,39 @@ export const Default: StoryFn = () => {
     );
   }
 
-  // Filtro por status
-  if (selectedStatus.length > 0) {
-    filteredData = filteredData.filter(item => {
-      const statusMap: Record<string, string> = {
-        'ativa': 'Ativa',
-        'inativa': 'Inativa',
-        'agendada': 'Agendada',
-        'expirada': 'Expirada'
-      };
-      return selectedStatus.some(status => statusMap[status] === item.status);
-    });
-  }
+  // Filtros (somente se showFilters está ativo)
+  if (showFilters) {
+    if (selectedStatus.length > 0) {
+      filteredData = filteredData.filter(item => {
+        const statusMap: Record<string, string> = {
+          'ativa': 'Ativa',
+          'inativa': 'Inativa',
+          'agendada': 'Agendada',
+          'expirada': 'Expirada'
+        };
+        return selectedStatus.some(status => statusMap[status] === item.status);
+      });
+    }
 
-  // Filtro por tipo
-  if (selectedTypes.length > 0) {
-    filteredData = filteredData.filter(item => {
-      const typeMap: Record<string, string> = {
-        'desconto': 'Desconto',
-        'frete-gratis': 'Frete Grátis',
-        'cashback': 'Cashback',
-        'combo': 'Combo'
-      };
-      return selectedTypes.some(type => typeMap[type] === item.type);
-    });
-  }
-  if (startDateFilter) {
-    console.log('Aplicando filtro data início:', startDateFilter);
-    filteredData = filteredData.filter(item => {
-      // Filtrar promoções que começam na data selecionada ou depois
-      const result = item.startDateObj >= startDateFilter;
-      console.log(`Item ${item.code}: ${item.startDateObj.toLocaleDateString()} >= ${startDateFilter.toLocaleDateString()} = ${result}`);
-      return result;
-    });
-  }
+    if (selectedTypes.length > 0) {
+      filteredData = filteredData.filter(item => {
+        const typeMap: Record<string, string> = {
+          'desconto': 'Desconto',
+          'frete-gratis': 'Frete Grátis',
+          'cashback': 'Cashback',
+          'combo': 'Combo'
+        };
+        return selectedTypes.some(type => typeMap[type] === item.type);
+      });
+    }
 
-  // ✅ NOVO: Filtro por data de fim
-  if (endDateFilter) {
-    console.log('Aplicando filtro data fim:', endDateFilter);
-    filteredData = filteredData.filter(item => {
-      // Filtrar promoções que terminam na data selecionada ou antes
-      const result = item.endDateObj <= endDateFilter;
-      console.log(`Item ${item.code}: ${item.endDateObj.toLocaleDateString()} <= ${endDateFilter.toLocaleDateString()} = ${result}`);
-      return result;
-    });
+    if (startDateFilter) {
+      filteredData = filteredData.filter(item => item.startDateObj >= startDateFilter);
+    }
+
+    if (endDateFilter) {
+      filteredData = filteredData.filter(item => item.endDateObj <= endDateFilter);
+    }
   }
 
   // Paginação
@@ -369,7 +428,7 @@ export const Default: StoryFn = () => {
     setCurrentPage(1);
   };
 
-  // ✅ FILTROS: Tipagem segura sem any
+  // ✅ FILTROS: Condicionais baseados em showFilters
   const filterItems = useMemo((): FilterItem[] => {
     if (!showFilters) return [];
 
@@ -406,7 +465,6 @@ export const Default: StoryFn = () => {
         type: 'calendar',
         selectedDate: startDateFilter,
         onDateSelect: (date: Date) => {
-          console.log('Data início selecionada:', date);
           setStartDateFilter(date);
         },
         minDate: new Date(2024, 0, 1),
@@ -422,7 +480,6 @@ export const Default: StoryFn = () => {
         type: 'calendar',
         selectedDate: endDateFilter,
         onDateSelect: (date: Date) => {
-          console.log('Data fim selecionada:', date);
           setEndDateFilter(date);
         },
         minDate: startDateFilter || new Date(2024, 0, 1),
@@ -432,11 +489,23 @@ export const Default: StoryFn = () => {
       }
     ];
   }, [showFilters, selectedStatus, selectedTypes, startDateFilter, endDateFilter, statusItems, typeItems]);
-  return (
 
+  return (
     <div>
-  
-      {activeFiltersCount > 0 && (
+      {/* ✅ HEADER CONDICIONAL */}
+      {showHeader && (
+        <TableHeader
+          searchValue={searchValue}
+          onSearchChange={handleSearchChange}
+          searchPlaceholder="Buscar promoções..."
+          showSearch={showSearch}
+          showFilters={showFilters}
+          filterItems={filterItems}
+        />
+      )}
+
+      {/* ✅ INDICADOR DE FILTROS ATIVOS (somente se showHeader e showFilters) */}
+      {showHeader && showFilters && activeFiltersCount > 0 && (
         <div style={{
           display: 'flex',
           alignItems: 'center',
@@ -458,21 +527,21 @@ export const Default: StoryFn = () => {
             style={{ fontSize: 'var(--font-size-12)' }}
           />
         </div>
-
       )}
 
-      {/* Tabela */}
+      {/* ✅ TABELA */}
       <Table
         columns={memoizedColumns}
-        dataSource={paginatedData}
+        dataSource={loading ? [] : paginatedData}
+        loading={loading}
         rowSelection={showSelection ? {
           selectedRowKeys: selectedKeys,
           onChange: setSelectedKeys,
         } : undefined}
       />
 
-      {/* Paginação condicional */}
-      {showPagination && totalItems > 0 && (
+      {/* ✅ PAGINAÇÃO CONDICIONAL */}
+      {showPagination && !loading && totalItems > 0 && (
         <TablePagination
           currentPage={currentPage}
           totalItems={totalItems}
@@ -485,6 +554,15 @@ export const Default: StoryFn = () => {
     </div>
   );
 };
+Default.args ={
+  showHeader: true,
+  showSearch: true,
+  showFilters: true,
+  showPagination: true,
+  showSelection: false,
+  itemsPerPage: 10,
+  loading: false
+}
 
 // ✅ STORY BÁSICA - Apenas a tabela
 export const Basic: StoryFn = () => (
