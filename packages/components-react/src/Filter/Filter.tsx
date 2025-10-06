@@ -68,7 +68,6 @@ const Filter: React.FC<FilterProps> = ({
   position = 'left',
   disabled = false,
   className = '',
-  // ✅ Props específicas para Calendar
   selectedDate,
   onDateSelect,
   minDate,

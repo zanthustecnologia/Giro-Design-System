@@ -55,10 +55,8 @@ interface CalendarFilterItem extends BaseFilterItem {
   placeholder?: string;
 }
 
-// ✅ TIPAGEM: Union type para todos os filtros
 export type FilterItem = CheckboxFilterItem | CalendarFilterItem;
 
-// ✅ TIPAGEM: Type guards para verificar tipo
 const isCalendarFilter = (filter: FilterItem): filter is CalendarFilterItem => {
   return filter.type === 'calendar';
 };
@@ -101,26 +99,21 @@ const TableHeader: React.FC<TableHeaderProps> = ({
   filterItems = [],
   className = '',
 }) => {
-  // Estado interno para controlar o input de busca
   const [internalSearchValue, setInternalSearchValue] = useState(searchValue);
 
-  // Atualiza valor interno quando prop externa muda
   React.useEffect(() => {
     setInternalSearchValue(searchValue);
   }, [searchValue]);
 
-  // Handler para mudanças no campo de busca
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setInternalSearchValue(value);
     
-    // Se limpar o campo, buscar imediatamente
     if (value === '' && onSearchChange) {
       onSearchChange('');
     }
   };
 
-  // Handler para Enter no campo de busca
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       e.preventDefault();
@@ -136,7 +129,6 @@ const TableHeader: React.FC<TableHeaderProps> = ({
 
   return (
     <div className={`zds-table-header ${className}`.trim()}>
-      {/* Campo de busca */}
       {showSearch && (onSearchChange || onSearch) && (
         <div >
           <Search
@@ -149,12 +141,10 @@ const TableHeader: React.FC<TableHeaderProps> = ({
         </div>
       )}
       
-      {/* Seção de filtros */}
       {showFilters && (
         <div className="zds-table-header__filters">
           {hasFilters ? (
             <div className="zds-table-header__filters-content">
-              {/* Filtros customizados (slot flexível) */}
               {filters && (
                 <div className="zds-table-header__custom-filters">
                   {filters}
@@ -163,9 +153,7 @@ const TableHeader: React.FC<TableHeaderProps> = ({
 
               <span className='zds-table-header__filter-label'>Filtros</span>
               
-              {/* ✅ RENDERIZAÇÃO: Com type guards seguros */}
               {filterItems && filterItems.map((filterItem, index) => {
-                // ✅ PROPS COMUNS: Para todos os tipos de filtro
                 const commonProps = {
                   key: filterItem.id || index,
                   buttonText: filterItem.buttonText,
@@ -176,8 +164,6 @@ const TableHeader: React.FC<TableHeaderProps> = ({
                   onOpen: () => filterItem.onToggle?.(true),
                   onClose: () => filterItem.onToggle?.(false),
                 };
-
-                // ✅ FILTRO CALENDÁRIO: Props específicas
                 if (isCalendarFilter(filterItem)) {
                   return (
                     <Filter
@@ -206,7 +192,6 @@ const TableHeader: React.FC<TableHeaderProps> = ({
                   );
                 }
 
-                // ✅ FALLBACK: Caso não reconheça o tipo
                 console.warn('TableHeader: Tipo de filtro não reconhecido:', filterItem);
                 return null;
               })}
