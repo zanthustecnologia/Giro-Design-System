@@ -4,6 +4,8 @@
     flex-direction: column;
     align-items: flex-start;
     align-self: stretch;
+    position: relative;
+    z-index: var(--z-index-content, 1);
 }
 
 .zds-textfield__container label {

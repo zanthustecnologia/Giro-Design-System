@@ -24,7 +24,7 @@
   top: 100%;
   margin-top: var(--spacing-8);
   box-shadow: 0 var(--spacing-8) var(--spacing-24) rgba(17, 17, 25, 0.25);
-  z-index: 8;
+  z-index: var(--z-index-dropdown, 15);
 }
 
 .zds-calendar--left {
