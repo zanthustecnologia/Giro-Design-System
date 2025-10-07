@@ -5,7 +5,7 @@ import { validateItems } from './DropdownUtils';
 import './Dropdown.scss';
 import Checkbox from '../Checkbox';
 import Button from '../Button';
-import { useInfiniteScroll } from '../Hooks/InfiniteScroll';
+import { useInfiniteScroll } from '../hooks/InfiniteScroll';
 
 export interface DropdownItem {
   /** ID único do item (opcional, será gerado automaticamente se não fornecido) */

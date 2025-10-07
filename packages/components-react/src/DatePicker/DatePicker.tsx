@@ -58,8 +58,6 @@ const DatePicker: React.FC<DatePickerProps> = ({
 }) => {
   // ✅ IDs únicos para acessibilidade
   const fieldId = useId();
-  const calendarId = `${fieldId}-calendar`;
-  const errorId = `${fieldId}-error`;
   const helperTextId = `${fieldId}-help`;
 
   // ✅ Suporte controlled/uncontrolled adequado

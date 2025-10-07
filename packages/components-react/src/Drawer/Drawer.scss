@@ -1,7 +1,7 @@
 // ✅ OVERLAY: Estados via CSS
 .zds-custom__drawer-shadow {
   position: fixed;
-  z-index: 20;
+  z-index: 400;
   background-color: var(--color-neutral-low-default);
   left: 0;
   right: 0;
@@ -33,7 +33,7 @@
   overflow: auto;
   display: flex;
   flex-direction: column;
-  z-index: 21;
+  z-index: 401;
   font-family: var(--font-family-primary);
 
   // ✅ ESTADO FECHADO: Fora da tela por padrão
