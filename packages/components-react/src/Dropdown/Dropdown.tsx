@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState, useRef } from 'react';
 import Search from '../Search';
 import { validateItems } from './DropdownUtils';
 import './Dropdown.scss';
@@ -25,6 +25,9 @@ export type DropdownType = 'text' | 'checkbox' | 'icon';
 export interface DropdownProps {
   /** Classes CSS adicionais */
   className?: string;
+
+  /** Força posição do dropdown: 'top' abre para cima, 'bottom' abre para baixo. Se não especificado, usa detecção automática */
+  position?: 'top' | 'bottom';
   /** Array de itens para o dropdown - obrigatório */
   items: DropdownItem[];
   /** ID único do componente */
@@ -88,6 +91,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   minWidth,
   width,
   filter = false,
+  position,
   infiniteScroll
 }) => {
   const [selectedItems, setSelectedItems] = useState<SelectedItemsState>(() => {
@@ -110,6 +114,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [isSearchFocused, setIsSearchFocused] = useState<boolean>(false);
   const [tempSelectedItems, setTempSelectedItems] = useState<SelectedItemsState>({});
+  const containerRef = useRef<HTMLDivElement | null>(null);
 
   const infiniteScrollHook = useInfiniteScroll({
     status: infiniteScroll?.status || 'idle',
@@ -118,7 +123,7 @@ const Dropdown: React.FC<DropdownProps> = ({
     onLoadMore: infiniteScroll?.onLoadMore || (() => { }),
     threshold: infiniteScroll?.threshold,
     rootMargin: infiniteScroll?.rootMargin,
-    enabled: !!infiniteScroll, 
+    enabled: !!infiniteScroll,
     debug: infiniteScroll?.debug
   });
 
@@ -385,11 +390,12 @@ const Dropdown: React.FC<DropdownProps> = ({
 
   const DropdownClass = clsx(
     'zds-dropdown__container',
+    `zds-dropdown__container--${position}`,
     {
       [className || '']: className,
       'zds-dropdown__container--search-active': searchQuery.length > 0,
-      'zds-dropdown__container--fixed-width': !!maxWidth
-    }
+      'zds-dropdown__container--fixed-width': !!maxWidth,
+    },
   );
   const dropdownStyles: React.CSSProperties = useMemo(() => {
     const styles: React.CSSProperties = {};
@@ -410,6 +416,7 @@ const Dropdown: React.FC<DropdownProps> = ({
 
   return (
     <div
+      ref={containerRef}
       className={DropdownClass}
       tabIndex={0}
       role="combobox"
@@ -449,34 +456,34 @@ const Dropdown: React.FC<DropdownProps> = ({
             const itemId = generateItemId(item, index);
             const currentSelection = filter ? tempSelectedItems : selectedItems;
             return (
-                <li
-                  key={itemId}
-                  role="option"
-                  aria-selected={!!currentSelection[itemId]}
-                  aria-labelledby={`dropdown-item-${itemId}-label`}
-                  aria-describedby={item.subText ? `dropdown-item-${itemId}-desc` : undefined}
-                  className={clsx('zds-dropdown__item', {
-                    [`zds-dropdown__item--${type}`]: type,
-                    'zds-dropdown__item--selected': currentSelection[itemId],
-                    'zds-dropdown__item--focused': focusedIndex === index,
-                    'zds-dropdown__item--disabled': item.disabled
-                  })}
-                  tabIndex={focusedIndex === index ? 0 : -1}
-                  onFocus={() => setFocusedIndex(index)}
-                  onClick={(event) => {
-                    event.stopPropagation();
-                    handleItemClick(event, itemId, item);
+              <li
+                key={itemId}
+                role="option"
+                aria-selected={!!currentSelection[itemId]}
+                aria-labelledby={`dropdown-item-${itemId}-label`}
+                aria-describedby={item.subText ? `dropdown-item-${itemId}-desc` : undefined}
+                className={clsx('zds-dropdown__item', {
+                  [`zds-dropdown__item--${type}`]: type,
+                  'zds-dropdown__item--selected': currentSelection[itemId],
+                  'zds-dropdown__item--focused': focusedIndex === index,
+                  'zds-dropdown__item--disabled': item.disabled
+                })}
+                tabIndex={focusedIndex === index ? 0 : -1}
+                onFocus={() => setFocusedIndex(index)}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  handleItemClick(event, itemId, item);
 
-                  }}
-                  onMouseDown={(e: React.MouseEvent<HTMLLIElement>) => {
-                    if (!item.disabled) {
-                      e.preventDefault();
-                      setFocusedIndex(index);
-                    }
-                  }}
-                >
-                  {renderItemContent(item, index)}
-                </li>
+                }}
+                onMouseDown={(e: React.MouseEvent<HTMLLIElement>) => {
+                  if (!item.disabled) {
+                    e.preventDefault();
+                    setFocusedIndex(index);
+                  }
+                }}
+              >
+                {renderItemContent(item, index)}
+              </li>
             );
           })
         ) : (

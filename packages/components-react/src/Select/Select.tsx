@@ -62,6 +62,8 @@ export interface SelectProps {
   tooltip?: boolean;
   tooltipText?: string;
   width?: string;
+  /** Força posição do dropdown: 'top' abre para cima, 'bottom' abre para baixo. Se não especificado, usa detecção automática */
+  position?: 'top' | 'bottom';
   positionTooltip?: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left' | 'left' | 'right';
   infiniteScroll?: {
     status: 'idle' | 'loading' | 'succeeded' | 'failed';
@@ -93,6 +95,7 @@ const Select = React.memo<SelectProps>(({
   maxWidth,
   minWidth,
   width,
+  position,
   tooltip = false,
   tooltipText = 'tooltip',
   positionTooltip = 'top-right',
@@ -522,7 +525,10 @@ const Select = React.memo<SelectProps>(({
         />
       </div>
       {isOpen && !disabled && (
-        <div className='zds-select__dropdown'>
+        <div className={clsx(
+          'zds-select__dropdown',
+          position && `zds-select__dropdown--${position}`
+        )}>
 
           <Dropdown
             items={dropdownItems}

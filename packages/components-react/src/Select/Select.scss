@@ -1,4 +1,5 @@
-.zds-select {  display: flex;
+.zds-select {  
+  display: flex;
   flex-direction: column;
   align-items: stretch;
   position: relative;
@@ -13,4 +14,29 @@
   right: 0;
   margin-top: var(--spacing-4);
   z-index: var(--z-index-dropdown, 15);
+  
+  /* O Dropdown interno deve usar position static para não conflitar */
+  .zds-dropdown__container {
+    position: static !important;
+    top: auto !important;
+    bottom: auto !important;
+    left: auto !important;
+    right: auto !important;
+    margin: 0 !important;
+    width: 100%;
+  }
+  
+  &--top {
+    top: auto;
+    bottom: 100%;
+    margin-top: 0;
+    margin-bottom: var(--spacing-4);
+  }
+  
+  &--bottom {
+    top: 100%;
+    bottom: auto;
+    margin-top: var(--spacing-4);
+    margin-bottom: 0;
+  }
 }
