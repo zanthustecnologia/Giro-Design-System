@@ -197,6 +197,7 @@ const basicColumns = [
     key: 'actions',
     label: '',
     render: (row: any) => (
+
       <Menu
         position='right'
         menuItems={[
@@ -209,8 +210,13 @@ const basicColumns = [
           console.log(`${item.text} promoção:`, row.name);
         }}
       >
-        <MoreVertical16Regular style={{ cursor: 'pointer' }} />
+          <Button
+        variant='text'
+        iconOnly={true}
+        icon={<MoreVertical16Regular style={{ cursor: 'pointer' }} />}
+      />
       </Menu>
+  
     ),
   },
 ];
@@ -344,7 +350,11 @@ export const Default: StoryFn = ({
             console.log(`${item.text} promoção:`, row.name);
           }}
         >
-          <MoreVertical16Regular style={{ cursor: 'pointer' }} />
+        <Button
+        variant='text'
+        iconOnly={true}
+        icon={<MoreVertical16Regular style={{ cursor: 'pointer' }} />}
+        />  
         </Menu>
       ),
     },
