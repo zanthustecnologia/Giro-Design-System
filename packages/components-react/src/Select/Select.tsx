@@ -41,6 +41,8 @@ export interface SelectProps {
   placeholder?: string;
   /** Tipo do dropdown (single ou multiple) */
   type?: DropdownType;
+  
+  maxHeight?: string;
   /** Label do campo */
   label?: string;
   /** Texto de ajuda */
@@ -99,7 +101,8 @@ const Select = React.memo<SelectProps>(({
   tooltip = false,
   tooltipText = 'tooltip',
   positionTooltip = 'top-right',
-  infiniteScroll
+  infiniteScroll,
+  maxHeight
 }) => {
   // Hooks e refs
   const componentId = useId();
@@ -461,7 +464,7 @@ const Select = React.memo<SelectProps>(({
     }
 
     return styles;
-  }, [maxWidth, minWidth]);
+  }, [maxWidth, minWidth, width]);
 
 
   // ✅ MELHORADO: Classes CSS com estados visuais
@@ -542,6 +545,7 @@ const Select = React.memo<SelectProps>(({
             maxWidth={maxWidth}
             minWidth={minWidth}
             width={width}
+            maxHeight={maxHeight}
             infiniteScroll={infiniteScroll}
           />
         </div>

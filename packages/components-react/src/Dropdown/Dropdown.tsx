@@ -49,6 +49,8 @@ export interface DropdownProps {
   width?: string | number;
   maxWidth?: string | number;
   minWidth?: string | number;
+  /** Altura máxima do dropdown */
+  maxHeight?: string | number;
   /** Define se o componente esta sendo usado para filtro */
   filter?: boolean;
   /**
@@ -90,6 +92,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   maxWidth,
   minWidth,
   width,
+  maxHeight,
   filter = false,
   position,
   infiniteScroll
@@ -410,9 +413,12 @@ const Dropdown: React.FC<DropdownProps> = ({
     if (width) {
       styles.width = typeof width === 'number' ? `${width}px` : width;
     }
+    if (maxHeight) {
+      styles.maxHeight = typeof maxHeight === 'number' ? `${maxHeight}px` : maxHeight;
+    }
 
     return styles;
-  }, [maxWidth, minWidth, width]);
+  }, [maxWidth, minWidth, width, maxHeight]);
 
   return (
     <div
