@@ -20,7 +20,7 @@ interface TableStoryProps {
   loading?: boolean;
 }
 
-const meta: Meta<typeof TableStoryProps> = {
+const meta: Meta = {
   title: 'Components/Table',
   component: Table,
   parameters: {
