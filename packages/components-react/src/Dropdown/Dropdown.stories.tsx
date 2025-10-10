@@ -19,7 +19,7 @@ const meta: Meta<typeof DropDown> = {
   title: "Components/DropDown",
   component: DropDown,
   parameters: {
-    layout: 'centered'
+    layout: 'fullscreen'
   },
   tags: ['autodocs'],
   argTypes: {
@@ -49,6 +49,11 @@ const meta: Meta<typeof DropDown> = {
       control: 'number',
       description: 'Largura do dropdown',
     },
+    position: {
+      control: 'select',
+      options: ['top', 'bottom'],
+      description: 'Força posição do dropdown: top (para cima) ou bottom (para baixo). Se não especificado, usa detecção automática'
+    },
     minWidth: {
       control: 'number',
       description: 'Largura mínima do dropdown',
@@ -59,7 +64,10 @@ const meta: Meta<typeof DropDown> = {
         disable: true,
       },
     },
-    // ✅ NOVO: Argumento para infinite scroll
+    position: {
+      control: 'select',
+      options: ['top', 'bottom'],
+    },
     infiniteScroll: {
       table: {
         disable: true,
@@ -75,7 +83,7 @@ interface TemplateArgs extends Omit<DropdownProps, 'items'> {
 }
 
 const Template: StoryFn<TemplateArgs> = (args) => {
-  const { type } = args;
+  const { type, position } = args;
   const [allItems, setAllItems] = useState<DropdownItem[]>([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
@@ -178,11 +186,98 @@ const Template: StoryFn<TemplateArgs> = (args) => {
             rootMargin: '50px',
             debug: true
           }}
+          position={position}
         />
       </div>
     </div>
   );
 };
+// ✅ STORY: Teste de posicionamento com controles
+export const DropdownPositionComparison: StoryFn<TemplateArgs> = (args) => {
+  return (
+    <div style={{
+      minHeight: '180vh',
+      padding: '20px',
+      background: 'linear-gradient(to bottom, #e8f5e8, #fff3e0, #ffebee)'
+    }}>
+      {/* Dropdown 1: Topo */}
+      <div style={{
+        position: 'relative',
+        width: '350px',
+        margin: '40px auto',
+        padding: '20px',
+        backgroundColor: '#e8f5e8',
+        borderRadius: '8px',
+        border: '2px solid #4caf50'
+      }}>
+        <h4 style={{ margin: '0 0 16px 0', color: '#2e7d32' }}>
+          🟢 Dropdown 1 - TOPO da página
+        </h4>
+        <p style={{ margin: '0 0 12px 0', fontSize: '13px' }}>
+          Deve abrir PARA BAIXO (borda verde)
+        </p>
+        <DropDown
+          items={mockValues.slice(0, 4)}
+          id="top-comparison-dropdown"
+          type="text"
+          applySearch={true}
+          placeholder="Dropdown no topo"
+          width="100%"
+          onSelectionChange={(ids) => console.log('🟢 Top:', ids)}
+        />
+      </div>
+
+      {/* Espaçamento */}
+      <div style={{ height: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ textAlign: 'center', color: '#666' }}>
+          <h3>📏 Área de Rolagem</h3>
+          <p>Role para baixo para testar o dropdown do final</p>
+          <div style={{ fontSize: '24px' }}>⬇️</div>
+        </div>
+      </div>
+
+      {/* Dropdown 2: Final */}
+      <div style={{
+        position: 'relative',
+        width: '350px',
+        margin: '40px auto',
+        padding: '20px',
+        backgroundColor: '#ffebee',
+        borderRadius: '8px',
+        border: '2px solid #f44336'
+      }}>
+        <h4 style={{ margin: '0 0 16px 0', color: '#c62828' }}>
+          🔴 Dropdown 2 - FINAL da página
+        </h4>
+        <p style={{ margin: '0 0 12px 0', fontSize: '13px' }}>
+          Deve abrir PARA CIMA (borda vermelha)
+        </p>
+        <DropDown
+          items={mockValues.slice(3, 7)}
+          id="bottom-comparison-dropdown"
+          type="checkbox"
+          applySearch={true}
+          placeholder="Dropdown no final"
+          width="100%"
+          onSelectionChange={(ids) => console.log('🔴 Bottom:', ids)}
+          position="bottom"
+        />
+      </div>
+
+      {/* Footer */}
+      <div style={{
+        marginTop: '20px',
+        padding: '20px',
+        backgroundColor: '#333',
+        color: 'white',
+        textAlign: 'center'
+      }}>
+        Footer - Fim da página
+      </div>
+    </div>
+  );
+};
+
 
 export const DropdownSimple = Template.bind({});
 DropdownSimple.args = {
@@ -208,4 +303,64 @@ DropdownIcon.args = {
   showSubText: true,
   placeholder: 'Buscar',
   width: '210px'
+};
+
+// Story para demonstrar o uso da prop position
+export const DropdownPositioned: StoryFn<DropdownProps> = () => {
+  return (
+    <div style={{ padding: '20px', display: 'flex', flexDirection: 'column', gap: '300px' }}>
+      <div>
+        <h3>Dropdown forçado para baixo (position="bottom")</h3>
+        <div style={{ position: 'relative', display: 'inline-block' }}>
+          <button style={{ padding: '10px 20px', background: '#007ACC', color: 'white', border: 'none', borderRadius: '4px' }}>
+            Clique para ver dropdown
+          </button>
+          <DropDown
+            items={mockValues}
+            position="bottom"
+            applySearch={true}
+            type="text"
+            showSubText={true}
+            placeholder="Buscar"
+            width="250px"
+          />
+        </div>
+      </div>
+      
+      <div>
+        <h3>Dropdown forçado para cima (position="top")</h3>
+        <div style={{ position: 'relative', display: 'inline-block' }}>
+          <button style={{ padding: '10px 20px', background: '#007ACC', color: 'white', border: 'none', borderRadius: '4px' }}>
+            Clique para ver dropdown
+          </button>
+          <DropDown
+            items={mockValues}
+            position="top"
+            applySearch={true}
+            type="text"
+            showSubText={true}
+            placeholder="Buscar"
+            width="250px"
+          />
+        </div>
+      </div>
+      
+      <div>
+        <h3>Dropdown automático (sem prop position)</h3>
+        <div style={{ position: 'relative', display: 'inline-block' }}>
+          <button style={{ padding: '10px 20px', background: '#007ACC', color: 'white', border: 'none', borderRadius: '4px' }}>
+            Clique para ver dropdown
+          </button>
+          <DropDown
+            items={mockValues}
+            applySearch={true}
+            type="text"
+            showSubText={true}
+            placeholder="Buscar"
+            width="250px"
+          />
+        </div>
+      </div>
+    </div>
+  );
 };

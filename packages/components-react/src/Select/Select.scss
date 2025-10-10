@@ -1,9 +1,11 @@
-.zds-select {  display: flex;
+.zds-select {  
+  display: flex;
   flex-direction: column;
   align-items: stretch;
   position: relative;
   gap: var(--spacing-8);
   isolation: isolate;
+  overflow: visible;
 }
 
 .zds-select__dropdown {
@@ -13,4 +15,28 @@
   right: 0;
   margin-top: var(--spacing-4);
   z-index: var(--z-index-dropdown, 15);
+  
+  .zds-dropdown__container {
+    position: static;
+    top: auto;
+    bottom: auto;
+    left: auto;
+    right: auto;
+    margin: 0;
+    width: 100%;
+  }
+  
+  &--top {
+    top: auto;
+    bottom: 100%;
+    margin-top: 0;
+    margin-bottom: var(--spacing-4);
+  }
+  
+  &--bottom {
+    top: 100%;
+    bottom: auto;
+    margin-top: var(--spacing-4);
+    margin-bottom: 0;
+  }
 }

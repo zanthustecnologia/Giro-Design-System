@@ -79,7 +79,12 @@ const meta: Meta<typeof Select> = {
         type: 'select',
         options: ['top-right', 'top-left', 'bottom-right', 'bottom-left', 'left', 'right']
       }
-    }
+    },
+    position: {
+      control: 'select',
+      options: ['top', 'bottom'],
+      description: 'Força posição do dropdown: top (para cima) ou bottom (para baixo). Se não especificado, usa detecção automática'
+    },
   }
 };
 
@@ -508,5 +513,61 @@ export const exampleInfiniteScroll: StoryFn<SelectProps> = (args) => {
       minWidth='250px'
       maxWidth='250px'
     />
+  );
+};
+
+// Story para demonstrar o uso da prop position no Select
+export const SelectPositioned: StoryFn<SelectProps> = () => {
+  const simpleOptions = [
+    { id: '1', text: 'Opção 1', subText: 'Primeira opção' },
+    { id: '2', text: 'Opção 2', subText: 'Segunda opção' },
+    { id: '3', text: 'Opção 3', subText: 'Terceira opção' },
+    { id: '4', text: 'Opção 4', subText: 'Quarta opção' },
+    { id: '5', text: 'Opção 5', subText: 'Quinta opção' }
+  ];
+
+  return (
+    <div style={{ padding: '40px', display: 'flex', flexDirection: 'column', gap: '400px', height: '1200px' }}>
+      <div style={{ paddingTop: '100px' }}>
+        <h3 style={{ marginBottom: '20px' }}>🔽 Select forçado para baixo (position="bottom")</h3>
+        <p style={{ marginBottom: '10px', color: '#666' }}>O dropdown deve aparecer abaixo do campo</p>
+        <Select
+          options={simpleOptions}
+          position="bottom"
+          type="text"
+          label="Select Bottom"
+          placeholder="Clique para abrir"
+          showSubText={true}
+          width="300px"
+        />
+      </div>
+      
+      <div>
+        <h3 style={{ marginBottom: '20px' }}>🔼 Select forçado para cima (position="top")</h3>
+        <p style={{ marginBottom: '10px', color: '#666' }}>O dropdown deve aparecer acima do campo</p>
+        <Select
+          options={simpleOptions}
+          position="top"
+          type="text"
+          label="Select Top"
+          placeholder="Clique para abrir"
+          showSubText={true}
+          width="300px"
+        />
+      </div>
+      
+      <div>
+        <h3 style={{ marginBottom: '20px' }}>🤖 Select automático (sem prop position)</h3>
+        <p style={{ marginBottom: '10px', color: '#666' }}>O dropdown deve detectar automaticamente a melhor posição</p>
+        <Select
+          options={simpleOptions}
+          type="text"
+          label="Select Automático"
+          placeholder="Clique para abrir"
+          showSubText={true}
+          width="300px"
+        />
+      </div>
+    </div>
   );
 };

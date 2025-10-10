@@ -41,6 +41,8 @@ export interface SelectProps {
   placeholder?: string;
   /** Tipo do dropdown (single ou multiple) */
   type?: DropdownType;
+  
+  maxHeight?: string;
   /** Label do campo */
   label?: string;
   /** Texto de ajuda */
@@ -62,6 +64,8 @@ export interface SelectProps {
   tooltip?: boolean;
   tooltipText?: string;
   width?: string;
+  /** Força posição do dropdown: 'top' abre para cima, 'bottom' abre para baixo. Se não especificado, usa detecção automática */
+  position?: 'top' | 'bottom';
   positionTooltip?: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left' | 'left' | 'right';
   infiniteScroll?: {
     status: 'idle' | 'loading' | 'succeeded' | 'failed';
@@ -93,10 +97,12 @@ const Select = React.memo<SelectProps>(({
   maxWidth,
   minWidth,
   width,
+  position,
   tooltip = false,
   tooltipText = 'tooltip',
   positionTooltip = 'top-right',
-  infiniteScroll
+  infiniteScroll,
+  maxHeight
 }) => {
   // Hooks e refs
   const componentId = useId();
@@ -458,7 +464,7 @@ const Select = React.memo<SelectProps>(({
     }
 
     return styles;
-  }, [maxWidth, minWidth]);
+  }, [maxWidth, minWidth, width]);
 
 
   // ✅ MELHORADO: Classes CSS com estados visuais
@@ -522,7 +528,10 @@ const Select = React.memo<SelectProps>(({
         />
       </div>
       {isOpen && !disabled && (
-        <div className='zds-select__dropdown'>
+        <div className={clsx(
+          'zds-select__dropdown',
+          position && `zds-select__dropdown--${position}`
+        )}>
 
           <Dropdown
             items={dropdownItems}
@@ -536,6 +545,7 @@ const Select = React.memo<SelectProps>(({
             maxWidth={maxWidth}
             minWidth={minWidth}
             width={width}
+            maxHeight={maxHeight}
             infiniteScroll={infiniteScroll}
           />
         </div>

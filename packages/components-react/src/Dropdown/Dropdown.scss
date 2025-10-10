@@ -15,7 +15,25 @@
   scrollbar-color: var(--color-neutral-low-medium) transparent;
   margin: 0;
   left: 0;
-  z-index: var(--z-index-dropdown, 15);
+  z-index: var(--z-index-dropdown, 15);  
+  top: 100%;
+  bottom: auto;
+  margin-top: var(--spacing-4);
+  margin-bottom: 0;
+  
+  &--top {
+    top: auto !important;
+    bottom: 100% !important;
+    margin-top: 0 !important;
+    margin-bottom: var(--spacing-4) !important;
+  }
+  
+  &--bottom {
+    top: 100% !important;
+    bottom: auto !important;
+    margin-top: var(--spacing-4) !important;
+    margin-bottom: 0 !important;
+  }
 }
 
 
@@ -189,7 +207,6 @@ span.zds-dropdown__subtext {
   gap: var(--spacing-16);
 }
 
-/* Estilos para infinite scroll */
 .zds-dropdown__infinite-scroll-trigger {
   list-style: none;
   padding: var(--spacing-8) var(--spacing-16);
