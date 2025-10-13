@@ -1,6 +1,7 @@
 import React, { useCallback, useId } from 'react';
 import './Radio.scss';
 import clsx from 'clsx';
+import { useRadioGroup } from '../RadioGroup/RadioGroup';
 
 export interface RadioProps {
   /** Definirá o nome do grupo de radio */
@@ -22,12 +23,6 @@ export interface RadioProps {
 
 }
 
-/**
- * Componente Radio para seleção única em grupos
- * 
- * @description Componente de botão de rádio com label integrado,
- * suporte a estados disabled e acessibilidade completa.
- */
 const Radio: React.FC<RadioProps> = ({
   name = 'radiobutton',
   value = '',
@@ -37,27 +32,34 @@ const Radio: React.FC<RadioProps> = ({
   onChange,
   label = '',
   disabled = false,
+  ...props
 }) => {
-
+  const radioGroup = useRadioGroup();
+  
   const uniqueId = useId();
   const inputId = id || uniqueId;
+  
+  const finalName = radioGroup?.name || name;
+  const finalChecked = radioGroup ? radioGroup.value === value : checked;
+  const finalDisabled = radioGroup?.disabled || disabled;
+  const finalOnChange = radioGroup?.onChange || onChange;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (disabled) return;
-    onChange?.(e.target.value);
+    if (finalDisabled) return;
+    finalOnChange?.(e.target.value);
   };
   
   const radioClass = clsx(
     'zds-radiobutton',
     {
-      'zds-radiobutton--disabled': disabled,
+      'zds-radiobutton--disabled': finalDisabled,
     },
     className
   );
   const labelClass = clsx(
     'zds-radiobutton__box-check',
     {
-      'zds-radiobutton__disabled': disabled,
+      'zds-radiobutton__disabled': finalDisabled,
     }
   );
 
@@ -68,11 +70,12 @@ const Radio: React.FC<RadioProps> = ({
           <input
             id={inputId}
             type="radio"
-            name={name}
+            name={finalName}
             value={value}
-            checked={checked}
-            disabled={disabled}
+            checked={finalChecked}
+            disabled={finalDisabled}
             onChange={handleChange}
+            {...props}
           />
         </div>
         {label && (

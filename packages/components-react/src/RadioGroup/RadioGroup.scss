@@ -1,0 +1,53 @@
+.zds-radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+
+  &__label {
+    font-weight: var(--font-weight-medium);
+    color: var(--color-neutral-low-pure);
+    margin-bottom: var(--spacing-2);
+    font-size: var(--font-size-16);
+  }
+
+  &__options {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-3);
+  }
+
+  &__helper-text {
+    font-size: var(--font-size-14);
+    color: var(--color-neutral-low-medium);
+    margin-top: var(--spacing-1);
+  }
+
+  &__error-message {
+    font-size: var(--font-size-14);
+    color: var(--color-feedback-negative-pure);
+    margin-top: var(--spacing-1);
+  }
+
+  // ✅ Layout horizontal
+  &--horizontal {
+    .zds-radio-group__options {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: var(--spacing-4);
+    }
+  }
+
+  // ✅ Estado desabilitado
+  &--disabled {
+    .zds-radio-group__label {
+      color: var(--color-neutral-low-light);
+    }
+  }
+
+  // ✅ Estado de erro
+  &--error {
+    .zds-radio-group__label {
+      color: var(--color-feedback-negative-pure);
+    }
+  }
+}

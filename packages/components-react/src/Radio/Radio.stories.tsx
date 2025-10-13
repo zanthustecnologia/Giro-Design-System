@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import React, { useState } from 'react';
-import Radio, {RadioProps} from './Radio';
+import Radio, { RadioProps } from './Radio';
 
 // Definindo tipos para as props do Radio (caso não existam)
 
@@ -75,7 +75,7 @@ export const PreSelected: Story = {
   },
   render: (args) => {
     const [selectedValue, setSelectedValue] = useState<string>('option1');
-    
+
     const handleChange = (value: string): void => {
       setSelectedValue(value);
     };
