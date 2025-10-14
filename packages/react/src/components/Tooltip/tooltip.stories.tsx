@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import Tooltip from './Tooltip';
 import Avatar from '../Avatar/Avatar';
 import { Person16Regular } from '@fluentui/react-icons';
-import { Button } from '../../..';
+import { Button } from '../../../..';
 
 type Story = StoryObj<typeof Tooltip>;
 
@@ -13,19 +13,26 @@ const meta: Meta<typeof Tooltip> = {
   parameters: {
     layout: 'centered',
   },
-  
+
   argTypes: {
     position: {
       control: 'select',
-      options: ['top-right', 'top-left', 'bottom-right', 'bottom-left', 'left', 'right'],
+      options: [
+        'top-right',
+        'top-left',
+        'bottom-right',
+        'bottom-left',
+        'left',
+        'right',
+      ],
     },
-    text: { 
+    text: {
       control: 'text',
-      description: 'Texto a ser exibido no tooltip'
+      description: 'Texto a ser exibido no tooltip',
     },
     children: {
       control: false,
-      description: 'Elemento que receberá o tooltip'
+      description: 'Elemento que receberá o tooltip',
     },
   },
   tags: ['autodocs'],
@@ -60,9 +67,7 @@ export const WithButton: Story = {
   },
   render: (args) => (
     <Tooltip {...args}>
-      <Button>
-        Hover me
-      </Button>
+      <Button>Hover me</Button>
     </Tooltip>
   ),
 };
