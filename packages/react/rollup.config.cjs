@@ -11,7 +11,7 @@ const pkg = require("./package.json");
 module.exports = [
   // Build ESM + CJS
   {
-    input: "src/index.ts", // ajuste para .tsx ou .js se for o seu caso
+    input: "src/components/index.ts", // ajuste para .tsx ou .js se for o seu caso
     external: [
       ...Object.keys(pkg.peerDependencies || {}),
       ...Object.keys(pkg.dependencies || {}).filter((d) =>
