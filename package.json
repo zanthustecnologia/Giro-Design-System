@@ -27,5 +27,9 @@
     "rollup-plugin-dts": "6.2.3",
     "sass": "^1.92.1",
     "turbo": "^2.5.4"
+  },
+  "dependencies": {
+    "@radix-ui/themes": "^3.2.1",
+    "radix-ui": "^1.4.3"
   }
 }

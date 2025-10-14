@@ -6,6 +6,7 @@ import './Dropdown.scss';
 import Checkbox from '../Checkbox';
 import Button from '../Button';
 import { useInfiniteScroll } from '../hooks/InfiniteScroll';
+import { DropdownMenu } from 'radix-ui';
 
 export interface DropdownItem {
   /** ID único do item (opcional, será gerado automaticamente se não fornecido) */
