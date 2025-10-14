@@ -12,7 +12,7 @@
   position: absolute;
   top: 100%;
   margin-top: var(--spacing-8);
-  z-index: var(--z-index-dropdown, 15);
+  // z-index: var(--z-index-dropdown, 15);
   
   &--left {
     left: 0;
