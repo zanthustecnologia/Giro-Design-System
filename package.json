@@ -23,6 +23,7 @@
     "@rollup/rollup-win32-x64-msvc": "^4.46.3",
     "@types/react": "^19.1.10",
     "@types/react-dom": "^19.1.7",
+    "prettier": "^3.6.2",
     "rollup": "^4.46.3",
     "rollup-plugin-dts": "6.2.3",
     "sass": "^1.92.1",
