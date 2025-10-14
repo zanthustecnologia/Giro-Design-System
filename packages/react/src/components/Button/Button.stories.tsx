@@ -1,9 +1,8 @@
-import { Add16Filled, Add16Regular } from '@fluentui/react-icons';
+import { Add16Filled, Add16Regular, ArrowDown16Regular, Delete16Regular, Edit16Regular } from '@fluentui/react-icons';
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { Meta, StoryFn } from '@storybook/react';
 import Button, { ButtonProps } from './Button';
-import { Icon } from '../../../../icons/src';
 
 export default {
   title: 'Components/Button',
@@ -35,10 +34,10 @@ export default {
       control: { type: 'select' },
       options: ['none', 'add', 'delete', 'edit', 'arrowDown'],
       mapping: {
-        add: <Icon name="add" size={16} />,
-        delete: <Icon name="delete" size={16} />,
-        edit: <Icon name="edit" size={16} />,
-        arrowDown: <Icon name="arrowDown" size={12} />,
+        add: <Add16Regular />,
+        delete: <Delete16Regular />,
+        edit: <Edit16Regular />,
+        arrowDown: <ArrowDown16Regular />,
       },
     },
     iconPosition: {
