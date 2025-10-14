@@ -1,8 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import type { Meta, StoryFn } from '@storybook/react';
 import Select, { SelectProps, SelectOption } from './Select';
-import useApiSimulation from '../hooks/ApiSimulation';
-
+import useApiSimulation from '../../hooks/ApiSimulation';
 
 const meta: Meta<typeof Select> = {
   title: 'Components/Select',
@@ -16,76 +15,84 @@ const meta: Meta<typeof Select> = {
   argTypes: {
     helperText: {
       control: {
-        type: 'text'
-      }
+        type: 'text',
+      },
     },
     placeholder: {
       control: {
-        type: 'text'
-      }
+        type: 'text',
+      },
     },
     type: {
       control: 'select',
-      options: ['text', 'checkbox', 'icon']
+      options: ['text', 'checkbox', 'icon'],
     },
     label: {
       control: {
-        type: 'text'
-      }
+        type: 'text',
+      },
     },
     showSubText: {
       control: {
-        type: 'boolean'
-      }
+        type: 'boolean',
+      },
     },
     errorMessage: {
       control: {
-        type: 'text'
-      }
+        type: 'text',
+      },
     },
     required: {
       control: {
-        type: 'boolean'
-      }
+        type: 'boolean',
+      },
     },
     className: {
       control: {
-        type: 'text'
-      }
+        type: 'text',
+      },
     },
     maxWidth: {
-      control: 'number'
+      control: 'number',
     },
     onChange: {
-      action: 'changed'
+      action: 'changed',
     },
     tooltip: {
       control: {
-        type: 'boolean'
-      }
+        type: 'boolean',
+      },
     },
     tooltipText: {
       control: {
-        type: 'text'
-      }
+        type: 'text',
+      },
     },
     width: {
       control: {
-        type: 'number'
-      }
+        type: 'number',
+      },
     },
     positionTooltip: {
       control: {
         type: 'select',
-        options: ['top-right', 'top-left', 'bottom-right', 'bottom-left', 'left', 'right']
-      }
+        options: [
+          'top-right',
+          'top-left',
+          'bottom-right',
+          'bottom-left',
+          'left',
+          'right',
+        ],
+      },
     },
     position: {
       control: 'select',
       options: ['top', 'bottom'],
-      description: 'Força posição do dropdown: top (para cima) ou bottom (para baixo). Se não especificado, usa detecção automática'
+      description:
+        'Força posição do dropdown: top (para cima) ou bottom (para baixo). Se não especificado, usa detecção automática',
     },
-  }
+  },
 };
 
 export default meta;
@@ -95,270 +102,287 @@ const mockValues: SelectOption[] = [
   {
     id: 'item-1',
     text: 'List item',
-    subText: 'Descrição do item 1'
+    subText: 'Descrição do item 1',
   },
   {
     id: 'item-2',
     text: 'List-item 2',
     disabled: true,
-    subText: 'Item desabilitado'
+    subText: 'Item desabilitado',
   },
   {
     id: 'item-3',
     text: 'List-item 3',
     disabled: true,
-    subText: 'Outro item desabilitado'
+    subText: 'Outro item desabilitado',
   },
   {
     id: 'item-4',
     text: 'List-item 4',
-    subText: 'Descrição do item 4'
+    subText: 'Descrição do item 4',
   },
   {
     id: 'item-5',
     text: 'List-item 5',
-    subText: 'Descrição do item 5'
+    subText: 'Descrição do item 5',
   },
   {
     id: 'item-6',
     text: 'List-item 6',
-    subText: 'Descrição do item 6'
+    subText: 'Descrição do item 6',
   },
   {
     id: 'item-7',
     text: 'List-item 7',
-    subText: 'Descrição do item 7'
+    subText: 'Descrição do item 7',
   },
   {
     id: 'item-8',
     text: 'List-item 8',
-    subText: 'Descrição do item 8'
+    subText: 'Descrição do item 8',
   },
   {
     id: 'item-9',
     text: 'List-item 9',
-    subText: 'Descrição do item 9'
+    subText: 'Descrição do item 9',
   },
   {
     id: 'item-10',
     text: 'List-item 10',
     disabled: true,
-    subText: 'Item desabilitado'
+    subText: 'Item desabilitado',
   },
   {
     id: 'item-11',
     text: 'List-item 11',
-    subText: 'Descrição do item 11'
+    subText: 'Descrição do item 11',
   },
   {
     id: 'item-12',
     text: 'List-item 12',
-    subText: 'Descrição do item 12'
+    subText: 'Descrição do item 12',
   },
   {
     id: 'item-13',
     text: 'List-item 13',
-    subText: 'Descrição do item 13'
+    subText: 'Descrição do item 13',
   },
   {
     id: 'item-14',
     text: 'List-item 14',
-    subText: 'Descrição do item 14'
+    subText: 'Descrição do item 14',
   },
   {
     id: 'item-15',
     text: 'List-item 15',
     disabled: true,
-    subText: 'Item desabilitado'
+    subText: 'Item desabilitado',
   },
   {
     id: 'item-16',
     text: 'List-item 16',
-    subText: 'Descrição do item 16'
+    subText: 'Descrição do item 16',
   },
   {
     id: 'item-17',
     text: 'List-item 17',
-    subText: 'Descrição do item 17'
+    subText: 'Descrição do item 17',
   },
   {
     id: 'item-18',
     text: 'List-item 18',
-    subText: 'Descrição do item 18'
+    subText: 'Descrição do item 18',
   },
   {
     id: 'item-19',
     text: 'List-item 19',
-    subText: 'Descrição do item 19'
+    subText: 'Descrição do item 19',
   },
   {
     id: 'item-20',
     text: 'List-item 20',
-    subText: 'Descrição do item 20'
+    subText: 'Descrição do item 20',
   },
   {
     id: 'item-21',
     text: 'List-item 21',
     disabled: true,
-    subText: 'Item desabilitado'
+    subText: 'Item desabilitado',
   },
   {
     id: 'item-22',
     text: 'List-item 22',
-    subText: 'Descrição do item 22'
+    subText: 'Descrição do item 22',
   },
   {
     id: 'item-23',
     text: 'List-item 23',
-    subText: 'Descrição do item 23'
+    subText: 'Descrição do item 23',
   },
   {
     id: 'item-24',
     text: 'List-item 24',
-    subText: 'Descrição do item 24'
+    subText: 'Descrição do item 24',
   },
   {
     id: 'item-25',
     text: 'List-item 25',
-    subText: 'Descrição do item 25'
+    subText: 'Descrição do item 25',
   },
   {
     id: 'item-26',
     text: 'List-item 26',
-    subText: 'Descrição do item 26'
+    subText: 'Descrição do item 26',
   },
   {
     id: 'item-27',
     text: 'List-item 27',
-    subText: 'Descrição do item 27'
+    subText: 'Descrição do item 27',
   },
   {
     id: 'item-28',
     text: 'List-item 28',
     disabled: true,
-    subText: 'Item desabilitado'
+    subText: 'Item desabilitado',
   },
   {
     id: 'item-29',
     text: 'List-item 29',
-    subText: 'Descrição do item 29'
+    subText: 'Descrição do item 29',
   },
   {
     id: 'item-30',
     text: 'List-item 30',
-    subText: 'Descrição do item 30'
+    subText: 'Descrição do item 30',
   },
   {
     id: 'item-31',
     text: 'List-item 31',
-    subText: 'Descrição do item 31'
+    subText: 'Descrição do item 31',
   },
   {
     id: 'item-32',
     text: 'List-item 32',
-    subText: 'Descrição do item 32'
+    subText: 'Descrição do item 32',
   },
   {
     id: 'item-33',
     text: 'List-item 33',
-    subText: 'Descrição do item 33'
+    subText: 'Descrição do item 33',
   },
   {
     id: 'item-34',
     text: 'List-item 34',
-    subText: 'Descrição do item 34'
+    subText: 'Descrição do item 34',
   },
   {
     id: 'item-35',
     text: 'List-item 35',
     disabled: true,
-    subText: 'Item desabilitado'
+    subText: 'Item desabilitado',
   },
   {
     id: 'item-36',
     text: 'List-item 36',
-    subText: 'Descrição do item 36'
+    subText: 'Descrição do item 36',
   },
   {
     id: 'item-37',
     text: 'List-item 37',
-    subText: 'Descrição do item 37'
+    subText: 'Descrição do item 37',
   },
   {
     id: 'item-38',
     text: 'List-item 38',
-    subText: 'Descrição do item 38'
+    subText: 'Descrição do item 38',
   },
   {
     id: 'item-39',
     text: 'List-item 39',
-    subText: 'Descrição do item 39'
+    subText: 'Descrição do item 39',
   },
   {
     id: 'item-40',
     text: 'List-item 40',
-    subText: 'Descrição do item 40'
+    subText: 'Descrição do item 40',
   },
   {
     id: 'item-41',
     text: 'List-item 41',
-    subText: 'Descrição do item 41'
+    subText: 'Descrição do item 41',
   },
   {
     id: 'item-42',
     text: 'List-item 42',
     disabled: true,
-    subText: 'Item desabilitado'
+    subText: 'Item desabilitado',
   },
   {
     id: 'item-43',
     text: 'List-item 43',
-    subText: 'Descrição do item 43'
+    subText: 'Descrição do item 43',
   },
   {
     id: 'item-44',
     text: 'List-item 44',
-    subText: 'Descrição do item 44'
+    subText: 'Descrição do item 44',
   },
   {
     id: 'item-45',
     text: 'List-item 45',
-    subText: 'Descrição do item 45'
+    subText: 'Descrição do item 45',
   },
   {
     id: 'item-46',
     text: 'List-item 46',
-    subText: 'Descrição do item 46'
+    subText: 'Descrição do item 46',
   },
   {
     id: 'item-47',
     text: 'List-item 47',
-    subText: 'Descrição do item 47'
+    subText: 'Descrição do item 47',
   },
   {
     id: 'item-48',
     text: 'List-item 48',
-    subText: 'Descrição do item 48'
+    subText: 'Descrição do item 48',
   },
   {
     id: 'item-49',
     text: 'List-item 49',
     disabled: true,
-    subText: 'Último item desabilitado'
+    subText: 'Último item desabilitado',
   },
   {
     id: 'item-50',
     text: 'List-item 50',
-    subText: 'Descrição do último item'
-  }
+    subText: 'Descrição do último item',
+  },
 ];
 
 // Template tipado
 const template: StoryFn<SelectProps> = (args) => {
-  const { type, helperText, placeholder, maxWidth, minWidth, width, ...restArgs } = args;
+  const {
+    type,
+    helperText,
+    placeholder,
+    maxWidth,
+    minWidth,
+    width,
+    ...restArgs
+  } = args;
 
   return (
-  <div style={{ width: '210px', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', margin: '0 auto' }}>
+    <div
+      style={{
+        width: '210px',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'column',
+        margin: '0 auto',
+      }}
+    >
       <Select
         {...restArgs}
         options={mockValues}
@@ -370,10 +394,8 @@ const template: StoryFn<SelectProps> = (args) => {
         width={width}
       />
     </div>
-
   );
 };
-
 
 export const Default: StoryFn<SelectProps> = template.bind({});
 Default.args = {
@@ -385,7 +407,7 @@ Default.args = {
   tooltip: true,
   tooltipText: 'Selecione um item da lista',
   maxWidth: '250px',
-  minWidth: '250px'
+  minWidth: '250px',
 };
 
 Default.parameters = {
@@ -444,7 +466,7 @@ WithInitialValue.args = {
   tooltip: true,
   tooltipText: 'Este select tem um valor inicial',
   maxWidth: '250px',
-  minWidth: '250px'
+  minWidth: '250px',
 };
 
 export const exampleInfiniteScroll: StoryFn<SelectProps> = (args) => {
@@ -455,7 +477,7 @@ export const exampleInfiniteScroll: StoryFn<SelectProps> = (args) => {
     status,
     error,
     hasNextPage,
-    actions
+    actions,
   } = useApiSimulation<SelectOption>({
     itemsPerPage: 20,
     totalItems: 500,
@@ -473,9 +495,9 @@ export const exampleInfiniteScroll: StoryFn<SelectProps> = (args) => {
         subText: search
           ? `Resultado para "${search}" - ${departments[itemNumber % departments.length]}`
           : `${departments[itemNumber % departments.length]} - Item ${itemNumber}`,
-        disabled: itemNumber % 25 === 0
+        disabled: itemNumber % 25 === 0,
       };
-    }
+    },
   });
 
   const [selectedValue, setSelectedValue] = useState<SelectOption[]>([]);
@@ -491,16 +513,13 @@ export const exampleInfiniteScroll: StoryFn<SelectProps> = (args) => {
     console.log('Opções selecionadas:', selectedItems);
   };
 
-
-
-
   return (
     <Select
       options={items}
       type="checkbox"
       placeholder="Selecione opções..."
       onChange={handleSelectionChange}
-      value={selectedValue.map(item => item.id!)}
+      value={selectedValue.map((item) => item.id!)}
       showSubText={true}
       infiniteScroll={{
         status: status,
@@ -510,8 +529,8 @@ export const exampleInfiniteScroll: StoryFn<SelectProps> = (args) => {
         threshold: 0.1,
         rootMargin: '50px',
       }}
-      minWidth='250px'
-      maxWidth='250px'
+      minWidth="250px"
+      maxWidth="250px"
     />
   );
 };
@@ -523,14 +542,26 @@ export const SelectPositioned: StoryFn<SelectProps> = () => {
     { id: '2', text: 'Opção 2', subText: 'Segunda opção' },
     { id: '3', text: 'Opção 3', subText: 'Terceira opção' },
     { id: '4', text: 'Opção 4', subText: 'Quarta opção' },
-    { id: '5', text: 'Opção 5', subText: 'Quinta opção' }
+    { id: '5', text: 'Opção 5', subText: 'Quinta opção' },
   ];
 
   return (
-    <div style={{ padding: '40px', display: 'flex', flexDirection: 'column', gap: '400px', height: '1200px' }}>
+    <div
+      style={{
+        padding: '40px',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '400px',
+        height: '1200px',
+      }}
+    >
       <div style={{ paddingTop: '100px' }}>
-        <h3 style={{ marginBottom: '20px' }}>🔽 Select forçado para baixo (position="bottom")</h3>
-        <p style={{ marginBottom: '10px', color: '#666' }}>O dropdown deve aparecer abaixo do campo</p>
+        <h3 style={{ marginBottom: '20px' }}>
+          🔽 Select forçado para baixo (position="bottom")
+        </h3>
+        <p style={{ marginBottom: '10px', color: '#666' }}>
+          O dropdown deve aparecer abaixo do campo
+        </p>
         <Select
           options={simpleOptions}
           position="bottom"
@@ -541,10 +572,14 @@ export const SelectPositioned: StoryFn<SelectProps> = () => {
           width="300px"
         />
       </div>
-      
+
       <div>
-        <h3 style={{ marginBottom: '20px' }}>🔼 Select forçado para cima (position="top")</h3>
-        <p style={{ marginBottom: '10px', color: '#666' }}>O dropdown deve aparecer acima do campo</p>
+        <h3 style={{ marginBottom: '20px' }}>
+          🔼 Select forçado para cima (position="top")
+        </h3>
+        <p style={{ marginBottom: '10px', color: '#666' }}>
+          O dropdown deve aparecer acima do campo
+        </p>
         <Select
           options={simpleOptions}
           position="top"
@@ -555,10 +590,14 @@ export const SelectPositioned: StoryFn<SelectProps> = () => {
           width="300px"
         />
       </div>
-      
+
       <div>
-        <h3 style={{ marginBottom: '20px' }}>🤖 Select automático (sem prop position)</h3>
-        <p style={{ marginBottom: '10px', color: '#666' }}>O dropdown deve detectar automaticamente a melhor posição</p>
+        <h3 style={{ marginBottom: '20px' }}>
+          🤖 Select automático (sem prop position)
+        </h3>
+        <p style={{ marginBottom: '10px', color: '#666' }}>
+          O dropdown deve detectar automaticamente a melhor posição
+        </p>
         <Select
           options={simpleOptions}
           type="text"

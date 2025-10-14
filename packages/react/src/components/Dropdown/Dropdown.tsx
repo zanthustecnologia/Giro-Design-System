@@ -1,11 +1,17 @@
 import clsx from 'clsx';
-import React, { useCallback, useEffect, useMemo, useState, useRef } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+  useRef,
+} from 'react';
 import Search from '../Search';
 import { validateItems } from './DropdownUtils';
 import './Dropdown.scss';
 import Checkbox from '../Checkbox';
 import Button from '../Button';
-import { useInfiniteScroll } from '../hooks/InfiniteScroll';
+import { useInfiniteScroll } from '../../hooks/InfiniteScroll';
 
 export interface DropdownItem {
   /** ID único do item (opcional, será gerado automaticamente se não fornecido) */
@@ -95,7 +101,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   maxHeight,
   filter = false,
   position,
-  infiniteScroll
+  infiniteScroll,
 }) => {
   const [selectedItems, setSelectedItems] = useState<SelectedItemsState>(() => {
     if (initialItemsSelected && Object.keys(initialItemsSelected).length > 0) {
@@ -103,7 +109,7 @@ const Dropdown: React.FC<DropdownProps> = ({
     }
     if (defaultSelectedIds && defaultSelectedIds.length > 0) {
       const initialState: SelectedItemsState = {};
-      defaultSelectedIds.forEach(itemId => {
+      defaultSelectedIds.forEach((itemId) => {
         initialState[itemId] = true;
       });
       return initialState;
@@ -116,18 +122,19 @@ const Dropdown: React.FC<DropdownProps> = ({
   const [inputValue, setInputValue] = useState<string>('');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [isSearchFocused, setIsSearchFocused] = useState<boolean>(false);
-  const [tempSelectedItems, setTempSelectedItems] = useState<SelectedItemsState>({});
+  const [tempSelectedItems, setTempSelectedItems] =
+    useState<SelectedItemsState>({});
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   const infiniteScrollHook = useInfiniteScroll({
     status: infiniteScroll?.status || 'idle',
     page: infiniteScroll?.page || 1,
     lastPage: infiniteScroll?.lastPage || 1,
-    onLoadMore: infiniteScroll?.onLoadMore || (() => { }),
+    onLoadMore: infiniteScroll?.onLoadMore || (() => {}),
     threshold: infiniteScroll?.threshold,
     rootMargin: infiniteScroll?.rootMargin,
     enabled: !!infiniteScroll,
-    debug: infiniteScroll?.debug
+    debug: infiniteScroll?.debug,
   });
 
   const searchVisible = applySearch || internalItems.length > 4;
@@ -138,18 +145,24 @@ const Dropdown: React.FC<DropdownProps> = ({
     }
   }, [selectedItems, filter]);
 
-  const handleSearchChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = event.target.value;
-    setInputValue(newValue);
-    setFocusedIndex(-1);
-    if (newValue === '' && searchQuery !== '') {
-      setSearchQuery('');
-    }
-  }, [searchQuery]);
+  const handleSearchChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      const newValue = event.target.value;
+      setInputValue(newValue);
+      setFocusedIndex(-1);
+      if (newValue === '' && searchQuery !== '') {
+        setSearchQuery('');
+      }
+    },
+    [searchQuery]
+  );
 
   const safeItems = useMemo(() => {
     if (!Array.isArray(items)) {
-      console.warn('Dropdown: items deve ser um array. Recebido:', typeof items);
+      console.warn(
+        'Dropdown: items deve ser um array. Recebido:',
+        typeof items
+      );
       return [];
     }
     if (items.length === 0) {
@@ -162,9 +175,12 @@ const Dropdown: React.FC<DropdownProps> = ({
     return validateItems(safeItems, type);
   }, [safeItems, type]);
 
-  const generateItemId = useCallback((item: DropdownItem, index: number): string => {
-    return item.id || `dropdown-item-${index}`;
-  }, []);
+  const generateItemId = useCallback(
+    (item: DropdownItem, index: number): string => {
+      return item.id || `dropdown-item-${index}`;
+    },
+    []
+  );
 
   const executeSearch = useCallback(() => {
     setSearchQuery(inputValue.trim());
@@ -178,66 +194,72 @@ const Dropdown: React.FC<DropdownProps> = ({
     setIsSearchFocused(false);
   }, []);
 
-  const handleSearchKeyDown = useCallback((event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
-      event.preventDefault();
-      event.stopPropagation();
-      executeSearch();
-      return;
-    }
-    if (event.key === 'Escape') {
-      event.preventDefault();
-      event.stopPropagation();
-      handleSearchClear();
-      return;
-    }
-    if (event.key === 'Backspace') {
-      if (inputValue.length < 2) {
+  const handleSearchKeyDown = useCallback(
+    (event: React.KeyboardEvent<HTMLInputElement>) => {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        event.stopPropagation();
+        executeSearch();
+        return;
+      }
+      if (event.key === 'Escape') {
         event.preventDefault();
         event.stopPropagation();
         handleSearchClear();
+        return;
       }
-    }
-  }, [executeSearch, handleSearchClear, inputValue]);
-
-
-  const toggleSelection = useCallback((itemId: string, item: DropdownItem) => {
-    if (item?.disabled) return;
-    if (filter) {
-      setTempSelectedItems((prevSelected) => {
-        let newSelected: SelectedItemsState;
-        if (type === 'checkbox') {
-          newSelected = {
-            ...prevSelected,
-            [itemId]: !prevSelected[itemId],
-          };
-        } else {
-          newSelected = prevSelected[itemId] ? {} : { [itemId]: true };
+      if (event.key === 'Backspace') {
+        if (inputValue.length < 2) {
+          event.preventDefault();
+          event.stopPropagation();
+          handleSearchClear();
         }
-        return newSelected;
-      });
-    } else {
+      }
+    },
+    [executeSearch, handleSearchClear, inputValue]
+  );
 
-      setSelectedItems((prevSelected) => {
-        let newSelected: SelectedItemsState;
+  const toggleSelection = useCallback(
+    (itemId: string, item: DropdownItem) => {
+      if (item?.disabled) return;
+      if (filter) {
+        setTempSelectedItems((prevSelected) => {
+          let newSelected: SelectedItemsState;
+          if (type === 'checkbox') {
+            newSelected = {
+              ...prevSelected,
+              [itemId]: !prevSelected[itemId],
+            };
+          } else {
+            newSelected = prevSelected[itemId] ? {} : { [itemId]: true };
+          }
+          return newSelected;
+        });
+      } else {
+        setSelectedItems((prevSelected) => {
+          let newSelected: SelectedItemsState;
 
-        if (type === 'checkbox') {
-          newSelected = {
-            ...prevSelected,
-            [itemId]: !prevSelected[itemId],
-          };
-        } else {
-          newSelected = prevSelected[itemId] ? {} : { [itemId]: true };
-        }
-        return newSelected;
-      });
-    }
-  }, [filter, type]);
+          if (type === 'checkbox') {
+            newSelected = {
+              ...prevSelected,
+              [itemId]: !prevSelected[itemId],
+            };
+          } else {
+            newSelected = prevSelected[itemId] ? {} : { [itemId]: true };
+          }
+          return newSelected;
+        });
+      }
+    },
+    [filter, type]
+  );
 
   const handleApplyFilter = useCallback(() => {
     if (!filter) return;
     setSelectedItems(tempSelectedItems);
-    const selectedIds = Object.keys(tempSelectedItems).filter(key => tempSelectedItems[key]);
+    const selectedIds = Object.keys(tempSelectedItems).filter(
+      (key) => tempSelectedItems[key]
+    );
     onSelectionChange?.(selectedIds);
   }, [filter, tempSelectedItems, onSelectionChange]);
 
@@ -249,7 +271,6 @@ const Dropdown: React.FC<DropdownProps> = ({
     onSelectionChange?.([]);
   }, [filter, onSelectionChange]);
 
-
   const isFirstRender = React.useRef(true);
   useEffect(() => {
     if (isFirstRender.current) {
@@ -257,83 +278,99 @@ const Dropdown: React.FC<DropdownProps> = ({
       return;
     }
     if (!onSelectionChange) return;
-    const selectedIds = Object.keys(selectedItems).filter(key => selectedItems[key]);
+    const selectedIds = Object.keys(selectedItems).filter(
+      (key) => selectedItems[key]
+    );
     onSelectionChange(selectedIds);
-  }, [selectedItems, onSelectionChange])
-
+  }, [selectedItems, onSelectionChange]);
 
   useEffect(() => {
     setInternalItems(validItems);
   }, [validItems]);
 
+  const handleItemClick = useCallback(
+    (
+      event: React.MouseEvent<HTMLLIElement>,
+      itemId: string,
+      item: DropdownItem
+    ) => {
+      event.preventDefault();
+      event.stopPropagation();
+      if (!item?.disabled) {
+        toggleSelection(itemId, item);
+      }
+    },
+    [toggleSelection]
+  );
 
-  const handleItemClick = useCallback((
-    event: React.MouseEvent<HTMLLIElement>,
-    itemId: string,
-    item: DropdownItem
-  ) => {
-    event.preventDefault();
-    event.stopPropagation();
-    if (!item?.disabled) {
-      toggleSelection(itemId, item);
-    }
-  }, [toggleSelection]);
+  const renderItemContent = useCallback(
+    (item: DropdownItem, index: number) => {
+      const itemId = item.id || `dropdown-item-${index}`;
+      const currentSelection = filter ? tempSelectedItems : selectedItems;
 
-  const renderItemContent = useCallback((item: DropdownItem, index: number) => {
-    const itemId = item.id || `dropdown-item-${index}`;
-    const currentSelection = filter ? tempSelectedItems : selectedItems;
-
-    return (
-      <div className={clsx('zds-dropdown__item-content', {
-        'zds-dropdown__item-content--disabled': item.disabled
-      })}>
-        {type === 'checkbox' && (
-          <Checkbox
-            checked={currentSelection[itemId]}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-              event.preventDefault();
-              event.stopPropagation();
-              toggleSelection(itemId, item);
-            }}
-            disabled={item.disabled}
-            label=""
-          />
-        )}
-
-        {type === 'icon' && item.icon && (
-          <div className="zds-dropdown__item-icon-container">
-            <span
-              className="zds-dropdown__item-icon"
-              onClick={(event: React.MouseEvent<HTMLSpanElement>) => {
+      return (
+        <div
+          className={clsx('zds-dropdown__item-content', {
+            'zds-dropdown__item-content--disabled': item.disabled,
+          })}
+        >
+          {type === 'checkbox' && (
+            <Checkbox
+              checked={currentSelection[itemId]}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                 event.preventDefault();
                 event.stopPropagation();
-                handleItemClick(event as any, itemId, item);
+                toggleSelection(itemId, item);
               }}
-            >
-              {item.icon}
-            </span>
-          </div>
-        )}
-
-        <div className="zds-dropdown__item-text">
-          <span
-            id={`dropdown-item-${itemId}-label`}
-            className="zds-dropdown__title"
-          >
-            {item.text}
-          </span>
-          {showSubText && item.subText && (
-            <span
-              id={`dropdown-item-${itemId}-desc`}
-              className="zds-dropdown__subtext"
-            >
-              {item.subText}
-            </span>
+              disabled={item.disabled}
+              label=""
+            />
           )}
+
+          {type === 'icon' && item.icon && (
+            <div className="zds-dropdown__item-icon-container">
+              <span
+                className="zds-dropdown__item-icon"
+                onClick={(event: React.MouseEvent<HTMLSpanElement>) => {
+                  event.preventDefault();
+                  event.stopPropagation();
+                  handleItemClick(event as any, itemId, item);
+                }}
+              >
+                {item.icon}
+              </span>
+            </div>
+          )}
+
+          <div className="zds-dropdown__item-text">
+            <span
+              id={`dropdown-item-${itemId}-label`}
+              className="zds-dropdown__title"
+            >
+              {item.text}
+            </span>
+            {showSubText && item.subText && (
+              <span
+                id={`dropdown-item-${itemId}-desc`}
+                className="zds-dropdown__subtext"
+              >
+                {item.subText}
+              </span>
+            )}
+          </div>
         </div>
-      </div>
-    );
-  }, [type, selectedItems, tempSelectedItems, filter, toggleSelection, handleItemClick, showSubText]);
+      );
+    },
+    [
+      type,
+      selectedItems,
+      tempSelectedItems,
+      filter,
+      toggleSelection,
+      handleItemClick,
+      showSubText,
+    ]
+  );
 
   const isMultiSelectable = useMemo(() => {
     return type === 'checkbox';
@@ -351,45 +388,55 @@ const Dropdown: React.FC<DropdownProps> = ({
     });
   }, [internalItems, searchQuery]);
 
-  const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLDivElement>) => {
-    if (isSearchFocused) return;
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLDivElement>) => {
+      if (isSearchFocused) return;
 
-    if (filteredItems.length === 0) return;
+      if (filteredItems.length === 0) return;
 
-    switch (e.key) {
-      case 'ArrowDown':
-        e.preventDefault();
-        e.stopPropagation();
-        setFocusedIndex((prevIndex) =>
-          prevIndex < filteredItems.length - 1 ? prevIndex + 1 : 0
-        );
-        return;
-      case 'ArrowUp':
-        e.preventDefault();
-        e.stopPropagation();
-        setFocusedIndex((prevIndex) =>
-          prevIndex > 0 ? prevIndex - 1 : filteredItems.length - 1
-        );
-        return;
-      case 'Enter':
-        e.preventDefault();
-        e.stopPropagation();
-        if (focusedIndex >= 0 && focusedIndex < filteredItems.length) {
-          const focusedItem = filteredItems[focusedIndex];
-          const focusedItemId = focusedItem.id || `dropdown-item-${focusedIndex}`;
-          toggleSelection(focusedItemId, focusedItem);
-        }
-        return;
-      case 'Escape':
-        e.preventDefault();
-        e.stopPropagation();
-        setFocusedIndex(-1);
-        handleSearchClear();
-        return;
-      default:
-        return;
-    }
-  }, [filteredItems, focusedIndex, toggleSelection, isSearchFocused, handleSearchClear]);
+      switch (e.key) {
+        case 'ArrowDown':
+          e.preventDefault();
+          e.stopPropagation();
+          setFocusedIndex((prevIndex) =>
+            prevIndex < filteredItems.length - 1 ? prevIndex + 1 : 0
+          );
+          return;
+        case 'ArrowUp':
+          e.preventDefault();
+          e.stopPropagation();
+          setFocusedIndex((prevIndex) =>
+            prevIndex > 0 ? prevIndex - 1 : filteredItems.length - 1
+          );
+          return;
+        case 'Enter':
+          e.preventDefault();
+          e.stopPropagation();
+          if (focusedIndex >= 0 && focusedIndex < filteredItems.length) {
+            const focusedItem = filteredItems[focusedIndex];
+            const focusedItemId =
+              focusedItem.id || `dropdown-item-${focusedIndex}`;
+            toggleSelection(focusedItemId, focusedItem);
+          }
+          return;
+        case 'Escape':
+          e.preventDefault();
+          e.stopPropagation();
+          setFocusedIndex(-1);
+          handleSearchClear();
+          return;
+        default:
+          return;
+      }
+    },
+    [
+      filteredItems,
+      focusedIndex,
+      toggleSelection,
+      isSearchFocused,
+      handleSearchClear,
+    ]
+  );
 
   const DropdownClass = clsx(
     'zds-dropdown__container',
@@ -398,23 +445,26 @@ const Dropdown: React.FC<DropdownProps> = ({
       [className || '']: className,
       'zds-dropdown__container--search-active': searchQuery.length > 0,
       'zds-dropdown__container--fixed-width': !!maxWidth,
-    },
+    }
   );
   const dropdownStyles: React.CSSProperties = useMemo(() => {
     const styles: React.CSSProperties = {};
 
     if (maxWidth) {
-      styles.maxWidth = typeof maxWidth === 'number' ? `${maxWidth}px` : maxWidth;
+      styles.maxWidth =
+        typeof maxWidth === 'number' ? `${maxWidth}px` : maxWidth;
       styles.width = typeof maxWidth === 'number' ? `${maxWidth}px` : maxWidth;
     }
     if (minWidth) {
-      styles.minWidth = typeof minWidth === 'number' ? `${minWidth}px` : minWidth;
+      styles.minWidth =
+        typeof minWidth === 'number' ? `${minWidth}px` : minWidth;
     }
     if (width) {
       styles.width = typeof width === 'number' ? `${width}px` : width;
     }
     if (maxHeight) {
-      styles.maxHeight = typeof maxHeight === 'number' ? `${maxHeight}px` : maxHeight;
+      styles.maxHeight =
+        typeof maxHeight === 'number' ? `${maxHeight}px` : maxHeight;
     }
 
     return styles;
@@ -426,11 +476,13 @@ const Dropdown: React.FC<DropdownProps> = ({
       className={DropdownClass}
       tabIndex={0}
       role="combobox"
-      aria-expanded={filteredItems.length > 0 ? "true" : "false"}
+      aria-expanded={filteredItems.length > 0 ? 'true' : 'false'}
       aria-haspopup="listbox"
       aria-owns={id ? `${id}-listbox` : undefined}
       aria-controls={id ? `${id}-listbox` : undefined}
-      aria-activedescendant={focusedIndex >= 0 ? `${id}-option-${focusedIndex}` : undefined}
+      aria-activedescendant={
+        focusedIndex >= 0 ? `${id}-option-${focusedIndex}` : undefined
+      }
       aria-label="Dropdown de seleção"
       aria-describedby={searchVisible ? `${id}-search-help` : undefined}
       onKeyDown={handleKeyDown}
@@ -447,7 +499,9 @@ const Dropdown: React.FC<DropdownProps> = ({
           <li role="none" className="zds-dropdown__search-container">
             <Search
               value={inputValue}
-              placeholder={placeholder || 'Digite e pressione Enter para buscar...'}
+              placeholder={
+                placeholder || 'Digite e pressione Enter para buscar...'
+              }
               onChange={handleSearchChange}
               onKeyDown={handleSearchKeyDown}
               onFocus={() => setIsSearchFocused(true)}
@@ -467,19 +521,20 @@ const Dropdown: React.FC<DropdownProps> = ({
                 role="option"
                 aria-selected={!!currentSelection[itemId]}
                 aria-labelledby={`dropdown-item-${itemId}-label`}
-                aria-describedby={item.subText ? `dropdown-item-${itemId}-desc` : undefined}
+                aria-describedby={
+                  item.subText ? `dropdown-item-${itemId}-desc` : undefined
+                }
                 className={clsx('zds-dropdown__item', {
                   [`zds-dropdown__item--${type}`]: type,
                   'zds-dropdown__item--selected': currentSelection[itemId],
                   'zds-dropdown__item--focused': focusedIndex === index,
-                  'zds-dropdown__item--disabled': item.disabled
+                  'zds-dropdown__item--disabled': item.disabled,
                 })}
                 tabIndex={focusedIndex === index ? 0 : -1}
                 onFocus={() => setFocusedIndex(index)}
                 onClick={(event) => {
                   event.stopPropagation();
                   handleItemClick(event, itemId, item);
-
                 }}
                 onMouseDown={(e: React.MouseEvent<HTMLLIElement>) => {
                   if (!item.disabled) {
@@ -502,18 +557,11 @@ const Dropdown: React.FC<DropdownProps> = ({
           </li>
         )}
         {filter && (
-          <div className='zds-dropdown__container-filter'>
-            <Button
-              size='sm'
-              variant='outlined'
-              onClick={handleClearFilter}
-            >
+          <div className="zds-dropdown__container-filter">
+            <Button size="sm" variant="outlined" onClick={handleClearFilter}>
               Limpar
             </Button>
-            <Button
-              size='sm'
-              onClick={handleApplyFilter}
-            >
+            <Button size="sm" onClick={handleApplyFilter}>
               Aplicar
             </Button>
           </div>
