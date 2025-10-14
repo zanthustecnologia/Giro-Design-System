@@ -9,7 +9,7 @@ const config = {
   stories: [
     '../stories/**/*.mdx',
     '../../../packages/ui/storybook/**/*.stories.@(js|jsx|ts|tsx|mdx)',
-    '../../../packages/components-react/src/**/*.stories.@(js|jsx|ts|tsx|mdx)',
+    '../../../packages/react/src/components/**/*.stories.@(js|jsx|ts|tsx|mdx)',
   ],
 
   // Addons recomendados
