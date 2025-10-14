@@ -1,0 +1,16 @@
+# Dependências
+node_modules
+
+# Arquivos de build e cache
+build
+dist
+.next
+.cache
+
+# Logs
+npm-debug.log
+yarn-error.log
+
+# Arquivos de lock
+package-lock.json
+yarn.lock
