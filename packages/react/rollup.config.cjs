@@ -11,7 +11,7 @@ const pkg = require("./package.json");
 module.exports = [
   // Build ESM + CJS
   {
-    input: "src/components/index.ts", // ajuste para .tsx ou .js se for o seu caso
+    input: "src/components/index.ts",
     external: [
       ...Object.keys(pkg.peerDependencies || {}),
       ...Object.keys(pkg.dependencies || {}).filter((d) =>
@@ -25,8 +25,8 @@ module.exports = [
       commonjs(),
       json(),
       postcss({
-        extract: false, // NÃO gera arquivo .css externo
-        inject: true,   // INJETA o CSS no JS automaticamente
+        extract: false, 
+        inject: true,  
         modules: {
           generateScopedName: "[name]__[local]___[hash:base64:5]",
         },
@@ -54,7 +54,6 @@ module.exports = [
       },
     ],
     onwarn(warning, warn) {
-      // silenciar warnings comuns de this is undefined em CJS
       if (warning.code === "THIS_IS_UNDEFINED") return;
       warn(warning);
     },

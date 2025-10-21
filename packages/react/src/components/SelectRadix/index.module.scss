@@ -1,0 +1,116 @@
+.ZdsTrigger {
+  all: unset;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--border-radius-8);
+  border: var(--border-width-1) solid var(--color-neutral-high-dark);
+  padding: 0 var(--spacing-16);
+  font-size: var(--font-size-16);
+  height: 44px;
+  gap: var(--spacing-8);
+  font-family: var(--font-family-primary);
+  margin-bottom: 8px;
+
+  &:hover {
+    border: var(--border-width-2) solid var(--color-brand-primary-default);
+    outline: none;
+    border-radius: var(--border-radius-8);
+  }
+  &:focus {
+     border: var(--border-width-2) solid var(--color-brand-primary-default);
+  }
+}
+
+
+.ZdsContent {
+  background-color: var(--color-neutral-high-default);
+  border-radius: var(--border-radius-8);
+  box-shadow: 0 2px 16px 0px rgba(0, 0, 0, 0.2);
+  border-color: var(--color-neutral-high-dark);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-16);
+  padding: var(--spacing-16);
+}
+.ZdsViewport {
+  display: flex;
+  flex-direction: column;
+  
+}
+.ZdsItem {
+  height: 44px;
+  color: var(--color-low-default);
+  font-size: var(--font-size-16);
+  border-radius: var(--border-radius-8);
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--spacing-4);
+  font-family: var(--font-family-primary);
+  box-sizing: border-box;
+  width: 100%;
+  overflow: hidden;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  &[data-highlighted] {
+    outline: none;
+  }
+  &:hover{
+    background-color: var(--color-neutral-high-medium);
+
+  }
+  &[data-state='checked'] {
+    color: var(--color-brand-primary-default);
+    .ZdsSubTitle{
+      color: var(--color-brand-primary-default);
+    }
+  }
+
+  &[data-disabled] {
+    background-color: var(--color-low-light);
+    color: var(--low-color-light);
+    pointer-events: none;
+    cursor: not-allowed;
+    opacity: 0.5;
+    &:hover{
+      background-color: var(--color-low-light);
+    }
+    .ZdsSubTitle{
+          color: var(--low-color-light);
+    }
+  }
+}
+.ZdsItemWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-radius: var(--border-radius-8);
+  height: 44px;
+  padding-left: var(--spacing-16);
+  padding-right: var(--spacing-16);
+  margin-bottom: var(--spacing-16);
+  gap: var(--spacing-8);
+  &:hover {
+    background-color: var(--color-neutral-high-medium);
+    cursor: pointer;
+    outline: none;
+  }
+}
+
+.ZdsSubTitle{
+  font-size: var(--font-size-14);
+  color: var(--color-neutral-low-dark);
+}
+.ZdsIcon{
+  width: 16px;
+  height: 16px;
+}
+.ZdsSearch{
+  display: flex;
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+}
