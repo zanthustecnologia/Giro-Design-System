@@ -35,6 +35,7 @@ interface SelectRadixProps {
   label?: string;
   helperText?: string;
   maxWidth?: string | number;
+  searchPlaceholder?: string;
 }
 
 interface CheckboxItemProps extends SelectItemProps {
@@ -96,30 +97,70 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
   placeholder = 'Selecione',
   maxWidth,
   search = false,
+  searchPlaceholder = 'Buscar...',
   ...props
 }) => {
   const [open, setOpen] = React.useState<boolean>(false);
   const [selectedValues, setSelectedValues] = React.useState<string[]>(
     Array.isArray(value) ? value : value ? [value] : []
   );
-  const [searchInputValue, setSearchInputValue] = React.useState<string>('');
+  
+  // ← NOVO: Estados para busca
+  const [searchInputValue, setSearchInputValue] = React.useState<string>(''); // Valor do input
+  const [searchTerm, setSearchTerm] = React.useState<string>(''); // Termo aplicado ao filtro
+  
   const containerRef = React.useRef<HTMLDivElement>(null);
 
+  // ← NOVO: Função para normalizar texto
+  const normalizeText = (text: React.ReactNode): string => {
+    if (typeof text === 'string') return text.toLowerCase();
+    if (typeof text === 'number') return text.toString().toLowerCase();
+    return '';
+  };
+
+  // ← NOVO: Filtro dos items (memoizado para performance)
+  const filteredItems = React.useMemo(() => {
+    if (!search || !searchTerm.trim()) {
+      return items;
+    }
+
+    const searchLower = searchTerm.toLowerCase().trim();
+
+    return items.filter((item) => {
+      const textMatch = normalizeText(item.text).includes(searchLower);
+      const subTitleMatch = item.subTitle 
+        ? normalizeText(item.subTitle).includes(searchLower)
+        : false;
+      const valueMatch = item.value.toLowerCase().includes(searchLower);
+
+      return textMatch || subTitleMatch || valueMatch;
+    });
+  }, [items, searchTerm, search]);
+
+  // ← NOVO: Reset ao fechar dropdown
+  React.useEffect(() => {
+    if (!open) {
+      setSearchInputValue('');
+      setSearchTerm('');
+    }
+  }, [open]);
+
   const SelectItem = React.forwardRef<HTMLDivElement, SelectItemProps>(
-    ({ text, subTitle, icon, disabled, value, ...restProps }, ref) => {
+    ({ ...props }, ref) => {
       return (
         <div className={styles.itemWrapper}>
-          {variant === 'icon' && <span className={styles.icon}>{icon}</span>}
+          {variant === 'icon' && (
+            <span className={styles.icon}>{props.icon}</span>
+          )}
 
-          <Select.Item
-            className={styles.item}
-            value={value} 
-            disabled={disabled}
-            {...restProps}
-          >
-            <Select.ItemText className={styles.title}>{text}</Select.ItemText>
+          <Select.Item className={styles.item} {...props}>
+            <Select.ItemText className={styles.title}>
+              {props.text}
+            </Select.ItemText>
 
-            {subTitle && <div className={styles.subTitle}>{subTitle}</div>}
+            {props.subTitle && (
+              <div className={styles.subTitle}>{props.subTitle}</div>
+            )}
             <Select.ItemIndicator
               className={styles.itemIndicator}
             ></Select.ItemIndicator>
@@ -142,19 +183,22 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
 
     return maxWidth;
   };
+
   const handleOpenChange = (open: boolean) => {
     setOpen(open);
     onOpenChange?.(open);
   };
 
+  // ← NOVO: Handler para mudança no input (não aplica filtro ainda)
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchInputValue(e.target.value);
   };
+
+  // ← NOVO: Handler para tecla Enter
   const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    console.log('passei aqui');
     if (e.key === 'Enter') {
       e.preventDefault();
-      console.log(searchInputValue);
+      setSearchTerm(searchInputValue); // ← Aplica o filtro
     }
   };
 
@@ -193,16 +237,21 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
       selectedValues[0]
     );
   };
+
   const containerStyle = {
-    maxWidth: getMaxWidth(),
+    maxWidth: getMaxWidth()
   };
+
+  // ← NOVO: Componente de feedback "nenhum resultado"
+  const NoResults = () => (
+    <div className={styles.noResults}>
+      Nenhum resultado encontrado para "{searchTerm}"
+    </div>
+  );
+
   if (variant === 'checkbox') {
     return (
-      <div
-        className={styles.container}
-        ref={containerRef}
-        style={containerStyle}
-      >
+      <div className={styles.container} ref={containerRef} style={containerStyle}>
         <button
           className={styles.trigger}
           onClick={() => handleOpenChange(!open)}
@@ -216,28 +265,36 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
         {open && (
           <div className={styles.checkboxDropdown}>
             <div className={styles.content}>
-              <div className={styles.viewport}>
-                <Search
-                  className={styles.search}
-                  placeholder="Buscar"
-                  onChange={(e) => handleSearchChange(e)}
-                  value={searchInputValue}
-                  onKeyDown={handleSearchKeyDown}
-                />
-                {items.map((item) => (
-                  <CheckboxItem
-                    key={item.id || item.value}
-                    value={item.value}
-                    text={item.text}
-                    subTitle={item.subTitle}
-                    icon={item.icon}
-                    disabled={item.disabled}
-                    checked={selectedValues.includes(item.value)}
-                    onChange={(checked) =>
-                      handleCheckboxChange(item.value, checked)
-                    }
+              {search && (
+                <div className={styles.searchWrapper}>
+                  <Search 
+                    className={styles.search} 
+                    placeholder={searchPlaceholder}
+                    value={searchInputValue}
+                    onChange={handleSearchChange}
+                    onKeyDown={handleSearchKeyDown} // ← NOVO: Detecta Enter
                   />
-                ))}
+                </div>
+              )}
+              <div className={styles.viewport}>
+                {filteredItems.length === 0 ? (
+                  <NoResults />
+                ) : (
+                  filteredItems.map((item) => (
+                    <CheckboxItem
+                      key={item.id || item.value}
+                      value={item.value}
+                      text={item.text}
+                      subTitle={item.subTitle}
+                      icon={item.icon}
+                      disabled={item.disabled}
+                      checked={selectedValues.includes(item.value)}
+                      onChange={(checked) =>
+                        handleCheckboxChange(item.value, checked)
+                      }
+                    />
+                  ))
+                )}
               </div>
             </div>
           </div>
@@ -271,9 +328,7 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
             </Select.Value>
             {open ? <ChevronUp16Regular /> : <ChevronDown16Regular />}
           </Select.Trigger>
-          {!open && helperText && (
-            <span className={styles.helper}>{helperText}</span>
-          )}
+          {!open && helperText && <span className={styles.helper}>{helperText}</span>}
         </div>
 
         <Select.Portal>
@@ -285,23 +340,37 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
             align="start"
             avoidCollisions={false}
           >
-            <Search className={styles.search} placeholder="buscar" />
+            {search && (
+              <div className={styles.searchWrapper}>
+                <Search 
+                  className={styles.search} 
+                  placeholder={searchPlaceholder}
+                  value={searchInputValue}
+                  onChange={handleSearchChange}
+                  onKeyDown={handleSearchKeyDown} // ← NOVO: Detecta Enter
+                />
+              </div>
+            )}
             <Select.ScrollUpButton
               className={styles.scrollButton}
             ></Select.ScrollUpButton>
             <Select.Viewport className={styles.viewport}>
-              <Select.Group className={styles.group}>
-                {items.map((item) => (
-                  <SelectItem
-                    key={item.id}
-                    value={item.value}
-                    text={item.text}
-                    subTitle={item.subTitle}
-                    icon={item.icon}
-                    disabled={item.disabled}
-                  />
-                ))}
-              </Select.Group>
+              {filteredItems.length === 0 ? (
+                <NoResults />
+              ) : (
+                <Select.Group className={styles.group}>
+                  {filteredItems.map((item) => (
+                    <SelectItem
+                      key={item.id}
+                      value={item.value}
+                      text={item.text}
+                      subTitle={item.subTitle}
+                      icon={item.icon}
+                      disabled={item.disabled}
+                    />
+                  ))}
+                </Select.Group>
+              )}
             </Select.Viewport>
             <Select.ScrollDownButton
               className={styles.scrollButton}

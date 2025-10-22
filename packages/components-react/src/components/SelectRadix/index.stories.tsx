@@ -6,7 +6,6 @@ const meta: Meta<typeof SelectRadix> = {
   title: 'Components/SelectRadix',
   component: SelectRadix,
   parameters: {
-    layout: 'centered',
     docs: {
       description: {
         component:
@@ -45,14 +44,14 @@ const mockItems = [
     id: '3',
     value: 'item3',
     text: 'List-item 3',
-    subTitle: 'Sub item 1',
+    // subTitle: 'Sub item 1',
     icon: <Channel16Regular />,
   },
   {
     id: '4',
     value: '4141',
     text: 'List-item 4',
-    subTitle: 'Sub item 1',
+    // subTitle: 'Sub item 1',
   },
   {
     id: '5',
