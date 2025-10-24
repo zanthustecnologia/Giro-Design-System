@@ -110,11 +110,15 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
 
   const SelectItem = React.forwardRef<HTMLDivElement, SelectItemProps>(
     ({ text, subTitle, icon, disabled, value, ...restProps }, ref) => {
-      console.log(text);
       return (
-        <div className={clsx(styles.itemWrapper)}>
+        <div
+          className={clsx(styles.itemWrapper, {
+            [styles.disabled]: disabled,
+          })}
+          data-disabled={disabled || undefined}
+        >
           {variant === 'icon' && <span className={styles.icon}>{icon}</span>}
-          
+
           <Select.Item
             className={clsx(styles.item, {
               [styles.disabled]: disabled,
