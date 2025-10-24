@@ -10,6 +10,16 @@
   height: 44px;
   gap: var(--spacing-8);
   font-family: var(--font-family-primary);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex: 1;
+    min-width: 0;
+  }
 
   &:hover {
     border: var(--border-width-2) solid var(--color-brand-primary-default);
@@ -20,7 +30,9 @@
     border: var(--border-width-2) solid var(--color-brand-primary-default);
   }
 }
-
+.triggerCheckbox {
+  margin-bottom: var(--spacing-8);
+}
 .content {
   background-color: var(--color-neutral-high-default);
   border-radius: var(--border-radius-8);
@@ -53,6 +65,10 @@
   margin-top: var(--spacing-8);
   margin-bottom: var(--spacing-8);
 
+  &:hover:not([data-disabled]):not([data-selected='true']) {
+    background-color: var(--color-neutral-high-medium);
+  }
+
   &[data-highlighted] {
     outline: none;
   }
@@ -75,20 +91,13 @@
   }
 
   &[data-disabled] {
-    background-color: var(--color-low-light);
-    color: var(--low-color-light);
+    background-color: red;
+    color: red;
     pointer-events: none;
     cursor: not-allowed;
     opacity: 0.5;
-    .title {
-      color: var(--low-color-light);
-    }
-    .subTitle {
-      color: var(--low-color-light);
-    }
-    &:hover {
-      background-color: red;
-    }
+   
+    
   }
 }
 .itemWrapper {
@@ -101,7 +110,7 @@
   padding-right: var(--spacing-16);
   margin-bottom: var(--spacing-16);
   gap: var(--spacing-8);
-   &:hover:not([data-disabled]):not([data-selected='true']) {
+  &:hover:not([data-disabled]):not([data-selected='true']) {
     background-color: var(--color-neutral-high-medium);
   }
 }
@@ -141,4 +150,6 @@
 .noResults {
   font-size: var(--font-size-14);
   color: var(--color-low-default);
+  font-family: var(--font-family-primary);
+  padding: var(--spacing-8);
 }

@@ -62,7 +62,7 @@ const mockItems = [
 ];
 
 export const Default: StoryFn<typeof SelectRadix> = (args) => (
-  <SelectRadix {...args} onValueChange={(e) => console.log(e)} />
+  <SelectRadix {...args} onValueChange={(e) => console.log(e)} maxWidth={250}/>
 );
 
 Default.args = {

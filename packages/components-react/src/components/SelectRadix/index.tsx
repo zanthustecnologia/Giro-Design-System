@@ -3,7 +3,7 @@ import * as Select from '@radix-ui/react-select';
 import styles from './index.module.scss';
 import Search from '../Search/Search';
 import Checkbox from '../Checkbox';
-
+import clsx from 'clsx';
 import {
   ChevronUp16Regular,
   ChevronDown16Regular,
@@ -110,12 +110,15 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
 
   const SelectItem = React.forwardRef<HTMLDivElement, SelectItemProps>(
     ({ text, subTitle, icon, disabled, value, ...restProps }, ref) => {
+      console.log(text);
       return (
-        <div className={styles.itemWrapper}>
+        <div className={clsx(styles.itemWrapper)}>
           {variant === 'icon' && <span className={styles.icon}>{icon}</span>}
-
+          
           <Select.Item
-            className={styles.item}
+            className={clsx(styles.item, {
+              [styles.disabled]: disabled,
+            })}
             value={value}
             disabled={disabled}
             {...restProps}
@@ -131,6 +134,7 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
       );
     }
   );
+  SelectItem.displayName = 'SelectItem';
 
   React.useEffect(() => {
     setSelectedValues(Array.isArray(value) ? value : value ? [value] : []);
@@ -165,10 +169,10 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
       e.preventDefault();
       e.stopPropagation();
       setSearchInputValue('');
+      setSearchTerm('');
     }
   };
-
-  const searchItems = () => {
+  const filteredItems = React.useMemo(() => {
     if (!searchTerm) return items;
 
     const lowercasedSearchTerm = searchTerm.toLowerCase();
@@ -185,8 +189,7 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
         normalizedValue.includes(lowercasedSearchTerm)
       );
     });
-  };
-  const filteredItems = React.useMemo(() => searchItems(), [items, searchTerm]);
+  }, [items, searchTerm]);
 
   const handleSingleSelect = (newValue: string) => {
     setSelectedValues([newValue]);
@@ -206,8 +209,7 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
     setSelectedValues(newSelectedValues);
     onValueChange?.(newSelectedValues);
   };
-
-  const getDisplayText = () => {
+  const displayText = React.useMemo(() => {
     if (selectedValues.length === 0) return placeholder;
 
     if (variant === 'checkbox') {
@@ -222,52 +224,57 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
       items.find((item) => item.value === selectedValues[0])?.text ||
       selectedValues[0]
     );
-  };
+  }, [selectedValues, placeholder, variant, items]);
   React.useEffect(() => {
     if (!open) {
       setSearchInputValue('');
       setSearchTerm('');
     }
   }, [open]);
+
   const containerStyle = {
     maxWidth: getMaxWidth(),
   };
   if (variant === 'checkbox') {
     return (
       <div
-        className={styles.container}
+        className={clsx(styles.container)}
         ref={containerRef}
         style={containerStyle}
       >
         <button
-          className={styles.trigger}
+          className={clsx(styles.trigger, styles.triggerCheckbox)}
           onClick={() => handleOpenChange(!open)}
           aria-label="Select options"
           aria-expanded={open}
+          style={containerStyle}
         >
-          <span>{getDisplayText()}</span>
+          <span>{displayText}</span>
           {open ? <ChevronUp16Regular /> : <ChevronDown16Regular />}
         </button>
 
         {open && (
-          <div className={styles.checkboxDropdown}>
-            <div className={styles.content}>
-              <div className={styles.viewport}>
+          <div className={clsx(styles.checkboxDropdown)}>
+            <div className={clsx(styles.content)}>
+              <div className={clsx(styles.viewport)}>
                 {search && (
-                  <div className={styles.searchWrapper}>
+                  <div className={clsx(styles.searchWrapper)}>
                     <Search
                       ref={searchInputRef}
-                      className={styles.search}
+                      className={clsx(styles.search)}
                       placeholder="Buscar"
                       value={searchInputValue}
                       onChange={handleSearchChange}
                       onKeyDown={handleSearchKeyDown}
-                      onClear={() => setSearchTerm('')}
+                      onClear={() => {
+                        setSearchInputValue('');
+                        setSearchTerm('');
+                      }}
                     />
                   </div>
                 )}
                 {filteredItems.length === 0 ? (
-                  <div className={styles.noResults}>
+                  <div className={clsx(styles.noResults)}>
                     Nenhum resultado encontrado
                   </div>
                 ) : (
@@ -304,7 +311,7 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
         onOpenChange={handleOpenChange}
         {...props}
       >
-        <div className={styles.containerLabel}>
+        <div className={clsx(styles.containerLabel)}>
           <LabelComponent
             htmlFor="select-items"
             required={required}
@@ -313,20 +320,18 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
           >
             {label}
           </LabelComponent>
-          <Select.Trigger className={styles.trigger} id="select-items">
-            <Select.Value placeholder={placeholder}>
-              {getDisplayText()}
-            </Select.Value>
+          <Select.Trigger className={clsx(styles.trigger)} id="select-items">
+            <Select.Value placeholder={placeholder}>{displayText}</Select.Value>
             {open ? <ChevronUp16Regular /> : <ChevronDown16Regular />}
           </Select.Trigger>
           {!open && helperText && (
-            <span className={styles.helper}>{helperText}</span>
+            <span className={clsx(styles.helper)}>{helperText}</span>
           )}
         </div>
 
         <Select.Portal>
           <Select.Content
-            className={styles.content}
+            className={clsx(styles.content)}
             position="popper"
             side="bottom"
             sideOffset={8}
@@ -334,10 +339,10 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
             avoidCollisions={false}
           >
             {search && (
-              <div className={styles.searchWrapper}>
+              <div className={clsx(styles.searchWrapper)}>
                 <Search
                   ref={searchInputRef}
-                  className={styles.search}
+                  className={clsx(styles.search)}
                   placeholder="buscar"
                   value={searchInputValue}
                   onChange={handleSearchChange}
@@ -347,12 +352,12 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
               </div>
             )}
             <Select.ScrollUpButton
-              className={styles.scrollButton}
+              className={clsx(styles.scrollButton)}
             ></Select.ScrollUpButton>
-            <Select.Viewport className={styles.viewport}>
-              <Select.Group className={styles.group}>
+            <Select.Viewport className={clsx(styles.viewport)}>
+              <Select.Group className={clsx(styles.group)}>
                 {filteredItems.length === 0 ? (
-                  <div className={styles.noResults}>
+                  <div className={clsx(styles.noResults)}>
                     {searchTerm
                       ? `Nenhum resultado encontrado para "${searchTerm}"`
                       : 'Nenhum item disponível'}
@@ -372,7 +377,7 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
               </Select.Group>
             </Select.Viewport>
             <Select.ScrollDownButton
-              className={styles.scrollButton}
+              className={clsx(styles.scrollButton)}
             ></Select.ScrollDownButton>
           </Select.Content>
         </Select.Portal>
@@ -380,5 +385,6 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
     </>
   );
 };
+
 export type { SelectRadixProps, SelectItemProps };
 export default SelectRadix;
