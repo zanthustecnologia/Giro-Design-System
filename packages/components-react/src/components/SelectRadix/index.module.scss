@@ -50,6 +50,12 @@
   display: flex;
   flex-direction: column;
 }
+.container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
 
 .item {
   height: 44px;
