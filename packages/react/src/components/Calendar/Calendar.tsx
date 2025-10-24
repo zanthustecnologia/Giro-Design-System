@@ -16,6 +16,7 @@ import {
 } from '@fluentui/react-icons';
 import { useTranslation } from 'react-i18next';
 import './i18n';
+import Button from '../Button';
 
 type Locale = 'pt-br' | 'en-us';
 type DateFormat = 'dd/mm/yyyy' | 'mm/dd/yyyy';
@@ -45,7 +46,7 @@ interface YearItem {
 
 interface CalendarProps {
   /** Data do dia Atual */
-  currentDate: Date;
+  currentDate: Date | null;
   /** Classe CSS adicional */
   className?: string;
   /** Dia Selecionado pelo usuário */
@@ -54,6 +55,7 @@ interface CalendarProps {
   onDateChange?: (date: Date) => void;
   /** Função que é executada quando um dia é selecionado */
   onDaySelect?: (date: Date) => void;
+  onClear?: () => void;
   minDate?: Date;
   maxDate?: Date;
   /** Locale do calendário ('pt-br' ou 'en-us') */
@@ -73,6 +75,7 @@ const Calendar: React.FC<CalendarProps> = ({
   selectedDate = null,
   onDateChange,
   onDaySelect,
+  onClear,
   locale = 'pt-br',
   format = 'dd/mm/yyyy',
   id = '',
@@ -84,8 +87,12 @@ const Calendar: React.FC<CalendarProps> = ({
   const calendarRef = useRef<HTMLDivElement>(null);
   const [changeView, setChangeView] = useState<boolean>(false);
   const [announcement, setAnnouncement] = useState<string>('');
+  
+  // ← ADICIONAR: Fallback para currentDate null
+  const displayDate = currentDate || new Date();
+  
   const [yearRangeStart, setYearRangeStart] = useState<number>(
-    currentDate.getFullYear() - 13
+    displayDate.getFullYear() - 13
   );
 
   // ✅ Effect para configuração de idioma
@@ -96,15 +103,15 @@ const Calendar: React.FC<CalendarProps> = ({
   // ✅ Memoizar valores derivados da data atual
   const { month, year, daysInMonth } = useMemo(
     () => ({
-      month: currentDate.getMonth(),
-      year: currentDate.getFullYear(),
+      month: displayDate.getMonth(),
+      year: displayDate.getFullYear(),
       daysInMonth: new Date(
-        currentDate.getFullYear(),
-        currentDate.getMonth() + 1,
+        displayDate.getFullYear(),
+        displayDate.getMonth() + 1,
         0
       ).getDate(),
     }),
-    [currentDate]
+    [displayDate]
   );
 
   // ✅ Weekdays para cada idioma - memoizado com tipos
@@ -119,6 +126,14 @@ const Calendar: React.FC<CalendarProps> = ({
   /**
    * Retorna o formato de data conforme a prop format e locale.
    */
+  const handleClearDate = useCallback((): void => {
+    onClear?.(); // Chama callback externo se existir
+
+    setAnnouncement(
+      locale === 'en-us' ? 'Selected date cleared' : 'Data selecionada limpa'
+    );
+  }, [onClear, locale]);
+
   const getDateFormat = useCallback(
     (date: Date): string => {
       const options: Intl.DateTimeFormatOptions = {
@@ -618,6 +633,16 @@ const Calendar: React.FC<CalendarProps> = ({
             {renderDays()}
           </div>
         )}
+      </div>
+      <div className="zds-calendar__clear">
+        <Button
+          size="sm"
+          variant="outlined"
+          onClick={handleClearDate}
+          disabled={!selectedDate}
+        >
+          Limpar
+        </Button>
       </div>
     </div>
   );

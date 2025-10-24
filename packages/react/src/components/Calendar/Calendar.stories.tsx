@@ -109,7 +109,10 @@ const Template = (args: TemplateArgs): JSX.Element => {
     setCurrentDate(newDate);
     args.onDateChange?.(newDate);
   };
-
+  const handleClear = (): void  =>{
+    setSelectedDate(null);
+    args.onClear?.();
+  }
   /**
    * Manipula seleção de um dia específico
    */
@@ -125,6 +128,7 @@ const Template = (args: TemplateArgs): JSX.Element => {
       selectedDate={selectedDate}
       onDateChange={handleDateChange}
       onDaySelect={handleDaySelect}
+      onClear={handleClear}
     />
   );
 };
