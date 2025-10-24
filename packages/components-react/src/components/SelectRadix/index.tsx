@@ -239,6 +239,7 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
   const containerStyle = {
     maxWidth: getMaxWidth(),
   };
+
   if (variant === 'checkbox') {
     return (
       <div
@@ -246,16 +247,29 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
         ref={containerRef}
         style={containerStyle}
       >
-        <button
-          className={clsx(styles.trigger, styles.triggerCheckbox)}
-          onClick={() => handleOpenChange(!open)}
-          aria-label="Select options"
-          aria-expanded={open}
-          style={containerStyle}
-        >
-          <span>{displayText}</span>
-          {open ? <ChevronUp16Regular /> : <ChevronDown16Regular />}
-        </button>
+        <div className={clsx(styles.containerLabel)}>
+          <LabelComponent
+            htmlFor="select-items"
+            required={required}
+            tooltipMessage={tooltipMessage}
+            tooltip={tooltip}
+          >
+            {label}
+          </LabelComponent>
+          <button
+            className={clsx(styles.trigger, styles.triggerCheckbox)}
+            onClick={() => handleOpenChange(!open)}
+            aria-label="Select options"
+            aria-expanded={open}
+            style={containerStyle}
+          >
+            <span>{displayText}</span>
+            {open ? <ChevronUp16Regular /> : <ChevronDown16Regular />}
+          </button>
+          {!open && helperText && (
+            <span className={clsx(styles.helper)}>{helperText}</span>
+          )}
+        </div>
 
         {open && (
           <div className={clsx(styles.checkboxDropdown)}>
