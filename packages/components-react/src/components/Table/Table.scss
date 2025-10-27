@@ -150,7 +150,7 @@
 
 .zds-table-header__search {
   width: 360px;
-
+  max-width: 360px;
   @media (max-width: 1024px) {
     width: 100%;
     max-width: 400px;
