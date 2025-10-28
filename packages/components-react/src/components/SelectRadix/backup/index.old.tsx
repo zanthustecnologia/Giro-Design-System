@@ -159,6 +159,13 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
     setOpen(open);
     onOpenChange?.(open);
 
+    // Auto-focus search when opening
+    if (open && search) {
+      setTimeout(() => {
+        searchInputRef.current?.focus();
+      }, 0);
+    }
+
     // Validate when closing the select
     if (!open) {
       setTouched(true);
@@ -273,6 +280,7 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
             required={required}
             tooltipMessage={tooltipMessage}
             tooltip={tooltip}
+            error={hasError && touched}
           >
             {label}
           </LabelComponent>
@@ -299,23 +307,23 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
         {open && (
           <div className={clsx(styles.checkboxDropdown)}>
             <div className={clsx(styles.content)}>
+              {search && (
+                <div className={clsx(styles.searchWrapper)}>
+                  <Search
+                    ref={searchInputRef}
+                    className={clsx(styles.search)}
+                    placeholder="Buscar"
+                    value={searchInputValue}
+                    onChange={handleSearchChange}
+                    onKeyDown={handleSearchKeyDown}
+                    onClear={() => {
+                      setSearchInputValue('');
+                      setSearchTerm('');
+                    }}
+                  />
+                </div>
+              )}
               <div className={clsx(styles.viewport)}>
-                {search && (
-                  <div className={clsx(styles.searchWrapper)}>
-                    <Search
-                      ref={searchInputRef}
-                      className={clsx(styles.search)}
-                      placeholder="Buscar"
-                      value={searchInputValue}
-                      onChange={handleSearchChange}
-                      onKeyDown={handleSearchKeyDown}
-                      onClear={() => {
-                        setSearchInputValue('');
-                        setSearchTerm('');
-                      }}
-                    />
-                  </div>
-                )}
                 {filteredItems.length === 0 ? (
                   <div className={clsx(styles.noResults)}>
                     Nenhum resultado encontrado
@@ -360,6 +368,7 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
             required={required}
             tooltipMessage={tooltipMessage}
             tooltip={tooltip}
+            error={hasError && touched}
           >
             {label}
           </LabelComponent>
