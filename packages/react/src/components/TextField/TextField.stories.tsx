@@ -177,6 +177,7 @@ export const WithDifferentIcons: Story = {
         label="Email" 
         placeholder="Digite seu email" 
         icon={<Mail16Regular />}
+      
       />
       <TextField 
         label="Horário" 
