@@ -87,43 +87,45 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
       style={containerStyle}
       data-testid={testId}
     >
-      <div className={styles.containerLabel}>
-        <LabelComponent
-          htmlFor={selectId}
-          required={required}
-          tooltipMessage={tooltipMessage}
-          tooltip={tooltip}
-          error={state.hasError && state.touched}
-        >
-          {label}
-        </LabelComponent>
-        
-        <button
-          id={selectId}
-          className={clsx(styles.trigger, styles.triggerCheckbox, {
-            [styles.error]: state.hasError && state.touched,
-            [styles.disabled]: disabled,
-          })}
-          onClick={() => !disabled && actions.setOpen(!state.isOpen)}
-          aria-label={ariaLabel || 'Select options'}
-          aria-expanded={state.isOpen}
-          aria-haspopup="listbox"
-          disabled={disabled}
-          data-testid={`${testId}-trigger`}
-        >
-          <span>{displayText}</span>
-          {state.isOpen ? <ChevronUp16Regular /> : <ChevronDown16Regular />}
-        </button>
+      <div className={styles.fieldContainer}>
+        <div className={styles.containerLabel}>
+          <LabelComponent
+            htmlFor={selectId}
+            required={required}
+            tooltipMessage={tooltipMessage}
+            tooltip={tooltip}
+            error={state.hasError && state.touched}
+          >
+            {label}
+          </LabelComponent>
+          
+          <button
+            id={selectId}
+            className={clsx(styles.trigger, styles.triggerCheckbox, {
+              [styles.error]: state.hasError && state.touched,
+              [styles.disabled]: disabled,
+            })}
+            onClick={() => !disabled && actions.setOpen(!state.isOpen)}
+            aria-label={ariaLabel || 'Select options'}
+            aria-expanded={state.isOpen}
+            aria-haspopup="listbox"
+            disabled={disabled}
+            data-testid={`${testId}-trigger`}
+          >
+            <span>{displayText}</span>
+            {state.isOpen ? <ChevronUp16Regular /> : <ChevronDown16Regular />}
+          </button>
 
-        {!state.isOpen && helperText && !state.hasError && (
-          <span className={styles.helper}>{helperText}</span>
-        )}
-        
-        {state.hasError && state.touched && (
-          <span className={styles.error}>
-            {errorMessage || 'Campo obrigatório'}
-          </span>
-        )}
+          {!state.isOpen && helperText && !state.hasError && (
+            <span className={styles.helper}>{helperText}</span>
+          )}
+          
+          {state.hasError && state.touched && (
+            <span className={styles.errorMessage}>
+              {errorMessage || 'Campo obrigatório'}
+            </span>
+          )}
+        </div>
       </div>
 
       {state.isOpen && (
@@ -181,39 +183,41 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
       disabled={disabled}
       {...restProps}
     >
-      <div className={clsx(styles.containerLabel, className)}>
-        <LabelComponent
-          htmlFor={selectId}
-          required={required}
-          tooltipMessage={tooltipMessage}
-          tooltip={tooltip}
-          error={state.hasError && state.touched}
-        >
-          {label}
-        </LabelComponent>
-        
-        <Select.Trigger
-          className={clsx(styles.trigger, {
-            [styles.error]: state.hasError && state.touched,
-            [styles.disabled]: disabled,
-          })}
-          id={selectId}
-          aria-label={ariaLabel}
-          data-testid={`${testId}-trigger`}
-        >
-          <Select.Value placeholder={placeholder}>{displayText}</Select.Value>
-          {state.isOpen ? <ChevronUp16Regular /> : <ChevronDown16Regular />}
-        </Select.Trigger>
+      <div className={styles.fieldContainer}>
+        <div className={clsx(styles.containerLabel, className)}>
+          <LabelComponent
+            htmlFor={selectId}
+            required={required}
+            tooltipMessage={tooltipMessage}
+            tooltip={tooltip}
+            error={state.hasError && state.touched}
+          >
+            {label}
+          </LabelComponent>
+          
+          <Select.Trigger
+            className={clsx(styles.trigger, {
+              [styles.error]: state.hasError && state.touched,
+              [styles.disabled]: disabled,
+            })}
+            id={selectId}
+            aria-label={ariaLabel}
+            data-testid={`${testId}-trigger`}
+          >
+            <Select.Value placeholder={placeholder}>{displayText}</Select.Value>
+            {state.isOpen ? <ChevronUp16Regular /> : <ChevronDown16Regular />}
+          </Select.Trigger>
 
-        {!state.isOpen && helperText && !state.hasError && (
-          <span className={styles.helper}>{helperText}</span>
-        )}
-        
-        {state.hasError && state.touched && (
-          <span className={styles.error}>
-            {errorMessage || 'Campo obrigatório'}
-          </span>
-        )}
+          {!state.isOpen && helperText && !state.hasError && (
+            <span className={styles.helper}>{helperText}</span>
+          )}
+          
+          {state.hasError && state.touched && (
+            <span className={styles.errorMessage}>
+              {errorMessage || 'Campo obrigatório'}
+            </span>
+          )}
+        </div>
       </div>
 
       <Select.Portal>
