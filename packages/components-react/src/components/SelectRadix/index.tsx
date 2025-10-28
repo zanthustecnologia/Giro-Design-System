@@ -105,6 +105,8 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
   );
   const [searchInputValue, setSearchInputValue] = React.useState<string>('');
   const [searchTerm, setSearchTerm] = React.useState<string>('');
+  const [hasError, setHasError] = React.useState<boolean>(false); // ← ADICIONAR
+  const [touched, setTouched] = React.useState<boolean>(false); // ← ADICIONAR
   const containerRef = React.useRef<HTMLDivElement>(null);
   const searchInputRef = React.useRef<HTMLInputElement>(null);
 
@@ -156,6 +158,14 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
   const handleOpenChange = (open: boolean) => {
     setOpen(open);
     onOpenChange?.(open);
+
+    // Validate when closing the select
+    if (!open) {
+      setTouched(true);
+      if (required && selectedValues.length === 0) {
+        setHasError(true);
+      }
+    }
   };
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -199,6 +209,11 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
     setSelectedValues([newValue]);
     onValueChange?.(newValue);
     setOpen(false);
+
+    // Clear error when a value is selected
+    if (required && hasError) {
+      setHasError(false);
+    }
   };
 
   const handleCheckboxChange = (itemValue: string, checked: boolean) => {
@@ -212,6 +227,11 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
 
     setSelectedValues(newSelectedValues);
     onValueChange?.(newSelectedValues);
+
+    // Clear error when at least one value is selected
+    if (required && hasError && newSelectedValues.length > 0) {
+      setHasError(false);
+    }
   };
   const displayText = React.useMemo(() => {
     if (selectedValues.length === 0) return placeholder;
@@ -257,7 +277,9 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
             {label}
           </LabelComponent>
           <button
-            className={clsx(styles.trigger, styles.triggerCheckbox)}
+            className={clsx(styles.trigger, styles.triggerCheckbox, {
+              [styles.error]: hasError && touched,
+            })}
             onClick={() => handleOpenChange(!open)}
             aria-label="Select options"
             aria-expanded={open}
@@ -266,8 +288,11 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
             <span>{displayText}</span>
             {open ? <ChevronUp16Regular /> : <ChevronDown16Regular />}
           </button>
-          {!open && helperText && (
+          {!open && helperText && !hasError && (
             <span className={clsx(styles.helper)}>{helperText}</span>
+          )}
+          {hasError && touched && (
+            <span className={clsx(styles.error)}>Campo obrigatório</span>
           )}
         </div>
 
@@ -338,12 +363,20 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
           >
             {label}
           </LabelComponent>
-          <Select.Trigger className={clsx(styles.trigger)} id="select-items">
+          <Select.Trigger
+            className={clsx(styles.trigger, {
+              [styles.error]: hasError && touched,
+            })}
+            id="select-items"
+          >
             <Select.Value placeholder={placeholder}>{displayText}</Select.Value>
             {open ? <ChevronUp16Regular /> : <ChevronDown16Regular />}
           </Select.Trigger>
-          {!open && helperText && (
+          {!open && helperText && !hasError && (
             <span className={clsx(styles.helper)}>{helperText}</span>
+          )}
+          {hasError && touched && (
+            <span className={clsx(styles.error)}>Campo obrigatório</span>
           )}
         </div>
 
