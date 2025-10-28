@@ -1,174 +1,193 @@
-
 .zds-textfield__container {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    align-self: stretch;
-    position: relative;
-    z-index: var(--z-index-content, 1);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  align-self: stretch;
+  position: relative;
+  z-index: var(--z-index-content, 1);
+  height: 70px;
 }
-
 .zds-textfield__container label {
-    color: var(--color-neutral-low-default);
-    font-family: var(--font-family-primary);
-    font-size: var(--font-size-12);
-    font-style: normal;
-    font-weight: var(--font-weight-regular);
+  color: var(--color-neutral-low-default);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-12);
+  font-style: normal;
+  font-weight: var(--font-weight-regular);
 
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-4);
-    padding-bottom: var(--spacing-4);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
+  padding-bottom: var(--spacing-4);
 }
 
 .zds-textfield__container label .zds-textfield__required {
-    color: var(--color-brand-primary-default);
-    font-family: var(--font-family-primary);
-    font-size: var(--font-size-12);
+  color: var(--color-brand-primary-default);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-12);
 }
 
 .zds-textfield__container .zds-textfield__box__input {
-    position: relative;
-    display: flex;
-    align-items: center;
-    align-self: stretch;
-    width: 100%;
-    margin-top: var(--spacing-4);
+  position: relative;
+  display: flex;
+  align-items: center;
+  align-self: stretch;
+  width: 100%;
+  margin-top: var(--spacing-4);
 }
 
 .zds-textfield__container .zds-textfield__box__input input {
-    min-width: 150px;
-    width: 100%;
-    display: inline-flex;
-    height: 44px;
-    padding: 0px var(--spacing-16);
-    align-items: center;
-    align-self: stretch;
-    border-radius: var(--border-radius-8);
-    border: var(--border-width-1) solid var(--color-neutral-high-dark);
-    outline: none;
-    color: var(--color-neutral-low-default);
-    font-size: var(--font-size-16);
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    box-sizing: border-box;
+  min-width: 150px;
+  width: 100%;
+  display: inline-flex;
+  height: 44px;
+  padding: 0px var(--spacing-16);
+  align-items: center;
+  align-self: stretch;
+  border-radius: var(--border-radius-8);
+  border: var(--border-width-1) solid var(--color-neutral-high-dark);
+  outline: none;
+  color: var(--color-neutral-low-default);
+  font-size: var(--font-size-16);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
 .zds-textfield__container__box {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  align-self: stretch;
 }
 
 .zds-textfield__helper-text {
-    font-size: var(--font-size-12);
-    color: var(--color-neutral-low-medium);
-    font-family: var(--font-family-primary);
+  font-size: var(--font-size-12);
+  color: var(--color-neutral-low-medium);
+  font-family: var(--font-family-primary);
+  line-height: 16px;
+  min-height: 16px;
+  padding-top: var(--spacing-8);
+  max-width: 100%;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+  text-align: left;
+  overflow: hidden;
+  display: block;
 
-    padding-top: var(--spacing-8);
-    max-width: 100%;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    white-space: normal;
-    text-align: left;
-    overflow: hidden;
+  &:empty::after {
+    content: '\00A0';
+    visibility: hidden;
+  }
 }
 
 .zds-textfield__container-tooltip {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-4);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
 }
 
 .zds-textfield__container .zds-textfield__box__input input:hover {
-    border: var(--border-width-1) solid var(--color-neutral-low-dark);
-    outline: none;
-    border-radius: var(--border-radius-8);
+  border: var(--border-width-1) solid var(--color-neutral-low-dark);
+  outline: none;
+  border-radius: var(--border-radius-8);
 }
 
 .zds-textfield__container .zds-textfield__box__input input:focus-visible {
-    border: none;
-    outline: var(--border-width-2) solid var(--color-brand-primary-default);
+  border: none;
+  outline: var(--border-width-2) solid var(--color-brand-primary-default);
 }
 
 .zds-textfield__container .zds-textfield__box__input input::placeholder {
-    color: var(--color-neutral-low-medium);
-    font-family: var(--font-family-primary);
-    font-weight: var(--font-weight-regular);
-    font-size: var(--font-size-16);
+  color: var(--color-neutral-low-medium);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-regular);
+  font-size: var(--font-size-16);
 }
 
 .zds-textfield__container .zds-textfield__box__input .zds-textfield__icon {
-    position: absolute;
-    right: 16px;
-    cursor: pointer;
-    width: 16px;
-    height: 16px;
+  position: absolute;
+  right: 16px;
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
 }
 
 .zds-textfield__container .zds-textfield__box__input .zds-textfield__icon svg {
-    width: 16px;
-    height: 16px;
+  width: 16px;
+  height: 16px;
 }
 
 .zds-textfield__container .zds-textfield__box__input .zds-textfield__tooltip {
-    width: 12px;
-    height: 12px;
+  width: 12px;
+  height: 12px;
 }
 
 .zds-textfield__container .zds-textfield__box__input .has-value {
-    color: var(--color-neutral-low-default);
-    border: var(--border-width-1) solid var(--color-neutral-high-dark);
-    font-size: var(--font-size-16);
+  color: var(--color-neutral-low-default);
+  border: var(--border-width-1) solid var(--color-neutral-high-dark);
+  font-size: var(--font-size-16);
 }
 
 .zds-textfield__tooltip {
-    color: var(--color-brand-primary-default);
+  color: var(--color-brand-primary-default);
 }
 
-// Estados de erro
 .zds-textfield__container.zds-textfield__error label,
 .zds-textfield__container.zds-textfield__error label .zds-textfield__required,
-.zds-textfield__container.zds-textfield__error span,
+.zds-textfield__container.zds-textfield__error .zds-textfield__helper-text,
 .zds-textfield__container.zds-textfield__error .zds-textfield__tooltip,
 .zds-textfield__container.zds-textfield__error .zds-textfield__icon {
-    color: var(--color-feedback-alert-default);
+  color: var(--color-feedback-alert-default);
 }
 
-.zds-textfield__container.zds-textfield__error .zds-textfield__box__input input {
-    border: var(--border-width-1) solid var(--color-feedback-alert-default);
+.zds-textfield__container.zds-textfield__error
+  .zds-textfield__box__input
+  input {
+  border: var(--border-width-1) solid var(--color-feedback-alert-default);
 }
 
-.zds-textfield__container.zds-textfield__error .zds-textfield__box__input input:focus-visible {
-    outline: var(--border-width-1) solid var(--color-feedback-alert-default);
+.zds-textfield__container.zds-textfield__error
+  .zds-textfield__box__input
+  input:focus-visible {
+  outline: var(--border-width-1) solid var(--color-feedback-alert-default);
 }
 
-// Estados desabilitados
 .zds-textfield__container.zds-textfield__disabled label,
-.zds-textfield__container.zds-textfield__disabled .zds-textfield__box__input input::placeholder,
+.zds-textfield__container.zds-textfield__disabled
+  .zds-textfield__box__input
+  input::placeholder,
 .zds-textfield__container.zds-textfield__disabled span,
 .zds-textfield__container.zds-textfield__disabled .zds-textfield__tooltip,
 .zds-textfield__container.zds-textfield__disabled .zds-textfield__required,
-.zds-textfield__container.zds-textfield__disabled label .zds-textfield__required {
-    color: var(--color-neutral-high-dark);
+.zds-textfield__container.zds-textfield__disabled
+  label
+  .zds-textfield__required {
+  color: var(--color-neutral-high-dark);
 }
 
-.zds-textfield__container.zds-textfield__disabled .zds-textfield__box__input input:disabled,
-.zds-textfield__container.zds-textfield__disabled .zds-textfield__box__input input:hover:disabled {
-    border: var(--border-width-1) solid var(--color-neutral-high-dark);
-    color: var(--color-neutral-high-dark);
-    background-color: var(--color-neutral-high-default);
+.zds-textfield__container.zds-textfield__disabled
+  .zds-textfield__box__input
+  input:disabled,
+.zds-textfield__container.zds-textfield__disabled
+  .zds-textfield__box__input
+  input:hover:disabled {
+  border: var(--border-width-1) solid var(--color-neutral-high-dark);
+  color: var(--color-neutral-high-dark);
+  background-color: var(--color-neutral-high-default);
 }
 
 .zds-textfield__container.zds-textfield__disabled .zds-textfield__icon,
 .zds-textfield__container.zds-textfield__disabled .zds-textfield__required,
-.zds-textfield__container.zds-textfield__disabled label .zds-textfield__required {
-    cursor: default;
-    color: var(--color-neutral-high-dark);
+.zds-textfield__container.zds-textfield__disabled
+  label
+  .zds-textfield__required {
+  cursor: default;
+  color: var(--color-neutral-high-dark);
 }
 
-.zds-textfield__container.zds-textfield__disabled .zds-textfield__wrapper-label {
-    pointer-events: none;
+.zds-textfield__container.zds-textfield__disabled
+  .zds-textfield__wrapper-label {
+  pointer-events: none;
 }
