@@ -26,7 +26,6 @@ const CheckboxItem: React.FC<CheckboxItemProps> = ({
       className={clsx(styles.item, {
         [styles.disabled]: disabled,
       })}
-      onClick={handleClick}
       role="option"
       aria-selected={checked}
       data-selected={checked}
