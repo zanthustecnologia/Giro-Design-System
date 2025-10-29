@@ -13,14 +13,6 @@ const CheckboxItem: React.FC<CheckboxItemProps> = ({
   value,
   ...restProps
 }) => {
-  const handleClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (!disabled) {
-      onChange(!checked);
-    }
-  };
-
   return (
     <div
       className={clsx(styles.item, {
