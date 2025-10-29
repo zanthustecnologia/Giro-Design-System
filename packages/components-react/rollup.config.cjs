@@ -1,62 +1,71 @@
 // packages/components-react/rollup.config.cjs
-const path = require("path");
-const typescript = require("@rollup/plugin-typescript");
-const commonjs = require("@rollup/plugin-commonjs");
-const resolve = require("@rollup/plugin-node-resolve").nodeResolve;
-const postcss = require("rollup-plugin-postcss");
-const json = require("@rollup/plugin-json");
+const path = require('path');
+const typescript = require('@rollup/plugin-typescript');
+const commonjs = require('@rollup/plugin-commonjs');
+const resolve = require('@rollup/plugin-node-resolve').nodeResolve;
+const postcss = require('rollup-plugin-postcss');
+const json = require('@rollup/plugin-json');
+const dts = require('rollup-plugin-dts').default;
 
-const pkg = require("./package.json");
+const pkg = require('./package.json');
 
 module.exports = [
   // Build ESM + CJS
   {
-    input: "src/components/index.ts", // ajuste para .tsx ou .js se for o seu caso
+    input: 'src/components/index.ts',
     external: [
       ...Object.keys(pkg.peerDependencies || {}),
-      ...Object.keys(pkg.dependencies || {}).filter((d) =>
-        !/\.(css|scss)$/.test(d)
+      ...Object.keys(pkg.dependencies || {}).filter(
+        (d) => !/\.(css|scss)$/.test(d)
       ),
     ],
     plugins: [
       resolve({
-        extensions: [".mjs", ".js", ".jsx", ".json", ".ts", ".tsx"],
+        extensions: ['.mjs', '.js', '.jsx', '.json', '.ts', '.tsx'],
       }),
       commonjs(),
       json(),
       postcss({
-        extract: false, // NÃO gera arquivo .css externo
-        inject: true,   // INJETA o CSS no JS automaticamente
+        extract: false,
+        inject: true,
         modules: {
-          generateScopedName: "[name]__[local]___[hash:base64:5]",
+          generateScopedName: '[name]__[local]___[hash:base64:5]',
         },
         use: { sass: true },
         minimize: true,
       }),
       typescript({
-        tsconfig: path.resolve(__dirname, "tsconfig.json"),
+        tsconfig: path.resolve(__dirname, 'tsconfig.json'),
         declaration: true,
-         declarationDir: path.resolve(__dirname, "dist"),
-        rootDir: "src",
+        declarationDir: path.resolve(__dirname, 'dist'),
+        rootDir: 'src',
       }),
     ],
     output: [
       {
-        file: path.resolve(__dirname, "dist/index.esm.js"),
-        format: "esm",
+        file: path.resolve(__dirname, 'dist/index.esm.js'),
+        format: 'esm',
         sourcemap: true,
       },
       {
-        file: path.resolve(__dirname, "dist/index.cjs"),
-        format: "cjs",
+        file: path.resolve(__dirname, 'dist/index.cjs'),
+        format: 'cjs',
         sourcemap: true,
-        exports: "named",
+        exports: 'named',
       },
     ],
     onwarn(warning, warn) {
-      // silenciar warnings comuns de this is undefined em CJS
-      if (warning.code === "THIS_IS_UNDEFINED") return;
+      if (warning.code === 'THIS_IS_UNDEFINED') return;
       warn(warning);
     },
+  },
+  {
+    input: 'dist/components/index.d.ts',
+    output: {
+      file: path.resolve(__dirname, 'dist/index.d.ts'),
+      format: 'esm',
+    },
+    plugins: [dts()],
+    external: [/\.s?css$/],
   },
 ];

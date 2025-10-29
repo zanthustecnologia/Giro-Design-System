@@ -42,7 +42,7 @@
 
 .zds-filter__dropdown {
   position: absolute;
-  z-index: var(--z-index-dropdown, 15);
+  z-index: 15;
   min-width: 200px;
   max-height: 300px;
   margin-top: var(--spacing-8);
