@@ -1,31 +1,33 @@
+import { Theme } from '@radix-ui/themes';
 import '../../../packages/tokens/build/css/tokens.css';
+import React from 'react';
 
 /** @type { import('@storybook/react-vite').Preview } */
 const preview = {
   parameters: {
     // actions: { argTypesRegex: "^on[A-Z].*" },
-    docs:{
-      autodocs: true
+    docs: {
+      autodocs: true,
     },
     controls: {
       matchers: {
         color: /(background|color)$/i,
-        date: /Date$/i
-      }
+        date: /Date$/i,
+      },
     },
     a11y: {
-      test: "todo"
+      test: 'todo',
     },
     options: {
       storySort: {
         order: [
           'Boas-vindas',
-          'Primeiros passos', 
+          'Primeiros passos',
           'Fundações',
           'Componentes',
-          '*' // Todas as outras histórias
-        ]
-      }
+          '*', // Todas as outras histórias
+        ],
+      },
     },
   },
 
@@ -37,25 +39,30 @@ const preview = {
       toolbar: {
         icon: 'circlehollow',
         items: ['light', 'dark'],
-        showName: true
-      }
-    }
+        showName: true,
+      },
+    },
   },
 
   decorators: [
     (Story, context) => {
       const theme = context.globals.theme;
-      
+
       // Aplicar o tema no elemento raiz do preview
       if (typeof document !== 'undefined') {
         document.documentElement.setAttribute('data-theme', theme);
         document.body.setAttribute('data-theme', theme);
       }
-      
-      // Retornar a Story sem wrapper JSX
-      return Story();
-    }
-  ]
+
+      return (
+        <Theme
+          appearance={theme}
+        >
+          <Story></Story>
+        </Theme>
+      );
+    },
+  ],
 };
 
 export default preview;

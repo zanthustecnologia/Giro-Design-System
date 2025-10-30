@@ -197,10 +197,10 @@ const Drawer: React.FC<DrawerProps> = ({
           </div>
           <Button 
             onClick={handleCloseClick}
-            variant='outlined'
+            variant='text'
+            iconOnly
             icon={<Dismiss16Regular />}
             size='lg'
-            iconOnly={true}
           />
         </div>
         <div 

@@ -12,7 +12,6 @@
     gap: var(--spacing-16);
   }
 }
-
 .zds-table__scroll-wrapper {
   overflow-x: visible;
 
@@ -151,6 +150,21 @@
 
 .zds-table-header__search {
   width: 360px;
+  max-width: 360px;
+  @media (max-width: 1024px) {
+    width: 100%;
+    max-width: 400px;
+    min-width: 200px;
+  }
+
+  @media (max-width: 768px) {
+    max-width: 100%;
+    min-width: 200px;
+  }
+
+  @media (max-width: 480px) {
+    min-width: 150px;
+  }
 }
 
 .zds-table__pagination {
@@ -178,25 +192,49 @@
   border-radius: var(--border-radius-8) var(--border-radius-8) var(--border-radius-none) var(--border-radius-none);
   border-bottom: var(--border-width-1) solid var(--color-neutral-high-dark);
   flex-wrap: wrap;
-  gap: var(--spacing-8);
+  gap: var(--spacing-16);
   position: relative;
   overflow: visible;
+
+  @media (min-width: 1367px) {
+    flex-wrap: nowrap;
+  }
 
   @media (max-width: 768px) {
     align-items: stretch;
     padding: var(--spacing-8) var(--spacing-16);
+    gap: var(--spacing-12);
+  }
+
+  &__search-container {
+    display: flex;
+    align-items: center;
+    flex: 1 1 300px;
+    min-width: 200px;
+    max-width: 100%;
+
+    @media (min-width: 1367px) {
+      margin-right: var(--spacing-48);
+      flex: 1 1 auto;
+      max-width: calc(100% - 400px);
+    }
+
+    @media (max-width: 768px) {
+      flex: 1 1 100%;
+      width: 100%;
+      min-width: 200px;
+    }
+
+    @media (max-width: 480px) {
+      min-width: 150px;
+    }
   }
 
   &__search {
     display: flex;
     align-items: center;
     gap: var(--spacing-8);
-    flex: 1;
-
-    @media (max-width: 768px) {
-      width: 100%;
-      margin-bottom: var(--spacing-8);
-    }
+    width: 100%;
 
     input {
       border: none;
@@ -207,14 +245,22 @@
   &__filters {
     display: flex;
     align-items: center;
-    gap: var(--spacing-8);
-    flex-wrap: wrap;
+    flex: 0 1 auto;
+    min-width: 0;
     position: relative;
+
+    @media (min-width: 1367px) {
+      flex: 0 0 auto; /* Não cresce nem encolhe, mantém tamanho natural */
+    }
+
+    @media (max-width: 768px) {
+      flex: 1 1 100%;
+      width: 100%;
+    }
 
     .filter-container {
       position: relative;
     }
-  
   }
 
   &__label {
@@ -236,13 +282,87 @@
   font-family: var(--font-family-primary);
   font-size: var(--font-size-16);
   white-space: nowrap;
+  flex-shrink: 0;
+
+  @media (max-width: 480px) {
+    font-size: var(--font-size-14);
+  }
+}
+
+.zds-table-header__custom-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-8);
+  width: 100%;
+
+  @media (min-width: 1025px) {
+    width: auto;
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 }
 
 .zds-table-header__filters-content {
   display: flex;
-  flex-direction: row;
   align-items: center;
   gap: var(--spacing-16);
+  width: 100%;
+  flex-wrap: wrap;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-12);
+  }
+}
+
+.zds-table-header__filters-wrapper {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-16);
+  flex-wrap: wrap;
+  min-width: 0;
+
+  @media (max-width: 640px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-12);
+    width: 100%;
+  }
+
+  @media (max-width: 480px) {
+    gap: var(--spacing-8);
+  }
+}
+
+.zds-table-header__filter-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-16);
+  align-items: center;
+  min-width: 0;
+
+  @media (max-width: 640px) {
+    width: 100%;
+    gap: var(--spacing-12);
+    
+    > * {
+      flex: 1 1 calc(50% - var(--spacing-6));
+      min-width: 120px;
+    }
+    
+    @media (max-width: 480px) {
+      gap: var(--spacing-8);
+      
+      > * {
+        flex: 1 1 100%;
+        width: 100%;
+        min-width: unset;
+      }
+    }
+  }
 }
 
 .zds-table__pagination-container {
@@ -327,28 +447,28 @@
 }
 
 
-@media (max-width: 1023px) {
+@media (max-width: 1200px) {
   .zds-table-header {
-    align-items: center;
-    gap: var(--spacing-12);
-
-    &__search {
-      max-width: none;
+    /* Em telas médias, força quebra se não há espaço suficiente */
+    &__filters-wrapper {
+      flex-wrap: wrap;
     }
+  }
+}
 
-    &__filters {
-      justify-content: flex-end;
+@media (max-width: 768px) {
+  .zds-table-header {
+    &__filters-placeholder {
+      text-align: center;
+      padding: var(--spacing-8) 0;
     }
   }
 }
 
 @media (max-width: 480px) {
   .zds-table-header {
-    padding: var(--spacing-12) var(--spacing-16);
-
-    &__filters {
-      justify-content: center;
-    }
+    padding: var(--spacing-8) var(--spacing-12);
+    gap: var(--spacing-8);
   }
 
   .zds-filter-drawer--actions {
@@ -368,7 +488,6 @@
   position: relative;
 }
 
-// Específico para o Filter component no TableHeader com z-index mais alto
 .zds-table-header .filter-container {
   .filter-dropdown {
     box-shadow: 0 var(--spacing-8) var(--spacing-24) rgba(17, 17, 25, 0.2);
