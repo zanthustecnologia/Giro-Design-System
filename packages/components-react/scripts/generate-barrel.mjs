@@ -7,14 +7,15 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const SRC_DIR = path.resolve(__dirname, "..", "src");
+const COMPONENTS_DIR = path.join(SRC_DIR, "components");
 const OUTPUT_FILE = path.join(SRC_DIR, "index.ts");
 
 // Ordem de prioridade para o arquivo do componente dentro da pasta
 const CANDIDATES = (name) => [
-  `${name}.tsx`,
-  `${name}.ts`,
   `index.tsx`,
   `index.ts`,
+  `${name}.tsx`,
+  `${name}.ts`,
   `${name}.jsx`,
   `${name}.js`,
   `index.jsx`,
@@ -30,6 +31,23 @@ function exists(p) {
 }
 
 function findEntryFor(dirName) {
+  const dirPath = path.join(COMPONENTS_DIR, dirName);
+  for (const candidate of CANDIDATES(dirName)) {
+    const full = path.join(dirPath, candidate);
+    if (exists(full)) {
+      const ext = path.extname(full);
+      const baseName = path.basename(candidate, ext);
+      // Se for index, importa só a pasta; senão, inclui o nome do arquivo
+      const rel = baseName === 'index' 
+        ? `./components/${dirName}` 
+        : `./components/${dirName}/${baseName}`;
+      return rel;
+    }
+  }
+  return null;
+}
+
+function findEntryForSrcDir(dirName) {
   const dirPath = path.join(SRC_DIR, dirName);
   for (const candidate of CANDIDATES(dirName)) {
     const full = path.join(dirPath, candidate);
@@ -43,14 +61,14 @@ function findEntryFor(dirName) {
 }
 
 function main() {
-  if (!isDir(SRC_DIR)) {
-    console.error(`[generate-barrel] src/ não encontrado em: ${SRC_DIR}`);
+  if (!isDir(COMPONENTS_DIR)) {
+    console.error(`[generate-barrel] components/ não encontrado em: ${COMPONENTS_DIR}`);
     process.exit(1);
   }
 
-  const entries = fs.readdirSync(SRC_DIR).filter((name) => {
+  const entries = fs.readdirSync(COMPONENTS_DIR).filter((name) => {
     if (name.startsWith("_")) return false;
-    const abs = path.join(SRC_DIR, name);
+    const abs = path.join(COMPONENTS_DIR, name);
     return isDir(abs);
   });
 
@@ -71,27 +89,31 @@ function main() {
   const explicit = [];
 
   // Calendar — default export + tipos. Alias para Locale
-  if (exists(path.join(SRC_DIR, "Calendar"))) {
+  if (exists(path.join(COMPONENTS_DIR, "Calendar"))) {
     explicit.push(
-      `export { default as Calendar } from "./Calendar/Calendar";`,
-      `export type { CalendarProps } from "./Calendar/Calendar";`,
-      `export type { Locale as CalendarLocale } from "./Calendar/Calendar";`
+      `export { default as Calendar } from "./components/Calendar/Calendar";`,
+      `export type { CalendarProps } from "./components/Calendar/Calendar";`
     );
   }
 
   // DatePicker — default export + tipos. Alias para Locale
-  if (exists(path.join(SRC_DIR, "DatePicker"))) {
+  if (exists(path.join(COMPONENTS_DIR, "DatePicker"))) {
     explicit.push(
-      `export { default as DatePicker } from "./DatePicker/DatePicker";`,
-      `export type { DatePickerProps } from "./DatePicker/DatePicker";`,
-      `export type { Locale as DatePickerLocale } from "./DatePicker/DatePicker";`
+      `export { default as DatePicker } from "./components/DatePicker/DatePicker";`,
+      `export type { DatePickerProps } from "./components/DatePicker/DatePicker";`
     );
   }
 
-  // Extras garantidos (se não vieram via generic)
-  const extras = [{ rel: "./Toast/Toast" }, { rel: "./Tooltip/Tooltip" }];
-  for (const { rel } of extras) {
-    if (!genericExports.some((l) => l.includes(rel))) {
+  // Exportar outros arquivos/diretórios da raiz de src (hooks, shared, etc.)
+  const srcEntries = fs.readdirSync(SRC_DIR).filter((name) => {
+    if (name.startsWith("_") || name === "components") return false;
+    const abs = path.join(SRC_DIR, name);
+    return isDir(abs);
+  });
+
+  for (const dir of srcEntries) {
+    const rel = findEntryForSrcDir(dir);
+    if (rel) {
       genericExports.push(`export * from "${rel}";`);
     }
   }
