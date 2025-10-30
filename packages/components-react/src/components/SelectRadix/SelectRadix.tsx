@@ -1,4 +1,4 @@
-import React, { useMemo, useId } from 'react';
+import React, { useMemo, useId, useState, useEffect, useRef } from 'react';
 import * as Select from '@radix-ui/react-select';
 import clsx from 'clsx';
 import { ChevronUp16Regular, ChevronDown16Regular } from '@fluentui/react-icons';
@@ -35,6 +35,10 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
 }) => {
   const componentId = useId();
   const selectId = `select-${componentId}`;
+  
+  // Apenas para variante checkbox - Radix UI já cuida das outras
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const [shouldPositionAbove, setShouldPositionAbove] = useState(false);
 
   const {
     state,
@@ -48,6 +52,24 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
     onValueChange,
     onOpenChange,
   });
+
+  // Detectar posicionamento APENAS para variante checkbox (que não usa Radix Portal)
+  useEffect(() => {
+    if (state.isOpen && variant === 'checkbox' && triggerRef.current) {
+      const triggerRect = triggerRef.current.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+      const spaceBelow = viewportHeight - triggerRect.bottom;
+      const spaceAbove = triggerRect.top;
+      
+      const estimatedDropdownHeight = 250;
+      
+      if (spaceBelow < estimatedDropdownHeight && spaceAbove > estimatedDropdownHeight) {
+        setShouldPositionAbove(true);
+      } else {
+        setShouldPositionAbove(false);
+      }
+    }
+  }, [state.isOpen, variant]);
 
   const displayText = useMemo(
     () => utils.getDisplayText(state.selectedValues, placeholder, variant, items),
@@ -100,6 +122,7 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
           </LabelComponent>
           
           <button
+            ref={triggerRef}
             id={selectId}
             className={clsx(styles.trigger, styles.triggerCheckbox, {
               [styles.error]: state.hasError && state.touched,
@@ -129,7 +152,9 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
       </div>
 
       {state.isOpen && (
-        <div className={styles.checkboxDropdown}>
+        <div className={clsx(styles.checkboxDropdown, {
+          [styles.positionAbove]: shouldPositionAbove
+        })}>
           <div className={styles.content}>
             {search && (
               <div className={styles.searchWrapper}>
@@ -227,7 +252,7 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
           side="bottom"
           sideOffset={8}
           align="start"
-          avoidCollisions={false}
+          avoidCollisions={true}
         >
           {search && (
             <div className={styles.searchWrapper}>

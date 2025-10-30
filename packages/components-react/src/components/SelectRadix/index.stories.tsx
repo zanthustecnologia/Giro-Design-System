@@ -171,3 +171,154 @@ Disabled.args = {
   label: 'Campo desabilitado',
   value: 'item1',
 };
+
+export const PositionTest: StoryFn<SelectRadixProps> = (args) => (
+  <div style={{ 
+    height: '100vh', 
+    display: 'flex', 
+    flexDirection: 'column',
+    gap: '20px',
+    padding: '20px',
+    backgroundColor: '#f5f5f5' 
+  }}>
+    {/* Select no topo para comparação */}
+    <div style={{ 
+      padding: '20px', 
+      backgroundColor: 'white', 
+      borderRadius: '8px',
+      boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+    }}>
+      <h3 style={{ margin: '0 0 16px 0', color: '#333' }}>Select no topo (abre para baixo)</h3>
+      <div style={{ maxWidth: 300 }}>
+        <SelectRadix 
+          {...args}
+          label="Select no topo"
+          placeholder="Clique para testar"
+          onValueChange={(value) => console.log('Top Select:', value)} 
+        />
+      </div>
+    </div>
+
+    {/* Spacer para empurrar o select para o final */}
+    <div style={{ flex: 1 }} />
+
+    {/* Select próximo ao footer */}
+    <div style={{ 
+      padding: '20px', 
+      backgroundColor: 'white', 
+      borderRadius: '8px',
+      boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+      marginBottom: '20px'
+    }}>
+      <h3 style={{ margin: '0 0 16px 0', color: '#333' }}>
+        Select próximo ao footer
+      </h3>
+      <div style={{ maxWidth: 300 }}>
+        <SelectRadix 
+          {...args}
+          label="Select no footer"
+          placeholder="Clique para testar"
+          onValueChange={(value) => console.log('Bottom Select:', value)} 
+        />
+      </div>
+      <p style={{ 
+        margin: '16px 0 0 0', 
+        fontSize: '14px', 
+        color: '#666',
+        fontStyle: 'italic' 
+      }}>
+        💡 O Radix UI com avoidCollisions=true detecta automaticamente e abre para cima
+      </p>
+    </div>
+
+    {/* Footer simulado */}
+    <footer style={{ 
+      padding: '20px', 
+      backgroundColor: '#333', 
+      color: 'white', 
+      textAlign: 'center',
+      borderRadius: '8px' 
+    }}>
+      <p style={{ margin: 0 }}>Footer da página</p>
+    </footer>
+  </div>
+);
+
+PositionTest.args = {
+  items: [
+    ...mockItems,
+    // Adicionar mais itens para deixar o dropdown maior e mais fácil de testar
+    { id: '6', value: 'item6', text: 'List-item 6', subTitle: 'Item adicional' },
+    { id: '7', value: 'item7', text: 'List-item 7', subTitle: 'Item adicional' },
+    { id: '8', value: 'item8', text: 'List-item 8', subTitle: 'Item adicional' },
+    { id: '9', value: 'item9', text: 'List-item 9', subTitle: 'Item adicional' },
+    { id: '10', value: 'item10', text: 'List-item 10', subTitle: 'Item adicional' },
+  ],
+  variant: 'text',
+  search: true,
+};
+
+export const CheckboxPositionTest: StoryFn<SelectRadixProps> = (args) => (
+  <div style={{ 
+    height: '100vh', 
+    display: 'flex', 
+    flexDirection: 'column',
+    gap: '20px',
+    padding: '20px',
+    backgroundColor: '#f5f5f5' 
+  }}>
+    {/* Spacer para empurrar o select para o final */}
+    <div style={{ flex: 1 }} />
+
+    {/* Select checkbox próximo ao footer */}
+    <div style={{ 
+      padding: '20px', 
+      backgroundColor: 'white', 
+      borderRadius: '8px',
+      boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+      marginBottom: '20px'
+    }}>
+      <h3 style={{ margin: '0 0 16px 0', color: '#333' }}>
+        Select Checkbox no footer (variante customizada)
+      </h3>
+      <div style={{ maxWidth: 300 }}>
+        <SelectRadix 
+          {...args}
+          label="Select múltiplo no footer"
+          placeholder="Testar reposicionamento checkbox"
+          onValueChange={(value) => console.log('Checkbox Bottom Select:', value)} 
+        />
+      </div>
+      <p style={{ 
+        margin: '16px 0 0 0', 
+        fontSize: '14px', 
+        color: '#666',
+        fontStyle: 'italic' 
+      }}>
+        💡 A variante checkbox usa posicionamento customizado (não Radix Portal)
+      </p>
+    </div>
+
+    {/* Footer simulado */}
+    <footer style={{ 
+      padding: '20px', 
+      backgroundColor: '#333', 
+      color: 'white', 
+      textAlign: 'center',
+      borderRadius: '8px' 
+    }}>
+      <p style={{ margin: 0 }}>Footer - Variante checkbox precisa de CSS adicional para reposicionamento</p>
+    </footer>
+  </div>
+);
+
+CheckboxPositionTest.args = {
+  items: [
+    ...mockItems,
+    { id: '6', value: 'item6', text: 'List-item 6', subTitle: 'Item adicional' },
+    { id: '7', value: 'item7', text: 'List-item 7', subTitle: 'Item adicional' },
+    { id: '8', value: 'item8', text: 'List-item 8', subTitle: 'Item adicional' },
+  ],
+  variant: 'checkbox',
+  search: true,
+};

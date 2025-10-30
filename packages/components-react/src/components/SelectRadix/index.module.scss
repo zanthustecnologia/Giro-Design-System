@@ -150,6 +150,14 @@
   .content {
     border: var(--border-width-1) solid var(--color-neutral-high-dark);
   }
+
+  /* Classe para reposicionamento automático para variante checkbox */
+  &.positionAbove {
+    top: auto;
+    bottom: 100%;
+    margin-top: 0;
+    margin-bottom: var(--spacing-4);
+  }
 }
 
 .viewport {
