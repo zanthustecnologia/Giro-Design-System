@@ -303,6 +303,7 @@ const Quantity: React.FC<QuantityProps> = ({
         variant='outlined'
         size={size}
         type='button'
+        iconOnly
         icon={<Subtract16Regular />}
         onClick={decrement}
         disabled={disabled || isMinValue}
@@ -333,6 +334,7 @@ const Quantity: React.FC<QuantityProps> = ({
         variant='outlined'
         size={size}
         type='button'
+        iconOnly
         onClick={increment}
         disabled={disabled}
         aria-label='Aumentar quantidade'

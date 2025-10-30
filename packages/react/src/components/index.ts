@@ -1,4 +1,5 @@
 import { TableProps } from '@components/Table';
+
 export { default as Avatar } from '@components/Avatar';
 export { default as Button } from '@components/Button';
 export { default as Calendar } from '@components/Calendar';
@@ -16,6 +17,7 @@ export { default as Quantity } from '@components/Quantity';
 export { default as Radio } from '@components/Radio';
 export { default as Search } from '@components/Search';
 export { default as Select } from '@components/Select';
+export { default as SelectRadix } from '@components/SelectRadix';
 export { default as Table } from '@components/Table';
 export { default as TableHeader } from '@components/Table/TableHeader';
 export { default as TablePagination } from '@components/Table/TablePagination';
@@ -24,6 +26,7 @@ export { type TablePaginationProps } from '@components/Table/TablePagination';
 export { type TableHeaderProps } from '@components/Table/TableHeader';
 export { type CalendarProps } from '@components/Calendar/Calendar';
 export { type DatePickerProps } from '@components/DatePicker/DatePicker';
+export { type SelectRadixProps } from '@components/SelectRadix';
 export { default as TextField } from '@components/TextField';
 export { default as Toast } from '@components/Toast';
 export { default as Tooltip } from '@components/Tooltip';
