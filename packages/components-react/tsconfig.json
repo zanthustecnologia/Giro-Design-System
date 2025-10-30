@@ -13,10 +13,10 @@
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
     "types": ["node"],
-    "baseUrl": "src",
+    "baseUrl": ".",
     "paths": {
       "@/*": ["*"],
-      "@components/*": ["components/*"],
+      "@components/*": ["src/components/*"],
       "@utils/*": ["utils/*"],
       "@types/*": ["types/*"]
     }

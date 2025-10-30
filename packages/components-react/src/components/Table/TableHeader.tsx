@@ -1,57 +1,35 @@
 import React, { useState, KeyboardEvent } from 'react';
 import Search from '../Search/Search';
 import Filter from '../Filter/Filter';
-import { DropdownItem, DropdownType } from '../Dropdown/Dropdown';
-import { Filter16Regular } from '@fluentui/react-icons';
+import { DropdownItem } from '../Dropdown/Dropdown';
 import './Table.scss';
 
-// ✅ TIPAGEM: Interface base para filtros
 interface BaseFilterItem {
-  /** ID único para o filtro (para identificação) */
   id?: string;
-  /** Texto do botão do filtro */
   buttonText: string | React.ReactNode;
-  /** Ícone do filtro (opcional) */
   icon?: React.ReactElement;
-  /** Posição do dropdown */
   position?: 'left' | 'right';
-  /** Se está desabilitado */
   disabled?: boolean;
-  /** Callback quando abre/fecha */
   onToggle?: (isOpen: boolean) => void;
-  /** Tooltip explicativo do filtro */
   tooltip?: string;
 }
 
-// ✅ TIPAGEM: Filtro de checkbox/dropdown
 interface CheckboxFilterItem extends BaseFilterItem {
   type: 'checkbox' | 'text' | 'icon';
-  /** Items do dropdown (quando usar dropdown padrão) */
   items: DropdownItem[];
-  /** IDs selecionados */
   selectedIds?: string[];
-  /** Callback quando seleção muda */
   onSelectionChange?: (selectedIds: string[]) => void;
-  /** Placeholder do dropdown */
   placeholder?: string;
-  /** Habilita busca no dropdown */
   enableSearch?: boolean;
 }
 
-// ✅ TIPAGEM: Filtro de calendário
 interface CalendarFilterItem extends BaseFilterItem {
   type: 'calendar';
-  /** Data selecionada */
   selectedDate?: Date | null;
-  /** Callback quando data é selecionada */
   onDateSelect?: (date: Date) => void;
-  /** Data mínima permitida */
   minDate?: Date;
-  /** Data máxima permitida */
   maxDate?: Date;
-  /** Locale para formatação da data */
   locale?: string;
-  /** Placeholder do calendário */
   placeholder?: string;
 }
 
@@ -66,25 +44,15 @@ const isCheckboxFilter = (filter: FilterItem): filter is CheckboxFilterItem => {
 };
 
 export interface TableHeaderProps {
-  /** Valor atual da pesquisa */
   searchValue?: string;
-  /** Callback quando o valor da busca muda */
   onSearchChange?: (value: string) => void;
-  /** Placeholder do campo de busca */
   searchPlaceholder?: string;
-  /** Mostra o campo de busca */
   showSearch?: boolean;
-  /** Mostra seção de filtros */
   showFilters?: boolean;
-  /** Filtros customizados (slot para componentes externos) */
   filters?: React.ReactNode;
-  /** Filtros usando o componente Filter do design system */
   filterItems?: FilterItem[];
-  /** Classes CSS adicionais */
   className?: string;
-  /** Callback quando busca é executada (Enter ou botão) */
   onSearch?: (value: string) => void;
-  /** Mostra botão de limpar busca */
   showClearSearch?: boolean;
 }
 
@@ -130,7 +98,7 @@ const TableHeader: React.FC<TableHeaderProps> = ({
   return (
     <div className={`zds-table-header ${className}`.trim()}>
       {showSearch && (onSearchChange || onSearch) && (
-        <div >
+        <div className="zds-table-header__search-container">
           <Search
             value={internalSearchValue}
             onChange={handleInputChange}
@@ -151,50 +119,54 @@ const TableHeader: React.FC<TableHeaderProps> = ({
                 </div>
               )}
 
-              <span className='zds-table-header__filter-label'>Filtros</span>
-              
-              {filterItems && filterItems.map((filterItem, index) => {
-                const commonProps = {
-                  key: filterItem.id || index,
-                  buttonText: filterItem.buttonText,
-                  icon: filterItem.icon,
-                  position: filterItem.position || 'right',
-                  disabled: filterItem.disabled,
-                  variant: 'outlined' as const,
-                  onOpen: () => filterItem.onToggle?.(true),
-                  onClose: () => filterItem.onToggle?.(false),
-                };
-                if (isCalendarFilter(filterItem)) {
-                  return (
-                    <Filter
-                      {...commonProps}
-                      type="calendar"
-                      selectedDate={filterItem.selectedDate}
-                      onDateSelect={filterItem.onDateSelect}
-                      minDate={filterItem.minDate}
-                      maxDate={filterItem.maxDate}
-                      placeholder={filterItem.placeholder}
-                    />
-                  );
-                }
+              <div className="zds-table-header__filters-wrapper">
+                <span className='zds-table-header__filter-label'>Filtros</span>
+                
+                <div className="zds-table-header__filter-items">
+                  {filterItems && filterItems.map((filterItem, index) => {
+                    const commonProps = {
+                      key: filterItem.id || index,
+                      buttonText: filterItem.buttonText,
+                      icon: filterItem.icon,
+                      position: filterItem.position || 'right',
+                      disabled: filterItem.disabled,
+                      variant: 'outlined' as const,
+                      onOpen: () => filterItem.onToggle?.(true),
+                      onClose: () => filterItem.onToggle?.(false),
+                    };
+                    if (isCalendarFilter(filterItem)) {
+                      return (
+                        <Filter
+                          {...commonProps}
+                          type="calendar"
+                          selectedDate={filterItem.selectedDate}
+                          onDateSelect={filterItem.onDateSelect}
+                          minDate={filterItem.minDate}
+                          maxDate={filterItem.maxDate}
+                          placeholder={filterItem.placeholder}
+                        />
+                      );
+                    }
 
-                if (isCheckboxFilter(filterItem)) {
-                  return (
-                    <Filter
-                      {...commonProps}
-                      type={filterItem.type}
-                      items={filterItem.items}
-                      selectedIds={filterItem.selectedIds}
-                      onApplyFilter={filterItem.onSelectionChange}
-                      placeholder={filterItem.placeholder}
-                      enableSearch={filterItem.enableSearch}
-                    />
-                  );
-                }
+                    if (isCheckboxFilter(filterItem)) {
+                      return (
+                        <Filter
+                          {...commonProps}
+                          type={filterItem.type}
+                          items={filterItem.items}
+                          selectedIds={filterItem.selectedIds}
+                          onApplyFilter={filterItem.onSelectionChange}
+                          placeholder={filterItem.placeholder}
+                          enableSearch={filterItem.enableSearch}
+                        />
+                      );
+                    }
 
-                console.warn('TableHeader: Tipo de filtro não reconhecido:', filterItem);
-                return null;
-              })}
+                    console.warn('TableHeader: Tipo de filtro não reconhecido:', filterItem);
+                    return null;
+                  })}
+                </div>
+              </div>
             </div>
           ) : (
             <div className="zds-table-header__filters-placeholder">
@@ -207,7 +179,6 @@ const TableHeader: React.FC<TableHeaderProps> = ({
   );
 };
 
-// ✅ EXPORT: Tipos para uso externo
 export type { CalendarFilterItem, CheckboxFilterItem };
 export { isCalendarFilter, isCheckboxFilter };
 
