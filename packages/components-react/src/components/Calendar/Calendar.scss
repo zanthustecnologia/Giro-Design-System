@@ -164,6 +164,7 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 4px;
-  padding: 8px;
+    padding: var(--spacing-8);
+    padding-top: var(--spacing-16);
+
 }

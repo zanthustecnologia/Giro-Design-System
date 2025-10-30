@@ -88,19 +88,16 @@ const Calendar: React.FC<CalendarProps> = ({
   const [changeView, setChangeView] = useState<boolean>(false);
   const [announcement, setAnnouncement] = useState<string>('');
   
-  // ← ADICIONAR: Fallback para currentDate null
   const displayDate = currentDate || new Date();
   
   const [yearRangeStart, setYearRangeStart] = useState<number>(
     displayDate.getFullYear() - 13
   );
 
-  // ✅ Effect para configuração de idioma
   useEffect(() => {
     i18n.changeLanguage(locale);
   }, [locale, i18n]);
 
-  // ✅ Memoizar valores derivados da data atual
   const { month, year, daysInMonth } = useMemo(
     () => ({
       month: displayDate.getMonth(),
@@ -114,7 +111,6 @@ const Calendar: React.FC<CalendarProps> = ({
     [displayDate]
   );
 
-  // ✅ Weekdays para cada idioma - memoizado com tipos
   const weekDaysLabels = useMemo(
     (): string[] =>
       locale === 'en-us'
