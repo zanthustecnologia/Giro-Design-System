@@ -55,13 +55,11 @@ export function useSelectLogic({
 
   const searchInputRef = useRef<HTMLInputElement>(null);
 
-  // Sync external value changes
   useEffect(() => {
     const newValues = Array.isArray(value) ? value : value ? [value] : [];
     dispatch({ type: 'SET_SELECTED_VALUES', payload: newValues });
   }, [value]);
 
-  // Auto-focus search when opening
   useEffect(() => {
     if (state.isOpen && search) {
       setTimeout(() => {
@@ -70,7 +68,6 @@ export function useSelectLogic({
     }
   }, [state.isOpen, search]);
 
-  // Reset search when closing
   useEffect(() => {
     if (!state.isOpen) {
       dispatch({ type: 'RESET_SEARCH' });
@@ -81,7 +78,6 @@ export function useSelectLogic({
     dispatch({ type: 'SET_OPEN', payload: open });
     onOpenChange?.(open);
 
-    // Validate when closing
     if (!open) {
       dispatch({ type: 'VALIDATE', payload: { required } });
     }
@@ -121,7 +117,6 @@ export function useSelectLogic({
     onValueChange?.(newValue);
     setOpen(false);
 
-    // Clear error when a value is selected
     if (required && state.hasError) {
       setError(false);
     }
@@ -139,7 +134,6 @@ export function useSelectLogic({
     setSelectedValues(newSelectedValues);
     onValueChange?.(newSelectedValues);
 
-    // Clear error when at least one value is selected
     if (required && state.hasError && newSelectedValues.length > 0) {
       setError(false);
     }
@@ -154,12 +148,19 @@ export function useSelectLogic({
     if (selectedValues.length === 0) return placeholder;
 
     if (variant === 'checkbox') {
-      return selectedValues
+      const selectedItems = selectedValues
         .map((value) => {
           const item = items.find((item) => item.value === value);
           return (item?.text as string) || value;
-        })
-        .join(', ');
+        });
+
+      if (selectedItems.length > 3) {
+        const firstThree = selectedItems.slice(0, 3).join(', ');
+        const remaining = selectedItems.length - 3;
+        return `${firstThree} e mais ${remaining}`;
+      }
+
+      return selectedItems.join(', ');
     }
 
     return (
@@ -205,8 +206,8 @@ export function useSelectLogic({
       handleMultipleSelect,
     },
     computed: {
-      displayText: '', // Will be computed in component
-      filteredItems: [], // Will be computed in component
+      displayText: '',
+      filteredItems: [],
     },
     refs: {
       searchInputRef,

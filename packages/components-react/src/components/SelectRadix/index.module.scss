@@ -90,8 +90,14 @@
   }
 }
 
-.triggerCheckbox {
-  position: relative;
+.triggerText {
+  flex: 1;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: var(--font-size-16);
+  line-height: 1.4;
 }
 
 // Ajustes para o label seguindo padrão SelectField  
@@ -138,26 +144,6 @@
   padding: var(--spacing-16);
   position: relative;
   max-height: 300px;
-}
-
-.checkboxDropdown {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  margin-top: var(--spacing-4);
-  
-  .content {
-    border: var(--border-width-1) solid var(--color-neutral-high-dark);
-  }
-
-  /* Classe para reposicionamento automático para variante checkbox */
-  &.positionAbove {
-    top: auto;
-    bottom: 100%;
-    margin-top: 0;
-    margin-bottom: var(--spacing-4);
-  }
 }
 
 .viewport {
@@ -250,6 +236,20 @@
     .subTitle {
       color: var(--color-brand-primary-default);
     }
+  }
+}
+
+.checkboxItem {
+  height: auto;
+  min-height: var(--select-height);
+  padding: var(--spacing-8) var(--select-padding-x);
+  
+  &:hover:not(.disabled) {
+    background-color: var(--color-neutral-high-medium);
+  }
+  
+  .checkboxContent {
+    width: 100%;
   }
 }
 

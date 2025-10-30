@@ -1,11 +1,11 @@
-import React, { useMemo, useId, useState, useEffect, useRef } from 'react';
+import React, { useMemo, useId } from 'react';
 import * as Select from '@radix-ui/react-select';
 import clsx from 'clsx';
 import { ChevronUp16Regular, ChevronDown16Regular } from '@fluentui/react-icons';
 
 import { SelectRadixProps } from './SelectRadix.types';
 import { useSelectLogic } from './hooks/useSelectLogic';
-import CheckboxItem from './components/CheckboxItem';
+import CheckboxSelectItem from './components/CheckboxSelectItem';
 import SelectItem from './components/SelectItem';
 import Search from '../Search/Search';
 import LabelComponent from '../../shared/Label';
@@ -35,10 +35,6 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
 }) => {
   const componentId = useId();
   const selectId = `select-${componentId}`;
-  
-  // Apenas para variante checkbox - Radix UI já cuida das outras
-  const triggerRef = useRef<HTMLButtonElement>(null);
-  const [shouldPositionAbove, setShouldPositionAbove] = useState(false);
 
   const {
     state,
@@ -52,24 +48,6 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
     onValueChange,
     onOpenChange,
   });
-
-  // Detectar posicionamento APENAS para variante checkbox (que não usa Radix Portal)
-  useEffect(() => {
-    if (state.isOpen && variant === 'checkbox' && triggerRef.current) {
-      const triggerRect = triggerRef.current.getBoundingClientRect();
-      const viewportHeight = window.innerHeight;
-      const spaceBelow = viewportHeight - triggerRect.bottom;
-      const spaceAbove = triggerRect.top;
-      
-      const estimatedDropdownHeight = 250;
-      
-      if (spaceBelow < estimatedDropdownHeight && spaceAbove > estimatedDropdownHeight) {
-        setShouldPositionAbove(true);
-      } else {
-        setShouldPositionAbove(false);
-      }
-    }
-  }, [state.isOpen, variant]);
 
   const displayText = useMemo(
     () => utils.getDisplayText(state.selectedValues, placeholder, variant, items),
@@ -103,59 +81,71 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
     }
   };
 
-  const renderCheckboxVariant = () => (
-    <div
-      className={clsx(styles.container, className)}
-      style={containerStyle}
-      data-testid={testId}
+  return (
+    <Select.Root
+      value={variant === 'checkbox' ? '' : (state.selectedValues[0] || '')}
+      onValueChange={variant === 'checkbox' ? undefined : actions.handleSingleSelect}
+      required={required}
+      open={state.isOpen}
+      onOpenChange={actions.setOpen}
+      disabled={disabled}
+      {...restProps}
     >
-      <div className={styles.fieldContainer}>
-        <div className={styles.containerLabel}>
-          <LabelComponent
-            htmlFor={selectId}
-            required={required}
-            tooltipMessage={tooltipMessage}
-            tooltip={tooltip}
-            error={state.hasError && state.touched}
-          >
-            {label}
-          </LabelComponent>
-          
-          <button
-            ref={triggerRef}
-            id={selectId}
-            className={clsx(styles.trigger, styles.triggerCheckbox, {
-              [styles.error]: state.hasError && state.touched,
-              [styles.disabled]: disabled,
-            })}
-            onClick={() => !disabled && actions.setOpen(!state.isOpen)}
-            aria-label={ariaLabel || 'Select options'}
-            aria-expanded={state.isOpen}
-            aria-haspopup="listbox"
-            disabled={disabled}
-            data-testid={`${testId}-trigger`}
-          >
-            <span>{displayText}</span>
-            {state.isOpen ? <ChevronUp16Regular /> : <ChevronDown16Regular />}
-          </button>
+      <div
+        className={clsx(styles.container, className)}
+        style={containerStyle}
+        data-testid={testId}
+      >
+        <div className={styles.fieldContainer}>
+          <div className={styles.containerLabel}>
+            <LabelComponent
+              htmlFor={selectId}
+              required={required}
+              tooltipMessage={tooltipMessage}
+              tooltip={tooltip}
+              error={state.hasError && state.touched}
+            >
+              {label}
+            </LabelComponent>
+            
+            <Select.Trigger
+              className={clsx(styles.trigger, {
+                [styles.error]: state.hasError && state.touched,
+                [styles.disabled]: disabled,
+              })}
+              id={selectId}
+              aria-label={ariaLabel}
+              data-testid={`${testId}-trigger`}
+            >
+              {variant === 'checkbox' ? (
+                <span className={styles.triggerText}>{displayText}</span>
+              ) : (
+                <Select.Value placeholder={placeholder}>{displayText}</Select.Value>
+              )}
+              {state.isOpen ? <ChevronUp16Regular /> : <ChevronDown16Regular />}
+            </Select.Trigger>
 
-          {!state.isOpen && helperText && !state.hasError && (
-            <span className={styles.helper}>{helperText}</span>
-          )}
-          
-          {state.hasError && state.touched && (
-            <span className={styles.errorMessage}>
-              {errorMessage || 'Campo obrigatório'}
-            </span>
-          )}
+            {!state.isOpen && helperText && !state.hasError && (
+              <span className={styles.helper}>{helperText}</span>
+            )}
+            
+            {state.hasError && state.touched && (
+              <span className={styles.errorMessage}>
+                {errorMessage || 'Campo obrigatório'}
+              </span>
+            )}
+          </div>
         </div>
-      </div>
 
-      {state.isOpen && (
-        <div className={clsx(styles.checkboxDropdown, {
-          [styles.positionAbove]: shouldPositionAbove
-        })}>
-          <div className={styles.content}>
+        <Select.Portal>
+          <Select.Content
+            className={styles.content}
+            position="popper"
+            side="bottom"
+            sideOffset={8}
+            align="start"
+            avoidCollisions={true}
+          >
             {search && (
               <div className={styles.searchWrapper}>
                 <Search
@@ -171,130 +161,42 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
               </div>
             )}
             
-            <div className={styles.viewport} role="listbox">
-              {filteredItems.length === 0 ? (
-                <div className={styles.noResults}>
-                  {state.searchTerm
-                    ? `Nenhum resultado encontrado para "${state.searchTerm}"`
-                    : 'Nenhum item disponível'
-                  }
-                </div>
-              ) : (
-                filteredItems.map((item) => (
-                  <CheckboxItem
-                    key={item.id || item.value}
-                    {...item}
-                    checked={state.selectedValues.includes(item.value)}
-                    onChange={(checked) =>
-                      actions.handleMultipleSelect(item.value, checked)
+            <Select.Viewport className={styles.viewport}>
+              <Select.Group className={styles.group}>
+                {filteredItems.length === 0 ? (
+                  <div className={styles.noResults}>
+                    {state.searchTerm
+                      ? `Nenhum resultado encontrado para "${state.searchTerm}"`
+                      : 'Nenhum item disponível'
                     }
-                  />
-                ))
-              )}
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-
-  const renderSelectVariant = () => (
-    <Select.Root
-      value={state.selectedValues[0] || ''}
-      onValueChange={actions.handleSingleSelect}
-      required={required}
-      open={state.isOpen}
-      onOpenChange={actions.setOpen}
-      disabled={disabled}
-      {...restProps}
-    >
-      <div className={styles.fieldContainer}>
-        <div className={clsx(styles.containerLabel, className)}>
-          <LabelComponent
-            htmlFor={selectId}
-            required={required}
-            tooltipMessage={tooltipMessage}
-            tooltip={tooltip}
-            error={state.hasError && state.touched}
-          >
-            {label}
-          </LabelComponent>
-          
-          <Select.Trigger
-            className={clsx(styles.trigger, {
-              [styles.error]: state.hasError && state.touched,
-              [styles.disabled]: disabled,
-            })}
-            id={selectId}
-            aria-label={ariaLabel}
-            data-testid={`${testId}-trigger`}
-          >
-            <Select.Value placeholder={placeholder}>{displayText}</Select.Value>
-            {state.isOpen ? <ChevronUp16Regular /> : <ChevronDown16Regular />}
-          </Select.Trigger>
-
-          {!state.isOpen && helperText && !state.hasError && (
-            <span className={styles.helper}>{helperText}</span>
-          )}
-          
-          {state.hasError && state.touched && (
-            <span className={styles.errorMessage}>
-              {errorMessage || 'Campo obrigatório'}
-            </span>
-          )}
-        </div>
+                  </div>
+                ) : (
+                  filteredItems.map((item) => (
+                    variant === 'checkbox' ? (
+                      <CheckboxSelectItem
+                        key={item.id || item.value}
+                        {...item}
+                        checked={state.selectedValues.includes(item.value)}
+                        onChange={(checked: boolean) =>
+                          actions.handleMultipleSelect(item.value, checked)
+                        }
+                      />
+                    ) : (
+                      <SelectItem
+                        key={item.id || item.value}
+                        {...item}
+                        variant={variant}
+                      />
+                    )
+                  ))
+                )}
+              </Select.Group>
+            </Select.Viewport>
+          </Select.Content>
+        </Select.Portal>
       </div>
-
-      <Select.Portal>
-        <Select.Content
-          className={styles.content}
-          position="popper"
-          side="bottom"
-          sideOffset={8}
-          align="start"
-          avoidCollisions={true}
-        >
-          {search && (
-            <div className={styles.searchWrapper}>
-              <Search
-                ref={refs.searchInputRef}
-                className={styles.search}
-                placeholder="Buscar"
-                value={state.searchInput}
-                onChange={handleSearchChange}
-                onKeyDown={handleSearchKeyDown}
-                onClear={actions.resetSearch}
-                data-testid={`${testId}-search`}
-              />
-            </div>
-          )}
-          
-          <Select.Viewport className={styles.viewport}>
-            <Select.Group className={styles.group}>
-              {filteredItems.length === 0 ? (
-                <div className={styles.noResults}>
-                  {state.searchTerm
-                    ? `Nenhum resultado encontrado para "${state.searchTerm}"`
-                    : 'Nenhum item disponível'
-                  }
-                </div>
-              ) : (
-                filteredItems.map((item) => (
-                  <SelectItem
-                    key={item.id || item.value}
-                    {...item}
-                    variant={variant}
-                  />
-                ))
-              )}
-            </Select.Group>
-          </Select.Viewport>
-        </Select.Content>
-      </Select.Portal>
     </Select.Root>
   );
-
-  return variant === 'checkbox' ? renderCheckboxVariant() : renderSelectVariant();
 };
 
 SelectRadix.displayName = 'SelectRadix';
