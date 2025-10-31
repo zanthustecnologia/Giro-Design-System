@@ -128,6 +128,13 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
     }
   };
 
+  const handleClear = () => {
+    actions.resetSearch();
+    if (enableApiSearch && onApiSearch) {
+      onApiSearch('');
+    }
+  };
+
   return (
     <Select.Root
       value={variant === 'checkbox' ? '' : (state.selectedValues[0] || '')}
@@ -202,7 +209,7 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
                   value={state.searchInput}
                   onChange={handleSearchChange}
                   onKeyDown={handleSearchKeyDown}
-                  onClear={actions.resetSearch}
+                  onClear={handleClear}
                   data-testid={`${testId}-search`}
                 />
               </div>

@@ -129,6 +129,19 @@ export function useSelectLogic({
     }
   }, [state.searchTerm, enableApiSearch, state.isOpen, debouncedApiSearch]);
 
+  // Efeito para recarregar dados quando o campo de busca ficar vazio
+  useEffect(() => {
+    if (enableApiSearch && state.isOpen && state.searchInput === '' && state.searchTerm === '') {
+      // Só recarrega se já teve alguma busca anterior
+      if (lastSearchTermRef.current !== '') {
+        lastSearchTermRef.current = '';
+        if (onApiSearch) {
+          onApiSearch('');
+        }
+      }
+    }
+  }, [state.searchInput, state.searchTerm, enableApiSearch, state.isOpen, onApiSearch]);
+
   // Cleanup do timeout quando componente for desmontado
   useEffect(() => {
     return () => {
@@ -172,6 +185,8 @@ export function useSelectLogic({
 
   const resetSearch = () => {
     dispatch({ type: 'RESET_SEARCH' });
+    // Reset da ref para permitir nova busca vazia
+    lastSearchTermRef.current = '';
   };
 
   const validate = () => {
