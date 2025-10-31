@@ -4,6 +4,7 @@
   --select-padding-x: var(--spacing-16);
   --select-gap: var(--spacing-8);
   --select-field-container-height: 92px;
+  --select-content-min-width: 200px; // Largura mínima para evitar dropdowns muito pequenos
 }
 
 .fieldContainer {
@@ -139,10 +140,21 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  background-color: var(--color-neutral-high-default) ;
   padding: var(--spacing-16);
   position: relative;
   max-height: 300px;
+  min-width: var(--select-content-min-width);
+  
+  width: clamp(
+    var(--select-content-min-width), 
+    max-content, 
+    400px
+  );
+  
+  &[data-side="bottom"],
+  &[data-side="top"] {
+    min-width: var(--radix-popper-anchor-width);
+  }
 }
 
 .viewport {
@@ -166,6 +178,8 @@
   width: 100%;
   position: relative;
   isolation: isolate;
+
+  --container-width: 100%;
 }
 
 .containerLabel {
