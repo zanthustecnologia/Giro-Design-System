@@ -1,55 +1,63 @@
 import React, { useId, useMemo } from 'react';
 import clsx from 'clsx';
-import './Button.scss';
+import './button.scss';
 
-export interface ButtonProps {
-  /** Define o elemento a ser renderizado (ex: 'button', 'a', ou componente de roteamento) */
-  as?: React.ElementType;
+// ✅ 1. Definir props base do componente
+interface BaseButtonProps {
   /** Define o texto principal do botão */
   children?: React.ReactNode;
   /** Define tipo do botão entre as opções */
   variant?: 'filled' | 'outlined' | 'text';
+  /** Define se é apenas ícone */
   iconOnly?: boolean;
-  /** Define a posição do ícone entre as opções */
+  /** Define a posição do ícone */
   iconPosition?: 'none' | 'left' | 'right';
-
-  // ✅ PROPS DE NAVEGAÇÃO
-  /** URL para links externos (ex: https://example.com) */
+  /** URL para links externos */
   href?: string;
-  /** Rota interna para navegação SPA (ex: /dashboard, /profile) */
+  /** Rota interna para navegação SPA */
   to?: string;
   /** Indica se o link é externo */
   external?: boolean;
-  /** Target para links (_blank, _self, etc.) */
-  target?: string;
-  /** Rel attribute para links */
-  rel?: string;
-  /** Props para React Router (replace, state, etc.) */
+  /** Props para React Router */
   routerProps?: Record<string, any>;
-
-  type?: 'button' | 'submit' | 'reset';
-
   /** Desabilita interações do botão */
   disabled?: boolean;
   /** Função a ser chamada quando o botão é clicado */
   onClick?: (event: React.MouseEvent<HTMLElement>) => void;
-  /** Define o tamanho do botão entre as opções */
+  /** Define o tamanho do botão */
   size?: 'lg' | 'sm';
-  /** Classe CSS opcional */
-  className?: string;
-  /** ID opcional */
-  id?: string;
   /** Ícone opcional */
   icon?: React.ReactNode;
   /** Define se o botão deve ocupar toda a largura */
   fullWidth?: boolean;
   /** Texto para acessibilidade */
   ariaLabel?: string;
-  /** Outros props específicos do elemento/componente */
-  [key: string]: any;
 }
 
-const Button = React.forwardRef<HTMLElement, ButtonProps>(({
+type ButtonAsButton = BaseButtonProps &
+  Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, keyof BaseButtonProps> & {
+    as?: 'button';
+    href?: never;
+    to?: never;
+  };
+
+type ButtonAsAnchor = BaseButtonProps &
+  Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, keyof BaseButtonProps> & {
+    as?: 'a';
+    href?: string;
+    to?: string;
+  };
+
+type ButtonAsPolymorphic<E extends React.ElementType> = BaseButtonProps & {
+  as: E;
+} & Omit<React.ComponentPropsWithRef<E>, keyof BaseButtonProps | 'as'>;
+
+export type ButtonProps<E extends React.ElementType = 'button'> =
+  | ButtonAsButton
+  | ButtonAsAnchor
+  | ButtonAsPolymorphic<E>;
+
+function Button<E extends React.ElementType = 'button'>({
   as,
   children,
   variant = 'filled',
@@ -57,33 +65,29 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
   href,
   to,
   external = false,
-  target,
-  rel,
-  routerProps = {},
   disabled = false,
   onClick,
   size = 'lg',
   className = '',
-  type = 'button',
-  id = '',
   icon = null,
   fullWidth = false,
   ariaLabel = '',
   iconOnly = false,
+  routerProps = {},
   ...restProps
-}, ref) => {
-
-  const componentId = id || useId();
+}: ButtonProps<E> & { ref?: React.Ref<React.ComponentRef<E>> }) {
+  const componentId = (restProps as any).id || useId();
+  const ref = (restProps as any).ref;
 
   const getComponent = (): React.ElementType => {
     if (as) return as;
-
-    if (href) return 'a';   
-    if (to) return 'a'; 
+    if (href) return 'a';
+    if (to) return 'a';
     return 'button';
-    };
+  };
 
   const Component = getComponent();
+
   const hasContent = useMemo(() => {
     return children && React.Children.count(children) > 0;
   }, [children]);
@@ -94,7 +98,8 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
     `zds-button__${size}`,
     {
       'zds-button__with-icon': icon && !iconOnly,
-      [`zds-button__icon-position-${iconPosition}`]: icon && !iconOnly && iconPosition !== 'none',
+      [`zds-button__icon-position-${iconPosition}`]:
+        icon && !iconOnly && iconPosition !== 'none',
       'zds-button__no-content': icon && !hasContent && !iconOnly,
       'zds-button__full-width': fullWidth,
       'zds-button__icon-only': iconOnly,
@@ -107,7 +112,9 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
     if (ariaLabel) return ariaLabel;
     if (iconOnly && !ariaLabel) {
       if (process.env.NODE_ENV === 'development') {
-        console.warn('Button: Icon-only buttons should have an ariaLabel for accessibility');
+        console.warn(
+          'Button: Icon-only buttons should have an ariaLabel for accessibility'
+        );
       }
       return 'Botão de ação';
     }
@@ -156,15 +163,20 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
     'aria-disabled': disabled,
     tabIndex: disabled ? -1 : 0,
     onClick: handleClick,
-    ...restProps,
   };
 
   const getNavigationProps = () => {
     if (href) {
       return {
         href: disabled ? '#' : href,
-        target: external || target === '_blank' ? '_blank' : target,
-        rel: external || target === '_blank' ? 'noopener noreferrer' : rel,
+        target:
+          external || (restProps as any).target === '_blank'
+            ? '_blank'
+            : (restProps as any).target,
+        rel:
+          external || (restProps as any).target === '_blank'
+            ? 'noopener noreferrer'
+            : (restProps as any).rel,
       };
     }
 
@@ -179,9 +191,10 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
         href: disabled ? '#' : to,
       };
     }
+
     if (Component === 'button') {
       return {
-        type,
+        type: (restProps as any).type || 'button',
         disabled,
       };
     }
@@ -190,14 +203,12 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
   };
 
   return (
-    <Component
-      {...baseProps}
-      {...getNavigationProps()}
-    >
+    <Component {...baseProps} {...getNavigationProps()} {...restProps}>
       {renderContent()}
     </Component>
   );
-});
+}
 
 Button.displayName = 'Button';
+
 export default Button;

@@ -1,4 +1,10 @@
-import { Add16Filled, Add16Regular, ArrowDown16Regular, Delete16Regular, Edit16Regular } from '@fluentui/react-icons';
+import {
+  Add16Filled,
+  Add16Regular,
+  ArrowDown16Regular,
+  Delete16Regular,
+  Edit16Regular,
+} from '@fluentui/react-icons';
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { Meta, StoryFn } from '@storybook/react';
@@ -18,9 +24,15 @@ export default {
     children: {
       control: { type: 'text' },
     },
-    typeButton: {
+    type: {
       control: { type: 'select' },
-      options: ['button', 'link'],
+      options: ['button', 'submit', 'reset'],
+      description: 'Tipo do elemento button',
+      if: { arg: 'href', truthy: false }
+    },
+    href: {
+      control: { type: 'text' },
+      description: 'URL para links externos',
     },
     variant: {
       control: { type: 'select' },
@@ -74,7 +86,7 @@ export default {
 const Template: StoryFn<
   ButtonProps & { displayIcon?: boolean; icon?: React.ReactNode }
 > = ({ icon, ...args }) => {
-  const { children, to, typeButton, iconPosition, iconOnly } = args;
+  const { children, to, type, iconPosition, iconOnly } = args;
 
   return (
     <BrowserRouter>
@@ -89,10 +101,6 @@ const Template: StoryFn<
       >
         <Button
           {...args}
-          iconOnly={iconOnly}
-          icon={iconPosition === 'none' ? undefined : icon}
-          href={to}
-          as={typeButton === 'link' ? 'a' : 'button'}
         >
           {children}
         </Button>

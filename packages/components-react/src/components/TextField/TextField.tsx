@@ -44,9 +44,9 @@ const TextField: React.FC<TextFieldProps> = ({
     tooltipText = '',
     positionTooltip = 'top-right',
     errorMessage = '',
-    trailingIcon = false,
     id = '',
     icon = null,
+    ...restProps
 }) => {
     const [inputValue, setValue] = useState(value);
     const [inputError, setInputError] = useState('');
@@ -121,6 +121,7 @@ const TextField: React.FC<TextFieldProps> = ({
             <div className="zds-textfield__container__box">
                 <div className="zds-textfield__box__input">
                     <input
+                        {...restProps}
                         id={componentId}
                         name={name}
                         type={type}
