@@ -1,3 +1,4 @@
+import React from 'react';
 import type { Meta, StoryFn } from '@storybook/react';
 import SelectRadix from './SelectRadix';
 import { SelectRadixProps } from './SelectRadix.types';
@@ -181,7 +182,6 @@ export const Position: StoryFn<SelectRadixProps> = (args) => (
     padding: '20px',
     backgroundColor: '#f5f5f5' 
   }}>
-    {/* Select no topo para comparação */}
     <div style={{ 
       padding: '20px', 
       backgroundColor: 'white', 
@@ -199,10 +199,8 @@ export const Position: StoryFn<SelectRadixProps> = (args) => (
       </div>
     </div>
 
-    {/* Spacer para empurrar o select para o final */}
     <div style={{ flex: 1 }} />
 
-    {/* Select próximo ao footer */}
     <div style={{ 
       padding: '20px', 
       backgroundColor: 'white', 
@@ -231,7 +229,6 @@ export const Position: StoryFn<SelectRadixProps> = (args) => (
       </p>
     </div>
 
-    {/* Footer simulado */}
     <footer style={{ 
       padding: '20px', 
       backgroundColor: '#333', 
@@ -247,7 +244,6 @@ export const Position: StoryFn<SelectRadixProps> = (args) => (
 Position.args = {
   items: [
     ...mockItems,
-    // Adicionar mais itens para deixar o dropdown maior e mais fácil de testar
     { id: '6', value: 'item6', text: 'List-item 6', subTitle: 'Item adicional' },
     { id: '7', value: 'item7', text: 'List-item 7', subTitle: 'Item adicional' },
     { id: '8', value: 'item8', text: 'List-item 8', subTitle: 'Item adicional' },
@@ -256,4 +252,65 @@ Position.args = {
   ],
   variant: 'text',
   search: true,
+};
+
+export const InfiniteScroll: StoryFn<SelectRadixProps> = () => {
+  const [items, setItems] = React.useState(
+    Array.from({ length: 20 }, (_, i) => ({
+      id: `item-${i + 1}`,
+      value: `item-${i + 1}`,
+      text: `Item ${i + 1}`,
+      subTitle: `Descrição do item ${i + 1}`,
+    }))
+  );
+  
+  const [isLoadingMore, setIsLoadingMore] = React.useState(false);
+  const [page, setPage] = React.useState(1);
+  const [hasMore, setHasMore] = React.useState(true);
+
+  const handleScrollEnd = React.useCallback(() => {
+    if (!hasMore || isLoadingMore) return;
+    
+    setIsLoadingMore(true);
+    
+    setTimeout(() => {
+      const newPage = page + 1;
+      const newItems = Array.from({ length: 10 }, (_, i) => {
+        const itemNumber = page * 20 + i + 1;
+        return {
+          id: `item-${itemNumber}`,
+          value: `item-${itemNumber}`,
+          text: `Item ${itemNumber}`,
+          subTitle: `Descrição do item ${itemNumber}`,
+        };
+      });
+      
+      setItems(prev => [...prev, ...newItems]);
+      setPage(newPage);
+      setIsLoadingMore(false);
+      
+      if (newPage >= 5) {
+        setHasMore(false);
+      }
+    }, 1000);
+  }, [page, hasMore, isLoadingMore]);
+
+  return (
+    <div style={{ maxWidth: '400px' }}>
+      <SelectRadix
+        items={items}
+        variant="text"
+        label="Select com Scroll Infinito"
+        placeholder="Selecione um item..."
+        search
+        enableInfiniteScroll={hasMore}
+        onScrollEnd={handleScrollEnd}
+        isLoadingMore={isLoadingMore}
+        onValueChange={(value) => console.log('Selected:', value)}
+      />
+      <p style={{ marginTop: '16px', fontSize: '14px', color: '#666' }}>
+        Total de itens: {items.length} | Página: {page} | Tem mais: {hasMore ? 'Sim' : 'Não'}
+      </p>
+    </div>
+  );
 };

@@ -1,4 +1,4 @@
-import React, { useMemo, useId } from 'react';
+import React, { useMemo, useId, useRef, useEffect } from 'react';
 import * as Select from '@radix-ui/react-select';
 import clsx from 'clsx';
 import { ChevronUp16Regular, ChevronDown16Regular } from '@fluentui/react-icons';
@@ -31,10 +31,16 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
   className,
   'aria-label': ariaLabel,
   'data-testid': testId,
+  // Props para scroll infinito
+  enableInfiniteScroll = false,
+  onScrollEnd,
+  isLoadingMore = false,
   ...restProps
 }) => {
   const componentId = useId();
   const selectId = `select-${componentId}`;
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const hasReachedEndRef = useRef<boolean>(false);
 
   const {
     state,
@@ -48,6 +54,37 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
     onValueChange,
     onOpenChange,
   });
+
+  // Infinite Scroll Logic
+  useEffect(() => {
+    const viewport = viewportRef.current;
+    if (!viewport || !enableInfiniteScroll) return;
+
+    const handleScroll = () => {
+      const { scrollTop, scrollHeight, clientHeight } = viewport;
+      const isAtBottom = scrollTop + clientHeight >= scrollHeight - 1;
+
+      if (isAtBottom && !hasReachedEndRef.current && onScrollEnd && !isLoadingMore) {
+        hasReachedEndRef.current = true;
+        onScrollEnd();
+      } else if (!isAtBottom && hasReachedEndRef.current) {
+        hasReachedEndRef.current = false;
+      }
+    };
+
+    viewport.addEventListener('scroll', handleScroll);
+
+    return () => {
+      viewport.removeEventListener('scroll', handleScroll);
+    };
+  }, [state.isOpen, enableInfiniteScroll, onScrollEnd, isLoadingMore]);
+
+  // Reset a flag when the select opens
+  useEffect(() => {
+    if (state.isOpen && enableInfiniteScroll) {
+      hasReachedEndRef.current = false;
+    }
+  }, [state.isOpen, enableInfiniteScroll]);
 
   const displayText = useMemo(
     () => utils.getDisplayText(state.selectedValues, placeholder, variant, items),
@@ -161,7 +198,7 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
               </div>
             )}
             
-            <Select.Viewport className={styles.viewport}>
+            <Select.Viewport ref={viewportRef} className={styles.viewport}>
               <Select.Group className={styles.group}>
                 {filteredItems.length === 0 ? (
                   <div className={styles.noResults}>
@@ -171,24 +208,31 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
                     }
                   </div>
                 ) : (
-                  filteredItems.map((item) => (
-                    variant === 'checkbox' ? (
-                      <CheckboxSelectItem
-                        key={item.id || item.value}
-                        {...item}
-                        checked={state.selectedValues.includes(item.value)}
-                        onChange={(checked: boolean) =>
-                          actions.handleMultipleSelect(item.value, checked)
-                        }
-                      />
-                    ) : (
-                      <SelectItem
-                        key={item.id || item.value}
-                        {...item}
-                        variant={variant}
-                      />
-                    )
-                  ))
+                  <>
+                    {filteredItems.map((item) => (
+                      variant === 'checkbox' ? (
+                        <CheckboxSelectItem
+                          key={item.id || item.value}
+                          {...item}
+                          checked={state.selectedValues.includes(item.value)}
+                          onChange={(checked: boolean) =>
+                            actions.handleMultipleSelect(item.value, checked)
+                          }
+                        />
+                      ) : (
+                        <SelectItem
+                          key={item.id || item.value}
+                          {...item}
+                          variant={variant}
+                        />
+                      )
+                    ))}
+                    {enableInfiniteScroll && isLoadingMore && (
+                      <div className={styles.loadingMore}>
+                        Carregando mais itens...
+                      </div>
+                    )}
+                  </>
                 )}
               </Select.Group>
             </Select.Viewport>

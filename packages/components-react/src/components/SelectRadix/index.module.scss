@@ -49,7 +49,6 @@
     outline: var(--border-width-2) solid var(--color-brand-primary-default);
   }
 
-  // Estado aberto
   &.open {
     border: none;
     outline: var(--border-width-2) solid var(--color-brand-primary-default);
@@ -345,7 +344,6 @@
   font-style: italic;
 }
 
-// Responsive improvements
 @media (max-width: 768px) {
   .content {
     max-height: 250px;
@@ -356,7 +354,6 @@
   }
 }
 
-// High contrast mode support
 @media (prefers-contrast: high) {
   .trigger {
     border-width: 2px;
@@ -367,7 +364,6 @@
   }
 }
 
-// Reduced motion support
 @media (prefers-reduced-motion: reduce) {
   .trigger,
   .item,
@@ -376,17 +372,23 @@
   }
 }
 
-// Estado de erro para o container inteiro
 .container.error {
   .triggerIcon {
     color: var(--color-feedback-alert-default);
   }
 }
 
-// Estado disabled para o container inteiro  
 .container.disabled {
   .triggerIcon {
     color: var(--color-neutral-high-dark);
     cursor: default;
   }
+}
+
+.noResults,
+.loadingMore {
+  padding: var(--spacing-12) var(--spacing-16);
+  color: var(--color-neutral-low-medium);
+  font-size: var(--font-size-14);
+  text-align: center;
 }
