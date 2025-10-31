@@ -4,7 +4,6 @@
   align-items: flex-start;
   align-self: stretch;
   position: relative;
-  z-index: var(--z-index-content, 1);
   height: 70px;
 }
 .zds-textfield__container label {
