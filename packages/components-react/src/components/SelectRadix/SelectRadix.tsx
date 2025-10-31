@@ -99,10 +99,12 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
     [state.selectedValues, placeholder, variant, items, utils]
   );
 
-  const filteredItems = useMemo(
-    () => utils.getFilteredItems(items, state.searchTerm),
-    [items, state.searchTerm, utils]
-  );
+  const filteredItems = useMemo(() => {
+    // Para busca via API, usa searchTerm (só atualiza quando Enter é pressionado)
+    // Para busca local, usa searchInput (atualiza a cada tecla para filtro em tempo real)
+    const termToFilter = enableApiSearch ? state.searchTerm : state.searchInput;
+    return utils.getFilteredItems(items, termToFilter);
+  }, [items, state.searchTerm, state.searchInput, enableApiSearch, utils]);
 
   const containerStyle = useMemo(() => ({
     maxWidth: typeof maxWidth === 'number' ? `${maxWidth}px` : maxWidth,
@@ -210,10 +212,7 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
               <Select.Group className={styles.group}>
                 {filteredItems.length === 0 ? (
                   <div className={styles.noResults}>
-                    {state.searchTerm
-                      ? `Nenhum resultado encontrado para "${state.searchTerm}"`
-                      : 'Nenhum item disponível'
-                    }
+                    Nenhum resultado encontrado
                   </div>
                 ) : (
                   <>

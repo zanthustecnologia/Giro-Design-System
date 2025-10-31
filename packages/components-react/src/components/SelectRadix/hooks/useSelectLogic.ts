@@ -59,6 +59,7 @@ export function useSelectLogic({
 
   const searchInputRef = useRef<HTMLInputElement>(null);
   const debounceTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const hasInitialSearchRef = useRef<boolean>(false);
 
   // Função de debounce para busca em API
   const debouncedApiSearch = useCallback(
@@ -92,15 +93,26 @@ export function useSelectLogic({
   useEffect(() => {
     if (!state.isOpen) {
       dispatch({ type: 'RESET_SEARCH' });
+      // Reset flag quando fechar
+      hasInitialSearchRef.current = false;
     }
   }, [state.isOpen]);
 
-  // Efeito para disparar busca via API
+  // Efeito para busca inicial quando abrir o select com API search
   useEffect(() => {
-    if (enableApiSearch && state.isOpen) {
-      debouncedApiSearch(state.searchInput);
+    if (state.isOpen && enableApiSearch && !hasInitialSearchRef.current) {
+      hasInitialSearchRef.current = true;
+      // Faz uma busca inicial vazia para carregar os itens
+      debouncedApiSearch('');
     }
-  }, [state.searchInput, enableApiSearch, state.isOpen, debouncedApiSearch]);
+  }, [state.isOpen, enableApiSearch, debouncedApiSearch]);
+
+  // Efeito para disparar busca via API somente quando searchTerm for definido (Enter pressionado)
+  useEffect(() => {
+    if (enableApiSearch && state.searchTerm) {
+      debouncedApiSearch(state.searchTerm);
+    }
+  }, [state.searchTerm, enableApiSearch, debouncedApiSearch]);
 
   // Cleanup do timeout quando componente for desmontado
   useEffect(() => {
