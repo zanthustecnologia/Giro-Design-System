@@ -60,10 +60,18 @@ export function useSelectLogic({
   const searchInputRef = useRef<HTMLInputElement>(null);
   const debounceTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const hasInitialSearchRef = useRef<boolean>(false);
+  const lastSearchTermRef = useRef<string>('');
 
   // Função de debounce para busca em API
   const debouncedApiSearch = useCallback(
     (searchTerm: string) => {
+      // Evita chamadas duplicadas com o mesmo termo
+      if (lastSearchTermRef.current === searchTerm) {
+        return;
+      }
+      
+      lastSearchTermRef.current = searchTerm;
+      
       if (debounceTimeoutRef.current) {
         clearTimeout(debounceTimeoutRef.current);
       }
@@ -93,8 +101,9 @@ export function useSelectLogic({
   useEffect(() => {
     if (!state.isOpen) {
       dispatch({ type: 'RESET_SEARCH' });
-      // Reset flag quando fechar
+      // Reset flags quando fechar
       hasInitialSearchRef.current = false;
+      lastSearchTermRef.current = '';
     }
   }, [state.isOpen]);
 
@@ -102,17 +111,23 @@ export function useSelectLogic({
   useEffect(() => {
     if (state.isOpen && enableApiSearch && !hasInitialSearchRef.current) {
       hasInitialSearchRef.current = true;
-      // Faz uma busca inicial vazia para carregar os itens
-      debouncedApiSearch('');
+      // Faz uma busca inicial vazia para carregar os itens (sem debounce para ser mais rápido)
+      if (onApiSearch) {
+        onApiSearch('');
+        lastSearchTermRef.current = '';
+      }
     }
-  }, [state.isOpen, enableApiSearch, debouncedApiSearch]);
+  }, [state.isOpen, enableApiSearch, onApiSearch]);
 
   // Efeito para disparar busca via API somente quando searchTerm for definido (Enter pressionado)
   useEffect(() => {
-    if (enableApiSearch && state.searchTerm) {
-      debouncedApiSearch(state.searchTerm);
+    if (enableApiSearch && state.searchTerm && state.isOpen) {
+      // Só dispara se for diferente do último termo pesquisado
+      if (lastSearchTermRef.current !== state.searchTerm) {
+        debouncedApiSearch(state.searchTerm);
+      }
     }
-  }, [state.searchTerm, enableApiSearch, debouncedApiSearch]);
+  }, [state.searchTerm, enableApiSearch, state.isOpen, debouncedApiSearch]);
 
   // Cleanup do timeout quando componente for desmontado
   useEffect(() => {
@@ -120,6 +135,9 @@ export function useSelectLogic({
       if (debounceTimeoutRef.current) {
         clearTimeout(debounceTimeoutRef.current);
       }
+      // Limpar refs no cleanup
+      hasInitialSearchRef.current = false;
+      lastSearchTermRef.current = '';
     };
   }, []);
 
