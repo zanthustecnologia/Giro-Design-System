@@ -125,9 +125,25 @@
   max-height: 36px;
   flex-shrink: 0;
 }
-.zds-button__icon-only span{
+.zds-button__icon-only span {
   width: 16px;
   height: 16px;
+}
+
+.zds-button__icon-left,
+.zds-button__icon-right,
+.zds-button__icon-only {
+  svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+}
+
+.zds-button svg {
+  width: 16px !important;
+  height: 16px !important;
+  flex-shrink: 0;
 }
 .zds-button.zds-button__filled.zds-button__lg.zds-button__icon-only,
 .zds-button.zds-button__outlined.zds-button__lg.zds-button__icon-only,

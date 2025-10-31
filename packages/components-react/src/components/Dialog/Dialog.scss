@@ -2,23 +2,21 @@
   position: fixed;
   inset: 0;
   background: rgba(17, 17, 25, 0.3);
-  z-index: var(--z-index-dialog, 2000);
+  z-index: 2000;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-// Wrapper centraliza o dialog
 .zds-dialog__wrapper {
   position: fixed;
   inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: calc(var(--z-index-dialog, 2000) + 1);
+  z-index: 2001;
 }
 
-// Dialog container
 .zds-dialog {
   background: var(--color-neutral-high-default);
   border-radius: var(--border-radius-16);
