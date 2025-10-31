@@ -49,7 +49,6 @@
     outline: var(--border-width-2) solid var(--color-brand-primary-default);
   }
 
-  // Estado aberto
   &.open {
     border: none;
     outline: var(--border-width-2) solid var(--color-brand-primary-default);
@@ -90,8 +89,14 @@
   }
 }
 
-.triggerCheckbox {
-  position: relative;
+.triggerText {
+  flex: 1;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: var(--font-size-16);
+  line-height: 1.4;
 }
 
 // Ajustes para o label seguindo padrão SelectField  
@@ -138,18 +143,6 @@
   padding: var(--spacing-16);
   position: relative;
   max-height: 300px;
-}
-
-.checkboxDropdown {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  margin-top: var(--spacing-4);
-  
-  .content {
-    border: var(--border-width-1) solid var(--color-neutral-high-dark);
-  }
 }
 
 .viewport {
@@ -245,6 +238,20 @@
   }
 }
 
+.checkboxItem {
+  height: auto;
+  min-height: var(--select-height);
+  padding: var(--spacing-8) var(--select-padding-x);
+  
+  &:hover:not(.disabled) {
+    background-color: var(--color-neutral-high-medium);
+  }
+  
+  .checkboxContent {
+    width: 100%;
+  }
+}
+
 .itemWrapper {
   display: flex;
   flex-direction: row;
@@ -337,7 +344,6 @@
   font-style: italic;
 }
 
-// Responsive improvements
 @media (max-width: 768px) {
   .content {
     max-height: 250px;
@@ -348,7 +354,6 @@
   }
 }
 
-// High contrast mode support
 @media (prefers-contrast: high) {
   .trigger {
     border-width: 2px;
@@ -359,7 +364,6 @@
   }
 }
 
-// Reduced motion support
 @media (prefers-reduced-motion: reduce) {
   .trigger,
   .item,
@@ -368,17 +372,23 @@
   }
 }
 
-// Estado de erro para o container inteiro
 .container.error {
   .triggerIcon {
     color: var(--color-feedback-alert-default);
   }
 }
 
-// Estado disabled para o container inteiro  
 .container.disabled {
   .triggerIcon {
     color: var(--color-neutral-high-dark);
     cursor: default;
   }
+}
+
+.noResults,
+.loadingMore {
+  padding: var(--spacing-12) var(--spacing-16);
+  color: var(--color-neutral-low-medium);
+  font-size: var(--font-size-14);
+  text-align: center;
 }

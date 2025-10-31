@@ -37,6 +37,10 @@ export interface SelectRadixProps {
   className?: string;
   'aria-label'?: string;
   'data-testid'?: string;
+  // scroll props
+  enableInfiniteScroll?: boolean;
+  onScrollEnd?: () => void;
+  isLoadingMore?: boolean;
 }
 
 export interface SelectState {
