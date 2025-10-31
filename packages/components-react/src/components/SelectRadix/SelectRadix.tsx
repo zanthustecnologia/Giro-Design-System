@@ -35,6 +35,10 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
   enableInfiniteScroll = false,
   onScrollEnd,
   isLoadingMore = false,
+  // Props para busca em API
+  enableApiSearch = false,
+  onApiSearch,
+  isSearching = false,
   ...restProps
 }) => {
   const componentId = useId();
@@ -53,6 +57,10 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
     search,
     onValueChange,
     onOpenChange,
+    // API search props
+    enableApiSearch,
+    onApiSearch,
+    isSearching,
   });
 
   // Infinite Scroll Logic

@@ -314,3 +314,66 @@ export const InfiniteScroll: StoryFn<SelectRadixProps> = () => {
     </div>
   );
 };
+
+// Story para demonstrar a busca em API
+export const ApiSearch: StoryFn<SelectRadixProps> = () => {
+  const [items, setItems] = React.useState([
+    { id: '1', value: '1', text: 'Item 1', subTitle: 'Resultado inicial' },
+    { id: '2', value: '2', text: 'Item 2', subTitle: 'Resultado inicial' },
+    { id: '3', value: '3', text: 'Item 3', subTitle: 'Resultado inicial' },
+  ]);
+  
+  const [isSearching, setIsSearching] = React.useState(false);
+  const [lastSearchTerm, setLastSearchTerm] = React.useState('');
+
+  const handleApiSearch = React.useCallback((term: string) => {
+    setLastSearchTerm(term);
+    setIsSearching(true);
+    
+    // Simula uma chamada de API
+    setTimeout(() => {
+      if (term === '') {
+        // Volta aos dados iniciais quando campo estiver vazio
+        setItems([
+          { id: '1', value: '1', text: 'Item 1', subTitle: 'Resultado inicial' },
+          { id: '2', value: '2', text: 'Item 2', subTitle: 'Resultado inicial' },
+          { id: '3', value: '3', text: 'Item 3', subTitle: 'Resultado inicial' },
+        ]);
+      } else {
+        // Simula resultados da API baseados no termo de busca
+        const searchResults = Array.from({ length: 5 }, (_, i) => ({
+          id: `search-${i + 1}`,
+          value: `search-${i + 1}`,
+          text: `${term} - Resultado ${i + 1}`,
+          subTitle: `Encontrado via API para "${term}"`,
+        }));
+        
+        setItems(searchResults);
+      }
+      
+      setIsSearching(false);
+    }, 800); // Simula delay da API
+  }, []);
+
+  return (
+    <div style={{ maxWidth: '400px' }}>
+      <SelectRadix
+        items={items}
+        variant="text"
+        label="Select com Busca em API"
+        placeholder="Selecione um item..."
+        search
+        enableApiSearch={true}
+        onApiSearch={handleApiSearch}
+        isSearching={isSearching}
+        onValueChange={(value) => console.log('Selected:', value)}
+      />
+      <div style={{ marginTop: '16px', fontSize: '14px', color: '#666' }}>
+        <p><strong>Status:</strong> {isSearching ? 'Buscando...' : 'Pronto'}</p>
+        <p><strong>Último termo:</strong> {lastSearchTerm || 'Nenhum'}</p>
+        <p><strong>Total de resultados:</strong> {items.length}</p>
+        <p><strong>Dica:</strong> Digite algo no campo de busca para ver a API em ação!</p>
+      </div>
+    </div>
+  );
+};
