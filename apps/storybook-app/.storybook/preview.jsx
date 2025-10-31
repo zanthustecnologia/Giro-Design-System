@@ -58,7 +58,9 @@ const preview = {
         <Theme
           appearance={theme}
         >
-          <Story></Story>
+          <Story>
+           
+          </Story>
         </Theme>
       );
     },
