@@ -1,4 +1,10 @@
-import { Add16Filled, Add16Regular, ArrowDown16Regular, Delete16Regular, Edit16Regular } from '@fluentui/react-icons';
+import {
+  Add16Filled,
+  Add16Regular,
+  ArrowDown16Regular,
+  Delete16Regular,
+  Edit16Regular,
+} from '@fluentui/react-icons';
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { Meta, StoryFn } from '@storybook/react';
@@ -7,6 +13,15 @@ import Button, { ButtonProps } from './Button';
 export default {
   title: 'Components/Button',
   component: Button,
+  docs: {
+    description: {
+      component:
+        'Componente de calendário interativo com suporte a internacionalização e diferentes formatos de data.',
+    },
+    usage:{
+      component: 'Uso do componente de botão com diferentes variantes e tamanhos.',
+    }
+  },
   parameters: {
     controls: {
       sort: 'alpha',

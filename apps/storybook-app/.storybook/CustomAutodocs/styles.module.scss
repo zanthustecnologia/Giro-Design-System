@@ -1,0 +1,33 @@
+.container{
+  padding: 0 var(--spacing-32);
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: var(--spacing-8);
+
+}
+.title{
+  h1{
+    color: var(--color-low-default);
+    font-size: var(--font-size-40);
+    font-weight: var(--font-height-bold);
+  }
+}
+.description{
+  p{
+    font-size: var(--font-size-16);
+  }
+}
+.accessibilityList{
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  li{
+    font-size: var(--font-size-16);
+    margin-bottom: var(--spacing-8);
+  }
+}
+h2.subTitle{
+  font-size: var(--font-size-28);
+  font-weight: var(--font-weight-medium);
+}
