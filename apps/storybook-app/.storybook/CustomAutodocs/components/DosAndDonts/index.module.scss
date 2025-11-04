@@ -1,0 +1,70 @@
+.dosAndDontsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin: 2rem 0;
+}
+
+.dosAndDontsRow {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.doColumn,
+.dontColumn {
+  border-radius: 8px;
+  padding: 1.5rem;
+  border: 2px solid;
+}
+
+.doColumn {
+  background-color: #f0fdf4;
+  border-color: #22c55e;
+}
+
+.dontColumn {
+  background-color: #fef2f2;
+  border-color: #ef4444;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+
+  h3 {
+    margin: 0;
+    font-size: 1.125rem;
+    font-weight: 600;
+  }
+}
+
+.icon {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.doColumn .icon {
+  color: #22c55e;
+}
+
+.dontColumn .icon {
+  color: #ef4444;
+}
+
+.exampleContainer {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background-color: white;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.description {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: #374151;
+}
