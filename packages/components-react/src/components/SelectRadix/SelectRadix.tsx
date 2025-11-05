@@ -158,6 +158,7 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
               tooltipMessage={tooltipMessage}
               tooltip={tooltip}
               error={state.hasError && state.touched}
+              disabled={disabled}
             >
               {label}
             </LabelComponent>
@@ -166,6 +167,7 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
               className={clsx(styles.trigger, {
                 [styles.error]: state.hasError && state.touched,
                 [styles.disabled]: disabled,
+                [styles.hasValue]: state.selectedValues.length > 0,
               })}
               id={selectId}
               aria-label={ariaLabel}
@@ -174,13 +176,18 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
               {variant === 'checkbox' ? (
                 <span className={styles.triggerText}>{displayText}</span>
               ) : (
-                <Select.Value placeholder={placeholder}>{displayText}</Select.Value>
+                <Select.Value placeholder={placeholder} className={styles.placeholder}>{displayText}</Select.Value>
               )}
               {state.isOpen ? <ChevronUp16Regular /> : <ChevronDown16Regular />}
             </Select.Trigger>
 
             {!state.isOpen && helperText && !state.hasError && (
-              <span className={styles.helper}>{helperText}</span>
+              <span className={clsx(
+                styles.helper,
+                {
+                  [styles.disabled]: disabled
+                }                
+              )}>{helperText}</span>
             )}
             
             {state.hasError && state.touched && (
