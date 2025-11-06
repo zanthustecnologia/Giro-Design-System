@@ -4,6 +4,7 @@
   --select-padding-x: var(--spacing-16);
   --select-gap: var(--spacing-8);
   --select-field-container-height: 92px;
+  --select-content-min-width: 200px; // Largura mínima para evitar dropdowns muito pequenos
 }
 
 .fieldContainer {
@@ -21,8 +22,8 @@
   padding: 0 var(--spacing-16);
   border-radius: var(--border-radius-8);
   border: var(--border-width-1) solid var(--color-neutral-high-dark);
-  outline: none;
   color: var(--color-neutral-low-medium);
+  outline: none;
   font-size: var(--font-size-16);
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -56,17 +57,20 @@
  
   &.error {
     border: var(--border-width-1) solid var(--color-feedback-alert-default);
+
     // Não alterar a cor do texto para manter placeholder normal
     
     &:hover,
-    &:focus-visible {
+    &:focus {
       border: var(--border-width-2) solid var(--color-feedback-alert-default);
+      outline: none;
     }
 
     &.open {
       border: none;
       outline: var(--border-width-2) solid var(--color-feedback-alert-default);
     }
+   
   }
 
   &.disabled {
@@ -75,7 +79,6 @@
     background-color: var(--color-neutral-high-default);
     cursor: not-allowed;
     opacity: 0.6;
-
     &:hover,
     &:focus-visible {
       border: var(--border-width-1) solid var(--color-neutral-high-dark);
@@ -89,6 +92,7 @@
   }
 }
 
+
 .triggerText {
   flex: 1;
   text-align: left;
@@ -97,6 +101,7 @@
   text-overflow: ellipsis;
   font-size: var(--font-size-16);
   line-height: 1.4;
+  color: var(--color-low-default);
 }
 
 // Ajustes para o label seguindo padrão SelectField  
@@ -134,15 +139,26 @@
 .content {
   background-color: var(--color-neutral-high-default);
   border-radius: var(--select-border-radius);
-  box-shadow: 0 2px 16px 0px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 16px 0px rgba(0, 0, 0, 0.20);
   border: var(--border-width-1) solid var(--color-neutral-high-dark);
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  background-color: var(--color-neutral-high-default) ;
   padding: var(--spacing-16);
   position: relative;
   max-height: 300px;
+  min-width: var(--select-content-min-width);
+  
+  width: clamp(
+    var(--select-content-min-width), 
+    max-content, 
+    400px
+  );
+  
+  &[data-side="bottom"],
+  &[data-side="top"] {
+    min-width: var(--radix-popper-anchor-width);
+  }
 }
 
 .viewport {
@@ -166,6 +182,8 @@
   width: 100%;
   position: relative;
   isolation: isolate;
+
+  --container-width: 100%;
 }
 
 .containerLabel {
@@ -196,7 +214,6 @@
   width: 100%;
   overflow: hidden;
   margin: var(--spacing-4) 0;
-  transition: background-color 0.2s ease, color 0.2s ease;
   cursor: pointer;
 
   &:hover:not([data-disabled]):not([data-selected='true']) {
@@ -206,7 +223,7 @@
   &.disabled {
     color: var(--color-neutral-low-light);
     cursor: not-allowed;
-    
+   
     .subTitle {
       color: var(--color-neutral-low-light);
     }
@@ -214,10 +231,6 @@
 
   &[data-highlighted] {
     outline: none;
-    color: var(--color-brand-primary-default);
-    .subTitle {
-      color: var(--color-brand-primary-default);
-    }
   }
 
   &[data-state='checked'] {
@@ -239,7 +252,7 @@
 }
 
 .checkboxItem {
-  height: auto;
+  height: var(--select-height);
   min-height: var(--select-height);
   padding: var(--spacing-8) var(--select-padding-x);
   
@@ -261,7 +274,6 @@
   padding: 0 var(--select-padding-x);
   margin-bottom: var(--spacing-8);
   gap: var(--select-gap);
-  transition: background-color 0.2s ease;
   cursor: pointer;
 
   &:hover:not([data-disabled]) {
@@ -271,10 +283,11 @@
   &.disabled {
     color: var(--color-neutral-low-light);
     cursor: not-allowed;
-    
+  
     .subTitle {
       color: var(--color-neutral-low-light);
     }
+    
   }
 }
 
@@ -288,7 +301,6 @@
   color: var(--color-neutral-low-dark);
   font-family: var(--font-family-primary);
   line-height: 1.3;
-  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .icon {
@@ -325,6 +337,9 @@
   white-space: normal;
   text-align: left;
   overflow: hidden;
+  &.disabled{
+    color:var(--color-neutral-high-dark);
+  }
 }
 
 .errorMessage {
@@ -383,6 +398,7 @@
     color: var(--color-neutral-high-dark);
     cursor: default;
   }
+
 }
 
 .noResults,

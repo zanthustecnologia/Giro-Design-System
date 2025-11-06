@@ -35,6 +35,10 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
   enableInfiniteScroll = false,
   onScrollEnd,
   isLoadingMore = false,
+  // Props para busca em API
+  enableApiSearch = false,
+  onApiSearch,
+  isSearching = false,
   ...restProps
 }) => {
   const componentId = useId();
@@ -53,6 +57,10 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
     search,
     onValueChange,
     onOpenChange,
+    // API search props
+    enableApiSearch,
+    onApiSearch,
+    isSearching,
   });
 
   // Infinite Scroll Logic
@@ -91,10 +99,12 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
     [state.selectedValues, placeholder, variant, items, utils]
   );
 
-  const filteredItems = useMemo(
-    () => utils.getFilteredItems(items, state.searchTerm),
-    [items, state.searchTerm, utils]
-  );
+  const filteredItems = useMemo(() => {
+    // Para busca via API, usa searchTerm (só atualiza quando Enter é pressionado)
+    // Para busca local, usa searchInput (atualiza a cada tecla para filtro em tempo real)
+    const termToFilter = enableApiSearch ? state.searchTerm : state.searchInput;
+    return utils.getFilteredItems(items, termToFilter);
+  }, [items, state.searchTerm, state.searchInput, enableApiSearch, utils]);
 
   const containerStyle = useMemo(() => ({
     maxWidth: typeof maxWidth === 'number' ? `${maxWidth}px` : maxWidth,
@@ -115,6 +125,13 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
       e.preventDefault();
       e.stopPropagation();
       actions.resetSearch();
+    }
+  };
+
+  const handleClear = () => {
+    actions.resetSearch();
+    if (enableApiSearch && onApiSearch) {
+      onApiSearch('');
     }
   };
 
@@ -141,6 +158,7 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
               tooltipMessage={tooltipMessage}
               tooltip={tooltip}
               error={state.hasError && state.touched}
+              disabled={disabled}
             >
               {label}
             </LabelComponent>
@@ -149,6 +167,7 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
               className={clsx(styles.trigger, {
                 [styles.error]: state.hasError && state.touched,
                 [styles.disabled]: disabled,
+                [styles.hasValue]: state.selectedValues.length > 0,
               })}
               id={selectId}
               aria-label={ariaLabel}
@@ -157,13 +176,18 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
               {variant === 'checkbox' ? (
                 <span className={styles.triggerText}>{displayText}</span>
               ) : (
-                <Select.Value placeholder={placeholder}>{displayText}</Select.Value>
+                <Select.Value placeholder={placeholder} className={styles.placeholder}>{displayText}</Select.Value>
               )}
               {state.isOpen ? <ChevronUp16Regular /> : <ChevronDown16Regular />}
             </Select.Trigger>
 
             {!state.isOpen && helperText && !state.hasError && (
-              <span className={styles.helper}>{helperText}</span>
+              <span className={clsx(
+                styles.helper,
+                {
+                  [styles.disabled]: disabled
+                }                
+              )}>{helperText}</span>
             )}
             
             {state.hasError && state.touched && (
@@ -192,7 +216,7 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
                   value={state.searchInput}
                   onChange={handleSearchChange}
                   onKeyDown={handleSearchKeyDown}
-                  onClear={actions.resetSearch}
+                  onClear={handleClear}
                   data-testid={`${testId}-search`}
                 />
               </div>
@@ -202,10 +226,7 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
               <Select.Group className={styles.group}>
                 {filteredItems.length === 0 ? (
                   <div className={styles.noResults}>
-                    {state.searchTerm
-                      ? `Nenhum resultado encontrado para "${state.searchTerm}"`
-                      : 'Nenhum item disponível'
-                    }
+                    Nenhum resultado encontrado
                   </div>
                 ) : (
                   <>
