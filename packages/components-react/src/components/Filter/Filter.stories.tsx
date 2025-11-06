@@ -217,6 +217,7 @@ export const CalendarFilter: Story = {
             locale="pt-br"
             variant="outlined"
             position="left"
+            onClearDate={handleClearDate}
           />
         </div>
         

@@ -160,3 +160,11 @@
 .zds-calendar__day--empty {
   visibility: hidden;
 }
+.zds-calendar__clear{
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+    padding: var(--spacing-8);
+    padding-top: var(--spacing-16);
+
+}
