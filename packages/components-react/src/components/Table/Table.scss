@@ -1,6 +1,8 @@
 .zds-table__container {
   background-color: var(--color-neutral-high-default);
   font-family: var(--font-family-primary);
+  overflow: hidden;
+  border-radius: var(--spacing-8);
 }
 
 .zds-filter-drawer--content {
@@ -15,7 +17,6 @@
 .zds-table__scroll-wrapper {
   overflow-x: visible;
 
-
   @media (max-width: 768px) {
     overflow-x: scroll;
     -webkit-overflow-scrolling: touch;
@@ -24,9 +25,10 @@
 
 .zds-table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
   font-family: var(--font-family-primary);
   font-size: var(--font-size-16);
+  border-spacing: 0;
 
   @media (max-width: 768px) {
     min-width: 600px;
@@ -103,7 +105,8 @@
   }
 
   &__title {
-    margin: var(--spacing-32) var(--spacing-0) var(--spacing-16) var(--spacing-0);
+    margin: var(--spacing-32) var(--spacing-0) var(--spacing-16)
+      var(--spacing-0);
     font-size: var(--font-size-24);
     font-weight: var(--font-weight-bold);
     color: var(--color-neutral-low-default);
@@ -122,7 +125,6 @@
 
 .zds-table__body .zds-table__row:first-child .zds-table__td {
   border-top: var(--border-width-none);
-
 }
 
 .zds-table__empty-cell {
@@ -145,7 +147,6 @@
 
 .zds-table__td .zds-menu__container {
   position: relative;
-  
 }
 
 .zds-table-header__search {
@@ -189,7 +190,8 @@
   align-items: center;
   background: var(--color-neutral-high-light);
   padding: var(--spacing-12) var(--spacing-24);
-  border-radius: var(--border-radius-8) var(--border-radius-8) var(--border-radius-none) var(--border-radius-none);
+  border-radius: var(--border-radius-8) var(--border-radius-8)
+    var(--border-radius-none) var(--border-radius-none);
   border-bottom: var(--border-width-1) solid var(--color-neutral-high-dark);
   flex-wrap: wrap;
   gap: var(--spacing-16);
@@ -347,15 +349,15 @@
   @media (max-width: 640px) {
     width: 100%;
     gap: var(--spacing-12);
-    
+
     > * {
       flex: 1 1 calc(50% - var(--spacing-6));
       min-width: 120px;
     }
-    
+
     @media (max-width: 480px) {
       gap: var(--spacing-8);
-      
+
       > * {
         flex: 1 1 100%;
         width: 100%;
@@ -446,7 +448,6 @@
   }
 }
 
-
 @media (max-width: 1200px) {
   .zds-table-header {
     /* Em telas médias, força quebra se não há espaço suficiente */
@@ -481,7 +482,7 @@
   }
 }
 .zds-table-header__filters-content > div:last-child > div {
-  left: -140%
+  left: -140%;
 }
 .zds-dropdown--filter {
   margin-top: var(--spacing-48);
