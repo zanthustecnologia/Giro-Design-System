@@ -100,7 +100,6 @@ export const CustomAutoDoc = () => {
           )}
         </div>
       </div>
-      <footer className={styles.footer}>teste</footer>
     </>
   );
 };

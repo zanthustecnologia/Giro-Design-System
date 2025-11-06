@@ -1,20 +1,20 @@
 .container {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: var(--spacing-32);
 }
 
 .comparisonRow {
   display: grid;
   grid-template-columns: 1fr 1fr; 
-  gap: 1.5rem;
+  gap: var(--spacing-24);
 }
 .wrapperContent {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   flex-direction: column;
-  gap: 4px;
+  gap: var(--spacing-4);
 }
 .card {
   display: flex;
@@ -28,23 +28,24 @@
 .header {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
+  gap: var(--spacing-8);
+  margin-bottom: var(--spacing-16);
 
   h3 {
     margin: 0;
-    font-size: 1.125rem;
-    font-weight: 600;
-    color: #111827;
+    font-size: var(--font-size-18);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-low-default);
   }
 }
 .icon {
-  font-size: 1.5rem;
-  font-weight: bold;
+  font-size: var(--font-size-24);
+  font-weight: var(--font-weight-bold);
 }
 .description {
   margin: 0;
-  font-size: 0.875rem;
+  font-size: var(--font-size-14);
   line-height: 1.6;
-  color: #4b5563;
+  color: var(--color-neutral-low-medium);
+  font-family: var(--font-family-primary);
 }
