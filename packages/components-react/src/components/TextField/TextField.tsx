@@ -6,26 +6,26 @@ import './Textfield.scss';
 import { validateInput } from './ValidationUtils';
 
 interface TextFieldProps {
-    name?: string;
-    className?: string;
-    value?: string | number;
-    label?: string;
-    placeholder?: string;
-    type?: string;
-    onChange?: (value: string | number) => void;
-    disabled?: boolean;
-    maxLength?: number;
-    required?: boolean;
-    helper?: boolean;
-    helperText?: string;
-    tooltip?: boolean;
-    tooltipText?: string;
-    positionTooltip?: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left';
-    errorMessage?: string;
-    trailingIcon?: boolean;
-    id?: string;
-    icon?: React.ReactNode;
-};
+  name?: string;
+  className?: string;
+  value?: string | number;
+  label?: string;
+  placeholder?: string;
+  type?: string;
+  onChange?: (value: string | number) => void;
+  disabled?: boolean;
+  maxLength?: number;
+  required?: boolean;
+  helper?: boolean;
+  helperText?: string;
+  tooltip?: boolean;
+  tooltipText?: string;
+  positionTooltip?: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left';
+  errorMessage?: string;
+  trailingIcon?: boolean;
+  id?: string;
+  icon?: React.ReactNode;
+}
 
 const TextField: React.FC<TextFieldProps> = ({
     name = 'textfield',
@@ -48,55 +48,58 @@ const TextField: React.FC<TextFieldProps> = ({
     icon = null,
     ...restProps
 }) => {
-    const [inputValue, setValue] = useState(value);
-    const [inputError, setInputError] = useState('');
-    const [focus, setFocus] = useState(false);
-    const componentId = id || useId();
+  const [inputValue, setValue] = useState(value);
+  const [inputError, setInputError] = useState('');
+  const [focus, setFocus] = useState(false);
+  const componentId = id || useId();
 
-    const handleChange = useCallback(
-        (e: React.ChangeEvent<HTMLInputElement>) => {
-            const newValue = e.target.value;
+  const handleChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const newValue = e.target.value;
 
-            if (!disabled && (!maxLength || newValue.length <= maxLength)) {
-                setValue(newValue);
-                onChange?.(newValue);
-            }
-        },
-        [disabled, maxLength, onChange]
-    );
-    const clearInput = useCallback(() => {
-        if (!disabled) {
-            setValue('');
-            onChange?.('');
-        }
-    }, [disabled, onChange]);
+      if (!disabled && (!maxLength || newValue.length <= maxLength)) {
+        setValue(newValue);
+        onChange?.(newValue);
+      }
+    },
+    [disabled, maxLength, onChange]
+  );
+  const clearInput = useCallback(() => {
+    if (!disabled) {
+      setValue('');
+      onChange?.('');
+    }
+  }, [disabled, onChange]);
 
-    const onBlur = useCallback(() => {
-        const error = validateInput({
-            value: inputValue,
-            type,
-            maxLength,
-            errorMessage,
-            required,
-        }) || '';
-        setInputError(error);
-        setFocus(false);
-    }, [inputValue, type, maxLength, errorMessage, required]);
+  const onBlur = useCallback(() => {
+    const error =
+      validateInput({
+        value: inputValue,
+        type,
+        maxLength,
+        errorMessage,
+        required,
+      }) || '';
+    setInputError(error);
+    setFocus(false);
+  }, [inputValue, type, maxLength, errorMessage, required]);
 
-    useEffect(() => {
-        if (value !== inputValue) {
-            setValue(value);
-        }
-    }, [value]);
+  useEffect(() => {
+    if (value !== inputValue) {
+      setValue(value);
+    }
+  }, [value]);
 
-    const TextFieldClass = clsx('zds-textfield__container', {
-        'zds-textfield__error': inputError,
-        'zds-textfield__disabled': disabled,
-        [className]: className,
-    });
+  const TextFieldClass = clsx('zds-textfield__container', {
+    'zds-textfield__error': inputError,
+    'zds-textfield__disabled': disabled,
+    [className]: className,
+  });
 
-    const shouldRenderCustomIcon = typeof inputValue === 'string' && inputValue.trim().length === 0;
-    const shouldRenderClearIcon = focus && typeof inputValue === 'string' && inputValue.trim().length > 0;
+  const shouldRenderCustomIcon =
+    typeof inputValue === 'string' && inputValue.trim().length === 0;
+  const shouldRenderClearIcon =
+    focus && typeof inputValue === 'string' && inputValue.trim().length > 0;
 
     return (
         <div className={TextFieldClass}>
@@ -172,8 +175,49 @@ const TextField: React.FC<TextFieldProps> = ({
                     )
                 )}
             </div>
+          )}
+        </label>
+      )}
+      <div className="zds-textfield__container__box">
+        <div className="zds-textfield__box__input">
+          <input
+            id={componentId}
+            name={name}
+            type={type}
+            value={inputValue}
+            placeholder={placeholder}
+            onChange={handleChange}
+            onFocus={() => setFocus(true)}
+            onBlur={onBlur}
+            maxLength={maxLength}
+            disabled={disabled}
+            aria-invalid={!!inputError}
+            aria-required={required}
+            aria-describedby={helperId}
+          />
+          {shouldRenderCustomIcon && (
+            <span className="zds-textfield__icon">{icon}</span>
+          )}
+          {shouldRenderClearIcon && (
+            <Dismiss16Regular
+              className="zds-textfield__icon"
+              onClick={clearInput}
+              aria-label="Limpar campo"
+              onMouseDown={(e) => e.preventDefault()}
+            />
+          )}
         </div>
-    );
+
+        <span
+          id={helperId}
+          className="zds-textfield__helper-text"
+          aria-live={inputError ? 'polite' : undefined}
+        >
+          {helperContent}
+        </span>
+      </div>
+    </div>
+  );
 };
 
 const MemoizedTextField = React.memo(TextField);

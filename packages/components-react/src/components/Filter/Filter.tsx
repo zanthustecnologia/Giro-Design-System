@@ -1,11 +1,19 @@
 // Filter.tsx
-import React, { useState, useRef, useEffect, ReactNode, ReactElement, useCallback, useMemo } from 'react';
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  ReactNode,
+  ReactElement,
+  useCallback,
+  useMemo,
+} from 'react';
 import Button from '../Button';
 import Dropdown, { DropdownItem, DropdownType } from '../Dropdown/Dropdown';
 import Calendar from '../Calendar/Calendar';
 import './Filter.scss';
 import Badge from '../Badge';
-import { ChevronDownRegular, Calendar16Regular} from '@fluentui/react-icons';
+import { ChevronDownRegular, Calendar16Regular } from '@fluentui/react-icons';
 import clsx from 'clsx';
 // ✅ Definir as variantes de botão disponíveis
 type FilterButtonVariant = 'filled' | 'outlined' | 'text';
@@ -33,6 +41,7 @@ export interface FilterProps {
   onOpen?: () => void;
   /** Callback chamado quando o filtro é fechado */
   onClose?: () => void;
+
   /** Posição do dropdown */
   position?: 'left' | 'right';
   /** Se o filtro está desabilitado */
@@ -46,6 +55,7 @@ export interface FilterProps {
   /** Callback quando data é selecionada */
   onDateSelect?: (date: Date) => void;
   /** Data mínima permitida */
+  onClearDate?: () => void;
   minDate?: Date;
   /** Data máxima permitida */
   maxDate?: Date;
@@ -70,13 +80,14 @@ const Filter: React.FC<FilterProps> = ({
   className = '',
   selectedDate,
   onDateSelect,
+  onClearDate,
   minDate,
   maxDate,
-  locale = 'pt-br'
+  locale = 'pt-br',
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [currentCalendarDate, setCurrentCalendarDate] = useState<Date>(() => 
-    selectedDate || new Date()
+  const [currentCalendarDate, setCurrentCalendarDate] = useState<Date | null>(
+    () => selectedDate || new Date()
   );
   const filterRef = useRef<HTMLDivElement>(null);
 
@@ -90,28 +101,37 @@ const Filter: React.FC<FilterProps> = ({
     setCurrentCalendarDate(date);
   }, []);
 
-  const handleDateSelection = useCallback((date: Date) => {
- 
-    onDateSelect?.(date);
+  const handleDateSelection = useCallback(
+    (date: Date) => {
+      onDateSelect?.(date);
+      setIsOpen(false);
+      onClose?.();
+    },
+    [onDateSelect, onClose]
+  );
+  const handleClear = useCallback((): void => {
+    onClearDate?.();
+    setCurrentCalendarDate(new Date());
     setIsOpen(false);
     onClose?.();
-  }, [onDateSelect, onClose]);
+  }, [onClearDate, onClose]);
 
-  
   const buttonDisplayText = useMemo(() => {
     if (type === 'calendar' && selectedDate) {
-      return selectedDate.toLocaleDateString(locale === 'pt-br' ? 'pt-BR' : 'en-US');
+      return selectedDate.toLocaleDateString(
+        locale === 'pt-br' ? 'pt-BR' : 'en-US'
+      );
     }
 
     if (!selectedIds?.length) return buttonText;
 
-    const firstItem = items?.find(item => item.id === selectedIds[0]);
+    const firstItem = items?.find((item) => item.id === selectedIds[0]);
     return firstItem?.text || selectedIds[0];
   }, [type, selectedDate, selectedIds, items, buttonText, locale]);
 
   const getBadgeValue = useCallback(() => {
     if (!selectedIds || selectedIds.length <= 1) {
-      return null; 
+      return null;
     }
     return selectedIds.length - 1;
   }, [selectedIds]);
@@ -129,15 +149,21 @@ const Filter: React.FC<FilterProps> = ({
     }
   }, [disabled, isOpen, onOpen, onClose]);
 
-  const handleApplyFilter = useCallback((newSelectedIds: string[]) => {
-    onApplyFilter?.(newSelectedIds);
-    setIsOpen(false);
-    onClose?.();
-  }, [onApplyFilter, onClose]);
+  const handleApplyFilter = useCallback(
+    (newSelectedIds: string[]) => {
+      onApplyFilter?.(newSelectedIds);
+      setIsOpen(false);
+      onClose?.();
+    },
+    [onApplyFilter, onClose]
+  );
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (filterRef.current && !filterRef.current.contains(event.target as Node)) {
+      if (
+        filterRef.current &&
+        !filterRef.current.contains(event.target as Node)
+      ) {
         if (isOpen) {
           setIsOpen(false);
           onClose?.();
@@ -169,7 +195,7 @@ const Filter: React.FC<FilterProps> = ({
 
   const filterClass = clsx('zds-filter__container', className);
   const dropdownClass = clsx('zds-filter__dropdown', {
-    [`zds-filter__dropdown--${position}`]: position
+    [`zds-filter__dropdown--${position}`]: position,
   });
   return (
     <div ref={filterRef} className={filterClass}>
@@ -177,18 +203,21 @@ const Filter: React.FC<FilterProps> = ({
         variant={variant}
         onClick={handleToggle}
         disabled={disabled}
-        icon={type === 'calendar' ? <Calendar16Regular /> :   <ChevronDownRegular />}
-        iconPosition='right'
-        size='lg'
+        icon={
+          type === 'calendar' ? <Calendar16Regular /> : <ChevronDownRegular />
+        }
+        iconPosition="right"
+        size="lg"
       >
-        <div className='zds-filter-button__content'>
+        <div className="zds-filter-button__content">
           {icon && <span className="zds-filter-button__icon">{icon}</span>}
           <span className="zds-filter-button__text">{buttonDisplayText}</span>
-          <span className={`zds-filter-button__arrow ${isOpen ? 'zds-filter-button__arrow--open' : ''}`}>
-          {getBadgeValue() && (
-            <Badge badgeValue={`+${getBadgeValue()}`} type='status' />
-          )}
-           
+          <span
+            className={`zds-filter-button__arrow ${isOpen ? 'zds-filter-button__arrow--open' : ''}`}
+          >
+            {getBadgeValue() && (
+              <Badge badgeValue={`+${getBadgeValue()}`} type="status" />
+            )}
           </span>
         </div>
       </Button>
@@ -204,6 +233,7 @@ const Filter: React.FC<FilterProps> = ({
               minDate={minDate}
               maxDate={maxDate}
               locale={locale}
+              onClear={handleClear}
               id={`filter-calendar-${filterRef.current?.id || ''}`}
               aria-label="Selecionar data para filtro"
             />

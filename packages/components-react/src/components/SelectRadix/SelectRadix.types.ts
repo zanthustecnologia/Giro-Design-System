@@ -37,6 +37,14 @@ export interface SelectRadixProps {
   className?: string;
   'aria-label'?: string;
   'data-testid'?: string;
+  // scroll props
+  enableInfiniteScroll?: boolean;
+  onScrollEnd?: () => void;
+  isLoadingMore?: boolean;
+  // API search props
+  enableApiSearch?: boolean;
+  onApiSearch?: (term: string) => void;
+  isSearching?: boolean;
 }
 
 export interface SelectState {
@@ -64,6 +72,10 @@ export interface UseSelectLogicProps {
   search?: boolean;
   onValueChange?: (value: string | string[]) => void;
   onOpenChange?: (open: boolean) => void;
+  // API search props
+  enableApiSearch?: boolean;
+  onApiSearch?: (term: string) => void;
+  isSearching?: boolean;
 }
 
 export interface UseSelectLogicReturn {

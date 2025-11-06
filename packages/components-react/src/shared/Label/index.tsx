@@ -47,6 +47,7 @@ const LabelComponent = ({
         className={clsx(
           styles.wrapperLabel,
           error && styles.errorLabel,
+          disabled && styles.disabledLabel,
           className
         )}
         htmlFor={htmlFor}
