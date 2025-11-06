@@ -3,30 +3,34 @@ import styles from './styles.module.scss';
 import { DosAndDonts, DosAndDontsItem } from './components/DosAndDonts';
 import {
   Title,
-  Subtitle,
   Description,
   Primary,
   Controls,
   Stories,
-  Canvas,
   Source,
+  useOf,
 } from '@storybook/addon-docs/blocks';
 
 export const CustomAutoDoc = () => {
-  const teste = [
-    { do: { example: <button>Do this</button>, description: 'Description for do' } },
-    { dont: { example: <button>Don't do this</button>, description: 'Description for dont' } },
-  ]
-  // const dosAndDontsData: DosAndDontsItem[] | undefined =
-  //   parameters?.docs?.dosAndDonts;
+  const resolvedOf = useOf('meta');
 
-  // ✅ Pegar accessibility info (vem dos parameters)
-  // const accessibilityInfo: string[] = docs?.accessibility || [
-  //   'Navegação por teclado (Tab, Enter, Escape)',
-  //   'ARIA labels e roles',
-  //   'Contraste de cores (WCAG AA)',
-  //   'Estados de foco visíveis',
-  // ];
+  if (resolvedOf.type !== 'meta') {
+    return null;
+  }
+
+  const { preparedMeta } = resolvedOf;
+  const parameters = preparedMeta.parameters;
+
+  const dosAndDontsData: DosAndDontsItem[] | undefined =
+    parameters?.docs?.dosAndDonts;
+
+  const componentName = preparedMeta.title?.split('/')?.pop() || 'Component';
+
+  const accessibilityInfo: string[] = parameters?.docs?.accessibility || [];
+  const usageInfo: string[] = parameters?.docs?.usage || [];
+  const aditionalInformations: string[] =
+    parameters?.docs?.aditionalInformations || [];
+
   return (
     <>
       <div className={styles.container}>
@@ -41,40 +45,62 @@ export const CustomAutoDoc = () => {
           </div>
           <Primary />
         </div>
-
         <div>
           <h2 className={styles.subTitle}>Import</h2>
           <Source
-            code={`import {nome do componente} from '@zanthus/componentes-react'`}
+            code={`import ${componentName} from '@zanthus/components-react'`}
           />
         </div>
-
         <div>
           <h2 className={styles.subTitle}>Props</h2>
           <div className={styles.props}>
             <Controls />
           </div>
         </div>
+        {usageInfo.length > 0 && (
+          <div className={styles.section}>
+            <h2>Usage</h2>
+            <ul className={styles.uiList}>
+              {usageInfo.map((item, index) => (
+                <li key={index}>{item}</li>
+              ))}
+            </ul>
+          </div>
+        )}
         <div>
-          <h2 className={styles.subTitle}>Accessibility</h2>
-          <ul className={styles.accessibilityList}>
-            <li> Navegação por teclado (Tab, Enter, Escape)</li>
-            <li> ARIA labels e roles</li>
-            <li> Contraste de cores (WCAG AA)</li>
-            <li> Estados de foco visíveis</li>
-          </ul>
-        </div>
-        <div className={styles.variants}>
-          <h2 className={styles.subTitle}>Variantes</h2>
-          <Stories />
-        </div>
-        <div>
-          <h2 className={styles.subTitle}>Exemplos de uso</h2>
-          <DosAndDonts
-            items={teste}
-          />
+          {accessibilityInfo.length > 0 && (
+            <div className={styles.section}>
+              <h2> Accessibility</h2>
+              <ul className={styles.uiList}>
+                {accessibilityInfo.map((item, index) => (
+                  <li key={index}>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+          <div className={styles.variants}>
+            <h2 className={styles.subTitle}>Variants</h2>
+            <Stories />
+          </div>
+          {dosAndDontsData && dosAndDontsData.length > 0 && (
+            <div className={styles.section}>
+              <h2>Do’s and Don’ts</h2>
+              <DosAndDonts items={dosAndDontsData} />
+            </div>
+          )}
+          {aditionalInformations.length > 0 && (
+            <div className={styles.section}>
+              <h2> Aditional Informations</h2>
+              <ul className={styles.uiList}>
+                {aditionalInformations.map((item, index) => (
+                  <li key={index}>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
       </div>
+      <footer className={styles.footer}>teste</footer>
     </>
   );
 };

@@ -13,16 +13,81 @@ import Button, { ButtonProps } from './Button';
 export default {
   title: 'Components/Button',
   component: Button,
-  docs: {
-    description: {
-      component:
-        'Componente de calendário interativo com suporte a internacionalização e diferentes formatos de data.',
-    },
-    usage:{
-      component: 'Uso do componente de botão com diferentes variantes e tamanhos.',
-    }
-  },
+
   parameters: {
+    docs: {
+      description: {
+        component:
+          'Componente de calendário interativo com suporte a internacionalização e diferentes formatos de data.',
+      },
+
+      dosAndDonts: [
+        {
+          do: {
+            example: (
+              <div style={{ display: 'flex', gap: '1rem' }}>
+                <Button variant="text">Cancel</Button>
+                <Button variant="filled">Get started</Button>
+              </div>
+            ),
+            description:
+              'Use active verbs or phrases that clearly indicate action.',
+          },
+          dont: {
+            example: (
+              <div style={{ display: 'flex', gap: '1rem' }}>
+                <Button variant="text">Yes</Button>
+                <Button variant="filled">No</Button>
+              </div>
+            ),
+            description:
+              'Use vague and generic labels that make the user read the dialog before taking action.',
+          },
+        },
+        {
+          do: {
+            example: <Button variant="outlined">Secondary Action</Button>,
+            description:
+              'Use outlined variant for secondary, less important actions.',
+          },
+          dont: {
+            example: <Button variant="filled">Cancel</Button>,
+            description:
+              "Don't use primary variant for destructive or cancel actions.",
+          },
+        },
+        {
+          do: {
+            example: <Button disabled>Save Changes</Button>,
+            description:
+              'Disable buttons when the action is unavailable or invalid.',
+          },
+          dont: {
+            example: (
+              <Button style={{ opacity: 0.5, cursor: 'not-allowed' }}>
+                Save Changes
+              </Button>
+            ),
+            description:
+              "Don't manually style disabled states. Use the disabled prop.",
+          },
+        },
+      ],
+      accessibility: [
+        '✓ Keyboard navigation: Tab, Enter, Space',
+        '✓ ARIA: role="button" for non-button elements',
+        '✓ Focus indicators clearly visible',
+        '✓ Color contrast ratio minimum 4.5:1',
+        '✓ Minimum touch target size: 44x44px',
+      ],
+       usage: [
+        '✓ Keyboard navigation: Tab, Enter, Space',
+      ],
+      aditionalInformations:[
+        'teste',
+        'test2'
+      ]
+    },
     controls: {
       sort: 'alpha',
     },

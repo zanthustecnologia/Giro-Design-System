@@ -24,29 +24,29 @@ export const DosAndDonts: React.FC<DosAndDontsProps> = ({ items }) => {
     <div className={styles.container}>
       {items.map((item, index) => (
         <div key={index} className={styles.comparisonRow}>
-
           {item.do && (
-            <div className={styles.card}>
-              <div className={styles.cardHeader}>
+            <div className={`${styles.wrapperContent} ${styles.do}`}>
+              <div className={styles.card}>{item.do.example}</div>
+              <div className={styles.header}>
                 <span className={styles.icon}>✅</span>
-                <h3 className={styles.cardTitle}>Do</h3>
+                <h3>Do</h3>
               </div>
-              <div className={styles.cardExample}>{item.do.example}</div>
-              <p className={styles.cardDescription}>{item.do.description}</p>
+              <p className={styles.description}>{item.do.description}</p>
             </div>
           )}
           {item.dont && (
-            <div className={styles.card}>
-              <div className={styles.cardHeader}>
+            <div className={`${styles.wrapperContent} ${styles.dont}`}>
+              <div className={styles.card}>{item.dont.example}</div>
+              <div className={styles.header}>
                 <span className={styles.icon}>❌</span>
-                <h3 className={styles.cardTitle}>Don't</h3>
+                <h3>Don't</h3>
               </div>
-              <div className={styles.cardExample}>{item.dont.example}</div>
-              <p className={styles.cardDescription}>{item.dont.description}</p>
+              <p className={styles.description}>{item.dont.description}</p>
             </div>
           )}
         </div>
       ))}
+      
     </div>
   );
 };

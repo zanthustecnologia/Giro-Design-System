@@ -4,6 +4,7 @@
   justify-content: center;
   flex-direction: column;
   gap: var(--spacing-8);
+  font-family: var(--font-family-primary);
 
 }
 .title{
@@ -18,16 +19,30 @@
     font-size: var(--font-size-16);
   }
 }
-.accessibilityList{
-  list-style: none;
-  padding: 0;
-  margin: 0;
+
+.section{
+  padding: 20px;
+  ul{
+    list-style: none;
+  }
+  h2{
+    font-size: var(--font-size-24);
+  }
+}
+.uiList{
   li{
     font-size: var(--font-size-16);
     margin-bottom: var(--spacing-8);
+    text-decoration: none;
   }
 }
 h2.subTitle{
   font-size: var(--font-size-28);
   font-weight: var(--font-weight-medium);
 }
+// .footer{
+//   background-color: red;
+//   display: flex;
+//   justify-content: center;
+//   padding: 80px 0;
+// }
