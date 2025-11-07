@@ -11,22 +11,25 @@
   h1{
     color: var(--color-low-default);
     font-size: var(--font-size-40);
-    font-weight: var(--font-height-bold);
+    font-weight: var(--font-weight-bold);
+
   }
 }
 .description{
   p{
     font-size: var(--font-size-16);
+    font-weight: var(--font-weight-medium);
+    line-height: 24px;
   }
 }
 
 .section{
-  padding: 20px;
   ul{
     list-style: none;
   }
   h2{
-    font-size: var(--font-size-24);
+    font-size: var(--font-size-28);
+    line-height: 30px;
   }
 }
 .uiList{
@@ -38,5 +41,15 @@
 }
 h2.subTitle{
   font-size: var(--font-size-28);
-  font-weight: var(--font-weight-medium);
+  font-weight: var(--font-weight-bold);
+  line-height: 30px;
+}
+h2.titleDos{
+  font-size: var(--font-size-28);
+  font-weight: var(--font-weight-bold);
+}
+.containerSection{
+display: flex;
+  flex-direction: column;
+  gap: var(--spacing-48); 
 }

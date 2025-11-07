@@ -57,34 +57,35 @@ export const CustomAutoDoc = () => {
             <Controls />
           </div>
         </div>
-        {usageInfo.length > 0 && (
-          <div className={styles.section}>
-            <h2>Usage</h2>
-            <ul className={styles.uiList}>
-              {usageInfo.map((item, index) => (
-                <li key={index}>{item}</li>
-              ))}
-            </ul>
-          </div>
-        )}
-        <div>
-          {accessibilityInfo.length > 0 && (
+        <div className={styles.containerSection}>
+          {usageInfo.length > 0 && (
             <div className={styles.section}>
-              <h2> Accessibility</h2>
+              <h2>Usage</h2>
               <ul className={styles.uiList}>
-                {accessibilityInfo.map((item, index) => (
+                {usageInfo.map((item, index) => (
                   <li key={index}>{item}</li>
                 ))}
               </ul>
             </div>
           )}
+          <div>
+            {accessibilityInfo.length > 0 && (
+              <div className={styles.section}>
+                <h2> Accessibility</h2>
+                <ul className={styles.uiList}>
+                  {accessibilityInfo.map((item, index) => (
+                    <li key={index}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
           <div className={styles.variants}>
-            <h2 className={styles.subTitle}>Variants</h2>
-            <Stories />
+            <Stories title="Variants" />
           </div>
           {dosAndDontsData && dosAndDontsData.length > 0 && (
             <div className={styles.section}>
-              <h2>Do’s and Don’ts</h2>
+              <h2 className={styles.titleDos}>Do’s and Don’ts</h2>
               <DosAndDonts items={dosAndDontsData} />
             </div>
           )}
