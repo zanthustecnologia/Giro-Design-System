@@ -81,7 +81,7 @@ export const CustomAutoDoc = () => {
             )}
           </div>
           <div className={styles.variants}>
-            <Stories title="Variants" />
+            <Stories title="" />
           </div>
           {dosAndDontsData && dosAndDontsData.length > 0 && (
             <div className={styles.section}>
