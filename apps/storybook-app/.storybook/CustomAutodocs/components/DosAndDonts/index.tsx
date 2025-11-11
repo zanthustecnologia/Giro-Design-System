@@ -1,8 +1,8 @@
 import styles from './index.module.scss';
 import {
-  CheckboxCheckedRegular,
-  CheckmarkCircleColor,
+  CheckboxCheckedRegular ,
   DismissCircleColor,
+  DismissSquareRegular 
 } from '@fluentui/react-icons';
 
 export interface DosAndDontsItem {
@@ -28,7 +28,7 @@ export const DosAndDonts: React.FC<DosAndDontsProps> = ({ items }) => {
             <div className={`${styles.wrapperContent} ${styles.do}`}>
               <div className={styles.card}>{item.do.example}</div>
               <div className={styles.header}>
-                <span className={styles.icon}>✅</span>
+                <span className={styles.icon}><CheckboxCheckedRegular /></span>
                 <h3>Do</h3>
               </div>
               <p className={styles.description}>{item.do.description}</p>
@@ -38,7 +38,7 @@ export const DosAndDonts: React.FC<DosAndDontsProps> = ({ items }) => {
             <div className={`${styles.wrapperContent} ${styles.dont}`}>
               <div className={styles.card}>{item.dont.example}</div>
               <div className={styles.header}>
-                <span className={styles.icon}>❌</span>
+                <span className={styles.icon}><DismissSquareRegular /></span>
                 <h3>Don't</h3>
               </div>
               <p className={styles.description}>{item.dont.description}</p>

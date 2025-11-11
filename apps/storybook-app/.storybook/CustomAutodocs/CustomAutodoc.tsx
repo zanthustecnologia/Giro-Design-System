@@ -101,6 +101,13 @@ export const CustomAutoDoc = () => {
           )}
         </div>
       </div>
+        <footer className={styles.footer}>
+          <h2>Feedback</h2>
+          <p>
+            Nos ajude a aprimorar o design system fornecendo feedback, tirando
+            dúvidas e deixando qualquer outro comentário
+          </p>
+        </footer>
     </>
   );
 };

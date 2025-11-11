@@ -14,10 +14,10 @@ const preview: Preview = {
       expanded: true,
       sort: 'alpha',
     },
-    docs: {
-      page: CustomAutoDoc,
+    // docs: {
+    //   page: CustomAutoDoc,
   
-    },
+    // },
     layout: 'padded',
     backgrounds: {
       default: 'light',

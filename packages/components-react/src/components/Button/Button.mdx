@@ -1,0 +1,186 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as ButtonStories from './Button.stories';
+import Button from './Button';
+import { DosAndDonts } from '../../../../../apps/storybook-app/.storybook/CustomAutodocs/components/DosAndDonts';
+
+<Meta of={ButtonStories} />
+
+# Button
+
+Buttons allow users to trigger an action or event with a single click.
+For example, you can use a button for allowing the functionality of submitting a form, opening a dialog, canceling an action,
+or performing a delete operation.
+
+<Canvas of={ButtonStories.Default} />
+
+## Import
+
+```js
+import { Button } from '@zanthus/components-react';
+```
+
+## Props
+
+<Controls />
+
+## Usage
+
+- Buttons may contain icon, on the left or the right side
+- Use 8 px spacing between buttons
+- Replace text with a loader if action is submitted, but still processing
+- Button width is set by its content, avoid changing its width
+- Use only one primary button
+
+## Accessibility
+
+- Buttons may contain icon, on the left or the right side
+- Use 8 px spacing between buttons
+- Replace text with a loader if action is submitted, but still processing
+- Button width is set by its content, avoid changing its width
+- Use only one primary button
+
+
+## Button Variants
+
+
+<Canvas of={ButtonStories.Variants} />
+
+### Sizes
+
+<Canvas of={ButtonStories.Sizes} />
+
+### With Icons
+
+<Canvas of={ButtonStories.WithIcons} />
+
+### Icon Only
+
+<Canvas of={ButtonStories.IconOnly} />
+
+## Do's and Don'ts
+
+<DosAndDonts
+  items={[
+    {
+      do: {
+        example: (
+          <div style={{ display: 'flex', gap: '1rem' }}>
+            <Button variant="text">Cancel</Button>
+            <Button variant="filled">Get started</Button>
+          </div>
+        ),
+        description:
+          'Use active verbs or phrases that clearly indicate action.',
+      },
+      dont: {
+        example: (
+          <div style={{ display: 'flex', gap: '1rem' }}>
+            <Button variant="text">Yes</Button>
+            <Button variant="filled">No</Button>
+          </div>
+        ),
+        description:
+          'Use vague and generic labels that make the user read the dialog before taking action.',
+      },
+    },
+    {
+      do: {
+        example: <Button variant="outlined">Secondary Action</Button>,
+        description:
+          'Use outlined variant for secondary, less important actions.',
+      },
+      dont: {
+        example: <Button variant="filled">Cancel</Button>,
+        description:
+          "Don't use primary variant for destructive or cancel actions.",
+      },
+    },
+    {
+      do: {
+        example: <Button disabled>Save Changes</Button>,
+        description:
+          'Disable buttons when the action is unavailable or invalid.',
+      },
+      dont: {
+        example: (
+          <Button style={{ opacity: 0.5, cursor: 'not-allowed' }}>
+            Save Changes
+          </Button>
+        ),
+        description:
+          "Don't manually style disabled states. Use the disabled prop.",
+      },
+    },
+  ]}
+/>
+
+## AditionalInformations
+
+- Buttons may contain icon, on the left or the right side
+- Use 8 px spacing between buttons
+- Replace text with a loader if action is submitted, but still processing
+- Button width is set by its content, avoid changing its width
+- Use only one primary button
+
+  <footer className="footer">
+    <h2>Feedback</h2>
+    <p>
+      Nos ajude a aprimorar o design system fornecendo feedback, tirando dúvidas
+      e deixando qualquer outro comentário
+    </p>
+  </footer>
+
+<style>
+  {`
+  h1{
+    font-size: var(--font-size-32) !important;
+    font-weight: var(--font-weight-bold) !important;
+     font-family: var(--font-family-primary) !important;
+  }
+  li{
+    color: red var(--low-color-default) !important;
+    font-size: var(--font-size-16) !important;
+    font-family: var(--font-family-primary) !important;
+  }
+.footer {
+  width: 100%;
+  background-color: var(--color-neutral-high-light);
+  padding: var(--spacing-32) var(--spacing-32);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  border-top: var(--border-width-1) solid var(--color-neutral-high-medium);
+  margin-top: var(--spacing-40);
+
+  h2 {
+    font-size: var(--font-size-32);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-neutral-low-default);
+    margin: 0 0 var(--spacing-12) 0;
+    border-bottom: none !important;
+  }
+
+  p {
+    font-size: var(--font-size-16);
+    line-height: 1.6;
+    color: var(--color-neutral-low-medium);
+    max-width: 600px;
+    margin: 0;
+  }
+
+  @media (max-width: 768px) {
+    padding: var(--spacing-24) var(--spacing-16);
+    margin-top: var(--spacing-32);
+
+    h2 {
+      font-size: var(--font-size-28);
+    }
+
+    p {
+      font-size: var(--font-size-14);
+    }
+  }
+`}
+</style>

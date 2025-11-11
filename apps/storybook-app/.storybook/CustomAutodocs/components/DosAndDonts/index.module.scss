@@ -41,6 +41,13 @@
 .icon {
   font-size: var(--font-size-24);
   font-weight: var(--font-weight-bold);
+  display: flex;
+  justify-content: center;
+  svg{
+    width: 24px;
+    height: 24px;
+  
+  }
 }
 .description {
   margin: 0;

@@ -10,6 +10,7 @@ const config = {
     '../stories/**/*.mdx',
     '../../../packages/ui/storybook/**/*.stories.@(js|jsx|ts|tsx|mdx)',
     '../../../packages/components-react/src/components/**/*.stories.@(js|jsx|ts|tsx|mdx)',
+     '../../../packages/components-react/src/components/**/*.mdx'
   ],
 
   // Addons recomendados
@@ -24,7 +25,7 @@ const config = {
 
   // Docs por autodocs (opcional, mas útil no DS)
   docs: {
-    autodocs: 'tag'
+    autodocs: false
   },
 
   // Ajustes do Vite para monorepo e @fluentui/react-icons
