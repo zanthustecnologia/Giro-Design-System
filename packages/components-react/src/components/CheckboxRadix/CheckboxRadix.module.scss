@@ -1,0 +1,38 @@
+.Root {
+  all: unset;
+  position: relative;
+  width: 18px;
+  height: 18px;
+  align-items: center;
+  border: var(--border-width-2) solid var(--color-neutral-low-dark);
+  border-radius: var(--border-radius-4);
+  display: flex;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: var(--font-size-16);
+  font-weight: var(--font-weight-regular);
+  transition: all 0.1s ease-in-out;
+
+  &[data-state="checked"] {
+    background-color: var(--color-brand-primary-default);
+  }
+  &:hover{
+    cursor: pointer;
+  }
+}
+
+.Indicator {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.Label {
+  color: rgb(0, 0, 0);
+  padding-left: 15px;
+  font-size: 15px;
+  line-height: 1;
+}
