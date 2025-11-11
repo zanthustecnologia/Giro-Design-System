@@ -1,7 +1,9 @@
 import React from 'react';
 import type { Preview } from '@storybook/react';
+import { CustomAutoDoc } from './CustomAutodocs/CustomAutodoc';
 
 import '../../../packages/tokens/build/css/tokens.css';
+import { UsageGuidelines } from './storybook-blocks/usage-guidelines';
 
 const preview: Preview = {
   parameters: {
@@ -13,6 +15,11 @@ const preview: Preview = {
       expanded: true,
       sort: 'alpha',
     },
+    // docs: {
+    //   page: CustomAutoDoc,
+  
+    // },
+    layout: 'fullscreen',
     backgrounds: {
       default: 'light',
       values: [
