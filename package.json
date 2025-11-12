@@ -12,7 +12,7 @@
     "lint": "turbo run lint",
     "typecheck": "turbo run typecheck",
     "test": "turbo run test",
-    "build-storybook": "turbo run build-storybook --filter=storybook-app --config-dir apps/storybook/.storybook",
+    "build-storybook": "turbo run build-storybook --filter=storybook-react",
     "changeset": "changeset",
     "changeset:version": "changeset version",
     "changeset:publish": "changeset publish --provenance --tag latest",
