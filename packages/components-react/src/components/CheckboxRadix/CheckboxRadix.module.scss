@@ -1,4 +1,10 @@
-.Root {
+.container {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-8);
+}
+
+.root {
   all: unset;
   position: relative;
   width: 18px;
@@ -11,17 +17,30 @@
   flex-shrink: 0;
   font-size: var(--font-size-16);
   font-weight: var(--font-weight-regular);
-  transition: all 0.1s ease-in-out;
+  font-family: var(--font-family-primary);
 
-  &[data-state="checked"] {
+  &[data-state='checked'] {
     background-color: var(--color-brand-primary-default);
+    border: var(--border-width-2) solid var(--color-brand-primary-default);
   }
-  &:hover{
+  &[data-disabled='true'] {
+    border: var(--border-width-2) solid var(--color-neutral-low-light);
+
+    &.disabled {
+      color: var(--color-neutral-low-light);
+    }
+  }
+  &:hover {
     cursor: pointer;
   }
 }
-
-.Indicator {
+.disabled {
+  color: var(--color-neutral-low-light);
+  &.label {
+    color: var(--color-neutral-low-light);
+  }
+}
+.indicator {
   position: absolute;
   width: 18px;
   height: 18px;
@@ -29,10 +48,22 @@
   align-items: center;
   justify-content: center;
 }
-
-.Label {
-  color: rgb(0, 0, 0);
-  padding-left: 15px;
-  font-size: 15px;
+.wrapperCheckbox {
+  width: 40px;
+  height: 40px;
+  transition: all 0.1s ease-in-out;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: var(--border-radius-circular);
+  &:hover:not([data-disabled]) {
+    background-color: var(--color-neutral-high-medium);
+    cursor: pointer;
+  }
+}
+.label {
+  color: var(--color-neutral-low-default);
+  font-size: var(--font-size-16);
+  font-family: var(--font-family-primary);
   line-height: 1;
 }

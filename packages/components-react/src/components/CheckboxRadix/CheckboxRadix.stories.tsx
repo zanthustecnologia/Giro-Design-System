@@ -8,6 +8,6 @@ const meta: Meta<typeof CheckboxRadix> = {
 }
 export default meta;
 
-const Template = () => <CheckboxRadix />;
+const Template = () => <CheckboxRadix onCheckedChange={(e) => console.log(e)} label='teste teste' />;
 
 export const Default = Template.bind({});
