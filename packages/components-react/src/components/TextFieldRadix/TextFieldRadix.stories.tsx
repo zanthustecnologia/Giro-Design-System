@@ -6,6 +6,6 @@ const meta: Meta<typeof TextFieldRadix> = {
   title: 'Components/TextFieldRadix',
 }
 export default meta;
-const Template = () => <TextFieldRadix />;
+const Template = () => <TextFieldRadix standalone={false} name='teste'/>;
 
 export const Default = Template.bind({});
