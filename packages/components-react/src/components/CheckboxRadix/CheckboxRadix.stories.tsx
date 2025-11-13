@@ -31,7 +31,7 @@ export const Default: Story = {
   }   
 }
 export const SelectAll: Story = {
-  render: () => {
+  render: (args) => {
     // Estado dos 3 checkboxes individuais
     const [items, setItems] = useState({
       item1: false,
@@ -89,6 +89,7 @@ export const SelectAll: Story = {
             label="Select All"
             indeterminate={someChecked}
             onCheckedChange={handleSelectAll}
+             
           />
         </div>
         <div
@@ -104,6 +105,7 @@ export const SelectAll: Story = {
             label="Item 1"
             checked={items.item1}
             onCheckedChange={() => handleItemChange('item1')}
+         
           />
 
           <CheckboxRadix
@@ -111,6 +113,7 @@ export const SelectAll: Story = {
             label="Item 2"
             checked={items.item2}
             onCheckedChange={() => handleItemChange('item2')}
+            
           />
 
           <CheckboxRadix
@@ -118,6 +121,7 @@ export const SelectAll: Story = {
             label="Item 3"
             checked={items.item3}
             onCheckedChange={() => handleItemChange('item3')}
+           
           />
         </div>
 

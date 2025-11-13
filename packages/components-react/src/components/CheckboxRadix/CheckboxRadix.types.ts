@@ -1,7 +1,7 @@
 
 export interface CheckboxRadixProps {
   id?: string;
-  label?: string;
+  label: string;
   onCheckedChange?: (checked: boolean) => void;
   defaultChecked?: boolean;
   checked?: boolean;
