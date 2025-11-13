@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { Checkbox } from 'radix-ui';
-// import { CheckIcon } from "@radix-ui/react-icons";
 import styles from './CheckboxRadix.module.scss';
-import CheckSmall from '../Checkbox/CheckSmall';
+import CheckSmall from './components/CheckSmall';
+import CheckHalf from './components/CheckHalf';
 import { CheckboxRadixProps } from './CheckboxRadix.types';
 import clsx from 'clsx';
-import CheckHalf from '../Checkbox/CheckHalf';
+import { useId } from 'react';
 
 const CheckboxRadix: React.FC<CheckboxRadixProps> = ({
   id,
@@ -15,16 +15,24 @@ const CheckboxRadix: React.FC<CheckboxRadixProps> = ({
   defaultChecked,
   disabled,
 	className,
-	indeterminate
+	indeterminate = false
 }) => {
+    const componentId = id || useId();
 		const checkboxRef = React.useRef<HTMLButtonElement>(null);
-
-
-		const handleWrapperClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    
+		const handleWrapperClick = (e: React.MouseEvent<HTMLDivElement | HTMLLabelElement>) => {
 				if (e.target !== checkboxRef.current && !disabled) {
+          	e.stopPropagation();
+            e.preventDefault();
 						checkboxRef.current?.click();
 				}
 		};
+    const handleWrapperKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+      if (e.key === ' ' || e.key === 'Enter') {
+        e.preventDefault();
+        checkboxRef.current?.click();
+      }
+    }
 	return (
     <div className={clsx(styles.container, className)}>
       <div
@@ -33,16 +41,20 @@ const CheckboxRadix: React.FC<CheckboxRadixProps> = ({
         })}
 				 onClick={handleWrapperClick}
 				 role='presentation'
+         tabIndex={disabled ? -1: 0}
+         onKeyDown={handleWrapperKeyDown}
+
       >
         <Checkbox.Root
 					ref={checkboxRef}
           className={styles.root}
           defaultChecked={defaultChecked}
           checked={checked}
-          id={id}
+          id={componentId}
           onCheckedChange={onCheckedChange}
           disabled={disabled}
           data-disabled={disabled}
+          data-indeterminate={indeterminate}
         >
           <Checkbox.Indicator className={styles.indicator}>
             {indeterminate ? <CheckHalf /> : <CheckSmall />}
@@ -52,6 +64,7 @@ const CheckboxRadix: React.FC<CheckboxRadixProps> = ({
       <label
         className={clsx(styles.label, { [styles.disabled]: disabled })}
         htmlFor={id}
+        onClick={handleWrapperClick}
       >
         {label}
       </label>

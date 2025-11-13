@@ -26,6 +26,7 @@
   &[data-disabled='true'] {
     border: var(--border-width-2) solid var(--color-neutral-low-light);
 
+    cursor: not-allowed;
     &.disabled {
       color: var(--color-neutral-low-light);
     }
@@ -38,6 +39,8 @@
   color: var(--color-neutral-low-light);
   &.label {
     color: var(--color-neutral-low-light);
+    cursor: not-allowed;
+  
   }
 }
 .indicator {
@@ -56,9 +59,19 @@
   justify-content: center;
   align-items: center;
   border-radius: var(--border-radius-circular);
-  &:hover:not([data-disabled]) {
+  &:focus-visible {
+      background-color: var(--color-neutral-high-medium);
+      outline: none;
+  }
+  &:hover:not(.disabled) {
     background-color: var(--color-neutral-high-medium);
     cursor: pointer;
+  }
+  &.disabled {
+    cursor: not-allowed;
+    .root{
+      cursor: not-allowed;
+    }
   }
 }
 .label {
@@ -66,4 +79,10 @@
   font-size: var(--font-size-16);
   font-family: var(--font-family-primary);
   line-height: 1;
+  &:hover{
+    cursor: pointer;
+  }
+  &.disabled {
+    cursor: not-allowed;
+  }
 }
