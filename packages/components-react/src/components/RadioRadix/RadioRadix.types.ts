@@ -14,6 +14,7 @@ export interface RadioGroupProps {
   onValueChange?: (value: string) => void;
   defaultValue?: string;
   name?: string;
+  ariaLabel?: string;
 
 
 }
