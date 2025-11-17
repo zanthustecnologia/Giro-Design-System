@@ -16,6 +16,7 @@ const CheckboxRadix: React.FC<CheckboxRadixProps> = ({
   disabled,
   className,
   indeterminate = false,
+  ...rest
 }) => {
   const componentId = id || useId();
   const checkboxRef = React.useRef<HTMLButtonElement>(null);
@@ -57,6 +58,7 @@ const CheckboxRadix: React.FC<CheckboxRadixProps> = ({
           data-disabled={disabled}
           data-indeterminate={indeterminate}
           aria-checked={indeterminate ? 'mixed' : checked ? 'true' : 'false'}
+          {...rest}
         >
           <Checkbox.Indicator className={styles.indicator}>
             {indeterminate ? <CheckHalf /> : <CheckSmall />}
