@@ -28,18 +28,19 @@ const RadioRadix: React.FC<RadioGroupProps> = ({
     >
       {items.map(({ id, value, disabled, label }, index) => {
         const itemKey = id ?? value ?? `radio-${index}`;
+        const uniqueId = `${componentId}-item-${value}`;
         return (
           <div
             key={itemKey}
             className={clsx(styles.wrapper, { [styles.disabled]: disabled })}
           >
-            <label className={styles.labelWrapper} htmlFor={String(id)}>
+            <label className={styles.labelWrapper} htmlFor={uniqueId}>
               <div className={styles.itemWrapper}>
                 <RadioGroup.Item
                   disabled={disabled}
                   className={styles.item}
                   value={value}
-                  id={String(id)}
+                  id={uniqueId}
                   data-disabled={disabled}
                 >
                   <RadioGroup.Indicator className={styles.indicator} />
