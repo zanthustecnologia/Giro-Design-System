@@ -6,6 +6,12 @@ import RadioRadix from "./RadioRadix";
 const meta: Meta<typeof RadioRadix> = {
   component: RadioRadix,
   title: 'Components/RadioRadix',
+  argTypes:{
+    orientation: {
+      control: 'select',
+      options: ['vertical', 'horizontal']
+    }
+  }
 
 };
 export default meta;
@@ -13,7 +19,7 @@ export default meta;
 type Story = StoryObj<typeof RadioRadix>;
 
 // Mock de dados
-export const mockRadioItems: RadioProps[] = [
+const mockRadioItems: RadioProps[] = [
   {
     id: 'radio-1',
     value: 'option-1',
@@ -48,5 +54,5 @@ export const mockRadioItems: RadioProps[] = [
 
 // ✅ Story correta
 export const Default: Story = {
-  render: (args) => <RadioRadix items={mockRadioItems} orientation='vertical' onValueChange={(e) => console.log(e)} defaultValue='option-1' />,
+  render: (args) => <RadioRadix items={mockRadioItems} orientation={args.orientation} onValueChange={(e) => console.log(e)} defaultValue='option-1' />,
 };
