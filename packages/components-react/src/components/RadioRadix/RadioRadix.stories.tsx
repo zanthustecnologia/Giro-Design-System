@@ -52,7 +52,6 @@ const mockRadioItems: RadioProps[] = [
   },
 ];
 
-// ✅ Story correta
 export const Default: Story = {
   render: (args) => <RadioRadix items={mockRadioItems} orientation={args.orientation} onValueChange={(e) => console.log(e)} defaultValue='option-1' />,
 };
