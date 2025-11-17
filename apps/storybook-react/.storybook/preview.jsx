@@ -22,13 +22,15 @@ const preview = {
     options: {
       storySort: {
         order: [
-          'General',
+          'Welcome',
           'Foundation',
           'Components',
           'Patterns',
           '*', // Todas as outras histórias
         ],
       },
+      // Define a história inicial
+      initialActive: 'general-welcome--docs',
     },
   },
 
