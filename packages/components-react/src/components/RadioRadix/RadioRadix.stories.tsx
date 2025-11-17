@@ -6,6 +6,7 @@ import RadioRadix from "./RadioRadix";
 const meta: Meta<typeof RadioRadix> = {
   component: RadioRadix,
   title: 'Components/RadioRadix',
+
 };
 export default meta;
 
@@ -47,9 +48,5 @@ export const mockRadioItems: RadioProps[] = [
 
 // ✅ Story correta
 export const Default: Story = {
-  render: () => <RadioRadix items={mockRadioItems} onValueChange={(e) => console.log(e)} defaultValue='option-1'/>,
-  args: {
-    // items: mockRadioItems,
-    defaultValue: 'option-1',
-  },
+  render: (args) => <RadioRadix items={mockRadioItems} onValueChange={(e) => console.log(e)} defaultValue='option-1' />,
 };

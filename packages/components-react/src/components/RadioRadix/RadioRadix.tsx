@@ -9,6 +9,7 @@ const RadioRadix: React.FC<RadioGroupProps> = ({
   defaultValue,
   name,
   id,
+  ...rest
 }) => {
   const componentId = id || useId();
   return (
@@ -16,9 +17,9 @@ const RadioRadix: React.FC<RadioGroupProps> = ({
       id={componentId}
       className={styles.root}
       defaultValue={defaultValue}
-      aria-label="View density"
       onValueChange={onValueChange}
       name={name}
+      {...rest}
     >
       {items.map(({ id, value, disabled, label }) => {
         return (

@@ -125,16 +125,11 @@
   line-height: 1.5;
 }
 
-/* Disabled label */
-.wrapper:has(.item[data-disabled='true']) .label {
-  color: var(--color-neutral-low-light);
-  cursor: not-allowed;
-}
 
 /* Disabled wrapper */
-.wrapper:has(.Item[data-disabled='true']) {
-  pointer-events: none;
-  opacity: 0.5;
+.wrapper:has(.item[data-disabled='true']) {
+  cursor: not-allowed;
+  // opacity: 0.5;
 }
 
 /* Disabled hover state prevention */
