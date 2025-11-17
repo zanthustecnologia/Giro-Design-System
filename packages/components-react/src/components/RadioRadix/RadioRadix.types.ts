@@ -15,6 +15,7 @@ export interface RadioGroupProps {
   defaultValue?: string;
   name?: string;
   ariaLabel?: string;
+  orientation?: "horizontal" | "vertical";
 
 
 }

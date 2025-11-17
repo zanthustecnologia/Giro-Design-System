@@ -10,6 +10,7 @@ const RadioRadix: React.FC<RadioGroupProps> = ({
   name,
   id,
   ariaLabel,
+  orientation = 'vertical',
   ...rest
 }) => {
   const componentId = id || useId();
@@ -21,11 +22,17 @@ const RadioRadix: React.FC<RadioGroupProps> = ({
       onValueChange={onValueChange}
       name={name}
       aria-label={ariaLabel}
+      data-orientation={orientation}
+      orientation={orientation}
       {...rest}
     >
-      {items.map(({ id, value, disabled, label }) => {
+      {items.map(({ id, value, disabled, label }, index) => {
+        const itemKey = id ?? value ?? `radio-${index}`;
         return (
-          <div key={id} className={clsx(styles.wrapper, { [styles.disabled]: disabled })}>
+          <div
+            key={itemKey}
+            className={clsx(styles.wrapper, { [styles.disabled]: disabled })}
+          >
             <label className={styles.labelWrapper} htmlFor={String(id)}>
               <div className={styles.itemWrapper}>
                 <RadioGroup.Item
