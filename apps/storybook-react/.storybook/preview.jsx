@@ -22,10 +22,10 @@ const preview = {
     options: {
       storySort: {
         order: [
-          'Boas-vindas',
-          'Primeiros passos',
-          'Fundações',
-          'Componentes',
+          'General',
+          'Foundation',
+          'Components',
+          'Patterns',
           '*', // Todas as outras histórias
         ],
       },
