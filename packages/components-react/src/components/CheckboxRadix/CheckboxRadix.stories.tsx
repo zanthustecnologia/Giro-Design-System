@@ -26,7 +26,7 @@ export const Default: Story = {
   args:{
     label: 'Checkbox',
     disabled: false,
-    indeterminate: false
+    indeterminate: false,
 
   }   
 }

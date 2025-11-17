@@ -12,7 +12,6 @@ const CheckboxRadix: React.FC<CheckboxRadixProps> = ({
   label,
   onCheckedChange,
   checked,
-  defaultChecked,
   disabled,
   className,
   indeterminate = false,
@@ -50,7 +49,6 @@ const CheckboxRadix: React.FC<CheckboxRadixProps> = ({
         <Checkbox.Root
           ref={checkboxRef}
           className={styles.root}
-          defaultChecked={defaultChecked}
           checked={checked}
           id={componentId}
           onCheckedChange={onCheckedChange}
