@@ -1,0 +1,131 @@
+/* ===== LAYOUT PRINCIPAL ===== */
+.container {
+  padding-left: var(--spacing-16);
+}
+
+.container p {
+  font-weight: var(--font-weight-regular);
+  color: var(--color-neutral-low-dark);
+}
+
+/* ===== HERO SECTION ===== */
+.componenteNameModule {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  position: relative;
+  background: var(--color-neutral-high-light);
+  border-radius: var(--border-radius-4);
+  height: 200px;
+  margin-bottom: var(--spacing-24);
+  overflow: hidden;
+}
+
+.componenteNameModuleText {
+  padding-left: var(--spacing-48);
+  max-width: 60%;
+}
+
+.componenteNameModuleText h1 {
+  font-size: var(--font-size-40);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-brand-primary-default);
+}
+
+.componenteNameModuleImg {
+  position: absolute;
+  left: 345px;
+  top: 0;
+  height: 100%;
+  width: 200%;
+  overflow: hidden;
+}
+
+.componenteNameModuleImg img {
+  width: 950px;
+  margin-left: -340px;
+}
+
+/* ===== INTRO SECTION ===== */
+.componentModuleIntro {
+  margin-bottom: var(--spacing-56);
+}
+
+.componentModuleIntro .description {
+  font-size: var(--font-size-24);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-neutral-low-dark);
+}
+
+/* ===== SECTION TITLE ===== */
+.sectionTitle h2 {
+  font-size: var(--font-size-32);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-neutral-low-default);
+  margin-bottom: var(--spacing-32);
+}
+
+/* ===== CARDS SECTION ===== */
+.sectionGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-16);
+  margin-bottom: var(--spacing-56);
+}
+
+.card {
+  border: var(--border-width-1) solid var(--color-neutral-high-medium);
+  padding: var(--spacing-16);
+  border-radius: var(--border-radius-8);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.card img {
+  margin-bottom: var(--spacing-16);
+}
+
+.card h4 {
+  font-size: var(--font-size-20);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-neutral-low-default);
+}
+
+.card p {
+  margin-bottom: var(--spacing-24);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-neutral-low-dark);
+}
+
+/* ===== MEDIA QUERIES ===== */
+@media screen and (max-width: 800px) {
+  .componenteNameModuleImg {
+    left: 300px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .sectionGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .componenteNameModuleText {
+    padding-left: var(--spacing-24);
+  }
+
+  .componenteNameModuleImg {
+    right: 0;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    height: auto;
+    width: 124%;
+  }
+
+  .componenteNameModuleImg img {
+    width: 1200px;
+    margin-left: -24px;
+    margin-bottom: -40px;
+  }
+}

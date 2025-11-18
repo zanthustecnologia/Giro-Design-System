@@ -1,13 +1,10 @@
 .docsFooter {
-  width: 100vw;
-  position: relative;
-  left: 50%;
-  right: 50%;
-  margin-left: -50vw;
-  margin-right: -50vw;
+  width: 100%;
+  position: absolute;
+  left: 0;
   background-color: var(--color-neutral-high-light);
   border-top: var(--border-width-1) solid var(--color-neutral-high-medium);
-  margin-top: var(--spacing-40);
+  margin-top: var(--spacing-40) !important;
   margin-bottom: 0;
   padding: 40px 0;
   display: flex;
@@ -18,13 +15,11 @@
   max-width: 1200px;
   min-width: 640px;
   margin: 0 120px;
-  display: flex;
-  align-items: flex-start;
+  padding-left: 120px;
 }
 .docsFooterTitles {
   max-width: 320px;
   flex-shrink: 0;
-  margin-right: 80px;
 }
 .docsFooter h2 {
   font-size: 32px;
