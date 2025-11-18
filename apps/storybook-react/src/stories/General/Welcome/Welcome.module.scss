@@ -1,6 +1,11 @@
 /* ===== LAYOUT PRINCIPAL ===== */
 .container {
   padding-left: var(--spacing-16);
+  font-family: var(--font-family-primary, 'Figtree', sans-serif) !important;
+  
+  :global(*) {
+    font-family: var(--font-family-primary, 'Figtree', sans-serif) !important;
+  }
 }
 
 .container p {
@@ -48,11 +53,11 @@
 
 /* ===== INTRO SECTION ===== */
 .componentModuleIntro {
-  margin-bottom: var(--spacing-56);
+  margin-top: var(--spacing-16) !important;
 }
 
 .componentModuleIntro .description {
-  font-size: var(--font-size-24);
+  font-size: var(--font-size-20);
   font-weight: var(--font-weight-regular);
   color: var(--color-neutral-low-dark);
 }
