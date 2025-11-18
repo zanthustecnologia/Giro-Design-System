@@ -1,0 +1,32 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as AvatarStories from './Avatar.stories';
+import { Avatar } from '@zanthus/react';
+import { UsageGuidelines } from '../../../internal-components/mdx/usage-guidelines';
+import { ComponentRules } from '../../../internal-components/mdx/component-rules';
+import { Footer } from '../../../internal-components/mdx/footer';
+import { GlobalDocsStyles } from '../../../internal-components/mdx/global-docs-styles';
+
+<Meta of={AvatarStories} />
+
+<GlobalDocsStyles />
+
+# Button
+
+Botões são utilizados para iniciar ações e servem para usuários tomarem decisões em uma interface com apenas um clique.
+
+<Canvas of={AvatarStories.Default} />
+
+## Import
+
+```js
+import { Avatar } from '@zanthus/components-react';
+```
+
+## Props
+
+<Controls />
+
+
+
+
+<Footer />

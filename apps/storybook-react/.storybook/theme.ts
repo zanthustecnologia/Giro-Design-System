@@ -11,7 +11,7 @@ export const ZanthusTheme = create({
 
   // Paleta principal (estilo Vibe)
   colorPrimary: '#3b45f2',   // azul principal
-  colorSecondary: '#8cd92a', // verde de apoio (se quiser depois a gente suaviza)
+  colorSecondary: '#505255', // verde de apoio (se quiser depois a gente suaviza)
 
   // Top bar (clara, com acento azul)
   barBg: '#ffffff',
@@ -26,7 +26,7 @@ export const ZanthusTheme = create({
 
   // Bordas e “cards”
   appBorderColor: '#e2e4ea',
-  appBorderRadius: 12,
+  appBorderRadius: 8,
 
   // Tipografia
   fontBase: '"Figtree", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
