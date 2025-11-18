@@ -9,7 +9,6 @@ interface UsageGuidelinesProps {
 export const UsageGuidelines: React.FC<UsageGuidelinesProps> = ({ guidelines }) => {
   return (
     <div className={styles.usageGuidelines}>
-      <h2>Usage Guidelines</h2>
       <ul>
         {guidelines.map((guideline, index) => (
           <li key={index}>{guideline}</li>

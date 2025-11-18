@@ -9,63 +9,45 @@ import { Footer } from '../../../internal-components/mdx/Footer/Footer';
 
 # Button
 
-Botões são utilizados para iniciar ações e servem para usuários tomarem decisões em uma interface com apenas um clique.
+Botões são componentes interativos que acionam uma função, navegação ou mudança de estado na interface. 
+Eles indicam ações principais e secundárias, ajudando usuários a decidir “o que fazer em seguida”.
 
 <Canvas of={ButtonStories.Default} />
 
-## Import
+## Importação
 
 ```js
 import { Button } from '@zanthus/components-react';
 ```
 
-## Props
+## Propriedades
 
 <Controls />
 
 ## Uso
 
-- Botões podem conter ícones à esquerda ou à direita
-- Use 16px px de espaçamento entre botões
-- A largura do botão é definida pelo seu contéudo. Evite alterar a largura do botão
-- Use apenas um botão primário
-
 <UsageGuidelines
   guidelines={[
     <>
-      Using an <code>id</code> is recommended for all instances to ensure proper label association.
+      Botões podem conter ícones à esquerda ou à direita.
     </>,
     <>
-      Always provide descriptive text content for buttons, or use <code>ariaLabel</code> prop when buttons contain only
-      icons.
+      A largura do botão é definida pelo seu contéudo. Evite alterar a largura do botão.
     </>,
     <>
-      Use <code>ariaLabel</code> prop when you need to provide a custom accessible name that differs from the visible
-      button text or for icon-only buttons.
+      Para casos onde o botão deve ocupar a linha inteira (ex.: mobile), use <code>fullWidth</code>.
     </>,
     <>
-      Use <code>ariaLabeledBy</code> prop when an external element provides the accessible name for the button.
+      Mantenha espaçamento horizontal mínimo de 16px entre botões.
     </>,
     <>
-      Use <code>ariaHasPopup</code> prop when the button triggers a popup menu or dialog.
+      Dentro de um mesmo contexto visual (card, seção, modal, página de fluxo), mantenha somente um botão primário.
     </>,
-    <>
-      Use <code>ariaExpanded</code> prop to indicate when a popup triggered by the button is open or closed.
-    </>,
-    <>
-      Use <code>ariaControls</code> prop to link the button to the element it controls.
-    </>,
-    <>
-      Use <code>aria-describedby</code> prop when additional descriptive text is needed for the button.
-    </>,
-    <>
-      Use <code>aria-pressed</code> prop for toggle buttons to indicate their current pressed state.
-    </>
+    
   ]}
 />
 
-
-## Button Variants
+## Variações
 
 
 <Canvas of={ButtonStories.Variants} />
