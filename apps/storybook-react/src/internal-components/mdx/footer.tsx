@@ -29,7 +29,7 @@ export const Footer: React.FC<FooterProps> = ({
           border-top: var(--border-width-1) solid var(--color-neutral-high-medium);
           margin-top: var(--spacing-40);
           margin-bottom: 0;
-          padding: 80px 0;
+          padding: 40px 0;
           display: flex;
           justify-content: center;
         }

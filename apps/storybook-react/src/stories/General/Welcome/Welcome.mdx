@@ -10,8 +10,13 @@ import Consistency from "../../../assets/consistency.png";
 import Quality from "../../../assets/quality.png";
 import UserCentered from "../../../assets/user-centered.png";
 import Evolution from "../../../assets/evolution.png";
+import { Footer } from '../../../internal-components/mdx/footer';
+import { GlobalDocsStyles } from '../../../internal-components/mdx/global-docs-styles';
+
+
 
 <Meta title="Welcome" />
+<GlobalDocsStyles />
 
 <div className="container">
   <div className='componente-name-module'>
@@ -99,10 +104,7 @@ import Evolution from "../../../assets/evolution.png";
 
   </div>
 
-  <div className='section-title'>
-  <h2>Feedback</h2>
-  </div>
-  <p>Nos ajude a aprimorar o design system fornecendo feedback, tirando dúvidas e deixando qualquer outro comentário <a href="https://forms.gle/QbXn8K3qBb1m1W737" target="_blank">neste formulário</a></p>
+  <Footer />
 </div>
 
 
@@ -110,8 +112,7 @@ import Evolution from "../../../assets/evolution.png";
   {`
   /* ===== LAYOUT PRINCIPAL ===== */
 .container {
-  margin-bottom: var(--spacing-48);
-  padding: var(--spacing-16);
+  padding-left: var(--spacing-16);
 }
 
 .container p {
