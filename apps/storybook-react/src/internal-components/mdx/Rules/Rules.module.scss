@@ -1,0 +1,55 @@
+.componentRules {
+  margin: var(--spacing-32) 0;
+}
+.ruleRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-24);
+  margin-bottom: 56px;
+}
+.ruleItem {
+  display: flex;
+  flex-direction: column;
+}
+.ruleColumn {
+  display: flex;
+  flex-direction: column;
+  padding: var(--spacing-16);
+  border-radius: var(--border-radius-8);
+  background-color: var(--color-neutral-high-light);
+  margin-bottom: var(--spacing-12);
+}
+.ruleHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-8);
+  margin-bottom: var(--spacing-8);
+  font-size: var(--font-size-16);
+  font-weight: var(--font-weight-bold);
+}
+.ruleItem.positive .icon {
+  color: var(--c-success);
+}
+.ruleItem.negative .icon {
+  color: var(--c-error);
+}
+.ruleExample {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-12);
+  padding: var(--spacing-24);
+  border-radius: var(--border-radius-4);
+  min-height: 80px;
+}
+.ruleDescription {
+  font-size: var(--font-size-16);
+  line-height: 1.6;
+  color: var(--color-neutral-low-default);
+  margin: 0;
+}
+@media (max-width: 768px) {
+  .ruleRow {
+    grid-template-columns: 1fr;
+  }
+}

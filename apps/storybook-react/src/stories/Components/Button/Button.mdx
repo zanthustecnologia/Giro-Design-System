@@ -1,0 +1,133 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as ButtonStories from './Button.stories';
+import { Button } from '@zanthus/react';
+import { UsageGuidelines } from '../../../internal-components/mdx/UsageGuidelines/UsageGuidelines';
+import { ComponentRules } from '../../../internal-components/mdx/Rules/Rules';
+import { Footer } from '../../../internal-components/mdx/Footer/Footer';
+
+<Meta of={ButtonStories} />
+
+# Button
+
+Botões são utilizados para iniciar ações e servem para usuários tomarem decisões em uma interface com apenas um clique.
+
+<Canvas of={ButtonStories.Default} />
+
+## Import
+
+```js
+import { Button } from '@zanthus/components-react';
+```
+
+## Props
+
+<Controls />
+
+## Uso
+
+- Botões podem conter ícones à esquerda ou à direita
+- Use 16px px de espaçamento entre botões
+- A largura do botão é definida pelo seu contéudo. Evite alterar a largura do botão
+- Use apenas um botão primário
+
+<UsageGuidelines
+  guidelines={[
+    <>
+      Using an <code>id</code> is recommended for all instances to ensure proper label association.
+    </>,
+    <>
+      Always provide descriptive text content for buttons, or use <code>ariaLabel</code> prop when buttons contain only
+      icons.
+    </>,
+    <>
+      Use <code>ariaLabel</code> prop when you need to provide a custom accessible name that differs from the visible
+      button text or for icon-only buttons.
+    </>,
+    <>
+      Use <code>ariaLabeledBy</code> prop when an external element provides the accessible name for the button.
+    </>,
+    <>
+      Use <code>ariaHasPopup</code> prop when the button triggers a popup menu or dialog.
+    </>,
+    <>
+      Use <code>ariaExpanded</code> prop to indicate when a popup triggered by the button is open or closed.
+    </>,
+    <>
+      Use <code>ariaControls</code> prop to link the button to the element it controls.
+    </>,
+    <>
+      Use <code>aria-describedby</code> prop when additional descriptive text is needed for the button.
+    </>,
+    <>
+      Use <code>aria-pressed</code> prop for toggle buttons to indicate their current pressed state.
+    </>
+  ]}
+/>
+
+
+## Button Variants
+
+
+<Canvas of={ButtonStories.Variants} />
+
+### Sizes
+
+<Canvas of={ButtonStories.Sizes} />
+
+### With Icons
+
+<Canvas of={ButtonStories.WithIcons} />
+
+### Icon Only
+
+<Canvas of={ButtonStories.IconOnly} />
+
+
+## O que fazer e não fazer
+<ComponentRules
+  rules={[
+    {
+      positive: {
+        component: <Button>Get started</Button>,
+        description: "Use 1 or 2 words, no longer than 4 words, with fewer than 20 characters including spaces."
+      },
+      negative: {
+        component: <Button>Get started and enjoy discount!</Button>,
+        description: "Don’t use punctuation marks such as periods or exclamation points."
+      }
+    },
+    {
+      positive: {
+        component: <Button>Get started</Button>,
+        description: "Use sentence-case capitalization."
+      },
+      negative: {
+        component: [<Button>Get Started</Button>, <Button>GET STARTED</Button>],
+        description: "Don’t use title case captalization or all caps."
+      }
+    },
+    {
+      positive: {
+        component: [<Button kind="tertiary">Cancel</Button>, <Button>Get started</Button>],
+        description: "Use primary button as the main action , put the tertiary as the second option."
+      },
+      negative: {
+        component: [<Button>Get started</Button>, <Button kind="secondary">Cancel</Button>],
+        description: "Use primary button next to secondary."
+      }
+    },
+    {
+      positive: {
+        component: [<Button kind="tertiary">Cancel</Button>, <Button>Get started</Button>],
+        description: "Use active verbs or phrases that clearly indicate action."
+      },
+      negative: {
+        component: [<Button kind="tertiary">Yes</Button>, <Button>No</Button>],
+        description: "Use vague and generic labels that make the user read the dialog before taking action."
+      }
+    }
+  ]}
+/>
+
+
+<Footer />
