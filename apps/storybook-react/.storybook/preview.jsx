@@ -3,6 +3,7 @@ import '../../../packages/tokens/build/css/tokens.css';
 import '../../../packages/react/dist/styles.css';
 import '../src/styles/globals.scss';
 import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
 
 /** @type { import('@storybook/react-vite').Preview } */
 const preview = {
@@ -59,11 +60,11 @@ const preview = {
       }
 
       return (
-        <Theme
-          appearance={theme}
-        >
-          <Story></Story>
-        </Theme>
+        <BrowserRouter>
+          <Theme appearance={theme}>
+            <Story />
+          </Theme>
+        </BrowserRouter>
       );
     },
   ],
