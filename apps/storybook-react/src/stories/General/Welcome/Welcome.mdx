@@ -16,8 +16,7 @@ import styles from './Welcome.module.scss';
 
 <Meta title="Welcome" />
 
-<div className={styles.container}>
-  <div className={styles.componenteNameModule}>
+<div className="docs-hero">
   <div className={styles.componenteNameModuleText}>
     <h1>Zanthus Design System</h1>
   </div>
@@ -26,81 +25,67 @@ import styles from './Welcome.module.scss';
   </div>
 </div>
 
-
-  <div className={styles.componentModuleIntro}>
-    <span className={styles.description}>Aqui você encontra o guia do nosso design system, documentação dos componentes e recursos para criar experiências digitais excepcionais com qualidade, acessibilidade e consistência.</span> 
-  </div>
-
-  <div className={styles.sectionTitle}>
-  <h2>O que você encontrará aqui</h2>
-  </div>
-  
-  <div className={styles.sectionGrid}>
-    
-    <div className={styles.card}>
-      <img src={GettingStarted} alt="Um ícone de uma lâmpada incandescente"/>
-      <h4>Primeiros passos</h4>
-      <p>Boas-vindas e instruções sobre como utilizar o Zanthus Design System</p>
-      <a href="#" target="_blank">Saiba mais</a>
-    </div>
-
-    <div className={styles.card}>
-      <img src={Foundations} alt="Tudo sobre os design tokens: cor, tipografia, espaçamento e bordas"/>
-      <h4>Fundações</h4>
-      <p>Tudo sobre os design tokens: cor, tipografia, espaçamento e bordas</p>
-      <a href="#" target="_blank">Saiba mais</a>
-    </div>
-
-    <div className={styles.card}>
-      <img src={Components} alt="A representation of typography and image assets" />
-      <h4>Componentes</h4>
-      <p>Toda a informação e guias sobre cada componente</p>
-      <a href="#" target="_blank">Saiba mais</a>
-    </div>
-  </div>
-
-  <div className={styles.sectionTitle}>
-  <h2>Princípios do nosso design system</h2>
-  </div>
-  
-  <div className={styles.sectionGrid}>
-    
-    <div className={styles.card}>
-      <img src={Simplicity} alt="Um ícone de uma lâmpada incandescente"/>
-      <h4>Simplicidade</h4>
-      <p>Nosso design system foi projetado para ser simples e intuitivo, composto por elementos universais, facilmente reconhecíveis e modernos. </p>
-      
-    </div>
-
-    <div className={styles.card}>
-      <img src={Consistency} alt="Tudo sobre os design tokens: cor, tipografia, espaçamento e bordas"/>
-      <h4>Consistência</h4>
-      <p>Cada elemento foi projetado para funcionar com harmonia em conjunto, garantindo uma experiência consistente e coesa.</p>
-      
-    </div>
-
-    <div className={styles.card}>
-      <img src={Quality} alt="A representation of typography and image assets" />
-      <h4>Qualidade</h4>
-      <p>Respeitamos o tempo dos usuário por meio de um trabalho cuidadoso e atenção a cada detalhe.</p>
-      
-    </div>
-
-    <div className={styles.card}>
-      <img src={UserCentered} alt="Tudo sobre os design tokens: cor, tipografia, espaçamento e bordas"/>
-      <h4>Usuário em primeiro lugar</h4>
-      <p>No centro de cada decisão estão os desejos e as necessidades dos usuários. Nosso design system é focado em pessoas reais.</p>
-      
-    </div>
-
-    <div className={styles.card}>
-      <img src={Evolution} alt="A representation of typography and image assets" />
-      <h4>Evolução contínua</h4>
-      <p>Nosso design system é dinâmico, estando sempre em evolução e aprimoramento.</p>
-      
-    </div>
-
-  </div>
-
-  <Footer />
+<div className={styles.componentModuleIntro}>
+  <span className={styles.description}>Aqui você encontra o guia do nosso design system, documentação dos componentes e recursos para criar experiências digitais excepcionais com qualidade, acessibilidade e consistência.</span> 
 </div>
+
+## O que você encontrará aqui
+
+<div className="docs-grid">
+  <div className="docs-card">
+    <img src={GettingStarted} alt="Um ícone de uma lâmpada incandescente"/>
+    <h4>Primeiros passos</h4>
+    <p>Boas-vindas e instruções sobre como utilizar o Zanthus Design System</p>
+    <a href="#" target="_blank">Saiba mais</a>
+  </div>
+
+  <div className="docs-card">
+    <img src={Foundations} alt="Tudo sobre os design tokens: cor, tipografia, espaçamento e bordas"/>
+    <h4>Fundações</h4>
+    <p>Tudo sobre os design tokens: cor, tipografia, espaçamento e bordas</p>
+    <a href="#" target="_blank">Saiba mais</a>
+  </div>
+
+  <div className="docs-card">
+    <img src={Components} alt="A representation of typography and image assets" />
+    <h4>Componentes</h4>
+    <p>Toda a informação e guias sobre cada componente</p>
+    <a href="#" target="_blank">Saiba mais</a>
+  </div>
+</div>
+
+## Princípios do nosso design system
+
+<div className="docs-grid">
+  <div className="docs-card">
+    <img src={Simplicity} alt="Um ícone de uma lâmpada incandescente"/>
+    <h4>Simplicidade</h4>
+    <p>Nosso design system foi projetado para ser simples e intuitivo, composto por elementos universais, facilmente reconhecíveis e modernos. </p>
+  </div>
+
+  <div className="docs-card">
+    <img src={Consistency} alt="Tudo sobre os design tokens: cor, tipografia, espaçamento e bordas"/>
+    <h4>Consistência</h4>
+    <p>Cada elemento foi projetado para funcionar com harmonia em conjunto, garantindo uma experiência consistente e coesa.</p>
+  </div>
+
+  <div className="docs-card">
+    <img src={Quality} alt="A representation of typography and image assets" />
+    <h4>Qualidade</h4>
+    <p>Respeitamos o tempo dos usuário por meio de um trabalho cuidadoso e atenção a cada detalhe.</p>
+  </div>
+
+  <div className="docs-card">
+    <img src={UserCentered} alt="Tudo sobre os design tokens: cor, tipografia, espaçamento e bordas"/>
+    <h4>Usuário em primeiro lugar</h4>
+    <p>No centro de cada decisão estão os desejos e as necessidades dos usuários. Nosso design system é focado em pessoas reais.</p>
+  </div>
+
+  <div className="docs-card">
+    <img src={Evolution} alt="A representation of typography and image assets" />
+    <h4>Evolução contínua</h4>
+    <p>Nosso design system é dinâmico, estando sempre em evolução e aprimoramento.</p>
+  </div>
+</div>
+
+<Footer />

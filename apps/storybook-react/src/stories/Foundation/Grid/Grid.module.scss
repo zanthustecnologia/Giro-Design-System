@@ -2,16 +2,10 @@
   --c-grey: #a6a8aa;
   --c-blue: #6366f1
 }
-body {
-  font-family: system-ui, sans-serif;
-  background: #f9fafb;
-  color: #111827;
-}
-main {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 32px 20px;
-}
+
+/* Removido: body com font-family (já está global via preview-head.html) */
+/* Removido: main com padding (substituído por .docs-container) */
+
 h1 {
   font-size: 28px;
   font-weight: 700;

@@ -73,26 +73,29 @@
     padding: 32px 0 0 0 !important;
   }
 
-  /* Controle de largura e margens do conteúdo */
+  /* Controle de largura e margens do conteúdo - PADRONIZADO */
   .sbdocs.sbdocs-content {
     max-width: 1200px !important;
     min-width: 640px !important;
-    margin: 0 120px !important;
+    margin: 0 var(--spacing-64, 64px) !important;
   }
 
-  @media screen and (max-width: 1200px) {
+  /* Breakpoint 1440px - large desktop */
+  @media screen and (max-width: 1440px) {
     .sbdocs.sbdocs-content {
-      max-width: 900px !important;
-      margin: 0 80px !important;
+      margin: 0 var(--spacing-64, 64px) !important;
     }
   }
 
+  /* Breakpoint 1024px - desktop */
   @media screen and (max-width: 1024px) {
     .sbdocs.sbdocs-content {
-      margin: 0 120px !important;
+      max-width: 900px !important;
+      margin: 0 var(--spacing-48, 48px) !important;
     }
   }
 
+  /* Breakpoint 768px - tablet */
   @media screen and (max-width: 768px) {
     .sbdocs.sbdocs-content {
       min-width: auto !important;

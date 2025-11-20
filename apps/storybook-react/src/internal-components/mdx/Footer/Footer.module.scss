@@ -4,9 +4,9 @@
   left: 0;
   background-color: var(--color-neutral-high-light);
   border-top: var(--border-width-1) solid var(--color-neutral-high-medium);
-  margin-top: var(--spacing-40) !important;
+  margin-top: var(--spacing-48) !important;
   margin-bottom: 0;
-  padding: 40px 0;
+  padding: var(--spacing-48) 0;
   display: flex;
   justify-content: center;
 }
@@ -14,58 +14,61 @@
   flex: 1;
   max-width: 1200px;
   min-width: 640px;
-  margin: 0 120px;
-  padding-left: 120px;
+  margin: 0 var(--spacing-64);
 }
 .docsFooterTitles {
   max-width: 320px;
   flex-shrink: 0;
 }
 .docsFooter h2 {
-  font-size: 32px;
-  font-weight: 700;
+  font-size: var(--font-size-32);
+  font-weight: var(--font-weight-bold);
   color: var(--color-neutral-low-default);
   margin: 0;
   border-bottom: none !important;
   padding-bottom: 0 !important;
   line-height: 105%;
   letter-spacing: -1.333px;
-  font-family: var(--font-family-primary, 'Figtree', sans-serif);
 }
 .docsFooter p {
-  font-size: 16px;
-  font-weight: 400;
+  font-size: var(--font-size-16);
+  font-weight: var(--font-weight-regular);
   line-height: 140%;
   letter-spacing: 0.427px;
   color: var(--color-neutral-low-medium);
-  margin: 12px 0 0 0;
-  font-family: var(--font-family-primary, 'Figtree', sans-serif);
+  margin: var(--spacing-12) 0 0 0;
 }
-@media screen and (max-width: 1200px) {
+
+/* Breakpoint 1440px - large desktop */
+@media screen and (max-width: 1440px) {
+  .docsFooterContent {
+    margin: 0 var(--spacing-64);
+  }
+}
+
+/* Breakpoint 1024px - desktop */
+@media screen and (max-width: 1024px) {
   .docsFooterContent {
     max-width: 900px;
-    margin: 0 80px;
+    margin: 0 var(--spacing-48);
     flex-direction: column;
-    gap: 50px;
+    gap: var(--spacing-48);
   }
   .docsFooterTitles {
     max-width: 100%;
   }
 }
-@media screen and (max-width: 1024px) {
-  .docsFooterContent {
-    margin: 0 120px;
-  }
-}
+
+/* Breakpoint 768px - tablet */
 @media screen and (max-width: 768px) {
   .docsFooterContent {
     min-width: auto;
-    margin: 0 var(--spacing-16, 16px);
+    margin: 0 var(--spacing-16);
   }
   .docsFooter h2 {
-    font-size: 28px;
+    font-size: var(--font-size-28);
   }
   .docsFooter p {
-    font-size: 14px;
+    font-size: var(--font-size-14);
   }
 }

@@ -17,7 +17,7 @@
 }
 .usageGuidelines li code {
   background-color: var(--color-neutral-high-medium);
-  padding: 2px 6px;
+  padding: var(--spacing-4) var(--spacing-8);
   border-radius: var(--border-radius-4);
   font-family: monospace;
   font-size: 0.9em;

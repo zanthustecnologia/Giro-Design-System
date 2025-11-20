@@ -5,7 +5,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: var(--spacing-24);
-  margin-bottom: 56px;
+  margin-bottom: var(--spacing-56);
 }
 .ruleItem {
   display: flex;
