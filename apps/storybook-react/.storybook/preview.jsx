@@ -2,7 +2,6 @@ import { Theme } from '@radix-ui/themes';
 import '../../../packages/tokens/build/css/tokens.css';
 import '../../../packages/react/dist/styles.css';
 import '../src/styles/globals.scss';
-import './docs-layout.scss';
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 

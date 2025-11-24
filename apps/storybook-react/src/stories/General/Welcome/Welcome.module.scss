@@ -1,5 +1,18 @@
 /* ===== CUSTOMIZAÇÕES ESPECÍFICAS DO WELCOME ===== */
 
+/* Hero section do Welcome */
+.docsHero {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  position: relative;
+  background: var(--color-neutral-high-light);
+  border-radius: var(--border-radius-4);
+  height: 200px;
+  margin-bottom: var(--spacing-24);
+  overflow: hidden;
+}
+
 /* Texto do hero */
 .componenteNameModuleText {
   padding-left: var(--spacing-48);
@@ -39,6 +52,53 @@
   font-weight: var(--font-weight-regular);
   color: var(--color-neutral-low-dark);
   display: block;
+}
+
+/* Grid para cards do Welcome */
+.docsGrid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: var(--spacing-16);
+  margin-bottom: var(--spacing-56);
+}
+
+@media screen and (min-width: 768px) {
+  .docsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .docsGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Cards do Welcome */
+.docsCard {
+  border: var(--border-width-1) solid var(--color-neutral-high-medium);
+  padding: var(--spacing-16);
+  border-radius: var(--border-radius-8);
+  display: flex;
+  flex-direction: column;
+}
+
+.docsCard img {
+  margin-bottom: var(--spacing-16);
+}
+
+.docsCard h4 {
+  font-size: var(--font-size-20);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-neutral-low-default);
+  margin-bottom: var(--spacing-8);
+}
+
+.docsCard p {
+  margin-bottom: var(--spacing-24);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-neutral-low-dark);
+  flex-grow: 1;
 }
 
 /* Media queries para responsividade do hero */

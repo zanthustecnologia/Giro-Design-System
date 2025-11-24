@@ -1,0 +1,234 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { Footer } from '../../../internal-components/mdx/Footer/Footer';
+import styles from './Colors.module.scss';
+
+<Meta title="Foundation/Colors" />
+
+# Colors
+
+As cores do design system são organizadas em três categorias: Brand (identidade da marca), Feedback (estados e ações) e Neutral (estrutura e conteúdo).
+
+## Brand Colors
+
+### Primary
+
+<div className={styles.colorGrid}>
+  <div className={styles.colorItem}>
+    <div className={styles.colorSwatch} style={{ backgroundColor: 'var(--color-brand-primary-default)' }}></div>
+    <div className={styles.colorInfo}>
+      <h4>primary-color</h4>
+      <p>Use to emphasise main ui components</p>
+    </div>
+  </div>
+
+  <div className={styles.colorItem}>
+    <div className={styles.colorSwatch} style={{ backgroundColor: 'var(--color-brand-primary-dark)' }}></div>
+    <div className={styles.colorInfo}>
+      <h4>primary-hover-color</h4>
+      <p>Use only as a hover on primary color</p>
+    </div>
+  </div>
+
+  <div className={styles.colorItem}>
+    <div className={styles.colorSwatch} style={{ backgroundColor: 'var(--color-brand-primary-light)' }}></div>
+    <div className={styles.colorInfo}>
+      <h4>primary-selected-color</h4>
+      <p>Use to indicate selected state of primary items</p>
+    </div>
+  </div>
+
+  <div className={styles.colorItem}>
+    <div className={styles.colorSwatch} style={{ backgroundColor: 'var(--color-brand-primary-medium)' }}></div>
+    <div className={styles.colorInfo}>
+      <h4>primary-selected-hover-color</h4>
+      <p>Use to indicate hover state on a primary-selected-color items</p>
+    </div>
+  </div>
+</div>
+
+### Secondary
+
+<div className={styles.colorGrid}>
+  <div className={styles.colorItem}>
+    <div className={styles.colorSwatch} style={{ backgroundColor: 'var(--color-brand-secondary-default)' }}></div>
+    <div className={styles.colorInfo}>
+      <h4>warning-color</h4>
+      <p>Use to indicate a warning action/state (severity, alert, caution...)</p>
+    </div>
+  </div>
+
+  <div className={styles.colorItem}>
+    <div className={styles.colorSwatch} style={{ backgroundColor: 'var(--color-brand-secondary-dark)' }}></div>
+    <div className={styles.colorInfo}>
+      <h4>warning-color-hover</h4>
+      <p>Use only as hover color on warning color</p>
+    </div>
+  </div>
+
+  <div className={styles.colorItem}>
+    <div className={styles.colorSwatch} style={{ backgroundColor: 'var(--color-brand-secondary-light)' }}></div>
+    <div className={styles.colorInfo}>
+      <h4>warning-color-selected</h4>
+      <p>Use only as selected indication for a warning colors</p>
+    </div>
+  </div>
+
+  <div className={styles.colorItem}>
+    <div className={styles.colorSwatch} style={{ backgroundColor: 'var(--color-brand-secondary-medium)' }}></div>
+    <div className={styles.colorInfo}>
+      <h4>warning-color-selected-hover</h4>
+      <p>Use to indicate hover state on a warning-selected items</p>
+    </div>
+  </div>
+</div>
+
+## Feedback Colors
+
+### Success
+
+<div className={styles.colorGrid}>
+  <div className={styles.colorItem}>
+    <div className={styles.colorSwatch} style={{ backgroundColor: 'var(--color-feedback-success-default)' }}></div>
+    <div className={styles.colorInfo}>
+      <h4>positive-color</h4>
+      <p>Use to indicate a positive action/state (success, completion, approval...)</p>
+    </div>
+  </div>
+
+  <div className={styles.colorItem}>
+    <div className={styles.colorSwatch} style={{ backgroundColor: 'var(--color-feedback-success-dark)' }}></div>
+    <div className={styles.colorInfo}>
+      <h4>positive-color-hover</h4>
+      <p>Use only as hover color on positive color</p>
+    </div>
+  </div>
+
+  <div className={styles.colorItem}>
+    <div className={styles.colorSwatch} style={{ backgroundColor: 'var(--color-feedback-success-light)' }}></div>
+    <div className={styles.colorInfo}>
+      <h4>positive-color-selected</h4>
+      <p>Use only as selected indication for a positive colors</p>
+    </div>
+  </div>
+
+  <div className={styles.colorItem}>
+    <div className={styles.colorSwatch} style={{ backgroundColor: 'var(--color-feedback-success-medium)' }}></div>
+    <div className={styles.colorInfo}>
+      <h4>positive-color-selected-hover</h4>
+      <p>Use to indicate hover state on a positive-color-selected items</p>
+    </div>
+  </div>
+</div>
+
+### Alert
+
+<div className={styles.colorGrid}>
+  <div className={styles.colorItem}>
+    <div className={styles.colorSwatch} style={{ backgroundColor: 'var(--color-feedback-alert-default)' }}></div>
+    <div className={styles.colorInfo}>
+      <h4>negative-color</h4>
+      <p>Use to indicate a negative action/state (delete, error...)</p>
+    </div>
+  </div>
+
+  <div className={styles.colorItem}>
+    <div className={styles.colorSwatch} style={{ backgroundColor: 'var(--color-feedback-alert-dark)' }}></div>
+    <div className={styles.colorInfo}>
+      <h4>negative-color-hover</h4>
+      <p>Use only as hover color on negative color</p>
+    </div>
+  </div>
+
+  <div className={styles.colorItem}>
+    <div className={styles.colorSwatch} style={{ backgroundColor: 'var(--color-feedback-alert-light)' }}></div>
+    <div className={styles.colorInfo}>
+      <h4>negative-color-selected</h4>
+      <p>Use as selected indication for negative colors</p>
+    </div>
+  </div>
+
+  <div className={styles.colorItem}>
+    <div className={styles.colorSwatch} style={{ backgroundColor: 'var(--color-feedback-alert-medium)' }}></div>
+    <div className={styles.colorInfo}>
+      <h4>negative-color-selected-hover</h4>
+      <p>Use to indicate hover state on a negative-selected items</p>
+    </div>
+  </div>
+</div>
+
+
+## Neutral Colors
+
+### Low Contrast
+
+<div className={styles.colorGrid}>
+  <div className={styles.colorItem}>
+    <div className={styles.colorSwatch} style={{ backgroundColor: 'var(--color-neutral-low-default)' }}></div>
+    <div className={styles.colorInfo}>
+      <h4>neutral-low-default</h4>
+      <p>Use for primary text and high emphasis content</p>
+    </div>
+  </div>
+
+  <div className={styles.colorItem}>
+    <div className={styles.colorSwatch} style={{ backgroundColor: 'var(--color-neutral-low-dark)' }}></div>
+    <div className={styles.colorInfo}>
+      <h4>neutral-low-dark</h4>
+      <p>Use for secondary text and medium emphasis content</p>
+    </div>
+  </div>
+
+  <div className={styles.colorItem}>
+    <div className={styles.colorSwatch} style={{ backgroundColor: 'var(--color-neutral-low-medium)' }}></div>
+    <div className={styles.colorInfo}>
+      <h4>neutral-low-medium</h4>
+      <p>Use for tertiary text and low emphasis content</p>
+    </div>
+  </div>
+
+  <div className={styles.colorItem}>
+    <div className={styles.colorSwatch} style={{ backgroundColor: 'var(--color-neutral-low-light)' }}></div>
+    <div className={styles.colorInfo}>
+      <h4>neutral-low-light</h4>
+      <p>Use for disabled text and subtle content</p>
+    </div>
+  </div>
+</div>
+
+### High Contrast
+
+<div className={styles.colorGrid}>
+  <div className={styles.colorItem}>
+    <div className={styles.colorSwatch} style={{ backgroundColor: 'var(--color-neutral-high-default)', border: '1px solid var(--color-neutral-high-medium)' }}></div>
+    <div className={styles.colorInfo}>
+      <h4>neutral-high-default</h4>
+      <p>Use for primary backgrounds and surfaces</p>
+    </div>
+  </div>
+
+  <div className={styles.colorItem}>
+    <div className={styles.colorSwatch} style={{ backgroundColor: 'var(--color-neutral-high-dark)' }}></div>
+    <div className={styles.colorInfo}>
+      <h4>neutral-high-dark</h4>
+      <p>Use for borders and dividers</p>
+    </div>
+  </div>
+
+  <div className={styles.colorItem}>
+    <div className={styles.colorSwatch} style={{ backgroundColor: 'var(--color-neutral-high-medium)' }}></div>
+    <div className={styles.colorInfo}>
+      <h4>neutral-high-medium</h4>
+      <p>Use for subtle backgrounds and hover states</p>
+    </div>
+  </div>
+
+  <div className={styles.colorItem}>
+    <div className={styles.colorSwatch} style={{ backgroundColor: 'var(--color-neutral-high-light)' }}></div>
+    <div className={styles.colorInfo}>
+      <h4>neutral-high-light</h4>
+      <p>Use for page backgrounds and containers</p>
+    </div>
+  </div>
+</div>
+
+<Footer />
