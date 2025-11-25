@@ -18,12 +18,6 @@
   transition: all 0.2s ease;
 }
 
-.iconItem:hover {
-  background-color: var(--color-neutral-high-default);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(59, 69, 242, 0.1);
-}
-
 .iconPreview {
   display: flex;
   align-items: center;
@@ -38,10 +32,6 @@
   height: 24px;
   color: var(--color-neutral-low-default);
   transition: color 0.2s ease;
-}
-
-.iconItem:hover .iconPreview svg {
-  color: var(--color-brand-primary-default);
 }
 
 .iconName {
