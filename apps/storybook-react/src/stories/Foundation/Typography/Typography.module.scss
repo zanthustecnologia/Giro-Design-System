@@ -5,34 +5,31 @@
 
 .showcaseHero {
   background: var(--color-neutral-high-light);
-  padding: var(--spacing-64) var(--spacing-48);
+  padding: var(--spacing-40) var(--spacing-32);
   border-radius: var(--border-radius-8);
   text-align: left;
   margin-bottom: var(--spacing-48);
 }
 
 .showcaseTitle {
-  font-size: 96px!important;
-  font-weight: var(--font-weight-bold);
-  color: var(--color-neutral-low-default);
-  margin: 0;
-  line-height: 1.5;
-  letter-spacing: -2px;
+  font-family: var(--font-family-primary) !important;
+  font-size: 96px !important;
+  font-weight: var(--font-weight-bold) !important;
+  color: var(--color-neutral-low-default) !important;
+  margin: 0 !important;
+  line-height: 1.5 !important;
+  letter-spacing: -2px !important;
 }
 
 .showcaseSubtitle {
-  font-size: var(--font-size-24);
-  font-weight: var(--font-weight-medium);
-  color: var(--color-neutral-low-medium);
-  margin: var(--spacing-16) 0 var(--spacing-8) 0;
+  display: block;
+  font-family: var(--font-family-primary) !important;
+  font-size: var(--font-size-18) !important;
+  font-weight: var(--font-weight-medium) !important;
+  color: var(--color-neutral-low-medium) !important;
+  margin: var(--spacing-24) 0 var(--spacing-8) 0 !important;
 }
 
-.showcaseTagline {
-  font-size: var(--font-size-16);
-  font-weight: var(--font-weight-regular);
-  color: var(--color-neutral-low-dark);
-  margin: 0;
-}
 
 /* ===== ALPHABET SHOWCASE ===== */
 .showcaseAlphabet {
@@ -52,20 +49,22 @@
 
 .alphabetLabel {
   display: block;
-  font-size: var(--font-size-12);
-  font-weight: var(--font-weight-bold);
-  color: var(--color-neutral-low-medium);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: var(--spacing-12);
+  font-family: var(--font-family-primary) !important;
+  font-size: var(--font-size-12) !important;
+  font-weight: var(--font-weight-bold) !important;
+  color: var(--color-neutral-low-medium) !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1px !important;
+  margin-bottom: var(--spacing-12) !important;
 }
 
 .alphabetText {
-  font-size: var(--font-size-32);
-  font-weight: var(--font-weight-regular);
-  color: var(--color-neutral-low-default);
-  margin: 0;
-  letter-spacing: 2px;
+  font-family: var(--font-family-primary) !important;
+  font-size: var(--font-size-32) !important;
+  font-weight: var(--font-weight-regular) !important;
+  color: var(--color-neutral-low-default) !important;
+  margin: 0 !important;
+  letter-spacing: 2px !important;
 }
 
 /* ===== WEIGHT GRID ===== */
@@ -92,23 +91,26 @@
 }
 
 .weightSample {
-  font-size: 64px;
-  color: var(--color-neutral-low-default);
-  margin: 0;
-  line-height: 1;
+  font-family: var(--font-family-primary) !important;
+  font-size: 64px !important;
+  color: var(--color-neutral-low-default) !important;
+  margin: 0 !important;
+  line-height: 1 !important;
 }
 
 .weightInfo h4 {
-  font-size: var(--font-size-16);
-  font-weight: var(--font-weight-bold);
-  color: var(--color-neutral-low-default);
-  margin: 0 0 var(--spacing-4) 0;
+  font-family: var(--font-family-primary) !important;
+  font-size: var(--font-size-16) !important;
+  font-weight: var(--font-weight-bold) !important;
+  color: var(--color-neutral-low-default) !important;
+  margin: 0 0 var(--spacing-4) 0 !important;
 }
 
 .weightInfo p {
-  font-size: var(--font-size-14);
-  color: var(--color-neutral-low-dark);
-  margin: 0;
+  font-family: var(--font-family-primary) !important;
+  font-size: var(--font-size-14) !important;
+  color: var(--color-neutral-low-dark) !important;
+  margin: 0 !important;
 }
 
 /* ===== SIZE GRID ===== */
@@ -129,10 +131,11 @@
 }
 
 .sizeSample {
-  font-weight: var(--font-weight-regular);
-  color: var(--color-neutral-low-default);
-  margin: 0;
-  line-height: 1.2;
+  font-family: var(--font-family-primary) !important;
+  font-weight: var(--font-weight-regular) !important;
+  color: var(--color-neutral-low-default) !important;
+  margin: 0 !important;
+  line-height: 1.2 !important;
 }
 
 .sizeInfo {
@@ -141,14 +144,16 @@
 }
 
 .sizeInfo h4 {
-  font-size: var(--font-size-14);
-  font-weight: var(--font-weight-bold);
-  color: var(--color-neutral-low-default);
-  margin: 0 0 var(--spacing-4) 0;
+  font-family: var(--font-family-primary) !important;
+  font-size: var(--font-size-14) !important;
+  font-weight: var(--font-weight-bold) !important;
+  color: var(--color-neutral-low-default) !important;
+  margin: 0 0 var(--spacing-4) 0 !important;
 }
 
 .sizeInfo p {
-  font-size: var(--font-size-12);
-  color: var(--color-neutral-low-dark);
-  margin: 0;
+  font-family: var(--font-family-primary) !important;
+  font-size: var(--font-size-12) !important;
+  color: var(--color-neutral-low-dark) !important;
+  margin: 0 !important;
 }
