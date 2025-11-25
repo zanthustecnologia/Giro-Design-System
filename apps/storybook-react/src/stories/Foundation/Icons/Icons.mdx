@@ -1,0 +1,390 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { Footer } from '../../../internal-components/mdx/Footer/Footer';
+import styles from './Icons.module.scss';
+import { 
+  AccessTime20Regular,
+  Add20Regular,
+  AddCircle20Regular,
+  Alert20Regular,
+  Apps20Regular,
+  Archive20Regular,
+  ArrowDownload20Regular,
+  ArrowUp20Regular,
+  Attach20Regular,
+  Calendar20Regular,
+  Camera20Regular,
+  Checkmark20Regular,
+  ChevronDown20Regular,
+  ChevronLeft20Regular,
+  ChevronRight20Regular,
+  ChevronUp20Regular,
+  Delete20Regular,
+  Dismiss20Regular,
+  DocumentText20Regular,
+  Edit20Regular,
+  Eye20Regular,
+  Filter20Regular,
+  Home20Regular,
+  Info20Regular,
+  MailInbox20Regular,
+  MoreHorizontal20Regular,
+  People20Regular,
+  Person20Regular,
+  Search20Regular,
+  Settings20Regular,
+  Share20Regular,
+  Star20Regular
+} from '@fluentui/react-icons';
+
+<Meta title="Foundation/Icons" />
+
+# Icons
+
+Os ícones são elementos visuais fundamentais que comunicam ações, conceitos e estados de forma clara e universal. No Zanthus Design System, utilizamos o **Fluent System Icons** da Microsoft, uma biblioteca robusta e consistente que oferece milhares de ícones em dois estilos: Regular e Filled.
+
+Cada ícone é projetado para manter clareza em diferentes tamanhos, garantindo legibilidade e reconhecimento imediato em qualquer contexto de uso.
+
+## Por que Fluent Icons?
+
+- **Consistência Visual**: Mantém um estilo coerente com proporções e pesos balanceados
+- **Acessibilidade**: Projetados com contraste adequado e formas reconhecíveis
+- **Variedade**: Mais de 3.000 ícones cobrindo diversos casos de uso
+- **Dois Estilos**: Regular (outline) para estados normais, Filled para estados ativos ou destaque
+- **Escalabilidade**: Funciona perfeitamente em tamanhos de 16px a 48px
+
+## Uso
+
+### Instalação
+
+```bash
+npm install @fluentui/react-icons
+```
+
+### Importação
+
+```jsx
+import { Add20Regular, Delete20Regular, Edit20Filled } from '@fluentui/react-icons';
+
+function MyComponent() {
+  return (
+    <button>
+      <Add20Regular />
+      Adicionar
+    </button>
+  );
+}
+```
+
+## Tamanhos
+
+Os ícones do Fluent estão disponíveis em tamanhos padrão. Use o sufixo numérico para indicar o tamanho:
+
+```jsx
+import { 
+  Add16Regular, 
+  Add20Regular, 
+  Add24Regular,
+  Add28Regular,
+  Add48Regular 
+} from '@fluentui/react-icons';
+```
+
+## Estilos
+
+### Regular (Outline)
+
+Use para estados padrão, ações secundárias e contextos onde o ícone precisa ser discreto.
+
+### Filled
+
+Use para estados ativos, selecionados ou quando o ícone precisa de maior peso visual.
+
+```jsx
+import { Star20Regular, Star20Filled } from '@fluentui/react-icons';
+
+// Estado não selecionado
+<Star20Regular />
+
+// Estado selecionado
+<Star20Filled />
+```
+
+## Ícones Comuns
+
+Abaixo estão alguns exemplos de ícones do Fluent. Para a lista completa, consulte a [documentação oficial do Fluent Icons](https://storybooks.fluentui.dev/react/?path=/docs/icons-catalog--docs).
+
+<div className={styles.iconsGrid}>
+  <div className={styles.iconItem}>
+    <div className={styles.iconPreview}>
+      <AccessTime20Regular />
+    </div>
+    <span className={styles.iconName}>AccessTime20Regular</span>
+  </div>
+
+  <div className={styles.iconItem}>
+    <div className={styles.iconPreview}>
+      <Add20Regular />
+    </div>
+    <span className={styles.iconName}>Add20Regular</span>
+  </div>
+
+  <div className={styles.iconItem}>
+    <div className={styles.iconPreview}>
+      <AddCircle20Regular />
+    </div>
+    <span className={styles.iconName}>AddCircle20Regular</span>
+  </div>
+
+  <div className={styles.iconItem}>
+    <div className={styles.iconPreview}>
+      <Alert20Regular />
+    </div>
+    <span className={styles.iconName}>Alert20Regular</span>
+  </div>
+
+  <div className={styles.iconItem}>
+    <div className={styles.iconPreview}>
+      <Apps20Regular />
+    </div>
+    <span className={styles.iconName}>Apps20Regular</span>
+  </div>
+
+  <div className={styles.iconItem}>
+    <div className={styles.iconPreview}>
+      <Archive20Regular />
+    </div>
+    <span className={styles.iconName}>Archive20Regular</span>
+  </div>
+
+  <div className={styles.iconItem}>
+    <div className={styles.iconPreview}>
+      <ArrowDownload20Regular />
+    </div>
+    <span className={styles.iconName}>ArrowDownload20Regular</span>
+  </div>
+
+  <div className={styles.iconItem}>
+    <div className={styles.iconPreview}>
+      <ArrowUp20Regular />
+    </div>
+    <span className={styles.iconName}>ArrowUp20Regular</span>
+  </div>
+
+  <div className={styles.iconItem}>
+    <div className={styles.iconPreview}>
+      <Attach20Regular />
+    </div>
+    <span className={styles.iconName}>Attach20Regular</span>
+  </div>
+
+  <div className={styles.iconItem}>
+    <div className={styles.iconPreview}>
+      <Calendar20Regular />
+    </div>
+    <span className={styles.iconName}>Calendar20Regular</span>
+  </div>
+
+  <div className={styles.iconItem}>
+    <div className={styles.iconPreview}>
+      <Camera20Regular />
+    </div>
+    <span className={styles.iconName}>Camera20Regular</span>
+  </div>
+
+  <div className={styles.iconItem}>
+    <div className={styles.iconPreview}>
+      <Checkmark20Regular />
+    </div>
+    <span className={styles.iconName}>Checkmark20Regular</span>
+  </div>
+
+  <div className={styles.iconItem}>
+    <div className={styles.iconPreview}>
+      <ChevronDown20Regular />
+    </div>
+    <span className={styles.iconName}>ChevronDown20Regular</span>
+  </div>
+
+  <div className={styles.iconItem}>
+    <div className={styles.iconPreview}>
+      <ChevronLeft20Regular />
+    </div>
+    <span className={styles.iconName}>ChevronLeft20Regular</span>
+  </div>
+
+  <div className={styles.iconItem}>
+    <div className={styles.iconPreview}>
+      <ChevronRight20Regular />
+    </div>
+    <span className={styles.iconName}>ChevronRight20Regular</span>
+  </div>
+
+  <div className={styles.iconItem}>
+    <div className={styles.iconPreview}>
+      <ChevronUp20Regular />
+    </div>
+    <span className={styles.iconName}>ChevronUp20Regular</span>
+  </div>
+
+  <div className={styles.iconItem}>
+    <div className={styles.iconPreview}>
+      <Delete20Regular />
+    </div>
+    <span className={styles.iconName}>Delete20Regular</span>
+  </div>
+
+  <div className={styles.iconItem}>
+    <div className={styles.iconPreview}>
+      <Dismiss20Regular />
+    </div>
+    <span className={styles.iconName}>Dismiss20Regular</span>
+  </div>
+
+  <div className={styles.iconItem}>
+    <div className={styles.iconPreview}>
+      <DocumentText20Regular />
+    </div>
+    <span className={styles.iconName}>DocumentText20Regular</span>
+  </div>
+
+  <div className={styles.iconItem}>
+    <div className={styles.iconPreview}>
+      <Edit20Regular />
+    </div>
+    <span className={styles.iconName}>Edit20Regular</span>
+  </div>
+
+  <div className={styles.iconItem}>
+    <div className={styles.iconPreview}>
+      <Eye20Regular />
+    </div>
+    <span className={styles.iconName}>Eye20Regular</span>
+  </div>
+
+  <div className={styles.iconItem}>
+    <div className={styles.iconPreview}>
+      <Filter20Regular />
+    </div>
+    <span className={styles.iconName}>Filter20Regular</span>
+  </div>
+
+  <div className={styles.iconItem}>
+    <div className={styles.iconPreview}>
+      <Home20Regular />
+    </div>
+    <span className={styles.iconName}>Home20Regular</span>
+  </div>
+
+  <div className={styles.iconItem}>
+    <div className={styles.iconPreview}>
+      <Info20Regular />
+    </div>
+    <span className={styles.iconName}>Info20Regular</span>
+  </div>
+
+  <div className={styles.iconItem}>
+    <div className={styles.iconPreview}>
+      <MailInbox20Regular />
+    </div>
+    <span className={styles.iconName}>MailInbox20Regular</span>
+  </div>
+
+  <div className={styles.iconItem}>
+    <div className={styles.iconPreview}>
+      <MoreHorizontal20Regular />
+    </div>
+    <span className={styles.iconName}>MoreHorizontal20Regular</span>
+  </div>
+
+  <div className={styles.iconItem}>
+    <div className={styles.iconPreview}>
+      <People20Regular />
+    </div>
+    <span className={styles.iconName}>People20Regular</span>
+  </div>
+
+  <div className={styles.iconItem}>
+    <div className={styles.iconPreview}>
+      <Person20Regular />
+    </div>
+    <span className={styles.iconName}>Person20Regular</span>
+  </div>
+
+  <div className={styles.iconItem}>
+    <div className={styles.iconPreview}>
+      <Search20Regular />
+    </div>
+    <span className={styles.iconName}>Search20Regular</span>
+  </div>
+
+  <div className={styles.iconItem}>
+    <div className={styles.iconPreview}>
+      <Settings20Regular />
+    </div>
+    <span className={styles.iconName}>Settings20Regular</span>
+  </div>
+
+  <div className={styles.iconItem}>
+    <div className={styles.iconPreview}>
+      <Share20Regular />
+    </div>
+    <span className={styles.iconName}>Share20Regular</span>
+  </div>
+
+  <div className={styles.iconItem}>
+    <div className={styles.iconPreview}>
+      <Star20Regular />
+    </div>
+    <span className={styles.iconName}>Star20Regular</span>
+  </div>
+</div>
+
+## Diretrizes de Uso
+
+### Tamanho e Contexto
+
+- Use **16px** para textos pequenos e interfaces compactas
+- Use **20px** como padrão em botões e controles
+- Use **24px** para ações importantes e maior destaque
+- Nunca use ícones menores que 16px para manter acessibilidade
+
+### Cor
+
+Os ícones devem herdar a cor do texto pai ou usar tokens de cor do sistema:
+
+```jsx
+// Herda cor do texto
+<button style={{ color: 'var(--color-brand-primary-default)' }}>
+  <Add20Regular />
+  Adicionar
+</button>
+
+// Cor direta no ícone
+<Add20Regular style={{ color: 'var(--color-feedback-success-default)' }} />
+```
+
+### Alinhamento
+
+- Alinhe verticalmente com o texto adjacente
+- Mantenha espaçamento de 8px entre ícone e texto
+- Use `vertical-align: middle` ou flexbox para alinhamento preciso
+
+### Acessibilidade
+
+- Sempre forneça texto alternativo quando o ícone transmite informação
+- Use `aria-label` ou `aria-labelledby` para ícones interativos
+- Mantenha área de toque mínima de 44x44px para ícones clicáveis
+
+```jsx
+<button aria-label="Adicionar item">
+  <Add20Regular />
+</button>
+```
+
+## Recursos
+
+- [Catálogo completo do Fluent Icons](https://react.fluentui.dev/?path=/docs/icons-catalog--page)
+- [Documentação oficial](https://github.com/microsoft/fluentui-system-icons)
+- [Figma Plugin](https://www.figma.com/community/plugin/1114854968103971592/Fluent-2-Icons)
+
+<Footer />
