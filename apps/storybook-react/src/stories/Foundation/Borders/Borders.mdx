@@ -1,0 +1,174 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { Footer } from '../../../internal-components/mdx/Footer/Footer';
+import styles from './Borders.module.scss';
+
+<Meta title="Foundation/Borders" />
+
+# Borders
+
+Os tokens de borda organizam dois aspectos essenciais da composição: forma e definição.
+
+O <code>$border-radius</code> determina o nível de arredondamento dos componentes, criando uma linguagem visual que equilibra suavidade e precisão. Já o <code>$border-width</code> define a espessura das bordas, garantindo clareza, contraste e suporte aos diferentes estados de interação.
+
+## Border width
+
+Os tokens de <code>border-width</code> especificam a espessura das bordas aplicadas a elementos estruturais e interativos. Variando de linhas finas a traços mais marcados, eles ajudam a comunicar importância, reforçar estados como foco ou alerta e manter uma aparência consistente e acessível em toda a interface.
+
+<div className={styles.borderTable}>
+  <div className={styles.tableHeader}>
+    <div className={styles.headerCell}>Token</div>
+    <div className={styles.headerCell}>rem</div>
+    <div className={styles.headerCell}>px</div>
+    <div className={styles.headerCell}>Example</div>
+  </div>
+
+  <div className={styles.tableRow}>
+    <div className={styles.tableCell}><code>$border-width-none</code></div>
+    <div className={styles.tableCell}>0</div>
+    <div className={styles.tableCell}>0px</div>
+    <div className={styles.tableCell}>
+      <div className={styles.borderWidthExample} style={{ border: '0px solid var(--color-brand-primary-default)' }}></div>
+    </div>
+  </div>
+
+  <div className={styles.tableRow}>
+    <div className={styles.tableCell}><code>$border-width-1</code></div>
+    <div className={styles.tableCell}>0.0625rem</div>
+    <div className={styles.tableCell}>1px</div>
+    <div className={styles.tableCell}>
+      <div className={styles.borderWidthExample} style={{ border: '1px solid var(--color-brand-primary-default)' }}></div>
+    </div>
+  </div>
+
+  <div className={styles.tableRow}>
+    <div className={styles.tableCell}><code>$border-width-2</code></div>
+    <div className={styles.tableCell}>0.125rem</div>
+    <div className={styles.tableCell}>2px</div>
+    <div className={styles.tableCell}>
+      <div className={styles.borderWidthExample} style={{ border: '2px solid var(--color-brand-primary-default)' }}></div>
+    </div>
+  </div>
+
+  <div className={styles.tableRow}>
+    <div className={styles.tableCell}><code>$border-width-4</code></div>
+    <div className={styles.tableCell}>0.25rem</div>
+    <div className={styles.tableCell}>4px</div>
+    <div className={styles.tableCell}>
+      <div className={styles.borderWidthExample} style={{ border: '4px solid var(--color-brand-primary-default)' }}></div>
+    </div>
+  </div>
+
+  <div className={styles.tableRow}>
+    <div className={styles.tableCell}><code>$border-width-6</code></div>
+    <div className={styles.tableCell}>0.375rem</div>
+    <div className={styles.tableCell}>6px</div>
+    <div className={styles.tableCell}>
+      <div className={styles.borderWidthExample} style={{ border: '6px solid var(--color-brand-primary-default)' }}></div>
+    </div>
+  </div>
+
+  <div className={styles.tableRow}>
+    <div className={styles.tableCell}><code>$border-width-8</code></div>
+    <div className={styles.tableCell}>0.5rem</div>
+    <div className={styles.tableCell}>8px</div>
+    <div className={styles.tableCell}>
+      <div className={styles.borderWidthExample} style={{ border: '8px solid var(--color-brand-primary-default)' }}></div>
+    </div>
+  </div>
+
+  <div className={styles.tableRow}>
+    <div className={styles.tableCell}><code>$border-width-12</code></div>
+    <div className={styles.tableCell}>0.75rem</div>
+    <div className={styles.tableCell}>12px</div>
+    <div className={styles.tableCell}>
+      <div className={styles.borderWidthExample} style={{ border: '12px solid var(--color-brand-primary-default)' }}></div>
+    </div>
+  </div>
+</div>
+
+## Border radius
+
+Os tokens de <code>border-radius</code> controlam o arredondamento dos cantos e moldam a personalidade dos componentes. Variações de raio, de discretas a totalmente circulares, reforçam hierarquia, criam harmonia entre componentes e contribuem para uma experiência acolhedora e funcional.
+
+<div className={styles.borderTable}>
+  <div className={styles.tableHeader}>
+    <div className={styles.headerCell}>Token</div>
+    <div className={styles.headerCell}>rem</div>
+    <div className={styles.headerCell}>px</div>
+    <div className={styles.headerCell}>Example</div>
+  </div>
+
+  <div className={styles.tableRow}>
+    <div className={styles.tableCell}><code>$border-radius-none</code></div>
+    <div className={styles.tableCell}>0</div>
+    <div className={styles.tableCell}>0px</div>
+    <div className={styles.tableCell}>
+      <div className={styles.borderRadiusExample} style={{ borderRadius: '0px' }}></div>
+    </div>
+  </div>
+
+  <div className={styles.tableRow}>
+    <div className={styles.tableCell}><code>$border-radius-4</code></div>
+    <div className={styles.tableCell}>0.25rem</div>
+    <div className={styles.tableCell}>4px</div>
+    <div className={styles.tableCell}>
+      <div className={styles.borderRadiusExample} style={{ borderRadius: '4px' }}></div>
+    </div>
+  </div>
+
+  <div className={styles.tableRow}>
+    <div className={styles.tableCell}><code>$border-radius-8</code></div>
+    <div className={styles.tableCell}>0.5rem</div>
+    <div className={styles.tableCell}>8px</div>
+    <div className={styles.tableCell}>
+      <div className={styles.borderRadiusExample} style={{ borderRadius: '8px' }}></div>
+    </div>
+  </div>
+
+  <div className={styles.tableRow}>
+    <div className={styles.tableCell}><code>$border-radius-12</code></div>
+    <div className={styles.tableCell}>0.75rem</div>
+    <div className={styles.tableCell}>12px</div>
+    <div className={styles.tableCell}>
+      <div className={styles.borderRadiusExample} style={{ borderRadius: '12px' }}></div>
+    </div>
+  </div>
+
+  <div className={styles.tableRow}>
+    <div className={styles.tableCell}><code>$border-radius-16</code></div>
+    <div className={styles.tableCell}>1rem</div>
+    <div className={styles.tableCell}>16px</div>
+    <div className={styles.tableCell}>
+      <div className={styles.borderRadiusExample} style={{ borderRadius: '16px' }}></div>
+    </div>
+  </div>
+
+  <div className={styles.tableRow}>
+    <div className={styles.tableCell}><code>$border-radius-24</code></div>
+    <div className={styles.tableCell}>1.5rem</div>
+    <div className={styles.tableCell}>24px</div>
+    <div className={styles.tableCell}>
+      <div className={styles.borderRadiusExample} style={{ borderRadius: '24px' }}></div>
+    </div>
+  </div>
+
+  <div className={styles.tableRow}>
+    <div className={styles.tableCell}><code>$border-radius-pill</code></div>
+    <div className={styles.tableCell}>31.25rem</div>
+    <div className={styles.tableCell}>500px</div>
+    <div className={styles.tableCell}>
+      <div className={`${styles.borderRadiusExample} ${styles.borderRadiusPill}`} style={{ borderRadius: '500px' }}></div>
+    </div>
+  </div>
+
+  <div className={styles.tableRow}>
+    <div className={styles.tableCell}><code>$border-radius-circular</code></div>
+    <div className={styles.tableCell}>—</div>
+    <div className={styles.tableCell}>100%</div>
+    <div className={styles.tableCell}>
+      <div className={styles.borderRadiusExample} style={{ borderRadius: '100%' }}></div>
+    </div>
+  </div>
+</div>
+
+<Footer />

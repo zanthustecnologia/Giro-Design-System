@@ -1,0 +1,130 @@
+/* ===== CUSTOMIZAÇÕES ESPECÍFICAS DO WELCOME ===== */
+
+/* Hero section do Welcome */
+.docsHero {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  position: relative;
+  background: var(--color-neutral-high-light);
+  border-radius: var(--border-radius-4);
+  height: 200px;
+  margin-bottom: var(--spacing-24);
+  overflow: hidden;
+}
+
+/* Texto do hero */
+.componenteNameModuleText {
+  padding-left: var(--spacing-48);
+  max-width: 60%;
+  z-index: 1;
+}
+
+.componenteNameModuleText h1 {
+  font-size: var(--font-size-40);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-brand-primary-default);
+}
+
+/* Hero com imagem posicionada específica */
+.componenteNameModuleImg {
+  position: absolute;
+  left: 345px;
+  top: 0;
+  height: 100%;
+  width: 200%;
+  overflow: hidden;
+}
+
+.componenteNameModuleImg img {
+  width: 950px;
+  margin-left: -340px;
+}
+
+/* Intro section com font-size maior */
+.componentModuleIntro {
+  margin-top: var(--spacing-16) !important;
+  margin-bottom: var(--spacing-56);
+}
+
+.description {
+  font-size: var(--font-size-20);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-neutral-low-dark);
+  display: block;
+}
+
+/* Grid para cards do Welcome */
+.docsGrid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: var(--spacing-16);
+  margin-bottom: var(--spacing-56);
+}
+
+@media screen and (min-width: 768px) {
+  .docsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .docsGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Cards do Welcome */
+.docsCard {
+  border: var(--border-width-1) solid var(--color-neutral-high-medium);
+  padding: var(--spacing-16);
+  border-radius: var(--border-radius-8);
+  display: flex;
+  flex-direction: column;
+}
+
+.docsCard img {
+  margin-bottom: var(--spacing-16);
+}
+
+.docsCard h4 {
+  font-size: var(--font-size-20);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-neutral-low-default);
+  margin-bottom: var(--spacing-8);
+}
+
+.docsCard p {
+  margin-bottom: var(--spacing-24);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-neutral-low-dark);
+  flex-grow: 1;
+}
+
+/* Media queries para responsividade do hero */
+@media screen and (max-width: 800px) {
+  .componenteNameModuleImg {
+    left: 300px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .componenteNameModuleText {
+    padding-left: var(--spacing-24);
+  }
+
+  .componenteNameModuleImg {
+    right: 0;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    height: auto;
+    width: 124%;
+  }
+
+  .componenteNameModuleImg img {
+    width: 1200px;
+    margin-left: -24px;
+    margin-bottom: -40px;
+  }
+}
