@@ -11,6 +11,7 @@ export { default as Drawer } from './Drawer';
 export { default as Filter } from './Filter';
 export { default as ListItem } from './ListItem';
 export { default as Menu } from './Menu';
+export { default as MenuRadix } from './MenuRadix';
 export { default as Quantity } from './Quantity';
 export { default as Radio } from './Radio';
 export { default as Search } from './Search';
