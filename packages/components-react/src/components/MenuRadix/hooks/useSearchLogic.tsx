@@ -1,18 +1,17 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { normalizeText } from '../../../hooks/NormalizeText';
 import { MenuItemProps } from '../MenuRadix.types';
 
 interface UseSearchLogicProps {
   items: MenuItemProps[];
   searchValue: string;
-  searchTerm?: string;
+  searchTerm: string;
   enableApiSearch?: boolean;
   onApiSearch?: (term: string) => void;
 }
 
 interface UseSearchLogicReturn {
   filteredItems: MenuItemProps[];
-  clearSearch: () => string;
 }
 
 export const useSearchLogic = ({
@@ -22,33 +21,27 @@ export const useSearchLogic = ({
   enableApiSearch,
   onApiSearch,
 }: UseSearchLogicProps): UseSearchLogicReturn => {
-  const [searchInput, setSearchInput] = useState(''); // Tempo real
-  const [internalSearchTerm, setInternalSearchTerm] = useState(''); // Confirmado
-
   const debounceTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const lastSearchTermRef = useRef<string>(''); // Último termo buscado
-  const hasInitialSearchRef = useRef<boolean>(false); // Já carregou inicial?
+  const lastSearchTermRef = useRef<string>('');
+  const hasInitialSearchRef = useRef<boolean>(false);
 
   const debouncedApiSearch = useCallback(
     (term: string) => {
-      // ✅ Evita chamadas duplicadas
       if (lastSearchTermRef.current === term) {
         return;
       }
 
       lastSearchTermRef.current = term;
 
-      // ✅ Cancela timeout anterior
       if (debounceTimeoutRef.current) {
         clearTimeout(debounceTimeoutRef.current);
       }
 
-      // ✅ Aguarda 300ms antes de chamar API
       debounceTimeoutRef.current = setTimeout(() => {
         if (enableApiSearch && onApiSearch) {
-          onApiSearch(term); // 🚀 CHAMA A API
+          onApiSearch(term);
         }
-      }, 300);
+      }, 200);
     },
     [enableApiSearch, onApiSearch]
   );
@@ -62,22 +55,35 @@ export const useSearchLogic = ({
   }, [enableApiSearch, onApiSearch]);
 
   useEffect(() => {
-    if (enableApiSearch && searchTerm) {
-      if (searchTerm.length > 0) {
-        if (lastSearchTermRef.current !== searchTerm) {
-          debouncedApiSearch(searchTerm); // ✅ Aguarda 300ms
-        }
-      }
-    }
-  }, [searchTerm, enableApiSearch, debouncedApiSearch]);
+    if (!enableApiSearch) return;
 
-  const filteredItems = useCallback(() => {
-    if (!searchTerm && !searchInput) {
+    if (searchValue.trim() === '') {
+      debouncedApiSearch('');
+      return;
+    }
+    if (searchTerm !== undefined && searchTerm.trim() !== '') {
+      debouncedApiSearch(searchTerm);
+    }
+  }, [searchTerm, searchValue, enableApiSearch, debouncedApiSearch]);
+
+  useEffect(() => {
+    return () => {
+      if (debounceTimeoutRef.current) {
+        clearTimeout(debounceTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  const filteredItems = useCallback((): MenuItemProps[] => {
+    if (enableApiSearch) {
       return items;
     }
 
-    const term = searchTerm || searchInput;
-    const normalized = normalizeText(term).toLowerCase();
+    if (!searchValue.trim()) {
+      return items;
+    }
+
+    const normalized = normalizeText(searchValue).toLowerCase();
 
     return items.filter((item) => {
       const text = normalizeText(item.text || '').toLowerCase();
@@ -85,10 +91,7 @@ export const useSearchLogic = ({
 
       return text.includes(normalized) || subText.includes(normalized);
     });
-  }, [items, searchTerm, searchInput])();
-  const clearSearch = () => {
-    return (searchValue = '');
-  };
+  }, [items, searchValue, enableApiSearch]);
 
-  return { filteredItems, clearSearch };
+  return { filteredItems: filteredItems() };
 };

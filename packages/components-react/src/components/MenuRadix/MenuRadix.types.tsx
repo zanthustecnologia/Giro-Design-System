@@ -13,17 +13,20 @@ export interface MenuItemProps {
 export interface MenuRadixProps {
   items: MenuItemProps[];
   children?: ReactElement;
-  type?: 'text' | 'icon' | 'checkbox';
-  onItemSelect?: (item: MenuItemProps) => void;
+  type?:  'text' | 'icon' ;
+  onItemSelect?: (items: MenuItemProps) => void;
+  selectedItems?: MenuItemProps[];
   search?: boolean;
+  align?: 'start' | 'end' | 'center';
 
   enableInfiniteScroll?: boolean;
   onScrollEnd?: () => void;
   isLoadingMore?: boolean;
-  
+
   enableApiSearch?: boolean;
   onApiSearch?: (searchTerm: string) => void;
   isSearching?: boolean;
   emptySearchMessage?: string;
-  minSearchLength?: number;
+  closeOnSelect?: boolean;
+  onOpenChange?: (open: boolean) => void;
 }

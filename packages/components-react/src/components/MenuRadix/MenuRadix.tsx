@@ -1,10 +1,12 @@
-import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import styles from './MenuRadix.module.scss';
 import { MenuItemProps, MenuRadixProps } from './MenuRadix.types';
 import { ChevronRight16Filled } from '@fluentui/react-icons';
 import Search from '../Search';
 import { useSearchLogic } from './hooks/useSearchLogic';
+import { useMenuLogic } from './hooks/useMenuLogic';
+import MenuItem from './components/MenuItem';
 
 const MenuRadix: React.FC<MenuRadixProps> = ({
   items,
@@ -16,30 +18,49 @@ const MenuRadix: React.FC<MenuRadixProps> = ({
   isLoadingMore,
   onApiSearch,
   enableApiSearch,
+  selectedItems = [],
+  onOpenChange,
+  align = 'start',
+  ...rest
 }) => {
   const viewportRef = useRef<HTMLDivElement>(null);
   const hasReachedEndRef = useRef<boolean>(false);
 
   const [searchInput, setSearchInput] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
+  const [open, setOpen] = useState(false);
+
+  const {
+    handleItemSelect,
+    isItemSelected,
+  } = useMenuLogic({
+    selectedItems,
+    onItemSelect,
+    onOpenChange,
+  });
+
   const { filteredItems } = useSearchLogic({
     items,
     searchValue: searchInput,
-    searchTerm,
+    searchTerm: searchTerm,
     onApiSearch,
-    enableApiSearch
+    enableApiSearch,
   });
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchInput(e.target.value);
+    const value = e.target.value;
+    setSearchInput(value);
+    
+    if (value.trim() === '') {
+      setSearchTerm('');
+    }
   };
 
   const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    e.stopPropagation();
     if (e.key === 'Enter') {
-      setSearchTerm('');
       e.preventDefault();
       setSearchTerm(searchInput);
-      console.log(searchTerm); 
     }
   };
 
@@ -71,50 +92,46 @@ const MenuRadix: React.FC<MenuRadixProps> = ({
     };
   }, [enableInfiniteScroll, onScrollEnd, isLoadingMore]);
 
-  // Reset a flag when the select opens
   useEffect(() => {
-    if (enableInfiniteScroll) {
+    if (enableInfiniteScroll && open) {
       hasReachedEndRef.current = false;
     }
-  }, [enableInfiniteScroll]);
-
-  const handleItemSelect = useCallback(
-    (item: MenuItemProps) => {
-      onItemSelect?.(item);
-    },
-    [onItemSelect]
-  );
+  }, [enableInfiniteScroll, open]);
 
   const renderMenuItem = useCallback(
-    (item: MenuItemProps, index: number) => {
+    (item: MenuItemProps, key: string | number) => {
       const hasChildren = item.children && item.children.length > 0;
+
       if (hasChildren) {
         return (
-          <DropdownMenu.Sub key={index}>
+          <DropdownMenu.Sub key={key} >
             <DropdownMenu.SubTrigger
-              className={styles.SubTrigger}
+            
+              className={styles.subTrigger}
               disabled={item.disabled}
             >
               {item.icon && (
-                <span className={styles.ItemIcon}>{item.icon}</span>
+                <span className={styles.itemIcon}>{item.icon}</span>
               )}
               <div className={styles.wrapperText}>
-                <span className={styles.ItemText}>{item.text}</span>
+                <span className={styles.itemText}>{item.text}</span>
                 {item.subText && (
-                  <span className={styles.ItemSubText}>{item.subText}</span>
+                  <span className={styles.itemSubText}>{item.subText}</span>
                 )}
               </div>
-              <ChevronRight16Filled className={styles.ChevronIcon} />
+              <ChevronRight16Filled className={styles.chevronIcon} />
             </DropdownMenu.SubTrigger>
 
             <DropdownMenu.Portal>
               <DropdownMenu.SubContent
-                className={styles.SubContent}
-                sideOffset={2}
+                className={styles.subContent}
+                sideOffset={10}
                 alignOffset={-5}
+                collisionPadding={20}
+
               >
                 {item.children!.map((childItem, childIndex) =>
-                  renderMenuItem(childItem, childIndex)
+                  renderMenuItem(childItem, `${key}-${childIndex}`)
                 )}
               </DropdownMenu.SubContent>
             </DropdownMenu.Portal>
@@ -122,46 +139,58 @@ const MenuRadix: React.FC<MenuRadixProps> = ({
         );
       }
       return (
-        <DropdownMenu.Item
-          className={styles.Item}
-          key={index}
-          disabled={item.disabled}
-          onSelect={() => handleItemSelect(item)}
-        >
-          {item.icon && <span className={styles.ItemIcon}>{item.icon}</span>}
-          <div className={styles.wrapperText}>
-            <span className={styles.ItemText}>{item.text}</span>
-            {item.subText && (
-              <span className={styles.ItemSubText}>{item.subText}</span>
-            )}
-          </div>
-        </DropdownMenu.Item>
+        <MenuItem
+          key={key}
+          item={item}
+          isSelected={isItemSelected(item)}
+          onSelect={handleItemSelect}
+        />
       );
     },
-    [handleItemSelect]
+    [handleItemSelect, isItemSelected]
   );
 
+  const handleOpenChange = (newOpen: boolean) => {
+    setOpen(newOpen);
+    if (onOpenChange) {
+      onOpenChange(newOpen);
+    }
+  };
+
   return (
-    <DropdownMenu.Root>
+    <DropdownMenu.Root open={open} onOpenChange={handleOpenChange}>
       <DropdownMenu.Trigger asChild>{children}</DropdownMenu.Trigger>
       <DropdownMenu.Portal>
         <DropdownMenu.Content
-          className={styles.Content}
-          sideOffset={5}
-          align="end"
+          className={styles.content}
+          sideOffset={8}
+          align={align}
+          ref={viewportRef}
+          onKeyDown={(e) => {
+            // Desabilita typeahead do Radix quando search está ativo
+            if (search) {
+              e.preventDefault();
+              e.stopPropagation();
+            }
+          }}
+          {...rest}
         >
           {search && (
-            <Search
-              placeholder="Buscar"
-              onChange={handleSearchChange}
-              value={searchInput}
-              onKeyDown={handleSearchKeyDown}
-            />
+            <div className={styles.searchWrapper}>
+              <Search
+                placeholder="Buscar"
+                onChange={handleSearchChange}
+                value={searchInput}
+                onKeyDown={handleSearchKeyDown}
+              />
+            </div>
           )}
           {filteredItems.length > 0 ? (
-            filteredItems.map((item, index) => renderMenuItem(item, index))
+            filteredItems.map((item, index) =>
+              renderMenuItem(item, item.value || item.text || `item-${index}`)
+            )
           ) : (
-            <div>No items found</div>
+            <div className={styles.emptyState}>Nenhum item encontrado</div>
           )}
           {enableInfiniteScroll && isLoadingMore && (
             <div className={styles.loadingMore}>Carregando mais itens...</div>
