@@ -7,6 +7,8 @@ import Search from '../Search';
 import { useSearchLogic } from './hooks/useSearchLogic';
 import { useMenuLogic } from './hooks/useMenuLogic';
 import MenuItem from './components/MenuItem';
+import React from 'react';
+import clsx from 'clsx';
 
 const MenuRadix: React.FC<MenuRadixProps> = ({
   items,
@@ -21,19 +23,21 @@ const MenuRadix: React.FC<MenuRadixProps> = ({
   selectedItems = [],
   onOpenChange,
   align = 'start',
+  className,
   ...rest
 }) => {
-  const viewportRef = useRef<HTMLDivElement>(null);
+  const itemsWrapperRef = useRef<HTMLDivElement>(null);
   const hasReachedEndRef = useRef<boolean>(false);
+  const observerRef = useRef<IntersectionObserver | null>(null);
+  const sentinelRef = useRef<HTMLDivElement | null>(null);
+  const onScrollEndRef = useRef(onScrollEnd);
+  const isLoadingMoreRef = useRef(isLoadingMore);
 
   const [searchInput, setSearchInput] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [open, setOpen] = useState(false);
 
-  const {
-    handleItemSelect,
-    isItemSelected,
-  } = useMenuLogic({
+  const { handleItemSelect, isItemSelected } = useMenuLogic({
     selectedItems,
     onItemSelect,
     onOpenChange,
@@ -50,7 +54,7 @@ const MenuRadix: React.FC<MenuRadixProps> = ({
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchInput(value);
-    
+
     if (value.trim() === '') {
       setSearchTerm('');
     }
@@ -65,38 +69,80 @@ const MenuRadix: React.FC<MenuRadixProps> = ({
   };
 
   useEffect(() => {
-    const viewport = viewportRef.current;
-    if (!viewport || !enableInfiniteScroll) return;
-
-    const handleScroll = () => {
-      const { scrollTop, scrollHeight, clientHeight } = viewport;
-      const isAtBottom = scrollTop + clientHeight >= scrollHeight - 1;
-
-      if (
-        isAtBottom &&
-        !hasReachedEndRef.current &&
-        onScrollEnd &&
-        !isLoadingMore
-      ) {
-        hasReachedEndRef.current = true;
-        onScrollEnd();
-      } else if (!isAtBottom && hasReachedEndRef.current) {
-        hasReachedEndRef.current = false;
-      }
-    };
-
-    viewport.addEventListener('scroll', handleScroll);
-
-    return () => {
-      viewport.removeEventListener('scroll', handleScroll);
-    };
-  }, [enableInfiniteScroll, onScrollEnd, isLoadingMore]);
+    onScrollEndRef.current = onScrollEnd;
+    isLoadingMoreRef.current = isLoadingMore;
+  });
 
   useEffect(() => {
-    if (enableInfiniteScroll && open) {
+    if (!open || !enableInfiniteScroll) {
+      return;
+    }
+
+    const setupTimer = setTimeout(() => {
+      const container = itemsWrapperRef.current;
+      const sentinel = sentinelRef.current;
+      
+      if (!container || !sentinel) {
+        return;
+      }
+
+      observerRef.current = new IntersectionObserver(
+        ([entry]) => {
+          if (
+            entry.isIntersecting &&
+            !hasReachedEndRef.current &&
+            !isLoadingMoreRef.current &&
+            onScrollEndRef.current
+          ) {
+            hasReachedEndRef.current = true;
+            onScrollEndRef.current();
+          }
+        },
+        {
+          root: container,
+          threshold: 0.1,
+          rootMargin: '50px',
+        }
+      );
+
+      observerRef.current.observe(sentinel);
+    }, 50);
+    return () => {
+      clearTimeout(setupTimer);
+      if (observerRef.current) {
+        observerRef.current.disconnect();
+        observerRef.current = null;
+      }
+    };
+  }, [open, enableInfiniteScroll]);
+
+  useEffect(() => {
+    if (!isLoadingMore && open && enableInfiniteScroll) {
       hasReachedEndRef.current = false;
     }
-  }, [enableInfiniteScroll, open]);
+  }, [isLoadingMore, open, enableInfiniteScroll]);
+
+  useEffect(() => {
+    if (!open || !enableInfiniteScroll || !onScrollEnd || isLoadingMore) {
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      const container = itemsWrapperRef.current;
+      if (!container) {
+        return;
+      }
+
+      const { scrollHeight, clientHeight } = container;
+      
+      if (scrollHeight <= clientHeight && !hasReachedEndRef.current) {
+        hasReachedEndRef.current = true;
+        onScrollEnd();
+      }
+    }, 200);
+
+    return () => clearTimeout(timer);
+  }, [open, enableInfiniteScroll, onScrollEnd, isLoadingMore, filteredItems.length]);
 
   const renderMenuItem = useCallback(
     (item: MenuItemProps, key: string | number) => {
@@ -104,9 +150,8 @@ const MenuRadix: React.FC<MenuRadixProps> = ({
 
       if (hasChildren) {
         return (
-          <DropdownMenu.Sub key={key} >
+          <DropdownMenu.Sub key={key}>
             <DropdownMenu.SubTrigger
-            
               className={styles.subTrigger}
               disabled={item.disabled}
             >
@@ -128,7 +173,6 @@ const MenuRadix: React.FC<MenuRadixProps> = ({
                 sideOffset={10}
                 alignOffset={-5}
                 collisionPadding={20}
-
               >
                 {item.children!.map((childItem, childIndex) =>
                   renderMenuItem(childItem, `${key}-${childIndex}`)
@@ -154,6 +198,9 @@ const MenuRadix: React.FC<MenuRadixProps> = ({
     setOpen(newOpen);
     if (onOpenChange) {
       onOpenChange(newOpen);
+    }    
+    if (!newOpen) {
+      hasReachedEndRef.current = false;
     }
   };
 
@@ -162,14 +209,11 @@ const MenuRadix: React.FC<MenuRadixProps> = ({
       <DropdownMenu.Trigger asChild>{children}</DropdownMenu.Trigger>
       <DropdownMenu.Portal>
         <DropdownMenu.Content
-          className={styles.content}
+          className={clsx(styles.content, className)}
           sideOffset={8}
           align={align}
-          ref={viewportRef}
           onKeyDown={(e) => {
-            // Desabilita typeahead do Radix quando search está ativo
             if (search) {
-              e.preventDefault();
               e.stopPropagation();
             }
           }}
@@ -185,16 +229,26 @@ const MenuRadix: React.FC<MenuRadixProps> = ({
               />
             </div>
           )}
-          {filteredItems.length > 0 ? (
-            filteredItems.map((item, index) =>
-              renderMenuItem(item, item.value || item.text || `item-${index}`)
-            )
-          ) : (
-            <div className={styles.emptyState}>Nenhum item encontrado</div>
-          )}
-          {enableInfiniteScroll && isLoadingMore && (
-            <div className={styles.loadingMore}>Carregando mais itens...</div>
-          )}
+
+          <div className={styles.itemsWrapper} ref={itemsWrapperRef}>
+            {filteredItems.length > 0 ? (
+              filteredItems.map((item, index) =>
+                renderMenuItem(item, item.value || item.text || `item-${index}`)
+              )
+            ) : (
+              <div className={styles.emptyState}>Nenhum item encontrado</div>
+            )}
+            {enableInfiniteScroll && isLoadingMore && (
+              <div className={styles.loadingMore}>Carregando mais itens...</div>
+            )}
+            {enableInfiniteScroll && (
+              <div
+                ref={sentinelRef}
+                data-scroll-sentinel
+                style={{ height: '1px', visibility: 'hidden' }}
+              />
+            )}
+          </div>
         </DropdownMenu.Content>
       </DropdownMenu.Portal>
     </DropdownMenu.Root>

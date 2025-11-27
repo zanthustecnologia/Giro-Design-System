@@ -14,6 +14,7 @@ export interface MenuRadixProps {
   items: MenuItemProps[];
   children?: ReactElement;
   type?:  'text' | 'icon' ;
+  className?: string;
   onItemSelect?: (items: MenuItemProps) => void;
   selectedItems?: MenuItemProps[];
   search?: boolean;
@@ -22,11 +23,7 @@ export interface MenuRadixProps {
   enableInfiniteScroll?: boolean;
   onScrollEnd?: () => void;
   isLoadingMore?: boolean;
-
   enableApiSearch?: boolean;
   onApiSearch?: (searchTerm: string) => void;
-  isSearching?: boolean;
-  emptySearchMessage?: string;
-  closeOnSelect?: boolean;
   onOpenChange?: (open: boolean) => void;
 }

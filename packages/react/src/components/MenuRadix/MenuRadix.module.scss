@@ -5,14 +5,37 @@
 	border-radius: var(--border-radius-8);
 	box-shadow: 0 2px 16px 0px rgba(0, 0, 0, 0.20);
 	border: var(--border-width-1) solid var(--color-neutral-high-dark);
-	overflow: hidden;
 	display: flex;
 	flex-direction: column;
 	gap: var(--spacing-4);
 	padding: var(--spacing-16);
 	position: relative;
 }
-
+.itemsWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: 400px; 
+  
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: var(--color-neutral-high-dark);
+    border-radius: var(--border-radius-pill);
+    
+    &:hover {
+      background: var(--color-neutral-low-medium);
+    }
+  }
+}
 .item,
 .subTrigger {
 	height: 44px;
@@ -31,7 +54,7 @@
 	user-select: none;
 	outline: none;
 	padding: 0 var(--spacing-16);
-	
+	flex-shrink: 0;
 	&:hover:not([data-disabled]) {
 		background-color: var(--color-neutral-high-medium);
 	}
@@ -124,13 +147,7 @@
 
 .searchWrapper {
 	margin-bottom: var(--spacing-8);
-}
-
-.itemsWrapper {
-	display: flex;
-	flex-direction: column;
-	overflow-y: auto;
-	max-height: 200px;
+	flex-shrink: 0;
 }
 
 .loadingState,
@@ -141,6 +158,7 @@
 	padding: var(--spacing-16);
 	text-align: center;
 	font-style: italic;
+	flex-shrink: 0;
 }
 
 .loadingMore {
@@ -148,4 +166,5 @@
 	color: var(--color-neutral-low-medium);
 	font-size: var(--font-size-14);
 	text-align: center;
+	flex-shrink: 0;
 }

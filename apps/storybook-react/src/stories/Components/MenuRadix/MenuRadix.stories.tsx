@@ -1,8 +1,8 @@
 import type { Meta, StoryFn } from '@storybook/react';
-import { useState, useEffect } from 'react';
-import MenuRadix from './MenuRadix';
-import Button from '../Button';
-import { MenuItemProps } from './MenuRadix.types';
+import { useState, useEffect, useCallback, useRef } from 'react';
+import MenuRadix from '@zanthus/react/src/components/MenuRadix/MenuRadix';
+import Button from '@zanthus/react/src/components/Button';
+import { MenuItemProps } from '@zanthus/react/src/components/MenuRadix/MenuRadix.types';
 import { ChevronCircleDown16Regular } from '@fluentui/react-icons';
 
 const meta: Meta = {
@@ -38,19 +38,54 @@ const mockItems = [
 ];
 
 const mockProducts = [
-  { id: 1, name: 'Notebook Dell Inspiron', category: 'Eletrônicos', price: 3500 },
-  { id: 2, name: 'Notebook Lenovo ThinkPad', category: 'Eletrônicos', price: 4200 },
+  {
+    id: 1,
+    name: 'Notebook Dell Inspiron',
+    category: 'Eletrônicos',
+    price: 3500,
+  },
+  {
+    id: 2,
+    name: 'Notebook Lenovo ThinkPad',
+    category: 'Eletrônicos',
+    price: 4200,
+  },
   { id: 3, name: 'MacBook Pro 14"', category: 'Eletrônicos', price: 12000 },
-  { id: 4, name: 'Mouse Logitech MX Master', category: 'Periféricos', price: 450 },
-  { id: 5, name: 'Teclado Mecânico Keychron', category: 'Periféricos', price: 650 },
+  {
+    id: 4,
+    name: 'Mouse Logitech MX Master',
+    category: 'Periféricos',
+    price: 450,
+  },
+  {
+    id: 5,
+    name: 'Teclado Mecânico Keychron',
+    category: 'Periféricos',
+    price: 650,
+  },
   { id: 6, name: 'Monitor LG UltraWide', category: 'Monitores', price: 2500 },
   { id: 7, name: 'Webcam Logitech C920', category: 'Periféricos', price: 380 },
   { id: 8, name: 'Headset HyperX Cloud', category: 'Áudio', price: 550 },
   { id: 9, name: 'SSD Samsung 1TB', category: 'Armazenamento', price: 600 },
-  { id: 10, name: 'HD Externo Seagate 2TB', category: 'Armazenamento', price: 400 },
-  { id: 11, name: 'Impressora HP LaserJet', category: 'Impressoras', price: 1800 },
+  {
+    id: 10,
+    name: 'HD Externo Seagate 2TB',
+    category: 'Armazenamento',
+    price: 400,
+  },
+  {
+    id: 11,
+    name: 'Impressora HP LaserJet',
+    category: 'Impressoras',
+    price: 1800,
+  },
   { id: 12, name: 'Scanner Epson', category: 'Scanners', price: 900 },
-  { id: 13, name: 'Tablet Samsung Galaxy Tab', category: 'Tablets', price: 2200 },
+  {
+    id: 13,
+    name: 'Tablet Samsung Galaxy Tab',
+    category: 'Tablets',
+    price: 2200,
+  },
   { id: 14, name: 'iPad Pro 12.9"', category: 'Tablets', price: 9500 },
   { id: 15, name: 'Câmera Canon EOS', category: 'Câmeras', price: 5500 },
 ];
@@ -71,7 +106,8 @@ export const Default: StoryFn = () => (
 Default.parameters = {
   docs: {
     description: {
-      story: 'Menu com busca local. Os items são filtrados no frontend conforme você digita.',
+      story:
+        'Menu com busca local. Os items são filtrados no frontend conforme você digita.',
     },
   },
 };
@@ -108,7 +144,7 @@ export const ApiSearch: StoryFn = () => {
     console.log('🔍 Buscando:', searchTerm || '(busca vazia)');
     setIsSearching(true);
 
-    await new Promise((resolve) => 
+    await new Promise((resolve) =>
       setTimeout(resolve, Math.random() * 500 + 300)
     );
 
@@ -144,29 +180,39 @@ export const ApiSearch: StoryFn = () => {
 
   return (
     <div>
-      <div style={{ marginBottom: '16px', padding: '12px', background: '#f5f5f5', borderRadius: '8px' }}>
+      <div
+        style={{
+          marginBottom: '16px',
+          padding: '12px',
+          background: '#f5f5f5',
+          borderRadius: '8px',
+        }}
+      >
         <strong>💡 Como usar:</strong>
         <ol style={{ margin: '8px 0 0 0', paddingLeft: '20px' }}>
           <li>Abra o menu</li>
-          <li>Digite no campo de busca (ex: "notebook", "mouse", "logitech")</li>
-          <li>Pressione <kbd>Enter</kbd> para buscar</li>
+          <li>
+            Digite no campo de busca (ex: "notebook", "mouse", "logitech")
+          </li>
+          <li>
+            Pressione <kbd>Enter</kbd> para buscar
+          </li>
           <li>Aguarde o loading (300-800ms simulado)</li>
           <li>Veja os resultados filtrados</li>
         </ol>
         <p style={{ margin: '8px 0 0 0', fontSize: '14px', color: '#666' }}>
-          🔍 Experimente buscar: "notebook", "logitech", "samsung", "eletrônicos"
+          🔍 Experimente buscar: "notebook", "logitech", "samsung",
+          "eletrônicos"
         </p>
       </div>
 
       <MenuRadix
         items={items}
         search
-        enableApiSearch 
+        enableApiSearch
         onApiSearch={handleApiSearch}
-        isSearching={isSearching}
-        emptySearchMessage="Nenhum produto encontrado. Tente outro termo."
+        enableInfiniteScroll={true}
         onItemSelect={(item) => console.log('✅ Produto selecionado:', item)}
-        
       >
         <Button>Produtos ({items.length})</Button>
       </MenuRadix>
@@ -201,7 +247,6 @@ Esta story simula uma busca em API real com as seguintes características:
 // ===================================================
 export const ApiSearchReal: StoryFn = () => {
   const [items, setItems] = useState<MenuItemProps[]>([]);
-  const [isSearching, setIsSearching] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   // ✅ Carregar users iniciais
@@ -211,11 +256,11 @@ export const ApiSearchReal: StoryFn = () => {
 
   const loadInitialUsers = async () => {
     try {
-      setIsSearching(true);
       setError(null);
 
-      // API pública gratuita: JSONPlaceholder
-      const response = await fetch('https://jsonplaceholder.typicode.com/users');
+      const response = await fetch(
+        'https://jsonplaceholder.typicode.com/users'
+      );
       const users = await response.json();
 
       const userItems = users.map((user: any) => ({
@@ -231,21 +276,20 @@ export const ApiSearchReal: StoryFn = () => {
       console.error('❌ Erro ao carregar:', err);
       setError(err.message);
       setItems([]);
-    } finally {
-      setIsSearching(false);
     }
   };
 
   const handleApiSearch = async (searchTerm: string) => {
     console.log('🔍 Buscando usuário:', searchTerm || '(todos)');
-    setIsSearching(true);
     setError(null);
 
     try {
       if (searchTerm === '') {
         await loadInitialUsers();
       } else {
-        const response = await fetch('https://jsonplaceholder.typicode.com/users');
+        const response = await fetch(
+          'https://jsonplaceholder.typicode.com/users'
+        );
         const users = await response.json();
 
         const normalized = searchTerm.toLowerCase();
@@ -271,24 +315,38 @@ export const ApiSearchReal: StoryFn = () => {
       console.error('❌ Erro na busca:', err);
       setError(err.message);
       setItems([]);
-    } finally {
-      setIsSearching(false);
     }
   };
 
   return (
     <div>
-      <div style={{ marginBottom: '16px', padding: '12px', background: '#e3f2fd', borderRadius: '8px' }}>
+      <div
+        style={{
+          marginBottom: '16px',
+          padding: '12px',
+          background: '#e3f2fd',
+          borderRadius: '8px',
+        }}
+      >
         <strong>🌐 API Real:</strong> JSONPlaceholder
         <p style={{ margin: '8px 0 0 0', fontSize: '14px' }}>
-          Esta story usa a API <code>jsonplaceholder.typicode.com</code> para buscar usuários reais.
+          Esta story usa a API <code>jsonplaceholder.typicode.com</code> para
+          buscar usuários reais.
           <br />
           Experimente buscar: "Leanne", "Ervin", "bret", "sincere"
         </p>
       </div>
 
       {error && (
-        <div style={{ padding: '12px', background: '#ffebee', color: '#c62828', borderRadius: '8px', marginBottom: '16px' }}>
+        <div
+          style={{
+            padding: '12px',
+            background: '#ffebee',
+            color: '#c62828',
+            borderRadius: '8px',
+            marginBottom: '16px',
+          }}
+        >
           ❌ Erro: {error}
         </div>
       )}
@@ -298,15 +356,10 @@ export const ApiSearchReal: StoryFn = () => {
         search
         enableApiSearch
         onApiSearch={handleApiSearch}
-        isSearching={isSearching}
-        emptySearchMessage="Nenhum usuário encontrado"
         onItemSelect={(item) => {
-          console.log(item)
+          console.log(item);
         }}
       >
-        <Button>
-          {isSearching ? 'Carregando...' : `Usuários (${items.length})`}
-        </Button>
       </MenuRadix>
     </div>
   );
@@ -337,20 +390,18 @@ Esta story faz requisições reais para a API pública JSONPlaceholder.
 // ♾️ Story 4: Scroll Infinito
 // ===================================================
 export const InfiniteScroll: StoryFn = () => {
-  const ITEMS_PER_PAGE = 20;
+  const ITEMS_PER_PAGE = 15;
   const TOTAL_ITEMS = 100;
 
   const [items, setItems] = useState<MenuItemProps[]>([]);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
+  const isLoadingRef = useRef(false); // ✅ Ref para prevenir chamadas duplicadas
 
-  // ✅ Carregar items iniciais
-  useEffect(() => {
-    loadInitialItems();
-  }, []);
-
-  const loadInitialItems = () => {
+  // ✅ useCallback para evitar recreação
+  const loadInitialItems = useCallback(() => {
+    console.log('🎬 Carregando items iniciais...');
     const initialItems = Array.from({ length: ITEMS_PER_PAGE }, (_, i) => ({
       id: String(i + 1),
       text: `Item ${i + 1}`,
@@ -361,13 +412,24 @@ export const InfiniteScroll: StoryFn = () => {
     setItems(initialItems);
     setCurrentPage(1);
     setHasMore(ITEMS_PER_PAGE < TOTAL_ITEMS);
+    isLoadingRef.current = false;
     console.log(`✅ Carregados: ${ITEMS_PER_PAGE} items iniciais`);
-  };
+  }, [ITEMS_PER_PAGE, TOTAL_ITEMS]);
 
-  const handleScrollEnd = async () => {
-    if (!hasMore || isLoadingMore) return;
+  // ✅ Carregar items iniciais
+  useEffect(() => {
+    loadInitialItems();
+  }, [loadInitialItems]);
+
+  const handleScrollEnd = useCallback(async () => {
+    // Guard com ref síncrona para prevenir chamadas duplicadas
+    if (!hasMore || isLoadingMore || isLoadingRef.current) {
+      console.log('⚠️ Scroll ignorado:', { hasMore, isLoadingMore, isLoadingRef: isLoadingRef.current });
+      return;
+    }
 
     console.log('📜 Scroll chegou ao fim, carregando mais...');
+    isLoadingRef.current = true; // ✅ Marca imediatamente como loading
     setIsLoadingMore(true);
 
     // Simula delay de API
@@ -388,21 +450,25 @@ export const InfiniteScroll: StoryFn = () => {
     setCurrentPage(nextPage);
     setHasMore(endIndex < TOTAL_ITEMS);
     setIsLoadingMore(false);
+    isLoadingRef.current = false; // ✅ Libera para próxima chamada
 
-    console.log(`✅ Carregados mais ${newItems.length} items (total: ${endIndex}/${TOTAL_ITEMS})`);
-  };
+    console.log(
+      `✅ Carregados mais ${newItems.length} items (total: ${endIndex}/${TOTAL_ITEMS})`
+    );
+  }, [currentPage, hasMore, isLoadingMore, ITEMS_PER_PAGE, TOTAL_ITEMS]);
 
   return (
- 
-      <MenuRadix
-        items={items}
-        enableInfiniteScroll
-        onScrollEnd={handleScrollEnd}
-        isLoadingMore={isLoadingMore}
-        onItemSelect={(item) => console.log('✅ Item selecionado:', item)}
-      >
-        <Button>Items ({items.length}/{TOTAL_ITEMS})</Button>
-      </MenuRadix>
+    <MenuRadix
+      items={items}
+      enableInfiniteScroll
+      onScrollEnd={handleScrollEnd}
+      isLoadingMore={isLoadingMore}
+      onItemSelect={(item) => console.log('✅ Item selecionado:', item)}
+    >
+      <Button>
+        Items ({items.length}/{TOTAL_ITEMS})
+      </Button>
+    </MenuRadix>
   );
 };
 
@@ -447,12 +513,11 @@ export const InfiniteScrollWithSearch: StoryFn = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [searchMode, setSearchMode] = useState(false);
+  const isLoadingRef = useRef(false); // ✅ Ref para prevenir chamadas duplicadas
 
-  useEffect(() => {
-    loadInitialItems();
-  }, []);
-
-  const loadInitialItems = () => {
+  // ✅ useCallback para evitar recreação
+  const loadInitialItems = useCallback(() => {
+    console.log('🎬 Carregando items iniciais...');
     const initialItems = Array.from({ length: ITEMS_PER_PAGE }, (_, i) => ({
       id: String(i + 1),
       text: `Produto ${i + 1}`,
@@ -464,13 +529,27 @@ export const InfiniteScrollWithSearch: StoryFn = () => {
     setCurrentPage(1);
     setHasMore(ITEMS_PER_PAGE < TOTAL_ITEMS);
     setSearchMode(false);
+    isLoadingRef.current = false;
     console.log(`✅ Carregados: ${ITEMS_PER_PAGE} items iniciais`);
-  };
+  }, [ITEMS_PER_PAGE, TOTAL_ITEMS]);
 
-  const handleScrollEnd = async () => {
-    if (!hasMore || isLoadingMore || searchMode) return;
+  useEffect(() => {
+    loadInitialItems();
+  }, [loadInitialItems]);
+
+  const handleScrollEnd = useCallback(async () => {
+    if (!hasMore || isLoadingMore || searchMode || isLoadingRef.current) {
+      console.log('⚠️ Scroll ignorado:', {
+        hasMore,
+        isLoadingMore,
+        searchMode,
+        isLoadingRef: isLoadingRef.current,
+      });
+      return;
+    }
 
     console.log('📜 Scroll infinito: carregando mais...');
+    isLoadingRef.current = true; // ✅ Marca imediatamente
     setIsLoadingMore(true);
 
     await new Promise((resolve) => setTimeout(resolve, 600));
@@ -490,121 +569,113 @@ export const InfiniteScrollWithSearch: StoryFn = () => {
     setCurrentPage(nextPage);
     setHasMore(endIndex < TOTAL_ITEMS);
     setIsLoadingMore(false);
+    isLoadingRef.current = false; // ✅ Libera
 
-    console.log(`✅ +${newItems.length} items (total: ${endIndex}/${TOTAL_ITEMS})`);
-  };
+    console.log(
+      `✅ +${newItems.length} items (total: ${endIndex}/${TOTAL_ITEMS})`
+    );
+  }, [
+    currentPage,
+    hasMore,
+    isLoadingMore,
+    searchMode,
+    ITEMS_PER_PAGE,
+    TOTAL_ITEMS,
+  ]);
 
-  const handleApiSearch = async (searchTerm: string) => {
-    console.log('🔍 Buscando:', searchTerm || '(limpar busca)');
-    setIsSearching(true);
+  const handleApiSearch = useCallback(
+    async (searchTerm: string) => {
+      console.log('🔍 Buscando:', searchTerm || '(limpar busca)');
+      setIsSearching(true);
 
-    await new Promise((resolve) => setTimeout(resolve, 500));
+      await new Promise((resolve) => setTimeout(resolve, 500));
 
-    try {
-      if (searchTerm === '') {
-        loadInitialItems();
-      } else {
-        setSearchMode(true);
-        const normalized = searchTerm.toLowerCase();
-        
-        // Simula busca em todos os items
-        const allItems = Array.from({ length: TOTAL_ITEMS }, (_, i) => ({
-          id: String(i + 1),
-          text: `Produto ${i + 1}`,
-          subText: `Categoria ${Math.floor(i / 5) + 1} - R$ ${(i + 1) * 100}`,
-          value: String(i + 1),
-        }));
+      try {
+        if (searchTerm === '') {
+          loadInitialItems();
+        } else {
+          setSearchMode(true);
+          const normalized = searchTerm.toLowerCase();
 
-        const filtered = allItems.filter(
-          (item) =>
-            item.text.toLowerCase().includes(normalized) ||
-            item.subText.toLowerCase().includes(normalized)
-        );
+          const allItems = Array.from({ length: TOTAL_ITEMS }, (_, i) => ({
+            id: String(i + 1),
+            text: `Produto ${i + 1}`,
+            subText: `Categoria ${Math.floor(i / 5) + 1} - R$ ${(i + 1) * 100}`,
+            value: String(i + 1),
+          }));
 
-        console.log(`✅ Encontrados: ${filtered.length} items`);
-        setItems(filtered);
-        setHasMore(false); // Desabilita scroll infinito durante busca
+          const filtered = allItems.filter(
+            (item) =>
+              item.text.toLowerCase().includes(normalized) ||
+              item.subText.toLowerCase().includes(normalized)
+          );
+
+          console.log(`✅ Encontrados: ${filtered.length} items`);
+          setItems(filtered);
+          setHasMore(false);
+        }
+      } catch (error) {
+        console.error('❌ Erro na busca:', error);
+        setItems([]);
+      } finally {
+        setIsSearching(false);
       }
-    } catch (error) {
-      console.error('❌ Erro na busca:', error);
-      setItems([]);
-    } finally {
-      setIsSearching(false);
-    }
-  };
+    },
+    [loadInitialItems, TOTAL_ITEMS]
+  );
 
   return (
     <div>
-      <div style={{ marginBottom: '16px', padding: '12px', background: '#e8f5e9', borderRadius: '8px' }}>
+      <div
+        style={{
+          marginBottom: '16px',
+          padding: '12px',
+          background: '#e8f5e9',
+          borderRadius: '8px',
+        }}
+      >
         <strong>🔍♾️ Scroll Infinito + Busca</strong>
         <p style={{ margin: '8px 0 0 0', fontSize: '14px' }}>
           Combinação de scroll infinito com busca via API.
         </p>
-        <ul style={{ margin: '8px 0 0 0', paddingLeft: '20px', fontSize: '14px' }}>
+        <ul
+          style={{ margin: '8px 0 0 0', paddingLeft: '20px', fontSize: '14px' }}
+        >
           <li>Scroll infinito: 15 items por vez (total: 150)</li>
           <li>Busca: desabilita scroll infinito temporariamente</li>
           <li>Clear: restaura scroll infinito</li>
         </ul>
-        <div style={{ marginTop: '12px', padding: '8px', background: 'rgba(0,0,0,0.05)', borderRadius: '4px' }}>
+        <div
+          style={{
+            marginTop: '12px',
+            padding: '8px',
+            background: 'rgba(0,0,0,0.05)',
+            borderRadius: '4px',
+          }}
+        >
           <strong>📊 Status:</strong>
           <div style={{ fontSize: '14px', marginTop: '4px' }}>
-            Modo: <strong>{searchMode ? '🔍 Busca' : '♾️ Scroll Infinito'}</strong>
+            Modo:{' '}
+            <strong>{searchMode ? '🔍 Busca' : '♾️ Scroll Infinito'}</strong>
             <br />
-            Items: <strong>{items.length}{!searchMode && `/${TOTAL_ITEMS}`}</strong>
-            {!hasMore && !searchMode && ' ✅'}
+            Items:{' '}
+            <strong>
+              {items.length}
+              {!searchMode && `/${TOTAL_ITEMS}`}
+            </strong>
           </div>
         </div>
-      </div>
 
-      <MenuRadix
-        items={items}
-        search
-        enableApiSearch
-        onApiSearch={handleApiSearch}
-        isSearching={isSearching}
-        enableInfiniteScroll={!searchMode}
-        onScrollEnd={handleScrollEnd}
-        isLoadingMore={isLoadingMore}
-        emptySearchMessage="Nenhum produto encontrado"
-        onItemSelect={(item) => console.log('✅ Selecionado:', item)}
-      >
-        <Button>
-          {isSearching ? 'Buscando...' : `Produtos (${items.length})`}
-        </Button>
-      </MenuRadix>
+        <MenuRadix
+          items={items}
+          search
+          enableApiSearch
+          onApiSearch={handleApiSearch}
+          enableInfiniteScroll={!searchMode}
+          isLoadingMore={isLoadingMore}
+          onItemSelect={(item) => console.log('✅ Selecionado:', item)}
+        ></MenuRadix>
+      </div>
     </div>
   );
 };
-
-InfiniteScrollWithSearch.parameters = {
-  docs: {
-    description: {
-      story: `
-**Scroll Infinito + Busca API**
-
-Demonstração avançada combinando scroll infinito com busca via API.
-
-**Comportamento:**
-1. **Modo Normal**: Scroll infinito carrega 15 items por vez
-2. **Modo Busca**: Desabilita scroll infinito, busca em todos os 150 items
-3. **Clear**: Restaura modo normal com scroll infinito
-
-**Features:**
-- 🔍 Busca via API com Enter
-- ♾️ Scroll infinito automático
-- 🔄 Alternância inteligente entre modos
-- 📊 Status visual do modo atual
-- 🚫 Previne conflitos entre busca e scroll
-- 🔔 Logs detalhados no console
-
-**Como testar:**
-1. Abra o menu e faça scroll - carrega mais items automaticamente
-2. Digite "produto 50" e pressione Enter - busca específica
-3. Limpe o campo - volta ao modo scroll infinito
-
-**Abra o Console** para ver os logs!
-      `,
-    },
-  },
-};
-
