@@ -24,6 +24,7 @@ const MenuRadix: React.FC<MenuRadixProps> = ({
   onOpenChange,
   align = 'start',
   className,
+  maxHeight = 400,
   ...rest
 }) => {
   const itemsWrapperRef = useRef<HTMLDivElement>(null);
@@ -37,11 +38,18 @@ const MenuRadix: React.FC<MenuRadixProps> = ({
   const [searchTerm, setSearchTerm] = useState('');
   const [open, setOpen] = useState(false);
 
-  const { handleItemSelect, isItemSelected } = useMenuLogic({
+  const maxHeightStyle = typeof maxHeight === 'number' ? `${maxHeight}px` : maxHeight;
+
+  const { handleItemSelect: handleItemSelectLogic, isItemSelected } = useMenuLogic({
     selectedItems,
     onItemSelect,
     onOpenChange,
   });
+
+  const handleItemSelect = useCallback((item: MenuItemProps) => {
+    handleItemSelectLogic(item);
+    setOpen(false);
+  }, [handleItemSelectLogic]);
 
   const { filteredItems } = useSearchLogic({
     items,
@@ -230,7 +238,11 @@ const MenuRadix: React.FC<MenuRadixProps> = ({
             </div>
           )}
 
-          <div className={styles.itemsWrapper} ref={itemsWrapperRef}>
+          <div 
+            className={styles.itemsWrapper} 
+            ref={itemsWrapperRef}
+            style={{ maxHeight: maxHeightStyle }}
+          >
             {filteredItems.length > 0 ? (
               filteredItems.map((item, index) =>
                 renderMenuItem(item, item.value || item.text || `item-${index}`)

@@ -11,8 +11,7 @@ interface DefaultMenuItemProps {
 
 export const MenuItem = memo(({ item, isSelected, onSelect }: DefaultMenuItemProps) => {
   
-  const handleSelect = (e: Event) => {
-    e.preventDefault();
+  const handleSelect = () => {
     onSelect(item);
   };
 

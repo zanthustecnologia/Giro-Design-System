@@ -19,6 +19,7 @@ export interface MenuRadixProps {
   selectedItems?: MenuItemProps[];
   search?: boolean;
   align?: 'start' | 'end' | 'center';
+  maxHeight?: number | string;
 
   enableInfiniteScroll?: boolean;
   onScrollEnd?: () => void;
