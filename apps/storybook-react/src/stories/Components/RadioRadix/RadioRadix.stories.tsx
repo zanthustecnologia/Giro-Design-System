@@ -1,7 +1,6 @@
-// RadioRadix.stories.tsx (CORRIGIDO)
 import { Meta, StoryObj } from '@storybook/react';
-import { RadioProps } from "./RadioRadix.types";
-import RadioRadix from "./RadioRadix";
+import { RadioProps } from "@zanthus/react/src/components/RadioRadix/RadioRadix.types";
+import RadioRadix from "@zanthus/react/src/components/RadioRadix/RadioRadix";
 
 const meta: Meta<typeof RadioRadix> = {
   component: RadioRadix,
