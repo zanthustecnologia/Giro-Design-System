@@ -1,0 +1,225 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { Footer } from '../../../internal-components/mdx/Footer/Footer';
+import styles from './GettingStarted.module.scss';
+
+<Meta title="Comece aqui" />
+
+# Comece aqui
+
+Bem-vindo ao Zanthus Design System! Este guia vai ajudá-lo a começar a usar nossos componentes e recursos de forma rápida e eficiente.
+
+## Instalação
+
+### Componentes react
+
+Para instalar o pacote de componentes React em seu projeto:
+
+```bash
+npm install @zanthus/react
+```
+
+```bash
+yarn add @zanthus/react
+```
+
+### Design tokens
+
+Para usar os tokens de design (cores, tipografia, espaçamentos, bordas):
+
+```bash
+npm install @zanthus/tokens
+```
+
+```bash
+yarn add @zanthus/tokens
+```
+
+### Utilitários CSS
+
+Para usar os utilitários de layout e espaçamento:
+
+```bash
+npm install @zanthus/utilities
+```
+
+```bash
+yarn add @zanthus/utilities
+```
+
+### Instalação completa
+
+Para instalar todos os pacotes de uma vez:
+
+```bash
+npm install @zanthus/react @zanthus/tokens @zanthus/utilities
+```
+
+```bash
+yarn add @zanthus/react @zanthus/tokens @zanthus/utilities
+```
+
+## Configuração inicial
+
+### 1. Importe os estilos globais
+
+No arquivo principal da sua aplicação (geralmente `App.jsx` ou `index.js`), importe os tokens de design:
+
+```jsx
+import '@zanthus/tokens/build/css/tokens.css';
+```
+
+### 2. Importe os componentes
+
+Você pode importar componentes individuais conforme necessário:
+
+```jsx
+import { Button, TextField, Avatar } from '@zanthus/react';
+
+function App() {
+  return (
+    <div>
+      <Button variant="primary">Clique aqui</Button>
+      <TextField label="Nome" placeholder="Digite seu nome" />
+      <Avatar name="João Silva" />
+    </div>
+  );
+}
+```
+
+## Estrutura do projeto
+
+O Zanthus Design System é organizado em três pacotes principais:
+
+### @zanthus/tokens
+
+Contém todos os design tokens (cores, tipografia, espaçamentos, bordas) em múltiplos formatos:
+- **CSS Variables**: Para uso direto em CSS/SCSS
+- **JavaScript/TypeScript**: Para uso em aplicações React
+- **SCSS Variables**: Para projetos que usam SCSS
+
+### @zanthus/react
+
+Biblioteca de componentes React prontos para uso:
+- Componentes acessíveis (WCAG 2.1)
+- TypeScript com tipos completos
+- Totalmente customizáveis via props
+- Documentação detalhada de cada componente
+
+### @zanthus/utilities
+
+Utilitários CSS para layout e espaçamento:
+- Grid system responsivo
+- Flexbox helpers
+- Spacing utilities
+- Breakpoints padronizados
+
+## Usando design tokens
+
+### CSS Variables
+
+Os tokens estão disponíveis como CSS custom properties:
+
+```css
+.meu-componente {
+  color: var(--color-brand-primary-default);
+  padding: var(--spacing-16);
+  border-radius: var(--border-radius-8);
+  font-family: var(--font-family-primary);
+}
+```
+
+### SCSS Variables
+
+Se você preferir SCSS, importe os tokens SCSS:
+
+```scss
+@import '@zanthus/tokens/build/scss/tokens.scss';
+
+.meu-componente {
+  color: $color-brand-primary-default;
+  padding: $spacing-16;
+  border-radius: $border-radius-8;
+}
+```
+
+### JavaScript/TypeScript
+
+Para uso em styled-components ou estilos inline:
+
+```jsx
+import tokens from '@zanthus/tokens/build/js/tokens.js';
+
+const MyComponent = styled.div`
+  color: ${tokens.colorBrandPrimaryDefault};
+  padding: ${tokens.spacing16};
+`;
+```
+
+## Tipografia
+
+O Zanthus Design System usa a fonte **Figtree** como tipografia principal. Para garantir que a fonte seja carregada corretamente, adicione ao `<head>` do seu HTML:
+
+```html
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+```
+
+## Exemplo completo
+
+Aqui está um exemplo completo de configuração:
+
+```jsx
+// App.jsx
+import '@zanthus/tokens/build/css/tokens.css';
+import { Button, TextField, Avatar, Container } from '@zanthus/react';
+
+function App() {
+  return (
+    <Container>
+      <h1 style={{ 
+        fontFamily: 'var(--font-family-primary)',
+        color: 'var(--color-neutral-low-default)' 
+      }}>
+        Minha Aplicação
+      </h1>
+      
+      <Avatar 
+        name="Maria Silva" 
+        size="large" 
+      />
+      
+      <TextField 
+        label="Email" 
+        type="email"
+        placeholder="seu@email.com"
+      />
+      
+      <Button variant="primary">
+        Entrar
+      </Button>
+    </Container>
+  );
+}
+
+export default App;
+```
+
+## Próximos passos
+
+Agora que você configurou o Zanthus Design System, explore:
+
+- **Foundation**: Conheça nossos tokens de design (cores, tipografia, espaçamento)
+- **Components**: Veja todos os componentes disponíveis e suas variações
+- **Accessibility**: Entenda nossas práticas de acessibilidade
+- **Best Practices**: Aprenda padrões de uso recomendados
+
+## Precisa de ajuda?
+
+Se você encontrar algum problema ou tiver dúvidas:
+
+- Consulte a documentação de cada componente específico
+- Verifique os exemplos de uso em cada página de componente
+- Entre em contato com o time de design system
+
+<Footer />

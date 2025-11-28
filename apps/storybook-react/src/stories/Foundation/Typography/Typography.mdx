@@ -1,0 +1,176 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { Footer } from '../../../internal-components/mdx/Footer/Footer';
+import styles from './Typography.module.scss';
+
+<Meta title="Foundation/Typography" />
+
+# Typography
+
+Nosso sistema tipográfico prioriza leitura imediata, contraste adequado e hierarquia clara, permitindo que o usuário entenda o que importa no ritmo certo, sem esforço.
+
+A Figtree é a base dessa construção. Sua forma limpa, moderna e equilibrada oferece legibilidade em qualquer densidade de conteúdo, enquanto seus pesos variados trazem a flexibilidade necessária para criar ênfase, ritmo e personalidade onde a interface pede.
+
+<div className={styles.showcaseContainer}>
+  <div className={styles.showcaseHero}>
+    <h1 className={styles.showcaseTitle}>Figtree</h1>
+    <span className={styles.showcaseSubtitle}>Tipografia geométrica sans serif</span>
+    <p>A Figtree é uma fonte do Google Fonts. <a href="#">Clique aqui</a> para baixá-la.</p>
+  </div>
+  
+  <div className={styles.showcaseAlphabet}>
+    <div className={styles.alphabetSection}>
+      <span className={styles.alphabetLabel}>Maiúsculas</span>
+      <span className={styles.alphabetText}>ABCDEFGHIJKLMNOPQRSTUVWXYZ</span>
+    </div>
+    <div className={styles.alphabetSection}>
+      <span className={styles.alphabetLabel}>Minúsculas</span>
+      <span className={styles.alphabetText}>abcdefghijklmnopqrstuvwxyz</span>
+    </div>
+    <div className={styles.alphabetSection}>
+      <span className={styles.alphabetLabel}>Números</span>
+      <span className={styles.alphabetText}>0123456789</span>
+    </div>
+    <div className={styles.alphabetSection}>
+      <span className={styles.alphabetLabel}>Caracteres especiais</span>
+      <span className={styles.alphabetText}>!@#$%&*(){}[]</span>
+    </div>
+  </div>
+</div>
+
+## Tokens de design
+
+Há dois conjuntos principais de tokens: <code>$font-size</code> e <code>$font-weight</code>. Essa divisão não é apenas uma escolha organizacional, ela estabelece a base para um sistema tipográfico modular, flexível e escalável, que funciona de forma consistente.
+
+### Pesos
+
+Os tokens de font-weight controlam ênfase e hierarquia sem depender exclusivamente de cor ou tamanho. Cada peso é usado para direcionar o olhar e comunicar níveis de importância com precisão.
+
+<div className={styles.weightGrid}>
+  <div className={styles.weightItem}>
+    <span className={styles.weightSample} style={{ fontWeight: 400 }}>Aa</span>
+    <div className={styles.weightInfo}>
+      <h4>Regular 400</h4>
+      <p><code>$font-weight-regular</code></p>
+    </div>
+  </div>
+
+  <div className={styles.weightItem}>
+    <span className={styles.weightSample} style={{ fontWeight: 500 }}>Aa</span>
+    <div className={styles.weightInfo}>
+      <h4>Medium 500</h4>
+      <p><code>$font-weight-medium</code></p>
+    </div>
+  </div>
+
+  <div className={styles.weightItem}>
+    <span className={styles.weightSample} style={{ fontWeight: 700 }}>Aa</span>
+    <div className={styles.weightInfo}>
+      <h4>Bold 700</h4>
+      <p><code>$font-weight-bold</code></p>
+    </div>
+  </div>
+</div>
+
+### Tamanhos
+
+Os tokens de font-size definem a escala tipográfica. Eles garantem que títulos, textos e elementos de interface mantenham uma hierarquia previsível, confortável e acessível.
+
+<div className={styles.sizeGrid}>
+  <div className={styles.sizeItem}>
+    <span className={styles.sizeSample} style={{ fontSize: '12px' }}>The quick brown fox</span>
+    <div className={styles.sizeInfo}>
+      <h4>Overline</h4>
+      <p><code>$font-size-12</code></p>
+    </div>
+  </div>
+
+  <div className={styles.sizeItem}>
+    <span className={styles.sizeSample} style={{ fontSize: '14px' }}>The quick brown fox</span>
+    <div className={styles.sizeInfo}>
+      <h4>Body text S</h4>
+      <p><code>$font-size-14</code></p>
+    </div>
+  </div>
+
+  <div className={styles.sizeItem}>
+    <span className={styles.sizeSample} style={{ fontSize: '16px' }}>The quick brown fox</span>
+    <div className={styles.sizeInfo}>
+      <h4>Body text</h4>
+      <p><code>$font-size-16</code></p>
+    </div>
+  </div>
+
+  <div className={styles.sizeItem}>
+    <span className={styles.sizeSample} style={{ fontSize: '18px' }}>The quick brown fox</span>
+    <div className={styles.sizeInfo}>
+      <h4>Title S</h4>
+      <p><code>$font-size-18</code></p>
+    </div>
+  </div>
+
+  <div className={styles.sizeItem}>
+    <span className={styles.sizeSample} style={{ fontSize: '20px' }}>The quick brown fox</span>
+    <div className={styles.sizeInfo}>
+      <h4>Title M</h4>
+      <p><code>$font-size-20</code></p>
+    </div>
+  </div>
+
+  <div className={styles.sizeItem}>
+    <span className={styles.sizeSample} style={{ fontSize: '24px' }}>The quick brown fox</span>
+    <div className={styles.sizeInfo}>
+      <h4>Title L</h4>
+      <p><code>$font-size-24</code></p>
+    </div>
+  </div>
+
+  <div className={styles.sizeItem}>
+    <span className={styles.sizeSample} style={{ fontSize: '28px' }}>The quick brown fox</span>
+    <div className={styles.sizeInfo}>
+      <h4>Healine S</h4>
+      <p><code>$font-size-28</code></p>
+    </div>
+  </div>
+
+  <div className={styles.sizeItem}>
+    <span className={styles.sizeSample} style={{ fontSize: '32px' }}>The quick brown fox</span>
+    <div className={styles.sizeInfo}>
+      <h4>Headline M</h4>
+      <p><code>$font-size-32</code></p>
+    </div>
+  </div>
+
+  <div className={styles.sizeItem}>
+    <span className={styles.sizeSample} style={{ fontSize: '40px' }}>The quick brown fox</span>
+    <div className={styles.sizeInfo}>
+      <h4>Headline L</h4>
+      <p><code>$font-size-40</code></p>
+    </div>
+  </div>
+
+  <div className={styles.sizeItem}>
+    <span className={styles.sizeSample} style={{ fontSize: '48px' }}>The quick brown fox</span>
+    <div className={styles.sizeInfo}>
+      <h4>Display S</h4>
+      <p><code>$font-size-48</code></p>
+    </div>
+  </div>
+
+  <div className={styles.sizeItem}>
+    <span className={styles.sizeSample} style={{ fontSize: '64px' }}>The quick brown fox</span>
+    <div className={styles.sizeInfo}>
+      <h4>Display M</h4>
+      <p><code>$font-size-64</code></p>
+    </div>
+  </div>
+
+  <div className={styles.sizeItem}>
+    <span className={styles.sizeSample} style={{ fontSize: '96px' }}>The quick brown fox</span>
+    <div className={styles.sizeInfo}>
+      <h4>Display L</h4>
+      <p><code>$font-size-96</code></p>
+    </div>
+  </div>
+</div>
+
+<Footer />

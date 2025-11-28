@@ -1,0 +1,116 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+
+<style>
+  /* Reset global para documentação MDX */
+  body {
+    font-family: var(--font-family-primary, 'Figtree', sans-serif);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Estilos para documentação do Storybook */
+  #storybook-docs {
+    font-family: var(--font-family-primary, 'Figtree', sans-serif);
+  }
+
+  /* Headers na documentação */
+  .sbdocs-wrapper h1,
+  .sbdocs-wrapper h2,
+  .sbdocs-wrapper h3,
+  .sbdocs-wrapper h4,
+  .sbdocs-wrapper h5,
+  .sbdocs-wrapper h6,
+  .sbdocs-content h1,
+  .sbdocs-content h2,
+  .sbdocs-content h3,
+  .sbdocs-content h4,
+  .sbdocs-content h5,
+  .sbdocs-content h6 {
+    font-family: var(--font-family-primary, 'Figtree', sans-serif) !important;
+    border-bottom: none !important;
+    padding-bottom: 0 !important;
+  }
+
+  /* Parágrafos e textos */
+  .sbdocs-wrapper p,
+  .sbdocs-content p,
+  .sbdocs-wrapper li,
+  .sbdocs-content li {
+    font-family: var(--font-family-primary, 'Figtree', sans-serif) !important;
+    font-size: 16px !important;
+  }
+
+  /* Tabelas de props */
+  .docblock-argstable {
+    font-family: var(--font-family-primary, 'Figtree', sans-serif) !important;
+  }
+
+/* Code blocks - aplica globalmente */
+code {
+  background-color: var(--color-neutral-high-light) !important;
+  padding: var(--spacing-4) var(--spacing-8) !important;
+  border: 1px solid var(--color-neutral-high-medium) !important;
+  border-radius: var(--border-radius-4) !important;
+  font-family: monospace !important;
+  font-size: 0.9em !important;
+  font-weight: var(--font-weight-regular) !important;
+  color: #115248 !important;
+}
+
+.sbdocs-wrapper pre,
+.sbdocs-content pre {
+  font-family: 'Monaco', 'Courier New', monospace !important;
+}
+
+  /* Remove shadow from code blocks */
+  .docblock-source {
+    box-shadow: none !important;
+  }
+  /* Remove shadow from args table */
+  .docblock-argstable-body {
+    filter: none !important;
+  }
+
+  .sbdocs {
+    box-shadow: none !important;
+  }
+
+  /* Padding do wrapper principal */
+  .sbdocs.sbdocs-wrapper {
+    padding: 24px  !important;
+  }
+
+  /* Controle de largura e margens do conteúdo - PADRONIZADO */
+  .sbdocs.sbdocs-content {
+    max-width: 1200px !important;
+    min-width: 640px !important;
+    margin: 0 var(--spacing-64, 64px) !important;
+  }
+
+  /* Breakpoint 1440px - large desktop */
+  @media screen and (max-width: 1440px) {
+    .sbdocs.sbdocs-content {
+      margin:  0 120px 0 120px !important;
+    }
+  }
+
+  /* Breakpoint 1024px - desktop */
+  @media screen and (max-width: 1024px) {
+    .sbdocs.sbdocs-content {
+      max-width: 900px !important;
+      margin: 0 48px 0 48px !important;
+    }
+  }
+
+  /* Breakpoint 768px - tablet */
+  @media screen and (max-width: 768px) {
+    .sbdocs.sbdocs-content {
+      min-width: auto !important;
+      margin: 0 24px 0 24px !important;
+    }
+  }
+
+  
+</style>
