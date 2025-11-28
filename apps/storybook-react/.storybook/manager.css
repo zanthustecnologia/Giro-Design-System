@@ -1,0 +1,14 @@
+/* Remove apenas o PRIMEIRO ícone SVG de cada item da sidebar
+   (normalmente o ícone do tipo de story/componente/docs) */
+.sidebar-item svg:first-of-type {
+  display: none !important;
+}
+
+
+/* Opcional: se existir um wrapper de ícone, colapsa o espaço dele */
+.sidebar-item-icon,
+.sidebar-item .icon {
+  width: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}

@@ -1,0 +1,159 @@
+/* ===== SHOWCASE HERO ===== */
+.showcaseContainer {
+  margin-bottom: var(--spacing-64);
+}
+
+.showcaseHero {
+  background: var(--color-neutral-high-light);
+  padding: var(--spacing-40) var(--spacing-32);
+  border-radius: var(--border-radius-8);
+  text-align: left;
+  margin-bottom: var(--spacing-48);
+}
+
+.showcaseTitle {
+  font-family: var(--font-family-primary) !important;
+  font-size: 96px !important;
+  font-weight: var(--font-weight-bold) !important;
+  color: var(--color-neutral-low-default) !important;
+  margin: 0 !important;
+  line-height: 1.5 !important;
+  letter-spacing: -2px !important;
+}
+
+.showcaseSubtitle {
+  display: block;
+  font-family: var(--font-family-primary) !important;
+  font-size: var(--font-size-18) !important;
+  font-weight: var(--font-weight-medium) !important;
+  color: var(--color-neutral-low-medium) !important;
+  margin: var(--spacing-24) 0 var(--spacing-8) 0 !important;
+}
+
+
+/* ===== ALPHABET SHOWCASE ===== */
+.showcaseAlphabet {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-32);
+}
+
+.alphabetSection {
+  border-bottom: var(--border-width-1) solid var(--color-neutral-high-medium);
+  padding-bottom: var(--spacing-24);
+}
+
+.alphabetSection:last-child {
+  border-bottom: none;
+}
+
+.alphabetLabel {
+  display: block;
+  font-family: var(--font-family-primary) !important;
+  font-size: var(--font-size-12) !important;
+  font-weight: var(--font-weight-bold) !important;
+  color: var(--color-neutral-low-medium) !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1px !important;
+  margin-bottom: var(--spacing-12) !important;
+}
+
+.alphabetText {
+  font-family: var(--font-family-primary) !important;
+  font-size: var(--font-size-32) !important;
+  font-weight: var(--font-weight-regular) !important;
+  color: var(--color-neutral-low-default) !important;
+  margin: 0 !important;
+  letter-spacing: 2px !important;
+}
+
+/* ===== WEIGHT GRID ===== */
+.weightGrid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: var(--spacing-24);
+  margin-bottom: var(--spacing-64);
+}
+
+@media screen and (min-width: 768px) {
+  .weightGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.weightItem {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-24);
+  padding: var(--spacing-24);
+  border: var(--border-width-1) solid var(--color-neutral-high-medium);
+  border-radius: var(--border-radius-8);
+}
+
+.weightSample {
+  font-family: var(--font-family-primary) !important;
+  font-size: 64px !important;
+  color: var(--color-neutral-low-default) !important;
+  margin: 0 !important;
+  line-height: 1 !important;
+}
+
+.weightInfo h4 {
+  font-family: var(--font-family-primary) !important;
+  font-size: var(--font-size-16) !important;
+  font-weight: var(--font-weight-bold) !important;
+  color: var(--color-neutral-low-default) !important;
+  margin: 0 0 var(--spacing-4) 0 !important;
+}
+
+.weightInfo p {
+  font-family: var(--font-family-primary) !important;
+  font-size: var(--font-size-14) !important;
+  color: var(--color-neutral-low-dark) !important;
+  margin: 0 !important;
+}
+
+/* ===== SIZE GRID ===== */
+.sizeGrid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-24);
+  margin-bottom: var(--spacing-64);
+}
+
+.sizeItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-16);
+  border: var(--border-width-1) solid var(--color-neutral-high-medium);
+  border-radius: var(--border-radius-8);
+}
+
+.sizeSample {
+  font-family: var(--font-family-primary) !important;
+  font-weight: var(--font-weight-regular) !important;
+  color: var(--color-neutral-low-default) !important;
+  margin: 0 !important;
+  line-height: 1.2 !important;
+}
+
+.sizeInfo {
+  text-align: right;
+  min-width: 150px;
+}
+
+.sizeInfo h4 {
+  font-family: var(--font-family-primary) !important;
+  font-size: var(--font-size-14) !important;
+  font-weight: var(--font-weight-bold) !important;
+  color: var(--color-neutral-low-default) !important;
+  margin: 0 0 var(--spacing-4) 0 !important;
+}
+
+.sizeInfo p {
+  font-family: var(--font-family-primary) !important;
+  font-size: var(--font-size-12) !important;
+  color: var(--color-neutral-low-dark) !important;
+  margin: 0 !important;
+}
