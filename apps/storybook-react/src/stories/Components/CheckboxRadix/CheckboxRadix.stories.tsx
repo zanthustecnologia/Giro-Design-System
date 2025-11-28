@@ -1,6 +1,6 @@
 import {Meta, StoryObj} from '@storybook/react';
 import { useEffect, useState } from 'react';
-import CheckboxRadix from './CheckboxRadix';
+import CheckboxRadix from '@zanthus/react/src/components/CheckboxRadix/CheckboxRadix';
 
 
 const meta: Meta<typeof CheckboxRadix> = {
