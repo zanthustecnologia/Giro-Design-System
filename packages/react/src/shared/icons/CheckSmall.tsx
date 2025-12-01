@@ -1,22 +1,13 @@
 import React from 'react';
 
 export interface CheckSmallProps {
-  /** Additional CSS class for custom styling */
   className?: string;
-  /** Width of the SVG icon */
   width?: number | string;
-  /** Height of the SVG icon */
   height?: number | string;
-  /** Fill color for the icon */
   fill?: string;
-  /** Additional props passed to the SVG element */
   [key: string]: any;
 }
 
-/**
- * CheckSmall icon component for checked checkbox state
- * Displays a checkmark indicating selection
- */
 const CheckSmall: React.FC<CheckSmallProps> = ({ 
   className = '',
   width = 12,
