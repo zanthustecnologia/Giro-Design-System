@@ -9,6 +9,10 @@ lerna-debug.log*
 
 .npmrc
 node_modules
+
+# pnpm
+pnpm-lock.yaml
+.pnpm-store/
 dist
 dist-ssr
 *.local

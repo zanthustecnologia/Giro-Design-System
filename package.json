@@ -1,7 +1,7 @@
 {
   "name": "zanthus-design-system-monorepo",
   "private": true,
-  "packageManager": "npm@10.9.0",
+  "packageManager": "pnpm@9.15.3",
   "workspaces": [
     "apps/*",
     "packages/*"
@@ -12,11 +12,12 @@
     "lint": "turbo run lint",
     "typecheck": "turbo run typecheck",
     "test": "turbo run test",
+    "storybook": "pnpm --filter storybook-react storybook",
     "build-storybook": "turbo run build-storybook --filter=storybook-react",
     "changeset": "changeset",
     "changeset:version": "changeset version",
     "changeset:publish": "changeset publish --provenance --tag latest",
-    "release": "npm run changeset:version && npm run build && npm run changeset:publish"
+    "release": "pnpm run changeset:version && pnpm run build && pnpm run changeset:publish"
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.6",
