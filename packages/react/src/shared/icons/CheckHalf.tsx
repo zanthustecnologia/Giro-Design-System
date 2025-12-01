@@ -1,22 +1,13 @@
 import React from 'react';
 
 export interface CheckHalfProps {
-  /** Additional CSS class for custom styling */
   className?: string;
-  /** Width of the SVG icon */
   width?: number | string;
-  /** Height of the SVG icon */
   height?: number | string;
-  /** Fill color for the icon */
   fill?: string;
-  /** Additional props passed to the SVG element */
   [key: string]: any;
 }
 
-/**
- * CheckHalf icon component for indeterminate checkbox state
- * Displays a horizontal line indicating partial selection
- */
 const CheckHalf: React.FC<CheckHalfProps> = ({ 
   className = '',
   width = 16,

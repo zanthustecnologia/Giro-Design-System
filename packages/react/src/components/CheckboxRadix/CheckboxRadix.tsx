@@ -1,8 +1,7 @@
 import * as React from 'react';
 import { Checkbox } from 'radix-ui';
 import styles from './CheckboxRadix.module.scss';
-import CheckSmall from './components/CheckSmall';
-import CheckHalf from './components/CheckHalf';
+import { CheckSmall, CheckHalf } from '@/shared/icons';
 import { CheckboxRadixProps } from './CheckboxRadix.types';
 import clsx from 'clsx';
 import { useId } from 'react';
