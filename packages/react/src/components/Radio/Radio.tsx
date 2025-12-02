@@ -1,5 +1,5 @@
 import React, { useCallback, useId } from 'react';
-import './Radio.module.scss';
+import styles from './Radio.module.scss';
 import clsx from 'clsx';
 import type { RadioProps } from './Radio.types';
 
@@ -29,23 +29,23 @@ const Radio: React.FC<RadioProps> = ({
   };
   
   const radioClass = clsx(
-    'zds-radiobutton',
+    styles['zds-radiobutton'],
     {
-      'zds-radiobutton--disabled': disabled,
+      [styles['zds-radiobutton--disabled']]: disabled,
     },
     className
   );
   const labelClass = clsx(
-    'zds-radiobutton__box-check',
+    styles['zds-radiobutton__box-check'],
     {
-      'zds-radiobutton__disabled': disabled,
+      [styles['zds-radiobutton__disabled']]: disabled,
     }
   );
 
   return (
     <div className={radioClass}>
       <label className={labelClass} htmlFor={inputId}>
-        <div className="zds-radiobutton__mini-box">
+        <div className={styles['zds-radiobutton__mini-box']}>
           <input
             id={inputId}
             type="radio"
@@ -57,7 +57,7 @@ const Radio: React.FC<RadioProps> = ({
           />
         </div>
         {label && (
-          <span id={`${inputId}-description`} className="zds-radiobutton__box-check__text">{label}</span>
+          <span id={`${inputId}-description`} className={styles['zds-radiobutton__box-check__text']}>{label}</span>
         )}
       </label>
     </div>

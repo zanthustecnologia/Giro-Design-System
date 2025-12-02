@@ -1,6 +1,6 @@
 import React, { useId, useMemo } from 'react';
 import clsx from 'clsx';
-import './Button.module.scss';
+import styles from './Button.module.scss';
 import type { ButtonProps } from './Button.types';
 
 const Button = React.forwardRef<HTMLElement, ButtonProps>(({
@@ -43,16 +43,16 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
   }, [children]);
 
   const buttonClasses = clsx(
-    'zds-button',
-    `zds-button__${variant}`,
-    `zds-button__${size}`,
+    styles['zds-button'],
+    styles[`zds-button__${variant}`],
+    styles[`zds-button__${size}`],
     {
-      'zds-button__with-icon': icon && !iconOnly,
-      [`zds-button__icon-position-${iconPosition}`]: icon && !iconOnly && iconPosition !== 'none',
-      'zds-button__no-content': icon && !hasContent && !iconOnly,
-      'zds-button__full-width': fullWidth,
-      'zds-button__icon-only': iconOnly,
-      'zds-button__disabled': disabled,
+      [styles['zds-button__with-icon']]: icon && !iconOnly,
+      [styles[`zds-button__icon-position-${iconPosition}`]]: icon && !iconOnly && iconPosition !== 'none',
+      [styles['zds-button__no-content']]: icon && !hasContent && !iconOnly,
+      [styles['zds-button__full-width']]: fullWidth,
+      [styles['zds-button__icon-only']]: iconOnly,
+      [styles['zds-button__disabled']]: disabled,
     },
     className
   );
@@ -80,7 +80,7 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
   const renderContent = () => {
     if (iconOnly && icon) {
       return (
-        <span className="zds-button__icon-only" aria-hidden="true">
+        <span className={styles['zds-button__icon-only']} aria-hidden="true">
           {icon}
         </span>
       );
@@ -88,13 +88,13 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
     return (
       <>
         {icon && iconPosition === 'left' && (
-          <span className="zds-button__icon-left" aria-hidden="true">
+          <span className={styles['zds-button__icon-left']} aria-hidden="true">
             {icon}
           </span>
         )}
         {children}
         {icon && iconPosition === 'right' && (
-          <span className="zds-button__icon-right" aria-hidden="true">
+          <span className={styles['zds-button__icon-right']} aria-hidden="true">
             {icon}
           </span>
         )}

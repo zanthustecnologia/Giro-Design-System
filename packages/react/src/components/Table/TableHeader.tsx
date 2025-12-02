@@ -2,7 +2,7 @@ import React, { useState, KeyboardEvent } from 'react';
 import Search from '../Search/Search';
 import Filter from '../Filter/Filter';
 import type { DropdownItem } from '../Dropdown/Dropdown.types';
-import './Table.module.scss';
+import styles from './Table.module.scss';
 
 interface BaseFilterItem {
   id?: string;
@@ -96,33 +96,33 @@ const TableHeader: React.FC<TableHeaderProps> = ({
   const hasFilters = filters || (filterItems && filterItems.length > 0);
 
   return (
-    <div className={`zds-table-header ${className}`.trim()}>
+    <div className={`${styles['zds-table-header']} ${className}`.trim()}>
       {showSearch && (onSearchChange || onSearch) && (
-        <div className="zds-table-header__search-container">
+        <div className={styles['zds-table-header__search-container']}>
           <Search
             value={internalSearchValue}
             onChange={handleInputChange}
             onKeyDown={handleKeyDown}
             placeholder={searchPlaceholder}
-            className="zds-table-header__search"
+            className={styles['zds-table-header__search']}
           />
         </div>
       )}
       
       {showFilters && (
-        <div className="zds-table-header__filters">
+        <div className={styles['zds-table-header__filters']}>
           {hasFilters ? (
-            <div className="zds-table-header__filters-content">
+            <div className={styles['zds-table-header__filters-content']}>
               {filters && (
-                <div className="zds-table-header__custom-filters">
+                <div className={styles['zds-table-header__custom-filters']}>
                   {filters}
                 </div>
               )}
 
-              <div className="zds-table-header__filters-wrapper">
-                <span className='zds-table-header__filter-label'>Filtros</span>
+              <div className={styles['zds-table-header__filters-wrapper']}>
+                <span className={styles['zds-table-header__filter-label']}>Filtros</span>
                 
-                <div className="zds-table-header__filter-items">
+                <div className={styles['zds-table-header__filter-items']}>
                   {filterItems && filterItems.map((filterItem, index) => {
                     const commonProps = {
                       key: filterItem.id || index,
@@ -169,7 +169,7 @@ const TableHeader: React.FC<TableHeaderProps> = ({
               </div>
             </div>
           ) : (
-            <div className="zds-table-header__filters-placeholder">
+            <div className={styles['zds-table-header__filters-placeholder']}>
               <span>Nenhum filtro disponível</span>
             </div>
           )}

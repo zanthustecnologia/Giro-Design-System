@@ -7,7 +7,7 @@ import React, {
   useCallback,
 } from 'react';
 import clsx from 'clsx';
-import './Calendar.module.scss';
+import styles from './Calendar.module.scss';
 import {
   ChevronLeft16Regular,
   ChevronRight16Regular,
@@ -354,8 +354,8 @@ const Calendar: React.FC<CalendarProps> = ({
     return yearsArray.map((item) => (
       <div
         key={item.key}
-        className={clsx('zds-calendar__year', {
-          'zds-calendar__year--current': item.isCurrent,
+        className={clsx(styles['zds-calendar__year'], {
+          [styles['zds-calendar__year--current']]: item.isCurrent,
         })}
         onClick={() => handleYearSelect(item.year)}
         tabIndex={0}
@@ -391,7 +391,7 @@ const Calendar: React.FC<CalendarProps> = ({
         return (
           <div
             key={item.key}
-            className={clsx('zds-calendar__day', 'zds-calendar__day--empty')}
+            className={clsx(styles['zds-calendar__day'], styles['zds-calendar__day--empty'])}
             aria-hidden="true"
           />
         );
@@ -403,10 +403,10 @@ const Calendar: React.FC<CalendarProps> = ({
       return (
         <div
           key={dayItem.key}
-          className={clsx('zds-calendar__day', {
-            'zds-calendar__day--today': dayItem.isToday,
-            'zds-calendar__day--selected': dayItem.isSelected,
-            'zds-calendar__day--disabled': isDisabled,
+          className={clsx(styles['zds-calendar__day'], {
+            [styles['zds-calendar__day--today']]: dayItem.isToday,
+            [styles['zds-calendar__day--selected']]: dayItem.isSelected,
+            [styles['zds-calendar__day--disabled']]: isDisabled,
           })}
           onClick={isDisabled ? undefined : () => handleSelectDay(dayItem.day)}
           onKeyDown={
@@ -442,7 +442,7 @@ const Calendar: React.FC<CalendarProps> = ({
     if (changeView) return null;
 
     return weekDaysLabels.map((day, idx) => (
-      <div key={`${day}-${idx}`} className="zds-calendar__weekday">
+      <div key={`${day}-${idx}`} className={styles['zds-calendar__weekday']}>
         {day}
       </div>
     ));
@@ -466,8 +466,8 @@ const Calendar: React.FC<CalendarProps> = ({
   return (
     <div
       className={clsx(
-        'zds-calendar',
-        { 'zds-calendar--year-view': changeView },
+        styles['zds-calendar'],
+        { [styles['zds-calendar--year-view']]: changeView },
         className
       )}
       id={componentId}
@@ -480,7 +480,7 @@ const Calendar: React.FC<CalendarProps> = ({
       <div
         aria-live="polite"
         aria-atomic="true"
-        className="zds-calendar__aria-live"
+        className={styles['zds-calendar__aria-live']}
         style={{
           position: 'absolute',
           width: 1,
@@ -493,9 +493,9 @@ const Calendar: React.FC<CalendarProps> = ({
       </div>
 
       {/* Header with month/year and navigation */}
-      <div className="zds-calendar__header">
+      <div className={styles['zds-calendar__header']}>
         <span
-          className="zds-calendar__month-name"
+          className={styles['zds-calendar__month-name']}
           onClick={handleToggleView}
           onKeyDown={(e) => {
             if (e.key === 'Enter' || e.key === ' ') {
@@ -523,7 +523,7 @@ const Calendar: React.FC<CalendarProps> = ({
           )}
         </span>
 
-        <div className="zds-calendar__navigation">
+        <div className={styles['zds-calendar__navigation']}>
           <button
             onClick={handlePrevMonth}
             aria-label={
@@ -561,13 +561,13 @@ const Calendar: React.FC<CalendarProps> = ({
       </div>
 
       {/* Weekdays header */}
-      <div className="zds-calendar__weekdays">{weekdaysComponent}</div>
+      <div className={styles['zds-calendar__weekdays']}>{weekdaysComponent}</div>
 
       {/* Calendar grid - days or years */}
-      <div className="zds-calendar__grid">
+      <div className={styles['zds-calendar__grid']}>
         {changeView ? (
           <div
-            className="zds-calendar__year-view"
+            className={styles['zds-calendar__year-view']}
             role="grid"
             aria-label={t('yearSelection')}
           >
@@ -575,7 +575,7 @@ const Calendar: React.FC<CalendarProps> = ({
           </div>
         ) : (
           <div
-            className="zds-calendar__days"
+            className={styles['zds-calendar__days']}
             role="grid"
             aria-label={`${getMonthName()} ${year}`}
           >
@@ -583,7 +583,7 @@ const Calendar: React.FC<CalendarProps> = ({
           </div>
         )}
       </div>
-      <div className="zds-calendar__clear">
+      <div className={styles['zds-calendar__clear']}>
         <Button
           size="sm"
           variant="outlined"

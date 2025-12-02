@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import React, { forwardRef } from 'react';
-import './SelectField.module.scss';
+import styles from './SelectField.module.scss';
 import { Info12Regular } from '@fluentui/react-icons';
 import Tooltip from '../Tooltip';
 import type { SelectFieldProps } from './SelectField.types';
@@ -40,21 +40,21 @@ const SelectField = forwardRef<HTMLDivElement, SelectFieldProps>(({
 
   // Classes CSS
   const containerClasses = clsx(
-    'zds-select-field',
+    styles['zds-select-field'],
     {
-      'zds-select-field--open': isOpen,
-      'zds-select-field--disabled': disabled,
-      'zds-select-field--error': showError,
-      'zds-select-field--required': isRequired,
-      'zds-select-field--touched': isTouched,
+      [styles['zds-select-field--open']]: isOpen,
+      [styles['zds-select-field--disabled']]: disabled,
+      [styles['zds-select-field--error']]: showError,
+      [styles['zds-select-field--required']]: isRequired,
+      [styles['zds-select-field--touched']]: isTouched,
     },
     className
   );
 
   const displayClasses = clsx(
-    'zds-select-field__display',
+    styles['zds-select-field__display'],
     {
-      'zds-select-field__display--placeholder': !hasValue,
+      [styles['zds-select-field__display--placeholder']]: !hasValue,
       'has-value': hasValue,
     }
   );
@@ -67,24 +67,24 @@ const SelectField = forwardRef<HTMLDivElement, SelectFieldProps>(({
         <label htmlFor={id}>
           {tooltip ? (
             <Tooltip text={tooltipText} position={positionTooltip}>
-              <div className="zds-select-field__container-tooltip">
+              <div className={styles['zds-select-field__container-tooltip']}>
                 {label}
-                {required && <span className="zds-select-field__required">*</span>}
-                <Info12Regular className="zds-select-field__tooltip" />
+                {required && <span className={styles['zds-select-field__required']}>*</span>}
+                <Info12Regular className={styles['zds-select-field__tooltip']} />
               </div>
             </Tooltip>
           ) : (
-            <div className="zds-select-field__container-tooltip">
+            <div className={styles['zds-select-field__container-tooltip']}>
               {label}
-              {required && <span className="zds-select-field__required">*</span>}
+              {required && <span className={styles['zds-select-field__required']}>*</span>}
             </div>
           )}
         </label>
       )}
 
       {/* Container Box */}
-      < div className="zds-select-field__container-box" >
-        <div className="zds-select-field__box__input">
+      < div className={styles['zds-select-field__container-box']} >
+        <div className={styles['zds-select-field__box__input']}>
           {/* Display */}
           <div
             id={id}
@@ -101,18 +101,18 @@ const SelectField = forwardRef<HTMLDivElement, SelectFieldProps>(({
             value={value || ''}
             disabled={disabled}
             required={required}
-            className='zds-select-field__input'
+            className={styles['zds-select-field__input']}
           />
 
           {/* Icon */}
           {icon && (
-            <div className="zds-select-field__icon">
+            <div className={styles['zds-select-field__icon']}>
               {icon}
             </div>
           )}
         </div>
         {!isOpen && (helperText || showError) && (
-          <div className="zds-select-field__helper-text">
+          <div className={styles['zds-select-field__helper-text']}>
             {showError ? dynamicErrorMessage : helperText}
           </div>
         )}

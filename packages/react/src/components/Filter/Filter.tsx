@@ -12,7 +12,7 @@ import Button from '../Button';
 import Dropdown from '../Dropdown/Dropdown';
 import type { DropdownItem, DropdownType } from '../Dropdown/Dropdown.types';
 import Calendar from '../Calendar/Calendar';
-import './Filter.module.scss';
+import styles from './Filter.module.scss';
 import Badge from '../Badge';
 import { ChevronDownRegular, Calendar16Regular } from '@fluentui/react-icons';
 import clsx from 'clsx';
@@ -148,9 +148,9 @@ const Filter: React.FC<FilterProps> = ({
     return () => document.removeEventListener('keydown', handleEscape);
   }, [isOpen, onClose]);
 
-  const filterClass = clsx('zds-filter__container', className);
-  const dropdownClass = clsx('zds-filter__dropdown', {
-    [`zds-filter__dropdown--${position}`]: position,
+  const filterClass = clsx(styles['zds-filter__container'], className);
+  const dropdownClass = clsx(styles['zds-filter__dropdown'], {
+    [styles[`zds-filter__dropdown--${position}`]]: position,
   });
   return (
     <div ref={filterRef} className={filterClass}>
@@ -164,11 +164,11 @@ const Filter: React.FC<FilterProps> = ({
         iconPosition="right"
         size="lg"
       >
-        <div className="zds-filter-button__content">
-          {icon && <span className="zds-filter-button__icon">{icon}</span>}
-          <span className="zds-filter-button__text">{buttonDisplayText}</span>
+        <div className={styles['zds-filter-button__content']}>
+          {icon && <span className={styles['zds-filter-button__icon']}>{icon}</span>}
+          <span className={styles['zds-filter-button__text']}>{buttonDisplayText}</span>
           <span
-            className={`zds-filter-button__arrow ${isOpen ? 'zds-filter-button__arrow--open' : ''}`}
+            className={`${styles['zds-filter-button__arrow']} ${isOpen ? styles['zds-filter-button__arrow--open'] : ''}`}
           >
             {getBadgeValue() && (
               <Badge badgeValue={`+${getBadgeValue()}`} type="status" />

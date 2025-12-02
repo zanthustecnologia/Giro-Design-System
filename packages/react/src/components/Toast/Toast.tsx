@@ -1,7 +1,7 @@
 // ✅ NOVA IMPLEMENTAÇÃO SIMPLIFICADA
 import React, { createContext, useContext, useState, useCallback, useRef, useEffect, useMemo, ReactNode } from 'react';
 import clsx from 'clsx';
-import './Toast.module.scss';
+import styles from './Toast.module.scss';
 import {
   CheckmarkCircle20Filled,
   Dismiss16Regular,
@@ -34,15 +34,15 @@ const ToastContext = createContext<ToastContextType | undefined>(undefined);
 const toastVariants = {
   success: {
     icon: <CheckmarkCircle20Filled />,
-    className: 'zds-toast__success',
+    className: styles['zds-toast__success'],
   },
   alert: {
     icon: <Warning20Filled />,
-    className: 'zds-toast__alert',
+    className: styles['zds-toast__alert'],
   },
   info: {
     icon: <Info20Filled />,
-    className: 'zds-toast__info',
+    className: styles['zds-toast__info'],
   },
 } as const;
 
@@ -64,9 +64,9 @@ const ToastItem: React.FC<ToastItemProps> = ({ toast, onClose, isVisible }) => {
   return (
     <div
       className={clsx(
-        'zds-toast__item',
+        styles['zds-toast__item'],
         variant.className,
-        isVisible && 'zds-toast__active'
+        isVisible && styles['zds-toast__active']
       )}
       role={toast.type === 'alert' ? 'alert' : 'status'}
       aria-live={toast.type === 'alert' ? 'assertive' : 'polite'}
@@ -74,16 +74,16 @@ const ToastItem: React.FC<ToastItemProps> = ({ toast, onClose, isVisible }) => {
       tabIndex={toast.persistent ? 0 : -1}
       onKeyDown={handleKeyDown}
     >
-      <span className="zds-toast__icon" aria-hidden="true">
+      <span className={styles['zds-toast__icon']} aria-hidden="true">
         {variant.icon}
       </span>
       <span 
-        className="zds-toast__message"
+        className={styles['zds-toast__message']}
         dangerouslySetInnerHTML={{ __html: sanitizeMessage(toast.message) }}
       />
       <button
         type="button"
-        className="zds-toast__close"
+        className={styles['zds-toast__close']}
         aria-label={`Fechar notificação: ${toast.message.slice(0, 50)}${toast.message.length > 50 ? '...' : ''}`}
         onClick={() => onClose(toast.id)}
       >
@@ -104,7 +104,7 @@ const ToastContainer: React.FC<ToastContainerProps> = ({ toasts, onClose, visibl
 
   return (
     <div 
-      className="zds-toast__container"
+      className={styles['zds-toast__container']}
       role="log"
       aria-label="Notificações do sistema"
     >

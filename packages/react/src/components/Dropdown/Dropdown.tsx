@@ -8,7 +8,7 @@ import React, {
 } from 'react';
 import Search from '../Search';
 import { validateItems } from './DropdownUtils';
-import './Dropdown.module.scss';
+import styles from './Dropdown.module.scss';
 import Checkbox from '../Checkbox';
 import Button from '../Button';
 import { useInfiniteScroll } from '../../hooks/InfiniteScroll';
@@ -244,8 +244,8 @@ const Dropdown: React.FC<DropdownProps> = ({
 
       return (
         <div
-          className={clsx('zds-dropdown__item-content', {
-            'zds-dropdown__item-content--disabled': item.disabled,
+          className={clsx(styles['zds-dropdown__item-content'], {
+            [styles['zds-dropdown__item-content--disabled']]: item.disabled,
           })}
         >
           {type === 'checkbox' && (
@@ -262,9 +262,9 @@ const Dropdown: React.FC<DropdownProps> = ({
           )}
 
           {type === 'icon' && item.icon && (
-            <div className="zds-dropdown__item-icon-container">
+            <div className={styles['zds-dropdown__item-icon-container']}>
               <span
-                className="zds-dropdown__item-icon"
+                className={styles['zds-dropdown__item-icon']}
                 onClick={(event: React.MouseEvent<HTMLSpanElement>) => {
                   event.preventDefault();
                   event.stopPropagation();
@@ -276,17 +276,17 @@ const Dropdown: React.FC<DropdownProps> = ({
             </div>
           )}
 
-          <div className="zds-dropdown__item-text">
+          <div className={styles['zds-dropdown__item-text']}>
             <span
               id={`dropdown-item-${itemId}-label`}
-              className="zds-dropdown__title"
+              className={styles['zds-dropdown__title']}
             >
               {item.text}
             </span>
             {showSubText && item.subText && (
               <span
                 id={`dropdown-item-${itemId}-desc`}
-                className="zds-dropdown__subtext"
+                className={styles['zds-dropdown__subtext']}
               >
                 {item.subText}
               </span>
@@ -373,12 +373,12 @@ const Dropdown: React.FC<DropdownProps> = ({
   );
 
   const DropdownClass = clsx(
-    'zds-dropdown__container',
-    `zds-dropdown__container--${position}`,
+    styles['zds-dropdown__container'],
+    styles[`zds-dropdown__container--${position}`],
     {
       [className || '']: className,
-      'zds-dropdown__container--search-active': searchQuery.length > 0,
-      'zds-dropdown__container--fixed-width': !!maxWidth,
+      [styles['zds-dropdown__container--search-active']]: searchQuery.length > 0,
+      [styles['zds-dropdown__container--fixed-width']]: !!maxWidth,
     }
   );
   const dropdownStyles: React.CSSProperties = useMemo(() => {
@@ -423,14 +423,14 @@ const Dropdown: React.FC<DropdownProps> = ({
       style={dropdownStyles}
     >
       <ul
-        className="zds-dropdown__list"
+        className={styles['zds-dropdown__list']}
         id={id || undefined}
         role="listbox"
         aria-label="Lista de opções"
         aria-multiselectable={isMultiSelectable}
       >
         {searchVisible && (
-          <li role="none" className="zds-dropdown__search-container">
+          <li role="none" className={styles['zds-dropdown__search-container']}>
             <Search
               value={inputValue}
               placeholder={
@@ -458,11 +458,11 @@ const Dropdown: React.FC<DropdownProps> = ({
                 aria-describedby={
                   item.subText ? `dropdown-item-${itemId}-desc` : undefined
                 }
-                className={clsx('zds-dropdown__item', {
-                  [`zds-dropdown__item--${type}`]: type,
-                  'zds-dropdown__item--selected': currentSelection[itemId],
-                  'zds-dropdown__item--focused': focusedIndex === index,
-                  'zds-dropdown__item--disabled': item.disabled,
+                className={clsx(styles['zds-dropdown__item'], {
+                  [styles[`zds-dropdown__item--${type}`]]: type,
+                  [styles['zds-dropdown__item--selected']]: currentSelection[itemId],
+                  [styles['zds-dropdown__item--focused']]: focusedIndex === index,
+                  [styles['zds-dropdown__item--disabled']]: item.disabled,
                 })}
                 tabIndex={focusedIndex === index ? 0 : -1}
                 onFocus={() => setFocusedIndex(index)}
@@ -483,7 +483,7 @@ const Dropdown: React.FC<DropdownProps> = ({
           })
         ) : (
           <li
-            className="zds-dropdown__no-results"
+            className={styles['zds-dropdown__no-results']}
             role="status"
             aria-live="polite"
           >
@@ -491,7 +491,7 @@ const Dropdown: React.FC<DropdownProps> = ({
           </li>
         )}
         {filter && (
-          <div className="zds-dropdown__container-filter">
+          <div className={styles['zds-dropdown__container-filter']}>
             <Button size="sm" variant="outlined" onClick={handleClearFilter}>
               Limpar
             </Button>
@@ -501,10 +501,10 @@ const Dropdown: React.FC<DropdownProps> = ({
           </div>
         )}
         {infiniteScrollHook && infiniteScrollHook.hasNextPage && (
-          <li role="none" className="zds-dropdown__infinite-scroll-trigger">
+          <li role="none" className={styles['zds-dropdown__infinite-scroll-trigger']}>
             <div
               ref={infiniteScrollHook.observerRef}
-              className="zds-dropdown__loading-indicator"
+              className={styles['zds-dropdown__loading-indicator']}
             >
               {infiniteScroll?.status === 'loading' ? (
                 <span>Carregando...</span>

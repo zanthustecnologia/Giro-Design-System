@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useId, useCallback, ReactNode } from 'react';
-import './Dialog.module.scss';
+import styles from './Dialog.module.scss';
 import Button from '../Button/Button';
 import clsx from 'clsx';
 import { useFocusTrap } from './utils/DialogUtils';
@@ -67,12 +67,12 @@ const Dialog: React.FC<DialogProps> = ({
   return (
     <>
       {/* Backdrop/Overlay */}
-      <div className="zds-dialog__overlay" />
+      <div className={styles['zds-dialog__overlay']} />
 
       {/* Wrapper do Dialog */}
-      <div className="zds-dialog__wrapper">
+      <div className={styles['zds-dialog__wrapper']}>
         <div
-          className={clsx('zds-dialog', className)}
+          className={clsx(styles['zds-dialog'], className)}
           role="dialog"
           aria-modal="true"
           id={id}
@@ -82,17 +82,17 @@ const Dialog: React.FC<DialogProps> = ({
           ref={containerRef}
         >
           {/* Título */}
-          <div id={`zds-dialog-title-${id}`} className="zds-dialog__title">
+          <div id={`zds-dialog-title-${id}`} className={styles['zds-dialog__title']}>
             {title}
           </div>
 
           {/* Conteúdo/Texto */}
-          <div id={`zds-dialog-desc-${id}`} className="zds-dialog__text">
+          <div id={`zds-dialog-desc-${id}`} className={styles['zds-dialog__text']}>
             {text}
           </div>
 
           {/* Ações/Botões */}
-          <div className="zds-dialog__actions">
+          <div className={styles['zds-dialog__actions']}>
             {!!(textCancel && textCancel.trim()) && (
               <Button variant="outlined" onClick={handleCancel}>
                 {textCancel}

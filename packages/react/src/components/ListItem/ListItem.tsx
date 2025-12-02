@@ -2,7 +2,7 @@ import React, { useId, useCallback, useState, useEffect } from "react";
 import clsx from "clsx";
 import Checkbox from '../Checkbox/Checkbox';
 import Radio from '../Radio/Radio';
-import './ListItem.module.scss';
+import styles from './ListItem.module.scss';
 import type { ListItemVariant, ListItemProps } from './ListItem.types';
 
 /**
@@ -119,10 +119,10 @@ const ListItem: React.FC<ListItemProps> = ({
               onChange={() => handleCheckboxClick({} as React.MouseEvent<HTMLElement>)}
               value={value}
             />
-            <div className="zds-list-item__wrapper-text">
+            <div className={styles['zds-list-item__wrapper-text']}>
               <span
                 id={`${itemId}-text`}
-                className="zds-list-item__text"
+                className={styles['zds-list-item__text']}
                 onClick={handleCheckboxClick}
               >
                 {text}
@@ -130,7 +130,7 @@ const ListItem: React.FC<ListItemProps> = ({
               {showSubText && subText && (
                 <span
                   id={`${itemId}-subtext`}
-                  className="zds-list-item__subtext"
+                  className={styles['zds-list-item__subtext']}
                   onClick={handleCheckboxClick}
                 >
                   {subText}
@@ -143,8 +143,8 @@ const ListItem: React.FC<ListItemProps> = ({
       case 'radio':
         return (
           <>
-            <div className="zds-list-item__wrapper-radio">
-              <span className="zds-list-item__radio" aria-hidden="true">
+            <div className={styles['zds-list-item__wrapper-radio']}>
+              <span className={styles['zds-list-item__radio']} aria-hidden="true">
                 <Radio
                   name={name}
                   checked={internalChecked}
@@ -155,10 +155,10 @@ const ListItem: React.FC<ListItemProps> = ({
                 />
               </span>
             </div>
-            <div className="zds-list-item__wrapper-text">
+            <div className={styles['zds-list-item__wrapper-text']}>
               <span
                 id={`${itemId}-text`}
-                className="zds-list-item__title"
+                className={styles['zds-list-item__title']}
                 onClick={handleRadioClick}
               >
                 {text}
@@ -166,7 +166,7 @@ const ListItem: React.FC<ListItemProps> = ({
               {showSubText && subText && (
                 <span
                   id={`${itemId}-subtext`}
-                  className="zds-list-item__subtext"
+                  className={styles['zds-list-item__subtext']}
                 >
                   {subText}
                 </span>
@@ -178,13 +178,13 @@ const ListItem: React.FC<ListItemProps> = ({
       case 'icon':
         return (
           <>
-            <div className="zds-list-item__wrapper-icon">
+            <div className={styles['zds-list-item__wrapper-icon']}>
               {icon}
             </div>
-            <div className="zds-list-item__wrapper-text">
+            <div className={styles['zds-list-item__wrapper-text']}>
               <span
                 id={`${itemId}-text`}
-                className="zds-list-item__title"
+                className={styles['zds-list-item__title']}
                 onClick={handleTextOrIconClick}
               >
                 {text}
@@ -192,7 +192,7 @@ const ListItem: React.FC<ListItemProps> = ({
               {showSubText && subText && (
                 <span
                   id={`${itemId}-subtext`}
-                  className="zds-list-item__subtext"
+                  className={styles['zds-list-item__subtext']}
                 >
                   {subText}
                 </span>
@@ -204,10 +204,10 @@ const ListItem: React.FC<ListItemProps> = ({
       case 'text':
       default:
         return (
-          <div className='zds-list-item__wrapper-text'>
+          <div className={styles['zds-list-item__wrapper-text']}>
             <span
               id={`${itemId}-text`}
-              className="zds-list-item__title"
+              className={styles['zds-list-item__title']}
               onClick={handleTextOrIconClick}
             >
               {text}
@@ -215,7 +215,7 @@ const ListItem: React.FC<ListItemProps> = ({
             {showSubText && subText && (
               <span
                 id={`${itemId}-subtext`}
-                className="zds-list-item__subtext"
+                className={styles['zds-list-item__subtext']}
               >
                 {subText}
               </span>
@@ -226,11 +226,11 @@ const ListItem: React.FC<ListItemProps> = ({
   }, [variant, itemId, internalChecked, disabled, handleCheckboxClick, handleRadioClick, handleTextOrIconClick, value, text, showSubText, subText, icon, name]);
 
   const listItemClass = clsx(
-    'zds-list-item__container',
+    styles['zds-list-item__container'],
     {
-      [`zds-list-item--${variant}`]: variant,
-      'zds-list-item--disabled': disabled,
-      'zds-list-item--hovered': hovered,
+      [styles[`zds-list-item--${variant}`]]: variant,
+      [styles['zds-list-item--disabled']]: disabled,
+      [styles['zds-list-item--hovered']]: hovered,
       [className || '']: className
     }
   );

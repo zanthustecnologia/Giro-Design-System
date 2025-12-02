@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback, ReactNode, ReactElement, useMemo } from 'react';
 import Dropdown from '../Dropdown/Dropdown';
-import './Menu.module.scss';
+import styles from './Menu.module.scss';
 import { clsx } from 'clsx';
 import type { MenuItem, MenuProps } from './Menu.types';
 
@@ -191,12 +191,12 @@ const Menu: React.FC<MenuProps> = ({
   };
 
   const menuClass = clsx(
-    'zds-menu__container',
+    styles['zds-menu__container'],
     className
   )
   const dropdownClass = clsx(
-    'zds-menu__dropdown',
-    `zds-menu__dropdown--${position}`
+    styles['zds-menu__dropdown'],
+    styles[`zds-menu__dropdown--${position}`]
   );
   return (
     <div

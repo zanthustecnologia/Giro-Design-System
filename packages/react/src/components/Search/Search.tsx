@@ -1,7 +1,7 @@
 import React, { useState, useId } from 'react';
 import { Search16Regular, Dismiss16Regular } from '@fluentui/react-icons';
 import clsx from 'clsx';
-import './Search.module.scss';
+import styles from './Search.module.scss';
 import type { SearchProps } from './Search.types';
 
 const Search = React.forwardRef<HTMLInputElement, SearchProps>(
@@ -63,14 +63,14 @@ const Search = React.forwardRef<HTMLInputElement, SearchProps>(
       if (disabled) return;
       onKeyDown?.(e);
     };
-    const searchClass = clsx('zds-search', {
+    const searchClass = clsx(styles['zds-search'], {
       disabled,
       [className]: className,
     });
     return (
       <div className={searchClass} onClick={onClick} onMouseDown={onMouseDown}>
         <span
-          className={clsx('zds-search__leftIcon', { disabled })}
+          className={clsx(styles['zds-search__leftIcon'], { disabled })}
           tabIndex={-1}
           role="presentation"
           aria-hidden="true"
@@ -93,7 +93,7 @@ const Search = React.forwardRef<HTMLInputElement, SearchProps>(
         />
         {currentValue && currentValue.length > 0 && (
           <span
-            className="zds-search__clearIcon"
+            className={styles['zds-search__clearIcon']}
             aria-hidden="true"
             onClick={clearInputSearch}
           >

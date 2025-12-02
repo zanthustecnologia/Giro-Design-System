@@ -1,5 +1,5 @@
 import React from 'react';
-import './Chips.module.scss';
+import styles from './Chips.module.scss';
 import clsx from 'clsx';
 import type { ChipsProps } from './Chips.types';
 
@@ -20,12 +20,12 @@ const Chips: React.FC<ChipsProps> = ({
     return null;
   }
   const chipsClass = clsx(
-    'zds-chips',
-    `zds-chips--${type}`,
+    styles['zds-chips'],
+    styles[`zds-chips--${type}`],
     {
-      'zds-chips--disabled': disabled,
-      'has-left-icon': leftIcon,
-      'has-right-icon': rightIcon,
+      [styles['zds-chips--disabled']]: disabled,
+      [styles['has-left-icon']]: leftIcon,
+      [styles['has-right-icon']]: rightIcon,
     },
     className
   );
@@ -36,13 +36,13 @@ const Chips: React.FC<ChipsProps> = ({
       aria-disabled={disabled}
     >
       {leftIcon && (
-        <span className="zds-chips__icon__left" aria-hidden="true">
+        <span className={styles['zds-chips__icon__left']} aria-hidden="true">
           {leftIcon}
         </span>
       )}
-      <span className="zds-chips__title">{title}</span>
+      <span className={styles['zds-chips__title']}>{title}</span>
       {rightIcon && (
-        <span className="zds-chips__icon__right">
+        <span className={styles['zds-chips__icon__right']}>
           {rightIcon}
         </span>
       )}

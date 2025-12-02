@@ -1,6 +1,6 @@
 import React, { useRef, useState, useCallback, useEffect } from 'react';
 import clsx from 'clsx';
-import './VerificationCode.module.scss';
+import styles from './VerificationCode.module.scss';
 import type { InputType, VerificationCodeProps } from './VerificationCode.types';
 
 /**
@@ -148,7 +148,7 @@ const VerificationCode: React.FC<VerificationCodeProps> = ({
 
   return (
     <>
-      <div className={clsx('zds-verification-code__container', className)}>
+      <div className={clsx(styles['zds-verification-code__container'], className)}>
         {values.map((val, i) => (
           <input
             id={`zds-verification-code__element-${i}`}
@@ -166,9 +166,9 @@ const VerificationCode: React.FC<VerificationCodeProps> = ({
             onPaste={i === 0 ? handlePaste : undefined}
             onFocus={handleFocus}
             disabled={disabled}
-            className={clsx('zds-verification-code__input', {
-              'zds-verification-code__has-error': hasError,
-              'zds-verification-code__filled': val,
+            className={clsx(styles['zds-verification-code__input'], {
+              [styles['zds-verification-code__has-error']]: hasError,
+              [styles['zds-verification-code__filled']]: val,
             })}
             aria-invalid={hasError}
             aria-label={`Dígito ${i + 1} de ${validLength}`}
@@ -181,7 +181,7 @@ const VerificationCode: React.FC<VerificationCodeProps> = ({
       {hasError && errorMessage && (
         <div
           id="verification-code-error"
-          className="zds-verification-code__error"
+          className={styles['zds-verification-code__error']}
           role="alert"
           aria-live="assertive"
         >

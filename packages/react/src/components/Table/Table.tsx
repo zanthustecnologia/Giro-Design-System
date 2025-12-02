@@ -1,4 +1,4 @@
-import './Table.module.scss';
+import styles from './Table.module.scss';
 import React, { useState, useMemo, useCallback, ReactNode, CSSProperties } from 'react';
 import clsx from 'clsx';
 import { format } from 'date-fns';
@@ -129,8 +129,8 @@ const Table: React.FC<TableProps> = ({
   );
   if (loading) {
     return (
-      <div className={clsx('zds-table__container', className)}>
-        <div className="zds-table__loader">
+      <div className={clsx(styles['zds-table__container'], className)}>
+        <div className={styles['zds-table__loader']}>
           <LoaderList />
         </div>
       </div>
@@ -138,55 +138,55 @@ const Table: React.FC<TableProps> = ({
   }
 
   const emptyText = locale.emptyText || (
-    <div className="zds-table__empty">
-      <div className="zds-table__empty__content">
+    <div className={styles['zds-table__empty']}>
+      <div className={styles['zds-table__empty__content']}>
         <EmptyRows150Color />
       </div>
-      <div className="zds-table__empty__text">
-        <h3 className="zds-table__empty__title">Nenhum dado encontrado</h3>
-        <p className="zds-table__empty__caption">Nenhum registro encontrado</p>
+      <div className={styles['zds-table__empty__text']}>
+        <h3 className={styles['zds-table__empty__title']}>Nenhum dado encontrado</h3>
+        <p className={styles['zds-table__empty__caption']}>Nenhum registro encontrado</p>
       </div>
     </div>
   );
 
   return (
-    <div className={clsx('zds-table__container', className)}>
-      <div className="zds-table__scroll-wrapper">
+    <div className={clsx(styles['zds-table__container'], className)}>
+      <div className={styles['zds-table__scroll-wrapper']}>
         <table 
-        className="zds-table"
+        className={styles['zds-table']}
           role="table"
           aria-label="Tabela de dados"
           aria-describedby={loading ? `${tableId}-loading` : undefined}
           aria-rowcount={dataSource.length + 1}
         >
-          <thead className="zds-table__head">
+          <thead className={styles['zds-table__head']}>
             <tr>
               {finalColumns.map((column) => (
                 <th
                   key={column.key}
-                  className={clsx('zds-table__th', column.align && `text-${column.align}`)}
+                  className={clsx(styles['zds-table__th'], column.align && `text-${column.align}`)}
                   style={column.style}
                 >
-                  <div className="zds-table__th-content">{column.label}</div>
+                  <div className={styles['zds-table__th-content']}>{column.label}</div>
                 </th>
               ))}
             </tr>
           </thead>
-          <tbody className="zds-table__body">
+          <tbody className={styles['zds-table__body']}>
             {dataSource.length > 0 ? (
               dataSource.map((row, index) => {
                 const rowProps = onRow?.(row, index) || {};
                 return (
                   <tr
                     key={index}
-                    className={clsx('zds-table__row', rowProps.className)}
+                    className={clsx(styles['zds-table__row'], rowProps.className)}
                     onClick={rowProps.onClick}
                     onDoubleClick={rowProps.onDoubleClick}
                   >
                     {finalColumns.map((column) => (
                       <td
                         key={column.key}
-                        className={clsx('zds-table__td', column.align && `text-${column.align}`)}
+                        className={clsx(styles['zds-table__td'], column.align && `text-${column.align}`)}
                       >
                         {renderCell(column, row, index)}
                       </td>
@@ -196,7 +196,7 @@ const Table: React.FC<TableProps> = ({
               })
             ) : (
               <tr>
-                <td colSpan={finalColumns.length} className="zds-table__empty-cell">
+                <td colSpan={finalColumns.length} className={styles['zds-table__empty-cell']}>
                   {emptyText}
                 </td>
               </tr>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { ChevronLeft16Regular, ChevronRight16Regular } from '@fluentui/react-icons';
-import './Table.module.scss';
+import styles from './Table.module.scss';
 
 export interface TablePaginationProps {
   /** Página atual */
@@ -59,10 +59,10 @@ const TablePagination: React.FC<TablePaginationProps> = ({
   };
 
   return (
-    <div className={`zds-table__pagination ${className}`.trim()}>
+    <div className={`${styles['zds-table__pagination']} ${className}`.trim()}>
       {/* Seletor de itens por página */}
-      <div className="zds-table__pagination-select">
-        <label htmlFor="items-per-page" className="zds-table__pagination-label">
+      <div className={styles['zds-table__pagination-select']}>
+        <label htmlFor="items-per-page" className={styles['zds-table__pagination-label']}>
           Itens por página
         </label>
         <select
@@ -70,7 +70,7 @@ const TablePagination: React.FC<TablePaginationProps> = ({
           value={itemsPerPage}
           onChange={handleItemsPerPageChange}
           disabled={disabled}
-          className="zds-table__pagination-select-input"
+          className={styles['zds-table__pagination-select-input']}
         >
           {pageSizeOptions.map((option) => (
             <option key={option} value={option}>
@@ -81,7 +81,7 @@ const TablePagination: React.FC<TablePaginationProps> = ({
       </div>
       
       {/* Informações de paginação */}
-      <div className="zds-table__pagination-info">
+      <div className={styles['zds-table__pagination-info']}>
         <span>
           {totalItems > 0 
             ? `${startItem}–${endItem} de ${totalItems}`
@@ -91,10 +91,10 @@ const TablePagination: React.FC<TablePaginationProps> = ({
       </div>
       
       {/* Controles de navegação */}
-      <div className="zds-table__pagination-controls">
+      <div className={styles['zds-table__pagination-controls']}>
         {/* CORREÇÃO: Ícone envolvido por um <button> com lógica 'disabled' */}
         <button
-          className="zds-table__pagination-button"
+          className={styles['zds-table__pagination-button']}
           onClick={handlePrevious}
           disabled={!canGoPrev}
           aria-label="Página anterior"
@@ -104,7 +104,7 @@ const TablePagination: React.FC<TablePaginationProps> = ({
         
         {/* CORREÇÃO: Ícone envolvido por um <button> com lógica 'disabled' */}
         <button
-          className="zds-table__pagination-button"
+          className={styles['zds-table__pagination-button']}
           onClick={handleNext}
           disabled={!canGoNext}
           aria-label="Próxima página"

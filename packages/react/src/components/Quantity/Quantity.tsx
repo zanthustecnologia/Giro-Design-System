@@ -1,6 +1,6 @@
 import React, { useState, useRef, useCallback, useEffect, useId, useMemo } from 'react';
 import Button from '../Button/Button';
-import './Quantity.module.scss';
+import styles from './Quantity.module.scss';
 import { Add16Regular, Subtract16Regular } from '@fluentui/react-icons';
 import clsx from 'clsx';
 import type { QuantityProps } from './Quantity.types';
@@ -276,7 +276,7 @@ const Quantity: React.FC<QuantityProps> = ({
   const inputId = id || uniqueId;
 
   return (
-    <div className={clsx('zds-quantity', { disabled }, className)}>
+    <div className={clsx(styles['zds-quantity'], { disabled }, className)}>
       <Button
         variant='outlined'
         size={size}
@@ -290,7 +290,7 @@ const Quantity: React.FC<QuantityProps> = ({
 
       <input
         ref={inputRef}
-        className={clsx('zds-quantity__input', { disabled })}
+        className={clsx(styles['zds-quantity__input'], { disabled })}
         type='text'
         value={inputValue}
         onChange={handleInputChange}

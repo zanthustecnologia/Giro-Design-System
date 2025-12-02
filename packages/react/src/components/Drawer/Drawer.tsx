@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback, ReactNode, ReactElement } from 'react';
 import clsx from 'clsx';
-import './Drawer.module.scss';
+import styles from './Drawer.module.scss';
 import { Dismiss16Regular } from '@fluentui/react-icons';
 import Button from '../Button/Button';
 import type { DrawerProps, DrawerExampleProps } from './Drawer.types';
@@ -111,8 +111,8 @@ const Drawer: React.FC<DrawerProps> = ({
     <>
       {/* Overlay/Shadow */}
       <div
-        className={clsx('zds-custom__drawer-shadow', {
-          'zds-custom__drawer-shadow--visible': isOpen,
+        className={clsx(styles['zds-custom__drawer-shadow'], {
+          [styles['zds-custom__drawer-shadow--visible']]: isOpen,
         })}
         onClick={handleOverlayClick}
         role="presentation"
@@ -123,10 +123,10 @@ const Drawer: React.FC<DrawerProps> = ({
       {/* Drawer Panel */}
       <div
         className={clsx(
-          'zds-custom__drawer-sidebar',
+          styles['zds-custom__drawer-sidebar'],
           {
-            'zds-custom__drawer-sidebar--open': isOpen,
-            'zds-custom__drawer-sidebar--disabled': disabled,
+            [styles['zds-custom__drawer-sidebar--open']]: isOpen,
+            [styles['zds-custom__drawer-sidebar--disabled']]: disabled,
           },
           className
         )}
@@ -143,9 +143,9 @@ const Drawer: React.FC<DrawerProps> = ({
         id={id}
       >
      
-        <div className={clsx('zds-drawer__title-close')}>
+        <div className={clsx(styles['zds-drawer__title-close'])}>
           <div 
-            className={clsx('zds-drawer__title')} 
+            className={clsx(styles['zds-drawer__title'])} 
             id={id ? `${id}-title` : 'drawer-title'}
           >
             {title}
@@ -159,7 +159,7 @@ const Drawer: React.FC<DrawerProps> = ({
           />
         </div>
         <div 
-          className={clsx('zds-drawer__children')} 
+          className={clsx(styles['zds-drawer__children'])} 
           data-testid="drawer-content"
         >
           {children}

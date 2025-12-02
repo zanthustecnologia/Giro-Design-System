@@ -1,5 +1,5 @@
 import React, { useEffect, useId, useRef, useState } from 'react';
-import './Tooltip.module.scss';
+import styles from './Tooltip.module.scss';
 import clsx from 'clsx';
 import type { TooltipProps } from './Tooltip.types';
 
@@ -43,12 +43,12 @@ const Tooltip: React.FC<TooltipProps> = ({ id, text, children, position = 'top-r
     };
   }, []);
   const tooltipClass = clsx(
-    'zds-tooltip__content',
-    `zds-tooltip__${position}`,
+    styles['zds-tooltip__content'],
+    styles[`zds-tooltip__${position}`],
   )
   return (
     <div
-      className={clsx('zds-tooltip__wrapper')}
+      className={clsx(styles['zds-tooltip__wrapper'])}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onFocus={handleMouseEnter}
