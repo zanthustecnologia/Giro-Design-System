@@ -1,6 +1,6 @@
 {
-  "name": "@zanthus/utilities",
-  "version": "1.0.2",
+  "name": "@giro/utilities",
+  "version": "1.0.0",
   "main": "dist/ui.css",
     "publishConfig": {
     "access": "public",

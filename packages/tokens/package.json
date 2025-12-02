@@ -1,6 +1,6 @@
 {
-  "name": "@zanthus/tokens",
-  "version": "0.2.0",
+  "name": "@giro/tokens",
+  "version": "1.0.0",
   "type": "module",
     "publishConfig": {
     "access": "public",

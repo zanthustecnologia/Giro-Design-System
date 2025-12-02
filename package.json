@@ -1,5 +1,5 @@
 {
-  "name": "zanthus-design-system-monorepo",
+  "name": "giro-design-system-monorepo",
   "private": true,
   "packageManager": "pnpm@9.15.3",
   "workspaces": [

@@ -1,6 +1,6 @@
 {
-  "name": "@zanthus/react",
-  "version": "2.0.35",
+  "name": "@giro/react",
+  "version": "1.0.0",
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
