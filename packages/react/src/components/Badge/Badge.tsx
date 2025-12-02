@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import React, { ReactNode, useId } from 'react';
-import './Badge.module.scss';
+import styles from './Badge.module.scss';
 import type { BadgeProps, BadgeType, BadgeValue } from './Badge.types';
 
 const Badge: React.FC<BadgeProps> = ({
@@ -35,20 +35,19 @@ const Badge: React.FC<BadgeProps> = ({
   if (type === 'notification') {
     return (
       <div
-        className={clsx('zds-badge__container')}
+        className={clsx(styles['zds-badge__container'])}
       >
         <div
           id={componentId}
-          className={clsx('zds-badge', {
-            [ 'zds-badge__small']: Number(badgeValue) <= 10,
-            [ 'zds-badge__large']: Number(badgeValue) > 10,
-            [className]: className
-          })}
+          className={clsx(styles['zds-badge'], {
+            [styles['zds-badge__small']]: Number(badgeValue) <= 10,
+            [styles['zds-badge__large']]: Number(badgeValue) > 10,
+          }, className)}
           data-testid="badge-notification"
         >
           {!isEmpty && (
             <span
-              className="zds-badge__value"
+              className={styles['zds-badge__value']}
               aria-hidden={ariaLabel ? 'true' : 'false'}
             >
               {displayValue}
@@ -56,7 +55,7 @@ const Badge: React.FC<BadgeProps> = ({
           )}
         </div>
         {children && (
-          <div className="zds-badge__content" data-testid="badge-content">
+          <div className={styles['zds-badge__content']} data-testid="badge-content">
             {children}
           </div>
         )}
@@ -66,18 +65,17 @@ const Badge: React.FC<BadgeProps> = ({
 
   return (
     <div
-      className={clsx('zds-badge__container')}
+      className={clsx(styles['zds-badge__container'])}
     >
       <div
-        className={clsx('zds-badge__status', {
-          'zds-badge__status__empty': isEmpty,
-          [className]: className
-        })}
+        className={clsx(styles['zds-badge__status'], {
+          [styles['zds-badge__status__empty']]: isEmpty,
+        }, className)}
         data-testid="badge-status"
       >
         {!isEmpty && (
           <span
-            className="zds-badge__status-value"
+            className={styles['zds-badge__status-value']}
             aria-hidden={ariaLabel ? 'true' : 'false'}
           >
             {displayValue}

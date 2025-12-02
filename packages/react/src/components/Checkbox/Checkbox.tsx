@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useId, useState } from 'react';
 import clsx from 'clsx';
-import './Checkbox.module.scss';
+import styles from './Checkbox.module.scss';
 import { CheckSmall, CheckHalf } from '@/shared/icons';
 import type { CheckboxProps } from './Checkbox.types';
 
@@ -31,11 +31,11 @@ const Checkbox: React.FC<CheckboxProps> = ({
 
 
   const checkboxClass = clsx(
-    'zds-checkbox',
+    styles['zds-checkbox'],
     {
-      'zds-checkbox__disabled': disabled,
-      'zds-checkbox__checked': checked && !indeterminate,
-      'zds-checkbox__indeterminate': indeterminate,
+      [styles['zds-checkbox__disabled']]: disabled,
+      [styles['zds-checkbox__checked']]: checked && !indeterminate,
+      [styles['zds-checkbox__indeterminate']]: indeterminate,
     },
     className
   );
@@ -52,12 +52,12 @@ const Checkbox: React.FC<CheckboxProps> = ({
     <div className={checkboxClass}>
       <label 
         htmlFor={inputId} 
-        className="zds-checkbox__box-check" 
+        className={styles['zds-checkbox__box-check']} 
       >
         <div
-          className={clsx('zds-checkbox__checkmark', {
-            'zds-checkbox__checkmark__checked': checked && !indeterminate,
-            'zds-checkbox__checkmark__indeterminate': indeterminate ,
+          className={clsx(styles['zds-checkbox__checkmark'], {
+            [styles['zds-checkbox__checkmark__checked']]: checked && !indeterminate,
+            [styles['zds-checkbox__checkmark__indeterminate']]: indeterminate ,
           })}
         >
           <input
@@ -76,21 +76,21 @@ const Checkbox: React.FC<CheckboxProps> = ({
           />
 
           {checked && !indeterminate && (
-            <span className="zds-checkbox__icon" aria-hidden="true">
+            <span className={styles['zds-checkbox__icon']} aria-hidden="true">
               <CheckSmall  />
             </span>
           )}
 
           {indeterminate && (
-            <span className="zds-checkbox__icon" aria-hidden="true">
+            <span className={styles['zds-checkbox__icon']} aria-hidden="true">
               <CheckHalf />
             </span>
           )}
         </div>
         
         {label && (
-          <div className="zds-checkbox__text">
-            <span className="zds-checkbox__label">{label}</span>
+          <div className={styles['zds-checkbox__text']}>
+            <span className={styles['zds-checkbox__label']}>{label}</span>
           </div>
         )}
       </label>

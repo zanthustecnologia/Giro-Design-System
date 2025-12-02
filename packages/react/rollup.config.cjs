@@ -29,7 +29,7 @@ module.exports = [
         extract: 'styles.css',
         inject: false,
         modules: {
-          generateScopedName: '[local]',
+          generateScopedName: '[name]__[local]___[hash:base64:5]',
         },
         autoModules: true,
         use: ['sass'],

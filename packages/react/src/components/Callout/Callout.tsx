@@ -1,6 +1,6 @@
 import React, { useId } from 'react';
 import clsx from 'clsx';
-import './Callout.module.scss';
+import styles from './Callout.module.scss';
 import type { CalloutProps } from './Callout.types';
 
 const Callout: React.FC<CalloutProps> = ({
@@ -16,11 +16,11 @@ const Callout: React.FC<CalloutProps> = ({
   const componentId = id || generatedId;
 
   const calloutClass = clsx(
-    'zds-callout__container',
-    `zds-callout__${type}`,
+    styles['zds-callout__container'],
+    styles[`zds-callout__${type}`],
     {
-      'zds-callout__container__with-title': title,
-      'zds-callout__no-icon': !icon,
+      [styles['zds-callout__container__with-title']]: title,
+      [styles['zds-callout__no-icon']]: !icon,
     },
     className
   );
@@ -33,15 +33,15 @@ const Callout: React.FC<CalloutProps> = ({
       role="alert"
       aria-labelledby={title ? titleId : undefined}
     >
-      <div className="zds-callout__content">
-        {icon && <span className="zds-callout__icon">{icon}</span>}
-        <div className="zds-callout__subcontent">
+      <div className={styles['zds-callout__content']}>
+        {icon && <span className={styles['zds-callout__icon']}>{icon}</span>}
+        <div className={styles['zds-callout__subcontent']}>
           {title && (
-            <span id={titleId} className="zds-callout__title">
+            <span id={titleId} className={styles['zds-callout__title']}>
               {title}
             </span>
           )}
-          {text && <span className="zds-callout__text">{text}</span>}
+          {text && <span className={styles['zds-callout__text']}>{text}</span>}
         </div>
       </div>
     </div>

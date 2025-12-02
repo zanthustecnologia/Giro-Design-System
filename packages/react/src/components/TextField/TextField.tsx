@@ -2,7 +2,7 @@ import React, { useState, useCallback, useEffect, useId } from 'react';
 import clsx from 'clsx';
 import { Dismiss16Regular, Info12Regular } from '@fluentui/react-icons';
 import Tooltip from '../Tooltip/Tooltip';
-import './TextField.module.scss';
+import styles from './TextField.module.scss';
 import { validateInput } from './ValidationUtils';
 import type { TextFieldProps } from './TextField.types';
 
@@ -68,9 +68,9 @@ const TextField: React.FC<TextFieldProps> = ({
     }
   }, [value]);
 
-  const TextFieldClass = clsx('zds-textfield__container', {
-    'zds-textfield__error': inputError,
-    'zds-textfield__disabled': disabled,
+  const TextFieldClass = clsx(styles['zds-textfield__container'], {
+    [styles['zds-textfield__error']]: inputError,
+    [styles['zds-textfield__disabled']]: disabled,
     [className]: className,
   });
 
@@ -89,25 +89,25 @@ const TextField: React.FC<TextFieldProps> = ({
   return (
     <div className={TextFieldClass}>
       {label && (
-        <label htmlFor={componentId} className="zds-textfield__wrapper-label">
+        <label htmlFor={componentId} className={styles['zds-textfield__wrapper-label']}>
           {tooltip ? (
             <Tooltip text={tooltipText} position={positionTooltip}>
-              <div className="zds-textfield__container-tooltip">
+              <div className={styles['zds-textfield__container-tooltip']}>
                 {label}
-                {required && <span className="zds-textfield__required">*</span>}
-                <Info12Regular className="zds-textfield__tooltip" />
+                {required && <span className={styles['zds-textfield__required']}>*</span>}
+                <Info12Regular className={styles['zds-textfield__tooltip']} />
               </div>
             </Tooltip>
           ) : (
-            <div className="zds-textfield__container-tooltip">
+            <div className={styles['zds-textfield__container-tooltip']}>
               {label}
-              {required && <span className="zds-textfield__required">*</span>}
+              {required && <span className={styles['zds-textfield__required']}>*</span>}
             </div>
           )}
         </label>
       )}
-      <div className="zds-textfield__container__box">
-        <div className="zds-textfield__box__input">
+      <div className={styles['zds-textfield__container__box']}>
+        <div className={styles['zds-textfield__box__input']}>
           <input
             id={componentId}
             name={name}
@@ -124,11 +124,11 @@ const TextField: React.FC<TextFieldProps> = ({
             aria-describedby={helperId}
           />
           {shouldRenderCustomIcon && (
-            <span className="zds-textfield__icon">{icon}</span>
+            <span className={styles['zds-textfield__icon']}>{icon}</span>
           )}
           {shouldRenderClearIcon && (
             <Dismiss16Regular
-              className="zds-textfield__icon"
+              className={styles['zds-textfield__icon']}
               onClick={clearInput}
               aria-label="Limpar campo"
               onMouseDown={(e) => e.preventDefault()}
@@ -138,7 +138,7 @@ const TextField: React.FC<TextFieldProps> = ({
 
         <span
           id={helperId}
-          className="zds-textfield__helper-text"
+          className={styles['zds-textfield__helper-text']}
           aria-live={inputError ? 'polite' : undefined}
         >
           {helperContent}

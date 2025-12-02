@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback, useRef, useMemo, useId } from 'react';
 import Dropdown from '../Dropdown/Dropdown';
 import type { DropdownItem, DropdownType } from '../Dropdown/Dropdown.types';
-import './Select.module.scss';
+import styles from './Select.module.scss';
 import { ChevronUp16Regular, ChevronDown16Regular } from '@fluentui/react-icons';
 import clsx from 'clsx';
 import SelectField from '../SelectField/SelectField';
@@ -399,13 +399,13 @@ const Select = React.memo<SelectProps>(({
 
   // ✅ MELHORADO: Classes CSS com estados visuais
   const selectClasses = clsx(
-    'zds-select',
+    styles['zds-select'],
     {
-      'zds-select--disabled': disabled,
-      'zds-select--error': Boolean(errorMessage) || shouldShowRequiredError,
-      'zds-select--focused': isOpen,
-      'zds-select--required': required,
-      'zds-select--touched': isTouched,
+      [styles['zds-select--disabled']]: disabled,
+      [styles['zds-select--error']]: Boolean(errorMessage) || shouldShowRequiredError,
+      [styles['zds-select--focused']]: isOpen,
+      [styles['zds-select--required']]: required,
+      [styles['zds-select--touched']]: isTouched,
     },
     className
   );
@@ -437,7 +437,7 @@ const Select = React.memo<SelectProps>(({
         onBlur={handleBlur}
         onKeyDown={handleKeyDown}
         onClick={handleTriggerClick}
-        className="zds-select__trigger"
+        className={styles['zds-select__trigger']}
       >
         <SelectField
           name={`select-${finalId}`}
@@ -459,8 +459,8 @@ const Select = React.memo<SelectProps>(({
       </div>
       {isOpen && !disabled && (
         <div className={clsx(
-          'zds-select__dropdown',
-          position && `zds-select__dropdown--${position}`
+          styles['zds-select__dropdown'],
+          position && styles[`zds-select__dropdown--${position}`]
         )}>
 
           <Dropdown

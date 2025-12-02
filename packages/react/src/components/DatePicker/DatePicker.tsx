@@ -4,7 +4,7 @@ import TextField from '../TextField';
 import Calendar from '../Calendar/Calendar';
 import { Calendar16Regular } from '@fluentui/react-icons';
 import { formatDate, parseDate, applyDateMask, isValidDateFormat } from './DateUtils';
-import './DatePicker.module.scss';
+import styles from './DatePicker.module.scss';
 import type { DatePickerLocale, CalendarPosition, DatePickerProps } from './DatePicker.types';
 
 const DatePicker: React.FC<DatePickerProps> = ({
@@ -227,7 +227,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
 
   return (
     <div ref={wrapperRef}>
-      <div className={clsx('zds-date-picker')}>
+      <div className={clsx(styles['zds-date-picker'])}>
         <div
           onClick={handleFieldClick}
           onFocus={handleFieldFocus}
@@ -257,9 +257,9 @@ const DatePicker: React.FC<DatePickerProps> = ({
         </div>
         <div
           className={clsx(
-            'zds-date-picker__calendar-popup',
-            calendarPosition === 'left' && 'zds-calendar--left',
-            calendarPosition === 'right' && 'zds-calendar--right'
+            styles['zds-date-picker__calendar-popup'],
+            calendarPosition === 'left' && styles['zds-calendar--left'],
+            calendarPosition === 'right' && styles['zds-calendar--right']
           )}
         >
           {showCalendar && (
