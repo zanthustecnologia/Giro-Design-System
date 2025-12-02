@@ -1,5 +1,5 @@
 .docsFooter {
-  width: 100%;
+  width: calc(100vw - 280px);
   position: absolute;
   left: 0;
   background-color: var(--color-neutral-high-light);
@@ -9,6 +9,34 @@
   padding: 48px 72px !important;
   display: flex;
   justify-content: center;
+}
+
+/* Breakpoint 1366px - HD Ready */
+@media screen and (min-width: 1366px) {
+  .docsFooter {
+    width: calc(100vw - 280px);
+  }
+}
+
+/* Breakpoint 1600px - HD+ */
+@media screen and (min-width: 1600px) {
+  .docsFooter {
+    width: calc(100vw - 255px);
+  }
+}
+
+/* Breakpoint 1920px - Full HD */
+@media screen and (min-width: 1920px) {
+  .docsFooter {
+    width: calc(100vw - 260px);
+  }
+}
+
+/* Breakpoint 2560px - QHD */
+@media screen and (min-width: 2560px) {
+  .docsFooter {
+    width: calc(100vw - 260px);
+  }
 }
 
 .docsFooterContent {
