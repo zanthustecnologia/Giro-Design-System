@@ -1,7 +1,7 @@
 import React, { JSX } from "react";
 import type { Meta, StoryObj } from '@storybook/react';
-import { ListItem } from "@zanthus/react";
-import type { ListItemProps } from "@zanthus/react";
+import { ListItem } from "@giro/react";
+import type { ListItemProps } from "@giro/react";
 import { UsbPlug20Filled } from "@fluentui/react-icons";
 
 const meta: Meta<typeof ListItem> = {

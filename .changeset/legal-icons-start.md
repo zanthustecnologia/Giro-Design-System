@@ -1,5 +1,5 @@
 ---
-"@zanthus/components-react": major
+"@giro/components-react": major
 ---
 
 - **Filter**: Fixed badge visibility when filter dropdown is open

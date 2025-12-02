@@ -55,9 +55,9 @@ Organizar os tokens para permitir:
 No seu arquivo global:
 
 ```scss
-@import "@zanthus/tokens/src/index";
-@import "@zanthus/tokens/src/themes/light";
-@import "@zanthus/tokens/src/themes/dark";
+@import "@giro/tokens/src/index";
+@import "@giro/tokens/src/themes/light";
+@import "@giro/tokens/src/themes/dark";
 ```
 
 Agora você pode usar variáveis como:
@@ -72,13 +72,13 @@ Agora você pode usar variáveis como:
 ### 2. Uso via CSS direto (ex: Web Components, HTML, Vite, Storybook)
 
 ```html
-<link rel="stylesheet" href="/node_modules/@zanthus/tokens/design-tokens-export.css" />
+<link rel="stylesheet" href="/node_modules/@giro/tokens/design-tokens-export.css" />
 ```
 
 Ou via JavaScript:
 
 ```js
-import "@zanthus/tokens/design-tokens-export.css";
+import "@giro/tokens/design-tokens-export.css";
 ```
 
 ---

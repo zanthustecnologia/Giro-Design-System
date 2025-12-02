@@ -1,6 +1,6 @@
 ---
-"@zanthus/components-react": major
-"@zanthus/ui": major
+"@giro/components-react": major
+"@giro/ui": major
 ---
 
 -> Implementation Ui package

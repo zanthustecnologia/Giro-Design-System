@@ -1,4 +1,4 @@
-# @zanthus/tokens
+# @giro/tokens
 
 ## 0.1.0
 

@@ -1,8 +1,8 @@
 import React, { ReactElement } from 'react';
 import type { Meta, StoryFn } from '@storybook/react';
 import { Add16Regular } from '@fluentui/react-icons';
-import { Avatar, Button, Badge } from '@zanthus/react';
-import type { BadgeProps } from '@zanthus/react';
+import { Avatar, Button, Badge } from '@giro/react';
+import type { BadgeProps } from '@giro/react';
 
 // ✅ Types para os stories
 interface BadgeStoryProps extends BadgeProps {}

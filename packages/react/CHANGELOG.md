@@ -1,4 +1,4 @@
-# @zanthus/components-react
+# @giro/components-react
 
 ## 2.0.0
 

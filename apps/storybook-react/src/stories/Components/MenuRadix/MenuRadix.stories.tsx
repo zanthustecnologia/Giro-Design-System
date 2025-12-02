@@ -1,8 +1,8 @@
 import type { Meta, StoryFn } from '@storybook/react';
 import { useState, useEffect, useCallback, useRef } from 'react';
-import MenuRadix from '@zanthus/react/src/components/MenuRadix/MenuRadix';
-import Button from '@zanthus/react/src/components/Button';
-import { MenuItemProps } from '@zanthus/react/src/components/MenuRadix/MenuRadix.types';
+import MenuRadix from '@giro/react/src/components/MenuRadix/MenuRadix';
+import Button from '@giro/react/src/components/Button';
+import { MenuItemProps } from '@giro/react/src/components/MenuRadix/MenuRadix.types';
 import { ChevronCircleDown16Regular } from '@fluentui/react-icons';
 
 const meta: Meta = {

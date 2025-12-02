@@ -1,5 +1,5 @@
 ---
-'@zanthus/components-react': major
+'@giro/components-react': major
 ---
 
 Ajust imports | Change components-react - 2.0.29

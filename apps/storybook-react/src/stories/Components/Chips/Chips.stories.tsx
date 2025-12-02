@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Chips } from '@zanthus/react';
+import { Chips } from '@giro/react';
 import { DismissCircle16Regular, Tag16Regular } from '@fluentui/react-icons';
 
 interface StoryArgs {

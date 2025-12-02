@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Search } from '@zanthus/react';
+import { Search } from '@giro/react';
 
 type Story = StoryObj<typeof Search>;
 

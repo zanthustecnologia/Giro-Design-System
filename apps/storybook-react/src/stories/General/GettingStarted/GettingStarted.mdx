@@ -15,11 +15,11 @@ Bem-vindo ao Zanthus Design System! Este guia vai ajudá-lo a começar a usar no
 Para instalar o pacote de componentes React em seu projeto:
 
 ```bash
-npm install @zanthus/react
+npm install @giro/react
 ```
 
 ```bash
-yarn add @zanthus/react
+yarn add @giro/react
 ```
 
 ### Design tokens
@@ -27,11 +27,11 @@ yarn add @zanthus/react
 Para usar os tokens de design (cores, tipografia, espaçamentos, bordas):
 
 ```bash
-npm install @zanthus/tokens
+npm install @giro/tokens
 ```
 
 ```bash
-yarn add @zanthus/tokens
+yarn add @giro/tokens
 ```
 
 ### Utilitários CSS
@@ -39,11 +39,11 @@ yarn add @zanthus/tokens
 Para usar os utilitários de layout e espaçamento:
 
 ```bash
-npm install @zanthus/utilities
+npm install @giro/utilities
 ```
 
 ```bash
-yarn add @zanthus/utilities
+yarn add @giro/utilities
 ```
 
 ### Instalação completa
@@ -51,11 +51,11 @@ yarn add @zanthus/utilities
 Para instalar todos os pacotes de uma vez:
 
 ```bash
-npm install @zanthus/react @zanthus/tokens @zanthus/utilities
+npm install @giro/react @giro/tokens @giro/utilities
 ```
 
 ```bash
-yarn add @zanthus/react @zanthus/tokens @zanthus/utilities
+yarn add @giro/react @giro/tokens @giro/utilities
 ```
 
 ## Configuração inicial
@@ -65,7 +65,7 @@ yarn add @zanthus/react @zanthus/tokens @zanthus/utilities
 No arquivo principal da sua aplicação (geralmente `App.jsx` ou `index.js`), importe os tokens de design:
 
 ```jsx
-import '@zanthus/tokens/build/css/tokens.css';
+import '@giro/tokens/build/css/tokens.css';
 ```
 
 ### 2. Importe os componentes
@@ -73,7 +73,7 @@ import '@zanthus/tokens/build/css/tokens.css';
 Você pode importar componentes individuais conforme necessário:
 
 ```jsx
-import { Button, TextField, Avatar } from '@zanthus/react';
+import { Button, TextField, Avatar } from '@giro/react';
 
 function App() {
   return (
@@ -90,14 +90,14 @@ function App() {
 
 O Zanthus Design System é organizado em três pacotes principais:
 
-### @zanthus/tokens
+### @giro/tokens
 
 Contém todos os design tokens (cores, tipografia, espaçamentos, bordas) em múltiplos formatos:
 - **CSS Variables**: Para uso direto em CSS/SCSS
 - **JavaScript/TypeScript**: Para uso em aplicações React
 - **SCSS Variables**: Para projetos que usam SCSS
 
-### @zanthus/react
+### @giro/react
 
 Biblioteca de componentes React prontos para uso:
 - Componentes acessíveis (WCAG 2.1)
@@ -105,7 +105,7 @@ Biblioteca de componentes React prontos para uso:
 - Totalmente customizáveis via props
 - Documentação detalhada de cada componente
 
-### @zanthus/utilities
+### @giro/utilities
 
 Utilitários CSS para layout e espaçamento:
 - Grid system responsivo
@@ -133,7 +133,7 @@ Os tokens estão disponíveis como CSS custom properties:
 Se você preferir SCSS, importe os tokens SCSS:
 
 ```scss
-@import '@zanthus/tokens/build/scss/tokens.scss';
+@import '@giro/tokens/build/scss/tokens.scss';
 
 .meu-componente {
   color: $color-brand-primary-default;
@@ -147,7 +147,7 @@ Se você preferir SCSS, importe os tokens SCSS:
 Para uso em styled-components ou estilos inline:
 
 ```jsx
-import tokens from '@zanthus/tokens/build/js/tokens.js';
+import tokens from '@giro/tokens/build/js/tokens.js';
 
 const MyComponent = styled.div`
   color: ${tokens.colorBrandPrimaryDefault};
@@ -171,8 +171,8 @@ Aqui está um exemplo completo de configuração:
 
 ```jsx
 // App.jsx
-import '@zanthus/tokens/build/css/tokens.css';
-import { Button, TextField, Avatar, Container } from '@zanthus/react';
+import '@giro/tokens/build/css/tokens.css';
+import { Button, TextField, Avatar, Container } from '@giro/react';
 
 function App() {
   return (

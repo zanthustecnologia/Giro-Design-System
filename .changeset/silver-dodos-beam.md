@@ -1,5 +1,5 @@
 ---
-'@zanthus/components-react': major
+'@giro/components-react': major
 ---
 
 Fixes to design system

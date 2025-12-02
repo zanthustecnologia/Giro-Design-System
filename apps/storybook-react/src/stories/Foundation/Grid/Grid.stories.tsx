@@ -1,5 +1,5 @@
 import { Meta } from '@storybook/react';
-import '@zanthus/utilities';
+import '@giro/utilities';
 import './Grid.module.scss';
 
 const meta: Meta = {

@@ -1,5 +1,5 @@
 ---
-"@zanthus/components-react": major
+"@giro/components-react": major
 ---
 
 -> Update Calendar component in the filter

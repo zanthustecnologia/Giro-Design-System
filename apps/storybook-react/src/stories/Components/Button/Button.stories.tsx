@@ -1,8 +1,8 @@
 import { Add16Filled, Add16Regular } from '@fluentui/react-icons';
 import React from 'react';
 import { Meta, StoryFn } from '@storybook/react';
-import { Button } from '@zanthus/react';
-import type { ButtonProps } from '@zanthus/react';
+import { Button } from '@giro/react';
+import type { ButtonProps } from '@giro/react';
 
 export default {
   title: 'Components/Button',

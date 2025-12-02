@@ -1,8 +1,8 @@
 // Filter.stories.tsx
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
-import { Filter } from '@zanthus/react';
-import type { FilterProps } from '@zanthus/react';
+import { Filter } from '@giro/react';
+import type { FilterProps } from '@giro/react';
 
 const meta: Meta<typeof Filter> = {
   title: 'Components/Filter',
