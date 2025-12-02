@@ -29,6 +29,10 @@ const config = {
 
   // Ajustes do Vite para monorepo e @fluentui/react-icons
   viteFinal: async (viteConfig) => {
+    const path = await import('path');
+    const { fileURLToPath } = await import('url');
+    const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
     // 1) Garante PRÉ-empacote estável dessas deps (evita import virar null)
     viteConfig.optimizeDeps = viteConfig.optimizeDeps || {};
     viteConfig.optimizeDeps.include = [
@@ -46,7 +50,14 @@ const config = {
       'react-dom'
     ];
 
-    // 3) Em workspaces, manter symlinks resolvidos corretamente
+    // 3) Configura alias @ para apontar para packages/react/src
+    viteConfig.resolve.alias = {
+      ...(viteConfig.resolve.alias || {}),
+      '@': path.resolve(__dirname, '../../../packages/react/src'),
+      '@components': path.resolve(__dirname, '../../../packages/react/src/components'),
+    };
+
+    // 4) Em workspaces, manter symlinks resolvidos corretamente
     //    (ajuda o Vite a não duplicar módulos linkados)
     viteConfig.resolve.preserveSymlinks = false;
 

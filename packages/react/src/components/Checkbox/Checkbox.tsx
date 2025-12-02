@@ -1,8 +1,7 @@
 import React, { useEffect, useRef, useId, useState } from 'react';
 import clsx from 'clsx';
 import './Checkbox.module.scss';
-import CheckSmall from './CheckSmall';
-import CheckHalf from './CheckHalf';
+import { CheckSmall, CheckHalf } from '@/shared/icons';
 import type { CheckboxProps } from './Checkbox.types';
 
 /**

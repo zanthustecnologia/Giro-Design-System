@@ -9,7 +9,7 @@ Obrigado por se interessar em contribuir com o Zanthus Design System! Este docum
 Antes de começar, você vai precisar de:
 
 * Node.js 18+ instalado
-* NPM ou Yarn (preferimos NPM)
+* pnpm instalado globalmente (`npm install -g pnpm`)
 * Conta no GitHub
 * Conhecimentos básicos em Git, terminal e React (caso vá contribuir com componentes)
 
@@ -27,7 +27,7 @@ Antes de começar, você vai precisar de:
 2. **Instale as dependências:**
 
    ```bash
-   npm install
+   pnpm install
    ```
 
 3. **Crie uma nova branch:**
@@ -46,9 +46,9 @@ Antes de começar, você vai precisar de:
 5. **Rode os testes, linter e build antes de commitar:**
 
    ```bash
-   npm run lint
-   npx turbo run build
-   npm run test
+   pnpm lint
+   pnpm turbo run build
+   pnpm test
    ```
 
 6. **Crie um pull request** explicando claramente o que foi feito, por que, e como testar.
@@ -81,7 +81,7 @@ Todos os commits devem seguir o padrão:
 | test     | Adição ou alteração de testes        |
 | chore    | Tarefas auxiliares (builds, configs) |
 
-> Use `npm run commit` com [commitizen](https://github.com/commitizen/cz-cli) se desejar ajuda na formatação.
+> Use `pnpm run commit` com [commitizen](https://github.com/commitizen/cz-cli) se desejar ajuda na formatação.
 
 ---
 
@@ -121,7 +121,7 @@ Inclua um `package.json`, scripts (`build`, `dev`, etc.) e registre como workspa
 ## 🧹 Checklist antes do PR
 
 * [ ] Lint passou sem erros
-* [ ] Build está funcionando (`npx turbo run build`)
+* [ ] Build está funcionando (`pnpm turbo run build`)
 * [ ] Storybook atualizado (se aplicável)
 * [ ] Commit segue padrão
 * [ ] Descrevi o que foi feito no PR
