@@ -1,56 +1,88 @@
 /* ===== CUSTOMIZAÇÕES ESPECÍFICAS DO WELCOME ===== */
 
-/* Hero section do Welcome */
-.docsHero {
-  width: 100%;
-  display: flex;
-  align-items: center;
+/* Hero section with Orb Animation */
+.heroOrb {
   position: relative;
-  background: var(--color-neutral-high-light);
-  border-radius: var(--border-radius-4);
-  height: 200px;
-  margin-bottom: var(--spacing-24);
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, var(--color-neutral-high-pure) 0%, var(--color-neutral-high-light) 100%);
   overflow: hidden;
 }
 
-/* Texto do hero */
-.componenteNameModuleText {
-  padding-left: var(--spacing-48);
-  max-width: 60%;
+.orbContainer {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   z-index: 1;
 }
 
-.componenteNameModuleText h1 {
-  font-size: var(--font-size-40);
+.heroContent {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 600px;
+  text-align: center;
+  pointer-events: none;
+}
+
+.heroTitle {
+  font-size: var(--font-size-64) !important;
   font-weight: var(--font-weight-bold);
+  color: var(--color-neutral-low-default);
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.heroSubtitle {
+  font-size: var(--font-size-16);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-neutral-low-medium);
+  margin: var(--spacing-16) 0 0 0 !important;
+  line-height: 1.5;
+}
+
+.heroLinks {
+  display: flex;
+  gap: var(--spacing-12);
+  margin-top: var(--spacing-48) !important;
+}
+
+.heroLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-8);
+  height: 36px;
+  padding: 0 var(--spacing-16);
+  background: var(--color-neutral-high-medium);
+  border: none;
+  border-radius: var(--border-radius-pill);
+  color: var(--color-neutral-low-default);
+  text-decoration: none;
+  font-size: var(--font-size-14);
+  font-weight: var(--font-weight-medium);
+  transition: all 0.2s ease;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.heroLink:hover {
+  background: var(--color-brand-primary-light);
   color: var(--color-brand-primary-default);
 }
 
-/* Hero com imagem posicionada específica */
-.componenteNameModuleImg {
-  position: absolute;
-  left: 345px;
-  top: 0;
-  height: 100%;
-  width: 200%;
-  overflow: hidden;
-}
-
-.componenteNameModuleImg img {
-  width: 950px;
-  margin-left: -340px;
-}
-
-/* Intro section com font-size maior */
-.componentModuleIntro {
-  margin-top: var(--spacing-16) !important;
-  margin-bottom: var(--spacing-56);
-}
-
-.description {
-  font-size: var(--font-size-20);
-  font-weight: var(--font-weight-regular);
-  color: var(--color-neutral-low-dark);
+.heroLink img {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
   display: block;
 }
 
@@ -60,7 +92,12 @@
   grid-template-columns: repeat(1, 1fr);
   gap: var(--spacing-16);
   margin-bottom: var(--spacing-56);
+  margin-top: var(--spacing-24);
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
 }
+
 
 @media screen and (min-width: 768px) {
   .docsGrid {
@@ -83,6 +120,15 @@
   flex-direction: column;
 }
 
+/* Estilos para os títulos das seções */
+:global(.docs-story) h2 {
+  text-align: center;
+  max-width: 1200px;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding: 0 var(--spacing-24);
+}
+
 .docsCard img {
   margin-bottom: var(--spacing-16);
 }
@@ -101,30 +147,48 @@
   flex-grow: 1;
 }
 
-/* Media queries para responsividade do hero */
-@media screen and (max-width: 800px) {
-  .componenteNameModuleImg {
-    left: 300px;
+/* Media queries para responsividade */
+@media screen and (max-width: 768px) {
+  .heroOrb {
+    height: 100vh;
+  }
+
+  .orbContainer {
+    width: 400px;
+    height: 400px;
+  }
+
+  .heroContent {
+    max-width: 90%;
+    padding: 0 var(--spacing-24);
+  }
+
+  .heroTitle {
+    font-size: var(--font-size-32);
+  }
+
+  .heroSubtitle {
+    font-size: var(--font-size-14);
+  }
+
+
+
+  .docsGrid {
+    padding: 0 var(--spacing-16);
   }
 }
 
-@media screen and (max-width: 600px) {
-  .componenteNameModuleText {
-    padding-left: var(--spacing-24);
+@media screen and (max-width: 480px) {
+  .orbContainer {
+    width: 300px;
+    height: 300px;
   }
 
-  .componenteNameModuleImg {
-    right: 0;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    height: auto;
-    width: 124%;
+  .heroTitle {
+    font-size: var(--font-size-24);
   }
 
-  .componenteNameModuleImg img {
-    width: 1200px;
-    margin-left: -24px;
-    margin-bottom: -40px;
+  .heroSubtitle {
+    font-size: var(--font-size-12);
   }
 }

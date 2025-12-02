@@ -1,6 +1,5 @@
 import { Meta } from '@storybook/addon-docs/blocks';
 
-import Hero from "../../../assets/hero.png";
 import GettingStarted from "../../../assets/getting-started.png";
 import Foundations from "../../../assets/foundations.png";
 import Components from "../../../assets/components.png";
@@ -11,22 +10,33 @@ import Quality from "../../../assets/quality.png";
 import UserCentered from "../../../assets/user-centered.png";
 import Evolution from "../../../assets/evolution.png";
 import { Footer } from '../../../internal-components/mdx/Footer/Footer';
+import OrbAnimation from './OrbAnimation';
+
+import FigmaIcon from "../../../assets/figma-mark.svg";
+import GithubIcon from "../../../assets/github-mark.svg";
 
 import styles from './Welcome.module.scss';
 
 <Meta title="Welcome" />
 
-<div className={styles.docsHero}>
-  <div className={styles.componenteNameModuleText}>
-    <h1>Zanthus Design System</h1>
+<div className={styles.heroOrb}>
+  <div className={styles.orbContainer}>
+    <OrbAnimation hue={0} animateHue={true} hoverIntensity={0.5} rotateOnHover={true} />
   </div>
-  <div className={styles.componenteNameModuleImg}>
-    <img src={Hero} alt="Integrate your tools with Storybook to connect workflows." />
+  <div className={styles.heroContent}>
+    <h1 className={styles.heroTitle}>Giro design system</h1>
+    <p className={styles.heroSubtitle}>O design system AI-Driven da Zanthus e da Neos</p>
+    <div className={styles.heroLinks}>
+      <a href="https://www.figma.com/design/uurFrMGj7AqFDHkm6RBtI7/%F0%9F%8E%A8-Zanthus-Design-System--web-app?node-id=0-1&t=9s6mTnwkwStpl5Qo-1" target="_blank" rel="noopener noreferrer" className={styles.heroLink}>
+        <img src={FigmaIcon} alt="Figma" width="16" height="16" />
+        Figma
+      </a>
+      <a href="https://github.com/zanthustecnologia/Giro-Design-System" target="_blank" rel="noopener noreferrer" className={styles.heroLink}>
+        <img src={GithubIcon} alt="GitHub" width="16" height="16" />
+        GitHub
+      </a>
+    </div>
   </div>
-</div>
-
-<div className={styles.componentModuleIntro}>
-  <span className={styles.description}>Aqui você encontra o guia do nosso design system, documentação dos componentes e recursos para criar experiências digitais excepcionais com qualidade, acessibilidade e consistência.</span> 
 </div>
 
 ## O que você encontrará aqui

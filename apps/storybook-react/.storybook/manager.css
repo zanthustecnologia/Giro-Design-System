@@ -12,3 +12,9 @@
   margin: 0 !important;
   padding: 0 !important;
 }
+
+/* Tamanho do logo */
+.sidebar-header img {
+  max-width: 100%;
+  height: 44px;
+}

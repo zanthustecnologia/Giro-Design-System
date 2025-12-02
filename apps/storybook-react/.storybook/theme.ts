@@ -1,5 +1,6 @@
 // apps/storybook-react/.storybook/theme.ts
 import { create } from 'storybook/theming';
+import giroLogo from '../src/assets/giro-logo.svg';
 
 export const ZanthusTheme = create({
   base: 'light',
@@ -7,6 +8,7 @@ export const ZanthusTheme = create({
   // Marca
   brandTitle: 'Zanthus Design System',
   brandUrl: 'https://www.zanthus.com.br',
+  brandImage: giroLogo,
   brandTarget: '_blank',
 
   // Paleta principal (estilo Vibe)
