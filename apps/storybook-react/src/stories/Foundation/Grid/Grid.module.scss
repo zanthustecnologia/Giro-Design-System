@@ -1,55 +1,26 @@
-:root {
-  --c-grey: #a6a8aa;
-  --c-blue: #6366f1
-}
-
-/* Removido: body com font-family (já está global via preview-head.html) */
-/* Removido: main com padding (substituído por .docs-container) */
-
-h1 {
-  font-size: 28px;
-  font-weight: 700;
-  margin-bottom: 16px;
-}
-h2 {
-  font-size: 20px;
-  font-weight: 600;
-  margin: 28px 0 12px;
-}
-p {
-  margin: 8px 0 16px;
-  color: #374151;
-}
-code {
-  background: #f3f4f6;
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-size: 0.85em;
-}
-pre {
-  background: #111827; color: #f3f4f6;
-  padding: 12px 16px; border-radius: 8px;
-  overflow-x: auto; font-size: 14px; margin-top: 12px;
-}
 .example {
-  border: 1px solid var(--c-grey); border-radius: 8px;
-  background: white; padding: 20px; margin-bottom: 16px;
+  border: var(--border-width-1) solid var(--color-neutral-high-medium);
+  border-radius: var(--border-radius-8);
+  background: var(--color-neutral-high-pure);
+  padding: var(--spacing-24);
+  margin-bottom: var(--spacing-24);
 }
-.demo-box {
-  background: var(--c-blue); color: white; font-size: 14px;
-  padding: 10px 12px; text-align: center; border-radius: 6px;
+
+.demoBox {
+  background: var(--color-brand-primary-default);
+  color: var(--color-neutral-high-default);
+  font-size: var(--font-size-14);
+  padding: var(--spacing-12) var(--spacing-16);
+  text-align: center;
+  border-radius: var(--border-radius-8);
 }
+
 .card {
-  background: var(--c-blue); border: 1px solid var(--c-blue); border-radius: 8px;
-  padding: 16px; color: white; font-size: 14px;
-  box-shadow: 0 1px 2px rgba(0,0,0,.05);
-}
-hr {
-  margin: 40px 0;
-  border: none;
-  border-top: 1px solid #d3d5d8;
-}
-.muted {
-  color: #6b7280;
-  font-size: 15px;
+  background: var(--color-brand-primary-default);
+  border: var(--border-width-1) solid var(--color-brand-primary-default);
+  border-radius: var(--border-radius-8);
+  padding: var(--spacing-16);
+  color: var(--color-neutral-high-default);
+  font-size: var(--font-size-14);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
