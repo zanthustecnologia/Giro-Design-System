@@ -1,6 +1,17 @@
-// apps/storybook-react/.storybook/theme.ts
 import { create } from 'storybook/theming';
-import giroLogo from '../src/assets/giro-logo.svg';
+import GiroLogo from '../src/assets/giro-logo.svg';
+
+const config = {
+  colors: {
+    primary: '#3b45f2',
+    secondary: '#505255',
+    white: '#ffffff',
+    black: '#1a1a1a',
+    gray: '#e2e4ea',
+    lightGray: '#f5f6fa',
+    darkGray: '#d4d7e0',
+  }
+}
 
 export const ZanthusTheme = create({
   base: 'light',
@@ -8,26 +19,24 @@ export const ZanthusTheme = create({
   // Marca
   brandTitle: 'Zanthus Design System',
   brandUrl: 'https://www.zanthus.com.br',
-  brandImage: giroLogo,
+  brandImage: GiroLogo,
   brandTarget: '_blank',
 
   // Paleta principal (estilo Vibe)
-  colorPrimary: '#3b45f2',   // azul principal
-  colorSecondary: '#505255', // verde de apoio (se quiser depois a gente suaviza)
-
+  colorPrimary: config.colors.primary,   // azul principal
+  colorSecondary: config.colors.secondary, // verde de apoio (se quiser depois a gente suaviza)
   // Top bar (clara, com acento azul)
-  barBg: '#ffffff',
-  barTextColor: '#1a1a1a',
-  barSelectedColor: '#3b45f2',
+  barBg: config.colors.white,
+  barTextColor: config.colors.black,
+  barSelectedColor: config.colors.primary,
 
   // Fundo geral da app (em volta do canvas)
-  appBg: '#f5f6fa',
-
+  appBg: config.colors.lightGray,
   // Fundo da área de conteúdo (Docs / Canvas)
-  appContentBg: '#ffffff',
+  appContentBg: config.colors.white,
 
   // Bordas e “cards”
-  appBorderColor: '#e2e4ea',
+  appBorderColor: config.colors.gray,
   appBorderRadius: 8,
 
   // Tipografia
@@ -35,11 +44,11 @@ export const ZanthusTheme = create({
   fontCode: '"Figtree", monospace',
 
   // Texto
-  textColor: '#1a1a1a',
-  textInverseColor: '#ffffff',
+  textColor: config.colors.black,
+  textInverseColor: config.colors.white,
 
   // Inputs (em painéis, controles)
-  inputBg: '#ffffff',
-  inputBorder: '#d4d7e0',
-  inputTextColor: '#1a1a1a',
+  inputBg: config.colors.white,
+  inputBorder: config.colors.darkGray,
+  inputTextColor: config.colors.black,
 });
