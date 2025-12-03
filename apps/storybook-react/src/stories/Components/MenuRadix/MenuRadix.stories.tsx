@@ -1,7 +1,7 @@
 import type { Meta, StoryFn } from '@storybook/react';
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { MenuRadix, Button } from '@giro/react';
-import type { MenuRadixProps } from '@giro/react';
+import { MenuRadix, Button } from '@giro-ds/react';
+import type { MenuRadixProps } from '@giro-ds/react';
 import { ChevronCircleDown16Regular } from '@fluentui/react-icons';
 
 type MenuItemProps = MenuRadixProps['items'][number];

@@ -1,5 +1,5 @@
 ---
-"@giro/react": major
+"@giro-ds/react": major
 ---
 
 -> Update Table component and filter Component

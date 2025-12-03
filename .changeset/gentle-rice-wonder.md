@@ -1,5 +1,5 @@
 ---
-"@giro/react": minor
+"@giro-ds/react": minor
 ---
 
 -> Fix: adjustment select height component; add maxHeight prop

@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Tooltip, Avatar, Button } from '@giro/react';
+import { Tooltip, Avatar, Button } from '@giro-ds/react';
 import { Person16Regular } from '@fluentui/react-icons';
 type Story = StoryObj<typeof Tooltip>;
 

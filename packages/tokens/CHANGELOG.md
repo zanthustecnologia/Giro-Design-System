@@ -1,4 +1,4 @@
-# @giro/tokens
+# @giro-ds/tokens
 
 ## 0.1.0
 

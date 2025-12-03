@@ -1,5 +1,5 @@
 ---
-'@giro/react': major
+'@giro-ds/react': major
 ---
 
 Add page funcionality | Change to version 2.0.31'

@@ -1,5 +1,5 @@
 ---
-'@giro/react': major
+'@giro-ds/react': major
 ---
 
 Fix: error on search | Change to version 2.0.32

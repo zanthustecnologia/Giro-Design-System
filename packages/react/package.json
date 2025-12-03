@@ -1,5 +1,5 @@
 {
-  "name": "@giro/react",
+  "name": "@giro-ds/react",
   "version": "1.0.0",
   "publishConfig": {
     "access": "public",

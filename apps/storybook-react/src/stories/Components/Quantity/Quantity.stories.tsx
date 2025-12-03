@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import type { Meta, StoryFn } from '@storybook/react';
-import { Quantity } from '@giro/react';
-import type { QuantityProps } from '@giro/react';
+import { Quantity } from '@giro-ds/react';
+import type { QuantityProps } from '@giro-ds/react';
 
 const meta: Meta<typeof Quantity> = {
   title: 'Components/Quantity',

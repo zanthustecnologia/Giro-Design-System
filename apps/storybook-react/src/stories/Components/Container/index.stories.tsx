@@ -1,6 +1,6 @@
 import React from 'react';
 import { Meta, StoryObj } from '@storybook/react';
-import { Container } from '@giro/react';
+import { Container } from '@giro-ds/react';
 
 interface ContainerProps {
   children: React.ReactNode

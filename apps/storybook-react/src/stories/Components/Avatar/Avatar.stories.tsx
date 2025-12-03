@@ -1,5 +1,5 @@
-import { Avatar } from "@giro/react";
-import type { AvatarProps } from "@giro/react";
+import { Avatar } from "@giro-ds/react";
+import type { AvatarProps } from "@giro-ds/react";
 import React from "react";
 import { Person16Regular, Add16Regular, Add16Filled, ArrowCircleDown12Regular } from "@fluentui/react-icons";
 import type { Meta, StoryObj } from '@storybook/react';

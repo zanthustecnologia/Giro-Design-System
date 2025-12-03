@@ -1,5 +1,5 @@
 ---
-"@giro/ui": major
+"@giro-ds/ui": major
 ---
 
 -> Update dist archive

@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { VerificationCode } from '@giro/react';
+import { VerificationCode } from '@giro-ds/react';
 
 type Story = StoryObj<typeof VerificationCode>;
 

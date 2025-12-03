@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import React, { useState } from 'react';
-import { Radio } from '@giro/react';
-import type { RadioProps } from '@giro/react';
+import { Radio } from '@giro-ds/react';
+import type { RadioProps } from '@giro-ds/react';
 
 // Definindo tipos para as props do Radio (caso não existam)
 

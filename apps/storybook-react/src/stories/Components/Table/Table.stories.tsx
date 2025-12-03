@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useMemo } from 'react';
 import type { Meta, StoryFn } from '@storybook/react';
-import { Table, TableHeader, TablePagination, Chips, Button, Menu, Drawer } from '@giro/react';
-import type { FilterItem, MenuItem } from '@giro/react';
+import { Table, TableHeader, TablePagination, Chips, Button, Menu, Drawer } from '@giro-ds/react';
+import type { FilterItem, MenuItem } from '@giro-ds/react';
 import { MoreVertical16Regular, Edit16Regular, Eye16Regular, Delete16Regular } from '@fluentui/react-icons';
 
 // ✅ ADICIONAR: Interface para props das stories

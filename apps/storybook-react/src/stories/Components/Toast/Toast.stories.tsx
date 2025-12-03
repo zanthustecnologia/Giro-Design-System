@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { ToastProvider, useToast, Button } from '@giro/react';
-import type { ToastType } from '@giro/react';
+import { ToastProvider, useToast, Button } from '@giro-ds/react';
+import type { ToastType } from '@giro-ds/react';
 
 
 

@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
-import { RadioRadix } from '@giro/react';
-import type { RadioRadixProps } from '@giro/react';
+import { RadioRadix } from '@giro-ds/react';
+import type { RadioRadixProps } from '@giro-ds/react';
 
 const meta: Meta<typeof RadioRadix> = {
   component: RadioRadix,

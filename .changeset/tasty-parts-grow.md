@@ -1,5 +1,5 @@
 ---
-"@giro/react": major
+"@giro-ds/react": major
 ---
 
 Fix class from button

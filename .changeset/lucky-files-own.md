@@ -1,6 +1,6 @@
 ---
-"@giro/react": major
-"@giro/ui": major
+"@giro-ds/react": major
+"@giro-ds/ui": major
 ---
 
 -> Implementation Ui package

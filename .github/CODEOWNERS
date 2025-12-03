@@ -2,19 +2,19 @@
 
 # Pacotes principais
 
-/packages/tokens/           @giro-design/tokens-team
-/packages/react/ @giro-design/frontend
-/packages/icons/            @giro-design/frontend
-/packages/grid/             @giro-design/frontend
-/packages/utils/            @giro-design/frontend
+/packages/tokens/           @giro-ds-design/tokens-team
+/packages/react/ @giro-ds-design/frontend
+/packages/icons/            @giro-ds-design/frontend
+/packages/grid/             @giro-ds-design/frontend
+/packages/utils/            @giro-ds-design/frontend
 
 # Storybook
 
-/apps/storybook/            @giro-design/docs
+/apps/storybook/            @giro-ds-design/docs
 
 # Documentação e governança
 
-/README.md                  @giro-design/core
-/CONTRIBUTING.md            @giro-design/core
-/LICENSE                    @giro-design/core
-/CHANGELOG.md               @giro-design/core
+/README.md                  @giro-ds-design/core
+/CONTRIBUTING.md            @giro-ds-design/core
+/LICENSE                    @giro-ds-design/core
+/CHANGELOG.md               @giro-ds-design/core

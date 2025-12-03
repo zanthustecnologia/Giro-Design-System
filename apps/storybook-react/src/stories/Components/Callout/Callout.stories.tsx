@@ -1,7 +1,7 @@
 import { ShoppingBagPercent24Regular } from '@fluentui/react-icons';
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Callout } from '@giro/react';
+import { Callout } from '@giro-ds/react';
 
 interface CalloutStoryArgs {
   type: 'neutral' | 'brand' | 'color' | 'alert' | 'success';

@@ -1,6 +1,6 @@
 import {Meta, StoryObj} from '@storybook/react';
 import { useEffect, useState } from 'react';
-import { CheckboxRadix } from '@giro/react';
+import { CheckboxRadix } from '@giro-ds/react';
 
 
 const meta: Meta<typeof CheckboxRadix> = {

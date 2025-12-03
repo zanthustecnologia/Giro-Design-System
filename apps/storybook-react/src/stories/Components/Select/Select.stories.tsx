@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import type { Meta, StoryFn } from '@storybook/react';
-import { Select, useApiSimulation } from '@giro/react';
-import type { SelectProps, SelectOption } from '@giro/react';
+import { Select, useApiSimulation } from '@giro-ds/react';
+import type { SelectProps, SelectOption } from '@giro-ds/react';
 
 const meta: Meta<typeof Select> = {
   title: 'Components/Select',
