@@ -1,4 +1,5 @@
-import * as RadioGroup from '@radix-ui/react-radio-group';
+import React from 'react';
+import { RadioGroup } from 'radix-ui';
 import styles from './RadioRadix.module.scss';
 import { RadioGroupProps } from './RadioRadix.types';
 import { useId } from 'react';

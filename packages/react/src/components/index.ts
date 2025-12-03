@@ -16,6 +16,9 @@ export { type CalloutProps } from './Callout/Callout.types';
 export { default as Checkbox } from './Checkbox';
 export { type CheckboxProps } from './Checkbox/Checkbox.types';
 
+export { default as CheckboxRadix } from './CheckboxRadix';
+export { type CheckboxRadixProps } from './CheckboxRadix/CheckboxRadix.types';
+
 export { default as Chips } from './Chips';
 export { type ChipsProps } from './Chips/Chips.types';
 
@@ -51,6 +54,9 @@ export { type QuantityProps } from './Quantity/Quantity.types';
 
 export { default as Radio } from './Radio';
 export { type RadioProps } from './Radio/Radio.types';
+
+export { default as RadioRadix } from './RadioRadix';
+export { type RadioGroupProps as RadioRadixProps, type RadioProps as RadioRadixItemProps } from './RadioRadix/RadioRadix.types';
 
 export { default as Search } from './Search';
 export { type SearchProps } from './Search/Search.types';
