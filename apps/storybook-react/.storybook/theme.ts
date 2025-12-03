@@ -23,8 +23,9 @@ export const ZanthusTheme = create({
   brandTarget: '_blank',
 
   // Paleta principal (estilo Vibe)
-  colorPrimary: config.colors.primary,   // azul principal
-  colorSecondary: config.colors.secondary, // verde de apoio (se quiser depois a gente suaviza)
+  colorPrimary: config.colors.primary,
+  colorSecondary: config.colors.secondary,
+
   // Top bar (clara, com acento azul)
   barBg: config.colors.white,
   barTextColor: config.colors.black,
@@ -32,6 +33,7 @@ export const ZanthusTheme = create({
 
   // Fundo geral da app (em volta do canvas)
   appBg: config.colors.lightGray,
+  
   // Fundo da área de conteúdo (Docs / Canvas)
   appContentBg: config.colors.white,
 
