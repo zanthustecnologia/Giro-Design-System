@@ -1,5 +1,5 @@
 ---
-"@giro/components-react": major
+"@giro/react": major
 ---
 
 Fix: Adjust the last filter on the table

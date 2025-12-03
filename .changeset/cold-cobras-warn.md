@@ -1,5 +1,5 @@
 ---
-"@giro/components-react": major
+"@giro/react": major
 ---
 
 -> Adjustment to the table component

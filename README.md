@@ -140,7 +140,7 @@ build/json/tokens.json      # Tokens em JSON bruto
 
 ## ⚛️ Componentes React
 
-Local: `packages/components-react/src/`
+Local: `packages/react/src/`
 
 * Componentes funcionais com estilos escopados via `.module.scss`
 * Consumo de tokens via `var(--token-name)`

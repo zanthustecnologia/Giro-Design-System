@@ -1,5 +1,5 @@
 ---
-'@giro/components-react': major
+'@giro/react': major
 ---
 
 Fix: search | Change to 2.0.33

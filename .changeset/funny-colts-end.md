@@ -1,5 +1,5 @@
 ---
-'@giro/components-react': major
+'@giro/react': major
 ---
 
 Ajust imports | Change components-react - 2.0.29

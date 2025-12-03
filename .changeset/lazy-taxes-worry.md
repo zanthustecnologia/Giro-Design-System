@@ -1,5 +1,5 @@
 ---
-"@giro/components-react": major
+"@giro/react": major
 ---
 
 -> FIX: update z-index components

@@ -1,4 +1,3 @@
-// packages/components-react/rollup.config.cjs
 const path = require('path');
 const typescript = require('@rollup/plugin-typescript');
 const commonjs = require('@rollup/plugin-commonjs');

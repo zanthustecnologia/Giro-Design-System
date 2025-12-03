@@ -1,4 +1,4 @@
-# @giro/components-react
+# @giro/react
 
 ## 2.0.0
 

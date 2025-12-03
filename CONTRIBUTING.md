@@ -39,7 +39,7 @@ Antes de começar, você vai precisar de:
 4. **Faça sua contribuição:**
 
    * Tokens → `packages/tokens/src/`
-   * Componentes React → `packages/components-react/src/`
+   * Componentes React → `packages/react/src/`
    * Hooks/utilitários → `packages/utils/src/`
    * Documentação → `README.md`, Storybook ou arquivos Markdown
 

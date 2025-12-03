@@ -1,5 +1,5 @@
 ---
-"@giro/components-react": major
+"@giro/react": major
 ---
 
 - **Filter**: Fixed badge visibility when filter dropdown is open

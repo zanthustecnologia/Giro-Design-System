@@ -3,7 +3,7 @@
 # Pacotes principais
 
 /packages/tokens/           @giro-design/tokens-team
-/packages/components-react/ @giro-design/frontend
+/packages/react/ @giro-design/frontend
 /packages/icons/            @giro-design/frontend
 /packages/grid/             @giro-design/frontend
 /packages/utils/            @giro-design/frontend
