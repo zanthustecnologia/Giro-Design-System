@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
+import { DropdownMenu } from 'radix-ui';
 import { MenuItemProps } from '../MenuRadix.types';
 import styles from '../MenuRadix.module.scss';
 import clsx from 'clsx';

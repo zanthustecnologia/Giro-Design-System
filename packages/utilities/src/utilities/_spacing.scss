@@ -1,4 +1,5 @@
 @use "sass:map";
+@use "sass:meta";
 @use "./breakpoints" as *;
 @use "../../../tokens/build/scss/tokens.scss" as tok;
 
@@ -56,7 +57,7 @@ $directions: (
 
       .#{$selector} {
         // Se for uma lista (caso de 'x' e 'y'), itera sobre ela
-        @if type-of($dir-props) == "list" {
+        @if meta.type-of($dir-props) == "list" {
           @each $dir in $dir-props {
             #{$prop-name}#{$dir}: $space-value;
           }
@@ -77,7 +78,7 @@ $directions: (
         $selector: "#{$prop-abbr}#{$dir-abbr}-#{$space-key}";
 
         @include utility($bp, $selector) {
-          @if type-of($dir-props) == "list" {
+          @if meta.type-of($dir-props) == "list" {
             @each $dir in $dir-props {
               #{$prop-name}#{$dir}: $space-value;
             }

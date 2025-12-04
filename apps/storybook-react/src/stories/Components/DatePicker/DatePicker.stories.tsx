@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { DatePicker } from '@zanthus/react';
-import type { DatePickerProps } from '@zanthus/react';
+import { DatePicker } from '@giro-ds/react';
+import type { DatePickerProps } from '@giro-ds/react';
 
 const meta: Meta<typeof DatePicker> = {
   title: 'Pattern/Date Picker',

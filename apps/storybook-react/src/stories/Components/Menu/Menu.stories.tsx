@@ -14,8 +14,8 @@ import {
   Share16Regular,
   ArrowDownload16Regular,
 } from '@fluentui/react-icons';
-import { Menu, Button } from '@zanthus/react';
-import type { MenuProps, MenuItem } from '@zanthus/react';
+import { Menu, Button } from '@giro-ds/react';
+import type { MenuProps, MenuItem } from '@giro-ds/react';
 
 /**
  * Dados mock básicos

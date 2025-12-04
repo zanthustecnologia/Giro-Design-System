@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
-import { RadioProps } from "@zanthus/react/src/components/RadioRadix/RadioRadix.types";
-import RadioRadix from "@zanthus/react/src/components/RadioRadix/RadioRadix";
+import { RadioRadix } from '@giro-ds/react';
+import type { RadioRadixProps } from '@giro-ds/react';
 
 const meta: Meta<typeof RadioRadix> = {
   component: RadioRadix,
@@ -18,7 +18,7 @@ export default meta;
 type Story = StoryObj<typeof RadioRadix>;
 
 // Mock de dados
-const mockRadioItems: RadioProps[] = [
+const mockRadioItems: RadioRadixProps['items'] = [
   {
     id: 'radio-1',
     value: 'option-1',

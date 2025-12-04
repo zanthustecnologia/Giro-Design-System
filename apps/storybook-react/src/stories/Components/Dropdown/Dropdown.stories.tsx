@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { UsbPlug24Regular, Person16Regular, UsbPlug20Filled } from "@fluentui/react-icons";
 import type { Meta, StoryFn } from '@storybook/react';
-import { Dropdown } from "@zanthus/react";
-import type { DropdownItem, DropdownProps } from "@zanthus/react";
+import { Dropdown } from "@giro-ds/react";
+import type { DropdownItem, DropdownProps } from "@giro-ds/react";
 
 const mockValues: DropdownItem[] = [
   { id: 'item-1', text: 'List-item 1', subText: 'List-item 1', icon: <Person16Regular /> },

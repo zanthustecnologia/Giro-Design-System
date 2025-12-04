@@ -1,0 +1,109 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { Footer } from '../../../internal-components/mdx/Footer/Footer';
+import styles from './Flexbox.module.scss';
+
+<Meta title="Foundation/Flexbox" />
+
+# Flexbox
+
+O sistema Flexbox oferece controle total sobre alinhamento, distribuição e direção de elementos, permitindo criar layouts dinâmicos que se adaptam naturalmente ao conteúdo e ao espaço disponível.
+
+Com utilitários simples e intuitivos, você consegue alinhar itens vertical e horizontalmente, alternar entre linhas e colunas, e ajustar o comportamento em diferentes breakpoints, garantindo interfaces responsivas e previsíveis.
+
+## Flex Responsivo
+
+A utilidade `flex` transforma um container em flexbox. Com `flex-col` (coluna) e `sm:flex-row` (linha em telas maiores), é possível alternar layouts conforme os breakpoints.
+
+<div className={styles.example}>
+  <div className="flex flex-col sm:flex-row items-center justify-between">
+    <div className={styles.demoBox}>Item 1</div>
+    <div className={styles.demoBox}>Item 2</div>
+    <div className={styles.demoBox}>Item 3</div>
+  </div>
+</div>
+
+```jsx
+<div className="flex flex-col sm:flex-row items-center justify-between">
+  <div className="demo-box">Item 1</div>
+  <div className="demo-box">Item 2</div>
+  <div className="demo-box">Item 3</div>
+</div>
+```
+
+## Flex Col com Alinhamentos
+
+Quando usamos `flex-col`, o `justify-*` controla a posição vertical, enquanto `items-*` controla a posição horizontal dos itens.
+
+### Justify Start + Items Center
+
+<div className={styles.example} style={{ height: '160px' }}>
+  <div className="flex flex-col justify-start items-center h-full gap-2">
+    <div className={styles.demoBox}>Item A</div>
+    <div className={styles.demoBox}>Item B</div>
+    <div className={styles.demoBox}>Item C</div>
+  </div>
+</div>
+
+```jsx
+<div className="flex flex-col justify-start items-center h-full gap-2">
+  <div className="demo-box">Item A</div>
+  <div className="demo-box">Item B</div>
+  <div className="demo-box">Item C</div>
+</div>
+```
+
+### Justify Center + Items End
+
+<div className={styles.example} style={{ height: '160px' }}>
+  <div className="flex flex-col justify-center items-end h-full gap-2">
+    <div className={styles.demoBox}>Item A</div>
+    <div className={styles.demoBox}>Item B</div>
+    <div className={styles.demoBox}>Item C</div>
+  </div>
+</div>
+
+```jsx
+<div className="flex flex-col justify-center items-end h-full gap-2">
+  <div className="demo-box">Item A</div>
+  <div className="demo-box">Item B</div>
+  <div className="demo-box">Item C</div>
+</div>
+```
+
+### Justify Between + Items Start
+
+<div className={styles.example} style={{ height: '160px' }}>
+  <div className="flex flex-col justify-between items-start h-full gap-2">
+    <div className={styles.demoBox}>Topo</div>
+    <div className={styles.demoBox}>Meio</div>
+    <div className={styles.demoBox}>Fundo</div>
+  </div>
+</div>
+
+```jsx
+<div className="flex flex-col justify-between items-start h-full gap-2">
+  <div className="demo-box">Topo</div>
+  <div className="demo-box">Meio</div>
+  <div className="demo-box">Fundo</div>
+</div>
+```
+
+### Justify Around + Items Center
+
+<div className={styles.example} style={{ height: '160px' }}>
+  <div className="flex flex-col justify-around items-center h-full gap-2">
+    <div className={styles.demoBox}>Item 1</div>
+    <div className={styles.demoBox}>Item 2</div>
+    <div className={styles.demoBox}>Item 3</div>
+  </div>
+</div>
+
+```jsx
+<div className="flex flex-col justify-around items-center h-full gap-2">
+  <div className="demo-box">Item 1</div>
+  <div className="demo-box">Item 2</div>
+  <div className="demo-box">Item 3</div>
+</div>
+```
+
+<Footer />

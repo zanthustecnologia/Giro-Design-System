@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Meta, StoryFn } from '@storybook/react';
-import { SelectRadix } from '@zanthus/react';
-import type { SelectRadixProps } from '@zanthus/react';
+import { SelectRadix } from '@giro-ds/react';
+import type { SelectRadixProps } from '@giro-ds/react';
 import { Channel16Regular } from '@fluentui/react-icons';
 
 const meta: Meta<SelectRadixProps> = {

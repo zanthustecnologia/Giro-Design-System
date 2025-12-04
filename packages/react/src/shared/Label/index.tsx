@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as Label from '@radix-ui/react-label';
+import { Label } from 'radix-ui';
 import styles from './index.module.scss';
 import clsx from 'clsx';
 import Tooltip from '../../components/Tooltip';

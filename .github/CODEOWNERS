@@ -2,19 +2,19 @@
 
 # Pacotes principais
 
-/packages/tokens/           @zanthus-design/tokens-team
-/packages/components-react/ @zanthus-design/frontend
-/packages/icons/            @zanthus-design/frontend
-/packages/grid/             @zanthus-design/frontend
-/packages/utils/            @zanthus-design/frontend
+/packages/tokens/           @giro-ds-design/tokens-team
+/packages/react/ @giro-ds-design/frontend
+/packages/icons/            @giro-ds-design/frontend
+/packages/grid/             @giro-ds-design/frontend
+/packages/utils/            @giro-ds-design/frontend
 
 # Storybook
 
-/apps/storybook/            @zanthus-design/docs
+/apps/storybook/            @giro-ds-design/docs
 
 # Documentação e governança
 
-/README.md                  @zanthus-design/core
-/CONTRIBUTING.md            @zanthus-design/core
-/LICENSE                    @zanthus-design/core
-/CHANGELOG.md               @zanthus-design/core
+/README.md                  @giro-ds-design/core
+/CONTRIBUTING.md            @giro-ds-design/core
+/LICENSE                    @giro-ds-design/core
+/CHANGELOG.md               @giro-ds-design/core

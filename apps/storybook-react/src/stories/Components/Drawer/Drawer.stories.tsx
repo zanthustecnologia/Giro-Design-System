@@ -1,7 +1,7 @@
 import React, { useState, ReactNode, JSX } from 'react';
 import type { Meta, StoryFn } from '@storybook/react';
-import { Drawer, Button } from '@zanthus/react';
-import type { DrawerProps } from '@zanthus/react';
+import { Drawer, Button } from '@giro-ds/react';
+import type { DrawerProps } from '@giro-ds/react';
 import { Filter16Regular } from '@fluentui/react-icons';
 
 interface DrawerStoryProps extends DrawerProps {

@@ -1,4 +1,3 @@
-// packages/components-react/rollup.config.cjs
 const path = require('path');
 const typescript = require('@rollup/plugin-typescript');
 const commonjs = require('@rollup/plugin-commonjs');
@@ -12,11 +11,12 @@ const pkg = require('./package.json');
 module.exports = [
   // Build ESM + CJS
   {
-    input: 'src/components/index.ts',
+    input: 'src/index.ts',
     external: [
       'react',
       'react-dom',
       'react/jsx-runtime',
+      'react/jsx-dev-runtime',
       ...Object.keys(pkg.peerDependencies || {}),
       ...Object.keys(pkg.dependencies || {}).filter(
         (d) => !/\.(css|scss)$/.test(d)
@@ -64,7 +64,7 @@ module.exports = [
     },
   },
   {
-    input: 'dist/components/index.d.ts',
+    input: 'dist/index.d.ts',
     output: {
       file: path.resolve(__dirname, 'dist/index.d.ts'),
       format: 'esm',

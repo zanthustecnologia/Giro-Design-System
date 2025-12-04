@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
-import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
+import { DropdownMenu } from 'radix-ui';
 import styles from './MenuRadix.module.scss';
 import { MenuItemProps, MenuRadixProps } from './MenuRadix.types';
 import { ChevronRight16Filled } from '@fluentui/react-icons';

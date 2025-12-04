@@ -1,140 +1,203 @@
-# Zanthus Design Tokens
+# @giro-ds/tokens
 
-Este pacote contém os **tokens de design oficiais da Zanthus**, organizados para garantir escalabilidade, clareza e flexibilidade entre produtos, marcas e plataformas.
+Design tokens do Zanthus Design System. Valores de design fundamentais (cores, espaçamentos, tipografia, bordas, etc.) disponíveis em múltiplos formatos.
 
----
+## 📦 Instalação
 
-## 📁 Estrutura de Pastas
-
-```
-tokens/
-├── design-tokens-export.css       # Exportação global dos tokens em CSS puro
-└── src/
-    ├── colors/
-    │   ├── _brand-colors.scss     # Cores institucionais da marca
-    │   ├── _feedback-colors.scss  # Cores para estados (success, warning, error)
-    │   ├── _neutral-colors.scss   # Cinzas, fundos, texto
-    │   └── index.scss             # Importa todos os arquivos de colors/
-    ├── border/
-    │   ├── _border-radius.scss    # Arredondamentos (pill, circular, 4px, etc.)
-    │   ├── _border-width.scss     # Espessura das bordas (1px, 2px, etc.)
-    │   └── index.scss
-    ├── spacing/
-    │   ├── _spacing.scss          # Espaçamentos base (4px, 8px, 16px, etc.)
-    │   └── index.scss
-    ├── typography/
-    │   ├── _font-family.scss      # Famílias tipográficas (primária, secundária)
-    │   ├── _font-size.scss        # Tamanhos de fonte (sm, md, lg)
-    │   ├── _font-weight.scss      # Pesos (regular, bold, semibold)
-    │   └── index.scss
-    ├── misc/
-    │   └── _misc.scss             # Tokens avulsos ou temporários
-    ├── themes/
-    │   ├── _light.scss            # Tema claro via :root
-    │   └── _dark.scss             # Tema escuro via [data-theme="dark"]
-    └── index.scss                 # Importa todas as categorias acima
+```bash
+npm install @giro-ds/tokens
+# ou
+yarn add @giro-ds/tokens
+# ou
+pnpm add @giro-ds/tokens
 ```
 
----
+## 🎨 O que são Design Tokens?
 
-## 📦 Objetivo
+Design tokens são valores de design reutilizáveis que garantem consistência visual em todo o sistema. Incluem cores, espaçamentos, tipografia, bordas e outros elementos fundamentais.
 
-Organizar os tokens para permitir:
+## 📚 Tokens Disponíveis
 
-- Uso em SCSS e CSS puro
-- Suporte a temas dinâmicos (claro/escuro)
-- Reaproveitamento entre múltiplos produtos
-- Exportação para apps e Storybook
+### Cores
 
----
+#### Brand (Marca)
+- **Primary:** `default`, `dark`, `medium`, `light`
+- **Secondary:** `default`, `dark`, `medium`, `light`
 
-## 🛠 Como usar
+#### Feedback
+- **Alert:** `default`, `dark`, `medium`, `light`
+- **Success:** `default`, `dark`, `medium`, `light`
 
-### 1. Uso via SCSS
+#### Neutral
+- **Low:** `default`, `dark`, `medium`, `light`
+- **High:** `default`, `dark`, `medium`, `light`
 
-No seu arquivo global:
+### Espaçamento
+`0`, `4`, `8`, `12`, `16`, `24`, `32`, `40`, `48`, `56`, `64`, `80`, `120`, `160`, `200` (em pixels)
+
+### Tipografia
+- **Font Family:** `primary` (Figtree)
+- **Font Size:** `12`, `14`, `16`, `18`, `20`, `24`, `28`, `32`, `40`, `48`, `64`, `96`, `inherit`
+- **Font Weight:** `regular` (400), `medium` (500), `bold` (700)
+
+### Bordas
+- **Border Radius:** `4`, `8`, `12`, `16`, `24`, `none`, `pill`, `circular`
+- **Border Width:** `1`, `2`, `4`, `6`, `8`, `12`, `none`
+
+## 🚀 Uso
+
+Os tokens estão disponíveis em três formatos diferentes. Escolha o que melhor se adequa ao seu projeto:
+
+### 1. JavaScript/TypeScript
+
+```javascript
+import {
+  ColorBrandPrimaryDefault,
+  Spacing16,
+  FontSize14,
+  BorderRadius8
+} from '@giro-ds/tokens/build/js/tokens.js';
+
+const styles = {
+  backgroundColor: ColorBrandPrimaryDefault,
+  padding: Spacing16,
+  fontSize: FontSize14,
+  borderRadius: BorderRadius8
+};
+```
+
+### 2. SCSS
 
 ```scss
-@import "@zanthus/tokens/src/index";
-@import "@zanthus/tokens/src/themes/light";
-@import "@zanthus/tokens/src/themes/dark";
+@use '@giro-ds/tokens/build/scss/tokens.scss' as tokens;
+
+.my-component {
+  background-color: tokens.$color-brand-primary-default;
+  padding: tokens.$spacing-16;
+  font-size: tokens.$font-size-14;
+  border-radius: tokens.$border-radius-8;
+}
 ```
 
-Agora você pode usar variáveis como:
+### 3. CSS (Custom Properties)
 
-```scss
-.button {
-  background-color: var(--brand-color-primary-default);
+```css
+@import '@giro-ds/tokens/build/css/tokens.css';
+
+.my-component {
+  background-color: var(--color-brand-primary-default);
+  padding: var(--spacing-16);
+  font-size: var(--font-size-14);
   border-radius: var(--border-radius-8);
 }
 ```
 
-### 2. Uso via CSS direto (ex: Web Components, HTML, Vite, Storybook)
+## 📂 Estrutura de Arquivos
 
-```html
-<link rel="stylesheet" href="/node_modules/@zanthus/tokens/design-tokens-export.css" />
+```
+build/
+├── css/
+│   └── tokens.css          # CSS Custom Properties
+├── js/
+│   └── tokens.js           # JavaScript/TypeScript exports
+└── scss/
+    └── tokens.scss         # SCSS variables
 ```
 
-Ou via JavaScript:
+## 🛠️ Desenvolvimento
 
-```js
-import "@zanthus/tokens/design-tokens-export.css";
+Este pacote utiliza [Style Dictionary](https://amzn.github.io/style-dictionary/) para gerar os tokens a partir dos arquivos fonte em JSON.
+
+### Arquivos Fonte
+
+```
+src/
+├── border/
+│   ├── border-radius.json
+│   └── border-width.json
+├── colors/
+│   ├── brand-colors.json
+│   ├── feedback-colors.json
+│   └── neutral-colors.json
+├── spacing/
+│   └── spacing.json
+├── typography/
+│   ├── font-family.json
+│   ├── font-size.json
+│   └── font-weight.json
+└── z-index/
 ```
 
----
+### Build
 
-## 🌗 Como ativar tema escuro
+Para regenerar os tokens:
 
-```html
-<html data-theme="dark">
+```bash
+pnpm build
 ```
 
-Isso ativa automaticamente os tokens definidos no arquivo `_dark.scss`.
+## 💡 Convenção de Nomenclatura
 
----
+Os tokens seguem a convenção kebab-case (no CSS/SCSS) e PascalCase (no JavaScript):
 
-## 💬 Convenções adotadas
+- **CSS/SCSS:** `$color-brand-primary-default` ou `--color-brand-primary-default`
+- **JavaScript:** `ColorBrandPrimaryDefault`
 
-| Tipo de Token      | Prefixo                     |
-|--------------------|-----------------------------|
-| Cores da marca     | `--brand-color-*`           |
-| Feedbacks visuais  | `--feedback-color-*`        |
-| Neutros            | `--neutral-color-*`, `--text-*`, `--surface-*` |
-| Espaçamento        | `--spacing-*`               |
-| Borda              | `--border-radius-*`, `--border-width-*` |
-| Tipografia         | `--font-family-*`, `--font-size-*`, `--font-weight-*` |
+## 🎯 Exemplos de Uso Comum
 
----
+### Exemplo 1: React Component com CSS Modules
 
-## 📚 Boas práticas
+```tsx
+// Button.module.scss
+@use '@giro-ds/tokens/build/scss/tokens.scss' as tokens;
 
-- Use `--tokens` no CSS sempre que possível para suportar temas dinâmicos
-- Nunca codifique valores diretamente (ex: `8px`, `#000`)
-- Prefira usar `spacing`, `radius`, `font-*` sempre vindos dos tokens
-
----
-
-## 🧩 Observação técnica
-
-Tokens SCSS (`$...`) são usados para gerar `--tokens` via interpolação:
-
-```scss
-$spacing-4: 16px;
-
-:root {
-  --spacing-4: #{$spacing-4}; // vira → 16px
+.button {
+  background: tokens.$color-brand-primary-default;
+  color: tokens.$color-neutral-high-default;
+  padding: tokens.$spacing-12 tokens.$spacing-24;
+  border-radius: tokens.$border-radius-8;
+  font-size: tokens.$font-size-16;
+  font-weight: tokens.$font-weight-medium;
 }
 ```
 
----
+### Exemplo 2: Styled Components
 
-## 🏁 Pronto para escalabilidade
+```tsx
+import styled from 'styled-components';
+import {
+  ColorBrandPrimaryDefault,
+  Spacing12,
+  BorderRadius8
+} from '@giro-ds/tokens/build/js/tokens.js';
 
-Esta estrutura é compatível com:
+const Button = styled.button`
+  background: ${ColorBrandPrimaryDefault};
+  padding: ${Spacing12};
+  border-radius: ${BorderRadius8};
+`;
+```
 
-- SCSS tradicional
-- CSS puro
-- Web Components
-- Storybook com múltiplos temas
-- Frameworks modernos (Vite, Webpack, PostCSS)
+### Exemplo 3: CSS Global
 
+```css
+@import '@giro-ds/tokens/build/css/tokens.css';
+
+:root {
+  /* Os tokens já estão disponíveis como custom properties */
+}
+
+body {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-16);
+  color: var(--color-neutral-low-default);
+}
+```
+
+## 📄 Licença
+
+Consulte o arquivo LICENSE na raiz do projeto.
+
+## 🤝 Contribuindo
+
+Para adicionar ou modificar tokens, edite os arquivos JSON em `src/` e execute `pnpm build` para regenerar os arquivos de saída.

@@ -16,13 +16,13 @@ Para instalar o pacote de componentes React em seu projeto:
 
 ```bash
 # npm
-npm install @zanthus/react
+npm install @giro-ds/react
 
 # pnpm (recomendado)
-pnpm add @zanthus/react
+pnpm add @giro-ds/react
 
 # yarn
-yarn add @zanthus/react
+yarn add @giro-ds/react
 ```
 
 ### Design Tokens
@@ -31,13 +31,13 @@ Para usar os tokens de design (cores, tipografia, espaçamentos, bordas):
 
 ```bash
 # npm
-npm install @zanthus/tokens
+npm install @giro-ds/tokens
 
 # pnpm (recomendado)
-pnpm add @zanthus/tokens
+pnpm add @giro-ds/tokens
 
 # yarn
-yarn add @zanthus/tokens
+yarn add @giro-ds/tokens
 ```
 
 ### Utilitários CSS
@@ -46,13 +46,13 @@ Para usar os utilitários de layout e espaçamento:
 
 ```bash
 # npm
-npm install @zanthus/utilities
+npm install @giro-ds/utilities
 
 # pnpm (recomendado)
-pnpm add @zanthus/utilities
+pnpm add @giro-ds/utilities
 
 # yarn
-yarn add @zanthus/utilities
+yarn add @giro-ds/utilities
 ```
 
 ### Instalação completa
@@ -61,13 +61,13 @@ Para instalar todos os pacotes de uma vez:
 
 ```bash
 # npm
-npm install @zanthus/react @zanthus/tokens @zanthus/utilities
+npm install @giro-ds/react @giro-ds/tokens @giro-ds/utilities
 
 # pnpm (recomendado)
-pnpm add @zanthus/react @zanthus/tokens @zanthus/utilities
+pnpm add @giro-ds/react @giro-ds/tokens @giro-ds/utilities
 
 # yarn
-yarn add @zanthus/react @zanthus/tokens @zanthus/utilities
+yarn add @giro-ds/react @giro-ds/tokens @giro-ds/utilities
 ```
 
 ## Configuração inicial
@@ -78,13 +78,13 @@ No arquivo principal da sua aplicação (geralmente `App.jsx`, `App.tsx` ou `mai
 
 ```jsx
 // Tokens de design (cores, espaçamentos, tipografia, bordas)
-import '@zanthus/tokens/build/css/tokens.css';
+import '@giro-ds/tokens/build/css/tokens.css';
 
 // Estilos dos componentes React
-import '@zanthus/react/dist/styles.css';
+import '@giro-ds/react/dist/styles.css';
 
 // (Opcional) Utilitários CSS para layout
-import '@zanthus/utilities/dist/ui.css';
+import '@giro-ds/utilities/dist/ui.css';
 ```
 
 ### 2. Configure a fonte Figtree
@@ -102,7 +102,7 @@ Adicione a fonte Figtree no `<head>` do seu HTML (em `index.html` ou layout raiz
 Você pode importar componentes individuais conforme necessário:
 
 ```jsx
-import { Button, TextField, Avatar } from '@zanthus/react';
+import { Button, TextField, Avatar } from '@giro-ds/react';
 
 function App() {
   return (
@@ -119,14 +119,14 @@ function App() {
 
 O Zanthus Design System é organizado em três pacotes principais:
 
-### @zanthus/tokens
+### @giro-ds/tokens
 
 Contém todos os design tokens (cores, tipografia, espaçamentos, bordas) em múltiplos formatos:
 - **CSS Variables** (`build/css/tokens.css`): Para uso direto em CSS/SCSS
 - **JavaScript/TypeScript** (`build/js/tokens.js`): Para uso em aplicações React
 - **SCSS Variables** (`build/scss/tokens.scss`): Para projetos que usam SCSS
 
-### @zanthus/react
+### @giro-ds/react
 
 Biblioteca de componentes React prontos para uso:
 - Componentes acessíveis (WCAG 2.1)
@@ -135,7 +135,7 @@ Biblioteca de componentes React prontos para uso:
 - Documentação detalhada de cada componente
 - Inclui estilos CSS em `dist/styles.css`
 
-### @zanthus/utilities
+### @giro-ds/utilities
 
 Utilitários CSS para layout e espaçamento:
 - Grid system responsivo
@@ -164,7 +164,7 @@ Os tokens estão disponíveis como CSS custom properties:
 Se você preferir SCSS, importe os tokens SCSS:
 
 ```scss
-@import '@zanthus/tokens/build/scss/tokens.scss';
+@import '@giro-ds/tokens/build/scss/tokens.scss';
 
 .meu-componente {
   color: $color-brand-primary-default;
@@ -179,7 +179,7 @@ Para uso em styled-components, estilos inline ou temas dinâmicos:
 
 ```jsx
 // Importação ESM (recomendado)
-import tokens from '@zanthus/tokens/build/js/tokens.js';
+import tokens from '@giro-ds/tokens/build/js/tokens.js';
 
 // Uso em styled-components
 const MyComponent = styled.div`
@@ -221,12 +221,12 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 
 // 1. Importar estilos do design system
-import '@zanthus/tokens/build/css/tokens.css';
-import '@zanthus/react/dist/styles.css';
-import '@zanthus/utilities/dist/ui.css'; // Opcional
+import '@giro-ds/tokens/build/css/tokens.css';
+import '@giro-ds/react/dist/styles.css';
+import '@giro-ds/utilities/dist/ui.css'; // Opcional
 
 // 2. Importar componentes
-import { Button, TextField, Avatar, Container } from '@zanthus/react';
+import { Button, TextField, Avatar, Container } from '@giro-ds/react';
 
 function App() {
   return (
@@ -311,9 +311,9 @@ pnpm dev
 pnpm storybook
 
 # Build de um pacote específico
-pnpm --filter @zanthus/tokens build
-pnpm --filter @zanthus/react build
-pnpm --filter @zanthus/utilities build
+pnpm --filter @giro-ds/tokens build
+pnpm --filter @giro-ds/react build
+pnpm --filter @giro-ds/utilities build
 ```
 
 Consulte [docs/instructions-pnpm.md](https://github.com/zanthus/design-system/blob/main/docs/instructions-pnpm.md) para mais comandos.

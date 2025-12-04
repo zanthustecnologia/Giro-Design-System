@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import type { Meta, StoryFn } from '@storybook/react';
-import { Dialog, Button } from '@zanthus/react';
-import type { DialogProps } from '@zanthus/react';
+import { Dialog, Button } from '@giro-ds/react';
+import type { DialogProps } from '@giro-ds/react';
 
 /**
  * Meta configuração do Storybook para o componente Dialog

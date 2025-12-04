@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { TextField } from '@zanthus/react';
+import { TextField } from '@giro-ds/react';
 import { Source } from '@storybook/addon-docs/blocks';
 import { Mail16Regular, Clock16Regular, ArrowUpload16Regular } from '@fluentui/react-icons';
 

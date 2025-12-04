@@ -35,12 +35,12 @@
 
   ```bash
   # Build de um pacote específico
-  pnpm --filter @zanthus/tokens build
-  pnpm --filter @zanthus/react build
-  pnpm --filter @zanthus/utilities build
+  pnpm --filter @giro-ds/tokens build
+  pnpm --filter @giro-ds/react build
+  pnpm --filter @giro-ds/utilities build
 
   # Forma curta (com -F)
-  pnpm -F @zanthus/tokens build
+  pnpm -F @giro-ds/tokens build
   ```
 
   ### Executar Storybook
@@ -62,7 +62,7 @@
 
   # Dev em um app/pacote específico
   pnpm --filter storybook-react dev
-  pnpm --filter @zanthus/react dev
+  pnpm --filter @giro-ds/react dev
   ```
 
   ### Testes e Qualidade
@@ -96,13 +96,13 @@
   pnpm add -D typescript
 
   # Adicionar em um pacote específico
-  pnpm --filter @zanthus/react add react-icons
+  pnpm --filter @giro-ds/react add react-icons
 
   # Adicionar como dependência de dev
-  pnpm --filter @zanthus/tokens add -D sass
+  pnpm --filter @giro-ds/tokens add -D sass
 
   # Adicionar em múltiplos pacotes
-  pnpm --filter @zanthus/* add lodash
+  pnpm --filter @giro-ds/* add lodash
   ```
 
   ### Remover dependências
@@ -112,7 +112,7 @@
   pnpm remove package-name
 
   # Remover de um pacote específico
-  pnpm --filter @zanthus/react remove package-name
+  pnpm --filter @giro-ds/react remove package-name
   ```
 
   ### Atualizar dependências
@@ -128,7 +128,7 @@
   pnpm update react
 
   # Atualizar em um workspace específico
-  pnpm --filter @zanthus/react update react
+  pnpm --filter @giro-ds/react update react
   ```
   # Atualizar em um workspace específico
   ---
@@ -179,7 +179,7 @@
 
   # Exemplos:
   pnpm build
-  pnpm --filter @zanthus/tokens build
+  pnpm --filter @giro-ds/tokens build
   ```
 
   ### Listar pacotes
@@ -189,7 +189,7 @@
   pnpm list --depth 0
 
   # Ver dependências de um pacote específico
-  pnpm --filter @zanthus/react list
+  pnpm --filter @giro-ds/react list
 
   # Ver árvore completa de dependências
   pnpm list
@@ -268,7 +268,7 @@
 
   ```bash
   # Forma curta do --filter
-  pnpm -F @zanthus/react build
+  pnpm -F @giro-ds/react build
 
   # Executar múltiplos comandos
   pnpm lint && pnpm build && pnpm test
@@ -280,7 +280,7 @@
   > ```json
   > {
   >   "dependencies": {
-  >     "@zanthus/tokens": "workspace:*"
+  >     "@giro-ds/tokens": "workspace:*"
   >   }
   > }
   > ```

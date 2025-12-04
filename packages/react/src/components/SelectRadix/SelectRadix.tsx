@@ -1,5 +1,5 @@
 import React, { useMemo, useId, useRef, useEffect } from 'react';
-import * as Select from '@radix-ui/react-select';
+import { Select } from 'radix-ui';
 import clsx from 'clsx';
 import { ChevronUp16Regular, ChevronDown16Regular } from '@fluentui/react-icons';
 

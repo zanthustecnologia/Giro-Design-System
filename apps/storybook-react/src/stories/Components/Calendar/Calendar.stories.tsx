@@ -1,7 +1,7 @@
 import React, { JSX, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Calendar } from '@zanthus/react';
-import type { CalendarProps } from '@zanthus/react';
+import { Calendar } from '@giro-ds/react';
+import type { CalendarProps } from '@giro-ds/react';
 
 // ✅ Meta configuration with proper typing
 const meta: Meta<typeof Calendar> = {
