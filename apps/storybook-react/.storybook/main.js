@@ -27,6 +27,9 @@ const config = {
     autodocs: 'tag'
   },
 
+  // Configuração de arquivos estáticos (favicon, imagens, etc)
+  staticDirs: ['../public'],
+
   // Ajustes do Vite para monorepo e @fluentui/react-icons
   viteFinal: async (viteConfig) => {
     const path = await import('path');
