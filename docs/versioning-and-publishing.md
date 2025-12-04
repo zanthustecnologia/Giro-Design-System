@@ -1,425 +1,410 @@
-# 📦 Guia de Versionamento e Publicação - Zanthus Design System
+# 🚀 Workflow de Release - Passo a Passo
 
-> [!info] Sobre este guia
-> Este documento detalha o processo completo de versionamento, changelog e publicação de pacotes no NPM.
+> [!important] Guia Prático
+> Este documento contém o **passo a passo exato** para versionar e publicar pacotes no NPM.
+> Siga esta ordem à risca para garantir releases consistentes.
 
 ---
 
-## 📖 Índice
+## 📋 Índice
 
-- [Semantic Versioning](#-semantic-versioning-semver)
-- [Versionamento Manual](#-versionamento-manual)
-- [Versionamento Automatizado](#-versionamento-automatizado-changesets)
-- [Publicação no NPM](#-publicação-no-npm)
-- [Workflow Completo](#-workflow-completo-de-release)
+- [Pré-requisitos](#-pré-requisitos)
+- [Workflow Completo](#-workflow-completo)
+- [Exemplo Prático](#-exemplo-prático)
+- [Verificações](#-verificações)
 - [Troubleshooting](#-troubleshooting)
 
 ---
 
-## 🎯 Semantic Versioning (SemVer)
+## ✅ Pré-requisitos
 
-O projeto segue a convenção [Semantic Versioning](https://semver.org/):
-
-### Formato: `MAJOR.MINOR.PATCH` (X.Y.Z)
-
-| Tipo | Quando usar | Exemplo |
-|------|-------------|---------|
-| **PATCH** (x.x.1) | Correções de bugs, documentação, melhorias menores | `1.0.0` → `1.0.1` |
-| **MINOR** (x.1.x) | Novas funcionalidades mantendo compatibilidade | `1.0.0` → `1.1.0` |
-| **MAJOR** (1.x.x) | Mudanças que quebram compatibilidade (breaking changes) | `1.0.0` → `2.0.0` |
-
-### Exemplos práticos:
-
-```bash
-# Correção de bug → PATCH
-1.0.0 → 1.0.1
-
-# Novo componente adicionado → MINOR
-1.0.1 → 1.1.0
-
-# Mudança na API de um componente → MAJOR
-1.1.0 → 2.0.0
-```
-
----
-
-## 🔧 Versionamento Manual
-
-### Comando básico
-
-```bash
-# Incrementar PATCH em todos os pacotes (1.0.0 → 1.0.1)
-pnpm -r exec npm version patch
-
-# Incrementar MINOR em todos os pacotes (1.0.0 → 1.1.0)
-pnpm -r exec npm version minor
-
-# Incrementar MAJOR em todos os pacotes (1.0.0 → 2.0.0)
-pnpm -r exec npm version major
-```
-
-### Sem commits e tags Git automáticos
-
-```bash
-# Incrementar versão SEM criar commit/tag Git
-pnpm -r exec npm version patch --no-git-tag-version
-pnpm -r exec npm version minor --no-git-tag-version
-pnpm -r exec npm version major --no-git-tag-version
-```
-
-### Versão específica
-
-```bash
-# Definir uma versão específica em todos os pacotes
-pnpm -r exec npm version 1.2.3 --no-git-tag-version
-```
-
-### Versionar pacote individual
-
-```bash
-# Incrementar versão de um pacote específico
-pnpm --filter @giro-ds/react exec npm version patch --no-git-tag-version
-pnpm --filter @giro-ds/tokens exec npm version minor --no-git-tag-version
-```
-
-### Explicação dos comandos:
-
-- **`pnpm -r`** → Recursive (executa em todos os workspaces)
-- **`exec`** → Executa um comando arbitrário
-- **`npm version patch`** → Incrementa a versão PATCH
-- **`--no-git-tag-version`** → Não cria commit/tag Git automático
-
----
-
-## 🤖 Versionamento Automatizado (Changesets)
-
-O projeto usa [Changesets](https://github.com/changesets/changesets) para gerenciar versões e changelogs.
-
-### 1. Criar um changeset
-
-```bash
-# Iniciar wizard interativo
-pnpm changeset
-```
-
-O wizard perguntará:
-
-1. **Quais pacotes foram alterados?** (selecione com espaço)
-2. **Tipo de mudança?** (patch/minor/major)
-3. **Descrição das mudanças** (para o CHANGELOG)
-
-Isso criará um arquivo em `.changeset/` descrevendo as mudanças.
-
-### 2. Aplicar changesets (atualizar versões)
-
-```bash
-# Consumir changesets e atualizar versões dos package.json
-pnpm changeset:version
-```
-
-Isso irá:
-- ✅ Atualizar versões nos `package.json`
-- ✅ Atualizar arquivos `CHANGELOG.md`
-- ✅ Remover os changesets aplicados
-
-### 3. Publicar com changesets
-
-```bash
-# Publicar todos os pacotes que tiveram versão alterada
-pnpm changeset:publish
-```
-
-### Workflow completo com Changesets:
-
-```bash
-# 1. Criar changeset para suas alterações
-pnpm changeset
-
-# 2. Commitar o changeset
-git add .changeset
-git commit -m "chore: add changeset for new feature"
-
-# 3. Quando pronto para release:
-pnpm changeset:version    # Atualiza versões e CHANGELOGs
-git add .
-git commit -m "chore: version packages"
-
-# 4. Build dos pacotes
-pnpm build
-
-# 5. Publicar
-pnpm changeset:publish
-
-# 6. Push com tags
-git push --follow-tags
-```
-
----
-
-## 📤 Publicação no NPM
-
-### Pré-requisitos
+Antes de começar, certifique-se de ter:
 
 ```bash
 # 1. Login no NPM
 npm login
+# Insira suas credenciais quando solicitado
 
-# 2. Verificar usuário logado
+# 2. Verificar se está logado
 npm whoami
+# Deve mostrar seu username
 
-# 3. Verificar acesso ao scope @giro-ds
-npm access list packages
+# 3. Branch atualizada
+git checkout main
+git pull origin main
+
+# 4. Workspace limpo (sem mudanças pendentes)
+git status
+# Deve mostrar "working tree clean"
 ```
 
-### Publicar todos os pacotes
+---
+
+## 🔄 Workflow Completo
+
+### **Passo 1: Fazer as mudanças no código**
+
+Desenvolva normalmente:
+- Adicione novos componentes
+- Corrija bugs
+- Atualize documentação
+- etc.
 
 ```bash
-# Build antes de publicar
+# Trabalhe normalmente no código
+# Faça commits das suas mudanças
+git add .
+git commit -m "feat: add new Tabs component"
+```
+
+---
+
+### **Passo 2: Criar Changeset**
+
+**Sempre que fizer uma mudança**, crie um changeset:
+
+```bash
+pnpm changeset
+```
+
+O wizard vai perguntar:
+
+#### 2.1. Quais pacotes foram alterados?
+```
+? Which packages would you like to include?
+  ◯ @giro-ds/react
+  ◯ @giro-ds/tokens
+  ◯ @giro-ds/utilities
+```
+**Use espaço para selecionar**, Enter para confirmar.
+
+#### 2.2. Qual tipo de mudança?
+```
+? Which packages should have a major bump?
+  No items were selected
+
+? Which packages should have a minor bump?
+  ◉ @giro-ds/react
+
+? Which packages should have a patch bump?
+  No items were selected
+```
+
+**Escolha o tipo correto:**
+- **PATCH** (1.0.0 → 1.0.1): Correções de bug, documentação
+- **MINOR** (1.0.0 → 1.1.0): Novas funcionalidades (sem quebrar)
+- **MAJOR** (1.0.0 → 2.0.0): Mudanças que quebram compatibilidade
+
+#### 2.3. Descreva a mudança
+```
+Please enter a summary for this change (this will be in the changelogs).
+Summary › 
+```
+
+**Siga o padrão Conventional Commits:**
+```
+feat: add new Tabs component
+fix: correct Dialog accessibility issue
+docs: update installation instructions
+refactor: simplify Button component logic
+```
+
+#### 2.4. Confirmar
+```
+Is this your desired changeset? (Y/n) › true
+```
+Pressione **Enter** para confirmar.
+
+---
+
+### **Passo 3: Commitar o Changeset**
+
+```bash
+# Adicionar o changeset criado
+git add .changeset
+
+# Commitar junto com suas mudanças (ou separado)
+git commit -m "feat: add new Tabs component"
+
+# Push para o repositório
+git push origin main
+```
+
+> [!tip] Dica
+> Você pode criar múltiplos changesets antes de fazer o release.
+> Cada PR/MR deve ter seu próprio changeset.
+
+---
+
+### **Passo 4: Quando pronto para Release**
+
+Quando acumular changesets suficientes e quiser publicar:
+
+#### 4.1. Aplicar os Changesets (Atualizar Versões)
+
+```bash
+pnpm changeset:version
+```
+
+**O que acontece:**
+- ✅ Atualiza versões nos `package.json`
+- ✅ Atualiza/cria `CHANGELOG.md`
+- ✅ Remove os changesets aplicados (arquivos `.changeset/*.md`)
+
+**Resultado esperado:**
+```
+🦋  All files have been updated. Review them and commit at your leisure
+```
+
+#### 4.2. Revisar as Mudanças
+
+```bash
+# Ver o que foi alterado
+git status
+
+# Revisar CHANGELOGs
+cat packages/react/CHANGELOG.md
+cat packages/tokens/CHANGELOG.md
+cat packages/utilities/CHANGELOG.md
+```
+
+**Certifique-se que:**
+- ✅ Versões estão corretas
+- ✅ CHANGELOGs fazem sentido
+- ✅ Changesets foram removidos
+
+#### 4.3. Commitar as Versões
+
+```bash
+git add .
+git commit -m "chore: version packages to X.X.X"
+```
+
+> [!warning] Importante
+> **NÃO faça push ainda!** As tags serão criadas no próximo passo.
+
+---
+
+### **Passo 5: Build dos Pacotes**
+
+```bash
 pnpm build
-
-# Publicar todos os pacotes (com acesso público)
-pnpm -r publish --access public
-
-# Ou usar o script customizado
-pnpm release
 ```
 
-### Publicar pacote individual
+**O que acontece:**
+- ✅ Compila `@giro-ds/react` → `packages/react/dist/`
+- ✅ Gera tokens `@giro-ds/tokens` → `packages/tokens/build/`
+- ✅ Compila `@giro-ds/utilities` → `packages/utilities/dist/`
 
+**Verificar se build funcionou:**
 ```bash
-# Build e publicar pacote específico
-pnpm --filter @giro-ds/react build
-pnpm --filter @giro-ds/react publish --access public
+# Deve mostrar os arquivos compilados
+ls packages/react/dist
+ls packages/tokens/build
+ls packages/utilities/dist
 ```
 
-### Publicar versão beta/next
+---
+
+### **Passo 6: Publicar no NPM**
 
 ```bash
-# Definir versão beta
-pnpm -r exec npm version 1.1.0-beta.0 --no-git-tag-version
-
-# Publicar com tag 'beta'
-pnpm -r publish --access public --tag beta
-
-# Usuários instalam com:
-# npm install @giro-ds/react@beta
+pnpm changeset:publish
 ```
 
-### Verificar publicação
+**O que acontece:**
+- ✅ Publica todos os pacotes alterados no NPM
+- ✅ Cria tags Git localmente:
+  - `@giro-ds/react@X.X.X`
+  - `@giro-ds/tokens@X.X.X`
+  - `@giro-ds/utilities@X.X.X`
+- ✅ Usa provenance (autenticação NPM)
+
+**Resultado esperado:**
+```
+🦋  success packages published successfully:
+🦋  @giro-ds/react@1.0.1
+🦋  @giro-ds/tokens@1.0.1
+🦋  @giro-ds/utilities@1.0.1
+```
+
+> [!warning] Atenção
+> As tags foram criadas **localmente**. Você precisa enviá-las no próximo passo.
+
+---
+
+### **Passo 7: Push com Tags**
 
 ```bash
-# Ver informações do pacote no NPM
+git push --follow-tags
+```
+
+**O que acontece:**
+- ✅ Envia o commit de versão para o GitLab
+- ✅ Envia as tags criadas pelo changeset
+- ✅ Sincroniza Git e NPM
+
+**Verificar no GitLab:**
+- Repository → Tags → Deve mostrar as novas tags
+- Você pode criar Releases a partir dessas tags
+
+---
+
+## ✅ Verificações Pós-Release
+
+### 1. Verificar no NPM
+
+```bash
+# Ver informações do pacote
 npm view @giro-ds/react
 npm view @giro-ds/tokens
 npm view @giro-ds/utilities
 
-# Ver todas as versões publicadas
+# Ver versões publicadas
 npm view @giro-ds/react versions
 ```
 
----
-
-## 🔄 Workflow Completo de Release
-
-### Opção 1: Versionamento Manual
+### 2. Verificar Tags no Git
 
 ```bash
-# 1. Atualizar versões
-pnpm -r exec npm version patch --no-git-tag-version
+# Listar tags locais
+git tag -l
 
-# 2. Atualizar CHANGELOGs manualmente
-# Edite packages/*/CHANGELOG.md
-
-# 3. Commit das mudanças
-git add .
-git commit -m "chore: bump version to 1.0.1"
-
-# 4. Criar tag
-git tag v1.0.1
-
-# 5. Build
-pnpm build
-
-# 6. Publicar
-pnpm -r publish --access public
-
-# 7. Push com tags
-git push origin main --tags
+# Verificar se tags foram para o remoto
+git ls-remote --tags origin
 ```
 
-### Opção 2: Com Changesets (Recomendado)
+### 3. Testar Instalação
 
 ```bash
-# 1. Durante desenvolvimento: criar changesets
+# Em outro projeto de teste
+npm install @giro-ds/react@latest
+npm install @giro-ds/tokens@latest
+npm install @giro-ds/utilities@latest
+```
+
+---
+
+## 📖 Exemplo Prático Completo
+
+### Cenário: Adicionar documentação aos READMEs
+
+```bash
+# 1. Fazer as mudanças
+# (editar packages/*/README.md)
+
+# 2. Criar changeset
 pnpm changeset
-git add .changeset
-git commit -m "chore: add changeset"
+# → Selecionar: react, tokens, utilities
+# → Tipo: patch (apenas documentação)
+# → Summary: "docs: add comprehensive documentation to package READMEs"
+# → Confirmar: true
 
-# 2. Quando pronto para release:
-pnpm changeset:version
+# 3. Commitar changeset
 git add .
-git commit -m "chore: version packages"
+git commit -m "docs: add comprehensive documentation to package READMEs"
+git push origin main
 
-# 3. Build
+# 4. Quando pronto para release:
+pnpm changeset:version
+# → Revisa mudanças nos CHANGELOGs
+
+# 5. Commitar versões
+git add .
+git commit -m "chore: version packages to 1.0.1"
+
+# 6. Build
 pnpm build
 
-# 4. Publicar
+# 7. Publicar
 pnpm changeset:publish
 
-# 5. Push
+# 8. Push com tags
 git push --follow-tags
 ```
 
-### Opção 3: Script automatizado
-
-```bash
-# Um único comando que faz tudo
-pnpm release
-```
-
-Este script deve executar:
-1. `pnpm changeset:version`
-2. `pnpm build`
-3. `pnpm changeset:publish`
+**Resultado:**
+- Versão: 1.0.0 → 1.0.1
+- Pacotes publicados no NPM
+- Tags no GitLab: `@giro-ds/react@1.0.1`, etc.
 
 ---
 
-## 📝 Estrutura do CHANGELOG
+## 🎯 Resumo (Checklist)
 
-### Formato recomendado:
+Use este checklist para cada release:
 
 ```markdown
-# @giro-ds/react
-
-## 1.1.0
-
-### Minor Changes
-
-- feat: Adiciona novo componente Tabs
-- feat: Suporte a tema escuro no Button
-
-### Patch Changes
-
-- fix: Corrige acessibilidade no Dialog
-- docs: Atualiza README com exemplos
-
-## 1.0.1
-
-### Patch Changes
-
-- docs: Adiciona documentação completa no README
-- chore: Atualiza dependências
-
-## 1.0.0
-
-### Major Changes
-
-- feat: Release inicial
-```
-
----
-
-## 🎯 Casos de Uso Comuns
-
-### Apenas adicionar documentação
-
-```bash
-# Versão: 1.0.0 → 1.0.1 (PATCH)
-pnpm -r exec npm version patch --no-git-tag-version
-```
-
-### Adicionar novo componente
-
-```bash
-# Versão: 1.0.1 → 1.1.0 (MINOR)
-pnpm -r exec npm version minor --no-git-tag-version
-```
-
-### Mudança que quebra compatibilidade
-
-```bash
-# Versão: 1.1.0 → 2.0.0 (MAJOR)
-pnpm -r exec npm version major --no-git-tag-version
-```
-
-### Versões diferentes por pacote
-
-```bash
-# React teve breaking change → MAJOR
-pnpm --filter @giro-ds/react exec npm version major --no-git-tag-version
-
-# Tokens apenas documentação → PATCH
-pnpm --filter @giro-ds/tokens exec npm version patch --no-git-tag-version
-
-# Utilities nova feature → MINOR
-pnpm --filter @giro-ds/utilities exec npm version minor --no-git-tag-version
+- [ ] 1. Fazer mudanças no código
+- [ ] 2. Criar changeset: `pnpm changeset`
+- [ ] 3. Commitar e push
+- [ ] 4. Aplicar changesets: `pnpm changeset:version`
+- [ ] 5. Revisar CHANGELOGs
+- [ ] 6. Commitar versões: `git commit -m "chore: version packages"`
+- [ ] 7. Build: `pnpm build`
+- [ ] 8. Publicar: `pnpm changeset:publish`
+- [ ] 9. Push com tags: `git push --follow-tags`
+- [ ] 10. Verificar no NPM e GitLab
 ```
 
 ---
 
 ## 🐛 Troubleshooting
 
-### Erro: "You need to be logged in"
+### Erro: "You must be logged in to publish"
 
 ```bash
 npm login
-# Insira suas credenciais do NPM
-```
-
-### Erro: "403 Forbidden"
-
-```bash
-# Verificar se você tem permissão no scope @giro-ds
-npm access list packages
-
-# Publicar com --access public
-pnpm -r publish --access public
+# Insira suas credenciais
 ```
 
 ### Erro: "Version already exists"
 
 ```bash
-# Incrementar versão novamente
+# Se já publicou por engano, incremente novamente
 pnpm -r exec npm version patch --no-git-tag-version
-
-# Ou definir versão específica
-pnpm -r exec npm version 1.0.2 --no-git-tag-version
+git add .
+git commit -m "chore: bump version"
 ```
 
-### Reverter publicação (unpublish)
+### Esqueci de fazer push com --follow-tags
 
 ```bash
-# ⚠️ Cuidado! Só funciona em até 72h após publicação
-npm unpublish @giro-ds/react@1.0.1
+# Enviar apenas as tags
+git push --tags
 
-# Deprecate (recomendado ao invés de unpublish)
-npm deprecate @giro-ds/react@1.0.1 "Versão com bugs, use 1.0.2"
+# Ou enviar tags específicas
+git push origin @giro-ds/react@1.0.1
 ```
 
-### Limpar e republicar
+### Build falhou
 
 ```bash
-# 1. Limpar builds
+# Limpar e rebuildar
 pnpm -r exec rm -rf dist
-
-# 2. Build limpo
 pnpm build
+```
 
-# 3. Publicar novamente
-pnpm -r publish --access public
+### Changeset não detecta mudanças
+
+```bash
+# Forçar criação de changeset vazio
+pnpm changeset add --empty
+# Depois edite .changeset/*.md manualmente
 ```
 
 ---
 
 ## 📚 Recursos Adicionais
 
-- 🔗 [Semantic Versioning](https://semver.org/)
-- 🔗 [Changesets Documentation](https://github.com/changesets/changesets)
-- 🔗 [NPM Publishing](https://docs.npmjs.com/cli/v9/commands/npm-publish)
-- 🔗 [pnpm publish](https://pnpm.io/cli/publish)
+- 📄 [Semantic Versioning](https://semver.org/)
+- 📄 [Conventional Commits](https://www.conventionalcommits.org/)
+- 📄 [Changesets Documentation](https://github.com/changesets/changesets)
+- 📄 [Guia de Versionamento Completo](./versioning-and-publishing.md)
 
 ---
 
 > [!info] Metadados
 > **Mantido por:** Zanthus Design System Team  
-> **Última atualização:** Dezembro 2025
+> **Última atualização:** Dezembro 2025  
+> **Versão do documento:** 1.0.0
