@@ -10,27 +10,33 @@ Bem-vindo ao Zanthus Design System! Este guia vai ajudá-lo a começar a usar no
 
 ## Instalação
 
-### Componentes react
+### Componentes React
 
 Para instalar o pacote de componentes React em seu projeto:
 
 ```bash
+# npm
 npm install @zanthus/react
-```
 
-```bash
+# pnpm (recomendado)
+pnpm add @zanthus/react
+
+# yarn
 yarn add @zanthus/react
 ```
 
-### Design tokens
+### Design Tokens
 
 Para usar os tokens de design (cores, tipografia, espaçamentos, bordas):
 
 ```bash
+# npm
 npm install @zanthus/tokens
-```
 
-```bash
+# pnpm (recomendado)
+pnpm add @zanthus/tokens
+
+# yarn
 yarn add @zanthus/tokens
 ```
 
@@ -39,10 +45,13 @@ yarn add @zanthus/tokens
 Para usar os utilitários de layout e espaçamento:
 
 ```bash
+# npm
 npm install @zanthus/utilities
-```
 
-```bash
+# pnpm (recomendado)
+pnpm add @zanthus/utilities
+
+# yarn
 yarn add @zanthus/utilities
 ```
 
@@ -51,10 +60,13 @@ yarn add @zanthus/utilities
 Para instalar todos os pacotes de uma vez:
 
 ```bash
+# npm
 npm install @zanthus/react @zanthus/tokens @zanthus/utilities
-```
 
-```bash
+# pnpm (recomendado)
+pnpm add @zanthus/react @zanthus/tokens @zanthus/utilities
+
+# yarn
 yarn add @zanthus/react @zanthus/tokens @zanthus/utilities
 ```
 
@@ -62,13 +74,30 @@ yarn add @zanthus/react @zanthus/tokens @zanthus/utilities
 
 ### 1. Importe os estilos globais
 
-No arquivo principal da sua aplicação (geralmente `App.jsx` ou `index.js`), importe os tokens de design:
+No arquivo principal da sua aplicação (geralmente `App.jsx`, `App.tsx` ou `main.jsx`), importe os tokens de design e estilos dos componentes:
 
 ```jsx
+// Tokens de design (cores, espaçamentos, tipografia, bordas)
 import '@zanthus/tokens/build/css/tokens.css';
+
+// Estilos dos componentes React
+import '@zanthus/react/dist/styles.css';
+
+// (Opcional) Utilitários CSS para layout
+import '@zanthus/utilities/dist/ui.css';
 ```
 
-### 2. Importe os componentes
+### 2. Configure a fonte Figtree
+
+Adicione a fonte Figtree no `<head>` do seu HTML (em `index.html` ou layout raiz):
+
+```html
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+```
+
+### 3. Importe os componentes
 
 Você pode importar componentes individuais conforme necessário:
 
@@ -93,9 +122,9 @@ O Zanthus Design System é organizado em três pacotes principais:
 ### @zanthus/tokens
 
 Contém todos os design tokens (cores, tipografia, espaçamentos, bordas) em múltiplos formatos:
-- **CSS Variables**: Para uso direto em CSS/SCSS
-- **JavaScript/TypeScript**: Para uso em aplicações React
-- **SCSS Variables**: Para projetos que usam SCSS
+- **CSS Variables** (`build/css/tokens.css`): Para uso direto em CSS/SCSS
+- **JavaScript/TypeScript** (`build/js/tokens.js`): Para uso em aplicações React
+- **SCSS Variables** (`build/scss/tokens.scss`): Para projetos que usam SCSS
 
 ### @zanthus/react
 
@@ -104,6 +133,7 @@ Biblioteca de componentes React prontos para uso:
 - TypeScript com tipos completos
 - Totalmente customizáveis via props
 - Documentação detalhada de cada componente
+- Inclui estilos CSS em `dist/styles.css`
 
 ### @zanthus/utilities
 
@@ -112,6 +142,7 @@ Utilitários CSS para layout e espaçamento:
 - Flexbox helpers
 - Spacing utilities
 - Breakpoints padronizados
+- Compilado em `dist/ui.css`
 
 ## Usando design tokens
 
@@ -144,20 +175,29 @@ Se você preferir SCSS, importe os tokens SCSS:
 
 ### JavaScript/TypeScript
 
-Para uso em styled-components ou estilos inline:
+Para uso em styled-components, estilos inline ou temas dinâmicos:
 
 ```jsx
+// Importação ESM (recomendado)
 import tokens from '@zanthus/tokens/build/js/tokens.js';
 
+// Uso em styled-components
 const MyComponent = styled.div`
   color: ${tokens.colorBrandPrimaryDefault};
   padding: ${tokens.spacing16};
+  border-radius: ${tokens.borderRadius8};
 `;
+
+// Uso em estilos inline
+const styles = {
+  color: tokens.colorBrandPrimaryDefault,
+  padding: tokens.spacing16,
+};
 ```
 
 ## Tipografia
 
-O Zanthus Design System usa a fonte **Figtree** como tipografia principal. Para garantir que a fonte seja carregada corretamente, adicione ao `<head>` do seu HTML:
+O Zanthus Design System usa a fonte **Figtree** como tipografia principal. Para garantir que a fonte seja carregada corretamente, adicione ao `<head>` do seu HTML (geralmente em `index.html`):
 
 ```html
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -165,13 +205,27 @@ O Zanthus Design System usa a fonte **Figtree** como tipografia principal. Para 
 <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
 ```
 
+Ou importe via CSS:
+
+```css
+@import url('https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap');
+```
+
 ## Exemplo completo
 
-Aqui está um exemplo completo de configuração:
+Aqui está um exemplo completo de configuração em uma aplicação React:
 
 ```jsx
-// App.jsx
+// main.jsx ou App.jsx
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+
+// 1. Importar estilos do design system
 import '@zanthus/tokens/build/css/tokens.css';
+import '@zanthus/react/dist/styles.css';
+import '@zanthus/utilities/dist/ui.css'; // Opcional
+
+// 2. Importar componentes
 import { Button, TextField, Avatar, Container } from '@zanthus/react';
 
 function App() {
@@ -202,7 +256,33 @@ function App() {
   );
 }
 
-export default App;
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+```
+
+E no seu `index.html`:
+
+```html
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Minha Aplicação</title>
+    
+    <!-- Fonte Figtree -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
 ```
 
 ## Próximos passos
@@ -211,8 +291,32 @@ Agora que você configurou o Zanthus Design System, explore:
 
 - **Foundation**: Conheça nossos tokens de design (cores, tipografia, espaçamento)
 - **Components**: Veja todos os componentes disponíveis e suas variações
-- **Accessibility**: Entenda nossas práticas de acessibilidade
-- **Best Practices**: Aprenda padrões de uso recomendados
+- **Patterns**: Aprenda padrões de uso recomendados e composições de componentes
+
+## Desenvolvimento no Monorepo
+
+Se você está contribuindo para o design system:
+
+```bash
+# Instalar dependências
+pnpm install
+
+# Build de todos os pacotes
+pnpm build
+
+# Modo desenvolvimento (watch)
+pnpm dev
+
+# Rodar Storybook
+pnpm storybook
+
+# Build de um pacote específico
+pnpm --filter @zanthus/tokens build
+pnpm --filter @zanthus/react build
+pnpm --filter @zanthus/utilities build
+```
+
+Consulte [docs/instructions-pnpm.md](https://github.com/zanthus/design-system/blob/main/docs/instructions-pnpm.md) para mais comandos.
 
 ## Precisa de ajuda?
 
@@ -220,6 +324,7 @@ Se você encontrar algum problema ou tiver dúvidas:
 
 - Consulte a documentação de cada componente específico
 - Verifique os exemplos de uso em cada página de componente
+- Leia o guia de comandos pnpm em `docs/instructions-pnpm.md`
 - Entre em contato com o time de design system
 
 <Footer />

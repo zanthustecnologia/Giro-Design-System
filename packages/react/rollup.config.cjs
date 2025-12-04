@@ -14,6 +14,9 @@ module.exports = [
   {
     input: 'src/components/index.ts',
     external: [
+      'react',
+      'react-dom',
+      'react/jsx-runtime',
       ...Object.keys(pkg.peerDependencies || {}),
       ...Object.keys(pkg.dependencies || {}).filter(
         (d) => !/\.(css|scss)$/.test(d)

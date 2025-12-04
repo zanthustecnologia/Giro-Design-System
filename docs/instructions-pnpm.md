@@ -10,7 +10,7 @@
   > [!info] Sobre este guia
   > Este documento contém todos os comandos essenciais para trabalhar com o Zanthus Design System usando pnpm.
 
-  ---
+  ---pm
 
   ## 🚀 Comandos Principais
 
