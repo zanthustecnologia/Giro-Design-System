@@ -1,5 +1,11 @@
 # @giro-ds/tokens
 
+## 1.0.1
+
+### Patch Changes
+
+- docs: add READMEs to packages
+
 ## 1.0.0
 
 ### Major Changes

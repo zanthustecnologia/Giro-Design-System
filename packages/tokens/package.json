@@ -1,8 +1,8 @@
 {
   "name": "@giro-ds/tokens",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
-    "publishConfig": {
+  "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
   },
