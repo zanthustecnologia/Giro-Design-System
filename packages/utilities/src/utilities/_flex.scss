@@ -1,11 +1,15 @@
 @use "./breakpoints" as *;
 
+// -----------------------------------------------------------------------------
 // Flex Base
+// -----------------------------------------------------------------------------
 .flex {
   display: flex;
 }
 
+// -----------------------------------------------------------------------------
 // Direções
+// -----------------------------------------------------------------------------
 .flex-row {
   flex-direction: row;
 }
@@ -13,7 +17,7 @@
   flex-direction: column;
 }
 
-// Responsivo vem depois
+// Responsivo
 @each $bp, $size in $breakpoints {
   @include utility($bp, "flex-row") {
     flex-direction: row;
@@ -23,7 +27,29 @@
   }
 }
 
-// Justify
+// -----------------------------------------------------------------------------
+// Flex Wrap
+// -----------------------------------------------------------------------------
+.flex-wrap {
+  flex-wrap: wrap;
+}
+.flex-nowrap {
+  flex-wrap: nowrap;
+}
+
+// Responsivo
+@each $bp, $size in $breakpoints {
+  @include utility($bp, "flex-wrap") {
+    flex-wrap: wrap;
+  }
+  @include utility($bp, "flex-nowrap") {
+    flex-wrap: nowrap;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Justify Content
+// -----------------------------------------------------------------------------
 .justify-start {
   justify-content: flex-start;
 }
@@ -36,8 +62,14 @@
 .justify-between {
   justify-content: space-between;
 }
+.justify-around {
+  justify-content: space-around;
+}
+.justify-evenly {
+  justify-content: space-evenly;
+}
 
-// Responsivo vem depois
+// Responsivo
 @each $bp, $size in $breakpoints {
   @include utility($bp, "justify-start") {
     justify-content: flex-start;
@@ -51,9 +83,17 @@
   @include utility($bp, "justify-between") {
     justify-content: space-between;
   }
+  @include utility($bp, "justify-around") {
+    justify-content: space-around;
+  }
+  @include utility($bp, "justify-evenly") {
+    justify-content: space-evenly;
+  }
 }
 
+// -----------------------------------------------------------------------------
 // Align Items
+// -----------------------------------------------------------------------------
 .items-start {
   align-items: flex-start;
 }
@@ -63,8 +103,14 @@
 .items-end {
   align-items: flex-end;
 }
+.items-stretch {
+  align-items: stretch;
+}
+.items-baseline {
+  align-items: baseline;
+}
 
-// Responsivo vem depois
+// Responsivo
 @each $bp, $size in $breakpoints {
   @include utility($bp, "items-start") {
     align-items: flex-start;
@@ -74,5 +120,89 @@
   }
   @include utility($bp, "items-end") {
     align-items: flex-end;
+  }
+  @include utility($bp, "items-stretch") {
+    align-items: stretch;
+  }
+  @include utility($bp, "items-baseline") {
+    align-items: baseline;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Align Self
+// -----------------------------------------------------------------------------
+.self-auto {
+  align-self: auto;
+}
+.self-start {
+  align-self: flex-start;
+}
+.self-center {
+  align-self: center;
+}
+.self-end {
+  align-self: flex-end;
+}
+.self-stretch {
+  align-self: stretch;
+}
+
+// Responsivo
+@each $bp, $size in $breakpoints {
+  @include utility($bp, "self-auto") {
+    align-self: auto;
+  }
+  @include utility($bp, "self-start") {
+    align-self: flex-start;
+  }
+  @include utility($bp, "self-center") {
+    align-self: center;
+  }
+  @include utility($bp, "self-end") {
+    align-self: flex-end;
+  }
+  @include utility($bp, "self-stretch") {
+    align-self: stretch;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Flex Grow
+// -----------------------------------------------------------------------------
+.grow {
+  flex-grow: 1;
+}
+.grow-0 {
+  flex-grow: 0;
+}
+
+// Responsivo
+@each $bp, $size in $breakpoints {
+  @include utility($bp, "grow") {
+    flex-grow: 1;
+  }
+  @include utility($bp, "grow-0") {
+    flex-grow: 0;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Flex Shrink
+// -----------------------------------------------------------------------------
+.shrink {
+  flex-shrink: 1;
+}
+.shrink-0 {
+  flex-shrink: 0;
+}
+
+// Responsivo
+@each $bp, $size in $breakpoints {
+  @include utility($bp, "shrink") {
+    flex-shrink: 1;
+  }
+  @include utility($bp, "shrink-0") {
+    flex-shrink: 0;
   }
 }

@@ -1,0 +1,62 @@
+@use "sass:map";
+@use "sass:meta";
+@use "./breakpoints" as *;
+@use "../../../tokens/build/scss/tokens.scss" as tok;
+
+// -----------------------------------------------------------------------------
+// Configuração
+// -----------------------------------------------------------------------------
+
+// Mapa de espaçamentos usando os tokens
+$spacing: (
+  0: tok.$spacing-0,
+  4: tok.$spacing-4,
+  8: tok.$spacing-8,
+  12: tok.$spacing-12,
+  16: tok.$spacing-16,
+  24: tok.$spacing-24,
+  32: tok.$spacing-32,
+  40: tok.$spacing-40,
+  48: tok.$spacing-48,
+  56: tok.$spacing-56,
+  64: tok.$spacing-64,
+  80: tok.$spacing-80,
+  120: tok.$spacing-120,
+  160: tok.$spacing-160,
+  200: tok.$spacing-200
+);
+
+// Mapa de propriedades de gap
+$gap-properties: (
+  "gap": "gap",
+  "gap-x": "column-gap",
+  "gap-y": "row-gap"
+);
+
+// -----------------------------------------------------------------------------
+// Geração das Classes
+// -----------------------------------------------------------------------------
+
+// Gera as classes base (ex: .gap-4, .gap-x-8, .gap-y-16)
+@each $prop-abbr, $prop-name in $gap-properties {
+  @each $space-key, $space-value in $spacing {
+    $selector: "#{$prop-abbr}-#{$space-key}";
+
+    .#{$selector} {
+      #{$prop-name}: $space-value;
+    }
+  }
+}
+
+// Gera as classes responsivas (ex: md:gap-4, lg:gap-x-8)
+@each $bp, $size in $breakpoints {
+  @each $prop-abbr, $prop-name in $gap-properties {
+    @each $space-key, $space-value in $spacing {
+      $selector: "#{$prop-abbr}-#{$space-key}";
+
+      @include utility($bp, $selector) {
+        #{$prop-name}: $space-value;
+      }
+    }
+  }
+}

@@ -1,0 +1,286 @@
+@use "sass:map";
+@use "./breakpoints" as *;
+@use "../../../tokens/build/scss/tokens.scss" as tok;
+
+// -----------------------------------------------------------------------------
+// Configuração
+// -----------------------------------------------------------------------------
+
+// Mapa de tamanhos usando os tokens de spacing
+$sizing: (
+  "0": tok.$spacing-0,
+  "4": tok.$spacing-4,
+  "8": tok.$spacing-8,
+  "12": tok.$spacing-12,
+  "16": tok.$spacing-16,
+  "24": tok.$spacing-24,
+  "32": tok.$spacing-32,
+  "40": tok.$spacing-40,
+  "48": tok.$spacing-48,
+  "56": tok.$spacing-56,
+  "64": tok.$spacing-64,
+  "80": tok.$spacing-80,
+  "120": tok.$spacing-120,
+  "160": tok.$spacing-160,
+  "200": tok.$spacing-200,
+  "auto": auto,
+  "full": 100%,
+  "screen": 100vw,
+  "min": min-content,
+  "max": max-content,
+  "fit": fit-content
+);
+
+// Tamanhos especiais para height
+$height-special: (
+  "screen": 100vh
+);
+
+// -----------------------------------------------------------------------------
+// Width
+// -----------------------------------------------------------------------------
+
+// Gera as classes base (ex: .w-4, .w-full)
+@each $size-key, $size-value in $sizing {
+  .w-#{$size-key} {
+    width: $size-value;
+  }
+}
+
+// Responsivo
+@each $bp, $bp-size in $breakpoints {
+  @each $size-key, $size-value in $sizing {
+    @include utility($bp, "w-#{$size-key}") {
+      width: $size-value;
+    }
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Height
+// -----------------------------------------------------------------------------
+
+// Gera as classes base (ex: .h-4, .h-full)
+@each $size-key, $size-value in $sizing {
+  .h-#{$size-key} {
+    height: $size-value;
+  }
+}
+
+// Height especial (screen com vh)
+@each $size-key, $size-value in $height-special {
+  .h-#{$size-key} {
+    height: $size-value;
+  }
+}
+
+// Responsivo
+@each $bp, $bp-size in $breakpoints {
+  @each $size-key, $size-value in $sizing {
+    @include utility($bp, "h-#{$size-key}") {
+      height: $size-value;
+    }
+  }
+  
+  @each $size-key, $size-value in $height-special {
+    @include utility($bp, "h-#{$size-key}") {
+      height: $size-value;
+    }
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Min Width
+// -----------------------------------------------------------------------------
+
+.min-w-0 {
+  min-width: 0;
+}
+.min-w-full {
+  min-width: 100%;
+}
+.min-w-min {
+  min-width: min-content;
+}
+.min-w-max {
+  min-width: max-content;
+}
+.min-w-fit {
+  min-width: fit-content;
+}
+
+// Responsivo
+@each $bp, $size in $breakpoints {
+  @include utility($bp, "min-w-0") {
+    min-width: 0;
+  }
+  @include utility($bp, "min-w-full") {
+    min-width: 100%;
+  }
+  @include utility($bp, "min-w-min") {
+    min-width: min-content;
+  }
+  @include utility($bp, "min-w-max") {
+    min-width: max-content;
+  }
+  @include utility($bp, "min-w-fit") {
+    min-width: fit-content;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Max Width
+// -----------------------------------------------------------------------------
+
+.max-w-full {
+  max-width: 100%;
+}
+.max-w-min {
+  max-width: min-content;
+}
+.max-w-max {
+  max-width: max-content;
+}
+.max-w-fit {
+  max-width: fit-content;
+}
+.max-w-screen {
+  max-width: 100vw;
+}
+
+// Max width usando spacing tokens
+@each $size-key, $size-value in $sizing {
+  @if $size-key != "auto" and $size-key != "full" and $size-key != "screen" and $size-key != "min" and $size-key != "max" and $size-key != "fit" {
+    .max-w-#{$size-key} {
+      max-width: $size-value;
+    }
+  }
+}
+
+// Responsivo
+@each $bp, $bp-size in $breakpoints {
+  @include utility($bp, "max-w-full") {
+    max-width: 100%;
+  }
+  @include utility($bp, "max-w-min") {
+    max-width: min-content;
+  }
+  @include utility($bp, "max-w-max") {
+    max-width: max-content;
+  }
+  @include utility($bp, "max-w-fit") {
+    max-width: fit-content;
+  }
+  @include utility($bp, "max-w-screen") {
+    max-width: 100vw;
+  }
+  
+  @each $size-key, $size-value in $sizing {
+    @if $size-key != "auto" and $size-key != "full" and $size-key != "screen" and $size-key != "min" and $size-key != "max" and $size-key != "fit" {
+      @include utility($bp, "max-w-#{$size-key}") {
+        max-width: $size-value;
+      }
+    }
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Min Height
+// -----------------------------------------------------------------------------
+
+.min-h-0 {
+  min-height: 0;
+}
+.min-h-full {
+  min-height: 100%;
+}
+.min-h-screen {
+  min-height: 100vh;
+}
+.min-h-min {
+  min-height: min-content;
+}
+.min-h-max {
+  min-height: max-content;
+}
+.min-h-fit {
+  min-height: fit-content;
+}
+
+// Responsivo
+@each $bp, $size in $breakpoints {
+  @include utility($bp, "min-h-0") {
+    min-height: 0;
+  }
+  @include utility($bp, "min-h-full") {
+    min-height: 100%;
+  }
+  @include utility($bp, "min-h-screen") {
+    min-height: 100vh;
+  }
+  @include utility($bp, "min-h-min") {
+    min-height: min-content;
+  }
+  @include utility($bp, "min-h-max") {
+    min-height: max-content;
+  }
+  @include utility($bp, "min-h-fit") {
+    min-height: fit-content;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Max Height
+// -----------------------------------------------------------------------------
+
+.max-h-full {
+  max-height: 100%;
+}
+.max-h-screen {
+  max-height: 100vh;
+}
+.max-h-min {
+  max-height: min-content;
+}
+.max-h-max {
+  max-height: max-content;
+}
+.max-h-fit {
+  max-height: fit-content;
+}
+
+// Max height usando spacing tokens
+@each $size-key, $size-value in $sizing {
+  @if $size-key != "auto" and $size-key != "full" and $size-key != "screen" and $size-key != "min" and $size-key != "max" and $size-key != "fit" {
+    .max-h-#{$size-key} {
+      max-height: $size-value;
+    }
+  }
+}
+
+// Responsivo
+@each $bp, $bp-size in $breakpoints {
+  @include utility($bp, "max-h-full") {
+    max-height: 100%;
+  }
+  @include utility($bp, "max-h-screen") {
+    max-height: 100vh;
+  }
+  @include utility($bp, "max-h-min") {
+    max-height: min-content;
+  }
+  @include utility($bp, "max-h-max") {
+    max-height: max-content;
+  }
+  @include utility($bp, "max-h-fit") {
+    max-height: fit-content;
+  }
+  
+  @each $size-key, $size-value in $sizing {
+    @if $size-key != "auto" and $size-key != "full" and $size-key != "screen" and $size-key != "min" and $size-key != "max" and $size-key != "fit" {
+      @include utility($bp, "max-h-#{$size-key}") {
+        max-height: $size-value;
+      }
+    }
+  }
+}

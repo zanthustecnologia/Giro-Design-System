@@ -1,18 +1,22 @@
 @use "./breakpoints" as *;
 
+// -----------------------------------------------------------------------------
 // Grid Base
+// -----------------------------------------------------------------------------
 .grid {
   display: grid;
 }
 
-// Grid columns
+// -----------------------------------------------------------------------------
+// Grid Columns
+// -----------------------------------------------------------------------------
 @for $i from 1 through 12 {
   .grid-cols-#{$i} {
     grid-template-columns: repeat(#{$i}, minmax(0, 1fr));
   }
 }
 
-// Responsivo vem depois (para sobrescrever corretamente)
+// Responsivo
 @each $bp, $size in $breakpoints {
   @for $i from 1 through 12 {
     @include utility($bp, "grid-cols-#{$i}") {
@@ -21,18 +25,148 @@
   }
 }
 
-// Col span
+// -----------------------------------------------------------------------------
+// Grid Rows
+// -----------------------------------------------------------------------------
+@for $i from 1 through 6 {
+  .grid-rows-#{$i} {
+    grid-template-rows: repeat(#{$i}, minmax(0, 1fr));
+  }
+}
+
+// Responsivo
+@each $bp, $size in $breakpoints {
+  @for $i from 1 through 6 {
+    @include utility($bp, "grid-rows-#{$i}") {
+      grid-template-rows: repeat(#{$i}, minmax(0, 1fr));
+    }
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Column Span
+// -----------------------------------------------------------------------------
 @for $i from 1 through 12 {
   .col-span-#{$i} {
     grid-column: span #{$i} / span #{$i};
   }
 }
 
-// Responsivo vem depois
+.col-span-full {
+  grid-column: 1 / -1;
+}
+
+// Responsivo
 @each $bp, $size in $breakpoints {
   @for $i from 1 through 12 {
     @include utility($bp, "col-span-#{$i}") {
       grid-column: span #{$i} / span #{$i};
     }
+  }
+  
+  @include utility($bp, "col-span-full") {
+    grid-column: 1 / -1;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Row Span
+// -----------------------------------------------------------------------------
+@for $i from 1 through 6 {
+  .row-span-#{$i} {
+    grid-row: span #{$i} / span #{$i};
+  }
+}
+
+.row-span-full {
+  grid-row: 1 / -1;
+}
+
+// Responsivo
+@each $bp, $size in $breakpoints {
+  @for $i from 1 through 6 {
+    @include utility($bp, "row-span-#{$i}") {
+      grid-row: span #{$i} / span #{$i};
+    }
+  }
+  
+  @include utility($bp, "row-span-full") {
+    grid-row: 1 / -1;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Place Items
+// -----------------------------------------------------------------------------
+.place-items-start {
+  place-items: start;
+}
+.place-items-center {
+  place-items: center;
+}
+.place-items-end {
+  place-items: end;
+}
+.place-items-stretch {
+  place-items: stretch;
+}
+
+// Responsivo
+@each $bp, $size in $breakpoints {
+  @include utility($bp, "place-items-start") {
+    place-items: start;
+  }
+  @include utility($bp, "place-items-center") {
+    place-items: center;
+  }
+  @include utility($bp, "place-items-end") {
+    place-items: end;
+  }
+  @include utility($bp, "place-items-stretch") {
+    place-items: stretch;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Place Content
+// -----------------------------------------------------------------------------
+.place-content-start {
+  place-content: start;
+}
+.place-content-center {
+  place-content: center;
+}
+.place-content-end {
+  place-content: end;
+}
+.place-content-between {
+  place-content: space-between;
+}
+.place-content-around {
+  place-content: space-around;
+}
+.place-content-evenly {
+  place-content: space-evenly;
+}
+
+// Responsivo
+@each $bp, $size in $breakpoints {
+  @include utility($bp, "place-content-start") {
+    place-content: start;
+  }
+  @include utility($bp, "place-content-center") {
+    place-content: center;
+  }
+  @include utility($bp, "place-content-end") {
+    place-content: end;
+  }
+  @include utility($bp, "place-content-between") {
+    place-content: space-between;
+  }
+  @include utility($bp, "place-content-around") {
+    place-content: space-around;
+  }
+  @include utility($bp, "place-content-evenly") {
+    place-content: space-evenly;
   }
 }

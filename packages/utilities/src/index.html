@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Design System Utilities - Demo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../dist/ui.css">
+  <link rel="stylesheet" href="demo.css">
+</head>
+<body>
+  <div class="demo-container">
+    <header class="demo-header">
+      <h1>Design System Utilities</h1>
+      <p>Demonstração completa de todas as classes utilitárias disponíveis</p>
+    </header>
+
+    <!-- SPACING -->
+    <section class="demo-section">
+      <h2>📏 Spacing (Margin & Padding)</h2>
+      
+      <h3>Margin</h3>
+      <div class="demo-grid">
+        <div class="demo-item">
+          <div class="m-4 demo-box">m-4</div>
+          <div class="demo-item-label">.m-4</div>
+        </div>
+        <div class="demo-item">
+          <div class="mt-16 demo-box">mt-16</div>
+          <div class="demo-item-label">.mt-16</div>
+        </div>
+        <div class="demo-item">
+          <div class="mb-24 demo-box">mb-24</div>
+          <div class="demo-item-label">.mb-24</div>
+        </div>
+        <div class="demo-item">
+          <div class="mx-32 demo-box">mx-32</div>
+          <div class="demo-item-label">.mx-32</div>
+        </div>
+        <div class="demo-item">
+          <div class="my-8 demo-box">my-8</div>
+          <div class="demo-item-label">.my-8</div>
+        </div>
+      </div>
+
+      <h3>Padding</h3>
+      <div class="demo-grid">
+        <div class="demo-item">
+          <div class="p-4 demo-box">p-4</div>
+          <div class="demo-item-label">.p-4</div>
+        </div>
+        <div class="demo-item">
+          <div class="p-16 demo-box">p-16</div>
+          <div class="demo-item-label">.p-16</div>
+        </div>
+        <div class="demo-item">
+          <div class="px-24 py-8 demo-box">px-24 py-8</div>
+          <div class="demo-item-label">.px-24 .py-8</div>
+        </div>
+        <div class="demo-item">
+          <div class="pt-32 demo-box">pt-32</div>
+          <div class="demo-item-label">.pt-32</div>
+        </div>
+        <div class="demo-item">
+          <div class="pl-40 demo-box">pl-40</div>
+          <div class="demo-item-label">.pl-40</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GAP -->
+    <section class="demo-section">
+      <h2>🔳 Gap</h2>
+      
+      <h3>Gap (flex/grid)</h3>
+      <div class="demo-grid">
+        <div class="demo-item">
+          <div class="flex gap-4">
+            <div class="demo-flex-item">Item</div>
+            <div class="demo-flex-item">Item</div>
+          </div>
+          <div class="demo-item-label">.gap-4</div>
+        </div>
+        <div class="demo-item">
+          <div class="flex gap-16">
+            <div class="demo-flex-item">Item</div>
+            <div class="demo-flex-item">Item</div>
+          </div>
+          <div class="demo-item-label">.gap-16</div>
+        </div>
+        <div class="demo-item">
+          <div class="flex gap-32">
+            <div class="demo-flex-item">Item</div>
+            <div class="demo-flex-item">Item</div>
+          </div>
+          <div class="demo-item-label">.gap-32</div>
+        </div>
+      </div>
+
+      <h3>Gap-X e Gap-Y</h3>
+      <div class="demo-grid">
+        <div class="demo-item">
+          <div class="flex flex-wrap gap-x-8 gap-y-16">
+            <div class="demo-flex-item">Item</div>
+            <div class="demo-flex-item">Item</div>
+            <div class="demo-flex-item">Item</div>
+          </div>
+          <div class="demo-item-label">.gap-x-8 .gap-y-16</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COLORS -->
+    <section class="demo-section">
+      <h2>🎨 Colors</h2>
+      
+      <h3>Background Colors - Brand Primary</h3>
+      <div class="demo-grid">
+        <div class="demo-item">
+          <div class="bg-brand-primary-default demo-color-swatch"></div>
+          <div class="demo-item-label">.bg-brand-primary-default</div>
+        </div>
+        <div class="demo-item">
+          <div class="bg-brand-primary-dark demo-color-swatch"></div>
+          <div class="demo-item-label">.bg-brand-primary-dark</div>
+        </div>
+        <div class="demo-item">
+          <div class="bg-brand-primary-medium demo-color-swatch"></div>
+          <div class="demo-item-label">.bg-brand-primary-medium</div>
+        </div>
+        <div class="demo-item">
+          <div class="bg-brand-primary-light demo-color-swatch"></div>
+          <div class="demo-item-label">.bg-brand-primary-light</div>
+        </div>
+      </div>
+
+      <h3>Background Colors - Brand Secondary</h3>
+      <div class="demo-grid">
+        <div class="demo-item">
+          <div class="bg-brand-secondary-default demo-color-swatch"></div>
+          <div class="demo-item-label">.bg-brand-secondary-default</div>
+        </div>
+        <div class="demo-item">
+          <div class="bg-brand-secondary-dark demo-color-swatch"></div>
+          <div class="demo-item-label">.bg-brand-secondary-dark</div>
+        </div>
+        <div class="demo-item">
+          <div class="bg-brand-secondary-medium demo-color-swatch"></div>
+          <div class="demo-item-label">.bg-brand-secondary-medium</div>
+        </div>
+        <div class="demo-item">
+          <div class="bg-brand-secondary-light demo-color-swatch"></div>
+          <div class="demo-item-label">.bg-brand-secondary-light</div>
+        </div>
+      </div>
+
+      <h3>Background Colors - Neutral</h3>
+      <div class="demo-grid">
+        <div class="demo-item">
+          <div class="bg-neutral-low-default demo-color-swatch"></div>
+          <div class="demo-item-label">.bg-neutral-low-default</div>
+        </div>
+        <div class="demo-item">
+          <div class="bg-neutral-low-dark demo-color-swatch"></div>
+          <div class="demo-item-label">.bg-neutral-low-dark</div>
+        </div>
+        <div class="demo-item">
+          <div class="bg-neutral-high-default demo-color-swatch"></div>
+          <div class="demo-item-label">.bg-neutral-high-default</div>
+        </div>
+        <div class="demo-item">
+          <div class="bg-neutral-high-light demo-color-swatch"></div>
+          <div class="demo-item-label">.bg-neutral-high-light</div>
+        </div>
+      </div>
+
+      <h3>Background Colors - Feedback</h3>
+      <div class="demo-grid">
+        <div class="demo-item">
+          <div class="bg-feedback-alert-default demo-color-swatch"></div>
+          <div class="demo-item-label">.bg-feedback-alert-default</div>
+        </div>
+        <div class="demo-item">
+          <div class="bg-feedback-alert-light demo-color-swatch"></div>
+          <div class="demo-item-label">.bg-feedback-alert-light</div>
+        </div>
+        <div class="demo-item">
+          <div class="bg-feedback-success-default demo-color-swatch"></div>
+          <div class="demo-item-label">.bg-feedback-success-default</div>
+        </div>
+        <div class="demo-item">
+          <div class="bg-feedback-success-light demo-color-swatch"></div>
+          <div class="demo-item-label">.bg-feedback-success-light</div>
+        </div>
+      </div>
+
+      <h3>Text Colors</h3>
+      <div class="demo-grid">
+        <div class="demo-item">
+          <div class="demo-text-box text-brand-primary-default">
+            Texto Brand Primary
+          </div>
+          <div class="demo-item-label">.text-brand-primary-default</div>
+        </div>
+        <div class="demo-item">
+          <div class="demo-text-box text-brand-secondary-dark">
+            Texto Secondary Dark
+          </div>
+          <div class="demo-item-label">.text-brand-secondary-dark</div>
+        </div>
+        <div class="demo-item">
+          <div class="demo-text-box text-feedback-alert-default">
+            Texto Alert
+          </div>
+          <div class="demo-item-label">.text-feedback-alert-default</div>
+        </div>
+        <div class="demo-item">
+          <div class="demo-text-box text-feedback-success-default">
+            Texto Success
+          </div>
+          <div class="demo-item-label">.text-feedback-success-default</div>
+        </div>
+      </div>
+
+      <h3>Border Colors</h3>
+      <div class="demo-grid">
+        <div class="demo-item">
+          <div class="demo-border-example border-4 border-solid border-brand-primary-default">
+            Border Primary
+          </div>
+          <div class="demo-item-label">.border-brand-primary-default</div>
+        </div>
+        <div class="demo-item">
+          <div class="demo-border-example border-4 border-solid border-feedback-alert-default">
+            Border Alert
+          </div>
+          <div class="demo-item-label">.border-feedback-alert-default</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BORDERS -->
+    <section class="demo-section">
+      <h2>🔲 Borders</h2>
+      
+      <h3>Border Radius</h3>
+      <div class="demo-grid">
+        <div class="demo-item">
+          <div class="demo-border-example rounded-none bg-brand-primary-light">
+            rounded-none
+          </div>
+          <div class="demo-item-label">.rounded-none</div>
+        </div>
+        <div class="demo-item">
+          <div class="demo-border-example rounded-4 bg-brand-primary-light">
+            rounded-4
+          </div>
+          <div class="demo-item-label">.rounded-4</div>
+        </div>
+        <div class="demo-item">
+          <div class="demo-border-example rounded-8 bg-brand-primary-light">
+            rounded-8
+          </div>
+          <div class="demo-item-label">.rounded-8</div>
+        </div>
+        <div class="demo-item">
+          <div class="demo-border-example rounded-12 bg-brand-primary-light">
+            rounded-12
+          </div>
+          <div class="demo-item-label">.rounded-12</div>
+        </div>
+        <div class="demo-item">
+          <div class="demo-border-example rounded-16 bg-brand-primary-light">
+            rounded-16
+          </div>
+          <div class="demo-item-label">.rounded-16</div>
+        </div>
+        <div class="demo-item">
+          <div class="demo-border-example rounded-24 bg-brand-primary-light">
+            rounded-24
+          </div>
+          <div class="demo-item-label">.rounded-24</div>
+        </div>
+        <div class="demo-item">
+          <div class="demo-border-example rounded-pill bg-brand-primary-light">
+            rounded-pill
+          </div>
+          <div class="demo-item-label">.rounded-pill</div>
+        </div>
+        <div class="demo-item">
+          <div class="demo-border-example rounded-circular bg-brand-primary-light" style="height: 80px; width: 80px; margin: 0 auto;">
+            circular
+          </div>
+          <div class="demo-item-label">.rounded-circular</div>
+        </div>
+      </div>
+
+      <h3>Border Width</h3>
+      <div class="demo-grid">
+        <div class="demo-item">
+          <div class="demo-border-example border-0 border-solid border-brand-primary-default rounded-8">
+            border-0
+          </div>
+          <div class="demo-item-label">.border-0</div>
+        </div>
+        <div class="demo-item">
+          <div class="demo-border-example border-1 border-solid border-brand-primary-default rounded-8">
+            border-1
+          </div>
+          <div class="demo-item-label">.border-1</div>
+        </div>
+        <div class="demo-item">
+          <div class="demo-border-example border-2 border-solid border-brand-primary-default rounded-8">
+            border-2
+          </div>
+          <div class="demo-item-label">.border-2</div>
+        </div>
+        <div class="demo-item">
+          <div class="demo-border-example border-4 border-solid border-brand-primary-default rounded-8">
+            border-4
+          </div>
+          <div class="demo-item-label">.border-4</div>
+        </div>
+        <div class="demo-item">
+          <div class="demo-border-example border-8 border-solid border-brand-primary-default rounded-8">
+            border-8
+          </div>
+          <div class="demo-item-label">.border-8</div>
+        </div>
+      </div>
+
+      <h3>Border Style</h3>
+      <div class="demo-grid">
+        <div class="demo-item">
+          <div class="demo-border-example border-4 border-solid border-brand-primary-default rounded-8">
+            border-solid
+          </div>
+          <div class="demo-item-label">.border-solid</div>
+        </div>
+        <div class="demo-item">
+          <div class="demo-border-example border-4 border-dashed border-brand-primary-default rounded-8">
+            border-dashed
+          </div>
+          <div class="demo-item-label">.border-dashed</div>
+        </div>
+        <div class="demo-item">
+          <div class="demo-border-example border-4 border-dotted border-brand-primary-default rounded-8">
+            border-dotted
+          </div>
+          <div class="demo-item-label">.border-dotted</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TYPOGRAPHY -->
+    <section class="demo-section">
+      <h2>✍️ Typography</h2>
+      
+      <h3>Font Sizes</h3>
+      <div class="demo-grid">
+        <div class="demo-item">
+          <div class="text-12">Texto 12px</div>
+          <div class="demo-item-label">.text-12</div>
+        </div>
+        <div class="demo-item">
+          <div class="text-14">Texto 14px</div>
+          <div class="demo-item-label">.text-14</div>
+        </div>
+        <div class="demo-item">
+          <div class="text-16">Texto 16px</div>
+          <div class="demo-item-label">.text-16</div>
+        </div>
+        <div class="demo-item">
+          <div class="text-20">Texto 20px</div>
+          <div class="demo-item-label">.text-20</div>
+        </div>
+        <div class="demo-item">
+          <div class="text-24">Texto 24px</div>
+          <div class="demo-item-label">.text-24</div>
+        </div>
+        <div class="demo-item">
+          <div class="text-32">Texto 32px</div>
+          <div class="demo-item-label">.text-32</div>
+        </div>
+      </div>
+
+      <h3>Font Weights</h3>
+      <div class="demo-grid">
+        <div class="demo-item">
+          <div class="font-regular text-20">Regular 400</div>
+          <div class="demo-item-label">.font-regular</div>
+        </div>
+        <div class="demo-item">
+          <div class="font-medium text-20">Medium 500</div>
+          <div class="demo-item-label">.font-medium</div>
+        </div>
+        <div class="demo-item">
+          <div class="font-bold text-20">Bold 700</div>
+          <div class="demo-item-label">.font-bold</div>
+        </div>
+      </div>
+
+      <h3>Text Align</h3>
+      <div class="demo-grid">
+        <div class="demo-item">
+          <div class="demo-text-box text-left">Texto à esquerda</div>
+          <div class="demo-item-label">.text-left</div>
+        </div>
+        <div class="demo-item">
+          <div class="demo-text-box text-center">Texto centralizado</div>
+          <div class="demo-item-label">.text-center</div>
+        </div>
+        <div class="demo-item">
+          <div class="demo-text-box text-right">Texto à direita</div>
+          <div class="demo-item-label">.text-right</div>
+        </div>
+      </div>
+
+      <h3>Text Transform</h3>
+      <div class="demo-grid">
+        <div class="demo-item">
+          <div class="uppercase">uppercase text</div>
+          <div class="demo-item-label">.uppercase</div>
+        </div>
+        <div class="demo-item">
+          <div class="lowercase">LOWERCASE TEXT</div>
+          <div class="demo-item-label">.lowercase</div>
+        </div>
+        <div class="demo-item">
+          <div class="capitalize">capitalize text</div>
+          <div class="demo-item-label">.capitalize</div>
+        </div>
+      </div>
+
+      <h3>Text Decoration</h3>
+      <div class="demo-grid">
+        <div class="demo-item">
+          <div class="underline">Texto sublinhado</div>
+          <div class="demo-item-label">.underline</div>
+        </div>
+        <div class="demo-item">
+          <div class="line-through">Texto riscado</div>
+          <div class="demo-item-label">.line-through</div>
+        </div>
+        <div class="demo-item">
+          <div class="no-underline">Sem decoração</div>
+          <div class="demo-item-label">.no-underline</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FLEXBOX -->
+    <section class="demo-section">
+      <h2>📦 Flexbox</h2>
+      
+      <h3>Flex Direction</h3>
+      <div class="demo-grid">
+        <div class="demo-item">
+          <div class="flex flex-row gap-8 demo-flex-container">
+            <div class="demo-flex-item">1</div>
+            <div class="demo-flex-item">2</div>
+            <div class="demo-flex-item">3</div>
+          </div>
+          <div class="demo-item-label">.flex .flex-row</div>
+        </div>
+        <div class="demo-item">
+          <div class="flex flex-col gap-8 demo-flex-container">
+            <div class="demo-flex-item">1</div>
+            <div class="demo-flex-item">2</div>
+            <div class="demo-flex-item">3</div>
+          </div>
+          <div class="demo-item-label">.flex .flex-col</div>
+        </div>
+      </div>
+
+      <h3>Flex Wrap</h3>
+      <div class="demo-grid">
+        <div class="demo-item">
+          <div class="flex flex-wrap gap-8 demo-flex-container">
+            <div class="demo-flex-item">1</div>
+            <div class="demo-flex-item">2</div>
+            <div class="demo-flex-item">3</div>
+            <div class="demo-flex-item">4</div>
+            <div class="demo-flex-item">5</div>
+          </div>
+          <div class="demo-item-label">.flex-wrap</div>
+        </div>
+      </div>
+
+      <h3>Justify Content</h3>
+      <div class="demo-grid">
+        <div class="demo-item">
+          <div class="flex justify-start gap-8 demo-flex-container">
+            <div class="demo-flex-item">1</div>
+            <div class="demo-flex-item">2</div>
+          </div>
+          <div class="demo-item-label">.justify-start</div>
+        </div>
+        <div class="demo-item">
+          <div class="flex justify-center gap-8 demo-flex-container">
+            <div class="demo-flex-item">1</div>
+            <div class="demo-flex-item">2</div>
+          </div>
+          <div class="demo-item-label">.justify-center</div>
+        </div>
+        <div class="demo-item">
+          <div class="flex justify-end gap-8 demo-flex-container">
+            <div class="demo-flex-item">1</div>
+            <div class="demo-flex-item">2</div>
+          </div>
+          <div class="demo-item-label">.justify-end</div>
+        </div>
+        <div class="demo-item">
+          <div class="flex justify-between gap-8 demo-flex-container">
+            <div class="demo-flex-item">1</div>
+            <div class="demo-flex-item">2</div>
+            <div class="demo-flex-item">3</div>
+          </div>
+          <div class="demo-item-label">.justify-between</div>
+        </div>
+      </div>
+
+      <h3>Align Items</h3>
+      <div class="demo-grid">
+        <div class="demo-item">
+          <div class="flex items-start gap-8 demo-flex-container" style="min-height: 150px;">
+            <div class="demo-flex-item">1</div>
+            <div class="demo-flex-item">2</div>
+          </div>
+          <div class="demo-item-label">.items-start</div>
+        </div>
+        <div class="demo-item">
+          <div class="flex items-center gap-8 demo-flex-container" style="min-height: 150px;">
+            <div class="demo-flex-item">1</div>
+            <div class="demo-flex-item">2</div>
+          </div>
+          <div class="demo-item-label">.items-center</div>
+        </div>
+        <div class="demo-item">
+          <div class="flex items-end gap-8 demo-flex-container" style="min-height: 150px;">
+            <div class="demo-flex-item">1</div>
+            <div class="demo-flex-item">2</div>
+          </div>
+          <div class="demo-item-label">.items-end</div>
+        </div>
+      </div>
+
+      <h3>Flex Grow & Shrink</h3>
+      <div class="demo-grid">
+        <div class="demo-item">
+          <div class="flex gap-8 demo-flex-container">
+            <div class="demo-flex-item grow">grow</div>
+            <div class="demo-flex-item">normal</div>
+          </div>
+          <div class="demo-item-label">.grow</div>
+        </div>
+        <div class="demo-item">
+          <div class="flex gap-8 demo-flex-container">
+            <div class="demo-flex-item shrink-0">shrink-0</div>
+            <div class="demo-flex-item">normal</div>
+          </div>
+          <div class="demo-item-label">.shrink-0</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GRID -->
+    <section class="demo-section">
+      <h2>🔲 Grid</h2>
+      
+      <h3>Grid Columns</h3>
+      <div class="demo-grid">
+        <div class="demo-item">
+          <div class="grid grid-cols-2 gap-8 demo-grid-container">
+            <div class="demo-grid-item">1</div>
+            <div class="demo-grid-item">2</div>
+          </div>
+          <div class="demo-item-label">.grid-cols-2</div>
+        </div>
+        <div class="demo-item">
+          <div class="grid grid-cols-3 gap-8 demo-grid-container">
+            <div class="demo-grid-item">1</div>
+            <div class="demo-grid-item">2</div>
+            <div class="demo-grid-item">3</div>
+          </div>
+          <div class="demo-item-label">.grid-cols-3</div>
+        </div>
+        <div class="demo-item">
+          <div class="grid grid-cols-4 gap-8 demo-grid-container">
+            <div class="demo-grid-item">1</div>
+            <div class="demo-grid-item">2</div>
+            <div class="demo-grid-item">3</div>
+            <div class="demo-grid-item">4</div>
+          </div>
+          <div class="demo-item-label">.grid-cols-4</div>
+        </div>
+      </div>
+
+      <h3>Column Span</h3>
+      <div class="demo-grid">
+        <div class="demo-item">
+          <div class="grid grid-cols-3 gap-8 demo-grid-container">
+            <div class="demo-grid-item col-span-2">col-span-2</div>
+            <div class="demo-grid-item">1</div>
+          </div>
+          <div class="demo-item-label">.col-span-2</div>
+        </div>
+        <div class="demo-item">
+          <div class="grid grid-cols-3 gap-8 demo-grid-container">
+            <div class="demo-grid-item col-span-3">col-span-full</div>
+          </div>
+          <div class="demo-item-label">.col-span-full</div>
+        </div>
+      </div>
+
+      <h3>Grid Rows</h3>
+      <div class="demo-grid">
+        <div class="demo-item">
+          <div class="grid grid-rows-2 gap-8 demo-grid-container">
+            <div class="demo-grid-item">1</div>
+            <div class="demo-grid-item">2</div>
+          </div>
+          <div class="demo-item-label">.grid-rows-2</div>
+        </div>
+        <div class="demo-item">
+          <div class="grid grid-cols-2 grid-rows-2 gap-8 demo-grid-container">
+            <div class="demo-grid-item row-span-2">row-span-2</div>
+            <div class="demo-grid-item">1</div>
+            <div class="demo-grid-item">2</div>
+          </div>
+          <div class="demo-item-label">.row-span-2</div>
+        </div>
+      </div>
+
+      <h3>Place Items</h3>
+      <div class="demo-grid">
+        <div class="demo-item">
+          <div class="grid grid-cols-2 gap-8 place-items-center demo-grid-container" style="min-height: 150px;">
+            <div class="demo-grid-item">1</div>
+            <div class="demo-grid-item">2</div>
+          </div>
+          <div class="demo-item-label">.place-items-center</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DISPLAY -->
+    <section class="demo-section">
+      <h2>👁️ Display</h2>
+      
+      <h3>Display Types</h3>
+      <div class="demo-grid">
+        <div class="demo-item">
+          <div class="demo-inline-example">
+            <span class="block bg-brand-primary-light p-8 rounded-4">Block</span>
+            <span class="block bg-brand-primary-light p-8 rounded-4">Block</span>
+          </div>
+          <div class="demo-item-label">.block</div>
+        </div>
+        <div class="demo-item">
+          <div class="demo-inline-example">
+            <span class="inline-block bg-brand-primary-light p-8 rounded-4">Inline-block</span>
+            <span class="inline-block bg-brand-primary-light p-8 rounded-4">Inline-block</span>
+          </div>
+          <div class="demo-item-label">.inline-block</div>
+        </div>
+        <div class="demo-item">
+          <div class="demo-inline-example">
+            <span class="inline bg-brand-primary-light p-8 rounded-4">Inline</span>
+            <span class="inline bg-brand-primary-light p-8 rounded-4">Inline</span>
+          </div>
+          <div class="demo-item-label">.inline</div>
+        </div>
+      </div>
+
+      <h3>Overflow</h3>
+      <div class="demo-grid">
+        <div class="demo-item">
+          <div class="overflow-hidden demo-text-box" style="height: 60px;">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore.
+          </div>
+          <div class="demo-item-label">.overflow-hidden</div>
+        </div>
+        <div class="demo-item">
+          <div class="overflow-auto demo-text-box" style="height: 60px;">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore.
+          </div>
+          <div class="demo-item-label">.overflow-auto</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SIZING -->
+    <section class="demo-section">
+      <h2>📐 Sizing</h2>
+      
+      <h3>Width</h3>
+      <div class="demo-grid">
+        <div class="demo-item">
+          <div class="w-64 h-64 demo-size-box">64px</div>
+          <div class="demo-item-label">.w-64</div>
+        </div>
+        <div class="demo-item">
+          <div class="w-120 h-64 demo-size-box">120px</div>
+          <div class="demo-item-label">.w-120</div>
+        </div>
+        <div class="demo-item">
+          <div class="w-full h-64 demo-size-box">100%</div>
+          <div class="demo-item-label">.w-full</div>
+        </div>
+      </div>
+
+      <h3>Height</h3>
+      <div class="demo-grid">
+        <div class="demo-item">
+          <div class="w-full h-64 demo-size-box">64px</div>
+          <div class="demo-item-label">.h-64</div>
+        </div>
+        <div class="demo-item">
+          <div class="w-full h-120 demo-size-box">120px</div>
+          <div class="demo-item-label">.h-120</div>
+        </div>
+        <div class="demo-item">
+          <div class="w-full h-auto p-16 demo-size-box">auto</div>
+          <div class="demo-item-label">.h-auto</div>
+        </div>
+      </div>
+
+      <h3>Max Width</h3>
+      <div class="demo-grid">
+        <div class="demo-item">
+          <div class="max-w-200 h-64 demo-size-box">max-w-200</div>
+          <div class="demo-item-label">.max-w-200</div>
+        </div>
+        <div class="demo-item">
+          <div class="max-w-full h-64 demo-size-box">max-w-full</div>
+          <div class="demo-item-label">.max-w-full</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESPONSIVE -->
+    <section class="demo-section">
+      <h2>📱 Responsive (Breakpoints)</h2>
+      
+      <h3>Exemplo Responsivo</h3>
+      <div class="demo-text-box">
+        <p class="text-14 mb-16">
+          Redimensione a janela para ver as classes responsivas em ação.
+          Todos os utilitários suportam prefixos responsivos:
+        </p>
+        <div class="flex flex-wrap gap-8">
+          <span class="demo-code">sm:</span>
+          <span class="demo-code">md:</span>
+          <span class="demo-code">lg:</span>
+          <span class="demo-code">xl:</span>
+          <span class="demo-code">2xl:</span>
+        </div>
+      </div>
+      
+      <div class="demo-grid">
+        <div class="demo-item">
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 demo-grid-container">
+            <div class="demo-grid-item">1</div>
+            <div class="demo-grid-item">2</div>
+            <div class="demo-grid-item">3</div>
+            <div class="demo-grid-item">4</div>
+          </div>
+          <div class="demo-item-label">.grid-cols-1 .md:grid-cols-2 .lg:grid-cols-4</div>
+        </div>
+      </div>
+
+      <div class="demo-grid">
+        <div class="demo-item">
+          <div class="text-14 md:text-20 lg:text-28 text-center p-16 bg-brand-primary-light rounded-8">
+            Texto Responsivo
+          </div>
+          <div class="demo-item-label">.text-14 .md:text-20 .lg:text-28</div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="demo-section" style="margin-top: 64px;">
+      <h2>✅ Resumo</h2>
+      <div class="demo-text-box">
+        <p class="text-16 mb-16">
+          Todas as classes utilitárias estão prontas e funcionando! 
+        </p>
+        <p class="text-14 text-neutral-low-medium">
+          Desenvolvido com ❤️ usando tokens do Design System
+        </p>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
