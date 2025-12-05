@@ -193,13 +193,49 @@ Local: `apps/storybook-react/`
 
 Local: `packages/utilities/`
 
-Biblioteca de utilitários SCSS com mixins e helpers para:
+Biblioteca completa de classes utilitárias CSS baseadas nos tokens do design system.
 
+### Instalação
+
+```bash
+pnpm add @giro-ds/utilities
+```
+
+### Uso
+
+```javascript
+import '@giro-ds/utilities';
+```
+
+### Categorias de Utilitários
+
+* **Spacing** - Margin e padding (`.m-*`, `.p-*`, `.mx-*`, `.py-*`, etc.)
+* **Gap** - Espaçamento entre elementos flex/grid (`.gap-*`, `.gap-x-*`, `.gap-y-*`)
+* **Colors** - Background, text e border colors usando tokens
+* **Borders** - Border radius, width e style com todas as direções
+* **Typography** - Font family, size, weight, align, transform e decoration
+* **Flexbox** - Direction, wrap, justify, align, grow e shrink
+* **Grid** - Columns, rows, span e placement
+* **Display** - Block, inline, hidden, visibility e overflow
+* **Sizing** - Width, height, min/max com tokens de spacing
 * **Breakpoints** - Sistema de media queries responsivas
-* **Flex** - Utilitários para flexbox
-* **Gap Defaults** - Espaçamentos padrão
-* **Grid** - Sistema de grid
-* **Spacing** - Helpers de espaçamento
+
+### Responsividade
+
+Todas as classes suportam prefixos responsivos: `sm:`, `md:`, `lg:`, `xl:`, `2xl:`
+
+```html
+<div class="flex flex-col md:flex-row lg:gap-32">
+  <!-- Responsivo -->
+</div>
+```
+
+### Output
+
+```
+dist/
+└── index.css              # Classes utilitárias compiladas
+```
 
 ---
 

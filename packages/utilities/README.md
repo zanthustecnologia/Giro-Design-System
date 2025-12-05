@@ -1,13 +1,99 @@
 # @giro-ds/utilities
 
-Utilitários CSS/SCSS do Zanthus Design System. Classes utilitárias prontas para uso com suporte a breakpoints responsivos.
+Biblioteca de classes utilitárias CSS para o Zanthus Design System.
 
 ## 📦 Instalação
 
 ```bash
-npm install @giro-ds/utilities
-# ou
-yarn add @giro-ds/utilities
+pnpm add @giro-ds/utilities
+```
+
+## 🚀 Uso
+
+```javascript
+// Importação simples
+import '@giro-ds/utilities';
+
+// Ou explícito
+import '@giro-ds/utilities/dist/index.css';
+```
+
+```css
+/* Em CSS/SCSS */
+@import '@giro-ds/utilities';
+```
+
+## 📚 Classes Disponíveis
+
+### Spacing
+- Margin: `.m-*`, `.mt-*`, `.mb-*`, `.ml-*`, `.mr-*`, `.mx-*`, `.my-*`
+- Padding: `.p-*`, `.pt-*`, `.pb-*`, `.pl-*`, `.pr-*`, `.px-*`, `.py-*`
+
+### Gap
+- `.gap-*`, `.gap-x-*`, `.gap-y-*`
+
+### Colors
+- Background: `.bg-brand-primary-*`, `.bg-neutral-*`, `.bg-feedback-*`
+- Text: `.text-brand-primary-*`, `.text-neutral-*`, `.text-feedback-*`
+- Border: `.border-brand-primary-*`, `.border-neutral-*`, `.border-feedback-*`
+
+### Borders
+- Radius: `.rounded-*`, `.rounded-t-*`, `.rounded-b-*`, `.rounded-l-*`, `.rounded-r-*`
+- Width: `.border-*`, `.border-t-*`, `.border-b-*`, `.border-l-*`, `.border-r-*`
+- Style: `.border-solid`, `.border-dashed`, `.border-dotted`
+
+### Typography
+- Size: `.text-12`, `.text-14`, `.text-16`, `.text-20`, `.text-24`, `.text-32`, `.text-40`, `.text-48`, `.text-64`, `.text-96`
+- Weight: `.font-regular`, `.font-medium`, `.font-bold`
+- Align: `.text-left`, `.text-center`, `.text-right`, `.text-justify`
+- Transform: `.uppercase`, `.lowercase`, `.capitalize`
+- Decoration: `.underline`, `.line-through`, `.no-underline`
+
+### Flexbox
+- Base: `.flex`, `.flex-row`, `.flex-col`
+- Wrap: `.flex-wrap`, `.flex-nowrap`
+- Justify: `.justify-start`, `.justify-center`, `.justify-end`, `.justify-between`, `.justify-around`, `.justify-evenly`
+- Align: `.items-start`, `.items-center`, `.items-end`, `.items-stretch`, `.items-baseline`
+- Self: `.self-auto`, `.self-start`, `.self-center`, `.self-end`, `.self-stretch`
+- Grow/Shrink: `.grow`, `.grow-0`, `.shrink`, `.shrink-0`
+
+### Grid
+- Base: `.grid`
+- Columns: `.grid-cols-1` até `.grid-cols-12`
+- Rows: `.grid-rows-1` até `.grid-rows-6`
+- Span: `.col-span-1` até `.col-span-12`, `.col-span-full`, `.row-span-1` até `.row-span-6`, `.row-span-full`
+- Place: `.place-items-*`, `.place-content-*`
+
+### Display
+- `.block`, `.inline-block`, `.inline`, `.hidden`
+- `.visible`, `.invisible`
+- Overflow: `.overflow-auto`, `.overflow-hidden`, `.overflow-visible`, `.overflow-scroll`
+
+### Sizing
+- Width: `.w-*`, `.w-full`, `.w-screen`, `.w-auto`, `.w-min`, `.w-max`, `.w-fit`
+- Height: `.h-*`, `.h-full`, `.h-screen`, `.h-auto`, `.h-min`, `.h-max`, `.h-fit`
+- Min/Max: `.min-w-*`, `.max-w-*`, `.min-h-*`, `.max-h-*`
+
+## 📱 Responsivo
+
+Todas as classes suportam breakpoints responsivos:
+
+```html
+<div class="flex flex-col md:flex-row lg:justify-between">
+  <!-- Mobile: coluna, Tablet: linha, Desktop: espaçamento entre -->
+</div>
+```
+
+### Breakpoints
+- `sm:` - 640px
+- `md:` - 768px
+- `lg:` - 1024px
+- `xl:` - 1280px
+- `2xl:` - 1536px
+
+## 🎨 Visualização
+
+Para ver todos os utilitários em ação, abra `src/index.html` em seu navegador após executar o build.
 # ou
 pnpm add @giro-ds/utilities
 ```
