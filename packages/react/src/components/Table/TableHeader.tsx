@@ -27,6 +27,7 @@ interface CalendarFilterItem extends BaseFilterItem {
   type: 'calendar';
   selectedDate?: Date | null;
   onDateSelect?: (date: Date) => void;
+  onClear?: () => void;
   minDate?: Date;
   maxDate?: Date;
   locale?: string;
@@ -141,6 +142,7 @@ const TableHeader: React.FC<TableHeaderProps> = ({
                           type="calendar"
                           selectedDate={filterItem.selectedDate}
                           onDateSelect={filterItem.onDateSelect}
+                          onClearDate={filterItem.onClear}
                           minDate={filterItem.minDate}
                           maxDate={filterItem.maxDate}
                           placeholder={filterItem.placeholder}

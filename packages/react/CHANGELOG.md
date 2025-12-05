@@ -1,5 +1,11 @@
 # @giro-ds/react
 
+## 1.0.2
+
+### Patch Changes
+
+- 08752e1: fix: TableHeader and Calendar onClear
+
 ## 1.0.1
 
 ### Patch Changes
