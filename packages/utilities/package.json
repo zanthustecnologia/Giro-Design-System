@@ -5,7 +5,8 @@
   "style": "dist/index.css",
   "exports": {
     ".": "./dist/index.css",
-    "./index.css": "./dist/index.css"
+    "./index.css": "./dist/index.css",
+    "./index.min.css": "./dist/index.min.css"
   },
   "files": [
     "dist"
@@ -15,7 +16,9 @@
     "registry": "https://registry.npmjs.org/"
   },
   "scripts": {
-    "build": "sass src/index.scss dist/index.css --no-source-map"
+    "build": "sass src/index.scss dist/index.css --no-source-map",
+    "build:min": "sass src/index.scss dist/index.min.css --style=compressed --no-source-map",
+    "build:all": "npm run build && npm run build:min"
   },
   "devDependencies": {
     "sass": "^1.77.0"
