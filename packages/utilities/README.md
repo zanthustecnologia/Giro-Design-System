@@ -190,7 +190,7 @@ pnpm build:min
 packages/utilities/
 ├── src/
 │   ├── index.scss                 # Entrada principal
-│   └── utilities/
+│   └── scss/
 │       ├── _breakpoints.scss      # Sistema de breakpoints
 │       ├── _spacing.scss          # Margin e Padding
 │       ├── _gap.scss              # Gap utilitários
@@ -198,7 +198,7 @@ packages/utilities/
 │       ├── _colors.scss           # Background, text, border colors
 │       ├── _borders.scss          # Border radius e width
 │       ├── _typography.scss       # Font sizes, weights, alignment
-│       ├── _flexbox.scss          # Flex utilities
+│       ├── _flex.scss             # Flex utilities
 │       ├── _grid.scss             # Grid utilities
 │       ├── _display.scss          # Display e visibility
 │       ├── _sizing.scss           # Width, height, min/max
