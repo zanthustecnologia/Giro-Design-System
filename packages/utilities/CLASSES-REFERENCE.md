@@ -41,54 +41,71 @@ Todas as classes podem ser prefixadas com os seguintes breakpoints:
 ### Margin Classes
 
 #### Todas as direções
-- `.m-0`, `.m-4`, `.m-8`, `.m-12`, `.m-16`, `.m-24`, `.m-32`, `.m-40`, `.m-48`, `.m-56`, `.m-64`, `.m-80`, `.m-120`, `.m-160`, `.m-200`
+`.m-{value}`
+- Valores: 0, 4, 8, 12, 16, 24, 32, 40, 48, 56, 64, 80, 120, 160, 200
 
 #### Eixo X (left + right)
-- `.mx-0`, `.mx-4`, `.mx-8`, `.mx-12`, `.mx-16`, `.mx-24`, `.mx-32`, `.mx-40`, `.mx-48`, `.mx-56`, `.mx-64`, `.mx-80`, `.mx-120`, `.mx-160`, `.mx-200`
+`.mx-{value}`
+- Valores: 0, 4, 8, 12, 16, 24, 32, 40, 48, 56, 64, 80, 120, 160, 200
 
 #### Eixo Y (top + bottom)
-- `.my-0`, `.my-4`, `.my-8`, `.my-12`, `.my-16`, `.my-24`, `.my-32`, `.my-40`, `.my-48`, `.my-56`, `.my-64`, `.my-80`, `.my-120`, `.my-160`, `.my-200`
+`.my-{value}`
+- Valores: 0, 4, 8, 12, 16, 24, 32, 40, 48, 56, 64, 80, 120, 160, 200
 
 #### Top
-- `.mt-0`, `.mt-4`, `.mt-8`, `.mt-12`, `.mt-16`, `.mt-24`, `.mt-32`, `.mt-40`, `.mt-48`, `.mt-56`, `.mt-64`, `.mt-80`, `.mt-120`, `.mt-160`, `.mt-200`
+`.mt-{value}`
+- Valores: 0, 4, 8, 12, 16, 24, 32, 40, 48, 56, 64, 80, 120, 160, 200
 
 #### Right
-- `.mr-0`, `.mr-4`, `.mr-8`, `.mr-12`, `.mr-16`, `.mr-24`, `.mr-32`, `.mr-40`, `.mr-48`, `.mr-56`, `.mr-64`, `.mr-80`, `.mr-120`, `.mr-160`, `.mr-200`
+`.mr-{value}`
+- Valores: 0, 4, 8, 12, 16, 24, 32, 40, 48, 56, 64, 80, 120, 160, 200
 
 #### Bottom
-- `.mb-0`, `.mb-4`, `.mb-8`, `.mb-12`, `.mb-16`, `.mb-24`, `.mb-32`, `.mb-40`, `.mb-48`, `.mb-56`, `.mb-64`, `.mb-80`, `.mb-120`, `.mb-160`, `.mb-200`
+`.mb-{value}`
+- Valores: 0, 4, 8, 12, 16, 24, 32, 40, 48, 56, 64, 80, 120, 160, 200
 
 #### Left
-- `.ml-0`, `.ml-4`, `.ml-8`, `.ml-12`, `.ml-16`, `.ml-24`, `.ml-32`, `.ml-40`, `.ml-48`, `.ml-56`, `.ml-64`, `.ml-80`, `.ml-120`, `.ml-160`, `.ml-200`
+`.ml-{value}`
+- Valores: 0, 4, 8, 12, 16, 24, 32, 40, 48, 56, 64, 80, 120, 160, 200
 
 ### Padding Classes
 
 #### Todas as direções
-- `.p-0`, `.p-4`, `.p-8`, `.p-12`, `.p-16`, `.p-24`, `.p-32`, `.p-40`, `.p-48`, `.p-56`, `.p-64`, `.p-80`, `.p-120`, `.p-160`, `.p-200`
+`.p-{value}`
+- Valores: 0, 4, 8, 12, 16, 24, 32, 40, 48, 56, 64, 80, 120, 160, 200
 
 #### Eixo X (left + right)
-- `.px-0`, `.px-4`, `.px-8`, `.px-12`, `.px-16`, `.px-24`, `.px-32`, `.px-40`, `.px-48`, `.px-56`, `.px-64`, `.px-80`, `.px-120`, `.px-160`, `.px-200`
+`.px-{value}`
+- Valores: 0, 4, 8, 12, 16, 24, 32, 40, 48, 56, 64, 80, 120, 160, 200
 
 #### Eixo Y (top + bottom)
-- `.py-0`, `.py-4`, `.py-8`, `.py-12`, `.py-16`, `.py-24`, `.py-32`, `.py-40`, `.py-48`, `.py-56`, `.py-64`, `.py-80`, `.py-120`, `.py-160`, `.py-200`
+`.py-{value}`
+- Valores: 0, 4, 8, 12, 16, 24, 32, 40, 48, 56, 64, 80, 120, 160, 200
 
 #### Top
-- `.pt-0`, `.pt-4`, `.pt-8`, `.pt-12`, `.pt-16`, `.pt-24`, `.pt-32`, `.pt-40`, `.pt-48`, `.pt-56`, `.pt-64`, `.pt-80`, `.pt-120`, `.pt-160`, `.pt-200`
+`.pt-{value}`
+- Valores: 0, 4, 8, 12, 16, 24, 32, 40, 48, 56, 64, 80, 120, 160, 200
 
 #### Right
-- `.pr-0`, `.pr-4`, `.pr-8`, `.pr-12`, `.pr-16`, `.pr-24`, `.pr-32`, `.pr-40`, `.pr-48`, `.pr-56`, `.pr-64`, `.pr-80`, `.pr-120`, `.pr-160`, `.pr-200`
-
-#### Bottom
-- `.pb-0`, `.pb-4`, `.pb-8`, `.pb-12`, `.pb-16`, `.pb-24`, `.pb-32`, `.pb-40`, `.pb-48`, `.pb-56`, `.pb-64`, `.pb-80`, `.pb-120`, `.pb-160`, `.pb-200`
-
-#### Left
-- `.pl-0`, `.pl-4`, `.pl-8`, `.pl-12`, `.pl-16`, `.pl-24`, `.pl-32`, `.pl-40`, `.pl-48`, `.pl-56`, `.pl-64`, `.pl-80`, `.pl-120`, `.pl-160`, `.pl-200`
-
-**Total de classes de spacing:** 210 classes base + versões responsivas
-
----
-
+`.pr-{value}`
 ## 🔲 Gap
+
+### Gap (todas as direções)
+`.gap-{value}`
+- Valores: 0, 4, 8, 12, 16, 24, 32, 40, 48, 56, 64, 80, 120, 160, 200
+
+### Gap X (column-gap)
+`.gap-x-{value}`
+- Valores: 0, 4, 8, 12, 16, 24, 32, 40, 48, 56, 64, 80, 120, 160, 200
+
+### Gap Y (row-gap)
+`.gap-y-{value}`
+- Valores: 0, 4, 8, 12, 16, 24, 32, 40, 48, 56, 64, 80, 120, 160, 200
+
+### Gap Default (responsivo por breakpoint)
+`.gap-default`
+
+**Total de classes de gap:** 46 classes base + versões responsivas
 
 ### Gap (todas as direções)
 - `.gap-0`, `.gap-4`, `.gap-8`, `.gap-12`, `.gap-16`, `.gap-24`, `.gap-32`, `.gap-40`, `.gap-48`, `.gap-56`, `.gap-64`, `.gap-80`, `.gap-120`, `.gap-160`, `.gap-200`
@@ -103,70 +120,143 @@ Todas as classes podem ser prefixadas com os seguintes breakpoints:
 - `.gap-default`
 
 **Total de classes de gap:** 46 classes base + versões responsivas
-
----
-
 ## 🎨 Colors
 
 ### Background Colors
-- `.bg-brand-primary-default`, `.bg-brand-primary-dark`, `.bg-brand-primary-medium`, `.bg-brand-primary-light`
-- `.bg-brand-secondary-default`, `.bg-brand-secondary-dark`, `.bg-brand-secondary-medium`, `.bg-brand-secondary-light`
-- `.bg-neutral-low-default`, `.bg-neutral-low-dark`, `.bg-neutral-low-medium`, `.bg-neutral-low-light`
-- `.bg-neutral-high-default`, `.bg-neutral-high-dark`, `.bg-neutral-high-medium`, `.bg-neutral-high-light`
-- `.bg-feedback-alert-default`, `.bg-feedback-alert-dark`, `.bg-feedback-alert-medium`, `.bg-feedback-alert-light`
-- `.bg-feedback-success-default`, `.bg-feedback-success-dark`, `.bg-feedback-success-medium`, `.bg-feedback-success-light`
-- `.bg-transparent`, `.bg-current`
+`.bg-{color}`
+
+**Brand Primary:**
+- default, dark, medium, light
+
+**Brand Secondary:**
+- default, dark, medium, light
+
+**Neutral Low:**
+- default, dark, medium, light
+
+**Neutral High:**
+- default, dark, medium, light
+
+**Feedback Alert:**
+- default, dark, medium, light
+
+**Feedback Success:**
+- default, dark, medium, light
+
+**Utilitários:**
+- transparent, current
 
 ### Text Colors
-- `.text-brand-primary-default`, `.text-brand-primary-dark`, `.text-brand-primary-medium`, `.text-brand-primary-light`
-- `.text-brand-secondary-default`, `.text-brand-secondary-dark`, `.text-brand-secondary-medium`, `.text-brand-secondary-light`
-- `.text-neutral-low-default`, `.text-neutral-low-dark`, `.text-neutral-low-medium`, `.text-neutral-low-light`
-- `.text-neutral-high-default`, `.text-neutral-high-dark`, `.text-neutral-high-medium`, `.text-neutral-high-light`
-- `.text-feedback-alert-default`, `.text-feedback-alert-dark`, `.text-feedback-alert-medium`, `.text-feedback-alert-light`
-- `.text-feedback-success-default`, `.text-feedback-success-dark`, `.text-feedback-success-medium`, `.text-feedback-success-light`
-- `.text-transparent`, `.text-current`
+`.text-{color}`
 
-### Border Colors
-- `.border-brand-primary-default`, `.border-brand-primary-dark`, `.border-brand-primary-medium`, `.border-brand-primary-light`
-- `.border-brand-secondary-default`, `.border-brand-secondary-dark`, `.border-brand-secondary-medium`, `.border-brand-secondary-light`
-- `.border-neutral-low-default`, `.border-neutral-low-dark`, `.border-neutral-low-medium`, `.border-neutral-low-light`
-- `.border-neutral-high-default`, `.border-neutral-high-dark`, `.border-neutral-high-medium`, `.border-neutral-high-light`
-- `.border-feedback-alert-default`, `.border-feedback-alert-dark`, `.border-feedback-alert-medium`, `.border-feedback-alert-light`
-- `.border-feedback-success-default`, `.border-feedback-success-dark`, `.border-feedback-success-medium`, `.border-feedback-success-light`
-- `.border-transparent`, `.border-current`
+**Brand Primary:**
+- default, dark, medium, light
 
-**Total de classes de cores:** 78 classes base + versões responsivas
+**Brand Secondary:**
+- default, dark, medium, light
 
----
-
+**Neutral Low:**
 ## ✍️ Typography
 
 ### Font Family
-- `.font-primary`
+`.font-{family}`
+- primary
 
 ### Font Size
-- `.text-12`, `.text-14`, `.text-16`, `.text-18`, `.text-20`, `.text-24`, `.text-28`, `.text-32`, `.text-40`, `.text-48`, `.text-64`, `.text-96`, `.text-inherit`
+`.text-{size}`
+- 12, 14, 16, 18, 20, 24, 28, 32, 40, 48, 64, 96, inherit
 
 ### Font Weight
-- `.font-regular`, `.font-medium`, `.font-bold`
+`.font-{weight}`
+- regular, medium, bold
 
 ### Text Align
-- `.text-left`, `.text-center`, `.text-right`, `.text-justify`
+`.text-{align}`
+- left, center, right, justify
 
 ### Text Transform
-- `.uppercase`, `.lowercase`, `.capitalize`, `.normal-case`
-
-### Text Decoration
-- `.underline`, `.line-through`, `.no-underline`
-
-**Total de classes de tipografia:** 28 classes base + versões responsivas
-
----
+- `.uppercase` - text-transform: uppercase
+- `.lowercase` - text-transform: lowercase
+- `.capitalize` - text-transform: capitalize
+- `.normal-case` - text-transform: none
 
 ## 🔳 Borders
 
 ### Border Radius
 
+#### Todas as direções
+`.rounded-{size}`
+- Valores: none, 4, 8, 12, 16, 24, pill, circular
+
+#### Top
+`.rounded-t-{size}`
+- Valores: none, 4, 8, 12, 16, 24, pill, circular
+
+#### Bottom
+`.rounded-b-{size}`
+- Valores: none, 4, 8, 12, 16, 24, pill, circular
+
+#### Left
+`.rounded-l-{size}`
+- Valores: none, 4, 8, 12, 16, 24, pill, circular
+
+#### Right
+`.rounded-r-{size}`
+- Valores: none, 4, 8, 12, 16, 24, pill, circular
+
+#### Top Left
+`.rounded-tl-{size}`
+- Valores: none, 4, 8, 12, 16, 24, pill, circular
+
+#### Top Right
+`.rounded-tr-{size}`
+- Valores: none, 4, 8, 12, 16, 24, pill, circular
+
+#### Bottom Left
+`.rounded-bl-{size}`
+- Valores: none, 4, 8, 12, 16, 24, pill, circular
+
+#### Bottom Right
+`.rounded-br-{size}`
+- Valores: none, 4, 8, 12, 16, 24, pill, circular
+
+### Border Width
+
+#### Todas as direções
+`.border-{width}`
+- Valores: 0, 1, 2, 4, 6, 8, 12
+
+#### Top
+`.border-t-{width}`
+- Valores: 0, 1, 2, 4, 6, 8, 12
+
+#### Bottom
+`.border-b-{width}`
+- Valores: 0, 1, 2, 4, 6, 8, 12
+
+#### Left
+`.border-l-{width}`
+- Valores: 0, 1, 2, 4, 6, 8, 12
+
+#### Right
+`.border-r-{width}`
+- Valores: 0, 1, 2, 4, 6, 8, 12
+
+#### Eixo X (left + right)
+`.border-x-{width}`
+- Valores: 0, 1, 2, 4, 6, 8, 12
+
+#### Eixo Y (top + bottom)
+`.border-y-{width}`
+- Valores: 0, 1, 2, 4, 6, 8, 12
+
+### Border Style
+- `.border-solid` - border-style: solid
+- `.border-dashed` - border-style: dashed
+- `.border-dotted` - border-style: dotted
+- `.border-none` - border-style: none
+
+**Total de classes de borders:** 125 classes base + versões responsivas
 #### Todas as direções
 - `.rounded-none`, `.rounded-4`, `.rounded-8`, `.rounded-12`, `.rounded-16`, `.rounded-24`, `.rounded-pill`, `.rounded-circular`
 
@@ -196,123 +286,165 @@ Todas as classes podem ser prefixadas com os seguintes breakpoints:
 
 ### Border Width
 
-#### Todas as direções
-- `.border-0`, `.border-1`, `.border-2`, `.border-4`, `.border-6`, `.border-8`, `.border-12`
-
-#### Top
-- `.border-t-0`, `.border-t-1`, `.border-t-2`, `.border-t-4`, `.border-t-6`, `.border-t-8`, `.border-t-12`
-
-#### Bottom
-- `.border-b-0`, `.border-b-1`, `.border-b-2`, `.border-b-4`, `.border-b-6`, `.border-b-8`, `.border-b-12`
-
-#### Left
-- `.border-l-0`, `.border-l-1`, `.border-l-2`, `.border-l-4`, `.border-l-6`, `.border-l-8`, `.border-l-12`
-
-#### Right
-- `.border-r-0`, `.border-r-1`, `.border-r-2`, `.border-r-4`, `.border-r-6`, `.border-r-8`, `.border-r-12`
-
-#### Eixo X (left + right)
-- `.border-x-0`, `.border-x-1`, `.border-x-2`, `.border-x-4`, `.border-x-6`, `.border-x-8`, `.border-x-12`
-
-#### Eixo Y (top + bottom)
-- `.border-y-0`, `.border-y-1`, `.border-y-2`, `.border-y-4`, `.border-y-6`, `.border-y-8`, `.border-y-12`
-
-### Border Style
-- `.border-solid`, `.border-dashed`, `.border-dotted`, `.border-none`
-
-**Total de classes de borders:** 125 classes base + versões responsivas
-
----
-
 ## 📐 Sizing (Width & Height)
 
 ### Width
-- `.w-0`, `.w-4`, `.w-8`, `.w-12`, `.w-16`, `.w-24`, `.w-32`, `.w-40`, `.w-48`, `.w-56`, `.w-64`, `.w-80`, `.w-120`, `.w-160`, `.w-200`
-- `.w-auto`, `.w-full`, `.w-screen`, `.w-min`, `.w-max`, `.w-fit`
+`.w-{size}`
+- Valores numéricos: 0, 4, 8, 12, 16, 24, 32, 40, 48, 56, 64, 80, 120, 160, 200
+- Valores especiais: auto, full, screen, min, max, fit
 
 ### Height
-- `.h-0`, `.h-4`, `.h-8`, `.h-12`, `.h-16`, `.h-24`, `.h-32`, `.h-40`, `.h-48`, `.h-56`, `.h-64`, `.h-80`, `.h-120`, `.h-160`, `.h-200`
-- `.h-auto`, `.h-full`, `.h-screen`, `.h-min`, `.h-max`, `.h-fit`
+`.h-{size}`
+- Valores numéricos: 0, 4, 8, 12, 16, 24, 32, 40, 48, 56, 64, 80, 120, 160, 200
+- Valores especiais: auto, full, screen (100vh), min, max, fit
 
 ### Min Width
-- `.min-w-0`, `.min-w-full`, `.min-w-min`, `.min-w-max`, `.min-w-fit`
+`.min-w-{size}`
+- Valores: 0, full, min, max, fit
 
 ### Max Width
-- `.max-w-0`, `.max-w-4`, `.max-w-8`, `.max-w-12`, `.max-w-16`, `.max-w-24`, `.max-w-32`, `.max-w-40`, `.max-w-48`, `.max-w-56`, `.max-w-64`, `.max-w-80`, `.max-w-120`, `.max-w-160`, `.max-w-200`
-- `.max-w-full`, `.max-w-min`, `.max-w-max`, `.max-w-fit`, `.max-w-screen`
+`.max-w-{size}`
+- Valores numéricos: 0, 4, 8, 12, 16, 24, 32, 40, 48, 56, 64, 80, 120, 160, 200
+- Valores especiais: full, min, max, fit, screen
 
 ### Min Height
-- `.min-h-0`, `.min-h-full`, `.min-h-screen`, `.min-h-min`, `.min-h-max`, `.min-h-fit`
+`.min-h-{size}`
+- Valores: 0, full, screen, min, max, fit
 
 ### Max Height
-- `.max-h-0`, `.max-h-4`, `.max-h-8`, `.max-h-12`, `.max-h-16`, `.max-h-24`, `.max-h-32`, `.max-h-40`, `.max-h-48`, `.max-h-56`, `.max-h-64`, `.max-h-80`, `.max-h-120`, `.max-h-160`, `.max-h-200`
-- `.max-h-full`, `.max-h-screen`, `.max-h-min`, `.max-h-max`, `.max-h-fit`
-
-**Total de classes de sizing:** 91 classes base + versões responsivas
-
----
-
+`.max-h-{size}`
+- Valores numéricos: 0, 4, 8, 12, 16, 24, 32, 40, 48, 56, 64, 80, 120, 160, 200
 ## 👁️ Display
 
 ### Display Type
-- `.block`, `.inline-block`, `.inline`, `.hidden`
+- `.block` - display: block
+- `.inline-block` - display: inline-block
+- `.inline` - display: inline
+- `.hidden` - display: none
 
 ### Visibility
-- `.visible`, `.invisible`
+- `.visible` - visibility: visible
+- `.invisible` - visibility: hidden
 
 ### Overflow
-- `.overflow-auto`, `.overflow-hidden`, `.overflow-visible`, `.overflow-scroll`
-- `.overflow-x-auto`, `.overflow-x-hidden`, `.overflow-x-visible`, `.overflow-x-scroll`
-- `.overflow-y-auto`, `.overflow-y-hidden`, `.overflow-y-visible`, `.overflow-y-scroll`
 
-**Total de classes de display:** 18 classes base + versões responsivas
-
----
-
+#### Overflow (todas as direções)
+`.overflow-{type}`
+- Valores: auto, hidden, visible, scroll
 ## 🔀 Flexbox
 
 ### Flex Base
-- `.flex`
+- `.flex` - display: flex
 
 ### Flex Direction
-- `.flex-row`, `.flex-col`
+- `.flex-row` - flex-direction: row
+- `.flex-col` - flex-direction: column
 
 ### Flex Wrap
-- `.flex-wrap`, `.flex-nowrap`
+- `.flex-wrap` - flex-wrap: wrap
+- `.flex-nowrap` - flex-wrap: nowrap
 
 ### Justify Content
-- `.justify-start`, `.justify-center`, `.justify-end`, `.justify-between`, `.justify-around`, `.justify-evenly`
+`.justify-{value}`
+- start, center, end, between, around, evenly
 
 ### Align Items
-- `.items-start`, `.items-center`, `.items-end`, `.items-stretch`, `.items-baseline`
+`.items-{value}`
+- start, center, end, stretch, baseline
 
 ### Align Self
-- `.self-auto`, `.self-start`, `.self-center`, `.self-end`, `.self-stretch`
+`.self-{value}`
+- auto, start, center, end, stretch
 
 ### Flex Grow
-- `.grow`, `.grow-0`
+- `.grow` - flex-grow: 1
+- `.grow-0` - flex-grow: 0
 
 ### Flex Shrink
-- `.shrink`, `.shrink-0`
+- `.shrink` - flex-shrink: 1
+- `.shrink-0` - flex-shrink: 0
 
 **Total de classes de flexbox:** 25 classes base + versões responsivas
 
 ---
 
+## 👁️ Display
+
 ## 📊 Grid
 
 ### Grid Base
-- `.grid`
+- `.grid` - display: grid
 
 ### Grid Template Columns
-- `.grid-cols-1`, `.grid-cols-2`, `.grid-cols-3`, `.grid-cols-4`, `.grid-cols-5`, `.grid-cols-6`, `.grid-cols-7`, `.grid-cols-8`, `.grid-cols-9`, `.grid-cols-10`, `.grid-cols-11`, `.grid-cols-12`
+`.grid-cols-{n}`
+- Valores: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12
 
 ### Grid Template Rows
-- `.grid-rows-1`, `.grid-rows-2`, `.grid-rows-3`, `.grid-rows-4`, `.grid-rows-5`, `.grid-rows-6`
+`.grid-rows-{n}`
+- Valores: 1, 2, 3, 4, 5, 6
 
 ### Column Span
-- `.col-span-1`, `.col-span-2`, `.col-span-3`, `.col-span-4`, `.col-span-5`, `.col-span-6`, `.col-span-7`, `.col-span-8`, `.col-span-9`, `.col-span-10`, `.col-span-11`, `.col-span-12`
-- `.col-span-full`
+`.col-span-{n}`
+- Valores: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, full
+
+### Row Span
+`.row-span-{n}`
+- Valores: 1, 2, 3, 4, 5, 6, full
+
+### Place Items
+`.place-items-{value}`
+- start, center, end, stretch
+
+### Place Content
+`.place-content-{value}`
+- start, center, end, between, around, evenly
+
+## 📍 Position
+
+### Position Type
+- `.static` - position: static
+- `.relative` - position: relative
+- `.absolute` - position: absolute
+- `.fixed` - position: fixed
+- `.sticky` - position: sticky
+
+### Top
+`.top-{value}`
+- Valores numéricos: 0, 4, 8, 12, 16, 24, 32, 40, 48, 56, 64, 80, 120, 160, 200
+- Valores especiais: auto, full, half
+
+### Right
+`.right-{value}`
+- Valores numéricos: 0, 4, 8, 12, 16, 24, 32, 40, 48, 56, 64, 80, 120, 160, 200
+- Valores especiais: auto, full, half
+
+### Bottom
+`.bottom-{value}`
+- Valores numéricos: 0, 4, 8, 12, 16, 24, 32, 40, 48, 56, 64, 80, 120, 160, 200
+- Valores especiais: auto, full, half
+
+### Left
+`.left-{value}`
+- Valores numéricos: 0, 4, 8, 12, 16, 24, 32, 40, 48, 56, 64, 80, 120, 160, 200
+- Valores especiais: auto, full, half
+
+### Inset (todas as direções)
+`.inset-{value}`
+- Valores numéricos: 0, 4, 8, 12, 16, 24, 32, 40, 48, 56, 64, 80, 120, 160, 200
+- Valores especiais: auto, full, half
+
+### Inset X (left + right)
+`.inset-x-{value}`
+- Valores numéricos: 0, 4, 8, 12, 16, 24, 32, 40, 48, 56, 64, 80, 120, 160, 200
+## 🌫️ Opacity
+
+### Opacity Levels
+`.opacity-{level}`
+- 0 (0), 5 (0.05), 10 (0.1), 20 (0.2), 25 (0.25), 30 (0.3), 40 (0.4), 50 (0.5), 60 (0.6), 70 (0.7), 75 (0.75), 80 (0.8), 90 (0.9), 95 (0.95), 100 (1)
+
+**Total de classes de opacity:** 15 classes base + versões responsivas
+
+**Total de classes de position:** 113 classes base + versões responsivas
 
 ### Row Span
 - `.row-span-1`, `.row-span-2`, `.row-span-3`, `.row-span-4`, `.row-span-5`, `.row-span-6`
