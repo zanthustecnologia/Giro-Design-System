@@ -10,338 +10,290 @@ pnpm add @giro-ds/utilities
 
 ## 🚀 Uso
 
+### Importação em JavaScript/TypeScript
+
 ```javascript
-// Importação simples
+// Importação padrão (desenvolvimento com sourcemaps)
 import '@giro-ds/utilities';
 
 // Ou explícito
-import '@giro-ds/utilities/dist/index.css';
+import '@giro-ds/utilities/css/giro.css';
+
+// Produção (minificado - 23% menor)
+import '@giro-ds/utilities/css/giro.min.css';
 ```
 
+### Importação em CSS/SCSS
+
 ```css
-/* Em CSS/SCSS */
-@import '@giro-ds/utilities';
+/* Versão de desenvolvimento */
+@import '@giro-ds/utilities/css/giro.css';
+
+/* Versão minificada para produção */
+@import '@giro-ds/utilities/css/giro.min.css';
 ```
 
 ## 📚 Classes Disponíveis
 
-### Spacing
-- Margin: `.m-*`, `.mt-*`, `.mb-*`, `.ml-*`, `.mr-*`, `.mx-*`, `.my-*`
-- Padding: `.p-*`, `.pt-*`, `.pb-*`, `.pl-*`, `.pr-*`, `.px-*`, `.py-*`
+> 📖 **Documentação completa:** Veja [CLASSES-REFERENCE.md](./CLASSES-REFERENCE.md) para lista detalhada de todas as 798+ classes base e suas ~4.788 variações responsivas.
 
-### Gap
-- `.gap-*`, `.gap-x-*`, `.gap-y-*`
+### 📏 Spacing
+- **Margin**: `.m-*`, `.mt-*`, `.mb-*`, `.ml-*`, `.mr-*`, `.mx-*`, `.my-*`
+- **Padding**: `.p-*`, `.pt-*`, `.pb-*`, `.pl-*`, `.pr-*`, `.px-*`, `.py-*`
+- **Valores**: 0, 4, 8, 12, 16, 24, 32, 40, 48, 56, 64, 80, 120, 160, 200 (em pixels)
 
-### Colors
-- Background: `.bg-brand-primary-*`, `.bg-neutral-*`, `.bg-feedback-*`
-- Text: `.text-brand-primary-*`, `.text-neutral-*`, `.text-feedback-*`
-- Border: `.border-brand-primary-*`, `.border-neutral-*`, `.border-feedback-*`
+### 🔲 Gap
+- **Gap**: `.gap-*`, `.gap-x-*`, `.gap-y-*`
+- **Gap Default**: `.gap-default` (responsivo: 16px → 24px → 32px → 40px → 48px → 56px)
+- **Valores**: 0, 4, 8, 12, 16, 24, 32, 40, 48, 56, 64, 80, 120, 160, 200
 
-### Borders
-- Radius: `.rounded-*`, `.rounded-t-*`, `.rounded-b-*`, `.rounded-l-*`, `.rounded-r-*`
-- Width: `.border-*`, `.border-t-*`, `.border-b-*`, `.border-l-*`, `.border-r-*`
-- Style: `.border-solid`, `.border-dashed`, `.border-dotted`
+### 🎨 Colors
+- **Background**: `.bg-brand-primary-*`, `.bg-brand-secondary-*`, `.bg-neutral-*`, `.bg-feedback-*`
+- **Text**: `.text-brand-primary-*`, `.text-brand-secondary-*`, `.text-neutral-*`, `.text-feedback-*`
+- **Border**: `.border-brand-primary-*`, `.border-brand-secondary-*`, `.border-neutral-*`, `.border-feedback-*`
+- **Variações**: default, dark, medium, light
 
-### Typography
-- Size: `.text-12`, `.text-14`, `.text-16`, `.text-20`, `.text-24`, `.text-32`, `.text-40`, `.text-48`, `.text-64`, `.text-96`
-- Weight: `.font-regular`, `.font-medium`, `.font-bold`
-- Align: `.text-left`, `.text-center`, `.text-right`, `.text-justify`
-- Transform: `.uppercase`, `.lowercase`, `.capitalize`
-- Decoration: `.underline`, `.line-through`, `.no-underline`
+### 🔳 Borders
+- **Radius**: `.rounded-*` (none, 4, 8, 12, 16, 24, pill, circular)
+  - Direções: `-t-`, `-b-`, `-l-`, `-r-`, `-tl-`, `-tr-`, `-bl-`, `-br-`
+- **Width**: `.border-*` (0, 1, 2, 4, 6, 8, 12)
+  - Direções: `-t-`, `-b-`, `-l-`, `-r-`, `-x-`, `-y-`
 
-### Flexbox
-- Base: `.flex`, `.flex-row`, `.flex-col`
-- Wrap: `.flex-wrap`, `.flex-nowrap`
-- Justify: `.justify-start`, `.justify-center`, `.justify-end`, `.justify-between`, `.justify-around`, `.justify-evenly`
-- Align: `.items-start`, `.items-center`, `.items-end`, `.items-stretch`, `.items-baseline`
-- Self: `.self-auto`, `.self-start`, `.self-center`, `.self-end`, `.self-stretch`
-- Grow/Shrink: `.grow`, `.grow-0`, `.shrink`, `.shrink-0`
-
-### Grid
-- Base: `.grid`
-- Columns: `.grid-cols-1` até `.grid-cols-12`
-- Rows: `.grid-rows-1` até `.grid-rows-6`
-- Span: `.col-span-1` até `.col-span-12`, `.col-span-full`, `.row-span-1` até `.row-span-6`, `.row-span-full`
-- Place: `.place-items-*`, `.place-content-*`
-
-### Display
-- `.block`, `.inline-block`, `.inline`, `.hidden`
-- `.visible`, `.invisible`
-- Overflow: `.overflow-auto`, `.overflow-hidden`, `.overflow-visible`, `.overflow-scroll`
-
-### Sizing
-- Width: `.w-*`, `.w-full`, `.w-screen`, `.w-auto`, `.w-min`, `.w-max`, `.w-fit`
-- Height: `.h-*`, `.h-full`, `.h-screen`, `.h-auto`, `.h-min`, `.h-max`, `.h-fit`
-- Min/Max: `.min-w-*`, `.max-w-*`, `.min-h-*`, `.max-h-*`
-
-## 📱 Responsivo
-
-Todas as classes suportam breakpoints responsivos:
-
-```html
-<div class="flex flex-col md:flex-row lg:justify-between">
-  <!-- Mobile: coluna, Tablet: linha, Desktop: espaçamento entre -->
-</div>
-```
-
-### Breakpoints
-- `sm:` - 640px
-- `md:` - 768px
-- `lg:` - 1024px
-- `xl:` - 1280px
-- `2xl:` - 1536px
-
-## 🎨 Visualização
-
-Para ver todos os utilitários em ação, abra `src/index.html` em seu navegador após executar o build.
-# ou
-pnpm add @giro-ds/utilities
-```
-
-## 🚀 Uso
-
-### Importação
-
-```scss
-// No seu arquivo SCSS principal
-@use '@giro-ds/utilities';
-```
-
-Ou importe o CSS compilado diretamente:
-
-```javascript
-// No seu arquivo JavaScript/TypeScript
-import '@giro-ds/utilities/dist/ui.css';
-```
-
-## 📚 Utilitários Disponíveis
-
-### 🎯 Breakpoints Responsivos
-
-Sistema de breakpoints para criar layouts responsivos:
-
-```scss
-$breakpoints: (
-  sm: 640px,
-  md: 768px,
-  lg: 1024px,
-  xl: 1280px,
-  2xl: 1536px
-);
-```
-
-#### Uso em SCSS
-
-```scss
-@use '@giro-ds/utilities' as util;
-
-.my-component {
-  padding: 8px;
-  
-  @include util.respond(md) {
-    padding: 16px;
-  }
-  
-  @include util.respond(lg) {
-    padding: 24px;
-  }
-}
-```
-
-### 📏 Sistema de Espaçamento
-
-Classes utilitárias para margin e padding, baseadas nos tokens do design system.
-
-#### Valores Disponíveis
-`0`, `4`, `8`, `12`, `16`, `24`, `32`, `40`, `48`, `56`, `64`, `80`, `120`, `160`, `200`
-
-#### Prefixos de Propriedades
-- `m-` - margin
-- `p-` - padding
-
-#### Direções
-- **(nenhuma)** - todas as direções
-- `t` - top
-- `b` - bottom
-- `l` - left
-- `r` - right
-- `x` - left e right
-- `y` - top e bottom
-
-#### Exemplos de Classes
-
-```html
-<!-- Margin -->
-<div class="m-16">Margin de 16px em todas as direções</div>
-<div class="mt-24">Margin-top de 24px</div>
-<div class="mx-32">Margin horizontal (left e right) de 32px</div>
-<div class="my-40">Margin vertical (top e bottom) de 40px</div>
-
-<!-- Padding -->
-<div class="p-16">Padding de 16px em todas as direções</div>
-<div class="pt-24">Padding-top de 24px</div>
-<div class="px-32">Padding horizontal (left e right) de 32px</div>
-<div class="py-40">Padding vertical (top e bottom) de 40px</div>
-```
-
-#### Classes Responsivas
-
-Todas as classes de espaçamento possuem variações responsivas:
-
-```html
-<!-- Padding de 8px em mobile, 16px em tablet, 24px em desktop -->
-<div class="p-8 md:p-16 lg:p-24">
-  Conteúdo responsivo
-</div>
-
-<!-- Margin horizontal de 16px em mobile, 32px em desktop -->
-<div class="mx-16 lg:mx-32">
-  Conteúdo com margin responsiva
-</div>
-```
+### ✍️ Typography
+- **Size**: `.text-12`, `.text-14`, `.text-16`, `.text-20`, `.text-24`, `.text-32`, `.text-40`, `.text-48`, `.text-64`, `.text-96`
+- **Weight**: `.font-regular`, `.font-medium`, `.font-bold`
+- **Align**: `.text-left`, `.text-center`, `.text-right`, `.text-justify`
+- **Transform**: `.uppercase`, `.lowercase`, `.capitalize`, `.normal-case`
+- **Decoration**: `.underline`, `.line-through`, `.no-underline`
 
 ### 🔲 Flexbox
-
-Classes utilitárias para layouts flexíveis:
-
-```html
-<!-- Direção -->
-<div class="flex-row">Flex row</div>
-<div class="flex-col">Flex column</div>
-
-<!-- Alinhamento -->
-<div class="items-center">Align items center</div>
-<div class="items-start">Align items start</div>
-<div class="items-end">Align items end</div>
-
-<div class="justify-center">Justify content center</div>
-<div class="justify-between">Justify content space-between</div>
-<div class="justify-around">Justify content space-around</div>
-
-<!-- Wrap -->
-<div class="flex-wrap">Flex wrap</div>
-<div class="flex-nowrap">Flex nowrap</div>
-
-<!-- Responsivo -->
-<div class="flex-col md:flex-row">
-  Column em mobile, row em tablet+
-</div>
-```
+- **Base**: `.flex`, `.flex-row`, `.flex-col`
+- **Wrap**: `.flex-wrap`, `.flex-nowrap`
+- **Justify**: `.justify-start`, `.justify-center`, `.justify-end`, `.justify-between`, `.justify-around`, `.justify-evenly`
+- **Align**: `.items-start`, `.items-center`, `.items-end`, `.items-stretch`, `.items-baseline`
+- **Self**: `.self-auto`, `.self-start`, `.self-center`, `.self-end`, `.self-stretch`
+- **Grow/Shrink**: `.grow`, `.grow-0`, `.shrink`, `.shrink-0`
 
 ### 🎲 Grid
+- **Base**: `.grid`
+- **Columns**: `.grid-cols-1` até `.grid-cols-12`, `.grid-cols-none`
+- **Rows**: `.grid-rows-1` até `.grid-rows-6`, `.grid-rows-none`
+- **Span**: `.col-span-*`, `.row-span-*` (1-12 para cols, 1-6 para rows, full para ambos)
+- **Place**: `.place-items-*`, `.place-content-*`, `.items-*`, `.justify-items-*`
 
-Classes utilitárias para layouts em grid:
+### 👁️ Display
+- **Display**: `.block`, `.inline-block`, `.inline`, `.flex`, `.grid`, `.hidden`
+- **Visibility**: `.visible`, `.invisible`
+- **Overflow**: `.overflow-auto`, `.overflow-hidden`, `.overflow-visible`, `.overflow-scroll`
+
+### 📐 Sizing
+- **Width**: `.w-*` (0, 4, 8, 12, 16, 24, 32, 40, 48, 56, 64, 80, 120, 160, 200)
+  - Especiais: `.w-auto`, `.w-full`, `.w-screen`, `.w-min`, `.w-max`, `.w-fit`
+- **Height**: `.h-*` (mesmos valores de width)
+  - Especiais: `.h-auto`, `.h-full`, `.h-screen`, `.h-min`, `.h-max`, `.h-fit`
+- **Min/Max Width**: `.min-w-*`, `.max-w-*` (0, full, min, max, fit, screen + valores em px)
+- **Min/Max Height**: `.min-h-*`, `.max-h-*` (0, full, screen, min, max, fit + valores em px)
+
+### 📍 Position
+- **Type**: `.static`, `.relative`, `.absolute`, `.fixed`, `.sticky`
+- **Positioning**: `.top-*`, `.right-*`, `.bottom-*`, `.left-*`
+  - Valores: 0, 4, 8, 12, 16, 24, 32, 40, 48, 56, 64, 80, 120, 160, 200, auto, full, half
+- **Inset**: `.inset-*`, `.inset-x-*`, `.inset-y-*` (mesmos valores)
+
+### 🔍 Opacity
+- **Levels**: `.opacity-0`, `.opacity-5`, `.opacity-10`, `.opacity-20`, `.opacity-25`, `.opacity-30`, `.opacity-40`, `.opacity-50`, `.opacity-60`, `.opacity-70`, `.opacity-75`, `.opacity-80`, `.opacity-90`, `.opacity-95`, `.opacity-100`
+
+## 📱 Responsividade
+
+**Todas as 798+ classes base possuem variantes responsivas (~4.788 classes totais):**
 
 ```html
-<!-- Colunas -->
-<div class="grid-cols-2">2 colunas</div>
-<div class="grid-cols-3">3 colunas</div>
-<div class="grid-cols-4">4 colunas</div>
-<div class="grid-cols-12">12 colunas</div>
+<!-- Padding responsivo -->
+<div class="p-16 md:p-24 lg:p-32">
+  Conteúdo
+</div>
 
-<!-- Auto -->
-<div class="grid-cols-auto-fit">Auto-fit</div>
-<div class="grid-cols-auto-fill">Auto-fill</div>
+<!-- Flexbox responsivo -->
+<div class="flex-col md:flex-row">
+  <div>Item 1</div>
+  <div>Item 2</div>
+</div>
 
-<!-- Responsivo -->
-<div class="grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
-  1 coluna em mobile, 2 em tablet, 4 em desktop
+<!-- Position responsivo -->
+<div class="relative lg:absolute top-0 lg:top-16">
+  Posicionamento adaptativo
+</div>
+
+<!-- Opacity responsivo -->
+<div class="opacity-50 hover:opacity-100 md:opacity-75">
+  Transparência adaptativa
 </div>
 ```
 
-### 📐 Gap
+**Breakpoints disponíveis:**
+- `sm`: 640px
+- `md`: 768px  
+- `lg`: 1024px
+- `xl`: 1280px
+- `2xl`: 1536px
 
-Classes para espaçamento entre itens em flex e grid:
+**Gap Default Responsivo:**
+A classe `.gap-default` ajusta automaticamente conforme o breakpoint:
+- Base: 16px
+- `sm:` 24px
+- `md:` 32px
+- `lg:` 40px
+- `xl:` 48px
+- `2xl:` 56px
 
-```html
-<!-- Gap padrão -->
-<div class="gap-8">Gap de 8px</div>
-<div class="gap-16">Gap de 16px</div>
-<div class="gap-24">Gap de 24px</div>
+## 🏗️ Build e Arquivos
 
-<!-- Gap responsivo -->
-<div class="gap-8 md:gap-16 lg:gap-24">
-  Gap aumenta com a tela
-</div>
+### Variantes Disponíveis
+
+```javascript
+// Desenvolvimento (372KB com sourcemaps)
+import '@giro-ds/utilities/css/giro.css';
+
+// Produção (286KB minificado - 23% menor)
+import '@giro-ds/utilities/css/giro.min.css';
+```
+
+### Sourcemaps
+
+A versão de desenvolvimento (`giro.css`) inclui sourcemaps que permitem debugging no DevTools apontando para os arquivos SCSS originais:
+
+```
+dist/css/
+  ├── giro.css (372KB - dev)
+  ├── giro.min.css (286KB - prod)  
+  └── giro.css.map (125KB - sourcemap)
+```
+
+### Build Local
+
+```bash
+# Build completo (dev + minificado)
+pnpm build
+
+# Apenas desenvolvimento
+pnpm build:dev
+
+# Apenas minificado
+pnpm build:min
+```
+
+## 🛠️ Desenvolvimento
+
+### Estrutura do Projeto
+
+```
+packages/utilities/
+├── src/
+│   ├── index.scss                 # Entrada principal
+│   └── utilities/
+│       ├── _breakpoints.scss      # Sistema de breakpoints
+│       ├── _spacing.scss          # Margin e Padding
+│       ├── _gap.scss              # Gap utilitários
+│       ├── _gap-defaults.scss     # Gap default responsivo
+│       ├── _colors.scss           # Background, text, border colors
+│       ├── _borders.scss          # Border radius e width
+│       ├── _typography.scss       # Font sizes, weights, alignment
+│       ├── _flexbox.scss          # Flex utilities
+│       ├── _grid.scss             # Grid utilities
+│       ├── _display.scss          # Display e visibility
+│       ├── _sizing.scss           # Width, height, min/max
+│       ├── _position.scss         # Position e positioning
+│       └── _opacity.scss          # Opacity levels
+├── dist/css/
+│   ├── giro.css                   # Build development (372KB)
+│   ├── giro.min.css               # Build production (286KB)
+│   └── giro.css.map               # Sourcemap
+├── CLASSES-REFERENCE.md           # Documentação completa
+└── package.json
+```
+
+### Scripts Disponíveis
+
+```bash
+# Build completo (dev + prod)
+pnpm build
+
+# Apenas desenvolvimento com sourcemaps
+pnpm build:dev
+
+# Apenas minificado para produção
+pnpm build:min
 ```
 
 ## 💡 Exemplos Práticos
 
-### Layout Responsivo Completo
+### Layout Responsivo
 
 ```html
 <div class="p-16 md:p-24 lg:p-32">
-  <div class="grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16 md:gap-24">
-    <div class="p-16">Card 1</div>
-    <div class="p-16">Card 2</div>
-    <div class="p-16">Card 3</div>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-default">
+    <div class="p-16 rounded-8 bg-neutral-light">Card 1</div>
+    <div class="p-16 rounded-8 bg-neutral-light">Card 2</div>
+    <div class="p-16 rounded-8 bg-neutral-light">Card 3</div>
   </div>
 </div>
 ```
 
-### Navbar com Flexbox
+### Navbar Flexível
 
 ```html
-<nav class="flex-row items-center justify-between px-16 py-12">
-  <div class="flex-row items-center gap-12">
-    <img src="logo.svg" alt="Logo" />
-    <span>Meu Site</span>
+<nav class="flex flex-row items-center justify-between px-16 py-12 bg-brand-primary-default">
+  <div class="flex flex-row items-center gap-12">
+    <img src="logo.svg" alt="Logo" class="w-32 h-32" />
+    <span class="text-16 font-bold text-neutral-light">Giro DS</span>
   </div>
-  <div class="flex-row gap-16">
-    <a href="#">Home</a>
-    <a href="#">Sobre</a>
-    <a href="#">Contato</a>
+  <div class="flex flex-row gap-16">
+    <a href="#" class="text-neutral-light opacity-90 hover:opacity-100">Home</a>
+    <a href="#" class="text-neutral-light opacity-90 hover:opacity-100">Sobre</a>
+    <a href="#" class="text-neutral-light opacity-90 hover:opacity-100">Contato</a>
   </div>
 </nav>
 ```
 
-### Card com Espaçamento Consistente
+### Card com Posicionamento
 
 ```html
-<div class="p-24 m-16">
-  <h2 class="mb-12">Título do Card</h2>
-  <p class="mb-16">Descrição do conteúdo...</p>
-  <button class="px-24 py-12">Ação</button>
+<div class="relative p-24 m-16 rounded-12 bg-neutral-light">
+  <div class="absolute top-12 right-12 opacity-75">
+    <span class="text-12 text-neutral-dark">Novo</span>
+  </div>
+  <h2 class="mb-12 text-20 font-bold">Título do Card</h2>
+  <p class="mb-16 text-14 opacity-80">Descrição do conteúdo...</p>
+  <button class="px-24 py-12 rounded-8 bg-brand-primary-default text-neutral-light">
+    Ação
+  </button>
 </div>
 ```
 
-## 🎨 Integração com Tokens
+### Grid Responsivo Avançado
 
-Os utilitários de espaçamento utilizam automaticamente os tokens do `@giro-ds/tokens`, garantindo consistência com o design system.
-
-## 📖 Uso Avançado em SCSS
-
-Se você precisa de mais controle, pode importar os mixins e funções diretamente:
-
-```scss
-@use '@giro-ds/utilities/src/utilities/breakpoints' as bp;
-@use '@giro-ds/utilities/src/utilities/spacing' as spacing;
-
-.custom-component {
-  @include bp.respond(lg) {
-    // Estilos para telas grandes
-  }
-}
+```html
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-default">
+  <div class="col-span-1 lg:col-span-2 p-24 bg-brand-primary-light rounded-8">
+    Destaque
+  </div>
+  <div class="p-16 bg-neutral-light rounded-8">Item 2</div>
+  <div class="p-16 bg-neutral-light rounded-8">Item 3</div>
+  <div class="p-16 bg-neutral-light rounded-8">Item 4</div>
+</div>
 ```
 
-## 🔧 Customização
+## 🎨 Integração com Design Tokens
 
-Para customizar os breakpoints ou espaçamentos, você pode sobrescrever as variáveis SCSS antes de importar:
+Os utilitários utilizam automaticamente os tokens do `@giro-ds/tokens`:
 
-```scss
-// Defina suas customizações
-$breakpoints: (
-  sm: 576px,
-  md: 768px,
-  lg: 992px,
-  xl: 1200px
-);
+- **Spacing**: Valores consistentes de espaçamento
+- **Colors**: Paleta completa de cores (brand, neutral, feedback)
+- **Typography**: Tamanhos e pesos padronizados
+- **Borders**: Raios e espessuras do design system
+- **Z-index**: Camadas hierárquicas definidas
 
-// Importe os utilitários
-@use '@giro-ds/utilities' with (
-  $breakpoints: $breakpoints
-);
-```
+Isso garante que suas interfaces sigam o design system sem configuração adicional.
 
 ## 📄 Licença
 
