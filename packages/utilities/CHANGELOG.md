@@ -1,5 +1,11 @@
 # @giro-ds/utilities
 
+## 1.1.0
+
+### Minor Changes
+
+- 1e1c064: feat: add comprehensive utility class system with responsive support
+
 ## 1.0.1
 
 ### Patch Changes

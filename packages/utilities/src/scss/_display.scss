@@ -1,0 +1,140 @@
+@use "./breakpoints" as *;
+
+// -----------------------------------------------------------------------------
+// Display
+// -----------------------------------------------------------------------------
+
+.block {
+  display: block;
+}
+.inline-block {
+  display: inline-block;
+}
+.inline {
+  display: inline;
+}
+.hidden {
+  display: none;
+}
+
+// Responsivo
+@each $bp, $size in $breakpoints {
+  @include utility($bp, "block") {
+    display: block;
+  }
+  @include utility($bp, "inline-block") {
+    display: inline-block;
+  }
+  @include utility($bp, "inline") {
+    display: inline;
+  }
+  @include utility($bp, "hidden") {
+    display: none;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Visibility
+// -----------------------------------------------------------------------------
+
+.visible {
+  visibility: visible;
+}
+.invisible {
+  visibility: hidden;
+}
+
+// Responsivo
+@each $bp, $size in $breakpoints {
+  @include utility($bp, "visible") {
+    visibility: visible;
+  }
+  @include utility($bp, "invisible") {
+    visibility: hidden;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Overflow
+// -----------------------------------------------------------------------------
+
+.overflow-auto {
+  overflow: auto;
+}
+.overflow-hidden {
+  overflow: hidden;
+}
+.overflow-visible {
+  overflow: visible;
+}
+.overflow-scroll {
+  overflow: scroll;
+}
+
+.overflow-x-auto {
+  overflow-x: auto;
+}
+.overflow-x-hidden {
+  overflow-x: hidden;
+}
+.overflow-x-visible {
+  overflow-x: visible;
+}
+.overflow-x-scroll {
+  overflow-x: scroll;
+}
+
+.overflow-y-auto {
+  overflow-y: auto;
+}
+.overflow-y-hidden {
+  overflow-y: hidden;
+}
+.overflow-y-visible {
+  overflow-y: visible;
+}
+.overflow-y-scroll {
+  overflow-y: scroll;
+}
+
+// Responsivo
+@each $bp, $size in $breakpoints {
+  @include utility($bp, "overflow-auto") {
+    overflow: auto;
+  }
+  @include utility($bp, "overflow-hidden") {
+    overflow: hidden;
+  }
+  @include utility($bp, "overflow-visible") {
+    overflow: visible;
+  }
+  @include utility($bp, "overflow-scroll") {
+    overflow: scroll;
+  }
+  
+  @include utility($bp, "overflow-x-auto") {
+    overflow-x: auto;
+  }
+  @include utility($bp, "overflow-x-hidden") {
+    overflow-x: hidden;
+  }
+  @include utility($bp, "overflow-x-visible") {
+    overflow-x: visible;
+  }
+  @include utility($bp, "overflow-x-scroll") {
+    overflow-x: scroll;
+  }
+  
+  @include utility($bp, "overflow-y-auto") {
+    overflow-y: auto;
+  }
+  @include utility($bp, "overflow-y-hidden") {
+    overflow-y: hidden;
+  }
+  @include utility($bp, "overflow-y-visible") {
+    overflow-y: visible;
+  }
+  @include utility($bp, "overflow-y-scroll") {
+    overflow-y: scroll;
+  }
+}

@@ -1,0 +1,84 @@
+@use "./breakpoints" as *;
+@use "../../../tokens/build/scss/tokens.scss" as tok;
+
+// -----------------------------------------------------------------------------
+// Configuração
+// -----------------------------------------------------------------------------
+
+// Mapa de cores usando os tokens
+$colors: (
+  // Brand Primary
+  "brand-primary-default": tok.$color-brand-primary-default,
+  "brand-primary-dark": tok.$color-brand-primary-dark,
+  "brand-primary-medium": tok.$color-brand-primary-medium,
+  "brand-primary-light": tok.$color-brand-primary-light,
+  
+  // Brand Secondary
+  "brand-secondary-default": tok.$color-brand-secondary-default,
+  "brand-secondary-dark": tok.$color-brand-secondary-dark,
+  "brand-secondary-medium": tok.$color-brand-secondary-medium,
+  "brand-secondary-light": tok.$color-brand-secondary-light,
+  
+  // Neutral Low
+  "neutral-low-default": tok.$color-neutral-low-default,
+  "neutral-low-dark": tok.$color-neutral-low-dark,
+  "neutral-low-medium": tok.$color-neutral-low-medium,
+  "neutral-low-light": tok.$color-neutral-low-light,
+  
+  // Neutral High
+  "neutral-high-default": tok.$color-neutral-high-default,
+  "neutral-high-dark": tok.$color-neutral-high-dark,
+  "neutral-high-medium": tok.$color-neutral-high-medium,
+  "neutral-high-light": tok.$color-neutral-high-light,
+  
+  // Feedback Alert
+  "feedback-alert-default": tok.$color-feedback-alert-default,
+  "feedback-alert-dark": tok.$color-feedback-alert-dark,
+  "feedback-alert-medium": tok.$color-feedback-alert-medium,
+  "feedback-alert-light": tok.$color-feedback-alert-light,
+  
+  // Feedback Success
+  "feedback-success-default": tok.$color-feedback-success-default,
+  "feedback-success-dark": tok.$color-feedback-success-dark,
+  "feedback-success-medium": tok.$color-feedback-success-medium,
+  "feedback-success-light": tok.$color-feedback-success-light,
+  
+  // Utilities
+  "transparent": transparent,
+  "current": currentColor
+);
+
+// Mapa de propriedades de cor
+$color-properties: (
+  "bg": "background-color",
+  "text": "color",
+  "border": "border-color"
+);
+
+// -----------------------------------------------------------------------------
+// Geração das Classes
+// -----------------------------------------------------------------------------
+
+// Gera as classes base (ex: .bg-brand-primary-default, .text-neutral-low-dark)
+@each $prop-abbr, $prop-name in $color-properties {
+  @each $color-key, $color-value in $colors {
+    $selector: "#{$prop-abbr}-#{$color-key}";
+
+    .#{$selector} {
+      #{$prop-name}: $color-value;
+    }
+  }
+}
+
+// Gera as classes responsivas (ex: md:bg-brand-primary-light, lg:text-neutral-high-default)
+@each $bp, $size in $breakpoints {
+  @each $prop-abbr, $prop-name in $color-properties {
+    @each $color-key, $color-value in $colors {
+      $selector: "#{$prop-abbr}-#{$color-key}";
+
+      @include utility($bp, $selector) {
+        #{$prop-name}: $color-value;
+      }
+    }
+  }
+}

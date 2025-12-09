@@ -1,0 +1,188 @@
+@use "./breakpoints" as *;
+@use "../../../tokens/build/scss/tokens.scss" as tok;
+
+// -----------------------------------------------------------------------------
+// Configuração
+// -----------------------------------------------------------------------------
+
+// Mapa de font family usando os tokens
+$font-family: (
+  "primary": tok.$font-family-primary
+);
+
+// Mapa de font size usando os tokens
+$font-size: (
+  "12": tok.$font-size-12,
+  "14": tok.$font-size-14,
+  "16": tok.$font-size-16,
+  "18": tok.$font-size-18,
+  "20": tok.$font-size-20,
+  "24": tok.$font-size-24,
+  "28": tok.$font-size-28,
+  "32": tok.$font-size-32,
+  "40": tok.$font-size-40,
+  "48": tok.$font-size-48,
+  "64": tok.$font-size-64,
+  "96": tok.$font-size-96,
+  "inherit": tok.$font-size-inherit
+);
+
+// Mapa de font weight usando os tokens
+$font-weight: (
+  "regular": tok.$font-weight-regular,
+  "medium": tok.$font-weight-medium,
+  "bold": tok.$font-weight-bold
+);
+
+// -----------------------------------------------------------------------------
+// Font Family
+// -----------------------------------------------------------------------------
+
+// Gera as classes base (ex: .font-primary)
+@each $family-key, $family-value in $font-family {
+  .font-#{$family-key} {
+    font-family: $family-value;
+  }
+}
+
+// Responsivo
+@each $bp, $size in $breakpoints {
+  @each $family-key, $family-value in $font-family {
+    @include utility($bp, "font-#{$family-key}") {
+      font-family: $family-value;
+    }
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Font Size
+// -----------------------------------------------------------------------------
+
+// Gera as classes base (ex: .text-16, .text-24)
+@each $size-key, $size-value in $font-size {
+  .text-#{$size-key} {
+    font-size: $size-value;
+  }
+}
+
+// Responsivo
+@each $bp, $bp-size in $breakpoints {
+  @each $size-key, $size-value in $font-size {
+    @include utility($bp, "text-#{$size-key}") {
+      font-size: $size-value;
+    }
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Font Weight
+// -----------------------------------------------------------------------------
+
+// Gera as classes base (ex: .font-regular, .font-bold)
+@each $weight-key, $weight-value in $font-weight {
+  .font-#{$weight-key} {
+    font-weight: $weight-value;
+  }
+}
+
+// Responsivo
+@each $bp, $size in $breakpoints {
+  @each $weight-key, $weight-value in $font-weight {
+    @include utility($bp, "font-#{$weight-key}") {
+      font-weight: $weight-value;
+    }
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Text Align
+// -----------------------------------------------------------------------------
+
+.text-left {
+  text-align: left;
+}
+.text-center {
+  text-align: center;
+}
+.text-right {
+  text-align: right;
+}
+.text-justify {
+  text-align: justify;
+}
+
+// Responsivo
+@each $bp, $size in $breakpoints {
+  @include utility($bp, "text-left") {
+    text-align: left;
+  }
+  @include utility($bp, "text-center") {
+    text-align: center;
+  }
+  @include utility($bp, "text-right") {
+    text-align: right;
+  }
+  @include utility($bp, "text-justify") {
+    text-align: justify;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Text Transform
+// -----------------------------------------------------------------------------
+
+.uppercase {
+  text-transform: uppercase;
+}
+.lowercase {
+  text-transform: lowercase;
+}
+.capitalize {
+  text-transform: capitalize;
+}
+.normal-case {
+  text-transform: none;
+}
+
+// Responsivo
+@each $bp, $size in $breakpoints {
+  @include utility($bp, "uppercase") {
+    text-transform: uppercase;
+  }
+  @include utility($bp, "lowercase") {
+    text-transform: lowercase;
+  }
+  @include utility($bp, "capitalize") {
+    text-transform: capitalize;
+  }
+  @include utility($bp, "normal-case") {
+    text-transform: none;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Text Decoration
+// -----------------------------------------------------------------------------
+
+.underline {
+  text-decoration: underline;
+}
+.line-through {
+  text-decoration: line-through;
+}
+.no-underline {
+  text-decoration: none;
+}
+
+// Responsivo
+@each $bp, $size in $breakpoints {
+  @include utility($bp, "underline") {
+    text-decoration: underline;
+  }
+  @include utility($bp, "line-through") {
+    text-decoration: line-through;
+  }
+  @include utility($bp, "no-underline") {
+    text-decoration: none;
+  }
+}

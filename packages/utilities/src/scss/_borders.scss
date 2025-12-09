@@ -1,0 +1,168 @@
+@use "sass:map";
+@use "sass:meta";
+@use "./breakpoints" as *;
+@use "../../../tokens/build/scss/tokens.scss" as tok;
+
+// -----------------------------------------------------------------------------
+// Configuração
+// -----------------------------------------------------------------------------
+
+// Mapa de border radius usando os tokens
+$border-radius: (
+  "none": tok.$border-radius-none,
+  "4": tok.$border-radius-4,
+  "8": tok.$border-radius-8,
+  "12": tok.$border-radius-12,
+  "16": tok.$border-radius-16,
+  "24": tok.$border-radius-24,
+  "pill": tok.$border-radius-pill,
+  "circular": tok.$border-radius-circular
+);
+
+// Mapa de border width usando os tokens
+$border-width: (
+  "0": tok.$border-width-none,
+  "1": tok.$border-width-1,
+  "2": tok.$border-width-2,
+  "4": tok.$border-width-4,
+  "6": tok.$border-width-6,
+  "8": tok.$border-width-8,
+  "12": tok.$border-width-12
+);
+
+// Mapa de direções para border-radius
+$radius-directions: (
+  "": "border-radius",
+  "t": ("border-top-left-radius", "border-top-right-radius"),
+  "b": ("border-bottom-left-radius", "border-bottom-right-radius"),
+  "l": ("border-top-left-radius", "border-bottom-left-radius"),
+  "r": ("border-top-right-radius", "border-bottom-right-radius"),
+  "tl": "border-top-left-radius",
+  "tr": "border-top-right-radius",
+  "bl": "border-bottom-left-radius",
+  "br": "border-bottom-right-radius"
+);
+
+// Mapa de direções para border-width
+$width-directions: (
+  "": "border-width",
+  "t": "border-top-width",
+  "b": "border-bottom-width",
+  "l": "border-left-width",
+  "r": "border-right-width",
+  "x": ("border-left-width", "border-right-width"),
+  "y": ("border-top-width", "border-bottom-width")
+);
+
+// -----------------------------------------------------------------------------
+// Border Radius
+// -----------------------------------------------------------------------------
+
+// Gera as classes base (ex: .rounded-4, .rounded-t-8)
+@each $dir-abbr, $dir-props in $radius-directions {
+  @each $size-key, $size-value in $border-radius {
+    $selector: if($dir-abbr == "", "rounded-#{$size-key}", "rounded-#{$dir-abbr}-#{$size-key}");
+
+    .#{$selector} {
+      @if meta.type-of($dir-props) == "list" {
+        @each $prop in $dir-props {
+          #{$prop}: $size-value;
+        }
+      } @else {
+        #{$dir-props}: $size-value;
+      }
+    }
+  }
+}
+
+// Gera as classes responsivas
+@each $bp, $bp-size in $breakpoints {
+  @each $dir-abbr, $dir-props in $radius-directions {
+    @each $size-key, $size-value in $border-radius {
+      $selector: if($dir-abbr == "", "rounded-#{$size-key}", "rounded-#{$dir-abbr}-#{$size-key}");
+
+      @include utility($bp, $selector) {
+        @if meta.type-of($dir-props) == "list" {
+          @each $prop in $dir-props {
+            #{$prop}: $size-value;
+          }
+        } @else {
+          #{$dir-props}: $size-value;
+        }
+      }
+    }
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Border Width
+// -----------------------------------------------------------------------------
+
+// Gera as classes base (ex: .border-1, .border-t-2)
+@each $dir-abbr, $dir-props in $width-directions {
+  @each $size-key, $size-value in $border-width {
+    $selector: if($dir-abbr == "", "border-#{$size-key}", "border-#{$dir-abbr}-#{$size-key}");
+
+    .#{$selector} {
+      @if meta.type-of($dir-props) == "list" {
+        @each $prop in $dir-props {
+          #{$prop}: $size-value;
+        }
+      } @else {
+        #{$dir-props}: $size-value;
+      }
+    }
+  }
+}
+
+// Gera as classes responsivas
+@each $bp, $bp-size in $breakpoints {
+  @each $dir-abbr, $dir-props in $width-directions {
+    @each $size-key, $size-value in $border-width {
+      $selector: if($dir-abbr == "", "border-#{$size-key}", "border-#{$dir-abbr}-#{$size-key}");
+
+      @include utility($bp, $selector) {
+        @if meta.type-of($dir-props) == "list" {
+          @each $prop in $dir-props {
+            #{$prop}: $size-value;
+          }
+        } @else {
+          #{$dir-props}: $size-value;
+        }
+      }
+    }
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Border Style
+// -----------------------------------------------------------------------------
+
+.border-solid {
+  border-style: solid;
+}
+.border-dashed {
+  border-style: dashed;
+}
+.border-dotted {
+  border-style: dotted;
+}
+.border-none {
+  border-style: none;
+}
+
+// Responsivo
+@each $bp, $size in $breakpoints {
+  @include utility($bp, "border-solid") {
+    border-style: solid;
+  }
+  @include utility($bp, "border-dashed") {
+    border-style: dashed;
+  }
+  @include utility($bp, "border-dotted") {
+    border-style: dotted;
+  }
+  @include utility($bp, "border-none") {
+    border-style: none;
+  }
+}

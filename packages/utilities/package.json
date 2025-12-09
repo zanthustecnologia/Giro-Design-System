@@ -1,16 +1,26 @@
 {
   "name": "@giro-ds/utilities",
-  "version": "1.0.1",
-  "main": "dist/ui.css",
+  "version": "1.1.0",
+  "main": "dist/css/giro.css",
+  "style": "dist/css/giro.css",
+  "exports": {
+    ".": "./dist/css/giro.css",
+    "./css/giro.css": "./dist/css/giro.css",
+    "./css/giro.min.css": "./dist/css/giro.min.css",
+    "./src/index.scss": "./src/index.scss"
+  },
   "files": [
-    "dist"
+    "dist",
+    "src"
   ],
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
   },
   "scripts": {
-    "build": "sass src/index.scss dist/ui.css --no-source-map"
+    "build": "sass src/index.scss dist/css/giro.css --source-map",
+    "build:min": "sass src/index.scss dist/css/giro.min.css --style=compressed --no-source-map",
+    "build:all": "npm run build && npm run build:min"
   },
   "devDependencies": {
     "sass": "^1.77.0"

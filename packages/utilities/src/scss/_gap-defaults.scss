@@ -1,23 +1,24 @@
 @use "sass:map";
 @use "./breakpoints" as *;
+@use "../../../tokens/build/scss/tokens.scss" as tok;
 
 // --------------------------------------
-// Default Gaps por breakpoint
+// Default Gaps por breakpoint usando tokens
 // --------------------------------------
 $gap-defaults: (
-  base: 16px,  // mobile
-  sm: 24px,    // small
-  md: 32px,    // medium
-  lg: 40px,    // large
-  xl: 48px,    // extra large
-  2xl: 56px    // 2xl
+  base: tok.$spacing-16,  // mobile
+  sm: tok.$spacing-24,    // small
+  md: tok.$spacing-32,    // medium
+  lg: tok.$spacing-40,    // large
+  xl: tok.$spacing-48,    // extra large
+  '2xl': tok.$spacing-56  // 2xl
 ) !default;
 
 // --------------------------------------
-// Gap default aplicado em grid/flex
+// Classes de gap padrão (opcional)
+// Removida aplicação automática em .grid e .flex
 // --------------------------------------
-.grid,
-.flex {
+.gap-default {
   gap: map.get($gap-defaults, base);
 }
 
