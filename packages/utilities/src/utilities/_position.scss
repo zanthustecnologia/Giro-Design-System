@@ -1,0 +1,225 @@
+@use "sass:map";
+@use "sass:meta";
+@use "./breakpoints" as *;
+@use "../../../tokens/build/scss/tokens.scss" as tok;
+
+// -----------------------------------------------------------------------------
+// Configuração
+// -----------------------------------------------------------------------------
+
+// Mapa de espaçamentos usando os tokens
+$spacing: (
+  0: tok.$spacing-0,
+  4: tok.$spacing-4,
+  8: tok.$spacing-8,
+  12: tok.$spacing-12,
+  16: tok.$spacing-16,
+  24: tok.$spacing-24,
+  32: tok.$spacing-32,
+  40: tok.$spacing-40,
+  48: tok.$spacing-48,
+  56: tok.$spacing-56,
+  64: tok.$spacing-64,
+  80: tok.$spacing-80,
+  120: tok.$spacing-120,
+  160: tok.$spacing-160,
+  200: tok.$spacing-200
+);
+
+// Valores especiais para positioning
+$special-values: (
+  "auto": auto,
+  "full": 100%,
+  "half": 50%
+);
+
+// Propriedades de direção
+$directions: (
+  "top": "top",
+  "right": "right",
+  "bottom": "bottom",
+  "left": "left"
+);
+
+// -----------------------------------------------------------------------------
+// Position Types
+// -----------------------------------------------------------------------------
+
+.static {
+  position: static;
+}
+.relative {
+  position: relative;
+}
+.absolute {
+  position: absolute;
+}
+.fixed {
+  position: fixed;
+}
+.sticky {
+  position: sticky;
+}
+
+// Responsivo
+@each $bp, $size in $breakpoints {
+  @include utility($bp, "static") {
+    position: static;
+  }
+  @include utility($bp, "relative") {
+    position: relative;
+  }
+  @include utility($bp, "absolute") {
+    position: absolute;
+  }
+  @include utility($bp, "fixed") {
+    position: fixed;
+  }
+  @include utility($bp, "sticky") {
+    position: sticky;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Position Values (top, right, bottom, left)
+// -----------------------------------------------------------------------------
+
+// Gera as classes base usando spacing tokens
+@each $dir-key, $dir-prop in $directions {
+  @each $space-key, $space-value in $spacing {
+    .#{$dir-key}-#{$space-key} {
+      #{$dir-prop}: $space-value;
+    }
+  }
+  
+  // Valores especiais
+  @each $special-key, $special-value in $special-values {
+    .#{$dir-key}-#{$special-key} {
+      #{$dir-prop}: $special-value;
+    }
+  }
+}
+
+// Responsivo
+@each $bp, $bp-size in $breakpoints {
+  @each $dir-key, $dir-prop in $directions {
+    @each $space-key, $space-value in $spacing {
+      @include utility($bp, "#{$dir-key}-#{$space-key}") {
+        #{$dir-prop}: $space-value;
+      }
+    }
+    
+    // Valores especiais
+    @each $special-key, $special-value in $special-values {
+      @include utility($bp, "#{$dir-key}-#{$special-key}") {
+        #{$dir-prop}: $special-value;
+      }
+    }
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Inset (atalho para todas as direções)
+// -----------------------------------------------------------------------------
+
+// Inset com spacing tokens
+@each $space-key, $space-value in $spacing {
+  .inset-#{$space-key} {
+    top: $space-value;
+    right: $space-value;
+    bottom: $space-value;
+    left: $space-value;
+  }
+}
+
+// Inset com valores especiais
+@each $special-key, $special-value in $special-values {
+  .inset-#{$special-key} {
+    top: $special-value;
+    right: $special-value;
+    bottom: $special-value;
+    left: $special-value;
+  }
+}
+
+// Inset-x (left e right)
+@each $space-key, $space-value in $spacing {
+  .inset-x-#{$space-key} {
+    left: $space-value;
+    right: $space-value;
+  }
+}
+
+@each $special-key, $special-value in $special-values {
+  .inset-x-#{$special-key} {
+    left: $special-value;
+    right: $special-value;
+  }
+}
+
+// Inset-y (top e bottom)
+@each $space-key, $space-value in $spacing {
+  .inset-y-#{$space-key} {
+    top: $space-value;
+    bottom: $space-value;
+  }
+}
+
+@each $special-key, $special-value in $special-values {
+  .inset-y-#{$special-key} {
+    top: $special-value;
+    bottom: $special-value;
+  }
+}
+
+// Responsivo - Inset
+@each $bp, $bp-size in $breakpoints {
+  // Inset all
+  @each $space-key, $space-value in $spacing {
+    @include utility($bp, "inset-#{$space-key}") {
+      top: $space-value;
+      right: $space-value;
+      bottom: $space-value;
+      left: $space-value;
+    }
+  }
+  
+  @each $special-key, $special-value in $special-values {
+    @include utility($bp, "inset-#{$special-key}") {
+      top: $special-value;
+      right: $special-value;
+      bottom: $special-value;
+      left: $special-value;
+    }
+  }
+  
+  // Inset-x
+  @each $space-key, $space-value in $spacing {
+    @include utility($bp, "inset-x-#{$space-key}") {
+      left: $space-value;
+      right: $space-value;
+    }
+  }
+  
+  @each $special-key, $special-value in $special-values {
+    @include utility($bp, "inset-x-#{$special-key}") {
+      left: $special-value;
+      right: $special-value;
+    }
+  }
+  
+  // Inset-y
+  @each $space-key, $space-value in $spacing {
+    @include utility($bp, "inset-y-#{$space-key}") {
+      top: $space-value;
+      bottom: $space-value;
+    }
+  }
+  
+  @each $special-key, $special-value in $special-values {
+    @include utility($bp, "inset-y-#{$special-key}") {
+      top: $special-value;
+      bottom: $special-value;
+    }
+  }
+}

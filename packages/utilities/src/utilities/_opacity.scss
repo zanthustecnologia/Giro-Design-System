@@ -1,0 +1,44 @@
+@use "./breakpoints" as *;
+
+// -----------------------------------------------------------------------------
+// Configuração
+// -----------------------------------------------------------------------------
+
+// Mapa de níveis de opacidade
+$opacity-levels: (
+  "0": 0,
+  "5": 0.05,
+  "10": 0.1,
+  "20": 0.2,
+  "25": 0.25,
+  "30": 0.3,
+  "40": 0.4,
+  "50": 0.5,
+  "60": 0.6,
+  "70": 0.7,
+  "75": 0.75,
+  "80": 0.8,
+  "90": 0.9,
+  "95": 0.95,
+  "100": 1
+);
+
+// -----------------------------------------------------------------------------
+// Opacity
+// -----------------------------------------------------------------------------
+
+// Gera as classes base (ex: .opacity-0, .opacity-50, .opacity-100)
+@each $level-key, $level-value in $opacity-levels {
+  .opacity-#{$level-key} {
+    opacity: $level-value;
+  }
+}
+
+// Gera as classes responsivas (ex: md:opacity-50, lg:opacity-100)
+@each $bp, $size in $breakpoints {
+  @each $level-key, $level-value in $opacity-levels {
+    @include utility($bp, "opacity-#{$level-key}") {
+      opacity: $level-value;
+    }
+  }
+}
