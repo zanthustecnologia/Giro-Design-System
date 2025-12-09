@@ -6,10 +6,12 @@
   "exports": {
     ".": "./dist/css/giro.css",
     "./css/giro.css": "./dist/css/giro.css",
-    "./css/giro.min.css": "./dist/css/giro.min.css"
+    "./css/giro.min.css": "./dist/css/giro.min.css",
+    "./src/index.scss": "./src/index.scss"
   },
   "files": [
-    "dist"
+    "dist",
+    "src"
   ],
   "publishConfig": {
     "access": "public",
