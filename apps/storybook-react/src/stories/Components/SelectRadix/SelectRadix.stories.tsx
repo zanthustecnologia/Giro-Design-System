@@ -143,9 +143,11 @@ const checkboxTwoLinesItems = [
 ];
 
 // Default/Playground
-const Template: StoryFn<SelectRadixProps> = (args) => <SelectRadix {...args} />;
-
-export const Default = Template.bind({});
+export const Default: StoryFn<SelectRadixProps> = (args) => (
+  <div style={{ maxWidth: 300 }}>
+    <SelectRadix {...args} />
+  </div>
+);
 
 Default.args = {
   items: textOnlyItems,
@@ -158,122 +160,232 @@ Default.args = {
   disabled: false,
 };
 
+Default.parameters = {
+  docs: {
+    description: {
+      story: 'Interactive playground to test all SelectRadix props. Use the controls panel to modify properties.',
+    },
+  },
+};
+
 // Variants
-export const Variants: StoryFn<SelectRadixProps> = () => (
-  <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap' }}>
-    <div style={{ width: 300 }}>
-      <SelectRadix
-        items={textOnlyItems}
-        variant="text"
-        label="Text Only"
-        placeholder="Select a framework"
-      />
-    </div>
-    <div style={{ width: 300 }}>
-      <SelectRadix
-        items={iconItems}
-        variant="icon"
-        label="With Icon"
-        placeholder="Select a page"
-      />
-    </div>
-    <div style={{ width: 300 }}>
-      <SelectRadix
-        items={checkboxItems}
-        variant="checkbox"
-        label="Multi-select"
-        placeholder="Select languages"
-      />
-    </div>
+export const TextOnly: StoryFn<SelectRadixProps> = (args) => (
+  <div style={{ maxWidth: 300 }}>
+    <SelectRadix {...args} />
   </div>
 );
 
-export const WithIcon: StoryFn<SelectRadixProps> = () => (
-  <SelectRadix
-    items={iconItems}
-    variant="icon"
-    label="Navigation"
-    placeholder="Select a page"
-  />
+TextOnly.args = {
+  items: textOnlyItems,
+  variant: 'text',
+  label: 'Framework',
+  placeholder: 'Select a framework',
+};
+
+TextOnly.parameters = {
+  docs: {
+    description: {
+      story: 'Basic text-only select.',
+    },
+  },
+};
+
+export const WithIcon: StoryFn<SelectRadixProps> = (args) => (
+  <div style={{ maxWidth: 300 }}>
+    <SelectRadix {...args} />
+  </div>
 );
 
-export const WithCheckbox: StoryFn<SelectRadixProps> = () => (
-  <SelectRadix
-    items={checkboxItems}
-    variant="checkbox"
-    label="Programming Languages"
-    placeholder="Select languages"
-  />
+WithIcon.args = {
+  items: iconItems,
+  variant: 'icon',
+  label: 'Navigation',
+  placeholder: 'Select a page',
+};
+
+WithIcon.parameters = {
+  docs: {
+    description: {
+      story: 'Select with icons.',
+    },
+  },
+};
+
+export const WithCheckbox: StoryFn<SelectRadixProps> = (args) => (
+  <div style={{ maxWidth: 300 }}>
+    <SelectRadix {...args} />
+  </div>
 );
+
+WithCheckbox.args = {
+  items: checkboxItems,
+  variant: 'checkbox',
+  label: 'Programming Languages',
+  placeholder: 'Select languages',
+};
+
+WithCheckbox.parameters = {
+  docs: {
+    description: {
+      story: 'Multi-select with checkboxes.',
+    },
+  },
+};
 
 // Features
-export const TwoLines: StoryFn<SelectRadixProps> = () => (
-  <SelectRadix
-    items={textTwoLinesItems}
-    variant="text"
-    label="Framework"
-    placeholder="Select a framework"
-  />
+export const TwoLines: StoryFn<SelectRadixProps> = (args) => (
+  <div style={{ maxWidth: 300 }}>
+    <SelectRadix {...args} />
+  </div>
 );
 
-export const WithSearch: StoryFn<SelectRadixProps> = () => (
-  <SelectRadix
-    items={textOnlyItems}
-    variant="text"
-    label="Framework"
-    placeholder="Search frameworks..."
-    search={true}
-  />
+TwoLines.args = {
+  items: textTwoLinesItems,
+  variant: 'text',
+  label: 'Framework',
+  placeholder: 'Select a framework',
+};
+
+TwoLines.argTypes = {
+  items: {
+    control: { type: 'select' },
+    options: ['text', 'icon', 'checkbox'],
+    mapping: {
+      text: textTwoLinesItems,
+      icon: iconTwoLinesItems,
+      checkbox: checkboxTwoLinesItems,
+    },
+  },
+};
+
+TwoLines.parameters = {
+  docs: {
+    description: {
+      story: 'Select with two-line items (title and subtitle). Use variant control to switch between text, icon, and checkbox.',
+    },
+  },
+};
+
+export const WithSearch: StoryFn<SelectRadixProps> = (args) => (
+  <div style={{ maxWidth: 300 }}>
+    <SelectRadix {...args} />
+  </div>
 );
 
-export const WithHelperText: StoryFn<SelectRadixProps> = () => (
-  <SelectRadix
-    items={textOnlyItems}
-    variant="text"
-    label="Framework"
-    placeholder="Select a framework"
-    helperText="Choose your preferred JavaScript framework"
-  />
+WithSearch.args = {
+  items: textOnlyItems,
+  variant: 'text',
+  label: 'Framework',
+  placeholder: 'Search frameworks...',
+  search: true,
+};
+
+WithSearch.parameters = {
+  docs: {
+    description: {
+      story: 'Select with search functionality. Use variant control to test search with different variants.',
+    },
+  },
+};
+
+export const WithHelperText: StoryFn<SelectRadixProps> = (args) => (
+  <div style={{ maxWidth: 300 }}>
+    <SelectRadix {...args} />
+  </div>
 );
+
+WithHelperText.args = {
+  items: textOnlyItems,
+  variant: 'text',
+  label: 'Framework',
+  placeholder: 'Select a framework',
+  helperText: 'Choose your preferred JavaScript framework',
+};
+
+WithHelperText.parameters = {
+  docs: {
+    description: {
+      story: 'Select with helper text displayed below the field. Use variant control to test with different variants.',
+    },
+  },
+};
 
 // States
-export const Required: StoryFn<SelectRadixProps> = () => (
-  <SelectRadix
-    items={textOnlyItems}
-    variant="text"
-    label="Framework"
-    placeholder="Select a framework"
-    required={true}
-    helperText="This field is required"
-  />
+export const Required: StoryFn<SelectRadixProps> = (args) => (
+  <div style={{ maxWidth: 300 }}>
+    <SelectRadix {...args} />
+  </div>
 );
 
-export const Disabled: StoryFn<SelectRadixProps> = () => (
-  <SelectRadix
-    items={textOnlyItems}
-    variant="text"
-    label="Framework"
-    placeholder="Select a framework"
-    disabled={true}
-    value="react"
-  />
+Required.args = {
+  items: textOnlyItems,
+  variant: 'text',
+  label: 'Framework',
+  placeholder: 'Select a framework',
+  required: true,
+  helperText: 'This field is required',
+};
+
+Required.parameters = {
+  docs: {
+    description: {
+      story: 'Required field. Open and close without selecting to see error state.',
+    },
+  },
+};
+
+export const Disabled: StoryFn<SelectRadixProps> = (args) => (
+  <div style={{ maxWidth: 300 }}>
+    <SelectRadix {...args} />
+  </div>
 );
 
-export const WithError: StoryFn<SelectRadixProps> = () => {
+Disabled.args = {
+  items: textOnlyItems,
+  variant: 'text',
+  label: 'Framework',
+  placeholder: 'Select a framework',
+  disabled: true,
+  value: 'react',
+};
+
+Disabled.parameters = {
+  docs: {
+    description: {
+      story: 'Disabled state with pre-selected value.',
+    },
+  },
+};
+
+export const WithError: StoryFn<SelectRadixProps> = (args) => {
   const [value, setValue] = React.useState('');
   
   return (
-    <SelectRadix 
-      items={textOnlyItems}
-      variant="text"
-      label="Framework"
-      placeholder="Select a framework"
-      required={true}
-      errorMessage="Please select a framework"
-      value={value}
-      onValueChange={(val) => setValue(val as string)}
-    />
+    <div style={{ maxWidth: 300 }}>
+      <SelectRadix 
+        {...args} 
+        value={value}
+        onValueChange={(val) => setValue(val as string)}
+      />
+    </div>
   );
+};
+
+WithError.args = {
+  items: textOnlyItems,
+  variant: 'text',
+  label: 'Framework',
+  placeholder: 'Select a framework',
+  required: true,
+  errorMessage: 'Please select a framework',
+};
+
+WithError.parameters = {
+  docs: {
+    description: {
+      story: 'Error state. Open and close without selecting to trigger error validation.',
+    },
+  },
 };
 
 // Advanced features
@@ -319,7 +431,7 @@ export const InfiniteScroll: StoryFn<SelectRadixProps> = () => {
   }, [page, hasMore, isLoadingMore]);
 
   return (
-    <>
+    <div style={{ maxWidth: 400 }}>
       <SelectRadix
         items={items}
         variant="text"
@@ -333,8 +445,16 @@ export const InfiniteScroll: StoryFn<SelectRadixProps> = () => {
       <p style={{ marginTop: '16px', fontSize: '14px', color: '#666' }}>
         Total items: {items.length} | Page: {page} | Has more: {hasMore ? 'Yes' : 'No'}
       </p>
-    </>
+    </div>
   );
+};
+
+InfiniteScroll.parameters = {
+  docs: {
+    description: {
+      story: 'Demonstration of infinite scroll functionality. Scroll to the bottom of the list to load more items automatically.',
+    },
+  },
 };
 
 export const ApiSearch: StoryFn<SelectRadixProps> = () => {
@@ -374,7 +494,7 @@ export const ApiSearch: StoryFn<SelectRadixProps> = () => {
   }, []);
 
   return (
-    <>
+    <div style={{ maxWidth: 400 }}>
       <SelectRadix
         items={items}
         variant="text"
@@ -391,6 +511,14 @@ export const ApiSearch: StoryFn<SelectRadixProps> = () => {
         <p><strong>Total results:</strong> {items.length}</p>
         <p><strong>Tip:</strong> Type something to see the API search in action!</p>
       </div>
-    </>
+    </div>
   );
+};
+
+ApiSearch.parameters = {
+  docs: {
+    description: {
+      story: 'Demonstration of API-based search. Type in the search field to trigger simulated API calls.',
+    },
+  },
 };
