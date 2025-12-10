@@ -1,0 +1,252 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as SelectRadixStories from './SelectRadix.stories';
+import { SelectRadix } from '@giro-ds/react';
+import { UsageGuidelines } from '../../../internal-components/mdx/UsageGuidelines/UsageGuidelines';
+import { ComponentRules } from '../../../internal-components/mdx/Rules/Rules';
+import { Footer } from '../../../internal-components/mdx/Footer/Footer';
+
+<Meta of={SelectRadixStories} />
+
+# Select
+
+O componente Select permite que usuários escolham uma ou múltiplas opções de uma lista. 
+Ele oferece três variantes (texto simples, com ícone e multi-seleção com checkbox), suporta busca e carregamento dinâmico de dados.
+
+<Canvas of={SelectRadixStories.Default} />
+
+## Importação
+
+```js
+import { SelectRadix } from '@giro-ds/react';
+```
+
+## Propriedades
+
+<Controls />
+
+## Uso
+
+<UsageGuidelines
+  guidelines={[
+    <>
+      Use Select quando houver 5 ou mais opções disponíveis. Para menos opções, considere usar Radio ou Checkbox.
+    </>,
+    <>
+      Sempre forneça um <code>label</code> claro que descreva o que está sendo selecionado.
+    </>,
+    <>
+      Use <code>placeholder</code> para indicar uma ação (ex: "Selecione um framework") ou exemplo do tipo de conteúdo esperado.
+    </>,
+    <>
+      Para campos obrigatórios, use a propriedade <code>required</code> que exibirá o asterisco vermelho ao lado do label.
+    </>,
+    <>
+      Use <code>helperText</code> para fornecer contexto adicional sobre o campo ou instruções de preenchimento.
+    </>,
+    <>
+      Use <code>errorMessage</code> para exibir mensagens de validação específicas quando o campo estiver inválido.
+    </>,
+    <>
+      Para listas longas (mais de 20 itens), habilite a funcionalidade de busca com <code>search={'{'}true{'}'}</code>.
+    </>,
+    <>
+      Use a variante <code>checkbox</code> quando o usuário precisar selecionar múltiplos itens.
+    </>,
+  ]}
+/>
+
+## Variações
+
+<Canvas of={SelectRadixStories.Variants} />
+
+### Com ícones
+
+<Canvas of={SelectRadixStories.WithIcon} />
+
+### Multi-seleção (Checkbox)
+
+<Canvas of={SelectRadixStories.WithCheckbox} />
+
+### Duas linhas
+
+Para itens que precisam de descrição adicional, use a propriedade `subTitle`:
+
+<Canvas of={SelectRadixStories.TwoLines} />
+
+## Funcionalidades
+
+### Busca local
+
+<Canvas of={SelectRadixStories.WithSearch} />
+
+### Infinite Scroll
+
+Para listas muito longas que são carregadas sob demanda:
+
+<Canvas of={SelectRadixStories.InfiniteScroll} />
+
+### Busca via API
+
+Para listas que dependem de busca em backend:
+
+<Canvas of={SelectRadixStories.ApiSearch} />
+
+## Estados
+
+### Obrigatório
+
+<Canvas of={SelectRadixStories.Required} />
+
+### Com erro
+
+<Canvas of={SelectRadixStories.WithError} />
+
+### Desabilitado
+
+<Canvas of={SelectRadixStories.Disabled} />
+
+### Com Helper Text
+
+<Canvas of={SelectRadixStories.WithHelperText} />
+
+## O que fazer e não fazer
+
+<ComponentRules
+  rules={[
+    {
+      positive: {
+        component: <SelectRadix 
+          items={[
+            { id: '1', value: 'react', text: 'React' },
+            { id: '2', value: 'vue', text: 'Vue' },
+            { id: '3', value: 'angular', text: 'Angular' }
+          ]}
+          label="Framework"
+          placeholder="Selecione um framework"
+        />,
+        description: "Use labels claros e descritivos que indiquem o que está sendo selecionado."
+      },
+      negative: {
+        component: <SelectRadix 
+          items={[
+            { id: '1', value: 'react', text: 'React' },
+            { id: '2', value: 'vue', text: 'Vue' },
+            { id: '3', value: 'angular', text: 'Angular' }
+          ]}
+          placeholder="Escolha"
+        />,
+        description: "Não omita o label ou use placeholders vagos sem contexto."
+      }
+    },
+    {
+      positive: {
+        component: <SelectRadix 
+          items={[
+            { id: '1', value: 'small', text: 'Pequeno' },
+            { id: '2', value: 'medium', text: 'Médio' },
+            { id: '3', value: 'large', text: 'Grande' }
+          ]}
+          label="Tamanho"
+          placeholder="Selecione um tamanho"
+        />,
+        description: "Para poucas opções simples, use Select sem busca."
+      },
+      negative: {
+        component: <SelectRadix 
+          items={[
+            { id: '1', value: 'small', text: 'Pequeno' },
+            { id: '2', value: 'medium', text: 'Médio' },
+            { id: '3', value: 'large', text: 'Grande' }
+          ]}
+          label="Tamanho"
+          placeholder="Buscar tamanho..."
+          search={true}
+        />,
+        description: "Não habilite busca para listas pequenas (menos de 10 itens)."
+      }
+    },
+    {
+      positive: {
+        component: <SelectRadix 
+          items={[
+            { id: '1', value: 'js', text: 'JavaScript' },
+            { id: '2', value: 'ts', text: 'TypeScript' },
+            { id: '3', value: 'py', text: 'Python' }
+          ]}
+          variant="checkbox"
+          label="Linguagens de programação"
+          placeholder="Selecione as linguagens"
+        />,
+        description: "Use variante checkbox para multi-seleção de itens relacionados."
+      },
+      negative: {
+        component: <SelectRadix 
+          items={[
+            { id: '1', value: 'yes', text: 'Sim' },
+            { id: '2', value: 'no', text: 'Não' }
+          ]}
+          variant="checkbox"
+          label="Aceita os termos?"
+          placeholder="Selecione"
+        />,
+        description: "Não use checkbox para escolhas binárias. Use um único Checkbox ou Radio."
+      }
+    },
+    {
+      positive: {
+        component: <SelectRadix 
+          items={[
+            { id: '1', value: 'react', text: 'React', subTitle: 'A JavaScript library for building UIs' },
+            { id: '2', value: 'vue', text: 'Vue', subTitle: 'The Progressive JavaScript Framework' }
+          ]}
+          label="Framework"
+          placeholder="Selecione um framework"
+        />,
+        description: "Use subTitle para fornecer contexto adicional quando necessário."
+      },
+      negative: {
+        component: <SelectRadix 
+          items={[
+            { id: '1', value: 'react', text: 'React - A JavaScript library for building user interfaces' },
+            { id: '2', value: 'vue', text: 'Vue - The Progressive JavaScript Framework' }
+          ]}
+          label="Framework"
+          placeholder="Selecione um framework"
+        />,
+        description: "Não coloque descrições longas no texto principal. Use subTitle para isso."
+      }
+    },
+    {
+      positive: {
+        component: <SelectRadix 
+          items={[
+            { id: '1', value: 'br', text: 'Brasil' },
+            { id: '2', value: 'us', text: 'Estados Unidos' },
+            { id: '3', value: 'uk', text: 'Reino Unido' }
+          ]}
+          label="País"
+          placeholder="Selecione seu país"
+          required
+          errorMessage="Por favor, selecione um país"
+        />,
+        description: "Forneça mensagens de erro claras e específicas para campos obrigatórios."
+      },
+      negative: {
+        component: <SelectRadix 
+          items={[
+            { id: '1', value: 'br', text: 'Brasil' },
+            { id: '2', value: 'us', text: 'Estados Unidos' },
+            { id: '3', value: 'uk', text: 'Reino Unido' }
+          ]}
+          label="País"
+          placeholder="Selecione seu país"
+          required
+          errorMessage="Erro"
+        />,
+        description: "Não use mensagens de erro genéricas que não ajudam o usuário a entender o problema."
+      }
+    }
+  ]}
+/>
+
+<Footer />

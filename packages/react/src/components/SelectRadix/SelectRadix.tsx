@@ -10,7 +10,7 @@ import SelectItem from './components/SelectItem';
 import Search from '../Search/Search';
 import LabelComponent from '../../shared/Label';
 
-import styles from './index.module.scss';
+import styles from './SelectRadix.module.scss';
 
 const SelectRadix: React.FC<SelectRadixProps> = ({
   items,
