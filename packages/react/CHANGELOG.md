@@ -1,5 +1,11 @@
 # @giro-ds/react
 
+## 1.0.3
+
+### Patch Changes
+
+- f2a65cb: fix: TextField now correctly accepts external errorMessage validation
+
 ## 1.0.2
 
 ### Patch Changes
