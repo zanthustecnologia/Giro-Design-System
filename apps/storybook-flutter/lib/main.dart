@@ -5,16 +5,21 @@ import 'package:widgetbook/widgetbook.dart';
 import 'stories/app_bar_story.dart';
 import 'stories/avatars_story.dart';
 import 'stories/badges_story.dart';
+import 'stories/bottom_app_bar_story.dart';
 import 'stories/bottom_sheet_story.dart';
 import 'stories/buttons_story.dart';
 import 'stories/cards_story.dart';
 import 'stories/chips_story.dart';
+import 'stories/date_picker_story.dart';
 import 'stories/dialogs_story.dart';
 import 'stories/dividers_story.dart';
+import 'stories/drawer_story.dart';
 import 'stories/dropdown_story.dart';
 import 'stories/fab_story.dart';
 import 'stories/icon_buttons_story.dart';
 import 'stories/list_tile_story.dart';
+import 'stories/menu_story.dart';
+import 'stories/navigation_rail_story.dart';
 import 'stories/navigation_story.dart';
 import 'stories/popup_menu_story.dart';
 import 'stories/progress_story.dart';
@@ -23,6 +28,7 @@ import 'stories/slider_story.dart';
 import 'stories/snackbar_story.dart';
 import 'stories/tabs_story.dart';
 import 'stories/text_field_story.dart';
+import 'stories/time_picker_story.dart';
 import 'stories/tooltips_story.dart';
 
 void main() {
@@ -65,6 +71,7 @@ class WidgetbookApp extends StatelessWidget {
               children: [
                 cardsStory(),
                 bottomSheetStory(),
+                drawerStory(),
                 dividersStory(),
               ],
             ),
@@ -74,7 +81,9 @@ class WidgetbookApp extends StatelessWidget {
               name: 'Navigation',
               children: [
                 appBarStory(),
+                bottomAppBarStory(),
                 navigationStory(),
+                navigationRailStory(),
                 tabsStory(),
               ],
             ),
@@ -86,7 +95,10 @@ class WidgetbookApp extends StatelessWidget {
                 selectionControlsStory(),
                 chipsStory(),
                 sliderStory(),
+                datePickerStory(),
+                timePickerStory(),
                 dropdownStory(),
+                menuStory(),
                 popupMenuStory(),
               ],
             ),
