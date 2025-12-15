@@ -1,5 +1,5 @@
-name: storybook_flutter
-description: Widgetbook showcase for Zanthus Flutter components
+name: widgetbook_flutter
+description: Widgetbook showcase for Giro Design System Flutter components
 version: 1.0.0+1
 
 environment:
