@@ -139,12 +139,16 @@ const TextField: React.FC<TextFieldProps> = ({
             <span className={styles['zds-textfield__icon']}>{icon}</span>
           )}
           {shouldRenderClearIcon && (
-            <Dismiss16Regular
+            <span 
               className={styles['zds-textfield__icon']}
               onClick={clearInput}
-              aria-label="Limpar campo"
               onMouseDown={(e) => e.preventDefault()}
-            />
+              role="button"
+              tabIndex={0}
+              aria-label="Limpar campo"
+            >
+              <Dismiss16Regular />
+            </span>
           )}
         </div>
 
