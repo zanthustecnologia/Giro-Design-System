@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:zanthus_flutter/tokens/tokens.dart';
+import 'package:flutter_giro/tokens/tokens.dart';
 
 class GiroTheme {
   static ThemeData get lightTheme {
