@@ -24,7 +24,7 @@ class ZanthusListItem extends StatelessWidget {
       title: Text(
         title,
         style: ZanthusTypography.bodyMedium.copyWith(
-          fontWeight: ZanthusTypography.fontWeightMedium,
+          fontWeight: FontWeight.w700,
         ),
       ),
       subtitle: subtitle != null

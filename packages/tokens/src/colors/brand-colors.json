@@ -3,7 +3,7 @@
     "brand": {
       "primary": {
         "default": {
-          "value": "#3b45f2",
+          "value": "#3B45F2",
           "type": "color"
         },
         "dark": {

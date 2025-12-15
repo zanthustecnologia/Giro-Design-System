@@ -45,7 +45,7 @@ class ZanthusBadge extends StatelessWidget {
             style: TextStyle(
               color: _getTextColor(),
               fontSize: ZanthusTypography.fontSizeXs,
-              fontWeight: ZanthusTypography.fontWeightMedium,
+              fontWeight: FontWeight.w500,
             ),
           ),
         ],

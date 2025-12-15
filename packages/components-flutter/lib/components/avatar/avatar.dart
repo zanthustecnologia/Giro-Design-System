@@ -41,7 +41,7 @@ class ZanthusAvatar extends StatelessWidget {
               style: TextStyle(
                 color: textColor ?? ZanthusColors.onPrimary,
                 fontSize: fontSize,
-                fontWeight: ZanthusTypography.fontWeightMedium,
+                fontWeight: FontWeight.w500,
               ),
             )
           : null,
