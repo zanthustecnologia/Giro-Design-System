@@ -166,7 +166,6 @@
   flex-direction: column;
   overflow-y: auto;
   max-height: 200px;
-  padding-top: var(--spacing-16);
 }
 
 .group {
@@ -213,7 +212,6 @@
   box-sizing: border-box;
   width: 100%;
   overflow: hidden;
-  margin: var(--spacing-4) 0;
   cursor: pointer;
 
   &:hover:not([data-disabled]):not([data-selected='true']) {
@@ -254,7 +252,8 @@
 .checkboxItem {
   height: var(--select-height);
   min-height: var(--select-height);
-  padding: var(--spacing-8) var(--select-padding-x);
+  padding: var(--spacing-8) var(--select-padding-x) var(--spacing-8) var(--spacing-8);
+  margin-bottom: var(--spacing-16);
   
   &:hover:not(.disabled) {
     background-color: var(--color-neutral-high-medium);
@@ -272,7 +271,7 @@
   border-radius: var(--select-border-radius);
   height: var(--select-height);
   padding: 0 var(--select-padding-x);
-  margin-bottom: var(--spacing-8);
+  margin-bottom: var(--spacing-16);
   gap: var(--select-gap);
   cursor: pointer;
 
