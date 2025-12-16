@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:widgetbook/widgetbook.dart';
-
-import 'theme/giro_theme.dart';
+import 'package:flutter_giro/flutter_giro.dart';
 
 // Import Material 3 Pure Component Stories
 import 'stories/app_bar/app_bar_story.dart';
@@ -131,11 +130,11 @@ class WidgetbookApp extends StatelessWidget {
           themes: [
             WidgetbookTheme(
               name: 'Giro Light',
-              data: GiroTheme.lightTheme,
+              data: applyGiroTheme(ThemeData.light()),
             ),
             WidgetbookTheme(
               name: 'Giro Dark',
-              data: GiroTheme.darkTheme,
+              data: applyGiroTheme(ThemeData.dark()),
             ),
           ],
         ),
