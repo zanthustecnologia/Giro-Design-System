@@ -7,30 +7,6 @@
   height: 70px;
 }
 
-.label {
-  color: var(--color-neutral-low-default);
-  font-family: var(--font-family-primary);
-  font-size: var(--font-size-12);
-  font-style: normal;
-  font-weight: var(--font-weight-regular);
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-4);
-  padding-bottom: var(--spacing-4);
-}
-
-.labelContent {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-4);
-}
-
-.required {
-  color: var(--color-brand-primary-default);
-  font-family: var(--font-family-primary);
-  font-size: var(--font-size-12);
-}
-
 .inputWrapper {
   display: flex;
   flex-direction: column;
@@ -106,12 +82,6 @@
   color: inherit;
 }
 
-.tooltipIcon {
-  width: 12px;
-  height: 12px;
-  color: var(--color-brand-primary-default);
-}
-
 .helperText {
   font-size: var(--font-size-12);
   color: var(--color-neutral-low-medium);
@@ -135,10 +105,7 @@
 
 // Estados de erro
 .error {
-  .label,
-  .required,
   .helperText,
-  .tooltipIcon,
   .icon,
   .clearButton {
     color: var(--color-feedback-alert-default);
@@ -158,10 +125,7 @@
   .label,
   .required,
   .helperText,
-  .tooltipIcon {
-    color: var(--color-neutral-high-dark);
-  }
-
+  .helperText
   .inputContainer input {
     border: var(--border-width-1) solid var(--color-neutral-high-dark);
     color: var(--color-neutral-high-dark);

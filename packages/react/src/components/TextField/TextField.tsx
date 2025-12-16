@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useId, forwardRef } from 'react';
 import clsx from 'clsx';
-import { Dismiss16Regular, Info12Regular } from '@fluentui/react-icons';
-import Tooltip from '../Tooltip/Tooltip';
+import { Dismiss16Regular } from '@fluentui/react-icons';
+import LabelComponent from '../../shared/Label';
 import styles from './TextField.module.scss';
 import { validateInput } from './utils';
 import type { TextFieldProps } from './TextField.types';
@@ -100,22 +100,17 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
     return (
       <div className={containerClass}>
         {label && (
-          <label htmlFor={componentId} className={styles.label}>
-            {tooltip ? (
-              <Tooltip text={tooltipText} position={positionTooltip}>
-                <span className={styles.labelContent}>
-                  {label}
-                  {required && <span className={styles.required}>*</span>}
-                  <Info12Regular className={styles.tooltipIcon} />
-                </span>
-              </Tooltip>
-            ) : (
-              <span className={styles.labelContent}>
-                {label}
-                {required && <span className={styles.required}>*</span>}
-              </span>
-            )}
-          </label>
+          <LabelComponent
+            htmlFor={componentId}
+            required={required}
+            tooltip={tooltip}
+            tooltipMessage={tooltipText}
+            tooltipPosition={positionTooltip}
+            error={hasError}
+            disabled={disabled}
+          >
+            {label}
+          </LabelComponent>
         )}
 
         <div className={styles.inputWrapper}>
