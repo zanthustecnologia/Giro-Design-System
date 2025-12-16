@@ -1,62 +1,58 @@
 import 'package:flutter_giro/flutter_giro.dart';
 import 'package:widgetbook/widgetbook.dart';
 
-WidgetbookComponent buttonsStory() {
+WidgetbookComponent iconButtonsStory() {
   return WidgetbookComponent(
-    name: 'Buttons',
+    name: 'Icon Buttons',
     useCases: [
       WidgetbookUseCase(
-        name: 'ElevatedButton',
+        name: 'IconButton',
         builder: (context) {
-          final text = context.knobs.string(label: 'Text', initialValue: 'Elevated');
           final disabled = context.knobs.boolean(label: 'Disabled');
           
           return Center(
-            child: ElevatedButton(
+            child: IconButton(
               onPressed: disabled ? null : () {},
-              child: Text(text),
+              icon: const Icon(Icons.favorite),
             ),
           );
         },
       ),
       WidgetbookUseCase(
-        name: 'FilledButton (M3)',
+        name: 'IconButton.filled',
         builder: (context) {
-          final text = context.knobs.string(label: 'Text', initialValue: 'Filled');
           final disabled = context.knobs.boolean(label: 'Disabled');
           
           return Center(
-            child: FilledButton(
+            child: IconButton.filled(
               onPressed: disabled ? null : () {},
-              child: Text(text),
+              icon: const Icon(Icons.favorite),
             ),
           );
         },
       ),
       WidgetbookUseCase(
-        name: 'OutlinedButton',
+        name: 'IconButton.filledTonal',
         builder: (context) {
-          final text = context.knobs.string(label: 'Text', initialValue: 'Outlined');
           final disabled = context.knobs.boolean(label: 'Disabled');
           
           return Center(
-            child: OutlinedButton(
+            child: IconButton.filledTonal(
               onPressed: disabled ? null : () {},
-              child: Text(text),
+              icon: const Icon(Icons.favorite),
             ),
           );
         },
       ),
       WidgetbookUseCase(
-        name: 'TextButton',
+        name: 'IconButton.outlined',
         builder: (context) {
-          final text = context.knobs.string(label: 'Text', initialValue: 'Text Button');
           final disabled = context.knobs.boolean(label: 'Disabled');
           
           return Center(
-            child: TextButton(
+            child: IconButton.outlined(
               onPressed: disabled ? null : () {},
-              child: Text(text),
+              icon: const Icon(Icons.favorite),
             ),
           );
         },
@@ -68,12 +64,12 @@ WidgetbookComponent buttonsStory() {
             child: Wrap(
               spacing: 16,
               runSpacing: 16,
+              alignment: WrapAlignment.center,
               children: [
-                ElevatedButton(onPressed: () {}, child: const Text('Elevated')),
-                FilledButton(onPressed: () {}, child: const Text('Filled')),
-                FilledButton.tonal(onPressed: () {}, child: const Text('Tonal')),
-                OutlinedButton(onPressed: () {}, child: const Text('Outlined')),
-                TextButton(onPressed: () {}, child: const Text('Text')),
+                IconButton(onPressed: () {}, icon: const Icon(Icons.favorite)),
+                IconButton.filled(onPressed: () {}, icon: const Icon(Icons.favorite)),
+                IconButton.filledTonal(onPressed: () {}, icon: const Icon(Icons.favorite)),
+                IconButton.outlined(onPressed: () {}, icon: const Icon(Icons.favorite)),
               ],
             ),
           );

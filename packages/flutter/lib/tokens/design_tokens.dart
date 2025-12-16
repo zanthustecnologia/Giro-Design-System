@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'generated_tokens.dart';
 
 /// Cores do design system
-class ZanthusColors {
-  ZanthusColors._();
+class GiroColors {
+  GiroColors._();
   
   // Brand Colors
   static const Color primary = GiroTokens.colorBrandPrimaryDefault;
@@ -45,8 +45,8 @@ class ZanthusColors {
 }
 
 /// Espaçamentos do design system
-class ZanthusSpacing {
-  ZanthusSpacing._();
+class GiroSpacing {
+  GiroSpacing._();
   
   static const double xs = GiroTokens.spacing4;
   static const double sm = GiroTokens.spacing8;
@@ -57,8 +57,8 @@ class ZanthusSpacing {
 }
 
 /// Shadows do design system
-class ZanthusShadows {
-  ZanthusShadows._();
+class GiroShadows {
+  GiroShadows._();
   
   static final List<BoxShadow> shadowSm = sm;
   static final List<BoxShadow> shadowMd = md;
@@ -90,8 +90,8 @@ class ZanthusShadows {
 }
 
 /// Tipografia do design system
-class ZanthusTypography {
-  ZanthusTypography._();
+class GiroTypography {
+  GiroTypography._();
   
   // Font sizes
   static const double fontSizeXs = GiroTokens.fontSize12;
@@ -163,8 +163,8 @@ class ZanthusTypography {
 }
 
 /// Border Radius do design system
-class ZanthusBorderRadius {
-  ZanthusBorderRadius._();
+class GiroBorderRadius {
+  GiroBorderRadius._();
   
   static final BorderRadius borderRadiusSm = BorderRadius.circular(GiroTokens.borderRadius4);
   static final BorderRadius borderRadiusMd = BorderRadius.circular(GiroTokens.borderRadius8);
