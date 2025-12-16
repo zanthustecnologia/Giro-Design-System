@@ -49,6 +49,17 @@ ButtonStyle _baseStyle({
 
     tapTargetSize: MaterialTapTargetSize.shrinkWrap,
     elevation: WidgetStateProperty.all(0), // Flat buttons
+
+    // Default to Large size for native buttons
+    minimumSize: WidgetStateProperty.all(
+      const Size(GiroButtonTokens.minWidthLg, GiroButtonTokens.heightLg),
+    ),
+    maximumSize: WidgetStateProperty.all(
+      const Size(double.infinity, GiroButtonTokens.heightLg),
+    ),
+    padding: WidgetStateProperty.all(
+      const EdgeInsets.symmetric(horizontal: GiroButtonTokens.paddingXLg),
+    ),
   );
 }
 

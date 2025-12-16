@@ -32,11 +32,15 @@ class GiroButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final height = _isLg ? GiroButtonTokens.heightLg : GiroButtonTokens.heightSm;
-    final minWidth = _isLg ? GiroButtonTokens.minWidthLg : GiroButtonTokens.minWidthSm;
+    final tokenMinWidth = _isLg ? GiroButtonTokens.minWidthLg : GiroButtonTokens.minWidthSm;
+    final effectiveMinWidth = iconOnly ? height : tokenMinWidth;
 
     final padX = _getHorizontalPadding(variant: variant, isLg: _isLg, hasIcon: _hasIcon);
     final style = ButtonStyle(
-      minimumSize: WidgetStateProperty.all(Size(minWidth, height)),
+      // Override Theme's minimumSize (which defaults to 92px width)
+      minimumSize: WidgetStateProperty.all(Size(effectiveMinWidth, height)),
+      // Force square shape for iconOnly to be absolutely sure
+      fixedSize: iconOnly ? WidgetStateProperty.all(Size(height, height)) : null,
       padding: WidgetStateProperty.all(
         iconOnly ? EdgeInsets.zero : EdgeInsets.symmetric(horizontal: padX),
       ),
@@ -62,7 +66,15 @@ class GiroButton extends StatelessWidget {
     if (fullWidth) {
       return SizedBox(width: double.infinity, height: height, child: button);
     }
-    return button;
+    
+    return ConstrainedBox(
+      constraints: BoxConstraints(
+        minWidth: effectiveMinWidth,
+        minHeight: height,
+        maxHeight: height,
+      ),
+      child: button,
+    );
   }
 
   double _getHorizontalPadding({
