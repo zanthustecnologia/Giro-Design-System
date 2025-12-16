@@ -1,5 +1,11 @@
 # @giro-ds/react
 
+## 1.0.4
+
+### Patch Changes
+
+- bdce1f5: fix: enhance TextField icon interaction with accessibility improvements
+
 ## 1.0.3
 
 ### Patch Changes
