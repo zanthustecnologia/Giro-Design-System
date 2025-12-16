@@ -111,6 +111,9 @@
   cursor: pointer;
   width: 16px;
   height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .zds-textfield__container .zds-textfield__box__input .zds-textfield__icon svg {

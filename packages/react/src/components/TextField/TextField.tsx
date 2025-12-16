@@ -50,15 +50,18 @@ const TextField: React.FC<TextFieldProps> = ({
   }, [disabled, onChange]);
 
   const onBlur = useCallback(() => {
-    const error =
-      validateInput({
-        value: inputValue,
-        type,
-        maxLength,
-        errorMessage,
-        required,
-      }) || '';
-    setInputError(error);
+    // Se já existe um errorMessage externo, não validar internamente
+    if (!errorMessage) {
+      const error =
+        validateInput({
+          value: inputValue,
+          type,
+          maxLength,
+          errorMessage,
+          required,
+        }) || '';
+      setInputError(error);
+    }
     setFocus(false);
   }, [inputValue, type, maxLength, errorMessage, required]);
 
@@ -67,6 +70,15 @@ const TextField: React.FC<TextFieldProps> = ({
       setValue(value);
     }
   }, [value]);
+
+  // Sincroniza errorMessage externo com estado interno
+  useEffect(() => {
+    if (errorMessage) {
+      setInputError(errorMessage);
+    } else if (!errorMessage && inputError && !required) {
+      setInputError('');
+    }
+  }, [errorMessage]);
 
   const TextFieldClass = clsx(styles['zds-textfield__container'], {
     [styles['zds-textfield__error']]: inputError,
@@ -127,12 +139,16 @@ const TextField: React.FC<TextFieldProps> = ({
             <span className={styles['zds-textfield__icon']}>{icon}</span>
           )}
           {shouldRenderClearIcon && (
-            <Dismiss16Regular
+            <span 
               className={styles['zds-textfield__icon']}
               onClick={clearInput}
-              aria-label="Limpar campo"
               onMouseDown={(e) => e.preventDefault()}
-            />
+              role="button"
+              tabIndex={0}
+              aria-label="Limpar campo"
+            >
+              <Dismiss16Regular />
+            </span>
           )}
         </div>
 
