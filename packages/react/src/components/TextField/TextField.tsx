@@ -139,7 +139,10 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
               <button
                 type="button"
                 className={styles.clearButton}
-                onClick={handleClear}
+                onMouseDown={(e) => {
+                  e.preventDefault();
+                  handleClear();
+                }}
                 aria-label="Limpar campo"
                 tabIndex={-1}
               >
