@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_giro/flutter_giro.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:widgetbook/widgetbook.dart';
 
 WidgetbookComponent buttonsStory() {
@@ -31,7 +32,7 @@ WidgetbookComponent buttonsStory() {
 
           Icon? icon;
           if (iconPosition != 'none' || iconOnly) {
-            icon = const Icon(Icons.add);
+            icon = const Icon(FluentIcons.add_16_regular);
           }
 
           return Center(

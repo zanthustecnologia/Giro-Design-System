@@ -6,6 +6,7 @@ environment:
   sdk: '>=3.0.0 <4.0.0'
 
 dependencies:
+  fluentui_system_icons: ^1.1.273
   flutter:
     sdk: flutter
   flutter_giro:

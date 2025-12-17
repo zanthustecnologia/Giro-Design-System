@@ -26,7 +26,7 @@ class GiroTokens {
     static const borderWidth8 = 8;
     static const borderWidth12 = 12;
     static const borderWidthNone = 0;
-    static const colorBrandPrimaryDefault = Color(0xFFFF0000);
+    static const colorBrandPrimaryDefault = Color(0xFF3B45F2);
     static const colorBrandPrimaryDark = Color(0xFF0D1874);
     static const colorBrandPrimaryMedium = Color(0xFF4F83FB);
     static const colorBrandPrimaryLight = Color(0xFFCADAFF);
