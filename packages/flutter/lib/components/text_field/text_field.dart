@@ -5,6 +5,9 @@ export 'package:flutter/material.dart' show
   TextInputType,
   TextInputAction;
 
+export 'giro_text_field.dart';
+export 'text_field_tokens.dart';
+
 /// Material 3 TextField & TextFormField
 /// Re-export dos componentes nativos do Flutter
 /// 

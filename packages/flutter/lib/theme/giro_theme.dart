@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../tokens/generated_tokens.dart';
 import '../components/buttons/button_tokens.dart';
+import '../components/text_field/text_field_tokens.dart';
 
 ButtonStyle _baseStyle({
   required Color fg,
@@ -101,6 +103,51 @@ ThemeData applyGiroTheme(ThemeData base) {
         disabledFg: GiroTokens.colorNeutralHighDark,
       ).copyWith(
         backgroundColor: WidgetStateProperty.all(Colors.transparent),
+      ),
+    ),
+
+    // Configuração Global de Inputs
+    inputDecorationTheme: InputDecorationTheme(
+      filled: true,
+      fillColor: GiroTextFieldTokens.backgroundColor,
+      contentPadding: const EdgeInsets.symmetric(
+        horizontal: GiroTextFieldTokens.paddingHorizontal,
+      ),
+      // Borda Padrão
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(GiroTextFieldTokens.borderRadius),
+        borderSide: const BorderSide(
+          color: GiroTextFieldTokens.borderColorDefault,
+          width: GiroTextFieldTokens.borderWidth,
+        ),
+      ),
+      // Borda Focada
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(GiroTextFieldTokens.borderRadius),
+        borderSide: const BorderSide(
+          color: GiroTextFieldTokens.borderColorFocus,
+          width: GiroTextFieldTokens.borderWidth,
+        ),
+      ),
+      // Borda de Erro
+      errorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(GiroTextFieldTokens.borderRadius),
+        borderSide: const BorderSide(
+          color: GiroTextFieldTokens.borderColorError,
+          width: GiroTextFieldTokens.borderWidth,
+        ),
+      ),
+      focusedErrorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(GiroTextFieldTokens.borderRadius),
+        borderSide: const BorderSide(
+          color: GiroTextFieldTokens.borderColorError,
+          width: GiroTextFieldTokens.borderWidth,
+        ),
+      ),
+      hintStyle: GoogleFonts.getFont(
+        GiroTokens.fontFamilyPrimary,
+        color: GiroTextFieldTokens.placeholderColor,
+        fontSize: GiroTextFieldTokens.inputFontSize,
       ),
     ),
   );
