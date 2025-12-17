@@ -8,7 +8,7 @@ WidgetbookComponent buttonsStory() {
     name: 'Buttons',
     useCases: [
       WidgetbookUseCase(
-        name: 'GiroButton Playground',
+        name: 'Button',
         builder: (context) {
           final text = context.knobs.string(label: 'Text', initialValue: 'Button');
           final variant = context.knobs.list(
