@@ -1,359 +1,368 @@
-  ---
-  tags: [documentação, pnpm, comandos, monorepo]
-  aliases: [Guia pnpm, Comandos pnpm]
-  created: 2025-12-01
-  updated: 2025-12-01
-  ---
+---
 
-  # 📚 Guia de Comandos pnpm - Zanthus Design System
+tags: [documentação, pnpm, comandos, monorepo]
+aliases: [Guia pnpm, Comandos pnpm]
+created: 2025-12-01
+updated: 2025-12-01
 
-  > [!info] Sobre este guia
-  > Este documento contém todos os comandos essenciais para trabalhar com o Zanthus Design System usando pnpm.
+---
 
-  ---pm
+# 📚 Guia de Comandos pnpm - Zanthus Design System
 
-  ## 🚀 Comandos Principais
+> [!info] Sobre este guia
+> Este documento contém todos os comandos essenciais para trabalhar com o Zanthus Design System usando pnpm.
 
-  ### Instalar o projeto
+---pm
 
-  ```bash
-  # Instala todas as dependências de todos os workspaces
-  pnpm install
+## 🚀 Comandos Principais
 
-  # ou simplesmente
-  pnpm i
-  ```
+### Instalar o projeto
 
-  ### Build geral do projeto
+```bash
+# Instala todas as dependências de todos os workspaces
+pnpm install
 
-  ```bash
-  # Executa build de todos os pacotes (usa Turbo)
-  pnpm build
-  ```
+# ou simplesmente
+pnpm i
+```
 
-  ### Builds individuais
+### Build geral do projeto
 
-  ```bash
-  # Build de um pacote específico
-  pnpm --filter @giro-ds/tokens build
-  pnpm --filter @giro-ds/react build
-  pnpm --filter @giro-ds/utilities build
+```bash
+# Executa build de todos os pacotes (usa Turbo)
+pnpm build
+```
 
-  # Forma curta (com -F)
-  pnpm -F @giro-ds/tokens build
-  ```
+### Builds individuais
 
-  ### Executar Storybook
+```bash
+# Build de um pacote específico
+pnpm --filter @giro-ds/tokens build
+pnpm --filter @giro-ds/react build
+pnpm --filter @giro-ds/utilities build
 
-  ```bash
-  # Inicia o Storybook em modo dev
-  pnpm storybook
-  ```
+# Forma curta (com -F)
+pnpm -F @giro-ds/tokens build
+```
 
-  ---
+### Executar Storybook
 
-  ## 🔧 Comandos de Desenvolvimento
+```bash
+# Inicia o Storybook em modo dev
+pnpm storybook
+```
 
-  ### Modo desenvolvimento
+---
 
-  ```bash
-  # Modo dev em todos os apps/pacotes simultaneamente
-  pnpm dev
+## 🔧 Comandos de Desenvolvimento
 
-  # Dev em um app/pacote específico
-  pnpm --filter storybook-react dev
-  pnpm --filter @giro-ds/react dev
-  ```
+### Modo desenvolvimento
 
-  ### Testes e Qualidade
+```bash
+# Modo dev em todos os apps/pacotes simultaneamente
+pnpm dev
 
-  ```bash
-  # Lint em todo o projeto
-  pnpm lint
+# Dev em um app/pacote específico
+pnpm --filter storybook-react dev
+pnpm --filter @giro-ds/react dev
+```
 
-  # Typecheck (verificação TypeScript)
-  pnpm typecheck
+### Testes e Qualidade
 
-  # Testes
-  pnpm test
-  ```
+```bash
+# Lint em todo o projeto
+pnpm lint
 
-  ### Storybook
+# Typecheck (verificação TypeScript)
+pnpm typecheck
 
-  ```bash
-  # Iniciar Storybook (modo dev)
-  pnpm storybook
+# Testes
+pnpm test
+```
 
-  # Build do Storybook (produção)
-  ---
+### Storybook
 
-  ## 📦 Gerenciamento de Dependências
+````bash
+# Iniciar Storybook (modo dev)
+pnpm storybook
+pnpm run dev:storybook
+# Build do Storybook (produção)
+---
 
-  ### Adicionar dependências
+## 📦 Gerenciamento de Dependências
 
-  ```bash
-  # Adicionar no workspace raiz
-  pnpm add -D typescript
+### Adicionar dependências
 
-  # Adicionar em um pacote específico
-  pnpm --filter @giro-ds/react add react-icons
+```bash
+# Adicionar no workspace raiz
+pnpm add -D typescript
 
-  # Adicionar como dependência de dev
-  pnpm --filter @giro-ds/tokens add -D sass
+# Adicionar em um pacote específico
+pnpm --filter @giro-ds/react add react-icons
 
-  # Adicionar em múltiplos pacotes
-  pnpm --filter @giro-ds/* add lodash
-  ```
+# Adicionar como dependência de dev
+pnpm --filter @giro-ds/tokens add -D sass
 
-  ### Remover dependências
+# Adicionar em múltiplos pacotes
+pnpm --filter @giro-ds/* add lodash
+````
 
-  ```bash
-  # Remover do raiz
-  pnpm remove package-name
+### Remover dependências
 
-  # Remover de um pacote específico
-  pnpm --filter @giro-ds/react remove package-name
-  ```
+```bash
+# Remover do raiz
+pnpm remove package-name
 
-  ### Atualizar dependências
+# Remover de um pacote específico
+pnpm --filter @giro-ds/react remove package-name
+```
 
-  ```bash
-  # Verificar pacotes desatualizados
-  pnpm outdated
+### Atualizar dependências
 
-  # Atualizar todas as dependências
-  pnpm update
+```bash
+# Verificar pacotes desatualizados
+pnpm outdated
 
-  # Atualizar dependência específica
-  pnpm update react
+# Atualizar todas as dependências
+pnpm update
 
-  # Atualizar em um workspace específico
-  pnpm --filter @giro-ds/react update react
-  ```
-  # Atualizar em um workspace específico
-  ---
+# Atualizar dependência específica
+pnpm update react
 
-  ## 🔄 Versionamento e Publicação (Changesets)
+# Atualizar em um workspace específico
+pnpm --filter @giro-ds/react update react
+```
 
-  ### Criar um changeset
+# Atualizar em um workspace específico
 
-  ```bash
-  # Iniciar processo de versionamento
-  pnpm changeset
-  ```
+---
 
-  > [!tip] Wizard interativo
-  > 1. Selecione os pacotes alterados
-  > 2. Escolha o tipo de versão (major/minor/patch)
-  > 3. Descreva as mudanças
+## 🔄 Versionamento e Publicação (Changesets)
 
-  ### Aplicar changesets
+### Criar um changeset
 
-  ```bash
-  # Atualizar versões dos pacotes baseado nos changesets
-  pnpm changeset:version
-  ```
+```bash
+# Iniciar processo de versionamento
+pnpm changeset
+```
 
-  ### Publicar pacotes
+> [!tip] Wizard interativo
+>
+> 1. Selecione os pacotes alterados
+> 2. Escolha o tipo de versão (major/minor/patch)
+> 3. Descreva as mudanças
 
-  ```bash
-  # Publicar no npm
-  pnpm changeset:publish
+### Aplicar changesets
 
-  # Release completo (version + build + publish)
-  pnpm release
-  ```
-  # Release completo (version + build + publish)
-  ---
+```bash
+# Atualizar versões dos pacotes baseado nos changesets
+pnpm changeset:version
+```
 
-  ## 🛠️ Comandos Específicos do pnpm
+### Publicar pacotes
 
-  ### Executar scripts
+```bash
+# Publicar no npm
+pnpm changeset:publish
 
-  ```bash
-  # Executar qualquer script do package.json (sem "run")
-  pnpm <nome-do-script>
+# Release completo (version + build + publish)
+pnpm release
+```
 
-  # Executar em um workspace específico
-  pnpm --filter <nome-do-pacote> <script>
+# Release completo (version + build + publish)
 
-  # Exemplos:
-  pnpm build
-  pnpm --filter @giro-ds/tokens build
-  ```
+---
 
-  ### Listar pacotes
+## 🛠️ Comandos Específicos do pnpm
 
-  ```bash
-  # Ver todos os pacotes do monorepo
-  pnpm list --depth 0
+### Executar scripts
 
-  # Ver dependências de um pacote específico
-  pnpm --filter @giro-ds/react list
+```bash
+# Executar qualquer script do package.json (sem "run")
+pnpm <nome-do-script>
 
-  # Ver árvore completa de dependências
-  pnpm list
-  ```
+# Executar em um workspace específico
+pnpm --filter <nome-do-pacote> <script>
 
-  ### Executar comandos em múltiplos workspaces
+# Exemplos:
+pnpm build
+pnpm --filter @giro-ds/tokens build
+```
 
-  ```bash
-  # Executar script em todos os pacotes (recursive)
-  pnpm -r <comando>
+### Listar pacotes
 
-  # Exemplos:
-  pnpm -r build          # Build em todos
-  pnpm -r test           # Testar todos
-  pnpm -r lint           # Lint em todos
+```bash
+# Ver todos os pacotes do monorepo
+pnpm list --depth 0
 
-  # Executar apenas em pacotes que possuem o script
-  pnpm -r --if-present test
-  ```
+# Ver dependências de um pacote específico
+pnpm --filter @giro-ds/react list
 
-  ### Limpar e reinstalar
+# Ver árvore completa de dependências
+pnpm list
+```
 
-  ```bash
-  # Limpar node_modules de todos os workspaces
-  rm -rf node_modules pnpm-lock.yaml
-  pnpm install
+### Executar comandos em múltiplos workspaces
 
-  # Limpar cache do pnpm
-  pnpm store prune
+```bash
+# Executar script em todos os pacotes (recursive)
+pnpm -r <comando>
 
-  ---
+# Exemplos:
+pnpm -r build          # Build em todos
+pnpm -r test           # Testar todos
+pnpm -r lint           # Lint em todos
 
-  ## 🎯 Comandos do dia a dia
+# Executar apenas em pacotes que possuem o script
+pnpm -r --if-present test
+```
 
-  > [!example]- Setup inicial
-  > ```bash
-  > pnpm install
-  > ```
+### Limpar e reinstalar
 
-  > [!example]- Desenvolvimento
-  > ```bash
-  > pnpm dev              # Todos em modo watch
-  > pnpm storybook        # Ver componentes
-  > ```
+````bash
+# Limpar node_modules de todos os workspaces
+rm -rf node_modules pnpm-lock.yaml
+pnpm install
 
-  > [!example]- Antes de commitar
-  > ```bash
-  > pnpm lint             # Verificar código
-  > pnpm typecheck        # Verificar tipos
-  > pnpm build            # Build completo
-  > pnpm test             # Rodar testes
-  > ```
+# Limpar cache do pnpm
+pnpm store prune
 
-  > [!example]- Versionamento
-  > ```bash
-  > pnpm changeset        # Criar changeset
-  ---
+---
 
-  ## 📊 Comparação npm vs pnpm
+## 🎯 Comandos do dia a dia
 
-  | Ação                     | npm                        | pnpm                    |
-  | ------------------------ | -------------------------- | ----------------------- |
-  | Instalar                 | `npm install`              | `pnpm install`          |
-  | Adicionar dep            | `npm install react`        | `pnpm add react`        |
-  | Remover dep              | `npm uninstall react`      | `pnpm remove react`     |
-  | Executar script          | `npm run build`            | `pnpm build`            |
-  | Dev dep                  | `npm install -D typescript`| `pnpm add -D typescript`|
-  | Workspace específico     | `npm --workspace=pkg`      | `pnpm --filter pkg`     |
-  | Todos workspaces         | `npm run -ws build`        | `pnpm -r build`         |
+> [!example]- Setup inicial
+> ```bash
+> pnpm install
+> ```
 
-  ---
+> [!example]- Desenvolvimento
+> ```bash
+> pnpm dev              # Todos em modo watch
+> pnpm storybook        # Ver componentes
+> ```
 
-  ## 💡 Dicas e Truques
+> [!example]- Antes de commitar
+> ```bash
+> pnpm lint             # Verificar código
+> pnpm typecheck        # Verificar tipos
+> pnpm build            # Build completo
+> pnpm test             # Rodar testes
+> ```
 
-  ### Aliases úteis
+> [!example]- Versionamento
+> ```bash
+> pnpm changeset        # Criar changeset
+---
 
-  ```bash
-  # Forma curta do --filter
-  pnpm -F @giro-ds/react build
+## 📊 Comparação npm vs pnpm
 
-  # Executar múltiplos comandos
-  pnpm lint && pnpm build && pnpm test
-  ```
+| Ação                     | npm                        | pnpm                    |
+| ------------------------ | -------------------------- | ----------------------- |
+| Instalar                 | `npm install`              | `pnpm install`          |
+| Adicionar dep            | `npm install react`        | `pnpm add react`        |
+| Remover dep              | `npm uninstall react`      | `pnpm remove react`     |
+| Executar script          | `npm run build`            | `pnpm build`            |
+| Dev dep                  | `npm install -D typescript`| `pnpm add -D typescript`|
+| Workspace específico     | `npm --workspace=pkg`      | `pnpm --filter pkg`     |
+| Todos workspaces         | `npm run -ws build`        | `pnpm -r build`         |
 
-  ### Workspace protocols
+---
 
-  > [!note] Uso no package.json
-  > ```json
-  > {
-  >   "dependencies": {
-  >     "@giro-ds/tokens": "workspace:*"
-  >   }
-  > }
-  > ```
+## 💡 Dicas e Truques
 
-  ### Verificar configuração
+### Aliases úteis
 
-  ```bash
-  # Ver configuração do pnpm
-  pnpm config list
+```bash
+# Forma curta do --filter
+pnpm -F @giro-ds/react build
 
-  # Ver workspaces detectados
-  pnpm -r list --depth -1
-  ```
+# Executar múltiplos comandos
+pnpm lint && pnpm build && pnpm test
+````
 
-  ### Performance
+### Workspace protocols
 
-  ```bash
-  # Instalar sem gerar pnpm-lock.yaml (CI)
-  pnpm install --frozen-lockfile
+> [!note] Uso no package.json
+>
+> ```json
+> {
+>   "dependencies": {
+>     "@giro-ds/tokens": "workspace:*"
+>   }
+> }
+> ```
 
-  # Instalar apenas dependências de produção
-  pnpm install --prod
+### Verificar configuração
 
-  # Fazer cache do pnpm store
-  pnpm store path  # Ver onde está o store
-  ``` **Performance**
-  ```bash
-  ---
+```bash
+# Ver configuração do pnpm
+pnpm config list
 
-  ## 🔍 Troubleshooting
+# Ver workspaces detectados
+pnpm -r list --depth -1
+```
 
-  > [!warning]- Problemas com cache
-  > ```bash
-  > pnpm store prune
-  > rm -rf node_modules
-  > pnpm install
-  > ```
+### Performance
 
-  > [!bug]- Conflitos de versão
-  > ```bash
-  > # Ver por que um pacote está instalado
-  > pnpm why <package-name>
-  > 
-  > # Ver todas as versões de um pacote
-  > pnpm list <package-name>
-  > ```
+````bash
+# Instalar sem gerar pnpm-lock.yaml (CI)
+pnpm install --frozen-lockfile
 
-  > [!tip]- Rebuild de pacotes nativos
-  > ```bash
-  > pnpm rebuild
-  > ```
+# Instalar apenas dependências de produção
+pnpm install --prod
 
-  ---
+# Fazer cache do pnpm store
+pnpm store path  # Ver onde está o store
+``` **Performance**
+```bash
+---
 
-  ## 📚 Recursos Adicionais
+## 🔍 Troubleshooting
 
-  - 🔗 [Documentação oficial do pnpm](https://pnpm.io/)
-  - 🔗 [pnpm Workspaces](https://pnpm.io/workspaces)
-  - 🔗 [CLI Commands](https://pnpm.io/cli/add)
-  - 🔗 [Filtering](https://pnpm.io/filtering)
+> [!warning]- Problemas com cache
+> ```bash
+> pnpm store prune
+> rm -rf node_modules
+> pnpm install
+> ```
 
-  ---
+> [!bug]- Conflitos de versão
+> ```bash
+> # Ver por que um pacote está instalado
+> pnpm why <package-name>
+>
+> # Ver todas as versões de um pacote
+> pnpm list <package-name>
+> ```
 
-  > [!info]- Metadados
-  > **Mantido por:** Zanthus Design System Team  
-  > **Última atualização:** Dezembro 2025
+> [!tip]- Rebuild de pacotes nativos
+> ```bash
+> pnpm rebuild
+> ```
 
-  - [Documentação oficial do pnpm](https://pnpm.io/)
-  - [pnpm Workspaces](https://pnpm.io/workspaces)
-  - [CLI Commands](https://pnpm.io/cli/add)
-  - [Filtering](https://pnpm.io/filtering)
+---
 
-  ---
+## 📚 Recursos Adicionais
 
-  **Mantido por:** Zanthus Design System Team  
-  **Última atualização:** Dezembro 2025
+- 🔗 [Documentação oficial do pnpm](https://pnpm.io/)
+- 🔗 [pnpm Workspaces](https://pnpm.io/workspaces)
+- 🔗 [CLI Commands](https://pnpm.io/cli/add)
+- 🔗 [Filtering](https://pnpm.io/filtering)
+
+---
+
+> [!info]- Metadados
+> **Mantido por:** Zanthus Design System Team
+> **Última atualização:** Dezembro 2025
+
+- [Documentação oficial do pnpm](https://pnpm.io/)
+- [pnpm Workspaces](https://pnpm.io/workspaces)
+- [CLI Commands](https://pnpm.io/cli/add)
+- [Filtering](https://pnpm.io/filtering)
+
+---
+
+**Mantido por:** Zanthus Design System Team
+**Última atualização:** Dezembro 2025
+````
