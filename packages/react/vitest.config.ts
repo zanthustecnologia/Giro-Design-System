@@ -11,12 +11,39 @@ export default defineConfig({
       provider: 'v8',
       reporter: ['text', 'json', 'html'],
       exclude: [
+        // Build e dependências
         'node_modules/',
         'dist/',
+        
+        // Arquivos de teste
+        '**/__tests__/**',
+        '**/*.test.ts',
+        '**/*.test.tsx',
+        '**/*.spec.ts',
+        '**/*.spec.tsx',
+        '**/vitest.setup.ts',
+        
+        // Arquivos de tipo e definição
         '**/*.d.ts',
-        '**/*.config.*',
-        '**/mockData.ts',
         '**/*.types.ts',
+        
+        // Configurações
+        '**/*.config.*',
+        
+        // Barrel files (index.ts que só exportam)
+        '**/index.ts',
+        
+        // Mocks e dados de teste
+        '**/mockData.ts',
+        '**/__mocks__/**',
+        
+        // Storybook
+        '**/*.stories.ts',
+        '**/*.stories.tsx',
+        
+        // Arquivos de configuração específicos
+        '**/i18n.ts',
+        '**/tokens.js',
       ],
     },
   },
