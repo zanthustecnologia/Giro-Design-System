@@ -38,27 +38,9 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
     const generatedId = useId();
     const componentId = id || generatedId;
 
-<<<<<<< HEAD
-  const onBlur = useCallback(() => {
-    // Se já existe um errorMessage externo, não validar internamente
-    if (!errorMessage) {
-      const error =
-        validateInput({
-          value: inputValue,
-          type,
-          maxLength,
-          errorMessage,
-          required,
-        }) || '';
-      setInputError(error);
-    }
-    setFocus(false);
-  }, [inputValue, type, maxLength, errorMessage, required]);
-=======
     const handleChange = useCallback(
       (e: React.ChangeEvent<HTMLInputElement>) => {
         const newValue = e.target.value;
->>>>>>> refactor/textfield
 
         if (!disabled && (!maxLength || newValue.length <= maxLength)) {
           setInputValue(newValue);
@@ -68,29 +50,12 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
       [disabled, maxLength, onChange]
     );
 
-<<<<<<< HEAD
-  // Sincroniza errorMessage externo com estado interno
-  useEffect(() => {
-    if (errorMessage) {
-      setInputError(errorMessage);
-    } else if (!errorMessage && inputError && !required) {
-      setInputError('');
-    }
-  }, [errorMessage]);
-
-  const TextFieldClass = clsx(styles['zds-textfield__container'], {
-    [styles['zds-textfield__error']]: inputError,
-    [styles['zds-textfield__disabled']]: disabled,
-    [className]: className,
-  });
-=======
     const handleClear = useCallback(() => {
       if (!disabled) {
         setInputValue('');
         onChange?.('');
       }
     }, [disabled, onChange]);
->>>>>>> refactor/textfield
 
     const handleBlur = useCallback(
       (e: React.FocusEvent<HTMLInputElement>) => {
@@ -143,27 +108,6 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
             tooltipPosition={positionTooltip}
             error={hasError}
             disabled={disabled}
-<<<<<<< HEAD
-            aria-invalid={!!inputError}
-            aria-required={required}
-            aria-describedby={helperId}
-          />
-          {shouldRenderCustomIcon && (
-            <span className={styles['zds-textfield__icon']}>{icon}</span>
-          )}
-          {shouldRenderClearIcon && (
-            <span 
-              className={styles['zds-textfield__icon']}
-              onClick={clearInput}
-              onMouseDown={(e) => e.preventDefault()}
-              role="button"
-              tabIndex={0}
-              aria-label="Limpar campo"
-            >
-              <Dismiss16Regular />
-            </span>
-          )}
-=======
           >
             {label}
           </LabelComponent>
@@ -214,7 +158,6 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
           >
             {displayHelperText}
           </span>
->>>>>>> refactor/textfield
         </div>
       </div>
     );
