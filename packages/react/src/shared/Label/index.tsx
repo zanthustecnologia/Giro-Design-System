@@ -12,6 +12,7 @@ interface LabelProps {
   className?: string;
   tooltipMessage?: string;
   tooltip?: boolean;
+  tooltipPosition?: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left';
   error?: boolean;
   disabled?: boolean;
 }
@@ -22,13 +23,14 @@ const LabelComponent = ({
   required = false,
   tooltip = false,
   tooltipMessage,
+  tooltipPosition = 'top-left',
   className,
   error = false,
   disabled = false
 }: LabelProps) => (
-  <div className={styles.containerLabel}>
+  <>
     {tooltip ? (
-      <Tooltip position="top-left" text={tooltipMessage || ''} >
+      <Tooltip position={tooltipPosition} text={tooltipMessage || ''} >
         <Label.Root
           className={clsx(
             styles.wrapperLabel,
@@ -56,7 +58,7 @@ const LabelComponent = ({
         {required && <span className={styles.requiredLabel}>*</span>}
       </Label.Root>
     )}
-  </div>
+  </>
 );
 
 export default LabelComponent;

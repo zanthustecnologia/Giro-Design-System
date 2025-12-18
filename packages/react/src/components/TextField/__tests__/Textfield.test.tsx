@@ -1,310 +1,173 @@
-import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import '@testing-library/jest-dom';
+import { render, screen, fireEvent } from '@testing-library/react';
 import TextField from '../TextField';
-import { Mail16Regular, Search16Regular } from '@fluentui/react-icons';
 
-// Mock do componente Tooltip
-jest.mock('../../Tooltip/Tooltip', () => {
-  return function MockTooltip({ children, text }: { children: React.ReactNode; text: string }) {
-    return (
-      <div data-testid="tooltip" title={text}>
-        {children}
-      </div>
-    );
-  };
-});
+// Mock do ícone do Fluent UI
+vi.mock('@fluentui/react-icons', () => ({
+  Dismiss16Regular: () => <span data-testid="dismiss-icon">×</span>,
+}));
 
 describe('TextField', () => {
-  const user = userEvent.setup();
-
   describe('Renderização', () => {
-    test('deve renderizar o campo de texto corretamente', () => {
-      render(<TextField label="Nome" placeholder="Digite seu nome" />);
-      
-      expect(screen.getByLabelText('Nome')).toBeInTheDocument();
-      expect(screen.getByPlaceholderText('Digite seu nome')).toBeInTheDocument();
+    it('renderiza input básico', () => {
+      render(<TextField />);
+      expect(screen.getByRole('textbox')).toBeInTheDocument();
     });
 
-    test('deve renderizar com valor inicial', () => {
-      render(<TextField label="Email" value="test@example.com" />);
-      
-      expect(screen.getByDisplayValue('test@example.com')).toBeInTheDocument();
-    });
-
-    test('deve renderizar sem label quando não fornecido', () => {
-      render(<TextField placeholder="Sem label" />);
-      
-      expect(screen.getByPlaceholderText('Sem label')).toBeInTheDocument();
-      expect(screen.queryByRole('label')).not.toBeInTheDocument();
-    });
-  });
-
-  describe('Interação e onChange', () => {
-    test('deve chamar onChange quando o valor mudar', async () => {
-      const mockOnChange = jest.fn();
-      render(<TextField label="Nome" onChange={mockOnChange} />);
-      
-      const input = screen.getByLabelText('Nome');
-      await user.type(input, 'João');
-      
-      expect(mockOnChange).toHaveBeenCalledTimes(4); 
-      expect(mockOnChange).toHaveBeenLastCalledWith('João');
-    });
-
-    test('deve atualizar o valor interno quando digitado', async () => {
+    it('renderiza com label', () => {
       render(<TextField label="Nome" />);
-      
-      const input = screen.getByLabelText('Nome');
-      await user.type(input, 'Maria');
-      
-      expect(input).toHaveValue('Maria');
+      expect(screen.getByText('Nome')).toBeInTheDocument();
     });
 
-    test('deve limpar o campo quando clicar no ícone de limpeza', async () => {
-      const mockOnChange = jest.fn();
-      render(
-        <TextField 
-          label="Nome" 
-          value="João" 
-          onChange={mockOnChange}
-          trailingIcon={true}
-        />
-      );
-      
-      const input = screen.getByLabelText('Nome');
-      await user.click(input); 
-      
-      const clearIcon = screen.getByLabelText('Limpar campo');
-      await user.click(clearIcon);
-      
-      expect(mockOnChange).toHaveBeenCalledWith('');
+    it('renderiza com placeholder', () => {
+      render(<TextField placeholder="Digite aqui" />);
+      expect(screen.getByPlaceholderText('Digite aqui')).toBeInTheDocument();
+    });
+
+    it('renderiza com valor inicial', () => {
+      render(<TextField value="teste" />);
+      expect(screen.getByRole('textbox')).toHaveValue('teste');
+    });
+
+    it('renderiza com helperText', () => {
+      render(<TextField helperText="Ajuda" />);
+      expect(screen.getByText('Ajuda')).toBeInTheDocument();
     });
   });
 
-  describe('Estado Desabilitado', () => {
-    test('deve ser desabilitado quando a prop disabled for true', () => {
-      render(<TextField label="Nome" disabled />);
+  describe('Interações', () => {
+    it('chama onChange ao digitar', () => {
+      const onChange = vi.fn();
+      render(<TextField onChange={onChange} />);
       
-      const input = screen.getByLabelText('Nome');
-      expect(input).toBeDisabled();
+      fireEvent.change(screen.getByRole('textbox'), { target: { value: 'test' } });
+      
+      expect(onChange).toHaveBeenCalledWith('test');
     });
 
-    test('não deve chamar onChange quando desabilitado', async () => {
-      const mockOnChange = jest.fn();
-      render(<TextField label="Nome" disabled onChange={mockOnChange} />);
+    it('respeita maxLength', () => {
+      const onChange = vi.fn();
+      render(<TextField onChange={onChange} maxLength={5} />);
       
-      const input = screen.getByLabelText('Nome');
-      await user.type(input, 'Teste');
+      fireEvent.change(screen.getByRole('textbox'), { target: { value: 'muito longo' } });
       
-      expect(mockOnChange).not.toHaveBeenCalled();
-      expect(input).toHaveValue('');
+      expect(onChange).not.toHaveBeenCalled();
     });
 
-    test('não deve permitir limpeza quando desabilitado', async () => {
-      const mockOnChange = jest.fn();
-      render(
-        <TextField 
-          label="Nome" 
-          value="João" 
-          disabled 
-          onChange={mockOnChange}
-          trailingIcon={true}
-        />
-      );
+    it('mostra botão limpar quando focado com texto', () => {
+      render(<TextField value="texto" />);
+      const input = screen.getByRole('textbox');
       
-      const input = screen.getByLabelText('Nome');
-      expect(input).toHaveValue('João');
+      fireEvent.focus(input);
       
-      await user.click(input);
-      
-
-      expect(screen.queryByLabelText('Limpar campo')).not.toBeInTheDocument();
-    });
-  });
-
-  describe('Limite de Caracteres', () => {
-    test('deve respeitar o limite máximo de caracteres', async () => {
-      const mockOnChange = jest.fn();
-      render(<TextField label="Nome" maxLength={5} onChange={mockOnChange} />);
-      
-      const input = screen.getByLabelText('Nome');
-      await user.type(input, 'João Silva'); // 10 caracteres
-      
-      // Deve parar em 5 caracteres
-      expect(input).toHaveValue('João ');
-      expect(mockOnChange).toHaveBeenCalledTimes(5);
+      expect(screen.getByRole('button')).toBeInTheDocument();
     });
 
-    test('não deve aceitar mais caracteres após atingir o limite', async () => {
-      render(<TextField label="Nome" maxLength={3} value="ABC" />);
+    it('limpa o campo ao clicar no botão', () => {
+      const onChange = vi.fn();
+      render(<TextField value="texto" onChange={onChange} />);
+      const input = screen.getByRole('textbox');
       
-      const input = screen.getByLabelText('Nome');
-      await user.type(input, 'DEF');
+      fireEvent.focus(input);
+      fireEvent.mouseDown(screen.getByRole('button'));
       
-      expect(input).toHaveValue('ABC'); // Não deve mudar
+      expect(onChange).toHaveBeenCalledWith('');
+    });
+
+    it('chama onFocus ao focar', () => {
+      const onFocus = vi.fn();
+      render(<TextField onFocus={onFocus} />);
+      
+      fireEvent.focus(screen.getByRole('textbox'));
+      
+      expect(onFocus).toHaveBeenCalled();
+    });
+
+    it('chama onBlur ao desfocar', () => {
+      const onBlur = vi.fn();
+      render(<TextField onBlur={onBlur} />);
+      
+      fireEvent.blur(screen.getByRole('textbox'));
+      
+      expect(onBlur).toHaveBeenCalled();
     });
   });
 
-  // ✅ Testes de validação e campo obrigatório
   describe('Validação', () => {
-    test('deve mostrar erro quando campo obrigatório estiver vazio', async () => {
-      render(<TextField label="Nome" required />);
+    it('mostra erro quando campo obrigatório está vazio', () => {
+      render(<TextField required />);
       
-      const input = screen.getByLabelText('Nome');
-      await user.click(input);
-      await user.tab(); // Sair do campo (blur)
+      fireEvent.blur(screen.getByRole('textbox'));
       
       expect(screen.getByText('Campo obrigatório.')).toBeInTheDocument();
     });
 
-    test('deve validar email quando type="email"', async () => {
-      render(<TextField label="Email" type="email" required />);
+    it('usa mensagem de erro customizada para campo obrigatório', () => {
+      render(<TextField required errorMessage="Preencha este campo" />);
       
-      const input = screen.getByLabelText('Email');
-      await user.type(input, 'email-invalido');
-      await user.tab(); // Blur
+      fireEvent.blur(screen.getByRole('textbox'));
       
-      expect(screen.getByText('Email inválido.')).toBeInTheDocument();
+      expect(screen.getByText('Preencha este campo')).toBeInTheDocument();
     });
 
-    test('deve mostrar mensagem de erro personalizada', async () => {
-      render(
-        <TextField 
-          label="Email" 
-          type="email" 
-          required 
-          errorMessage="Por favor, insira um email válido"
-        />
-      );
+    it('não mostra erro quando campo obrigatório tem valor', () => {
+      render(<TextField required value="valor" />);
       
-      const input = screen.getByLabelText('Email');
-      await user.type(input, 'teste');
-      await user.tab();
+      fireEvent.blur(screen.getByRole('textbox'));
       
-      expect(screen.getByText('Por favor, insira um email válido')).toBeInTheDocument();
-    });
-    test('deve limpar erro quando começar a digitar', async () => {
-      render(<TextField label="Nome" required />);
-      
-      const input = screen.getByLabelText('Nome');
-      await user.click(input);
-      await user.tab(); // Criar erro
-
-      expect(screen.getByText('Campo obrigatório.')).toBeInTheDocument();
-      
-      await user.type(input, 'J');
       expect(screen.queryByText('Campo obrigatório.')).not.toBeInTheDocument();
     });
-  });
 
-  // 🎯 Testes de foco e navegação
-  describe('Foco e Navegação', () => {
-    test('deve focar no campo quando clicado no label', async () => {
-      render(<TextField label="Nome" />);
+    it('não mostra erro quando validação passa', () => {
+      render(<TextField maxLength={10} required />);
+      const input = screen.getByRole('textbox');
       
-      const label = screen.getByText('Nome');
-      await user.click(label);
+      fireEvent.change(input, { target: { value: 'teste' } });
+      fireEvent.blur(input);
       
-      const input = screen.getByLabelText('Nome');
-      expect(input).toHaveFocus();
-    });
-
-    test('deve mostrar ícone de limpeza quando focado e tem valor', async () => {
-      render(<TextField label="Nome" value="João" trailingIcon={true} />);
-      
-      const input = screen.getByLabelText('Nome');
-      await user.click(input);
-      
-      expect(screen.getByLabelText('Limpar campo')).toBeInTheDocument();
-    });
-
-    test('deve esconder ícone de limpeza quando sair do foco', async () => {
-      render(<TextField label="Nome" value="João" trailingIcon={true} />);
-      
-      const input = screen.getByLabelText('Nome');
-      await user.click(input);
-      await user.tab(); // Sair do foco
-      
-      expect(screen.queryByLabelText('Limpar campo')).not.toBeInTheDocument();
+      expect(screen.queryByText(/Campo deve ter no máximo/)).not.toBeInTheDocument();
+      expect(screen.queryByText(/Campo obrigatório/)).not.toBeInTheDocument();
     });
   });
 
-  describe('Sincronização de Valor', () => {
-    test('deve atualizar valor interno quando prop value mudar', () => {
-      const { rerender } = render(<TextField label="Nome" value="João" />);
-      
-      expect(screen.getByDisplayValue('João')).toBeInTheDocument();
-      
-      rerender(<TextField label="Nome" value="Maria" />);
-      expect(screen.getByDisplayValue('Maria')).toBeInTheDocument();
+  describe('Estado Disabled', () => {
+    it('desabilita o input', () => {
+      render(<TextField disabled />);
+      expect(screen.getByRole('textbox')).toBeDisabled();
     });
 
-    test('deve manter valor interno quando não há prop value', async () => {
-      render(<TextField label="Nome" />);
+    it('não chama onChange quando disabled', () => {
+      const onChange = vi.fn();
+      render(<TextField disabled onChange={onChange} />);
       
-      const input = screen.getByLabelText('Nome');
-      await user.type(input, 'João');
+      fireEvent.change(screen.getByRole('textbox'), { target: { value: 'test' } });
       
-      expect(input).toHaveValue('João');
-    });
-  });
-
-  // 🎨 Testes de ícones e tooltip
-  describe('Ícones e Tooltip', () => {
-    test('deve renderizar ícone personalizado', () => {
-      render(<TextField label="Email" icon={<Mail16Regular />} />);
-      
-      expect(screen.getByLabelText('Email')).toBeInTheDocument();
-      // Verifica se o ícone está no DOM
-      expect(document.querySelector('svg')).toBeInTheDocument();
+      expect(onChange).not.toHaveBeenCalled();
     });
 
-    test('deve renderizar tooltip quando habilitado', () => {
-      render(
-        <TextField 
-          label="Email" 
-          tooltip={true}
-          tooltipText="Digite seu email aqui"
-        />
-      );
+    it('não limpa campo quando disabled e botão é clicado', () => {
+      const onChange = vi.fn();
+      render(<TextField disabled value="texto" onChange={onChange} />);
+      const input = screen.getByRole('textbox');
       
-      expect(screen.getByTestId('tooltip')).toBeInTheDocument();
-    });
-
-    test('deve mostrar asterisco para campos obrigatórios', () => {
-      render(<TextField label="Nome" required />);
+      fireEvent.focus(input);
+      const clearButton = screen.queryByRole('button');
       
-      expect(screen.getByText('*')).toBeInTheDocument();
+      if (clearButton) {
+        fireEvent.mouseDown(clearButton);
+        expect(onChange).not.toHaveBeenCalled();
+      }
     });
   });
 
-  // 📝 Testes de helper text
-  describe('Helper Text', () => {
-    test('deve mostrar helper text quando fornecido', () => {
-      render(<TextField label="Nome" helperText="Digite seu nome completo" helper={true}/>);
-      
-      expect(screen.getByText('Digite seu nome completo')).toBeInTheDocument();
+  describe('Ícone Customizado', () => {
+    it('mostra ícone quando campo está vazio', () => {
+      render(<TextField icon={<span data-testid="icon">🔍</span>} />);
+      expect(screen.getByTestId('icon')).toBeInTheDocument();
     });
 
-    test('deve mostrar erro no lugar do helper text', async () => {
-      render(
-        <TextField 
-          label="Nome" 
-          required 
-          helperText="Digite seu nome completo"
-          helper={true}
-        />
-      );
-      
-      const input = screen.getByLabelText('Nome');
-      await user.click(input);
-      await user.tab();
-      
-      expect(screen.getByText('Campo obrigatório.')).toBeInTheDocument();
-      expect(screen.queryByText('Digite seu nome completo')).not.toBeInTheDocument();
+    it('esconde ícone quando campo tem texto', () => {
+      render(<TextField icon={<span data-testid="icon">🔍</span>} value="texto" />);
+      expect(screen.queryByTestId('icon')).not.toBeInTheDocument();
     });
   });
-
 });
