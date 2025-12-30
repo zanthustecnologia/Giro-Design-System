@@ -15,7 +15,8 @@ export interface TextFieldProps {
   helperText?: string;
   tooltip?: boolean;
   tooltipText?: string;
-  positionTooltip?: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left';
+  side?: "top" | "right" | "bottom" | "left"
+  align?: "start" | "center" | "end";
   errorMessage?: string;
   trailingIcon?: boolean;
   id?: string;

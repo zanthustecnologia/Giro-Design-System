@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect, useId } from 'react';
 import clsx from 'clsx';
 import { Dismiss16Regular, Info12Regular } from '@fluentui/react-icons';
-import Tooltip from '../Tooltip/Tooltip';
+import TooltipRadix from '../TooltipRadix/TooltipRadix';
 import styles from './TextField.module.scss';
 import { validateInput } from './ValidationUtils';
 import type { TextFieldProps } from './TextField.types';
@@ -21,7 +21,8 @@ const TextField: React.FC<TextFieldProps> = ({
   helperText = '',
   tooltip = false,
   tooltipText = '',
-  positionTooltip = 'top-right',
+  side = 'bottom',
+	align = 'start',
   errorMessage = '',
   id = '',
   icon = null,
@@ -91,13 +92,13 @@ const TextField: React.FC<TextFieldProps> = ({
       {label && (
         <label htmlFor={componentId} className={styles['zds-textfield__wrapper-label']}>
           {tooltip ? (
-            <Tooltip text={tooltipText} position={positionTooltip}>
+            <TooltipRadix text={tooltipText} side = {side} align = {align}>
               <div className={styles['zds-textfield__container-tooltip']}>
                 {label}
                 {required && <span className={styles['zds-textfield__required']}>*</span>}
                 <Info12Regular className={styles['zds-textfield__tooltip']} />
               </div>
-            </Tooltip>
+            </TooltipRadix>
           ) : (
             <div className={styles['zds-textfield__container-tooltip']}>
               {label}
