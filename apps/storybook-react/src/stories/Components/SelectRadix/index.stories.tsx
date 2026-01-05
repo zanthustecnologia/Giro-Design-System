@@ -37,6 +37,25 @@ const meta: Meta<SelectRadixProps> = {
       description: 'Campo desabilitado',
       control: { type: 'boolean' },
     },
+    tooltip: {
+      control: 'boolean',
+      description: 'Exibir tooltip'
+    },
+    tooltipText: {
+      control: 'text',
+      if: { arg: 'tooltip', truthy: true },
+      description: 'Texto do tooltip'
+    },
+    side: {
+      control: 'select',
+      options: ['top','bottom', 'left', 'right'],
+      description: 'Posição do tooltip'
+    },
+    align: {
+      control: 'select',
+      options: ['start', 'center', 'end'],
+      description: 'Posição do tooltip'
+    },
   },
 };
 

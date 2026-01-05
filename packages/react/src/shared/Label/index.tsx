@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Label } from 'radix-ui';
 import styles from './index.module.scss';
 import clsx from 'clsx';
-import Tooltip from '../../components/Tooltip';
+import TooltipRadix from '../../components/TooltipRadix/TooltipRadix';
 import { Info12Regular } from '@fluentui/react-icons';
 
 interface LabelProps {
@@ -10,7 +10,7 @@ interface LabelProps {
   htmlFor: string;
   required?: boolean;
   className?: string;
-  tooltipMessage?: string;
+  tooltipText?: string;
   tooltip?: boolean;
   error?: boolean;
   disabled?: boolean;
@@ -21,14 +21,14 @@ const LabelComponent = ({
   htmlFor,
   required = false,
   tooltip = false,
-  tooltipMessage,
+  tooltipText,
   className,
   error = false,
   disabled = false
 }: LabelProps) => (
   <div className={styles.containerLabel}>
     {tooltip ? (
-      <Tooltip position="top-left" text={tooltipMessage || ''} >
+      <TooltipRadix side="top" align='start' text={tooltipText || ''} >
         <Label.Root
           className={clsx(
             styles.wrapperLabel,
@@ -41,7 +41,7 @@ const LabelComponent = ({
           {required && <span className={styles.requiredLabel}>*</span>}
           <Info12Regular className={styles.infoIcon} />
         </Label.Root>
-      </Tooltip>
+      </TooltipRadix>
     ) : (
       <Label.Root
         className={clsx(

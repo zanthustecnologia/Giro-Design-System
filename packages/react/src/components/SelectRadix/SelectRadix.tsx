@@ -20,7 +20,7 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
   required = false,
   value,
   tooltip = false,
-  tooltipMessage,
+  tooltipText,
   label,
   helperText,
   placeholder = 'Selecione',
@@ -155,7 +155,7 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
             <LabelComponent
               htmlFor={selectId}
               required={required}
-              tooltipMessage={tooltipMessage}
+              tooltipText={tooltipText}
               tooltip={tooltip}
               error={state.hasError && state.touched}
               disabled={disabled}
