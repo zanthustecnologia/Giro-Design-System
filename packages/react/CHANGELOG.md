@@ -1,5 +1,11 @@
 # @giro-ds/react
 
+## 1.0.5
+
+### Patch Changes
+
+- 06f4cc5: refactor: convert CSS to SCSS variables in SelectRadix and clean up TextField code
+
 ## 1.0.4
 
 ### Patch Changes
