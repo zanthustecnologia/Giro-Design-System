@@ -168,6 +168,7 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
                 [styles.error]: state.hasError && state.touched,
                 [styles.disabled]: disabled,
                 [styles.hasValue]: state.selectedValues.length > 0,
+                [styles.open]: state.isOpen,
               })}
               id={selectId}
               aria-label={ariaLabel}
