@@ -86,6 +86,9 @@ export { type ToastType, type ToastMessage, type ToastOptions, type ToastContext
 export { default as Tooltip } from './Tooltip';
 export { type TooltipProps } from './Tooltip/Tooltip.types';
 
+export { default as SwitchRadix } from './SwitchRadix';
+export { type SwitchRadixProps } from './SwitchRadix/SwitchRadix.types';
+
 export { default as VerificationCode } from './VerificationCode';
 export { type VerificationCodeProps } from './VerificationCode/VerificationCode.types';
 
