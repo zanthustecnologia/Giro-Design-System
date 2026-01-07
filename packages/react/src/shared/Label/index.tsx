@@ -22,23 +22,14 @@ const LabelComponent = ({
   htmlFor,
   required = false,
   tooltip = false,
-<<<<<<< HEAD
   tooltipText,
-=======
-  tooltipMessage,
-  tooltipPosition = 'top-left',
->>>>>>> developer
   className,
   error = false,
   disabled = false
 }: LabelProps) => (
   <>
     {tooltip ? (
-<<<<<<< HEAD
       <TooltipRadix side="top" align='start' text={tooltipText || ''} >
-=======
-      <Tooltip position={tooltipPosition} text={tooltipMessage || ''} >
->>>>>>> developer
         <Label.Root
           className={clsx(
             styles.wrapperLabel,
