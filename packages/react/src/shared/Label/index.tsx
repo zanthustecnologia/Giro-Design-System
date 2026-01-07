@@ -12,7 +12,8 @@ interface LabelProps {
   className?: string;
   tooltipText?: string;
   tooltip?: boolean;
-  tooltipPosition?: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left';
+  side?: "top" | "right" | "bottom" | "left"
+  align?: "start" | "center" | "end";
   error?: boolean;
   disabled?: boolean;
 }
@@ -23,13 +24,15 @@ const LabelComponent = ({
   required = false,
   tooltip = false,
   tooltipText,
+  side = 'bottom',
+	align = 'start',
   className,
   error = false,
   disabled = false
 }: LabelProps) => (
   <>
     {tooltip ? (
-      <TooltipRadix side="top" align='start' text={tooltipText || ''} >
+      <TooltipRadix side={side} align={align} text={tooltipText || ''} >
         <Label.Root
           className={clsx(
             styles.wrapperLabel,

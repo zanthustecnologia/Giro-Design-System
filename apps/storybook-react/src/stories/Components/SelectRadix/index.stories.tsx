@@ -14,6 +14,7 @@ const meta: Meta<SelectRadixProps> = {
           'Componente Select usando Radix UI com estilização customizada e melhor organização de código.',
       },
     },
+    layout: 'centered',
   },
   argTypes: {
     items: {
@@ -41,6 +42,7 @@ const meta: Meta<SelectRadixProps> = {
       control: 'boolean',
       description: 'Exibir tooltip'
     },
+    
     tooltipText: {
       control: 'text',
       if: { arg: 'tooltip', truthy: true },

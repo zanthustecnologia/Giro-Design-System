@@ -12,16 +12,15 @@ const meta: Meta<typeof TooltipRadix> = {
   },
 
   argTypes: {
-    position: {
+    side: {
       control: 'select',
-      options: [
-        'top-right',
-        'top-left',
-        'bottom-right',
-        'bottom-left',
-        'left',
-        'right',
-      ],
+      options: ['top','bottom', 'left', 'right'],
+      description: 'Posição do tooltip'
+    },
+    align: {
+      control: 'select',
+      options: ['start', 'center', 'end'],
+      description: 'Posição do tooltip'
     },
     text: {
       control: 'text',
@@ -47,7 +46,6 @@ const Template = (args: React.ComponentProps<typeof TooltipRadix>) => (
 export const Default: Story = {
   args: {
     text: 'Texto aqui',
-    position: 'top-right',
   },
   render: (args) => (
     <TooltipRadix {...args}>
@@ -59,7 +57,6 @@ export const Default: Story = {
 export const WithButton: Story = {
   args: {
     text: 'Clique no botão para realizar uma ação',
-    position: 'top-right',
   },
   render: (args) => (
     <TooltipRadix {...args}>

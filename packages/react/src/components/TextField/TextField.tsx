@@ -21,7 +21,8 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
       helperText,
       tooltip = false,
       tooltipText = '',
-      positionTooltip = 'top-right',
+      side = 'bottom',
+	    align = 'start',
       errorMessage = '',
       id,
       icon,
@@ -104,8 +105,9 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
             htmlFor={componentId}
             required={required}
             tooltip={tooltip}
-            tooltipMessage={tooltipText}
-            tooltipPosition={positionTooltip}
+            tooltipText={tooltipText}
+            side={side}
+            align={align}
             error={hasError}
             disabled={disabled}
           >
