@@ -31,7 +31,7 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
   'aria-label': ariaLabel,
   'data-testid': testId,
   // Props para label com tooltip
-  tooltip = false,
+  tooltip = true,
   tooltipText,
   side = 'bottom',
 	align = 'start',
