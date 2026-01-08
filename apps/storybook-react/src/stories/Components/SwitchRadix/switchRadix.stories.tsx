@@ -22,6 +22,10 @@ const meta: Meta<SwitchRadixProps> = {
       control: 'text',
       description: 'Texto a ser exibido no tooltip',
     },
+    disabled: {
+      description: 'Campo desabilitado',
+      control: { type: 'boolean' },
+    },
   },
 };
 

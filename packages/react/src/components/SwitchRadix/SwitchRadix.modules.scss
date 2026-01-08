@@ -1,33 +1,63 @@
 @import "@radix-ui/colors/black-alpha.css";
 
 .SwitchRoot {
-	width: 42px;
-	height: 25px;
-	background-color: black;
-	border-radius: 9999px;
+	width: 52px;
+	height: 32px;
+	background-color: #F5F5FA;
+	border-radius: 100px;
+	box-shadow: none;
+	padding: 2px 4px;
+	border: 1px solid #CFD0DA;
 	position: relative;
-	box-shadow: 0 2px 10px var(--color-neutral-low-dark);
-	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+	align-items: center;
+	gap: 8px;
+	&:hover {
+		background-color: #E8E8EE;
+	}
 	&:focus {
-		box-shadow: 0 0 0 2px black;
+		border: 3px solid #CADAFF;
+		box-shadow: none;
 	}
 	&[data-state="checked"] {
-		background-color: black;
+		background-color: #1D60FA;
+		border: none;
+		box-shadow: none;
+	}
+	&[data-state="checked"]:focus {
+		border: 3px solid #CADAFF;
+		box-shadow: none;
+	}
+	&[disabled=true]{
+		background: #CFD0DA;
+		box-shadow: none;
+	}
+	&[disabled=true]&[data-state="checked"] {
+		background: #CADAFF;
+		border: none;
+		box-shadow: none;
 	}
 }
 
 .SwitchThumb {
 	display: block;
-	width: 21px;
-	height: 21px;
-	background-color: var(--color-neutral-high-default);
+	width: 2px;
+	height: 2px;
+	padding: 7px;
+	background-color: #88898C;
 	border-radius: 9999px;
-	box-shadow: 0 2px 2px var(--color-neutral-low-dark);
+	box-shadow: none;
 	transition: transform 100ms;
-	transform: translateX(-5px);
+	transform: translateX(0px);
 	will-change: transform;
+	&:focus {
+		border: 3px solid #CADAFF;;
+	}
 	&[data-state="checked"] {
-		transform: translateX(11px);
+		transform: translateX(18px);
+		width: 2px;
+		height: 2px;
+		padding: 11px;
+		background-color: var(--color-neutral-high-default);
 	}
 }
 
