@@ -2,5 +2,4 @@ import React from 'react';
 
 export interface SwitchRadixProps {
   text: React.ReactNode;
-  children: React.ReactNode;
 }

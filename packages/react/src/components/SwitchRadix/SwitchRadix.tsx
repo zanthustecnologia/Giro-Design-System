@@ -1,21 +1,18 @@
 import * as React from "react";
 import { Switch } from "radix-ui";
-import styles from "./SwitchRadix.modules.scss";
+import "./SwitchRadix.modules.scss";
 import { SwitchRadixProps } from './SwitchRadix.types';
 
 const SwitchRadix: React.FC<SwitchRadixProps> = ({
-  children,
-	text ,
+	text 
 }) => (
 	<form>
-		<div>
-			<label
-				className={styles["Label"]}
-			>
+		<div style={{ display: "flex", alignItems: "center" }}>
+			<label className="Label" htmlFor="airplane-mode" style={{ paddingRight: 15 }}>
 				{text}
 			</label>
-			<Switch.Root className={styles["SwitchRoot"]} >
-				<Switch.Thumb className={styles["SwitchThumb"]} />
+			<Switch.Root className="SwitchRoot">
+				<Switch.Thumb className="SwitchThumb" />
 			</Switch.Root>
 		</div>
 	</form>
