@@ -249,7 +249,6 @@ const DatePicker: React.FC<DatePickerProps> = ({
             aria-invalid={!!currentError}
             aria-describedby={combinedHelperText ? helperTextId : undefined}
             maxLength={10}
-            helper={combinedHelperText ? true : false}
             helperText={combinedHelperText}
             required={required}
             label={label}
