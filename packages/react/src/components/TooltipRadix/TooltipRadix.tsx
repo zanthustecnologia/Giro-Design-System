@@ -16,9 +16,9 @@ const TooltipRadix: React.FC<TooltipRadixProps> = ({
 		<Tooltip.Provider >
 			<Tooltip.Root>
 				<Tooltip.Trigger asChild>
-					<div>
+					<span>
 						{children}
-					</div>
+					</span>
 				</Tooltip.Trigger>
 				<Tooltip.Portal>
 					<Tooltip.Content
