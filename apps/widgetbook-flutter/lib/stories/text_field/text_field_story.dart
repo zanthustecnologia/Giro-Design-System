@@ -34,10 +34,6 @@ WidgetbookComponent textFieldStory() {
             label: 'Enabled',
             initialValue: true,
           );
-          final showPrefixIcon = context.knobs.boolean(
-            label: 'Show Prefix Icon',
-            initialValue: false,
-          );
           final showSuffixIcon = context.knobs.boolean(
             label: 'Show Suffix Icon',
             initialValue: false,
@@ -53,11 +49,8 @@ WidgetbookComponent textFieldStory() {
                 helperText: helperText,
                 required: required,
                 enabled: enabled,
-                prefixIcon: showPrefixIcon 
-                    ? const Icon(FluentIcons.search_20_regular) 
-                    : null,
                 suffixIcon: showSuffixIcon 
-                    ? const Icon(FluentIcons.dismiss_20_regular) 
+                    ? const Icon(FluentIcons.mail_16_regular) 
                     : null,
               ),
             ),

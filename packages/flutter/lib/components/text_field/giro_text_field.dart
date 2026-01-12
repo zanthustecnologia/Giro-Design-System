@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import '../../tokens/generated_tokens.dart';
 import 'text_field_tokens.dart';
 
-class GiroTextField extends StatelessWidget {
+class GiroTextField extends StatefulWidget {
   final String? label;
   final String? hintText;
   final String? errorText;
@@ -14,7 +15,6 @@ class GiroTextField extends StatelessWidget {
   final TextInputType? keyboardType;
   final bool obscureText;
   final bool enabled;
-  final Widget? prefixIcon;
   final Widget? suffixIcon;
 
   const GiroTextField({
@@ -29,13 +29,77 @@ class GiroTextField extends StatelessWidget {
     this.keyboardType,
     this.obscureText = false,
     this.enabled = true,
-    this.prefixIcon,
     this.suffixIcon,
   });
 
   @override
+  State<GiroTextField> createState() => _GiroTextFieldState();
+}
+
+class _GiroTextFieldState extends State<GiroTextField> {
+  late TextEditingController _controller;
+  late FocusNode _focusNode;
+  bool _hasFocus = false;
+  bool _hasText = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = widget.controller ?? TextEditingController();
+    _focusNode = FocusNode();
+    
+    _hasText = _controller.text.isNotEmpty;
+
+    _focusNode.addListener(_handleFocusChange);
+    _controller.addListener(_handleTextChange);
+  }
+
+  @override
+  void didUpdateWidget(GiroTextField oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.controller != oldWidget.controller) {
+      _controller.removeListener(_handleTextChange);
+      if (oldWidget.controller == null) {
+        _controller.dispose(); // Dispose local controller if we are switching to external
+      }
+      
+      _controller = widget.controller ?? TextEditingController();
+      _controller.addListener(_handleTextChange);
+      _hasText = _controller.text.isNotEmpty;
+    }
+  }
+
+  @override
+  void dispose() {
+    _focusNode.removeListener(_handleFocusChange);
+    _controller.removeListener(_handleTextChange);
+    _focusNode.dispose();
+    if (widget.controller == null) {
+      _controller.dispose();
+    }
+    super.dispose();
+  }
+
+  void _handleFocusChange() {
+    setState(() {
+      _hasFocus = _focusNode.hasFocus;
+    });
+  }
+
+  void _handleTextChange() {
+    setState(() {
+      _hasText = _controller.text.isNotEmpty;
+    });
+  }
+
+  void _clearText() {
+    _controller.clear();
+    widget.onChanged?.call('');
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final isError = errorText != null;
+    final isError = widget.errorText != null;
     final errorBorder = OutlineInputBorder(
       borderRadius: BorderRadius.circular(GiroTextFieldTokens.borderRadius),
       borderSide: const BorderSide(
@@ -44,24 +108,44 @@ class GiroTextField extends StatelessWidget {
       ),
     );
 
+    final showClearButton = _hasFocus && _hasText;
+
+    Widget? effectiveSuffixIcon;
+    if (showClearButton) {
+      effectiveSuffixIcon = IconButton(
+        icon: const Icon(FluentIcons.dismiss_16_regular, size: 16),
+        onPressed: _clearText,
+        padding: EdgeInsets.zero,
+        constraints: const BoxConstraints(),
+        style: IconButton.styleFrom(
+          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        ),
+      );
+    } else if (widget.suffixIcon != null) {
+      effectiveSuffixIcon = IconTheme(
+        data: const IconThemeData(size: 16),
+        child: widget.suffixIcon!,
+      );
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        if (label != null) ...[
+        if (widget.label != null) ...[
           RichText(
             text: TextSpan(
-              text: label!,
+              text: widget.label!,
               style: GoogleFonts.getFont(
                 GiroTextFieldTokens.fontFamily,
                 fontSize: GiroTextFieldTokens.labelFontSize,
                 fontWeight: GiroTextFieldTokens.labelFontWeight,
-                color: enabled 
+                color: widget.enabled 
                     ? GiroTextFieldTokens.labelColor 
                     : GiroTokens.colorNeutralLowLight,
               ),
               children: [
-                if (required)
+                if (widget.required)
                   TextSpan(
                     text: ' *',
                     style: GoogleFonts.getFont(
@@ -80,27 +164,27 @@ class GiroTextField extends StatelessWidget {
         SizedBox(
           height: GiroTextFieldTokens.height, // Força 44px de altura
           child: TextField(
-            controller: controller,
-            onChanged: onChanged,
-            keyboardType: keyboardType,
-            obscureText: obscureText,
-            enabled: enabled,
+            controller: _controller,
+            focusNode: _focusNode,
+            onChanged: widget.onChanged,
+            keyboardType: widget.keyboardType,
+            obscureText: widget.obscureText,
+            enabled: widget.enabled,
             style: GoogleFonts.getFont(
               GiroTextFieldTokens.fontFamily,
               fontSize: GiroTextFieldTokens.inputFontSize,
-              color: enabled 
+              color: widget.enabled 
                   ? GiroTextFieldTokens.inputColor 
                   : GiroTokens.colorNeutralLowLight,
             ),
             decoration: InputDecoration(
-              hintText: hintText,
+              hintText: widget.hintText,
               filled: true,
-              fillColor: enabled 
+              fillColor: widget.enabled 
                   ? GiroTextFieldTokens.backgroundColor 
                   : GiroTokens.colorNeutralHighLight,
               // Não passamos errorText aqui para evitar que o layout nativo mude a altura
-              prefixIcon: prefixIcon,
-              suffixIcon: suffixIcon,
+              suffixIcon: effectiveSuffixIcon,
               // Sobrescrevemos as bordas manualmente se houver erro
               enabledBorder: isError ? errorBorder : null,
               focusedBorder: isError ? errorBorder : null,
@@ -115,13 +199,13 @@ class GiroTextField extends StatelessWidget {
           ),
         ),
         // Mensagem de erro ou helper text renderizados externamente
-        if (errorText != null || helperText != null) ...[
+        if (widget.errorText != null || widget.helperText != null) ...[
            const SizedBox(height: 4),
            Text(
-             errorText ?? helperText!,
+             widget.errorText ?? widget.helperText!,
              style: GoogleFonts.getFont(
                GiroTextFieldTokens.fontFamily,
-               color: errorText != null 
+               color: widget.errorText != null 
                    ? GiroTextFieldTokens.borderColorError 
                    : GiroTextFieldTokens.helperTextColor,
                fontSize: 12,

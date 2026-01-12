@@ -149,6 +149,13 @@ class WidgetbookApp extends StatelessWidget {
           scales: const [1.0, 1.5, 2.0],
         ),
       ],
+      appBuilder: (context, child) {
+        return Scaffold(
+          body: Center(
+            child: child,
+          ),
+        );
+      },
     );
   }
 }
