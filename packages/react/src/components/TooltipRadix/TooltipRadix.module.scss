@@ -11,6 +11,11 @@
 	will-change: transform, opacity;
 }
 
+.triggerWrapper {
+  width: fit-content;
+	height: fit-content;
+}
+
 /* Parte exclusiva apra as animações da Tooltip */
 .tooltipContent[data-state="delayed-open"][data-side="top"] {
 	animation-name: slideDownAndFade;
