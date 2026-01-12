@@ -31,11 +31,7 @@
 		background: #CFD0DA;
 		box-shadow: none;
 	}
-	&[disabled=true]&[data-state="checked"] {
-		background: #CADAFF;
-		border: none;
-		box-shadow: none;
-	}
+	
 }
 
 .SwitchThumb {

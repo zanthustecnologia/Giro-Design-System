@@ -6,7 +6,6 @@ import { SwitchRadixProps } from './SwitchRadix.types';
 
 const SwitchRadix: React.FC<SwitchRadixProps> = ({
 	text, 
-	disabled = true,
 	
 }) => (
 	<form>
@@ -14,7 +13,7 @@ const SwitchRadix: React.FC<SwitchRadixProps> = ({
 			<label className="Label" htmlFor="airplane-mode" style={{ paddingRight: 15 }}>
 				{text}
 			</label>
-			<Switch.Root className="SwitchRoot" disabled={disabled} >
+			<Switch.Root className="SwitchRoot">
 				<Switch.Thumb className="SwitchThumb" />
 			</Switch.Root>
 		</div>
