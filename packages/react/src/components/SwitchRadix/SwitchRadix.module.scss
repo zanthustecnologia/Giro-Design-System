@@ -1,4 +1,7 @@
-@import "@radix-ui/colors/black-alpha.css";
+.container {
+	display: "flex";
+	align-items: "center" 
+}
 
 .SwitchRoot {
 	width: 52px;
@@ -15,6 +18,7 @@
 		background-color: #E8E8EE;
 	}
 	&:focus {
+		background-color:#F5F5FA;
 		border: 3px solid #CADAFF;
 		box-shadow: none;
 	}
@@ -23,12 +27,21 @@
 		border: none;
 		box-shadow: none;
 	}
+	&[data-state="checked"]:hover {
+		background-color: #4F83FB;
+		border: none;
+		box-shadow: none;
+	}
 	&[data-state="checked"]:focus {
 		border: 3px solid #CADAFF;
 		box-shadow: none;
 	}
-	&[disabled=true]{
+	&:disabled{
 		background: #CFD0DA;
+		box-shadow: none;
+	}
+	&[data-state="checked"]:disabled{
+		background: #CADAFF;
 		box-shadow: none;
 	}
 	
@@ -55,11 +68,17 @@
 		padding: 11px;
 		background-color: var(--color-neutral-high-default);
 	}
+	&[data-state="checked"]:disabled{
+		width: 4px;
+		height: 4px;
+		padding: 13px;
+	}
 }
 
-.Label {
+.label {
 	color: black;
 	font-size: var(--font-size-14);
 	line-height: 1;
 	user-select: none;
+	padding-right: 15px;
 }

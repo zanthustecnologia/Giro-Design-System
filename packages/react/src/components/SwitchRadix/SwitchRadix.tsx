@@ -1,23 +1,21 @@
 import * as React from "react";
 import clsx from 'clsx';
 import { Switch } from "radix-ui";
-import "./SwitchRadix.modules.scss";
+import styles from './SwitchRadix.module.scss';
 import { SwitchRadixProps } from './SwitchRadix.types';
 
 const SwitchRadix: React.FC<SwitchRadixProps> = ({
-	text, 
-	
+	text,
+	disabled = false,
 }) => (
-	<form>
-		<div style={{ display: "flex", alignItems: "center" }}>
-			<label className="Label" htmlFor="airplane-mode" style={{ paddingRight: 15 }}>
+		<div className={clsx(styles.container)}>
+			<label className={styles.label}>
 				{text}
 			</label>
-			<Switch.Root className="SwitchRoot">
-				<Switch.Thumb className="SwitchThumb" />
+			<Switch.Root  className={styles.SwitchRoot} disabled={disabled}	>
+				<Switch.Thumb className={styles.SwitchThumb} disabled={disabled}/>
 			</Switch.Root>
 		</div>
-	</form>
 );
 
 export default SwitchRadix;
