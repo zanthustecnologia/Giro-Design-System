@@ -13,7 +13,6 @@ const TooltipRadix: React.FC<TooltipRadixProps> = ({
 	alignOffset = 10
 }) => {
 	return (
-		<div>
 		<Tooltip.Provider >
 			<Tooltip.Root>
 				<Tooltip.Trigger asChild>
@@ -34,7 +33,6 @@ const TooltipRadix: React.FC<TooltipRadixProps> = ({
 				</Tooltip.Portal>
 			</Tooltip.Root>
 		</Tooltip.Provider>
-		</div>
 	);
 };
 
