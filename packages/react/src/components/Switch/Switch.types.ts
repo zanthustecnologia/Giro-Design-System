@@ -1,5 +1,5 @@
 import React from 'react';
 
-export interface SwitchRadixProps {
+export interface SwitchProps {
   disabled?: boolean;
 }

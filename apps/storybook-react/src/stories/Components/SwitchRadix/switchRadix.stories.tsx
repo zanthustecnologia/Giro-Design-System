@@ -1,11 +1,11 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { SwitchRadix } from '@giro-ds/react';
-import { SwitchRadixProps } from '@giro-ds/react';
+import { SwitchProps } from '@giro-ds/react';
 type Story = StoryObj<typeof SwitchRadix>;
 
-const meta: Meta<SwitchRadixProps> = {
-  title: 'Components/SwitchRadix',
+const meta: Meta<SwitchProps> = {
+  title: 'Components/Switch',
   component: SwitchRadix,
   parameters: {
     docs: {
