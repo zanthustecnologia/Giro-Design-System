@@ -32,6 +32,10 @@ export const Default: Story = {
 }
 export const SelectAll: Story = {
   render: (args) => {
+
+    const [checked, setChecked] = useState(false);
+    const [indeterminate, setIndeterminate] = useState(false);
+
     // Estado dos 3 checkboxes individuais
     const [items, setItems] = useState({
       item1: false,
@@ -47,12 +51,52 @@ export const SelectAll: Story = {
     // Handler para o Select All
     const handleSelectAll = () => {
       const shouldCheckAll = !allChecked;
-      setItems({
-        item1: shouldCheckAll,
-        item2: shouldCheckAll,
-        item3: shouldCheckAll,
-      });
+      if (shouldCheckAll) {
+        setItems({
+          item1: true,
+          item2: true,
+          item3: true,
+        });
+      }
     };
+
+    // Handle para o fazer o SelectAll quando estiver indeterminate
+    const handleSomeCheck = () => {
+      if (someChecked) {
+        setItems({
+          item1: true,
+          item2: true,
+          item3: true,
+        });
+      }
+    };
+
+    // Handler para o Select All
+    const handleDeselectAll = () => {
+      const shouldCheckAll = !allChecked;
+      if (!shouldCheckAll) {
+        setItems({
+          item1: false,
+          item2: false,
+          item3: false,
+        });
+      }
+    };
+
+    const selectAllController = () => {
+      if (!checked){
+        handleSelectAll()
+        setChecked(true)
+      } else if(checked == indeterminate) {
+        handleSomeCheck()
+        setIndeterminate(false)
+        setChecked(false)
+        
+      } else {
+        handleDeselectAll()
+        setChecked(false)
+      }
+    }
 
     // Handler para items individuais
     const handleItemChange = (itemKey: keyof typeof items) => {
@@ -88,7 +132,7 @@ export const SelectAll: Story = {
             id="select-all"
             label="Select All"
             indeterminate={someChecked}
-            onCheckedChange={handleSelectAll}
+            onCheckedChange={selectAllController}
              
           />
         </div>

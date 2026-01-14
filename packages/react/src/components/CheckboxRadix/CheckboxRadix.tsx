@@ -35,7 +35,7 @@ const CheckboxRadix: React.FC<CheckboxRadixProps> = ({
     }
   };
   return (
-    <div className={clsx(styles.container, className)}>
+    <div className={styles['container']}>
       <div
         className={clsx(styles.wrapperCheckbox, {
           [styles.disabled]: disabled,
