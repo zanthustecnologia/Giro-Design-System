@@ -8,8 +8,8 @@ const SwitchRadix: React.FC<SwitchProps> = ({
 	disabled = false,
 }) => (
 		<div className={clsx(styles.container)}>
-			<Switch.Root  className={styles.SwitchRoot} disabled={disabled}	>
-				<Switch.Thumb className={styles.SwitchThumb} />
+			<Switch.Root  className={styles.switchRoot} disabled={disabled}	>
+				<Switch.Thumb className={styles.switchThumb} />
 			</Switch.Root>
 		</div>
 );
