@@ -64,7 +64,7 @@
 		outline: 3px solid #CADAFF;;
 	}
 	&[data-state="checked"] {
-		transform: translateX(23px);
+		transform: translateX(22px);
 		width: 2px;
 		height: 2px;
 		padding: 11px;
@@ -74,12 +74,4 @@
 		height: 4px;
 		padding: 13px;
 	}
-}
-
-.label {
-	color: black;
-	font-size: var(--font-size-14);
-	line-height: 1;
-	user-select: none;
-	padding-right: 15px;
 }

@@ -18,10 +18,6 @@ const meta: Meta<SwitchRadixProps> = {
   },
 
   argTypes: {
-    text: {
-      control: 'text',
-      description: 'Texto a ser exibido no tooltip',
-    },
     disabled: {
       description: 'Campo desabilitado',
       control: { type: 'boolean' },
@@ -39,9 +35,6 @@ const Template = (args: React.ComponentProps<typeof SwitchRadix>) => (
 
 // Stories
 export const Default: Story = {
-  args: {
-    text: 'Texto aqui',
-  },
   render: (args) => (
     <SwitchRadix {...args}>
       
