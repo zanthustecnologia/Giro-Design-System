@@ -1,12 +1,12 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { TooltipRadix, Avatar, Button } from '@giro-ds/react';
+import { Tooltip, Avatar, Button } from '@giro-ds/react';
 import { Person16Regular } from '@fluentui/react-icons';
-type Story = StoryObj<typeof TooltipRadix>;
+type Story = StoryObj<typeof Tooltip>;
 
-const meta: Meta<typeof TooltipRadix> = {
+const meta: Meta<typeof Tooltip> = {
   title: 'Components/Tooltip',
-  component: TooltipRadix,
+  component: Tooltip,
   parameters: {
     layout: 'centered',
   },
@@ -36,10 +36,10 @@ const meta: Meta<typeof TooltipRadix> = {
 export default meta;
 
 // Template base
-const Template = (args: React.ComponentProps<typeof TooltipRadix>) => (
-  <TooltipRadix {...args}>
+const Template = (args: React.ComponentProps<typeof Tooltip>) => (
+  <Tooltip {...args}>
     <Avatar icon={<Person16Regular />} size="small" />
-  </TooltipRadix>
+  </Tooltip>
 );
 
 // Stories
@@ -48,9 +48,9 @@ export const Default: Story = {
     text: 'Texto aqui',
   },
   render: (args) => (
-    <TooltipRadix {...args}>
+    <Tooltip {...args}>
       <Avatar icon={<Person16Regular />} size="small" />
-    </TooltipRadix>
+    </Tooltip>
   ),
 };
 
@@ -59,8 +59,8 @@ export const WithButton: Story = {
     text: 'Clique no botão para realizar uma ação',
   },
   render: (args) => (
-    <TooltipRadix {...args}>
+    <Tooltip {...args}>
       <Button>Hover me</Button>
-    </TooltipRadix>
+    </Tooltip>
   ),
 };

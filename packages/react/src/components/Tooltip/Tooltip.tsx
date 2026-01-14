@@ -1,10 +1,10 @@
 import React from 'react';
 import styles from './Tooltip.module.scss';
-import { Tooltip } from "radix-ui";
+import { Tooltip as TooltipRadix} from "radix-ui";
 import { TooltipProps } from './Tooltip.types';
 
 
-const TooltipRadix: React.FC<TooltipProps> = ({
+const Tooltip: React.FC<TooltipProps> = ({
 	children,
 	text ,
 	side = 'bottom',
@@ -13,15 +13,15 @@ const TooltipRadix: React.FC<TooltipProps> = ({
 	sideOffset = 10
 }) => {
 	return (
-		<Tooltip.Provider >
-			<Tooltip.Root>
-				<Tooltip.Trigger asChild>
+		<TooltipRadix.Provider >
+			<TooltipRadix.Root>
+				<TooltipRadix.Trigger asChild>
 					<span className={styles['triggerWrapper']}>
 						{children}
 					</span>
-				</Tooltip.Trigger>
-				<Tooltip.Portal>
-					<Tooltip.Content
+				</TooltipRadix.Trigger>
+				<TooltipRadix.Portal>
+					<TooltipRadix.Content
 						className={styles['tooltipContent']}
 						side={side}
 						align={align}
@@ -29,14 +29,13 @@ const TooltipRadix: React.FC<TooltipProps> = ({
 						style={{ maxWidth: maxWidth ? `${maxWidth}px` : 'auto' }}
 					>
 						{text}
-					</Tooltip.Content>
-				</Tooltip.Portal>
-			</Tooltip.Root>
-		</Tooltip.Provider>
+					</TooltipRadix.Content>
+				</TooltipRadix.Portal>
+			</TooltipRadix.Root>
+		</TooltipRadix.Provider>
 	);
 };
 
-export default TooltipRadix;
-
+export default Tooltip
 
 
