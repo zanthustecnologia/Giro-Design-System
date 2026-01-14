@@ -6,21 +6,21 @@
 .SwitchRoot {
 	width: 52px;
 	height: 32px;
-	background-color: #F5F5FA;
+	background-color: var(--color-neutral-high-light);
 	border-radius: 100px;
 	box-shadow: none;
-	padding: 2px 4px;
-	outline: 1px solid #CFD0DA;
+	padding: var(--spacing-4);
+	outline: var(--border-width-1) solid var(--color-neutral-high-dark);
 	border: none;
 	position: relative;
 	align-items: center;
-	gap: 8px;
+	gap: var(--spacing-8);
 	&:hover {
-		background-color: #E8E8EE;
+		background-color: var(--color-neutral-high-medium);
 	}
 	&:focus {
-		background-color:#F5F5FA;
-		outline: 3px solid #CADAFF;
+		background-color:var(--color-neutral-high-light);
+		outline: var(--border-width-2) solid var(--color-brand-primary-light);
 		box-shadow: none;
 	}
 	&[data-state="checked"] {
@@ -29,20 +29,20 @@
 		box-shadow: none;
 	}
 	&[data-state="checked"]:hover {
-		background-color: #4F83FB;
+		background-color: var(--color-brand-primary-medium);
 		outline: none;
 		box-shadow: none;
 	}
 	&[data-state="checked"]:focus {
-		outline: 3px solid #CADAFF;
+		outline: var(--border-width-2) solid var(--color-brand-primary-light);
 		box-shadow: none;
 	}
 	&:disabled{
-		background: #CFD0DA;
+		background: var(--color-neutral-high-dark);
 		box-shadow: none;
 	}
 	&[data-state="checked"]:disabled{
-		background: #CADAFF;
+		background: var(--color-brand-primary-light);
 		box-shadow: none;
 	}
 	
@@ -52,26 +52,26 @@
 	display: block;
 	width: 2px;
 	height: 2px;
-	padding: 7px;
-	background-color: #88898C;
-	border-radius: 9999px;
+	padding: var(--spacing-8);
+	background-color: var(--color-neutral-low-medium);
+	border-radius: var(--border-radius-circular);
 	border: none;
 	box-shadow: none;
 	transition: transform 100ms;
 	transform: translateX(0px);
 	will-change: transform;
 	&:focus {
-		outline: 3px solid #CADAFF;;
+		outline: var(--border-width-2) solid var(--color-brand-primary-light);
 	}
 	&[data-state="checked"] {
 		transform: translateX(22px);
 		width: 2px;
 		height: 2px;
-		padding: 11px;
+		padding: 11px; /* se coloca o token --spacing-12 que é o mais proximo fica desalinhado */
+		background-color: var(--color-neutral-high-default);
 	}
 	&[data-state="checked"]:disabled{
 		width: 4px;
 		height: 4px;
-		padding: 13px;
 	}
 }
