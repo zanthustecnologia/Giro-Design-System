@@ -9,8 +9,8 @@ const TooltipRadix: React.FC<TooltipProps> = ({
 	text ,
 	side = 'bottom',
 	align = 'start',
-	sideOffset = 10,
-	alignOffset = 10
+	maxWidth,
+	sideOffset = 10
 }) => {
 	return (
 		<Tooltip.Provider >
@@ -26,7 +26,7 @@ const TooltipRadix: React.FC<TooltipProps> = ({
 						side={side}
 						align={align}
 						sideOffset={sideOffset}
-						alignOffset={alignOffset}
+						style={{ maxWidth: maxWidth ? `${maxWidth}px` : 'auto' }}
 					>
 						{text}
 					</Tooltip.Content>

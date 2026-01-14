@@ -7,5 +7,6 @@ export interface TooltipProps {
   align?: "start" | "center" | "end";
   sideOffset?: number;
   alignOffset?: number;
+  maxWidth?: number;
   children: React.ReactNode;
 }

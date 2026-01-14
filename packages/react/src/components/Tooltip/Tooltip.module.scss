@@ -9,20 +9,6 @@
   animation-duration: 600ms;
 	animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
 	will-change: transform, opacity;
-	
-	&[data-side="top"][data-align="start"] {
-	margin-left: 20px;
-	}
-	&[data-side="top"][data-align="end"] {
-	margin-right: 20px;
-  }
-
-	&[data-side="bottom"][data-align="start"] {
-	margin-left: 20px;
-	}
-	&[data-side="bottom"][data-align="end"] {
-	margin-right: 20px;
-  }
 
 }
 
