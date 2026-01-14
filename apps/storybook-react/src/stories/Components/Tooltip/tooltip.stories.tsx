@@ -1,27 +1,26 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Tooltip, Avatar, Button } from '@giro-ds/react';
+import { TooltipRadix, Avatar, Button } from '@giro-ds/react';
 import { Person16Regular } from '@fluentui/react-icons';
-type Story = StoryObj<typeof Tooltip>;
+type Story = StoryObj<typeof TooltipRadix>;
 
-const meta: Meta<typeof Tooltip> = {
+const meta: Meta<typeof TooltipRadix> = {
   title: 'Components/Tooltip',
-  component: Tooltip,
+  component: TooltipRadix,
   parameters: {
     layout: 'centered',
   },
 
   argTypes: {
-    position: {
+    side: {
       control: 'select',
-      options: [
-        'top-right',
-        'top-left',
-        'bottom-right',
-        'bottom-left',
-        'left',
-        'right',
-      ],
+      options: ['top','bottom', 'left', 'right'],
+      description: 'Posição do tooltip'
+    },
+    align: {
+      control: 'select',
+      options: ['start', 'center', 'end'],
+      description: 'Posição do tooltip'
     },
     text: {
       control: 'text',
@@ -37,33 +36,31 @@ const meta: Meta<typeof Tooltip> = {
 export default meta;
 
 // Template base
-const Template = (args: React.ComponentProps<typeof Tooltip>) => (
-  <Tooltip {...args}>
+const Template = (args: React.ComponentProps<typeof TooltipRadix>) => (
+  <TooltipRadix {...args}>
     <Avatar icon={<Person16Regular />} size="small" />
-  </Tooltip>
+  </TooltipRadix>
 );
 
 // Stories
 export const Default: Story = {
   args: {
     text: 'Texto aqui',
-    position: 'top-right',
   },
   render: (args) => (
-    <Tooltip {...args}>
+    <TooltipRadix {...args}>
       <Avatar icon={<Person16Regular />} size="small" />
-    </Tooltip>
+    </TooltipRadix>
   ),
 };
 
 export const WithButton: Story = {
   args: {
     text: 'Clique no botão para realizar uma ação',
-    position: 'top-right',
   },
   render: (args) => (
-    <Tooltip {...args}>
+    <TooltipRadix {...args}>
       <Button>Hover me</Button>
-    </Tooltip>
+    </TooltipRadix>
   ),
 };

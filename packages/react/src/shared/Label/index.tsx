@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Label } from 'radix-ui';
 import styles from './index.module.scss';
 import clsx from 'clsx';
-import TooltipRadix from '../../components/TooltipRadix/TooltipRadix';
+import TooltipRadix from '../../components/Tooltip/Tooltip';
 import { Info12Regular } from '@fluentui/react-icons';
 
 interface LabelProps {

@@ -83,11 +83,8 @@ export { type TextFieldProps } from './TextField/TextField.types';
 export { default as Toast, ToastProvider, useToast } from './Toast';
 export { type ToastType, type ToastMessage, type ToastOptions, type ToastContextType } from './Toast/Toast.types';
 
-export { default as Tooltip } from './Tooltip';
+export { default as TooltipRadix } from './Tooltip';
 export { type TooltipProps } from './Tooltip/Tooltip.types';
-
-export { default as TooltipRadix } from './TooltipRadix';
-export { type TooltipRadixProps } from './TooltipRadix/TooltipRadix.types';
 
 export { default as VerificationCode } from './VerificationCode';
 export { type VerificationCodeProps } from './VerificationCode/VerificationCode.types';

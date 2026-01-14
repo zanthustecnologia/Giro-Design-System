@@ -3,9 +3,6 @@ import React from 'react';
 export interface TooltipProps {
   id?: string;
   text: React.ReactNode;
-  side?: "top" | "right" | "bottom" | "left"
-  align?: "start" | "center" | "end";
-  sideOffset?: number;
-  alignOffset?: number;
+  position?: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left' | 'left' | 'right';
   children: React.ReactNode;
 }

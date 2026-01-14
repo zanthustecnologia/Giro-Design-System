@@ -1,26 +1,27 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { TooltipRadix, Avatar, Button } from '@giro-ds/react';
+import { Tooltip, Avatar, Button } from '@giro-ds/react';
 import { Person16Regular } from '@fluentui/react-icons';
-type Story = StoryObj<typeof TooltipRadix>;
+type Story = StoryObj<typeof Tooltip>;
 
-const meta: Meta<typeof TooltipRadix> = {
-  title: 'Components/TooltipRadix',
-  component: TooltipRadix,
+const meta: Meta<typeof Tooltip> = {
+  title: 'Components/Tooltip',
+  component: Tooltip,
   parameters: {
     layout: 'centered',
   },
 
   argTypes: {
-    side: {
+    position: {
       control: 'select',
-      options: ['top','bottom', 'left', 'right'],
-      description: 'Posição do tooltip'
-    },
-    align: {
-      control: 'select',
-      options: ['start', 'center', 'end'],
-      description: 'Posição do tooltip'
+      options: [
+        'top-right',
+        'top-left',
+        'bottom-right',
+        'bottom-left',
+        'left',
+        'right',
+      ],
     },
     text: {
       control: 'text',
@@ -36,31 +37,33 @@ const meta: Meta<typeof TooltipRadix> = {
 export default meta;
 
 // Template base
-const Template = (args: React.ComponentProps<typeof TooltipRadix>) => (
-  <TooltipRadix {...args}>
+const Template = (args: React.ComponentProps<typeof Tooltip>) => (
+  <Tooltip {...args}>
     <Avatar icon={<Person16Regular />} size="small" />
-  </TooltipRadix>
+  </Tooltip>
 );
 
 // Stories
 export const Default: Story = {
   args: {
     text: 'Texto aqui',
+    position: 'top-right',
   },
   render: (args) => (
-    <TooltipRadix {...args}>
+    <Tooltip {...args}>
       <Avatar icon={<Person16Regular />} size="small" />
-    </TooltipRadix>
+    </Tooltip>
   ),
 };
 
 export const WithButton: Story = {
   args: {
     text: 'Clique no botão para realizar uma ação',
+    position: 'top-right',
   },
   render: (args) => (
-    <TooltipRadix {...args}>
+    <Tooltip {...args}>
       <Button>Hover me</Button>
-    </TooltipRadix>
+    </Tooltip>
   ),
 };

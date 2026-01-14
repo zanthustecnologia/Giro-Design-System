@@ -1,54 +1,93 @@
-
-.zds-tooltip__wrapper {
-  position: relative;
-  display: flex;
-}
-
-.zds-tooltip__content {
-  position: absolute;
-  display: inline-flex;
+.tooltipContent {
   white-space: nowrap; 
   background-color: var(--color-neutral-low-dark);
   font-size: var(--font-size-14);
   font-family: var(--font-family-primary);
   color: var(--color-neutral-high-default);
-  padding: var(--spacing-8) var(--spacing-16);
+  padding: var(--spacing-12) var(--spacing-16);
   border-radius: var(--border-radius-8);
+  animation-duration: 600ms;
+	animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+	will-change: transform, opacity;
+	
+	&[data-side="top"][data-align="start"] {
+	margin-left: 20px;
+	}
+	&[data-side="top"][data-align="end"] {
+	margin-right: 20px;
+  }
+
+	&[data-side="bottom"][data-align="start"] {
+	margin-left: 20px;
+	}
+	&[data-side="bottom"][data-align="end"] {
+	margin-right: 20px;
+  }
 
 }
 
-.zds-tooltip__top-right {
-  bottom: 100%;
-  left: 0;
-  margin-bottom: var(--spacing-8);
+
+.triggerWrapper {
+	display: inline-block;
+  width: fit-content;
+	height: fit-content;
 }
 
-.zds-tooltip__top-left {
-  bottom: 100%;
-  right: 0;
-  margin-bottom: var(--spacing-8);
+/* Parte exclusiva apra as animações da Tooltip */
+.tooltipContent[data-state="delayed-open"][data-side="top"] {
+	animation-name: slideDownAndFade;
+}
+.tooltipContent[data-state="delayed-open"][data-side="right"] {
+	animation-name: slideLeftAndFade;
+}
+.tooltipContent[data-state="delayed-open"][data-side="bottom"] {
+	animation-name: slideUpAndFade;
+}
+.tooltipContent[data-state="delayed-open"][data-side="left"] {
+	animation-name: slideRightAndFade;
 }
 
-.zds-tooltip__left {
-  right: 100%;
-  top: 0;
-  margin-right: var(--spacing-8);
+// keyframes das animações
+@keyframes slideUpAndFade {
+	from {
+		opacity: 0;
+		transform: translateY(10px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
 }
 
-.zds-tooltip__right {
-  left: 100%;
-  top: 0;
-  margin-left: var(--spacing-8);
+@keyframes slideRightAndFade {
+	from {
+		opacity: 0;
+		transform: translateX(-10px);
+	}
+	to {
+		opacity: 1;
+		transform: translateX(0);
+	}
 }
 
-.zds-tooltip__bottom-left {
-  top: 100%;
-  right: 0;
-  margin-top: var(--spacing-8);
+@keyframes slideDownAndFade {
+	from {
+		opacity: 0;
+		transform: translateY(-10px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
 }
 
-.zds-tooltip__bottom-right {
-  top: 100%;
-  left: 0;
-  margin-top: var(--spacing-8);
+@keyframes slideLeftAndFade {
+	from {
+		opacity: 0;
+		transform: translateX(10px);
+	}
+	to {
+		opacity: 1;
+		transform: translateX(0);
+	}
 }
