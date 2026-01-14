@@ -1,12 +1,12 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { SwitchRadix } from '@giro-ds/react';
+import { Switch } from '@giro-ds/react';
 import { SwitchProps } from '@giro-ds/react';
-type Story = StoryObj<typeof SwitchRadix>;
+type Story = StoryObj<typeof Switch>;
 
 const meta: Meta<SwitchProps> = {
   title: 'Components/Switch',
-  component: SwitchRadix,
+  component: Switch,
   parameters: {
     docs: {
       description: {
@@ -28,16 +28,16 @@ const meta: Meta<SwitchProps> = {
 export default meta;
 
 // Template base
-const Template = (args: React.ComponentProps<typeof SwitchRadix>) => (
-  <SwitchRadix {...args}>
-  </SwitchRadix>
+const Template = (args: React.ComponentProps<typeof Switch>) => (
+  <Switch {...args}>
+  </Switch>
 );
 
 // Stories
 export const Default: Story = {
   render: (args) => (
-    <SwitchRadix {...args}>
+    <Switch {...args}>
       
-    </SwitchRadix>
+    </Switch>
   ),
 };

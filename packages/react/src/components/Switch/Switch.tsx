@@ -1,17 +1,17 @@
 import * as React from "react";
 import clsx from 'clsx';
-import { Switch } from "radix-ui";
+import { Switch as SwitchRadix} from "radix-ui";
 import styles from './Switch.module.scss';
 import { SwitchProps } from './Switch.types';
 
-const SwitchRadix: React.FC<SwitchProps> = ({
+const Switch: React.FC<SwitchProps> = ({
 	disabled = false,
 }) => (
 		<div className={clsx(styles.container)}>
-			<Switch.Root  className={styles.switchRoot} disabled={disabled}	>
-				<Switch.Thumb className={styles.switchThumb} />
-			</Switch.Root>
+			<SwitchRadix.Root  className={styles.switchRoot} disabled={disabled}	>
+				<SwitchRadix.Thumb className={styles.switchThumb} />
+			</SwitchRadix.Root>
 		</div>
 );
 
-export default SwitchRadix;
+export default Switch;
