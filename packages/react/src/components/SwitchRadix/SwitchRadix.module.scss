@@ -10,7 +10,8 @@
 	border-radius: 100px;
 	box-shadow: none;
 	padding: 2px 4px;
-	border: 1px solid #CFD0DA;
+	outline: 1px solid #CFD0DA;
+	border: none;
 	position: relative;
 	align-items: center;
 	gap: 8px;
@@ -19,21 +20,21 @@
 	}
 	&:focus {
 		background-color:#F5F5FA;
-		border: 3px solid #CADAFF;
+		outline: 3px solid #CADAFF;
 		box-shadow: none;
 	}
 	&[data-state="checked"] {
 		background-color: #1D60FA;
-		border: none;
+		outline: none;
 		box-shadow: none;
 	}
 	&[data-state="checked"]:hover {
 		background-color: #4F83FB;
-		border: none;
+		outline: none;
 		box-shadow: none;
 	}
 	&[data-state="checked"]:focus {
-		border: 3px solid #CADAFF;
+		outline: 3px solid #CADAFF;
 		box-shadow: none;
 	}
 	&:disabled{
@@ -54,19 +55,19 @@
 	padding: 7px;
 	background-color: #88898C;
 	border-radius: 9999px;
+	border: none;
 	box-shadow: none;
 	transition: transform 100ms;
 	transform: translateX(0px);
 	will-change: transform;
 	&:focus {
-		border: 3px solid #CADAFF;;
+		outline: 3px solid #CADAFF;;
 	}
 	&[data-state="checked"] {
-		transform: translateX(18px);
+		transform: translateX(23px);
 		width: 2px;
 		height: 2px;
 		padding: 11px;
-		background-color: var(--color-neutral-high-default);
 	}
 	&[data-state="checked"]:disabled{
 		width: 4px;
