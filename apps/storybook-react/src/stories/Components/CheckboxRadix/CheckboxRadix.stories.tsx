@@ -33,8 +33,6 @@ export const Default: Story = {
 }
 export const SelectAll: Story = {
   render: (args) => {
-    const [checked, setChecked] = useState(false);
-    const [indeterminate, setIndeterminate] = useState(false);
 
     // Estado dos 3 checkboxes individuais
     const [items, setItems] = useState({
@@ -44,9 +42,8 @@ export const SelectAll: Story = {
     });
 
     // Calcula o estado do Select All
-    const allChecked = items.item1 && items.item2 && items.item3;
-    const someChecked = (items.item1 || items.item2 || items.item3) && !allChecked;
-    
+    const allChecked = items.item1 && items.item2 && items.item3;    
+    const indeterminate = (items.item1 || items.item2 || items.item3) && !allChecked;
 
     // Handler para fazer Select All
     const handleSelectAll = () => {
@@ -72,19 +69,11 @@ export const SelectAll: Story = {
 
     // Controle para o Select All
     const selectAllController = () => {
-      if (!allChecked){
-        handleSelectAll()
-        setChecked(true)
-        
-      } else if(someChecked){
-        handleSelectAll()
-        setChecked(true)
-        
-      } else if(allChecked){ 
-        handleDeselectAll()
-        setChecked(false)
-      } 
-      
+      if (allChecked) {
+        handleDeselectAll();
+      } else {
+        handleSelectAll();
+      }  
     }
 
     // Handler para items individuais
@@ -97,22 +86,8 @@ export const SelectAll: Story = {
 
     // visualizador de se o estado someChecked está funcionando
     useEffect(() =>{
-      console.log(someChecked)
-    },[someChecked])
-
-    // Atualiza o estado indeterminate e checked do Select All
-    useEffect(() => {
-      if (someChecked) {
-        setIndeterminate(true);
-        setChecked(true);
-      } else if (allChecked) {
-        setIndeterminate(false);
-        setChecked(true);
-      } else {
-        setIndeterminate(false);
-        setChecked(false);
-      }
-    }, [checked]);
+      console.log(indeterminate)
+    },[indeterminate])
 
     return (
       <div
@@ -136,10 +111,9 @@ export const SelectAll: Story = {
           <CheckboxRadix
             id="select-all"
             label="Select All"
+            checked={allChecked || indeterminate}
             indeterminate={indeterminate}
-            checked={allChecked}
             onCheckedChange={selectAllController}
-            
           />
         </div>
         <div
@@ -155,23 +129,18 @@ export const SelectAll: Story = {
             label="Item 1"
             checked={items.item1}
             onCheckedChange={() => handleItemChange('item1')}
-         
           />
-
           <CheckboxRadix
             id="item-2"
             label="Item 2"
             checked={items.item2}
             onCheckedChange={() => handleItemChange('item2')}
-            
           />
-
           <CheckboxRadix
             id="item-3"
             label="Item 3"
             checked={items.item3}
             onCheckedChange={() => handleItemChange('item3')}
-           
           />
         </div>
 
@@ -198,7 +167,7 @@ export const SelectAll: Story = {
               <strong>Estado "Select All":</strong>{' '}
               {allChecked ? (
                 <span style={{ color: '#10b981' }}>✓ Todos selecionados</span>
-              ) : someChecked ? (
+              ) : indeterminate ? (
                 <span style={{ color: '#f59e0b' }}>
                   ⊟ Parcialmente selecionado (indeterminate)
                 </span>
