@@ -1,12 +1,12 @@
 import * as React from 'react';
-import { Checkbox } from 'radix-ui';
-import styles from './CheckboxRadix.module.scss';
+import { Checkbox as CheckboxRadix } from 'radix-ui';
+import styles from './Checkbox.module.scss';
 import { CheckSmall, CheckHalf } from '@/shared/icons';
-import { CheckboxRadixProps } from './CheckboxRadix.types';
+import { CheckboxProps } from './Checkbox.types';
 import clsx from 'clsx';
 import { useId } from 'react';
 
-const CheckboxRadix: React.FC<CheckboxRadixProps> = ({
+const Checkbox: React.FC<CheckboxProps> = ({
   id,
   label,
   onCheckedChange,
@@ -46,7 +46,7 @@ const CheckboxRadix: React.FC<CheckboxRadixProps> = ({
         tabIndex={disabled ? -1 : 0}
         onKeyDown={handleWrapperKeyDown}
       >
-        <Checkbox.Root
+        <CheckboxRadix.Root
           ref={checkboxRef}
           className={styles.root}
           checked={checked}
@@ -58,10 +58,10 @@ const CheckboxRadix: React.FC<CheckboxRadixProps> = ({
           aria-checked={indeterminate ? 'mixed' : checked ? 'true' : 'false'}
           {...rest}
         >
-          <Checkbox.Indicator className={styles.indicator}>
+          <CheckboxRadix.Indicator className={styles.indicator}>
             {indeterminate ? <CheckHalf /> : <CheckSmall />}
-          </Checkbox.Indicator>
-        </Checkbox.Root>
+          </CheckboxRadix.Indicator>
+        </CheckboxRadix.Root>
       </div>
       <label
         className={clsx(styles.label, { [styles.disabled]: disabled })}
@@ -74,4 +74,4 @@ const CheckboxRadix: React.FC<CheckboxRadixProps> = ({
   );
 };
 
-export default CheckboxRadix;
+export default Checkbox;

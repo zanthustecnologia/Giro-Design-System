@@ -1,2 +1,2 @@
-export { default } from './CheckboxRadix';
-export type { CheckboxRadixProps } from './CheckboxRadix.types';
+export { default } from './Checkbox';
+export type { CheckboxProps } from './Checkbox.types';

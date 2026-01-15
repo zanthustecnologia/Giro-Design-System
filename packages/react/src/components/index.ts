@@ -16,9 +16,6 @@ export { type CalloutProps } from './Callout/Callout.types';
 export { default as Checkbox } from './Checkbox';
 export { type CheckboxProps } from './Checkbox/Checkbox.types';
 
-export { default as CheckboxRadix } from './CheckboxRadix';
-export { type CheckboxRadixProps } from './CheckboxRadix/CheckboxRadix.types';
-
 export { default as Chips } from './Chips';
 export { type ChipsProps } from './Chips/Chips.types';
 

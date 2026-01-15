@@ -1,11 +1,11 @@
 import {Meta, StoryObj} from '@storybook/react';
 import { useEffect, useState } from 'react';
-import { CheckboxRadix } from '@giro-ds/react';
+import { Checkbox } from '@giro-ds/react';
 
 
-const meta: Meta<typeof CheckboxRadix> = {
-  component: CheckboxRadix,
-  title: 'Components/CheckboxRadix',
+const meta: Meta<typeof Checkbox> = {
+  component: Checkbox,
+  title: 'Components/Checkbox',
   parameters:{
     layout: 'centered'
   },
@@ -17,12 +17,12 @@ const meta: Meta<typeof CheckboxRadix> = {
   },
 }
 export default meta;
-type Story = StoryObj<typeof CheckboxRadix>;
+type Story = StoryObj<typeof Checkbox>;
 
 export const Default: Story = {
   render: (args) =>{
     const [checked, setChecked] = useState(false);
-    return <CheckboxRadix {...args} checked={checked} onCheckedChange={setChecked} />
+    return <Checkbox {...args} checked={checked} onCheckedChange={setChecked} />
   },
   args:{
     label: 'Checkbox',
@@ -108,7 +108,7 @@ export const SelectAll: Story = {
             borderBottom: '2px solid #e5e7eb',
           }}
         >
-          <CheckboxRadix
+          <Checkbox
             id="select-all"
             label="Select All"
             checked={allChecked || indeterminate}
@@ -124,19 +124,19 @@ export const SelectAll: Story = {
             paddingLeft: '1.5rem',
           }}
         >
-          <CheckboxRadix
+          <Checkbox
             id="item-1"
             label="Item 1"
             checked={items.item1}
             onCheckedChange={() => handleItemChange('item1')}
           />
-          <CheckboxRadix
+          <Checkbox
             id="item-2"
             label="Item 2"
             checked={items.item2}
             onCheckedChange={() => handleItemChange('item2')}
           />
-          <CheckboxRadix
+          <Checkbox
             id="item-3"
             label="Item 3"
             checked={items.item3}
