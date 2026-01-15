@@ -59,12 +59,16 @@
   justify-content: center;
   align-items: center;
   border-radius: var(--border-radius-circular);
-  &:focus-visible {
-    background-color: var(--color-neutral-high-medium);
-    outline: none;
+  &:focus {
+    background-color: var(--color-neutral-high-dark);
+    cursor: pointer;
   }
   &:hover:not(.disabled) {
     background-color: var(--color-neutral-high-medium);
+    cursor: pointer;
+  }
+  &:active {
+    background-color: var(--color-neutral-high-dark);
     cursor: pointer;
   }
   &.disabled {
@@ -73,6 +77,7 @@
       cursor: not-allowed;
     }
   }
+  
 }
 .label {
   color: var(--color-neutral-low-default);

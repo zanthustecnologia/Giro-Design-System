@@ -45,24 +45,14 @@ export const SelectAll: Story = {
 
     // Calcula o estado do Select All
     const allChecked = items.item1 && items.item2 && items.item3;
+    const shouldCheckAll = !allChecked;
     const someChecked =
       (items.item1 || items.item2 || items.item3) && !allChecked;
+    
 
     // Handler para o Select All
     const handleSelectAll = () => {
-      const shouldCheckAll = !allChecked;
       if (shouldCheckAll) {
-        setItems({
-          item1: true,
-          item2: true,
-          item3: true,
-        });
-      }
-    };
-
-    // Handle para o fazer o SelectAll quando estiver indeterminate
-    const handleSomeCheck = () => {
-      if (someChecked) {
         setItems({
           item1: true,
           item2: true,
@@ -73,7 +63,6 @@ export const SelectAll: Story = {
 
     // Handler para o Select All
     const handleDeselectAll = () => {
-      const shouldCheckAll = !allChecked;
       if (!shouldCheckAll) {
         setItems({
           item1: false,
@@ -87,14 +76,15 @@ export const SelectAll: Story = {
       if (!checked){
         handleSelectAll()
         setChecked(true)
-      } else if(checked == indeterminate) {
-        handleSomeCheck()
-        setIndeterminate(false)
-        setChecked(false)
         
-      } else {
+      } else if(checked){ 
         handleDeselectAll()
         setChecked(false)
+      } 
+      else if(someChecked){
+        handleSelectAll()
+        setChecked(true)
+        setIndeterminate(false)
       }
     }
 
