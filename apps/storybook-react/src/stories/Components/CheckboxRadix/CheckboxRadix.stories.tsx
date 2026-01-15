@@ -12,7 +12,8 @@ const meta: Meta<typeof CheckboxRadix> = {
   argTypes:{
     disabled: { control: 'boolean' },
     label: { control: 'text' },
-    onCheckedChange: { action: 'checked changed' }
+    onCheckedChange: { action: 'checked changed' },
+    indeterminate: { control: 'boolean'}
   },
 }
 export default meta;
@@ -44,13 +45,12 @@ export const SelectAll: Story = {
 
     // Calcula o estado do Select All
     const allChecked = items.item1 && items.item2 && items.item3;
-    const shouldCheckAll = !allChecked;
     const someChecked = (items.item1 || items.item2 || items.item3) && !allChecked;
     
 
-    // Handler para o Select All
+    // Handler para fazer Select All
     const handleSelectAll = () => {
-      if (shouldCheckAll) {
+      if (!allChecked) {
         setItems({
           item1: true,
           item2: true,
@@ -59,9 +59,9 @@ export const SelectAll: Story = {
       }
     };
 
-    // Handler para o Select All
+    // Handler para fazer deselect All
     const handleDeselectAll = () => {
-      if (!shouldCheckAll) {
+      if (allChecked) {
         setItems({
           item1: false,
           item2: false,
@@ -70,20 +70,21 @@ export const SelectAll: Story = {
       }
     };
 
+    // Controle para o Select All
     const selectAllController = () => {
-      if (!checked){
+      if (!allChecked){
         handleSelectAll()
         setChecked(true)
         
-      } else if(checked){ 
+      } else if(someChecked){
+        handleSelectAll()
+        setChecked(true)
+        
+      } else if(allChecked){ 
         handleDeselectAll()
         setChecked(false)
       } 
-      else if(someChecked){
-        handleSelectAll()
-        setChecked(true)
-        setIndeterminate(false)
-      }
+      
     }
 
     // Handler para items individuais
@@ -93,13 +94,17 @@ export const SelectAll: Story = {
         [itemKey]: !prev[itemKey],
       }));
     };
+
+    // visualizador de se o estado someChecked está funcionando
     useEffect(() =>{
       console.log(someChecked)
     },[someChecked])
 
+    // Atualiza o estado indeterminate e checked do Select All
     useEffect(() => {
       if (someChecked) {
         setIndeterminate(true);
+        setChecked(true);
       } else if (allChecked) {
         setIndeterminate(false);
         setChecked(true);
@@ -134,7 +139,7 @@ export const SelectAll: Story = {
             indeterminate={indeterminate}
             checked={allChecked}
             onCheckedChange={selectAllController}
-             
+            
           />
         </div>
         <div
