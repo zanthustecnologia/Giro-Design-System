@@ -12,21 +12,54 @@ Monorepo gerenciado com [Turborepo](https://turbo.build/repo), organizado por wo
 
 ```
 ├── apps/                                 # Aplicações consumidoras ou de visualização
-│   └── storybook-react/                  # Instância do Storybook (React)
-│       ├── .storybook/                   # Configurações do Storybook
-│       ├── src/
-│       │   ├── assets/                   # Recursos estáticos
-│       │   ├── internal-components/      # Componentes internos do Storybook
-│       │   │   ├── decorators/           # Decorators customizados
-│       │   │   ├── layouts/              # Layouts para documentação
-│       │   │   └── mdx/                  # Componentes MDX
-│       │   ├── stories/                  # Stories organizadas
-│       │   │   ├── Components/           # Stories de componentes
-│       │   │   ├── Foundation/           # Stories de fundamentos
-│       │   │   └── General/              # Stories gerais
-│       │   ├── styles/                   # Estilos globais do Storybook
-│       │   └── types/                    # Definições de tipos
+│   ├── storybook-react/                  # Instância do Storybook (React)
+│   │   ├── .storybook/                   # Configurações do Storybook
+│   │   ├── src/
+│   │   │   ├── assets/                   # Recursos estáticos
+│   │   │   ├── internal-components/      # Componentes internos do Storybook
+│   │   │   │   ├── decorators/           # Decorators customizados
+│   │   │   │   ├── layouts/              # Layouts para documentação
+│   │   │   │   └── mdx/                  # Componentes MDX
+│   │   │   ├── stories/                  # Stories organizadas
+│   │   │   │   ├── Components/           # Stories de componentes
+│   │   │   │   ├── Foundation/           # Stories de fundamentos
+│   │   │   │   └── General/              # Stories gerais
+│   │   │   ├── styles/                   # Estilos globais do Storybook
+│   │   │   └── types/                    # Definições de tipos
+│   └── storybook-flutter/                # Widgetbook (Flutter)
+│       ├── lib/
+│       │   ├── main.dart                 # App principal Widgetbook
+│       │   └── stories/                  # Stories de componentes Flutter
+│       └── pubspec.yaml                  # Dependências Flutter
 ├── packages/                             # Pacotes reutilizáveis, versionáveis e independentes
+│   ├── components-flutter/               # Biblioteca de componentes Flutter
+│   │   ├── lib/
+│   │   │   ├── components/               # Componentes Flutter
+│   │   │   │   ├── avatar/
+│   │   │   │   ├── badge/
+│   │   │   │   ├── button/
+│   │   │   │   ├── card/
+│   │   │   │   ├── checkbox/
+│   │   │   │   ├── chip/
+│   │   │   │   ├── dialog/
+│   │   │   │   ├── divider/
+│   │   │   │   ├── dropdown/
+│   │   │   │   ├── icon_button/
+│   │   │   │   ├── input/
+│   │   │   │   ├── list_item/
+│   │   │   │   ├── radio/
+│   │   │   │   ├── select/
+│   │   │   │   ├── switch/
+│   │   │   │   ├── text/
+│   │   │   │   └── tooltip/
+│   │   │   ├── tokens/                   # Design tokens Flutter
+│   │   │   │   ├── colors.dart
+│   │   │   │   ├── spacing.dart
+│   │   │   │   ├── typography.dart
+│   │   │   │   ├── border_radius.dart
+│   │   │   │   └── shadows.dart
+│   │   │   └── zanthus_flutter.dart      # Entry point do pacote
+│   │   └── pubspec.yaml
 │   ├── react/                            # Biblioteca de componentes React
 │   │   ├── src/
 │   │   │   ├── components/               # Componentes React
@@ -122,6 +155,82 @@ build/js/
 
 ---
 
+## 📱 Componentes Flutter
+
+Local: `packages/components-flutter/lib/components/`
+
+### Componentes Disponíveis
+
+O design system Flutter conta com os seguintes componentes implementados:
+
+* **Avatar** - Imagens de perfil com fallback para iniciais
+* **Badge** - Indicadores e etiquetas com variantes
+* **Button** - Botões com múltiplas variantes (primary, secondary, outline, ghost, text) e tamanhos
+* **Card** - Container com elevação e cantos arredondados
+* **Checkbox** - Caixas de seleção com suporte a label
+* **Chip** - Elementos compactos para tags e filtros
+* **Dialog** - Diálogos modais
+* **Divider** - Separadores visuais (horizontal e vertical)
+* **Dropdown** - Menus de seleção
+* **Icon Button** - Botões de ícone com tooltip
+* **Input** - Campos de entrada de texto com validação
+* **List Item** - Itens de lista com leading/trailing content
+* **Radio** - Seleção única entre múltiplas opções
+* **Select** - Seleção com item builder customizável
+* **Switch** - Controles de alternância
+* **Text** - Tipografia com estilos predefinidos
+* **Tooltip** - Informações contextuais
+
+### Design Tokens Flutter
+
+* **ZanthusColors** - Sistema de cores
+* **ZanthusSpacing** - Espaçamentos
+* **ZanthusTypography** - Tipografia e estilos de texto
+* **ZanthusBorderRadius** - Raios de borda
+* **ZanthusShadows** - Sombras e elevação
+
+### Características
+
+* Componentes baseados em Material Design
+* Totalmente tipados com Dart
+* Suporte a temas light/dark
+* Acessibilidade integrada
+* Integração com tokens do design system
+* Prontos para iOS, Android, Web e Desktop
+
+### Instalação
+
+```yaml
+dependencies:
+  zanthus_flutter:
+    path: ../packages/components-flutter
+```
+
+### Uso
+
+```dart
+import 'package:zanthus_flutter/zanthus_flutter.dart';
+
+// Usando componentes
+ZanthusButton(
+  text: 'Click me',
+  onPressed: () {},
+  variant: ZanthusButtonVariant.primary,
+  size: ZanthusButtonSize.medium,
+)
+
+// Usando tokens
+Container(
+  padding: EdgeInsets.all(ZanthusSpacing.md),
+  decoration: BoxDecoration(
+    color: ZanthusColors.primary,
+    borderRadius: ZanthusBorderRadius.borderRadiusMd,
+  ),
+)
+```
+
+---
+
 ## ⚛️ Componentes React
 
 Local: `packages/react/src/components/`
@@ -176,7 +285,9 @@ O design system conta com os seguintes componentes implementados:
 
 ---
 
-## 📚 Documentação com Storybook
+## 📚 Documentação
+
+### Storybook React
 
 Local: `apps/storybook-react/`
 
@@ -186,6 +297,35 @@ Local: `apps/storybook-react/`
 * Suporte a temas globais (light/dark)
 * Acessibilidade com `@storybook/addon-a11y`
 * Integração com [Chromatic](https://www.chromatic.com/) para CI/CD visual
+
+**Executar:**
+```bash
+pnpm run storybook
+```
+
+### Widgetbook Flutter
+
+Local: `apps/storybook-flutter/`
+
+* Framework: [Widgetbook](https://widgetbook.io/) v3.8.0
+* Showcase interativo de todos os componentes Flutter
+* Theme switcher (Light/Dark)
+* Device frame preview para iOS, Android e Desktop
+* Text scale testing para acessibilidade
+* Component knobs para customização em tempo real
+
+**Executar:**
+```bash
+cd apps/storybook-flutter
+flutter pub get
+flutter run
+```
+
+**Build para web:**
+```bash
+cd apps/storybook-flutter
+flutter build web
+```
 
 ---
 
@@ -241,21 +381,14 @@ dist/
 
 ## 🚀 Scripts Principais
 
+### Geral
+
 ```bash
 # Instalar dependências (usando pnpm)
 pnpm install
 
-# Gerar tokens
-pnpm --filter tokens build
-
 # Build de todos os pacotes
 pnpm run build
-
-# Rodar Storybook em modo desenvolvimento
-pnpm run storybook
-
-# Build do Storybook para produção
-pnpm run build-storybook
 
 # Rodar desenvolvimento de todos os pacotes em paralelo
 pnpm run dev
@@ -269,13 +402,48 @@ pnpm run lint
 # Verificação de tipos TypeScript
 pnpm run typecheck
 
-# Gerenciamento de versões com Changesets
+# Limpar cache do Turborepo
+npx turbo clean
+```
+
+### React
+
+```bash
+# Gerar tokens
+pnpm --filter tokens build
+
+# Rodar Storybook em modo desenvolvimento
+pnpm run storybook
+
+# Build do Storybook para produção
+pnpm run build-storybook
+```
+
+### Flutter
+
+```bash
+# Executar Widgetbook
+cd apps/storybook-flutter
+flutter pub get
+flutter run
+
+# Build para web
+cd apps/storybook-flutter
+flutter build web
+
+# Build pacote de componentes
+cd packages/components-flutter
+flutter pub get
+flutter test
+```
+
+### Changesets
+
+```bash
+# Gerenciamento de versões
 pnpm run changeset              # Criar um novo changeset
 pnpm run changeset:version      # Atualizar versões baseado nos changesets
 pnpm run changeset:publish      # Publicar pacotes
-
-# Limpar cache do Turborepo
-npx turbo clean
 ```
 
 ---
@@ -285,12 +453,16 @@ npx turbo clean
 * [ ] 🎨 Implementar sistema de temas (light/dark) com suporte a `prefers-color-scheme`
 * [ ] 🧪 Lint e validação de tokens (`stylelint`, `design-tokens-validate`)
 * [ ] 🖼️ Pré-visualização de tokens temáticos no Storybook
-* [ ] 📲 Suporte completo a Flutter (`widgetbook`, `components-flutter`)
+* [x] 📲 Suporte completo a Flutter (`widgetbook`, `components-flutter`)
+* [ ] 🔄 Sincronização de tokens entre React e Flutter
+* [ ] 🎨 Geração automática de tokens Flutter via Style Dictionary
 * [ ] 🎮 Playground React para testes manuais
 * [ ] 📦 Publicação automática de pacotes via Changesets
 * [ ] 🌐 Internacionalização (i18n) dos componentes
 * [ ] ♿ Testes automatizados de acessibilidade
 * [ ] 📱 Suporte a componentes mobile-first
+* [ ] 🧪 Testes unitários para componentes Flutter
+* [ ] 📸 Visual regression testing com Widgetbook Cloud
 
 ---
 
