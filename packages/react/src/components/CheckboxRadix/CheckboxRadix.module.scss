@@ -60,21 +60,25 @@
   align-items: center;
   border-radius: var(--border-radius-circular);
   border: none ;
-  &:focus {
+  &:focus:not(.disabled) {
     background-color: var(--color-neutral-high-dark);
     cursor: pointer;
     outline: none;
   }
-  &:focus-visible {
+  &:focus-visible:not(.disabled) {
     background-color: var(--color-neutral-high-dark);
     cursor: pointer;
     outline: none;
+  }
+  &:active:not(.disabled) {
+    background-color: var(--color-neutral-high-dark);
+    cursor: pointer;
   }
   &:hover:not(.disabled) {
     background-color: var(--color-neutral-high-medium);
     cursor: pointer;
   }
-  &:active {
+  &:has(> .root:active):not(.disabled){
     background-color: var(--color-neutral-high-dark);
     cursor: pointer;
   }
@@ -85,6 +89,8 @@
     }
   }
 }
+
+
 .label {
   color: var(--color-neutral-low-default);
   font-size: var(--font-size-16);

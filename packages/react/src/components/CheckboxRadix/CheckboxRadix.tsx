@@ -22,6 +22,7 @@ const CheckboxRadix: React.FC<CheckboxRadixProps> = ({
   const handleWrapperClick = (
     e: React.MouseEvent<HTMLDivElement | HTMLLabelElement>
   ) => {
+    
     if (e.target !== checkboxRef.current && !disabled) {
       e.stopPropagation();
       e.preventDefault();
