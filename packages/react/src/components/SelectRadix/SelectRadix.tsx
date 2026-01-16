@@ -237,7 +237,7 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
                           key={item.id || item.value}
                           {...item}
                           checked={state.selectedValues.includes(item.value)}
-                          onChange={(checked: boolean) =>
+                          onCheckedChange={(checked: boolean) =>
                             actions.handleMultipleSelect(item.value, checked)
                           }
                         />
