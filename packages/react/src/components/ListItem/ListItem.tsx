@@ -150,7 +150,7 @@ const ListItem: React.FC<ListItemProps> = ({
                   onValueChange={() => handleRadioClick({} as React.MouseEvent<HTMLElement>)}
                   items= {[{
                     value: value,
-                    label: text,
+                    label: '',
                     disabled: disabled}]}
                   aria-labelledby={`${itemId}-text`}
                 />
