@@ -17,37 +17,17 @@ const Checkbox: React.FC<CheckboxProps> = ({
   ...rest
 }) => {
   const componentId = id || useId();
-  const checkboxRef = React.useRef<HTMLButtonElement>(null);
 
-  const handleWrapperClick = (
-    e: React.MouseEvent<HTMLDivElement | HTMLLabelElement>
-  ) => {
-    
-    if (e.target !== checkboxRef.current && !disabled) {
-      e.stopPropagation();
-      e.preventDefault();
-      checkboxRef.current?.click();
-    }
-  };
-  const handleWrapperKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    if ((e.key === ' ' || e.key === 'Enter') && !disabled) {
-      e.preventDefault();
-      checkboxRef.current?.click();
-    }
-  };
   return (
     <div className={clsx(styles.container, className)}>
       <div
         className={clsx(styles.wrapperCheckbox, {
           [styles.disabled]: disabled,
         })}
-        onClick={handleWrapperClick}
         role="presentation"
         tabIndex={disabled ? -1 : 0}
-        onKeyDown={handleWrapperKeyDown}
       >
         <CheckboxRadix.Root
-          ref={checkboxRef}
           className={styles.root}
           checked={checked}
           id={componentId}
@@ -66,7 +46,6 @@ const Checkbox: React.FC<CheckboxProps> = ({
       <label
         className={clsx(styles.label, { [styles.disabled]: disabled })}
         htmlFor={componentId}
-        onClick={handleWrapperClick}
       >
         {label}
       </label>
