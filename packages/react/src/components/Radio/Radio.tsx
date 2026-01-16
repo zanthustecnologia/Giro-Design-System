@@ -27,8 +27,8 @@ const Radio: React.FC<RadioGroupProps> = ({
       orientation={orientation}
       {...rest}
     >
-      {items.map(({ id, value, disabled, label }, index) => {
-        const itemKey = id ?? value ?? `radio-${index}`;
+      {items.map(({ id, value, disabled, label }) => {
+        const itemKey = id ?? value;
         const uniqueId = `${componentId}-item-${value}`;
         return (
           <div
