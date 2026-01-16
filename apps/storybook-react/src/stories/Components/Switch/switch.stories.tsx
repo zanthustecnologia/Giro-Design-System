@@ -29,15 +29,12 @@ export default meta;
 
 // Template base
 const Template = (args: React.ComponentProps<typeof Switch>) => (
-  <Switch {...args}>
-  </Switch>
+  <Switch {...args} />
 );
 
 // Stories
 export const Default: Story = {
   render: (args) => (
-    <Switch {...args}>
-      
-    </Switch>
+    <Switch {...args} />
   ),
 };
