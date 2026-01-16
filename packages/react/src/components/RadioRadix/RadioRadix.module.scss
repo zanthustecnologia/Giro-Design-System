@@ -1,4 +1,3 @@
-/* Root container */
 .root {
   display: flex;
   gap: var(--spacing-8);
@@ -8,22 +7,39 @@
   &[data-orientation='horizontal'] {
     flex-direction: row;
   }
-
 }
 
-/* Wrapper for each radio item */
 .wrapper {
   display: flex;
   min-height: 40px;
   align-items: center;
   cursor: pointer;
+
+  &.disabled .labelText{
+    color: var(--color-neutral-low-light);
+    cursor: not-allowed;
+  }
+
+  &:has(.item:focus-visible) .itemWrapper {
+    background-color: var(--color-neutral-high-dark);
+    outline-offset: var(--border-width-2);
+  }
+
+  &:has(.item[data-disabled='true']) {
+    cursor: not-allowed;
+  }
+
+  &:has(.item[data-disabled='true']) .itemWrapper:hover {
+    background-color: transparent;
+  }
 }
+
 .labelWrapper {
   display: flex;
   align-items: center;
   cursor: pointer;
 }
-/* Mini box wrapper (40x40 touch area) */
+
 .itemWrapper {
   width: 40px;
   height: 40px;
@@ -31,22 +47,20 @@
   align-items: center;
   justify-content: center;
   border-radius: var(--border-radius-circular);
-}
 
-/* Hover state for mini box */
-.itemWrapper:hover {
+  &:hover{
   background-color: var(--color-neutral-high-medium);
-}
+  }
 
-/* Active state for mini box */
-.itemWrapper:active {
+  &:active, &:focus{ 
   background-color: var(--color-neutral-high-dark);
+  }
 }
 
-/* Radio button item */
 .item {
   border: var(--border-width-2) solid var(--color-neutral-low-dark);
   border-radius: var(--border-radius-12);
+  padding: var(--spacing-8);
   width: 20px;
   height: 20px;
   appearance: none;
@@ -58,39 +72,28 @@
   transition: all ease-in-out 0.1s;
   background-color: transparent;
 
-  /* Checked state */
   &[data-state='checked'] {
     border: var(--border-width-2) solid var(--color-brand-primary-default);
   }
 
-  /* Focus visible state */
   &:focus-visible {
     outline: none;
   }
 
-  /* Disabled state */
   &[data-disabled='true'] {
     border: var(--border-width-2) solid var(--color-neutral-low-light);
     cursor: not-allowed;
   }
 
-  /* Disabled + checked state */
   &[data-disabled='true'][data-state='checked'] {
     border: var(--border-width-2) solid var(--color-neutral-low-light);
   }
+
+  &[data-disabled='true'] .indicator::after {
+    background-color: var(--color-neutral-low-light);
+  }
 }
 
-.wrapper.disabled .labelText{
-  color: var(--color-neutral-low-light);
-  cursor: not-allowed;
-}
-/* Focus visible on wrapper */
-.wrapper:has(.item:focus-visible) .itemWrapper {
-  background-color: var(--color-neutral-high-dark);
-  outline-offset: 2px;
-}
-
-/* Indicator (inner dot) */
 .indicator {
   display: flex;
   align-items: center;
@@ -112,12 +115,6 @@
   }
 }
 
-/* Disabled indicator */
-.item[data-disabled='true'] .indicator::after {
-  background-color: var(--color-neutral-low-light);
-}
-
-/* Label */
 .labelText {
   margin-left: var(--spacing-8);
   font-family: var(--font-family-primary);
@@ -127,16 +124,4 @@
   cursor: pointer;
   text-overflow: ellipsis;
   line-height: 1.5;
-}
-
-
-/* Disabled wrapper */
-.wrapper:has(.item[data-disabled='true']) {
-  cursor: not-allowed;
-  // opacity: 0.5;
-}
-
-/* Disabled hover state prevention */
-.wrapper:has(.item[data-disabled='true']) .itemWrapper:hover {
-  background-color: transparent;
 }
