@@ -8,6 +8,7 @@ const meta: Meta<SelectRadixProps> = {
   title: 'Components/SelectRadix',
   component: SelectRadix,
   parameters: {
+    layout: 'centered',
     docs: {
       description: {
         component:
