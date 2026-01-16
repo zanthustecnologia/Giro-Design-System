@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 import { Radio } from '@giro-ds/react';
-import type { RadioProps } from '@giro-ds/react';
+import type { RadioGroupProps } from '@giro-ds/react';
 
 const meta: Meta<typeof Radio> = {
   title: 'Components/Radio',
@@ -33,7 +33,7 @@ const meta: Meta<typeof Radio> = {
 export default meta;
 type Story = StoryObj<typeof Radio>;
 
-const basicItems: RadioProps['items'] = [
+const basicItems: RadioGroupProps['items'] = [
   {
     id: 'radio-1',
     value: 'option-1',
@@ -46,7 +46,7 @@ const basicItems: RadioProps['items'] = [
   },
 ];
 
-const itemsWithDisabled: RadioProps['items'] = [
+const itemsWithDisabled: RadioGroupProps['items'] = [
   {
     id: 'radio-1',
     value: 'option-1',
