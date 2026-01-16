@@ -22,6 +22,14 @@ const meta: Meta<SwitchProps> = {
       description: 'Campo desabilitado',
       control: { type: 'boolean' },
     },
+    name: {
+      description: 'Nome do switch para formulários',
+      type: 'string',
+    },
+    value: {
+      description: 'Valor do switch para formulários',
+      type: 'string',
+    },
   },
 };
 
