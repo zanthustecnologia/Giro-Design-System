@@ -16,13 +16,13 @@ const Tooltip: React.FC<TooltipProps> = ({
 		<TooltipRadix.Provider >
 			<TooltipRadix.Root>
 				<TooltipRadix.Trigger asChild>
-					<span className={styles['triggerWrapper']}>
+					<span className={styles.triggerWrapper}>
 						{children}
 					</span>
 				</TooltipRadix.Trigger>
 				<TooltipRadix.Portal>
 					<TooltipRadix.Content
-						className={styles['tooltipContent']}
+						className={styles.tooltipContent}
 						side={side}
 						align={align}
 						sideOffset={sideOffset}
