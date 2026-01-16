@@ -5,8 +5,6 @@ export interface RadioProps {
   value: string;
   label: string;
   disabled?: boolean;
-
-
 }
 export interface RadioGroupProps {
   id?: string;
@@ -16,6 +14,5 @@ export interface RadioGroupProps {
   name?: string;
   ariaLabel?: string;
   orientation?: "horizontal" | "vertical";
-
 
 }
