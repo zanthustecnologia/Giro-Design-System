@@ -1,7 +1,6 @@
-
-export interface CheckboxRadixProps {
+export interface CheckboxProps {
   id?: string;
-  label: string;
+  label:  string | React.ReactNode;
   onCheckedChange?: (checked: boolean) => void;
   defaultChecked?: boolean;
   checked?: boolean;

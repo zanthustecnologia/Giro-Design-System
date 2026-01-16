@@ -112,12 +112,10 @@ const ListItem: React.FC<ListItemProps> = ({
         return (
           <>
             <Checkbox
-              name={name}
               checked={internalChecked}
               disabled={disabled}
               label=""
-              onChange={() => handleCheckboxClick({} as React.MouseEvent<HTMLElement>)}
-              value={value}
+              onCheckedChange={() => handleCheckboxClick({} as React.MouseEvent<HTMLElement>)}
             />
             <div className={styles['zds-list-item__wrapper-text']}>
               <span
