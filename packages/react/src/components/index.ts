@@ -53,10 +53,7 @@ export { default as Quantity } from './Quantity';
 export { type QuantityProps } from './Quantity/Quantity.types';
 
 export { default as Radio } from './Radio';
-export { type RadioProps } from './Radio/Radio.types';
-
-export { default as RadioRadix } from './RadioRadix';
-export { type RadioGroupProps as RadioRadixProps, type RadioProps as RadioRadixItemProps } from './RadioRadix/RadioRadix.types';
+export { type RadioGroupProps as RadioProps, type RadioProps as RadioItemProps } from './Radio/Radio.types';
 
 export { default as Search } from './Search';
 export { type SearchProps } from './Search/Search.types';

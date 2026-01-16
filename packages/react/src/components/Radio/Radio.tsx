@@ -1,70 +1,59 @@
-import React, { useCallback, useId } from 'react';
+import React from 'react';
+import { RadioGroup } from 'radix-ui';
 import styles from './Radio.module.scss';
+import { RadioGroupProps } from './Radio.types';
+import { useId } from 'react';
 import clsx from 'clsx';
-import type { RadioProps } from './Radio.types';
-
-/**
- * Componente Radio para seleção única em grupos
- * 
- * @description Componente de botão de rádio com label integrado,
- * suporte a estados disabled e acessibilidade completa.
- */
-const Radio: React.FC<RadioProps> = ({
-  name = 'radiobutton',
-  value = '',
+const Radio: React.FC<RadioGroupProps> = ({
+  items,
+  onValueChange,
+  defaultValue,
+  name,
   id,
-  checked = false,
-  className = '',
-  onChange,
-  label = '',
-  disabled = false,
+  ariaLabel,
+  orientation = 'vertical',
+  ...rest
 }) => {
-
-  const uniqueId = useId();
-  const inputId = id || uniqueId;
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (disabled) return;
-    onChange?.(e.target.value);
-  };
-  
-  const radioClass = clsx(
-    styles['zds-radiobutton'],
-    {
-      [styles['zds-radiobutton--disabled']]: disabled,
-    },
-    className
-  );
-  const labelClass = clsx(
-    styles['zds-radiobutton__box-check'],
-    {
-      [styles['zds-radiobutton__disabled']]: disabled,
-    }
-  );
-
+  const componentId = id || useId();
   return (
-    <div className={radioClass}>
-      <label className={labelClass} htmlFor={inputId}>
-        <div className={styles['zds-radiobutton__mini-box']}>
-          <input
-            id={inputId}
-            type="radio"
-            name={name}
-            value={value}
-            checked={checked}
-            disabled={disabled}
-            onChange={handleChange}
-          />
-        </div>
-        {label && (
-          <span id={`${inputId}-description`} className={styles['zds-radiobutton__box-check__text']}>{label}</span>
-        )}
-      </label>
-    </div>
+    <RadioGroup.Root
+      id={componentId}
+      className={styles.root}
+      defaultValue={defaultValue}
+      onValueChange={onValueChange}
+      name={name}
+      aria-label={ariaLabel}
+      data-orientation={orientation}
+      orientation={orientation}
+      {...rest}
+    >
+      {items.map(({ id, value, disabled, label }, index) => {
+        const itemKey = id ?? value ?? `radio-${index}`;
+        const uniqueId = `${componentId}-item-${value}`;
+        return (
+          <div
+            key={itemKey}
+            className={clsx(styles.wrapper, { [styles.disabled]: disabled })}
+          >
+            <label className={styles.labelWrapper} htmlFor={uniqueId}>
+              <div className={styles.itemWrapper}>
+                <RadioGroup.Item
+                  disabled={disabled}
+                  className={styles.item}
+                  value={value}
+                  id={uniqueId}
+                  data-disabled={disabled}
+                >
+                  <RadioGroup.Indicator className={styles.indicator} />
+                </RadioGroup.Item>
+              </div>
+              <span className={styles.labelText}>{label}</span>
+            </label>
+          </div>
+        );
+      })}
+    </RadioGroup.Root>
   );
 };
 
-const MemoizedRadio = React.memo(Radio);
-MemoizedRadio.displayName = 'Radio';
-
-export default MemoizedRadio;
+export default Radio;

@@ -1,10 +1,10 @@
 import { Meta, StoryObj } from '@storybook/react';
-import { RadioRadix } from '@giro-ds/react';
-import type { RadioRadixProps } from '@giro-ds/react';
+import { Radio } from '@giro-ds/react';
+import type { RadioProps } from '@giro-ds/react';
 
-const meta: Meta<typeof RadioRadix> = {
-  title: 'Components/RadioRadix',
-  component: RadioRadix,
+const meta: Meta<typeof Radio> = {
+  title: 'Components/Radio',
+  component: Radio,
   parameters: {
     layout: 'centered'
   },
@@ -31,9 +31,9 @@ const meta: Meta<typeof RadioRadix> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof RadioRadix>;
+type Story = StoryObj<typeof Radio>;
 
-const basicItems: RadioRadixProps['items'] = [
+const basicItems: RadioProps['items'] = [
   {
     id: 'radio-1',
     value: 'option-1',
@@ -46,7 +46,7 @@ const basicItems: RadioRadixProps['items'] = [
   },
 ];
 
-const itemsWithDisabled: RadioRadixProps['items'] = [
+const itemsWithDisabled: RadioProps['items'] = [
   {
     id: 'radio-1',
     value: 'option-1',
@@ -72,7 +72,7 @@ export const Default: Story = {
     items[0].label = args.ariaLabel || 'Option 1';
 
     return (
-      <RadioRadix
+      <Radio
         items={items}
         orientation={args.orientation}
         ariaLabel={args.ariaLabel}
@@ -89,7 +89,7 @@ export const DisabledRadio: Story = {
       items[0].label = args.ariaLabel || 'Option 1';
 
       return (
-        <RadioRadix
+        <Radio
           items={items}
           orientation={args.orientation}
           ariaLabel={args.ariaLabel}
@@ -110,7 +110,7 @@ export const MultiRadio: Story = {
       ]
 
       return (
-        <RadioRadix
+        <Radio
           items={items}
           orientation={args.orientation}
           ariaLabel={args.ariaLabel}
