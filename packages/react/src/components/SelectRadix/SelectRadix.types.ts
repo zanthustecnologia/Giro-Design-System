@@ -12,7 +12,7 @@ export interface SelectItemProps {
 
 export interface CheckboxItemProps extends SelectItemProps {
   checked: boolean;
-  onChange: (checked: boolean) => void;
+  onCheckedChange: (checked: boolean) => void;
 }
 
 export type SelectVariant = 'text' | 'icon' | 'checkbox';

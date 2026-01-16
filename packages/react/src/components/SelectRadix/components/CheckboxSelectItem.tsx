@@ -9,19 +9,19 @@ const CheckboxSelectItem: React.FC<CheckboxItemProps> = ({
   subTitle,
   disabled,
   checked,
-  onChange,
+  onCheckedChange,
   value,
   ...restProps
 }) => {
   const handleCheckboxChange = (checkedValue: boolean | 'indeterminate') => {
-    onChange(Boolean(checkedValue));
+    onCheckedChange(Boolean(checkedValue));
   };
 
   const handleItemClick = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     if (!disabled) {
-      onChange(!checked);
+      onCheckedChange(!checked);
     }
   };
 
