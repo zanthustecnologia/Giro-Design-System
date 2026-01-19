@@ -16,6 +16,11 @@ const meta: Meta = {
       },
     },
   },
+  argTypes: {
+    enableSubText: {
+      control: { type: 'boolean' },
+    },
+  },
 };
 export default meta;
 
@@ -150,9 +155,9 @@ Default.parameters = {
 // ===================================================
 // 📖 Story 2: Busca Local (Com Subtexto)
 // ===================================================
-export const WithSubText: StoryFn = () => (
+export const WithSubText: StoryFn<{ enableSubText?: boolean }> = (args) => (
   <MenuRadix
-    items={itemsWithSubText}
+    items={itemsWithSubText.map((it) => ({ ...it, enableSubText: !!args.enableSubText }))}
     onItemSelect={(e) => console.log(e)}
     search={true}
   >
@@ -167,6 +172,10 @@ WithSubText.parameters = {
         'Menu com busca local. Os items são filtrados no frontend conforme você digita.',
     },
   },
+};
+
+WithSubText.args = {
+  enableSubText: true,
 };
 
 // ===================================================

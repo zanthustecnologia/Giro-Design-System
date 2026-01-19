@@ -24,7 +24,7 @@ export const MenuItem = memo(({ item, isSelected, onSelect }: DefaultMenuItemPro
       {item.icon && <span className={styles.itemIcon}>{item.icon}</span>}
       <div className={styles.wrapperText}>
         <span className={styles.itemText}>{item.text}</span>
-        {item.subText && (
+        {item.enableSubText && item.subText && (
           <span className={styles.itemSubText}>{item.subText}</span>
         )}
       </div>

@@ -168,7 +168,7 @@ const MenuRadix: React.FC<MenuRadixProps> = ({
               )}
               <div className={styles.wrapperText}>
                 <span className={styles.itemText}>{item.text}</span>
-                {item.subText && (
+                {item.enableSubText && item.subText && (
                   <span className={styles.itemSubText}>{item.subText}</span>
                 )}
               </div>
