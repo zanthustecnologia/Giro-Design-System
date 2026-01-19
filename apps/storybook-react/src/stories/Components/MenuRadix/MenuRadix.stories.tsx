@@ -20,23 +20,57 @@ const meta: Meta = {
 export default meta;
 
 const mockItems = [
-  { id: '1', text: 'Item 1', subText: 'teste', value: '1', disabled: true },
-  { id: '2', text: 'Item 2', subText: 'teste', value: '2' },
+  { id: '1', text: 'Item 1', value: '1', disabled: true },
+  { id: '2', text: 'Item 2', value: '2' },
   { id: '3', text: 'Item 3', value: '3' },
   { id: '4', text: 'Item 4', value: '4' },
   { id: '5', text: 'Item 5', value: '5' },
-  {
-    id: '6',
-    text: 'Item 6',
-    value: '6',
-    children: [{ id: '6-1', text: 'Sub Item 1', value: '6-1' }],
-  },
-  {
-    id: '7',
-    text: 'Item 7',
-    value: '7',
-  },
+  { id: '6', text: 'Item 6', value: '6' },
 ];
+
+const itemsWithSubText = [
+  { id: '1', text: 'Item 1', subText: 'teste', value: '1' },
+  { id: '2', text: 'Item 2', subText: 'teste', value: '2' },
+  { id: '3', text: 'Item 3', subText: 'teste', value: '3' },
+  { id: '4', text: 'Item 4', subText: 'teste', value: '4' },
+  { id: '5', text: 'Item 5', subText: 'teste', value: '5' },
+  { id: '6', text: 'Item 6', subText: 'teste', value: '6' },
+  { id: '7', text: 'Item 7', subText: 'teste', value: '7' },
+  
+];
+
+const itemsWithChildren = [
+  {
+    id: '1',
+    text: 'Item 1',
+    value: '1',
+    children: [{ id: '1-1', text: 'Sub Item 1', value: '1-1' }, { id: '1-2', text: 'Sub Item 2', value: '1-2' }],
+  },
+  {
+    id: '2',
+    text: 'Item 2',
+    value: '2',
+    children: [{ id: '2-1', text: 'Sub Item 2', value: '2-1' }, { id: '2-2', text: 'Sub Item 2', value: '2-2' }],
+  },
+  {
+    id: '3',
+    text: 'Item 3',
+    value: '3',
+    children: [{ id: '3-1', text: 'Sub Item 3', value: '3-1' }, { id: '3-2', text: 'Sub Item 3', value: '3-2' }],
+  },
+  {
+    id: '4',
+    text: 'Item 4',
+    value: '4',
+    children: [{ id: '4-1', text: 'Sub Item 4', value: '4-1' }, { id: '4-2', text: 'Sub Item 4', value: '4-2' }],
+  },
+  {
+    id: '5',
+    text: 'Item 5',
+    value: '5',
+    children: [{ id: '5-1', text: 'Sub Item 5', value: '5-1' }, { id: '5-2', text: 'Sub Item 5', value: '5-2' }],
+  },
+]
 
 const mockProducts = [
   {
@@ -114,7 +148,51 @@ Default.parameters = {
 };
 
 // ===================================================
-// 🔍 Story 2: Busca via API (Mock Simulado)
+// 📖 Story 2: Busca Local (Com Subtexto)
+// ===================================================
+export const WithSubText: StoryFn = () => (
+  <MenuRadix
+    items={itemsWithSubText}
+    onItemSelect={(e) => console.log(e)}
+    search={true}
+  >
+    <Button>Open Menu</Button>
+  </MenuRadix>
+);
+
+WithSubText.parameters = {
+  docs: {
+    description: {
+      story:
+        'Menu com busca local. Os items são filtrados no frontend conforme você digita.',
+    },
+  },
+};
+
+// ===================================================
+// 📖 Story 3: Busca Local (Com Children)
+// ===================================================
+export const WithChildren: StoryFn = () => (
+  <MenuRadix
+    items={itemsWithChildren}
+    onItemSelect={(e) => console.log(e)}
+    search={true}
+  >
+    <Button>Open Menu</Button>
+  </MenuRadix>
+);
+
+WithChildren.parameters = {
+  docs: {
+    description: {
+      story:
+        'Menu com busca local. Os items são filtrados no frontend conforme você digita.',
+    },
+  },
+};
+
+// ===================================================
+// 🔍 Story 4: Busca via API (Mock Simulado)
 // ===================================================
 export const ApiSearch: StoryFn = () => {
   const [items, setItems] = useState<MenuItemProps[]>([]);
@@ -244,7 +322,7 @@ Esta story simula uma busca em API real com as seguintes características:
 };
 
 // ===================================================
-// 🌐 Story 3: Busca via API Real (Fetch)
+// 🌐 Story 5: Busca via API Real (Fetch)
 // ===================================================
 export const ApiSearchReal: StoryFn = () => {
   const [items, setItems] = useState<MenuItemProps[]>([]);
@@ -388,7 +466,7 @@ Esta story faz requisições reais para a API pública JSONPlaceholder.
 };
 
 // ===================================================
-// ♾️ Story 4: Scroll Infinito
+// ♾️ Story 6: Scroll Infinito
 // ===================================================
 export const InfiniteScroll: StoryFn = () => {
   const ITEMS_PER_PAGE = 15;
