@@ -96,7 +96,6 @@ export const SelectAll: Story = {
           flexDirection: 'column',
           gap: '1rem',
           padding: '1.5rem',
-          backgroundColor: '#f9fafb',
           borderRadius: '8px',
           minWidth: '300px',
         }}
@@ -142,48 +141,7 @@ export const SelectAll: Story = {
             checked={items.item3}
             onCheckedChange={() => handleItemChange('item3')}
           />
-        </div>
-
-        {/* Status Box */}
-        <div
-          style={{
-            marginTop: '0.5rem',
-            padding: '1rem',
-            backgroundColor: '#fff',
-            borderRadius: '6px',
-            fontSize: '13px',
-            color: '#374151',
-            border: '1px solid #e5e7eb',
-          }}
-        >
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '0.5rem',
-            }}
-          >
-            <div>
-              <strong>Estado "Select All":</strong>{' '}
-              {allChecked ? (
-                <span style={{ color: '#10b981' }}>✓ Todos selecionados</span>
-              ) : indeterminate ? (
-                <span style={{ color: '#f59e0b' }}>
-                  ⊟ Parcialmente selecionado (indeterminate)
-                </span>
-              ) : (
-                <span style={{ color: '#6b7280' }}>☐ Nenhum selecionado</span>
-              )}
-            </div>
-            <div>
-              <strong>Items marcados:</strong>{' '}
-              {Object.values(items).filter(Boolean).length} de 3
-            </div>
-            <div style={{ fontSize: '12px', color: '#6b7280', marginTop: '0.5rem' }}>
-              💡 <em>Marque 1 ou 2 items para ver o estado indeterminate</em>
-            </div>
-          </div>
-        </div>
+        </div>        
       </div>
     );
   },
