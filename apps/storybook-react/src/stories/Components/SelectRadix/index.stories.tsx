@@ -14,6 +14,7 @@ const meta: Meta<SelectRadixProps> = {
           'Componente Select usando Radix UI com estilização customizada e melhor organização de código.',
       },
     },
+    layout: 'centered',
   },
   argTypes: {
     items: {
@@ -36,6 +37,26 @@ const meta: Meta<SelectRadixProps> = {
     disabled: {
       description: 'Campo desabilitado',
       control: { type: 'boolean' },
+    },
+    tooltip: {
+      control: 'boolean',
+      description: 'Exibir tooltip'
+    },
+    
+    tooltipText: {
+      control: 'text',
+      if: { arg: 'tooltip', truthy: true },
+      description: 'Texto do tooltip'
+    },
+    side: {
+      control: 'select',
+      options: ['top','bottom', 'left', 'right'],
+      description: 'Posição do tooltip'
+    },
+    align: {
+      control: 'select',
+      options: ['start', 'center', 'end'],
+      description: 'Posição do tooltip'
     },
   },
 };

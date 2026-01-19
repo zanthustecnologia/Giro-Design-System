@@ -12,15 +12,16 @@ const meta: Meta<typeof Tooltip> = {
   },
 
   argTypes: {
-    side: {
+    position: {
       control: 'select',
-      options: ['top','bottom', 'left', 'right'],
-      description: 'Posição do tooltip'
-    },
-    align: {
-      control: 'select',
-      options: ['start', 'center', 'end'],
-      description: 'Posição do tooltip'
+      options: [
+        'top-right',
+        'top-left',
+        'bottom-right',
+        'bottom-left',
+        'left',
+        'right',
+      ],
     },
     text: {
       control: 'text',
@@ -46,6 +47,7 @@ const Template = (args: React.ComponentProps<typeof Tooltip>) => (
 export const Default: Story = {
   args: {
     text: 'Texto aqui',
+    position: 'top-right',
   },
   render: (args) => (
     <Tooltip {...args}>
@@ -57,6 +59,7 @@ export const Default: Story = {
 export const WithButton: Story = {
   args: {
     text: 'Clique no botão para realizar uma ação',
+    position: 'top-right',
   },
   render: (args) => (
     <Tooltip {...args}>

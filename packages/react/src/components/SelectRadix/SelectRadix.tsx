@@ -19,8 +19,7 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
   variant,
   required = false,
   value,
-  tooltip = false,
-  tooltipMessage,
+  
   label,
   helperText,
   placeholder = 'Selecione',
@@ -31,6 +30,11 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
   className,
   'aria-label': ariaLabel,
   'data-testid': testId,
+  // Props para label com tooltip
+  tooltip = false,
+  tooltipText,
+  side = 'bottom',
+	align = 'start',
   // Props para scroll infinito
   enableInfiniteScroll = false,
   onScrollEnd,
@@ -155,8 +159,10 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
             <LabelComponent
               htmlFor={selectId}
               required={required}
-              tooltipMessage={tooltipMessage}
+              tooltipText={tooltipText}
               tooltip={tooltip}
+              side={side}
+              align={align}
               error={state.hasError && state.touched}
               disabled={disabled}
             >

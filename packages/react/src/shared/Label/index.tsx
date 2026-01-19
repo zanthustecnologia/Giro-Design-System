@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Label } from 'radix-ui';
 import styles from './index.module.scss';
 import clsx from 'clsx';
-import Tooltip from '../../components/Tooltip';
+import Tooltip from '../../components/Tooltip/Tooltip';
 import { Info12Regular } from '@fluentui/react-icons';
 
 interface LabelProps {
@@ -10,9 +10,10 @@ interface LabelProps {
   htmlFor: string;
   required?: boolean;
   className?: string;
-  tooltipMessage?: string;
+  tooltipText?: string;
   tooltip?: boolean;
-  tooltipPosition?: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left';
+  side?: "top" | "right" | "bottom" | "left"
+  align?: "start" | "center" | "end";
   error?: boolean;
   disabled?: boolean;
 }
@@ -22,15 +23,16 @@ const LabelComponent = ({
   htmlFor,
   required = false,
   tooltip = false,
-  tooltipMessage,
-  tooltipPosition = 'top-left',
+  tooltipText,
+  side = 'bottom',
+	align = 'start',
   className,
   error = false,
   disabled = false
 }: LabelProps) => (
   <>
     {tooltip ? (
-      <Tooltip position={tooltipPosition} text={tooltipMessage || ''} >
+      <Tooltip side={side} align={align} text={tooltipText || ''} >
         <Label.Root
           className={clsx(
             styles.wrapperLabel,

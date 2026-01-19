@@ -27,8 +27,6 @@ export interface SelectRadixProps {
   multiple?: boolean;
   placeholder?: string;
   search?: boolean;
-  tooltip?: boolean;
-  tooltipMessage?: string;
   label?: string;
   helperText?: string;
   maxWidth?: string | number;
@@ -37,6 +35,11 @@ export interface SelectRadixProps {
   className?: string;
   'aria-label'?: string;
   'data-testid'?: string;
+  // tooltip props
+  tooltip?: boolean;
+  tooltipText?: string;
+  side?: "top" | "right" | "bottom" | "left"
+  align?: "start" | "center" | "end";
   // scroll props
   enableInfiniteScroll?: boolean;
   onScrollEnd?: () => void;

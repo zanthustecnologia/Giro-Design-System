@@ -22,9 +22,8 @@ export interface TextFieldProps extends Omit<
   tooltip?: boolean;
   /** Tooltip content */
   tooltipText?: string;
-  /** Tooltip position */
-  positionTooltip?: TooltipPosition;
-  /** Custom error message for validation */
+  side?: "top" | "right" | "bottom" | "left"
+  align?: "start" | "center" | "end";
   errorMessage?: string;
   /** Leading icon */
   icon?: React.ReactNode;

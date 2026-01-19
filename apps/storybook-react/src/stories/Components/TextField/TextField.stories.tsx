@@ -29,9 +29,14 @@ const meta: Meta<typeof TextField> = {
       control: 'boolean',
       description: 'Estado desabilitado do campo'
     },
-    positionTooltip: {
+    side: {
       control: 'select',
-      options: ['top-right', 'top-left', 'bottom-right', 'bottom-left', 'left', 'right'],
+      options: ['top','bottom', 'left', 'right'],
+      description: 'Posição do tooltip'
+    },
+    align: {
+      control: 'select',
+      options: ['start', 'center', 'end'],
       description: 'Posição do tooltip'
     },
     icon: {

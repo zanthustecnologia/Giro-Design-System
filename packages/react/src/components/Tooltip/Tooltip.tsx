@@ -1,77 +1,41 @@
-import React, { useEffect, useId, useRef, useState } from 'react';
+import React from 'react';
 import styles from './Tooltip.module.scss';
-import clsx from 'clsx';
-import type { TooltipProps } from './Tooltip.types';
+import { Tooltip as TooltipRadix} from "radix-ui";
+import { TooltipProps } from './Tooltip.types';
 
-const Tooltip: React.FC<TooltipProps> = ({ id, text, children, position = 'top-right' }) => {
-  const [visible, setVisible] = useState(false);
-  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const tooltipRef = useRef<HTMLDivElement | null>(null);
-  const tooltipId = id || useId();
 
-  const handleMouseEnter = () => {
-    if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    setVisible(true);
-  };
-
-  const handleMouseLeave = (): void => {
-    timeoutRef.current = setTimeout(() => {
-      setVisible(false);
-    }, 800);
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    switch (e.key) {
-      case 'Escape':
-        setVisible(false);
-        break;
-      case 'Enter':
-      case ' ': 
-        e.preventDefault();
-        setVisible(!visible);
-        break;
-      default:
-        break;
-    }
-  };
-
-  useEffect(() => {
-    return () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
-    };
-  }, []);
-  const tooltipClass = clsx(
-    styles['zds-tooltip__content'],
-    styles[`zds-tooltip__${position}`],
-  )
-  return (
-    <div
-      className={clsx(styles['zds-tooltip__wrapper'])}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      onFocus={handleMouseEnter}
-      onBlur={handleMouseLeave}
-      onKeyDown={handleKeyDown}
-      tabIndex={0}
-      aria-describedby={visible ? tooltipId : undefined}
-    >
-      {children}
-      {visible && (
-        <div
-          ref={tooltipRef}
-          className={tooltipClass}
-          role='tooltip'
-          id={tooltipId}
-          aria-describedby={tooltipId}
-          aria-hidden={!visible}
-        >
-          {text}
-        </div>
-      )}
-    </div>
-  );
+const Tooltip: React.FC<TooltipProps> = ({
+	children,
+	text ,
+	side = 'bottom',
+	align = 'start',
+	maxWidth,
+	sideOffset = 10
+}) => {
+	return (
+		<TooltipRadix.Provider >
+			<TooltipRadix.Root>
+				<TooltipRadix.Trigger asChild>
+					<span className={styles.triggerWrapper}>
+						{children}
+					</span>
+				</TooltipRadix.Trigger>
+				<TooltipRadix.Portal>
+					<TooltipRadix.Content
+						className={styles.tooltipContent}
+						side={side}
+						align={align}
+						sideOffset={sideOffset}
+						style={{ maxWidth: maxWidth ? `${maxWidth}px` : 'auto' }}
+					>
+						{text}
+					</TooltipRadix.Content>
+				</TooltipRadix.Portal>
+			</TooltipRadix.Root>
+		</TooltipRadix.Provider>
+	);
 };
 
-export default Tooltip;
+export default Tooltip
+
+
