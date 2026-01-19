@@ -8,6 +8,7 @@ export interface MenuItemProps {
   icon?: React.ReactNode;
   children?: MenuItemProps[];
   value?: string;
+  enableSubText?: boolean;
 }
 
 export interface MenuRadixProps {
@@ -27,4 +28,5 @@ export interface MenuRadixProps {
   enableApiSearch?: boolean;
   onApiSearch?: (searchTerm: string) => void;
   onOpenChange?: (open: boolean) => void;
+  
 }
