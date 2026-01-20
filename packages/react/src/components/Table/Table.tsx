@@ -104,7 +104,7 @@ const Table: React.FC<TableProps> = ({
         <Checkbox
           checked={isAllSelected}
           indeterminate={isIndeterminate}
-          onChange={toggleAll}
+          onCheckedChange={toggleAll}
           label=''
           />
         ),
@@ -113,7 +113,7 @@ const Table: React.FC<TableProps> = ({
           return (
             <Checkbox
             checked={selectedSet.has(index)}
-            onChange={() => toggleRow(index)}
+            onCheckedChange={() => toggleRow(index)}
             disabled={props.disabled}
             label=''
           />

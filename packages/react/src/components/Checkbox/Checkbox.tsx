@@ -1,104 +1,56 @@
-import React, { useEffect, useRef, useId, useState } from 'react';
-import clsx from 'clsx';
+import * as React from 'react';
+import { Checkbox as CheckboxRadix } from 'radix-ui';
 import styles from './Checkbox.module.scss';
 import { CheckSmall, CheckHalf } from '@/shared/icons';
-import type { CheckboxProps } from './Checkbox.types';
+import { CheckboxProps } from './Checkbox.types';
+import clsx from 'clsx';
+import { useId } from 'react';
 
-/**
- * A customizable Checkbox component that supports controlled and uncontrolled states.
- */
 const Checkbox: React.FC<CheckboxProps> = ({
   id,
-  name,
-  onChange,
-  label = 'Checkbox',
-  className = '',
-  value = '',
-  disabled = false,
+  label='',
+  onCheckedChange,
+  checked,
+  disabled,
+  className,
   indeterminate = false,
-  checked = false,
-  ariaDescribedby = '',
+  ...rest
 }) => {
-
-  const elementRef = useRef<HTMLInputElement>(null);
-  const generatedId = useId();
-  const inputId = id || generatedId;
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    if (disabled) return;
-    onChange?.(e);
-  };
-
-
-  const checkboxClass = clsx(
-    styles['zds-checkbox'],
-    {
-      [styles['zds-checkbox__disabled']]: disabled,
-      [styles['zds-checkbox__checked']]: checked && !indeterminate,
-      [styles['zds-checkbox__indeterminate']]: indeterminate,
-    },
-    className
-  );
-
-
-  
-  useEffect(() => {
-    if (elementRef.current) {
-      elementRef.current.indeterminate = indeterminate;
-    }
-  }, [indeterminate]);
+  const componentId = id || useId();
 
   return (
-    <div className={checkboxClass}>
-      <label 
-        htmlFor={inputId} 
-        className={styles['zds-checkbox__box-check']} 
+    <div className={clsx(styles.container, className)}>
+      <div
+        className={clsx(styles.wrapperCheckbox, {
+          [styles.disabled]: disabled,
+        })}
+        role="presentation"
+        tabIndex={disabled ? -1 : 0}
       >
-        <div
-          className={clsx(styles['zds-checkbox__checkmark'], {
-            [styles['zds-checkbox__checkmark__checked']]: checked && !indeterminate,
-            [styles['zds-checkbox__checkmark__indeterminate']]: indeterminate ,
-          })}
+        <CheckboxRadix.Root
+          className={styles.root}
+          checked={checked}
+          id={componentId}
+          onCheckedChange={onCheckedChange}
+          disabled={disabled}
+          data-disabled={disabled}
+          data-indeterminate={indeterminate}
+          aria-checked={indeterminate ? 'mixed' : checked ? 'true' : 'false'}
+          {...rest}
         >
-          <input
-            id={inputId}
-            ref={elementRef}
-            name={name}
-            type="checkbox"
-            value={value}
-            checked={checked}
-            onChange={handleChange}
-            disabled={disabled}
-            aria-checked={indeterminate ? 'mixed' : checked}
-            aria-describedby={ariaDescribedby || undefined}
-            aria-label={typeof label === 'string' ? label : 'Checkbox'}
-            tabIndex={disabled ? -1 : 0}
-          />
-
-          {checked && !indeterminate && (
-            <span className={styles['zds-checkbox__icon']} aria-hidden="true">
-              <CheckSmall  />
-            </span>
-          )}
-
-          {indeterminate && (
-            <span className={styles['zds-checkbox__icon']} aria-hidden="true">
-              <CheckHalf />
-            </span>
-          )}
-        </div>
-        
-        {label && (
-          <div className={styles['zds-checkbox__text']}>
-            <span className={styles['zds-checkbox__label']}>{label}</span>
-          </div>
-        )}
+          <CheckboxRadix.Indicator className={styles.indicator}>
+            {indeterminate ? <CheckHalf /> : <CheckSmall />}
+          </CheckboxRadix.Indicator>
+        </CheckboxRadix.Root>
+      </div>
+      <label
+        className={clsx(styles.label, { [styles.disabled]: disabled })}
+        htmlFor={componentId}
+      >
+        {label}
       </label>
     </div>
   );
 };
 
-const MemoizedCheckbox = React.memo(Checkbox);
-MemoizedCheckbox.displayName = 'Checkbox';
-
-export default MemoizedCheckbox;
+export default Checkbox;

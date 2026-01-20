@@ -250,12 +250,12 @@ const Dropdown: React.FC<DropdownProps> = ({
         >
           {type === 'checkbox' && (
             <Checkbox
-              checked={currentSelection[itemId]}
-              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                event.preventDefault();
-                event.stopPropagation();
-                toggleSelection(itemId, item);
-              }}
+              checked={!!currentSelection[itemId]}
+              onCheckedChange={(checked: boolean | 'indeterminate') => {
+                  if (checked === 'indeterminate') return;
+                    toggleSelection(itemId, item);
+                  }
+              }
               disabled={item.disabled}
               label=""
             />

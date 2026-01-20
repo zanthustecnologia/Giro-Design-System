@@ -9,20 +9,19 @@ const CheckboxSelectItem: React.FC<CheckboxItemProps> = ({
   subTitle,
   disabled,
   checked,
-  onChange,
+  onCheckedChange,
   value,
   ...restProps
 }) => {
-  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.stopPropagation();
-    onChange(e.target.checked);
+  const handleCheckboxChange = (checkedValue: boolean | 'indeterminate') => {
+    onCheckedChange(Boolean(checkedValue));
   };
 
   const handleItemClick = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     if (!disabled) {
-      onChange(!checked);
+      onCheckedChange(!checked);
     }
   };
 
@@ -40,7 +39,7 @@ const CheckboxSelectItem: React.FC<CheckboxItemProps> = ({
       <div className={styles.checkboxContent}>
         <Checkbox
           checked={checked}
-          onChange={handleCheckboxChange}
+          onCheckedChange={handleCheckboxChange}
           disabled={disabled}
           label={
             <div className={styles.textContent}>
@@ -48,7 +47,7 @@ const CheckboxSelectItem: React.FC<CheckboxItemProps> = ({
               {subTitle && <div className={styles.subTitle}>{subTitle}</div>}
             </div>
           }
-          onClick={(e: React.MouseEvent) => e.stopPropagation()}
+          // onClick={(e: React.MouseEvent) => e.stopPropagation()}
         />
       </div>
     </div>

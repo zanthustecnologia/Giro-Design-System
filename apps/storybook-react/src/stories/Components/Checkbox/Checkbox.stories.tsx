@@ -1,216 +1,148 @@
-import React, { useEffect, useState } from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
+import {Meta, StoryObj} from '@storybook/react';
+import { useEffect, useState } from 'react';
 import { Checkbox } from '@giro-ds/react';
 
-interface MockCheck {
-  title: string;
-}
-
-const mockChecks: MockCheck[] = [
-  { title: 'Child 1' },
-  { title: 'Child 2' },
-  { title: 'Child 3' },
-  { title: 'Child 4' },
-];
-
-interface StoryArgs {
-  id?: string;
-  name?: string;
-  displayLabel: boolean;
-  label: string;
-  className?: string;
-  disabled: boolean;
-  indeterminate: boolean;
-  checked: boolean;
-}
 
 const meta: Meta<typeof Checkbox> = {
-  title: 'Components/Checkbox',
   component: Checkbox,
-  parameters: {
-    layout: 'centered',
+  title: 'Components/Checkbox',
+  parameters:{
+    layout: 'centered'
   },
-  argTypes: {
-    id: {
-      control: { type: 'text' },
-    },
-    name: {
-      control: { type: 'text' },
-    },
-    onChange: {
-      action: 'changed',
-    },
-    displayLabel: {
-      control: 'boolean',
-    },
-    label: {
-      control: { type: 'text' },
-      if: { arg: 'displayLabel', truthy: true },
-    },
-    className: {
-      control: { type: 'text' },
-      table: {
-        disable: true,
-      },
-    },
-    disabled: {
-      control: { type: 'boolean' },
-    },
-    indeterminate: {
-      control: { type: 'boolean' },
-    },
-    checked: {
-      control: { type: 'boolean' },
-    },
+  argTypes:{
+    disabled: { control: 'boolean' },
+    label: { control: 'text' },
+    onCheckedChange: { action: 'checked changed' },
+    indeterminate: { control: 'boolean'}
   },
-};
-
+}
 export default meta;
-type Story = StoryObj<StoryArgs>;
+type Story = StoryObj<typeof Checkbox>;
 
 export const Default: Story = {
-  render: (args) => {
-    const { displayLabel, label, checked, indeterminate } = args;
-    const [internalIndeterminate, setInternalIndeterminate] = useState<boolean>(indeterminate);
-    const [internalChecked, setInternalChecked] = useState<boolean>(checked);
+  render: (args) =>{
+    const [checked, setChecked] = useState(false);
+    return <Checkbox {...args} checked={checked} onCheckedChange={setChecked} />
+  },
+  args:{
+    label: 'Checkbox',
+    disabled: false,
+    indeterminate: false,
 
-    const handleChange = (): void => {
-      if (internalIndeterminate) {
-        setInternalIndeterminate(false);
-        setInternalChecked(true);
+  }   
+}
+export const SelectAll: Story = {
+  render: (args) => {
+
+    // Estado dos 3 checkboxes individuais
+    const [items, setItems] = useState({
+      item1: false,
+      item2: false,
+      item3: false,
+    });
+
+    // Calcula o estado do Select All
+    const allChecked = items.item1 && items.item2 && items.item3;    
+    const indeterminate = (items.item1 || items.item2 || items.item3) && !allChecked;
+
+    // Handler para fazer Select All
+    const handleSelectAll = () => {
+      if (!allChecked) {
+        setItems({
+          item1: true,
+          item2: true,
+          item3: true,
+        });
+      }
+    };
+
+    // Handler para fazer deselect All
+    const handleDeselectAll = () => {
+      if (allChecked) {
+        setItems({
+          item1: false,
+          item2: false,
+          item3: false,
+        });
+      }
+    };
+
+    // Controle para o Select All
+    const selectAllController = () => {
+      if (allChecked) {
+        handleDeselectAll();
       } else {
-        setInternalChecked(!internalChecked);
-      }
+        handleSelectAll();
+      }  
+    }
+
+    // Handler para items individuais
+    const handleItemChange = (itemKey: keyof typeof items) => {
+      setItems((prev) => ({
+        ...prev,
+        [itemKey]: !prev[itemKey],
+      }));
     };
 
-    useEffect(() => {
-      setInternalIndeterminate(indeterminate);
-    }, [indeterminate]);
-
-    useEffect(() => {
-      setInternalChecked(checked);
-    }, [checked]);
+    // visualizador de se o estado someChecked está funcionando
+    useEffect(() =>{
+      console.log(indeterminate)
+    },[indeterminate])
 
     return (
-      <Checkbox
-        {...args}
-        label={displayLabel ? (label ?? '') : ''}
-        checked={internalChecked}
-        indeterminate={internalIndeterminate}
-        onChange={handleChange}
-      />
-    );
-  },
-  args: {
-    label: 'Checkbox',
-    disabled: false,
-    indeterminate: false,
-    displayLabel: true,
-    checked: false
-  }
-};
-
-export const CheckboxOnly: Story = {
-  render: (args) => {
-    const { displayLabel, label, checked } = args;
-    return (
-      <Checkbox
-        label={displayLabel ? label : ''}
-        checked={checked}
-      />
-    );
-  },
-  args: {
-    name: 'checked-checkbox',
-    label: 'Checkbox',
-    disabled: false,
-    indeterminate: false,
-    displayLabel: false,
-    checked: false
-  }
-};
-
-export const CheckboxWithText: Story = {
-  render: (args) => {
-    const { displayLabel, label, checked } = args;
-    return (
-      <Checkbox
-        label={displayLabel ? label : ''}
-        checked={checked}
-      />
-    );
-  },
-  args: {
-    label: 'Checkbox',
-    disabled: false,
-    indeterminate: false,
-    displayLabel: true,
-    checked: false
-  }
-};
-
-export const Indeterminate: Story = {
-  render: (args) => {
-    const [selectAll, setSelectAll] = useState<boolean>(false);
-    const [indeterminate, setIndeterminate] = useState<boolean>(false);
-    const [selected, setSelected] = useState<number[]>([]);
-
-    const toggleSelectAll = (): void => {
-      const newSelectAll = !selectAll;
-      setSelectAll(newSelectAll);
-
-      if (!newSelectAll) {
-        setSelected([]);
-        return;
-      }
-
-      setSelected(mockChecks.map((_, index) => index));
-    };
-
-    useEffect(() => {
-      if (selected.length > 0 && selected.length < mockChecks.length) {
-        setIndeterminate(true);
-      } else if (selected.length === mockChecks.length) {
-        setIndeterminate(false);
-        setSelectAll(true);
-      } else {
-        setIndeterminate(false);
-        setSelectAll(false);
-      }
-    }, [selected]);
-
-    const toggleCheckbox = (index: number): void => {
-      setSelected((prevSelected) =>
-        prevSelected.includes(index)
-          ? prevSelected.filter((i) => i !== index)
-          : [...prevSelected, index]
-      );
-    };
-
-    return (
-      <div className="container-storybook-checkbox" style={{ display: 'flex', flexDirection: 'column', gap: '16px', justifyContent: 'center'}}>
-        <div className="container-storybook-left" style={{ flexShrink: 0, position: 'relative', right: 16 }}>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '1rem',
+          padding: '1.5rem',
+          borderRadius: '8px',
+          minWidth: '300px',
+        }}
+      >
+        {/* Select All Checkbox */}
+        <div
+          style={{
+            paddingBottom: '1rem',
+            borderBottom: '2px solid #e5e7eb',
+          }}
+        >
           <Checkbox
-            label="Parent (Select All)"
+            id="select-all"
+            label="Select All"
+            checked={allChecked || indeterminate}
             indeterminate={indeterminate}
-            checked={selectAll}
-            onChange={toggleSelectAll}
+            onCheckedChange={selectAllController}
           />
         </div>
-        {mockChecks.map(({ title }, index) => (
-          <div key={index} className="container-storybook-center">
-            <Checkbox
-              {...args}
-              checked={selected.includes(index)}
-              label={title}
-              onChange={() => toggleCheckbox(index)}
-            />
-          </div>
-        ))}
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '0.75rem',
+            paddingLeft: '1.5rem',
+          }}
+        >
+          <Checkbox
+            id="item-1"
+            label="Item 1"
+            checked={items.item1}
+            onCheckedChange={() => handleItemChange('item1')}
+          />
+          <Checkbox
+            id="item-2"
+            label="Item 2"
+            checked={items.item2}
+            onCheckedChange={() => handleItemChange('item2')}
+          />
+          <Checkbox
+            id="item-3"
+            label="Item 3"
+            checked={items.item3}
+            onCheckedChange={() => handleItemChange('item3')}
+          />
+        </div>        
       </div>
     );
   },
-  args: {
-    disabled: false
-  }
 };
