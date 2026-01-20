@@ -178,8 +178,8 @@ const MenuRadix: React.FC<MenuRadixProps> = ({
             <DropdownMenu.Portal>
               <DropdownMenu.SubContent
                 className={styles.subContent}
-                sideOffset={10}
-                alignOffset={-5}
+                sideOffset={0}
+                alignOffset={0}
                 collisionPadding={20}
               >
                 {item.children!.map((childItem, childIndex) =>

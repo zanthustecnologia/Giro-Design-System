@@ -218,7 +218,7 @@ WithSubText.args = {
 // ===================================================
 export const WithIcon: StoryFn<{ enableIcon?: boolean }> = (args) => (
   <MenuRadix
-    items={itemsWithIcon}
+    items={itemsWithIcon.map((it) => ({ ...it, enableIcon: !!args.enableIcon }))}
     onItemSelect={(e) => console.log(e)}
     search={true}
   >
