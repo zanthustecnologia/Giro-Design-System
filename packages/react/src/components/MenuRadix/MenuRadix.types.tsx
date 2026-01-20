@@ -9,6 +9,7 @@ export interface MenuItemProps {
   children?: MenuItemProps[];
   value?: string;
   enableSubText?: boolean;
+  enableIcon?: boolean;
 }
 
 export interface MenuRadixProps {

@@ -163,7 +163,7 @@ const MenuRadix: React.FC<MenuRadixProps> = ({
               className={styles.subTrigger}
               disabled={item.disabled}
             >
-              {item.icon && (
+              {item.enableIcon && item.icon && (
                 <span className={styles.itemIcon}>{item.icon}</span>
               )}
               <div className={styles.wrapperText}>

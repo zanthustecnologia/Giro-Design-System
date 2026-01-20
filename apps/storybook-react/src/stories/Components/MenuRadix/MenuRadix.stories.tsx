@@ -2,7 +2,16 @@ import type { Meta, StoryFn } from '@storybook/react';
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { MenuRadix, Button } from '@giro-ds/react';
 import type { MenuRadixProps } from '@giro-ds/react';
-import { ChevronCircleDown16Regular } from '@fluentui/react-icons';
+import { 
+  ChevronCircleDown16Regular, 
+  Delete16Regular, 
+  Settings16Regular, 
+  Person16Regular,  
+  MoreVertical16Regular, 
+  Edit16Regular, 
+  Eye16Regular, 
+  Mail16Regular,
+} from '@fluentui/react-icons';
 
 type MenuItemProps = MenuRadixProps['items'][number];
 
@@ -41,6 +50,17 @@ const itemsWithSubText = [
   { id: '5', text: 'Item 5', subText: 'teste', value: '5' },
   { id: '6', text: 'Item 6', subText: 'teste', value: '6' },
   { id: '7', text: 'Item 7', subText: 'teste', value: '7' },
+  
+];
+
+const itemsWithIcon = [
+  { id: '1', text: 'Item 1', icon: <Person16Regular />, value: '1' },
+  { id: '2', text: 'Item 2', icon: <Delete16Regular />, value: '2'},
+  { id: '3', text: 'Item 3', icon: <Settings16Regular />, value: '3' },
+  { id: '4', text: 'Item 4', icon: <MoreVertical16Regular />, value: '4' },
+  { id: '5', text: 'Item 5', icon: <Edit16Regular />, value: '5' },
+  { id: '6', text: 'Item 6', icon: <Eye16Regular />, value: '6' },
+  { id: '7', text: 'Item 7', icon: <Mail16Regular />, value: '7' },
   
 ];
 
@@ -179,7 +199,29 @@ WithSubText.args = {
 };
 
 // ===================================================
-// 📖 Story 3: Busca Local (Com Children)
+// 📖 Story 3: Busca Local (Com Icone)
+// ===================================================
+export const WithIcon: StoryFn = () => (
+  <MenuRadix
+    items={itemsWithIcon}
+    onItemSelect={(e) => console.log(e)}
+    search={true}
+  >
+    <Button>Open Menu</Button>
+  </MenuRadix>
+);
+
+WithIcon.parameters = {
+  docs: {
+    description: {
+      story:
+        'Menu com busca local. Os items são filtrados no frontend conforme você digita.',
+    },
+  },
+};
+
+// ===================================================
+// 📖 Story 4: Busca Local (Com Children)
 // ===================================================
 export const WithChildren: StoryFn = () => (
   <MenuRadix
@@ -201,7 +243,7 @@ WithChildren.parameters = {
 };
 
 // ===================================================
-// 🔍 Story 4: Busca via API (Mock Simulado)
+// 🔍 Story 5: Busca via API (Mock Simulado)
 // ===================================================
 export const ApiSearch: StoryFn = () => {
   const [items, setItems] = useState<MenuItemProps[]>([]);
@@ -331,7 +373,7 @@ Esta story simula uma busca em API real com as seguintes características:
 };
 
 // ===================================================
-// 🌐 Story 5: Busca via API Real (Fetch)
+// 🌐 Story 6: Busca via API Real (Fetch)
 // ===================================================
 export const ApiSearchReal: StoryFn = () => {
   const [items, setItems] = useState<MenuItemProps[]>([]);
@@ -475,7 +517,7 @@ Esta story faz requisições reais para a API pública JSONPlaceholder.
 };
 
 // ===================================================
-// ♾️ Story 6: Scroll Infinito
+// ♾️ Story 7: Scroll Infinito
 // ===================================================
 export const InfiniteScroll: StoryFn = () => {
   const ITEMS_PER_PAGE = 15;
