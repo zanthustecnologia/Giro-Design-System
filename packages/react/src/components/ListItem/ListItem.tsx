@@ -144,10 +144,11 @@ const ListItem: React.FC<ListItemProps> = ({
               <span className={styles['zds-list-item__radio']} aria-hidden="true">
                 <Radio
                   name={name}
-                  checked={internalChecked}
-                  disabled={disabled}
-                  onChange={() => handleRadioClick({} as React.MouseEvent<HTMLElement>)}
-                  value={value}
+                  onValueChange={() => handleRadioClick({} as React.MouseEvent<HTMLElement>)}
+                  items= {[{
+                    value: value,
+                    label: '',
+                    disabled: disabled}]}
                   aria-labelledby={`${itemId}-text`}
                 />
               </span>
