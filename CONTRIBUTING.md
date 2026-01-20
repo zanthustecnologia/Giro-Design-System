@@ -51,7 +51,42 @@ Antes de começar, você vai precisar de:
    pnpm test
    ```
 
-6. **Crie um pull request** explicando claramente o que foi feito, por que, e como testar.
+6. **Crie um pull request** usando o **template de MR** (`.gitlab/merge_request_templates/component_change.md`) e preencha todas as seções obrigatórias, especialmente o **Tipo de Mudança** (patch/minor/major).
+
+---
+
+## 🔄 Workflow de Versionamento (IMPORTANTE)
+
+### Para Desenvolvedores (Giovani)
+
+Quando criar um **Merge Request** no GitLab:
+
+1. **Use o template de MR:** `.gitlab/merge_request_templates/component_change.md`
+2. **Identifique o tipo de mudança:**
+   - 🐛 **PATCH** - Bug fix, documentação (v1.0.0 → v1.0.1)
+   - ✨ **MINOR** - Nova funcionalidade SEM quebrar compatibilidade (v1.0.0 → v1.1.0)
+   - 💥 **MAJOR** - Breaking change, API incompatível (v1.0.0 → v2.0.0)
+
+3. **Se for MAJOR (Breaking Change), documente:**
+   - Tabela de props removidas/alteradas
+   - Exemplos de migração (antes/depois)
+   - Justificativa técnica
+
+📖 **Leia o guia completo:** [docs/guides/giovani-guidelines.md](docs/guides/giovani-guidelines.md)
+
+### Para Reviewer (Felipe)
+
+Ao revisar um MR:
+
+1. **Valide o tipo de versão** marcado pelo desenvolvedor
+2. **Confirme que breaking changes estão documentadas** (se MAJOR)
+3. **Após merge, crie o changeset:**
+
+```bash
+pnpm changeset
+# Selecione o pacote e tipo de versão (baseado no MR)
+# Descreva a mudança (copie do MR)
+```
 
 ---
 
