@@ -1,5 +1,71 @@
 # @giro-ds/react
 
+## 2.0.0
+
+### Major Changes
+
+- BREAKING CHANGES:
+  - **Checkbox**: `onChange` replaced with `onCheckedChange`, removed `name`, `value`, and `ariaDescribedby` props
+  - **Radio**: Complete API redesign to `RadioGroup` with `items` array pattern
+  - **Tooltip**: `position` prop replaced with `side` + `align` props
+  - **feat**: Add new Switch component
+  - **refactor**: Migrate Checkbox, Radio, and Tooltip to Radix UI
+  - **refactor**: Move old implementations to `.deprecated` folder
+
+  ### Migration Guide:
+
+  **Checkbox:**
+
+  ```tsx
+  // Before
+  <Checkbox
+    onChange={(e) => setValue(e.target.checked)}
+    name="myCheckbox"
+    value="myValue"
+  />
+
+  // After
+  <Checkbox
+    onCheckedChange={(checked) => setValue(checked)}
+  />
+  ```
+
+  **Radio:**
+
+  ```tsx
+  // Before
+  <Radio
+    checked={value === 'option1'}
+    onChange={(val) => setValue(val)}
+    value="option1"
+    label="Option 1"
+  />
+
+  // After
+  <Radio
+    items={[
+      { value: 'option1', label: 'Option 1' },
+      { value: 'option2', label: 'Option 2' }
+    ]}
+    onValueChange={(val) => setValue(val)}
+    defaultValue="option1"
+  />
+  ```
+
+  **Tooltip:**
+
+  ```tsx
+  // Before
+  <Tooltip position="top-right" text="Info">
+    <Button />
+  </Tooltip>
+
+  // After
+  <Tooltip side="top" align="start" text="Info">
+    <Button />
+  </Tooltip>
+  ```
+
 ## 1.0.5
 
 ### Patch Changes
