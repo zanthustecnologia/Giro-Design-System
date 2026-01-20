@@ -36,11 +36,10 @@ const MenuRadix: React.FC<MenuRadixProps> = ({
 
   const [searchInput, setSearchInput] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
-  const [open, setOpen] = useState(false);
 
   const maxHeightStyle = typeof maxHeight === 'number' ? `${maxHeight}px` : maxHeight;
 
-  const { handleItemSelect: handleItemSelectLogic, isItemSelected } = useMenuLogic({
+  const { open, setOpen, handleItemSelect: handleItemSelectLogic, isItemSelected } = useMenuLogic({
     selectedItems,
     onItemSelect,
     onOpenChange,
@@ -48,7 +47,6 @@ const MenuRadix: React.FC<MenuRadixProps> = ({
 
   const handleItemSelect = useCallback((item: MenuItemProps) => {
     handleItemSelectLogic(item);
-    setOpen(false);
   }, [handleItemSelectLogic]);
 
   const { filteredItems } = useSearchLogic({
@@ -178,7 +176,7 @@ const MenuRadix: React.FC<MenuRadixProps> = ({
             <DropdownMenu.Portal>
               <DropdownMenu.SubContent
                 className={styles.subContent}
-                sideOffset={0}
+                sideOffset={16}
                 alignOffset={0}
                 collisionPadding={20}
               >
@@ -204,9 +202,6 @@ const MenuRadix: React.FC<MenuRadixProps> = ({
 
   const handleOpenChange = (newOpen: boolean) => {
     setOpen(newOpen);
-    if (onOpenChange) {
-      onOpenChange(newOpen);
-    }    
     if (!newOpen) {
       hasReachedEndRef.current = false;
     }
