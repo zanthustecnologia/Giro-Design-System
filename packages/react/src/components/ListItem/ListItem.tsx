@@ -114,7 +114,6 @@ const ListItem: React.FC<ListItemProps> = ({
             <Checkbox
               checked={internalChecked}
               disabled={disabled}
-              label=""
               onCheckedChange={() => handleCheckboxClick({} as React.MouseEvent<HTMLElement>)}
             />
             <div className={styles['zds-list-item__wrapper-text']}>

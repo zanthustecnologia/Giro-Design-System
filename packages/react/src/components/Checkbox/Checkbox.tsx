@@ -8,7 +8,7 @@ import { useId } from 'react';
 
 const Checkbox: React.FC<CheckboxProps> = ({
   id,
-  label,
+  label='',
   onCheckedChange,
   checked,
   disabled,
