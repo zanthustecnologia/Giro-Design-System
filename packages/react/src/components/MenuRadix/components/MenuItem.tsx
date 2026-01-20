@@ -21,7 +21,7 @@ export const MenuItem = memo(({ item, isSelected, onSelect }: DefaultMenuItemPro
       onSelect={handleSelect}
       disabled={item.disabled}
     >
-      {item.icon && <span className={styles.itemIcon}>{item.icon}</span>}
+      {item.enableIcon && item.icon && <span className={styles.itemIcon}>{item.icon}</span>}
       <div className={styles.wrapperText}>
         <span className={styles.itemText}>{item.text}</span>
         {item.enableSubText && item.subText && (

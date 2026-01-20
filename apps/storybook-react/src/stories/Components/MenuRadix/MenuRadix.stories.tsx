@@ -29,6 +29,9 @@ const meta: Meta = {
     enableSubText: {
       control: { type: 'boolean' },
     },
+    enableIcon: {
+      control: { type: 'boolean' },
+    },
   },
 };
 export default meta;
@@ -64,6 +67,17 @@ const itemsWithIcon = [
   
 ];
 
+const itemsWithIconAndSubText = [
+  { id: '1', text: 'Item 1', subText: 'teste', icon: <Person16Regular />, value: '1' },
+  { id: '2', text: 'Item 2', subText: 'teste', icon: <Delete16Regular />,  value: '2' },
+  { id: '3', text: 'Item 3', subText: 'teste', icon: <Settings16Regular />, value: '3' },
+  { id: '4', text: 'Item 4', subText: 'teste', icon: <MoreVertical16Regular />, value: '4' },
+  { id: '5', text: 'Item 5', subText: 'teste', icon: <Edit16Regular />, value: '5' },
+  { id: '6', text: 'Item 6', subText: 'teste', icon: <Eye16Regular />, value: '6' },
+  { id: '7', text: 'Item 7', subText: 'teste', icon: <Mail16Regular />, value: '7' },
+  
+];
+
 const itemsWithChildren = [
   {
     id: '1',
@@ -93,7 +107,8 @@ const itemsWithChildren = [
     id: '5',
     text: 'Item 5',
     value: '5',
-    children: [{ id: '5-1', text: 'Sub Item 5', value: '5-1' }, { id: '5-2', text: 'Sub Item 5', value: '5-2' }],
+    children: [{ id: '5-1', text: 'Sub Item 5', value: '5-1', children: [{ id: '5-1', text: 'Sub Item 5', value: '5-1' }, { id: '5-2', text: 'Sub Item 5', value: '5-2' }],
+ }, { id: '5-2', text: 'Sub Item 5', value: '5-2' }],
   },
 ]
 
@@ -201,7 +216,7 @@ WithSubText.args = {
 // ===================================================
 // 📖 Story 3: Busca Local (Com Icone)
 // ===================================================
-export const WithIcon: StoryFn = () => (
+export const WithIcon: StoryFn<{ enableIcon?: boolean }> = (args) => (
   <MenuRadix
     items={itemsWithIcon}
     onItemSelect={(e) => console.log(e)}
@@ -220,8 +235,39 @@ WithIcon.parameters = {
   },
 };
 
+WithIcon.args = {
+  enableIcon: true,
+};
+
 // ===================================================
-// 📖 Story 4: Busca Local (Com Children)
+// 📖 Story 4: Busca Local (Com Subtexto e Icone)
+// ===================================================
+export const WithSubTextAndIcon: StoryFn<{ enableSubText?: boolean, enableIcon?: boolean }> = (args) => (
+  <MenuRadix
+    items={itemsWithIconAndSubText.map((it) => ({ ...it, enableSubText: !!args.enableSubText, enableIcon: !!args.enableIcon }))}
+    onItemSelect={(e) => console.log(e)}
+    search={true}
+  >
+    <Button>Open Menu</Button>
+  </MenuRadix>
+);
+
+WithSubTextAndIcon.parameters = {
+  docs: {
+    description: {
+      story:
+        'Menu com busca local. Os items são filtrados no frontend conforme você digita.',
+    },
+  },
+};
+
+WithSubTextAndIcon.args = {
+  enableSubText: true,
+  enableIcon: true,
+};
+
+// ===================================================
+// 📖 Story 5: Busca Local (Com Children)
 // ===================================================
 export const WithChildren: StoryFn = () => (
   <MenuRadix
@@ -243,7 +289,7 @@ WithChildren.parameters = {
 };
 
 // ===================================================
-// 🔍 Story 5: Busca via API (Mock Simulado)
+// 🔍 Story 6: Busca via API (Mock Simulado)
 // ===================================================
 export const ApiSearch: StoryFn = () => {
   const [items, setItems] = useState<MenuItemProps[]>([]);
@@ -373,7 +419,7 @@ Esta story simula uma busca em API real com as seguintes características:
 };
 
 // ===================================================
-// 🌐 Story 6: Busca via API Real (Fetch)
+// 🌐 Story 7: Busca via API Real (Fetch)
 // ===================================================
 export const ApiSearchReal: StoryFn = () => {
   const [items, setItems] = useState<MenuItemProps[]>([]);
@@ -517,7 +563,7 @@ Esta story faz requisições reais para a API pública JSONPlaceholder.
 };
 
 // ===================================================
-// ♾️ Story 7: Scroll Infinito
+// ♾️ Story 8: Scroll Infinito
 // ===================================================
 export const InfiniteScroll: StoryFn = () => {
   const ITEMS_PER_PAGE = 15;
