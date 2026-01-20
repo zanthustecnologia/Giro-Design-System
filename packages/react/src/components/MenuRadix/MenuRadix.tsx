@@ -77,7 +77,7 @@ const MenuRadix: React.FC<MenuRadixProps> = ({
   useEffect(() => {
     onScrollEndRef.current = onScrollEnd;
     isLoadingMoreRef.current = isLoadingMore;
-  });
+  }, [onScrollEnd, isLoadingMore]);
 
   useEffect(() => {
     if (!open || !enableInfiniteScroll) {
