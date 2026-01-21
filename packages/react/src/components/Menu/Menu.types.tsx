@@ -12,7 +12,7 @@ export interface MenuItemProps {
   enableIcon?: boolean;
 }
 
-export interface MenuRadixProps {
+export interface MenuProps {
   items: MenuItemProps[];
   children?: ReactElement;
   type?: 'text' | 'icon';

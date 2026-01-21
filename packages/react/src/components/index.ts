@@ -43,11 +43,8 @@ export { type FilterProps } from './Filter/Filter.types';
 export { default as ListItem } from './ListItem';
 export { type ListItemProps } from './ListItem/ListItem.types';
 
-export { default as Menu } from './Menu';
-export { type MenuProps, type MenuItem } from './Menu/Menu.types';
-
-export {default as MenuRadix } from './MenuRadix';
-export { type MenuRadixProps } from './MenuRadix/MenuRadix.types';
+export {default as Menu } from './Menu';
+export { type MenuProps } from './Menu/Menu.types';
 
 export { default as Quantity } from './Quantity';
 export { type QuantityProps } from './Quantity/Quantity.types';

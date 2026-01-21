@@ -1,8 +1,8 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import MenuRadix from '../MenuRadix';
-import { MenuItemProps } from '../MenuRadix.types';
+import Menu from '../Menu';
+import { MenuItemProps } from '../Menu.types';
 
 // Mock dos ícones do Fluent UI
 vi.mock('@fluentui/react-icons', () => ({
@@ -22,7 +22,7 @@ vi.mock('../../Search', () => ({
   ),
 }));
 
-describe('MenuRadix', () => {
+describe('Menu', () => {
   const mockItems: MenuItemProps[] = [
     { id: '1', text: 'Item 1', value: 'item-1' },
     { id: '2', text: 'Item 2', value: 'item-2', subText: 'Subtexto 2', enableSubText: true },
@@ -54,9 +54,9 @@ describe('MenuRadix', () => {
   describe('Renderização Básica', () => {
     it('renderiza o trigger corretamente', () => {
       render(
-        <MenuRadix items={mockItems}>
+        <Menu items={mockItems}>
           <button>Abrir Menu</button>
-        </MenuRadix>
+        </Menu>
       );
 
       expect(screen.getByText('Abrir Menu')).toBeInTheDocument();
@@ -64,9 +64,9 @@ describe('MenuRadix', () => {
 
     it('não renderiza o conteúdo do menu quando está fechado', () => {
       render(
-        <MenuRadix items={mockItems}>
+        <Menu items={mockItems}>
           <button>Abrir Menu</button>
-        </MenuRadix>
+        </Menu>
       );
 
       expect(screen.queryByText('Item 1')).not.toBeInTheDocument();
@@ -75,9 +75,9 @@ describe('MenuRadix', () => {
     it('renderiza os itens do menu ao abrir', async () => {
       const user = userEvent.setup();
       render(
-        <MenuRadix items={mockItems}>
+        <Menu items={mockItems}>
           <button>Abrir Menu</button>
-        </MenuRadix>
+        </Menu>
       );
 
       await user.click(screen.getByText('Abrir Menu'));
@@ -92,9 +92,9 @@ describe('MenuRadix', () => {
     it('renderiza subtexto quando habilitado', async () => {
       const user = userEvent.setup();
       render(
-        <MenuRadix items={mockItems}>
+        <Menu items={mockItems}>
           <button>Abrir Menu</button>
-        </MenuRadix>
+        </Menu>
       );
 
       await user.click(screen.getByText('Abrir Menu'));
@@ -107,9 +107,9 @@ describe('MenuRadix', () => {
     it('renderiza ícones quando habilitados', async () => {
       const user = userEvent.setup();
       render(
-        <MenuRadix items={mockItemsWithIcon}>
+        <Menu items={mockItemsWithIcon}>
           <button>Abrir Menu</button>
-        </MenuRadix>
+        </Menu>
       );
 
       await user.click(screen.getByText('Abrir Menu'));
@@ -125,9 +125,9 @@ describe('MenuRadix', () => {
     it('renderiza campo de busca quando search=true', async () => {
       const user = userEvent.setup();
       render(
-        <MenuRadix items={mockItems} search>
+        <Menu items={mockItems} search>
           <button>Abrir Menu</button>
-        </MenuRadix>
+        </Menu>
       );
 
       await user.click(screen.getByText('Abrir Menu'));
@@ -140,9 +140,9 @@ describe('MenuRadix', () => {
     it('não renderiza campo de busca quando search=false', async () => {
       const user = userEvent.setup();
       render(
-        <MenuRadix items={mockItems}>
+        <Menu items={mockItems}>
           <button>Abrir Menu</button>
-        </MenuRadix>
+        </Menu>
       );
 
       await user.click(screen.getByText('Abrir Menu'));
@@ -155,9 +155,9 @@ describe('MenuRadix', () => {
     it('filtra itens ao buscar', async () => {
       const user = userEvent.setup();
       render(
-        <MenuRadix items={mockItems} search>
+        <Menu items={mockItems} search>
           <button>Abrir Menu</button>
-        </MenuRadix>
+        </Menu>
       );
 
       await user.click(screen.getByText('Abrir Menu'));
@@ -175,9 +175,9 @@ describe('MenuRadix', () => {
     it('mostra mensagem quando não há resultados', async () => {
       const user = userEvent.setup();
       render(
-        <MenuRadix items={mockItems} search>
+        <Menu items={mockItems} search>
           <button>Abrir Menu</button>
-        </MenuRadix>
+        </Menu>
       );
 
       await user.click(screen.getByText('Abrir Menu'));
@@ -194,9 +194,9 @@ describe('MenuRadix', () => {
     it('limpa o termo de busca quando o input é esvaziado', async () => {
       const user = userEvent.setup();
       render(
-        <MenuRadix items={mockItems} search>
+        <Menu items={mockItems} search>
           <button>Abrir Menu</button>
-        </MenuRadix>
+        </Menu>
       );
 
       await user.click(screen.getByText('Abrir Menu'));
@@ -226,9 +226,9 @@ describe('MenuRadix', () => {
       const user = userEvent.setup();
 
       render(
-        <MenuRadix items={mockItems} onItemSelect={onItemSelect}>
+        <Menu items={mockItems} onItemSelect={onItemSelect}>
           <button>Abrir Menu</button>
-        </MenuRadix>
+        </Menu>
       );
 
       await user.click(screen.getByText('Abrir Menu'));
@@ -244,9 +244,9 @@ describe('MenuRadix', () => {
       const user = userEvent.setup();
 
       render(
-        <MenuRadix items={mockItems} onItemSelect={onItemSelect}>
+        <Menu items={mockItems} onItemSelect={onItemSelect}>
           <button>Abrir Menu</button>
-        </MenuRadix>
+        </Menu>
       );
 
       await user.click(screen.getByText('Abrir Menu'));
@@ -263,9 +263,9 @@ describe('MenuRadix', () => {
       const selectedItems = [mockItems[0]];
 
       render(
-        <MenuRadix items={mockItems} selectedItems={selectedItems}>
+        <Menu items={mockItems} selectedItems={selectedItems}>
           <button>Abrir Menu</button>
-        </MenuRadix>
+        </Menu>
       );
 
       await user.click(screen.getByText('Abrir Menu'));
@@ -282,9 +282,9 @@ describe('MenuRadix', () => {
       const user = userEvent.setup();
 
       render(
-        <MenuRadix items={mockItems} onItemSelect={onItemSelect}>
+        <Menu items={mockItems} onItemSelect={onItemSelect}>
           <button>Abrir Menu</button>
-        </MenuRadix>
+        </Menu>
       );
 
       await user.click(screen.getByText('Abrir Menu'));
@@ -303,9 +303,9 @@ describe('MenuRadix', () => {
       const user = userEvent.setup();
       
       render(
-        <MenuRadix items={mockItemsWithChildren}>
+        <Menu items={mockItemsWithChildren}>
           <button>Abrir Menu</button>
-        </MenuRadix>
+        </Menu>
       );
 
       await user.click(screen.getByText('Abrir Menu'));
@@ -334,9 +334,9 @@ describe('MenuRadix', () => {
       const user = userEvent.setup();
       
       render(
-        <MenuRadix items={itemsWithSubMenu}>
+        <Menu items={itemsWithSubMenu}>
           <button>Abrir Menu</button>
-        </MenuRadix>
+        </Menu>
       );
 
       await user.click(screen.getByText('Abrir Menu'));
@@ -363,9 +363,9 @@ describe('MenuRadix', () => {
       const user = userEvent.setup();
       
       render(
-        <MenuRadix items={itemsWithDisabledSubMenu}>
+        <Menu items={itemsWithDisabledSubMenu}>
           <button>Abrir Menu</button>
-        </MenuRadix>
+        </Menu>
       );
 
       await user.click(screen.getByText('Abrir Menu'));
@@ -383,9 +383,9 @@ describe('MenuRadix', () => {
       const user = userEvent.setup();
 
       render(
-        <MenuRadix items={mockItems} onOpenChange={onOpenChange}>
+        <Menu items={mockItems} onOpenChange={onOpenChange}>
           <button>Abrir Menu</button>
-        </MenuRadix>
+        </Menu>
       );
 
       await user.click(screen.getByText('Abrir Menu'));
@@ -400,9 +400,9 @@ describe('MenuRadix', () => {
       const user = userEvent.setup();
 
       render(
-        <MenuRadix items={mockItems} onOpenChange={onOpenChange}>
+        <Menu items={mockItems} onOpenChange={onOpenChange}>
           <button>Abrir Menu</button>
-        </MenuRadix>
+        </Menu>
       );
 
       await user.click(screen.getByText('Abrir Menu'));
@@ -426,13 +426,13 @@ describe('MenuRadix', () => {
       const user = userEvent.setup();
 
       render(
-        <MenuRadix 
+        <Menu 
           items={mockItems} 
           enableInfiniteScroll 
           onScrollEnd={onScrollEnd}
         >
           <button>Abrir Menu</button>
-        </MenuRadix>
+        </Menu>
       );
 
       await user.click(screen.getByText('Abrir Menu'));
@@ -447,14 +447,14 @@ describe('MenuRadix', () => {
       const user = userEvent.setup();
 
       render(
-        <MenuRadix 
+        <Menu 
           items={mockItems} 
           enableInfiniteScroll 
           isLoadingMore
           onScrollEnd={vi.fn()}
         >
           <button>Abrir Menu</button>
-        </MenuRadix>
+        </Menu>
       );
 
       await user.click(screen.getByText('Abrir Menu'));
@@ -471,14 +471,14 @@ describe('MenuRadix', () => {
       const user = userEvent.setup();
 
       render(
-        <MenuRadix 
+        <Menu 
           items={mockItems} 
           search 
           enableApiSearch
           onApiSearch={onApiSearch}
         >
           <button>Abrir Menu</button>
-        </MenuRadix>
+        </Menu>
       );
 
       await user.click(screen.getByText('Abrir Menu'));
@@ -498,9 +498,9 @@ describe('MenuRadix', () => {
       const user = userEvent.setup();
 
       render(
-        <MenuRadix items={mockItems} className="custom-menu">
+        <Menu items={mockItems} className="custom-menu">
           <button>Abrir Menu</button>
-        </MenuRadix>
+        </Menu>
       );
 
       await user.click(screen.getByText('Abrir Menu'));
@@ -515,9 +515,9 @@ describe('MenuRadix', () => {
       const user = userEvent.setup();
 
       render(
-        <MenuRadix items={mockItems} maxHeight={300}>
+        <Menu items={mockItems} maxHeight={300}>
           <button>Abrir Menu</button>
-        </MenuRadix>
+        </Menu>
       );
 
       await user.click(screen.getByText('Abrir Menu'));
@@ -532,9 +532,9 @@ describe('MenuRadix', () => {
       const user = userEvent.setup();
 
       render(
-        <MenuRadix items={mockItems} maxHeight="50vh">
+        <Menu items={mockItems} maxHeight="50vh">
           <button>Abrir Menu</button>
-        </MenuRadix>
+        </Menu>
       );
 
       await user.click(screen.getByText('Abrir Menu'));
@@ -551,9 +551,9 @@ describe('MenuRadix', () => {
       const user = userEvent.setup();
 
       render(
-        <MenuRadix items={[]}>
+        <Menu items={[]}>
           <button>Abrir Menu</button>
-        </MenuRadix>
+        </Menu>
       );
 
       await user.click(screen.getByText('Abrir Menu'));
@@ -568,9 +568,9 @@ describe('MenuRadix', () => {
       const user = userEvent.setup();
 
       render(
-        <MenuRadix items={itemsWithoutId}>
+        <Menu items={itemsWithoutId}>
           <button>Abrir Menu</button>
-        </MenuRadix>
+        </Menu>
       );
 
       await user.click(screen.getByText('Abrir Menu'));
@@ -584,9 +584,9 @@ describe('MenuRadix', () => {
       const user = userEvent.setup();
 
       render(
-        <MenuRadix items={mockItems}>
+        <Menu items={mockItems}>
           <button>Abrir Menu</button>
-        </MenuRadix>
+        </Menu>
       );
 
       // Abre e fecha 3 vezes

@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import { DropdownMenu } from 'radix-ui';
-import { MenuItemProps } from '../MenuRadix.types';
-import styles from '../MenuRadix.module.scss';
+import { MenuItemProps } from '../Menu.types';
+import styles from '../Menu.module.scss';
 import clsx from 'clsx';
 interface DefaultMenuItemProps {
   item: MenuItemProps;

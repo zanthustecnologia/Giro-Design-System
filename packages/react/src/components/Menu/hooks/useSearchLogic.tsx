@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef } from 'react';
 import { normalizeText } from '../../../hooks/NormalizeText';
-import { MenuItemProps } from '../MenuRadix.types';
+import { MenuItemProps } from '../Menu.types';
 
 interface UseSearchLogicProps {
   items: MenuItemProps[];
