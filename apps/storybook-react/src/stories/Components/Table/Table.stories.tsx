@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useMemo } from 'react';
 import type { Meta, StoryFn } from '@storybook/react';
 import { Table, TableHeader, TablePagination, Chips, Button, Menu, Drawer } from '@giro-ds/react';
-import type { FilterItem, MenuItem } from '@giro-ds/react';
+import type { FilterItem, MenuProps } from '@giro-ds/react';
 import { MoreVertical16Regular, Edit16Regular, Eye16Regular, Delete16Regular } from '@fluentui/react-icons';
 
 // ✅ ADICIONAR: Interface para props das stories
@@ -193,14 +193,13 @@ const basicColumns = [
     render: (row: any) => (
 
       <Menu
-        position='right'
-        menuItems={[
+        items={[
           { id: 'edit', text: 'Editar' },
           { id: 'duplicate', text: 'Duplicar' },
           { id: 'pause', text: row.status === 'Ativa' ? 'Pausar' : 'Ativar' },
           { id: 'delete', text: 'Excluir' },
         ]}
-        onMenuItemClick={(item: any) => {
+        onItemSelect={(item: any) => {
           console.log(`${item.text} promoção:`, row.name);
         }}
       >
@@ -333,14 +332,13 @@ export const Default: StoryFn = ({
       label: '',
       render: (row: any) => (
         <Menu
-          position='right'
-          menuItems={[
+          items={[
             { id: 'edit', text: 'Editar' },
             { id: 'duplicate', text: 'Duplicar' },
             { id: 'pause', text: row.status === 'Ativa' ? 'Pausar' : 'Ativar' },
             { id: 'delete', text: 'Excluir' },
           ]}
-          onMenuItemClick={(item: any) => {
+          onItemSelect={(item: any) => {
             console.log(`${item.text} promoção:`, row.name);
           }}
         >
