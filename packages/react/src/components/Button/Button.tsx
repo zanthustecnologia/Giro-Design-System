@@ -43,16 +43,16 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
   }, [children]);
 
   const buttonClasses = clsx(
-    styles['zds-button'],
-    styles[`zds-button__${variant}`],
-    styles[`zds-button__${size}`],
+    styles.button,
+    styles[`button-${variant}`],
+    styles[`button-${size}`],
     {
-      [styles['zds-button__with-icon']]: icon && !iconOnly,
-      [styles[`zds-button__icon-position-${iconPosition}`]]: icon && !iconOnly && iconPosition !== 'none',
-      [styles['zds-button__no-content']]: icon && !hasContent && !iconOnly,
-      [styles['zds-button__full-width']]: fullWidth,
-      [styles['zds-button__icon-only']]: iconOnly,
-      [styles['zds-button__disabled']]: disabled,
+      [styles['button-with-icon']]: icon && !iconOnly,
+      [styles[`button-icon-position-${iconPosition}`]]: icon && !iconOnly && iconPosition !== 'none',
+      [styles['button-no-content']]: icon && !hasContent && !iconOnly,
+      [styles['button-full-width']]: fullWidth,
+      [styles['button-icon-only']]: iconOnly,
+      [styles['button-disabled']]: disabled,
     },
     className
   );
@@ -80,7 +80,7 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
   const renderContent = () => {
     if (iconOnly && icon) {
       return (
-        <span className={styles['zds-button__icon-only']} aria-hidden="true">
+        <span className={styles['button-icon-only']} aria-hidden="true">
           {icon}
         </span>
       );
@@ -88,13 +88,13 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
     return (
       <>
         {icon && iconPosition === 'left' && (
-          <span className={styles['zds-button__icon-left']} aria-hidden="true">
+          <span className={styles['button-icon-left']} aria-hidden="true">
             {icon}
           </span>
         )}
         {children}
         {icon && iconPosition === 'right' && (
-          <span className={styles['zds-button__icon-right']} aria-hidden="true">
+          <span className={styles['button-icon-right']} aria-hidden="true">
             {icon}
           </span>
         )}
