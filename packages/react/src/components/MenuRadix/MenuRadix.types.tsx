@@ -15,7 +15,7 @@ export interface MenuItemProps {
 export interface MenuRadixProps {
   items: MenuItemProps[];
   children?: ReactElement;
-  type?:  'text' | 'icon' ;
+  type?: 'text' | 'icon';
   className?: string;
   onItemSelect?: (items: MenuItemProps) => void;
   selectedItems?: MenuItemProps[];
@@ -29,5 +29,4 @@ export interface MenuRadixProps {
   enableApiSearch?: boolean;
   onApiSearch?: (searchTerm: string) => void;
   onOpenChange?: (open: boolean) => void;
-  
 }

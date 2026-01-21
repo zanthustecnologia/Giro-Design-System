@@ -28,7 +28,6 @@ export const MenuItem = memo(({ item, isSelected, onSelect }: DefaultMenuItemPro
           <span className={styles.itemSubText}>{item.subText}</span>
         )}
       </div>
-
     </DropdownMenu.Item>
   );
 });
