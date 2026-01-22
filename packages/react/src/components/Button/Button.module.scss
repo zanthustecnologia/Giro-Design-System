@@ -69,7 +69,6 @@
   }
 }
 
-/* 5️⃣ TEXT VARIANT SPECIFICS: Especificidade alta (3-4 classes) */
 .button.button-text.button-lg {
   padding: var(--spacing-0) var(--spacing-12);
   
@@ -180,13 +179,11 @@
   margin-left: var(--spacing-8);
 }
 
-/* 9️⃣ NO-CONTENT OVERRIDES: Remove margens quando sem conteúdo */
 .button.button-no-content .button-icon-left,
 .button.button-no-content .button-icon-right {
   margin: var(--spacing-0);
 }
 
-/* 🔟 STATES: Hover, Focus, Active, Disabled */
 .button:hover,
 .button:hover * {
   text-decoration: none;
@@ -296,6 +293,7 @@
 .button.button-text.disabled * {
   color: var(--color-neutral-high-dark);
 }
+
 
 .button.button-lg.button-loading {
   height: 44px;
