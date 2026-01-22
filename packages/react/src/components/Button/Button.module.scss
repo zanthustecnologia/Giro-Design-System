@@ -296,3 +296,27 @@
 .button.button-text.disabled * {
   color: var(--color-neutral-high-dark);
 }
+
+.button.button-lg.button-loading {
+  height: 44px;
+  padding: var(--spacing-0) var(--spacing-24);
+  min-width: 92px;
+}
+
+.button.button-sm.button-loading {
+  height: 36px;
+  padding: var(--spacing-0) var(--spacing-16);
+  min-width: 76px;
+}
+.button-loading span {
+  width: 16px;
+  height: 16px;
+}
+
+.button-loading {
+  svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+}

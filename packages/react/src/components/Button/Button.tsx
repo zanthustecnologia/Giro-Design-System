@@ -39,7 +39,7 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
   };
 
   const Component = getComponent();
-  
+
   const hasContent = useMemo(() => {
     return children && React.Children.count(children) > 0;
   }, [children]);
@@ -84,6 +84,13 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
       return (
         <span className={styles['button-icon-only']} aria-hidden="true">
           {icon}
+        </span>
+      );
+    }
+    if (loading) {
+      return (
+        <span className={styles['button-loading']} aria-hidden="true">
+          Loading...
         </span>
       );
     }
