@@ -24,6 +24,7 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
   fullWidth = false,
   ariaLabel = '',
   iconOnly = false,
+  loading = false,
   ...restProps
 }, ref) => {
 

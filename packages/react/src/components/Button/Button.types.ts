@@ -43,6 +43,8 @@ export interface ButtonProps {
   fullWidth?: boolean;
   /** Texto para acessibilidade */
   ariaLabel?: string;
+  /** Estado de loading */
+  loading?: boolean;
   /** Outros props específicos do elemento/componente */
   [key: string]: any;
 }
