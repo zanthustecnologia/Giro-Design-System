@@ -25,7 +25,8 @@
     "build": "pnpm run clean && rollup -c rollup.config.cjs --bundleConfigAsCjs",
     "dev": "rollup -c rollup.config.cjs --bundleConfigAsCjs -w",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "lint": "echo \"(adicione eslint aqui)\""
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "peerDependencies": {
     "react": "^18.3.1",
