@@ -36,9 +36,10 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
     if (href) return 'a';   
     if (to) return 'a'; 
     return 'button';
-    };
+  };
 
   const Component = getComponent();
+  
   const hasContent = useMemo(() => {
     return children && React.Children.count(children) > 0;
   }, [children]);

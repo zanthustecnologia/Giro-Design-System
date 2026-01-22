@@ -36,10 +36,16 @@ export default {
       control: { type: 'select' },
       options: ['none', 'left', 'right'],
     },
+    iconOnly: {
+      control: { type: 'boolean' },
+    },
     fullWidth: {
       control: { type: 'boolean' },
     },
     disabled: {
+      control: { type: 'boolean' },
+    },
+    loading: {
       control: { type: 'boolean' },
     },
     to: {
@@ -60,6 +66,7 @@ export default {
         disable: true,
       },
     },
+    
   },
 } as Meta<ButtonProps>;
 

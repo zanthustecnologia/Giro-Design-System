@@ -285,8 +285,7 @@
 .button.button-text.disabled {
   color: var(--color-neutral-high-dark);
   cursor: not-allowed;
-  opacity: 0.5;
-  outline: none;
+  outline: none; 
 
   &:hover {
     background-color: transparent;
