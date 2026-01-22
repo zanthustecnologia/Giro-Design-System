@@ -106,6 +106,62 @@ export default App;
 
 Para documentação completa, exemplos interativos e guias de uso, consulte o Storybook do projeto.
 
+## 🎨 Customização de Tema
+
+O Design System suporta customização completa de cores, tipografia e espaçamento através do sistema de theming.
+
+### Uso Padrão (sem customização)
+
+```tsx
+import { GiroThemeProvider } from '@giro-ds/react';
+import '@giro-ds/tokens/build/css/tokens.css';
+
+function App() {
+  return (
+    <GiroThemeProvider>
+      <YourApp />
+    </GiroThemeProvider>
+  );
+}
+```
+
+### Tema Customizado
+
+```tsx
+import { GiroThemeProvider } from '@giro-ds/react';
+import type { GiroTheme } from '@giro-ds/react';
+
+const customTheme: GiroTheme = {
+  colors: {
+    brand: {
+      primary: { default: '#FF5733' }
+    }
+  }
+};
+
+<GiroThemeProvider theme={customTheme}>
+  <YourApp />
+</GiroThemeProvider>
+```
+
+### Dark Mode
+
+```tsx
+import { useGiroTheme } from '@giro-ds/react';
+
+function ThemeToggle() {
+  const { mode, toggleMode } = useGiroTheme();
+  
+  return (
+    <button onClick={toggleMode}>
+      {mode === 'light' ? '🌙' : '☀️'}
+    </button>
+  );
+}
+```
+
+**📚 Documentação completa:** [Theming Guide](../../docs/react/theming.md)
+
 ## 🎨 Integração com Tokens
 
 Este pacote utiliza os design tokens do `@giro-ds/tokens`. Os estilos dos componentes já estão configurados com os tokens do sistema.
