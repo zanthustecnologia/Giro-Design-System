@@ -196,7 +196,7 @@
 
 .button.button-filled:focus {
   outline: var(--border-width-4) solid var(--color-neutral-high-dark);
-  outline-offset: var(--spacing-2);
+  outline-offset: var(--border-width-2);
 }
 
 .button.button-filled:active {
@@ -225,6 +225,7 @@
 
 .button.button-outlined:focus {
   outline: var(--border-width-4) solid var(--color-neutral-high-dark);
+  outline-offset: var(--border-width-2);
   color: var(--color-brand-primary-default);
   background-color: var(--color-neutral-high-default);
 }
@@ -268,6 +269,7 @@
 
 .button.button-text:focus {
   outline: var(--border-width-4) solid var(--color-neutral-high-dark);
+  outline-offset: var(--border-width-2);
   color: var(--color-brand-primary-default);
   background-color: transparent;
 }
@@ -293,7 +295,6 @@
 .button.button-text.disabled * {
   color: var(--color-neutral-high-dark);
 }
-
 
 .button.button-lg.button-loading {
   height: 44px;
