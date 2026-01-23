@@ -212,7 +212,6 @@ const Menu: React.FC<MenuProps> = ({
       <DropdownMenu.Portal>
         <DropdownMenu.Content
           className={clsx(styles.content, className)}
-          side="bottom"
           sideOffset={8}
           align={align}
           onKeyDown={(e) => {
