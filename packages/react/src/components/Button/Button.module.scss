@@ -165,8 +165,10 @@
   min-width: 36px;
   max-width: 36px;
 }
-.button-full-width {
-  width: 100%;
+.button.button-full-width {
+  width: 100% !important;
+  min-width: unset !important;
+  max-width: unset !important;
 }
 
 .button-icon-left {

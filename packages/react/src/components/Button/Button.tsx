@@ -92,6 +92,13 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
         </span>
       );
     }
+    if (iconOnly && !icon && !loading) {
+      return (
+        <span className={styles['button-icon-only']} aria-hidden="true">
+          {icon}
+        </span>
+      );
+    }
     if (loading) {
       return (
         <span className={styles['button-loading']} aria-hidden="true">
