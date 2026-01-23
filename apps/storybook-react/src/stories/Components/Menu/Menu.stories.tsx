@@ -26,12 +26,6 @@ const meta: Meta = {
     },
   },
   argTypes: {
-    enableSubText: {
-      control: { type: 'boolean' },
-    },
-    enableIcon: {
-      control: { type: 'boolean' },
-    },
   },
 };
 export default meta;
@@ -190,9 +184,9 @@ Default.parameters = {
 // ===================================================
 // 📖 Story 2: Busca Local (Com Subtexto)
 // ===================================================
-export const WithSubText: StoryFn<{ enableSubText?: boolean }> = (args) => (
+export const WithSubText: StoryFn = () => (
   <Menu
-    items={itemsWithSubText.map((it) => ({ ...it, enableSubText: !!args.enableSubText }))}
+    items={itemsWithSubText}
     onItemSelect={(e) => console.log(e)}
     search={true}
   >
@@ -209,16 +203,12 @@ WithSubText.parameters = {
   },
 };
 
-WithSubText.args = {
-  enableSubText: true,
-};
-
 // ===================================================
 // 📖 Story 3: Busca Local (Com Icone)
 // ===================================================
-export const WithIcon: StoryFn<{ enableIcon?: boolean }> = (args) => (
+export const WithIcon: StoryFn = () => (
   <Menu
-    items={itemsWithIcon.map((it) => ({ ...it, enableIcon: !!args.enableIcon }))}
+    items={itemsWithIcon}
     onItemSelect={(e) => console.log(e)}
     search={true}
   >
@@ -235,16 +225,12 @@ WithIcon.parameters = {
   },
 };
 
-WithIcon.args = {
-  enableIcon: true,
-};
-
 // ===================================================
 // 📖 Story 4: Busca Local (Com Subtexto e Icone)
 // ===================================================
-export const WithSubTextAndIcon: StoryFn<{ enableSubText?: boolean, enableIcon?: boolean }> = (args) => (
+export const WithSubTextAndIcon: StoryFn = () => (
   <Menu
-    items={itemsWithIconAndSubText.map((it) => ({ ...it, enableSubText: !!args.enableSubText, enableIcon: !!args.enableIcon }))}
+    items={itemsWithIconAndSubText}
     onItemSelect={(e) => console.log(e)}
     search={true}
   >
@@ -259,11 +245,6 @@ WithSubTextAndIcon.parameters = {
         'Menu com busca local. Os items são filtrados no frontend conforme você digita.',
     },
   },
-};
-
-WithSubTextAndIcon.args = {
-  enableSubText: true,
-  enableIcon: true,
 };
 
 // ===================================================

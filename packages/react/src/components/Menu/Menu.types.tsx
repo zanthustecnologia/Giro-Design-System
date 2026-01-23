@@ -8,8 +8,6 @@ export interface MenuItemProps {
   icon?: React.ReactNode;
   children?: MenuItemProps[];
   value?: string;
-  enableSubText?: boolean;
-  enableIcon?: boolean;
 }
 
 export interface MenuProps {

@@ -25,13 +25,13 @@ vi.mock('../../Search', () => ({
 describe('Menu', () => {
   const mockItems: MenuItemProps[] = [
     { id: '1', text: 'Item 1', value: 'item-1' },
-    { id: '2', text: 'Item 2', value: 'item-2', subText: 'Subtexto 2', enableSubText: true },
+    { id: '2', text: 'Item 2', value: 'item-2', subText: 'Subtexto 2'},
     { id: '3', text: 'Item 3', value: 'item-3', disabled: true },
   ];
 
   const mockItemsWithIcon: MenuItemProps[] = [
-    { id: '1', text: 'Item 1', value: 'item-1', icon: <span>🏠</span>, enableIcon: true },
-    { id: '2', text: 'Item 2', value: 'item-2', icon: <span>⚙️</span>, enableIcon: true },
+    { id: '1', text: 'Item 1', value: 'item-1', icon: <span>🏠</span>},
+    { id: '2', text: 'Item 2', value: 'item-2', icon: <span>⚙️</span>},
   ];
 
   const mockItemsWithChildren: MenuItemProps[] = [
@@ -323,9 +323,7 @@ describe('Menu', () => {
           text: 'Parent com detalhes',
           value: 'parent',
           icon: <span>📁</span>,
-          enableIcon: true,
           subText: 'Subtexto do parent',
-          enableSubText: true,
           children: [
             { id: '1-1', text: 'Child 1', value: 'child-1' },
           ],

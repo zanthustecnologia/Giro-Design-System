@@ -161,12 +161,12 @@ const Menu: React.FC<MenuProps> = ({
               className={styles.subTrigger}
               disabled={item.disabled}
             >
-              {item.enableIcon && item.icon && (
+              {item.icon && (
                 <span className={styles.itemIcon}>{item.icon}</span>
               )}
               <div className={styles.wrapperText}>
                 <span className={styles.itemText}>{item.text}</span>
-                {item.enableSubText && item.subText && (
+                {item.subText && (
                   <span className={styles.itemSubText}>{item.subText}</span>
                 )}
               </div>
