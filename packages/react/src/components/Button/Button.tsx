@@ -53,6 +53,7 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
     styles[`button-${variant}`],
     styles[`button-${size}`],
     {
+      [styles['button-loading']]: loading,
       [styles['button-with-icon']]: icon && !iconOnly,
       [styles[`button-icon-position-${iconPosition}`]]: icon && !iconOnly && iconPosition !== 'none',
       [styles['button-no-content']]: icon && !hasContent && !iconOnly,

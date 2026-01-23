@@ -311,12 +311,38 @@
   height: 44px;
   padding: var(--spacing-0) var(--spacing-24);
   min-width: 92px;
+  &.button-with-icon {
+    &.button-icon-position-left {
+      padding: var(--spacing-0) var(--spacing-24);
+    }
+    
+    &.button-icon-position-right {
+      padding: var(--spacing-0) var(--spacing-24);
+    }
+    
+    &.button-no-content {
+      padding: var(--spacing-0) var(--spacing-24);
+    }
+  }
 }
 
 .button.button-sm.button-loading {
   height: 36px;
   padding: var(--spacing-0) var(--spacing-16);
   min-width: 76px;
+  &.button-with-icon {
+    &.button-icon-position-left {
+      padding: var(--spacing-0) var(--spacing-16);
+    }
+    
+    &.button-icon-position-right {
+      padding: var(--spacing-0) var(--spacing-16);
+    }
+    
+    &.button-no-content {
+      padding: var(--spacing-0) var(--spacing-16);
+    }
+  }
 }
 .button-loading span {
   width: 16px;
