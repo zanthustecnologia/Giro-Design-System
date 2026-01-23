@@ -1,7 +1,9 @@
+import { SpinnerIos16Regular } from '@fluentui/react-icons';
 import clsx from 'clsx';
 import React, { useId, useMemo } from 'react';
+
 import styles from './Button.module.scss';
-import { SpinnerIos16Regular } from '@fluentui/react-icons';
+
 import type { ButtonProps } from './Button.types';
 
 const Button = React.forwardRef<HTMLElement, ButtonProps>(({
@@ -29,7 +31,8 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
   ...restProps
 }, ref) => {
 
-  const componentId = id || useId();
+  const generatedId = useId();
+  const componentId = id || generatedId;
 
   const getComponent = (): React.ElementType => {
     if (as) return as;
