@@ -10,6 +10,12 @@ export interface MenuItemProps {
   value?: string;
 }
 
+export interface DefaultMenuItemProps {
+  item: MenuItemProps;
+  isSelected: boolean;
+  onSelect: (item: MenuItemProps) => void;
+}
+
 export interface MenuProps {
   items: MenuItemProps[];
   children?: ReactElement;
