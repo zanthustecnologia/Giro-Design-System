@@ -296,6 +296,17 @@
   color: var(--color-neutral-high-dark);
 }
 
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.button-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .button.button-lg.button-loading {
   height: 44px;
   padding: var(--spacing-0) var(--spacing-24);
@@ -317,5 +328,6 @@
     width: 16px;
     height: 16px;
     flex-shrink: 0;
+    animation: spin 1s linear infinite;
   }
 }

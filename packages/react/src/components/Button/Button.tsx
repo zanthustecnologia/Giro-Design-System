@@ -1,6 +1,7 @@
-import React, { useId, useMemo } from 'react';
 import clsx from 'clsx';
+import React, { useId, useMemo } from 'react';
 import styles from './Button.module.scss';
+import { SpinnerIos16Regular } from '@fluentui/react-icons';
 import type { ButtonProps } from './Button.types';
 
 const Button = React.forwardRef<HTMLElement, ButtonProps>(({
@@ -90,7 +91,7 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
     if (loading) {
       return (
         <span className={styles['button-loading']} aria-hidden="true">
-          Loading...
+          <SpinnerIos16Regular aria-hidden="true" />
         </span>
       );
     }
