@@ -1,162 +1,153 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 
 import { GiroThemeContext } from '../contexts/GiroThemeContext';
-import type { GiroTheme, GiroThemeMode } from '../types/theme.types';
-import type { ReactNode } from 'react';
 
-/**
- * Props do GiroThemeProvider
- */
-export interface GiroThemeProviderProps {
-  /** Tema customizado (opcional). Se não fornecido, usa tema padrão do design system */
-  theme?: GiroTheme;
-  /** Modo inicial do tema (light ou dark). Padrão: 'light' */
-  mode?: GiroThemeMode;
-  /** Habilita persistência do modo em localStorage. Padrão: true */
-  persistMode?: boolean;
-  /** Chave para localStorage. Padrão: 'giro-theme-mode' */
-  storageKey?: string;
-  /** Conteúdo da aplicação */
-  children: ReactNode;
-}
+import type { GiroTheme, GiroThemeMode, GiroThemeProviderProps } from '../types/theme.types';
 
-/**
- * Converte objeto de tema em CSS variables
- */
+// Converte objeto de tema em CSS variables de forma recursiva e percorre automaticamente toda a estrutura do tema e gera as CSS variables
 function themeToCustomProperties(theme: GiroTheme): Record<string, string> {
   const customProperties: Record<string, string> = {};
 
-  // Cores
+  function processObject(obj: any, prefix: string): void {
+    if (!obj || typeof obj !== 'object') return;
+
+    for (const [key, value] of Object.entries(obj)) {
+      if (value === null || value === undefined) continue;
+      if (typeof value === 'object' && !Array.isArray(value)) {
+        // Se for objeto, processa recursivamente
+        processObject(value, `${prefix}-${key}`);
+      } else if (typeof value === 'string' || typeof value === 'number') {
+        // Se for valor primitivo (cor, tamanho, etc), adiciona como CSS variable
+        customProperties[`${prefix}-${key}`] = String(value);
+      }
+    }
+  }
+
+  // Processa cada seção do tema
   if (theme.colors) {
-    const { brand, feedback, neutral } = theme.colors;
-
-    if (brand?.primary) {
-      if (brand.primary.default) customProperties['--color-brand-primary-default'] = brand.primary.default;
-      if (brand.primary.dark) customProperties['--color-brand-primary-dark'] = brand.primary.dark;
-      if (brand.primary.medium) customProperties['--color-brand-primary-medium'] = brand.primary.medium;
-      if (brand.primary.light) customProperties['--color-brand-primary-light'] = brand.primary.light;
-    }
-
-    if (brand?.secondary) {
-      if (brand.secondary.default) customProperties['--color-brand-secondary-default'] = brand.secondary.default;
-      if (brand.secondary.dark) customProperties['--color-brand-secondary-dark'] = brand.secondary.dark;
-      if (brand.secondary.medium) customProperties['--color-brand-secondary-medium'] = brand.secondary.medium;
-      if (brand.secondary.light) customProperties['--color-brand-secondary-light'] = brand.secondary.light;
-    }
-
-    if (feedback?.alert) {
-      if (feedback.alert.default) customProperties['--color-feedback-alert-default'] = feedback.alert.default;
-      if (feedback.alert.dark) customProperties['--color-feedback-alert-dark'] = feedback.alert.dark;
-      if (feedback.alert.medium) customProperties['--color-feedback-alert-medium'] = feedback.alert.medium;
-      if (feedback.alert.light) customProperties['--color-feedback-alert-light'] = feedback.alert.light;
-    }
-
-    if (feedback?.success) {
-      if (feedback.success.default) customProperties['--color-feedback-success-default'] = feedback.success.default;
-      if (feedback.success.dark) customProperties['--color-feedback-success-dark'] = feedback.success.dark;
-      if (feedback.success.medium) customProperties['--color-feedback-success-medium'] = feedback.success.medium;
-      if (feedback.success.light) customProperties['--color-feedback-success-light'] = feedback.success.light;
-    }
-
-    if (neutral?.low) {
-      if (neutral.low.default) customProperties['--color-neutral-low-default'] = neutral.low.default;
-      if (neutral.low.dark) customProperties['--color-neutral-low-dark'] = neutral.low.dark;
-      if (neutral.low.medium) customProperties['--color-neutral-low-medium'] = neutral.low.medium;
-      if (neutral.low.light) customProperties['--color-neutral-low-light'] = neutral.low.light;
-    }
-
-    if (neutral?.high) {
-      if (neutral.high.default) customProperties['--color-neutral-high-default'] = neutral.high.default;
-      if (neutral.high.dark) customProperties['--color-neutral-high-dark'] = neutral.high.dark;
-      if (neutral.high.medium) customProperties['--color-neutral-high-medium'] = neutral.high.medium;
-      if (neutral.high.light) customProperties['--color-neutral-high-light'] = neutral.high.light;
-    }
+    processObject(theme.colors, '--color');
   }
-
-  // Espaçamento
-  if (theme.spacing) {
-    Object.entries(theme.spacing).forEach(([key, value]) => {
-      if (value) customProperties[`--spacing-${key}`] = value;
-    });
-  }
-
-  // Tipografia
-  if (theme.typography) {
-    if (theme.typography.fontFamily?.primary) {
-      customProperties['--font-family-primary'] = theme.typography.fontFamily.primary;
-    }
-
-    if (theme.typography.fontSize) {
-      Object.entries(theme.typography.fontSize).forEach(([key, value]) => {
-        if (value) customProperties[`--font-size-${key}`] = value;
-      });
-    }
-
-    if (theme.typography.fontWeight) {
-      Object.entries(theme.typography.fontWeight).forEach(([key, value]) => {
-        if (value) customProperties[`--font-weight-${key}`] = value;
-      });
-    }
-  }
-
-  // Bordas
-  if (theme.border) {
-    if (theme.border.borderRadius) {
-      Object.entries(theme.border.borderRadius).forEach(([key, value]) => {
-        if (value) customProperties[`--border-radius-${key}`] = value;
-      });
-    }
-
-    if (theme.border.borderWidth) {
-      Object.entries(theme.border.borderWidth).forEach(([key, value]) => {
-        if (value) customProperties[`--border-width-${key}`] = value;
-      });
-    }
-  }
-
+  // Facilmente extensível para outras propriedades no futuro:
+  // if (theme.spacing) processObject(theme.spacing, '--spacing');
   return customProperties;
+}
+
+// Injeta CSS custom properties em uma <style> tag no <head>
+const injectThemeStyles = ( customProperties: Record<string, string>, mode: GiroThemeMode) : void => {
+  const styleId = 'giro-theme-vars';
+  let styleTag = document.getElementById(styleId) as HTMLStyleElement | null;
+
+  // Cria style tag se não existir
+  if (!styleTag) {
+    styleTag = document.createElement('style');
+    styleTag.id = styleId;
+    styleTag.setAttribute('data-giro-theme-mode', mode);
+    document.head.appendChild(styleTag);
+  } else {
+    // Atualiza atributo de modo
+    styleTag.setAttribute('data-giro-theme-mode', mode);
+  }
+
+  // Gera CSS no formato :root { --var: value; }
+  const cssVars = Object.entries(customProperties).map(([property, value]) => `  ${property}: ${value};`).join('\n');
+  styleTag.textContent = `:root {\n${cssVars}\n}`;
+}
+
+// Remove a style tag de tema customizado
+const removeThemeStyles = () : void => {
+  const styleTag = document.getElementById('giro-theme-vars');
+  if (styleTag) {
+    styleTag.remove();
+  }
 }
 
 /**
  * Provider de tema do Giro Design System
  * 
- * @example
- * // Usando tema padrão
- * <GiroThemeProvider>
- *   <App />
- * </GiroThemeProvider>
+ * Componente que gerencia o tema da aplicação, incluindo:
+ * - Alternância entre modos light e dark
+ * - Customização de cores via objetos de tema
+ * - Injeção automática de CSS custom properties no `:root`
+ * - Persistência do modo selecionado em localStorage
+ * - Sincronização de atributo `data-theme` no `<html>`
+ * 
+ * @param props - Configurações do provider de tema
+ * @param props.theme - Tema customizado para light mode (opcional). Se não fornecido, usa tokens padrão do `@giro-ds/tokens`
+ * @param props.darkTheme - Tema customizado para dark mode (opcional). Se não fornecido, usa o mesmo tema do light mode
+ * @param props.mode - Modo inicial do tema. Padrão: `'light'`. Será sobrescrito pelo valor do localStorage se `persistMode` estiver ativo
+ * @param props.persistMode - Habilita persistência automática do modo em localStorage. Padrão: `true`
+ * @param props.storageKey - Chave customizada para armazenar o modo no localStorage. Padrão: `'giro-theme-mode'`
+ * @param props.children - Elementos filhos que terão acesso ao contexto de tema
  * 
  * @example
- * // Customizando cores
+ * ```tsx
+ * // Uso básico (sem customização)
+ * import { GiroThemeProvider } from '@giro-ds/react';
+ * 
+ * function App() {
+ *   return (
+ *     <GiroThemeProvider>
+ *       <YourApp />
+ *     </GiroThemeProvider>
+ *   );
+ * }
+ * ```
+ * 
+ * @example
+ * ```tsx
+ * // Com tema customizado
+ * import { GiroThemeProvider } from '@giro-ds/react';
+ * 
  * const customTheme = {
- *   colors: {
- *     brand: {
- *       primary: { default: '#FF5733' }
- *     }
- *   }
+ *   colors: {...}
  * };
  * 
- * <GiroThemeProvider theme={customTheme}>
- *   <App />
- * </GiroThemeProvider>
+ * const customDarkTheme = {
+ *   colors: {...}
+ * };
+ * 
+ * function App() {
+ *   return (
+ *     <GiroThemeProvider 
+ *       theme={customTheme} 
+ *       darkTheme={customDarkTheme}
+ *       mode="dark"
+ *     >
+ *       <YourApp />
+ *     </GiroThemeProvider>
+ *   );
+ * }
+ * ```
  * 
  * @example
- * // Com dark mode inicial
- * <GiroThemeProvider mode="dark">
- *   <App />
+ * ```tsx
+ * // Desabilitando persistência
+ * <GiroThemeProvider persistMode={false}>
+ *   <YourApp />
  * </GiroThemeProvider>
+ * ```
+ * 
+ * @remarks
+ * - As CSS custom properties são injetadas no formato `--color-primary-main`, `--color-background-default`, etc.
+ * - O atributo `data-theme="light"` ou `data-theme="dark"` é adicionado ao `<html>` automaticamente
+ * - Use o hook {@link useGiroTheme} dentro dos componentes filhos para acessar e manipular o tema
+ * 
+ * @see {@link useGiroTheme} para consumir o tema nos componentes
+ * @see {@link GiroThemeProviderProps} para detalhes de todas as props disponíveis
+ * 
+ * @public
  */
 export function GiroThemeProvider({
   theme,
+  darkTheme,
   mode: initialMode = 'light',
   persistMode = true,
   storageKey = 'giro-theme-mode',
   children,
 }: GiroThemeProviderProps) {
   // Recupera modo do localStorage se persistência estiver habilitada
-  const getInitialMode = (): GiroThemeMode => {
+  const getInitialMode = () : GiroThemeMode => {
     if (!persistMode) return initialMode;
-    
     try {
       const stored = localStorage.getItem(storageKey);
       return (stored === 'dark' || stored === 'light') ? stored : initialMode;
@@ -170,7 +161,6 @@ export function GiroThemeProvider({
   // Atualiza modo e persiste se habilitado
   const setMode = useCallback((newMode: GiroThemeMode) => {
     setModeState(newMode);
-    
     if (persistMode) {
       try {
         localStorage.setItem(storageKey, newMode);
@@ -188,20 +178,22 @@ export function GiroThemeProvider({
   // Aplica CSS custom properties quando tema ou modo mudam
   useEffect(() => {
     const root = document.documentElement;
-
-    // Define atributo data-theme para suporte a dark mode via CSS
     root.setAttribute('data-theme', mode);
+    const activeTheme = mode === 'dark' && darkTheme ? darkTheme : theme;
 
-    // Se há tema customizado, aplica as custom properties
-    if (theme) {
-      const customProperties = themeToCustomProperties(theme);
-      Object.entries(customProperties).forEach(([property, value]) => {
-        root.style.setProperty(property, value);
-      });
+    if (activeTheme) {
+      const customProperties = themeToCustomProperties(activeTheme);
+      injectThemeStyles(customProperties, mode);
+    } else {
+      removeThemeStyles();
     }
-
-    // Cleanup não é necessário pois queremos manter as propriedades
-  }, [theme, mode]);
+    
+    // Cleanup quando componente desmonta
+    return () => {
+      removeThemeStyles();
+      root.removeAttribute('data-theme');
+    };
+  }, [theme, darkTheme, mode]);
 
   const contextValue = useMemo(
     () => ({

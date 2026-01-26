@@ -91,9 +91,121 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 
 ---
 
-## 🌓 Dark Mode com Toggle
+## 🌓 Dark Mode com TypeScript
 
-**Cenário:** Aplicação com suporte a dark mode.
+**Cenário:** Aplicação com suporte a dark mode usando temas TypeScript separados.
+
+```tsx
+// src/theme/custom-theme.ts
+import type { GiroTheme } from '@giro-ds/react';
+
+// Tema para light mode
+export const lightTheme: GiroTheme = {
+  colors: {
+    brand: {
+      primary: {
+        default: '#FF5733',  // Laranja vibrante
+        dark: '#CC4522',
+        medium: '#FF8866',
+        light: '#FFB399'
+      },
+      secondary: {
+        default: '#00C853',  // Verde
+        dark: '#009624',
+        medium: '#5FE085',
+        light: '#B9F6CA'
+      }
+    }
+  }
+};
+
+// Tema para dark mode (tons mais escuros, neutral invertido)
+export const darkTheme: GiroTheme = {
+  colors: {
+    brand: {
+      primary: {
+        default: '#CC4522',  // Laranja mais escuro
+        dark: '#992F15',
+        medium: '#FF5733',
+        light: '#FF8866'
+      },
+      secondary: {
+        default: '#00A844',  // Verde mais escuro
+        dark: '#007830',
+        medium: '#00C853',
+        light: '#5FE085'
+      }
+    },
+    neutral: {
+      // Inverte low/high para dark mode
+      low: {
+        default: '#ffffff',  // Branco para texto
+        dark: '#cfd0da',
+        medium: '#88898c',
+        light: '#505255'
+      },
+      high: {
+        default: '#0a0a0a',  // Preto profundo para background
+        dark: '#1a1a1a',
+        medium: '#2a2a2a',
+        light: '#3a3a3a'
+      }
+    }
+  }
+};
+```
+
+```tsx
+// src/main.tsx
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { GiroThemeProvider } from '@giro-ds/react';
+import '@giro-ds/tokens/build/css/tokens.css';
+import { lightTheme, darkTheme } from './theme/custom-theme';
+import App from './App';
+
+ReactDOM.createRoot(document.getElementById('root')!).render(
+  <React.StrictMode>
+    <GiroThemeProvider theme={lightTheme} darkTheme={darkTheme}>
+      <App />
+    </GiroThemeProvider>
+  </React.StrictMode>
+);
+```
+
+```tsx
+// src/components/ThemeToggle.tsx
+import { useGiroTheme } from '@giro-ds/react';
+
+export function ThemeToggle() {
+  const { mode, toggleMode } = useGiroTheme();
+  
+  return (
+    <button
+      onClick={toggleMode}
+      style={{
+        padding: '8px 16px',
+        borderRadius: '4px',
+        border: 'none',
+        cursor: 'pointer',
+        backgroundColor: 'var(--color-brand-primary-default)',
+        color: '#fff',
+      }}
+    >
+      {mode === 'light' ? '🌙 Modo Escuro' : '☀️ Modo Claro'}
+    </button>
+  );
+}
+```
+
+---
+
+## 🌓 Dark Mode com Toggle (CSS Alternativo)
+
+**Cenário:** Aplicação com suporte a dark mode usando CSS para customização.
+
+> **Nota:** Esta abordagem usa CSS para dark mode. Para maior type-safety e consistência, 
+> recomendamos usar a abordagem TypeScript acima com `darkTheme` prop.
 
 ```tsx
 // src/components/ThemeToggle.tsx
@@ -233,9 +345,12 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 
 ---
 
-## 🎨 Customização Completa
+## 🎨 Customização de Cores Completa
 
-**Cenário:** Empresa que customiza cores, tipografia e espaçamento.
+**Cenário:** Empresa que customiza todas as paletas de cores disponíveis.
+
+> **⚠️ Importante:** Apenas cores são customizáveis via `GiroTheme`. 
+> Outros tokens (typography, spacing, border) vêm automaticamente do pacote `@giro-ds/tokens` e não podem ser sobrescritos.
 
 ```tsx
 // src/theme/custom-theme.ts
@@ -270,43 +385,38 @@ export const fullCustomTheme: GiroTheme = {
         medium: '#52be80',
         light: '#a9dfbf'
       }
-    }
-  },
-  typography: {
-    fontFamily: {
-      primary: 'Inter, system-ui, -apple-system, sans-serif'
     },
-    fontSize: {
-      12: '0.75rem',
-      14: '0.875rem',
-      16: '1rem',
-      18: '1.125rem',
-      24: '1.5rem',
-    },
-    fontWeight: {
-      regular: '400',
-      medium: '600',  // Mais pesado que o padrão
-      bold: '800'
-    }
-  },
-  spacing: {
-    4: '0.25rem',
-    8: '0.5rem',
-    16: '1rem',
-    24: '1.5rem',
-    32: '2rem',
-  },
-  border: {
-    borderRadius: {
-      4: '2px',    // Menos arredondado
-      8: '4px',
-      12: '6px',
-      16: '8px',
-      pill: '999px',
-      circular: '50%'
+    neutral: {
+      low: {
+        default: '#0a0a0a',
+        dark: '#1a1a1a',
+        medium: '#505255',
+        light: '#88898c'
+      },
+      high: {
+        default: '#ffffff',
+        dark: '#f5f5f5',
+        medium: '#e0e0e0',
+        light: '#cccccc'
+      }
     }
   }
 };
+```
+
+```tsx
+// src/main.tsx
+import { GiroThemeProvider } from '@giro-ds/react';
+import { fullCustomTheme } from './theme/custom-theme';
+import App from './App';
+
+function Root() {
+  return (
+    <GiroThemeProvider theme={fullCustomTheme}>
+      <App />
+    </GiroThemeProvider>
+  );
+}
 ```
 
 ---
@@ -369,8 +479,11 @@ export function ThemePlayground() {
 
 ## 💡 Dicas
 
-1. **TypeScript:** Use `GiroTheme` type para autocomplete
+1. **TypeScript:** Use `GiroTheme` type para autocomplete das cores disponíveis
 2. **Organização:** Crie arquivos separados para temas (`theme/`)
-3. **Validação:** TypeScript valida tokens disponíveis
+3. **Validação:** TypeScript valida automaticamente a estrutura de cores
 4. **CSS Base:** Sempre importe `tokens.css` antes de customizar
 5. **Performance:** Tema é aplicado uma vez no mount, sem overhead
+6. **⚠️ Limitação:** Apenas cores são customizáveis. Typography, spacing e border vêm do `@giro-ds/tokens`
+7. **CSS Variables:** Use `--color-brand-primary-default` nos seus componentes customizados
+8. **Dark Mode:** Forneça `darkTheme` separado para ter cores diferentes em modo escuro
