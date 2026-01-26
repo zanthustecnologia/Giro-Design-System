@@ -93,11 +93,16 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
       );
     }
     if (iconOnly && !icon && !loading) {
+      if (process.env.NODE_ENV === 'development') {
+        console.warn(
+          'Button: iconOnly={true} foi definido mas nenhum icon foi fornecido. '
+        );
+      }
       return (
         <span className={styles['button-icon-only']} aria-hidden="true">
           {icon}
         </span>
-      );
+      );  
     }
     if (loading) {
       return (
