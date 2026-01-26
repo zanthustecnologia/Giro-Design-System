@@ -53,13 +53,12 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
     styles[`button-${variant}`],
     styles[`button-${size}`],
     {
-      [styles['button-loading']]: loading,
-      [styles['button-with-icon']]: icon && !iconOnly,
-      [styles[`button-icon-position-${iconPosition}`]]: icon && !iconOnly && iconPosition !== 'none',
-      [styles['button-no-content']]: icon && !hasContent && !iconOnly,
-      [styles['button-full-width']]: fullWidth,
-      [styles['button-icon-only']]: iconOnly,
-      [styles['button-disabled']]: disabled,
+      [styles['buttonLoading']]: loading,
+      [styles['buttonWithIcon']]: icon && !iconOnly,
+      [styles[`buttonIconPosition-${iconPosition}`]]: icon && !iconOnly && iconPosition !== 'none',
+      [styles['buttonNoContent']]: icon && !hasContent && !iconOnly,
+      [styles['buttonFullWidth']]: fullWidth,
+      [styles['buttonIconOnly']]: iconOnly,
     },
     className
   );
@@ -87,7 +86,7 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
   const renderContent = () => {
     if (iconOnly && icon && !loading) {
       return (
-        <span className={styles['button-icon-only']} aria-hidden="true">
+        <span className={styles['buttonIconOnly']} aria-hidden="true">
           {icon}
         </span>
       );
@@ -99,14 +98,14 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
         );
       }
       return (
-        <span className={styles['button-icon-only']} aria-hidden="true">
+        <span className={styles['buttonIconOnly']} aria-hidden="true">
           {icon}
         </span>
       );  
     }
     if (loading) {
       return (
-        <span className={styles['button-loading']} aria-hidden="true">
+        <span className={styles['buttonLoading']} aria-hidden="true">
           <SpinnerIos16Regular aria-hidden="true" />
         </span>
       );
@@ -114,13 +113,13 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
     return (
       <>
         {icon && iconPosition === 'left' && (
-          <span className={styles['button-icon-left']} aria-hidden="true">
+          <span className={styles['buttonIconLeft']} aria-hidden="true">
             {icon}
           </span>
         )}
         {children}
         {icon && iconPosition === 'right' && (
-          <span className={styles['button-icon-right']} aria-hidden="true">
+          <span className={styles['buttonIconRight']} aria-hidden="true">
             {icon}
           </span>
         )}

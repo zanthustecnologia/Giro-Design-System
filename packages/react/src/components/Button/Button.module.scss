@@ -1,21 +1,21 @@
 // Mixins
-@mixin button-size($height, $padding-x, $min-width) {
+@mixin buttonSize($height, $padding-x, $min-width) {
   height: $height;
   padding: var(--spacing-0) $padding-x;
   min-width: $min-width;
 }
 
-@mixin button-icon-padding($left-padding, $right-padding) {
-  &.button-icon-position-left {
+@mixin buttonIconPadding($left-padding, $right-padding) {
+  &.buttonIconPosition-left {
     padding: var(--spacing-0) $right-padding var(--spacing-0) $left-padding;
   }
   
-  &.button-icon-position-right {
+  &.buttonIconPosition-right {
     padding: var(--spacing-0) $left-padding var(--spacing-0) $right-padding;
   }
 }
 
-@mixin icon-only-size($size) {
+@mixin iconOnlySize($size) {
   padding: var(--spacing-0);
   width: $size;
   height: $size;
@@ -26,7 +26,7 @@
   flex-shrink: 0;
 }
 
-@mixin icon-size($size: 16px) {
+@mixin iconSize($size: 16px) {
   svg {
     width: $size;
     height: $size;
@@ -57,11 +57,11 @@
 }
 
 .button.button-lg {
-  @include button-size(44px, var(--spacing-24), 92px);
+  @include buttonSize(44px, var(--spacing-24), 92px);
 }
 
 .button.button-sm {
-  @include button-size(36px, var(--spacing-16), 76px);
+  @include buttonSize(36px, var(--spacing-16), 76px);
 }
 
 .button.button-filled {
@@ -83,21 +83,21 @@
   color: var(--color-brand-primary-default);
 }
 
-.button.button-lg.button-with-icon {
-  @include button-icon-padding(var(--spacing-16), var(--spacing-24));
+.button.button-lg.buttonWithIcon {
+  @include buttonIconPadding(var(--spacing-16), var(--spacing-24));
 }
 
-.button.button-sm.button-with-icon {
-  @include button-icon-padding(var(--spacing-8), var(--spacing-16));
+.button.button-sm.buttonWithIcon {
+  @include buttonIconPadding(var(--spacing-8), var(--spacing-16));
 }
 
 .button.button-text.button-lg {
   padding: var(--spacing-0) var(--spacing-12);
   
-  &.button-with-icon {
-    @include button-icon-padding(var(--spacing-8), var(--spacing-12));
+  &.buttonWithIcon {
+    @include buttonIconPadding(var(--spacing-8), var(--spacing-12));
     
-    &.button-no-content {
+    &.buttonNoContent {
       padding: var(--spacing-0) var(--spacing-16);
     }
   }
@@ -106,38 +106,32 @@
 .button.button-text.button-sm {
   padding: var(--spacing-0) var(--spacing-8);
   
-  &.button-with-icon {
-    &.button-icon-position-left {
-      padding: var(--spacing-0) var(--spacing-4) var(--spacing-0) var(--spacing-8);
-    }
+  &.buttonWithIcon {
+    @include buttonIconPadding(var(--spacing-4), var(--spacing-8));
     
-    &.button-icon-position-right {
-      padding: var(--spacing-0) var(--spacing-8) var(--spacing-0) var(--spacing-4);
-    }
-    
-    &.button-no-content {
+    &.buttonNoContent {
       padding: var(--spacing-0) var(--spacing-8);
     }
   }
 }
 
-.button.button-lg.button-icon-only {
-  @include icon-only-size(44px);
+.button.button-lg.buttonIconOnly {
+  @include iconOnlySize(44px);
 }
 
-.button.button-sm.button-icon-only {
-  @include icon-only-size(36px);
+.button.button-sm.buttonIconOnly {
+  @include iconOnlySize(36px);
 }
 
-.button-icon-only span {
+.buttonIconOnly span {
   width: 16px;
   height: 16px;
 }
 
-.button-icon-left,
-.button-icon-right,
-.button-icon-only {
-  @include icon-size(16px);
+.buttonIconLeft,
+.buttonIconRight,
+.buttonIconOnly {
+  @include iconSize(16px);
 }
 
 .button svg {
@@ -146,34 +140,34 @@
   flex-shrink: 0;
 }
 
-.button.button-filled.button-lg.button-icon-only,
-.button.button-outlined.button-lg.button-icon-only,
-.button.button-text.button-lg.button-icon-only {
-  @include icon-only-size(44px);
+.button.button-filled.button-lg.buttonIconOnly,
+.button.button-outlined.button-lg.buttonIconOnly,
+.button.button-text.button-lg.buttonIconOnly {
+  @include iconOnlySize(44px);
 }
 
-.button.button-filled.button-sm.button-icon-only,
-.button.button-outlined.button-sm.button-icon-only,
-.button.button-text.button-sm.button-icon-only {
-  @include icon-only-size(36px);
+.button.button-filled.button-sm.buttonIconOnly,
+.button.button-outlined.button-sm.buttonIconOnly,
+.button.button-text.button-sm.buttonIconOnly {
+  @include iconOnlySize(36px);
 }
-.button.button-full-width {
+.button.buttonFullWidth {
   width: 100% !important;
   max-width: unset !important;
 }
 
-.button-icon-left {
+.buttonIconLeft {
   display: flex;
   margin-right: var(--spacing-8);
 }
 
-.button-icon-right {
+.buttonIconRight {
   display: flex;
   margin-left: var(--spacing-8);
 }
 
-.button.button-no-content .button-icon-left,
-.button.button-no-content .button-icon-right {
+.button.buttonNoContent .buttonIconLeft,
+.button.buttonNoContent .buttonIconRight {
   margin: var(--spacing-0);
 }
 
@@ -294,43 +288,43 @@
   to { transform: rotate(360deg); }
 }
 
-.button-loading {
+.buttonLoading {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.button.button-lg.button-loading {
-  @include button-size(44px, var(--spacing-24), 92px);
+.button.button-lg.buttonLoading {
+  @include buttonSize(44px, var(--spacing-24), 92px);
   
-  &.button-with-icon {
-    &.button-icon-position-left,
-    &.button-icon-position-right,
-    &.button-no-content {
+  &.buttonWithIcon {
+    &.buttonIconPosition-left,
+    &.buttonIconPosition-right,
+    &.buttonNoContent {
       padding: var(--spacing-0) var(--spacing-24);
     }
   }
 }
 
-.button.button-sm.button-loading {
-  @include button-size(36px, var(--spacing-16), 76px);
+.button.button-sm.buttonLoading {
+  @include buttonSize(36px, var(--spacing-16), 76px);
   
-  &.button-with-icon {
-    &.button-icon-position-left,
-    &.button-icon-position-right,
-    &.button-no-content {
+  &.buttonWithIcon {
+    &.buttonIconPosition-left,
+    &.buttonIconPosition-right,
+    &.buttonNoContent {
       padding: var(--spacing-0) var(--spacing-16);
     }
   }
 }
 
-.button-loading span {
+.buttonLoading span {
   width: 16px;
   height: 16px;
 }
 
-.button-loading {
-  @include icon-size(16px);
+.buttonLoading {
+  @include iconSize(16px);
   
   svg {
     animation: spin 1s linear infinite;
