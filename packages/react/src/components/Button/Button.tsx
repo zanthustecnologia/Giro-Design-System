@@ -66,9 +66,6 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
   const getAriaLabel = () => {
     if (ariaLabel) return ariaLabel;
     if (iconOnly && !ariaLabel) {
-      if (process.env.NODE_ENV === 'development') {
-        console.warn('Button: Icon-only buttons should have an ariaLabel for accessibility');
-      }
       return 'Botão de ação';
     }
     if (typeof children === 'string') return children;
@@ -84,24 +81,12 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
   };
 
   const renderContent = () => {
-    if (iconOnly && icon && !loading) {
+    if (iconOnly && !loading) {
       return (
         <span className={styles['buttonIconOnly']} aria-hidden="true">
           {icon}
         </span>
       );
-    }
-    if (iconOnly && !icon && !loading) {
-      if (process.env.NODE_ENV === 'development') {
-        console.warn(
-          'Button: iconOnly={true} foi definido mas nenhum icon foi fornecido. '
-        );
-      }
-      return (
-        <span className={styles['buttonIconOnly']} aria-hidden="true">
-          {icon}
-        </span>
-      );  
     }
     if (loading) {
       return (
