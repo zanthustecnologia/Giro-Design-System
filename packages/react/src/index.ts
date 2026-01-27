@@ -7,9 +7,6 @@ export { useGiroTheme } from './hooks/useGiroTheme';
 export type {
   GiroTheme,
   GiroThemeColors,
-  GiroThemeSpacing,
-  GiroThemeTypography,
-  GiroThemeBorder,
   GiroThemeMode,
   GiroThemeContextValue,
 } from './types/theme.types';
