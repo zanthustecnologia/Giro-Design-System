@@ -34,7 +34,7 @@ export default {
     },
     iconPosition: {
       control: { type: 'select' },
-      options: ['none', 'left', 'right'],
+      options: ['none', 'left', 'right', 'both'],
     },
     iconOnly: {
       control: { type: 'boolean' },

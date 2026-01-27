@@ -13,6 +13,9 @@
   &.buttonIconPosition-right {
     padding: var(--spacing-0) $left-padding var(--spacing-0) $right-padding;
   }
+  &.buttonIconPosition-both {
+    padding: var(--spacing-0) $left-padding ;
+  }
 }
 
 @mixin iconOnlySize($size) {
@@ -300,6 +303,7 @@
   &.buttonWithIcon {
     &.buttonIconPosition-left,
     &.buttonIconPosition-right,
+    &.buttonIconPosition-both,
     &.buttonNoContent {
       padding: var(--spacing-0) var(--spacing-24);
     }
@@ -312,6 +316,7 @@
   &.buttonWithIcon {
     &.buttonIconPosition-left,
     &.buttonIconPosition-right,
+    &.buttonIconPosition-both,
     &.buttonNoContent {
       padding: var(--spacing-0) var(--spacing-16);
     }

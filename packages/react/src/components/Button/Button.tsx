@@ -112,13 +112,13 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
     }
     return (
       <>
-        {icon && iconPosition === 'left' && (
+        {icon && (iconPosition === 'left' || iconPosition === 'both') && (
           <span className={styles['buttonIconLeft']} aria-hidden="true">
             {icon}
           </span>
         )}
         {children}
-        {icon && iconPosition === 'right' && (
+        {icon && (iconPosition === 'right' || iconPosition === 'both') && (
           <span className={styles['buttonIconRight']} aria-hidden="true">
             {icon}
           </span>
