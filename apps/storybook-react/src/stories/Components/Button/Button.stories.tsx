@@ -27,14 +27,14 @@ export default {
     },
     icon: {
       control: { type: 'select' },
-      options: ['none', 'add'],
+      options: ['', 'add'],
       mapping: {
         add: <Add16Regular />,
       },
     },
     iconPosition: {
       control: { type: 'select' },
-      options: ['none', 'left', 'right', 'both'],
+      options: ['left', 'right', 'both'],
     },
     iconOnly: {
       control: { type: 'boolean' },
@@ -70,14 +70,9 @@ export default {
   },
 } as Meta<ButtonProps>;
 
-const Template: StoryFn<ButtonProps> = ({ icon, ...args }) => {
-  const { iconPosition } = args;
-
+const Template: StoryFn<ButtonProps> = (args) => {
   return (
-    <Button
-      {...args}
-      icon={iconPosition === 'none' ? undefined : icon}
-    >
+    <Button {...args}>
       {args.children}
     </Button>
   );

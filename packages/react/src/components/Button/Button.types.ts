@@ -5,7 +5,7 @@ export interface ButtonProps {
   children?: React.ReactNode; //É usado em varios componentes diferentes
   variant?: 'filled' | 'outlined' | 'text';
   iconOnly?: boolean; 
-  iconPosition?: 'none' | 'left' | 'right' | 'both';
+  iconPosition?: 'left' | 'right' | 'both';
   href?: string;
   to?: string;
   external?: boolean;
