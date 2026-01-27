@@ -1,8 +1,8 @@
 import React from 'react';
 
-export interface ButtonProps {
+export interface ButtonProps extends React.HTMLAttributes<HTMLElement> {
   as?: React.ElementType;
-  children?: React.ReactNode; //É usado em varios componentes diferentes
+  children?: React.ReactNode;
   variant?: 'filled' | 'outlined' | 'text';
   iconOnly?: boolean; 
   iconPosition?: 'left' | 'right' | 'both';
@@ -22,5 +22,4 @@ export interface ButtonProps {
   fullWidth?: boolean;
   ariaLabel?: string; 
   loading?: boolean;
-  [key: string]: any;
 }
