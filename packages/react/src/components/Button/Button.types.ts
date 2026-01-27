@@ -13,14 +13,14 @@ export interface ButtonProps {
   rel?: string;
   routerProps?: Record<string, any>;
   type?: 'button' | 'submit' | 'reset';
-  disabled?: boolean; //É usado em varios componentes diferentes
+  disabled?: boolean; 
   onClick?: (event: React.MouseEvent<HTMLElement>) => void;
-  size?: 'lg' | 'sm'; //É usado em varios componentes diferentes
+  size?: 'lg' | 'sm'; 
   className?: string;
   id?: string;
-  icon?: React.ReactNode; //É usado em varios componentes diferentes
+  icon?: React.ReactNode; 
   fullWidth?: boolean;
-  ariaLabel?: string; //É usado em varios componentes diferentes
+  ariaLabel?: string; 
   loading?: boolean;
   [key: string]: any;
 }
