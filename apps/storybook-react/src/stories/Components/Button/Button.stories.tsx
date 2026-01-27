@@ -132,6 +132,9 @@ const TemplateWithIcons: StoryFn<ButtonProps> = (args) => (
     <Button {...args} icon={<Add16Regular />} iconPosition="left">
       Button
     </Button>
+    <Button {...args} icon={<Add16Regular />} iconPosition="both">
+      Button
+    </Button>
   </div>
 );
 
