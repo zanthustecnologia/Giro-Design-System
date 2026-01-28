@@ -102,7 +102,7 @@ const Table: React.FC<TableProps> = ({
       key: '__checkbox__',
       label: (
           <Checkbox
-            checked={isAllSelected}
+            checked={isAllSelected || isIndeterminate}
             indeterminate={isIndeterminate}
             onCheckedChange={toggleAll}
             disabled={rowSelection.disableSelectAll}
