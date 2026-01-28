@@ -8,14 +8,13 @@ const meta: Meta<SelectRadixProps> = {
   title: 'Components/SelectRadix',
   component: SelectRadix,
   parameters: {
-    layout: 'centered',
     docs: {
       description: {
         component:
           'Componente Select usando Radix UI com estilização customizada e melhor organização de código.',
       },
     },
-    layout: 'centered',
+    // layout: 'centered',
   },
   argTypes: {
     items: {
@@ -69,6 +68,67 @@ const mockItems = [
     id: '1',
     value: 'item1',
     text: 'List item',
+  },
+  {
+    id: '2',
+    value: 'item2',
+    text: 'List-item 2'
+  },
+  {
+    id: '3',
+    value: 'item3',
+    text: 'List-item 3'
+  },
+  {
+    id: '4',
+    value: 'item4',
+    text: 'List-item 4',
+  },
+  {
+    id: '5',
+    value: 'item5',
+    text: 'List-item 5',
+  },
+];
+
+const mockItemsWithIcon = [
+  {
+    id: '1',
+    value: 'item1',
+    text: 'List item',
+    icon: <Channel16Regular />,
+  },
+  {
+    id: '2',
+    value: 'item2',
+    text: 'List-item 2',
+    icon: <Channel16Regular />,
+  },
+  {
+    id: '3',
+    value: 'item3',
+    text: 'List-item 3',
+    icon: <Channel16Regular />,
+  },
+  {
+    id: '4',
+    value: 'item4',
+    text: 'List-item 4',
+    icon: <Channel16Regular />,
+  },
+  {
+    id: '5',
+    value: 'item5',
+    text: 'List-item 5',
+    icon: <Channel16Regular />,
+  },
+];
+
+const mockItemsWithAllOptions = [
+  {
+    id: '1',
+    value: 'item1',
+    text: 'List item',
     subTitle: 'Sub item 1',
     icon: <Channel16Regular />,
   },
@@ -103,7 +163,17 @@ export const Default: StoryFn<SelectRadixProps> = (args) => (
   <div style={{ maxWidth: 300 }}>
     <SelectRadix 
       {...args} 
-      onValueChange={(value) => console.log('Selected:', value)} 
+      onValueChange={(value) => console.log('Selected:', value)}
+    />
+  </div>
+);
+
+export const WithAllOptions: StoryFn<SelectRadixProps> = (args) => (
+  <div style={{ maxWidth: 300 }}>
+    <SelectRadix 
+      {...args} 
+      onValueChange={(value) => console.log('Selected:', value)}
+      items={mockItemsWithAllOptions}  
     />
   </div>
 );
@@ -136,6 +206,7 @@ export const WithIcon: StoryFn<SelectRadixProps> = (args) => (
     <SelectRadix 
       {...args} 
       onValueChange={(value) => console.log('Selected:', value)} 
+      items={mockItemsWithIcon} 
     />
   </div>
 );
@@ -150,7 +221,7 @@ export const Checkbox: StoryFn<SelectRadixProps> = (args) => (
   <div style={{ maxWidth: 300 }}>
     <SelectRadix 
       {...args} 
-      onValueChange={(value) => console.log('Selected:', value)} 
+      onValueChange={(value) => console.log('Selected:', value)}
     />
   </div>
 );

@@ -18,10 +18,10 @@ $select-icon-size: 16px;
   align-items: center;
   justify-content: space-between;
   flex: 1 1 auto;
-  min-width: 0;
+  min-width: var(--spacing-0);
   width: 100%;
   height: $select-trigger-height;
-  padding: 0 var(--spacing-16);
+  padding: var(--spacing-0) var(--spacing-16);
   border-radius: var(--border-radius-8);
   border: var(--border-width-1) solid var(--color-neutral-high-dark);
   background-color: var(--color-neutral-high-default);
@@ -165,7 +165,7 @@ $select-icon-size: 16px;
   overflow: visible;
 }
 .searchWrapper {
-  margin-bottom: var(--spacing-8);
+  margin-bottom: var(--spacing-16);
 }
 .item {
   height: $select-trigger-height;
@@ -176,6 +176,7 @@ $select-icon-size: 16px;
   align-items: flex-start;
   flex-direction: column;
   justify-content: center;
+  margin: var(--spacing-16) var(--spacing-12);
   gap: var(--spacing-4);
   font-family: var(--font-family-primary);
   box-sizing: border-box;
@@ -229,9 +230,8 @@ $select-icon-size: 16px;
   align-items: center;
   border-radius: var(--border-radius-8);
   height: $select-trigger-height;
-  padding: 0 var(--spacing-16);
+  padding: var(--spacing-0) var(--spacing-16);
   margin-bottom: var(--spacing-16);
-  gap: var(--spacing-8);
   cursor: pointer;
   &:hover:not([data-disabled]) {
     background-color: var(--color-neutral-high-medium);
