@@ -83,14 +83,14 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
   const renderContent = () => {
     if (iconOnly && !loading) {
       return (
-        <span className={styles['buttonIconOnly']} aria-hidden="true">
+        <span className={styles.buttonIconOnly} aria-hidden="true">
           {icon}
         </span>
       );
     }
     if (loading) {
       return (
-        <span className={styles['buttonLoading']} aria-hidden="true">
+        <span className={styles.buttonLoading} aria-hidden="true">
           <SpinnerIos16Regular aria-hidden="true" />
         </span>
       );
@@ -98,13 +98,13 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
     return (
       <>
         {icon && (iconPosition === 'left' || iconPosition === 'both') && (
-          <span className={styles['buttonIconLeft']} aria-hidden="true">
+          <span className={styles.buttonIconLeft} aria-hidden="true">
             {icon}
           </span>
         )}
         {children}
         {icon && (iconPosition === 'right' || iconPosition === 'both') && (
-          <span className={styles['buttonIconRight']} aria-hidden="true">
+          <span className={styles.buttonIconRight} aria-hidden="true">
             {icon}
           </span>
         )}
