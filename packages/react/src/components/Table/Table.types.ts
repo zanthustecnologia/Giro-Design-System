@@ -24,6 +24,7 @@ export interface TableProps {
     selectedRowKeys?: (string | number)[];
     onChange?: (keys: (string | number)[], rows: TableRowData[]) => void;
     getCheckboxProps?: (row: TableRowData, index: number) => { disabled?: boolean };
+    disableSelectAll?: boolean;
   };
   locale?: {
     emptyText?: ReactNode;

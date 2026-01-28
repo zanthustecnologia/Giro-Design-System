@@ -101,23 +101,22 @@ const Table: React.FC<TableProps> = ({
     const checkboxColumn: TableColumn = {
       key: '__checkbox__',
       label: (
-        <Checkbox
-          checked={isAllSelected}
-          indeterminate={isIndeterminate}
-          onCheckedChange={toggleAll}
-          label=''
+          <Checkbox
+            checked={isAllSelected}
+            indeterminate={isIndeterminate}
+            onCheckedChange={toggleAll}
+            disabled={rowSelection.disableSelectAll}
           />
         ),
         render: (_, index) => {
           const props = rowSelection.getCheckboxProps?.(dataSource[index], index) || {};
           return (
             <Checkbox
-            checked={selectedSet.has(index)}
-            onCheckedChange={() => toggleRow(index)}
-            disabled={props.disabled}
-            label=''
-          />
-        );
+              checked={selectedSet.has(index)}
+              onCheckedChange={() => toggleRow(index)}
+              disabled={props.disabled}
+            />
+          );
       },
       align: 'center',
     };
