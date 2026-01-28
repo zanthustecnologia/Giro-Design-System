@@ -129,8 +129,11 @@ const mockItemsWithAllOptions = [
     id: '1',
     value: 'item1',
     text: 'List item',
-    subTitle: 'Sub item 1',
     icon: <Channel16Regular />,
+    children: [
+      { value: 'maca', text: 'Maçã' },
+      { value: 'banana', text: 'Banana' }
+    ]
   },
   {
     id: '2',

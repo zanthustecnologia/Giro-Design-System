@@ -18,10 +18,10 @@ $select-icon-size: 16px;
   align-items: center;
   justify-content: space-between;
   flex: 1 1 auto;
-  min-width: var(--spacing-0);
+  min-width: $select-content-min-width;
   width: 100%;
   height: $select-trigger-height;
-  padding: var(--spacing-0) var(--spacing-16);
+  padding: var(--spacing-16);
   border-radius: var(--border-radius-8);
   border: var(--border-width-1) solid var(--color-neutral-high-dark);
   background-color: var(--color-neutral-high-default);
@@ -233,7 +233,7 @@ $select-icon-size: 16px;
   padding: var(--spacing-0) var(--spacing-16);
   margin-bottom: var(--spacing-16);
   cursor: pointer;
-  &:hover:not([data-disabled]) {
+  &:hover:not([data-disabled]):not([data-selected='true']) {
     background-color: var(--color-neutral-high-medium);
   }
   &.disabled {
@@ -242,7 +242,15 @@ $select-icon-size: 16px;
     .subTitle {
       color: var(--color-neutral-low-light);
     }
-    
+  }
+  &[data-selected='true'],
+  &.selected {
+    .title {
+      color: var(--color-brand-primary-default);
+    }
+    .subTitle {
+      color: var(--color-brand-primary-default);
+    }
   }
 }
 .title {
@@ -344,4 +352,24 @@ $select-icon-size: 16px;
   color: var(--color-neutral-low-medium);
   font-size: var(--font-size-14);
   text-align: center;
+}
+
+.expandableItemContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.chevron {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  padding-left: var(--spacing-8);
+  flex-shrink: 0;
+  color: var(--color-neutral-low-default);
+}
+
+.childrenWrapper {
+  display: flex;
+  flex-direction: column;
+  
 }

@@ -8,6 +8,7 @@ export interface SelectItemProps {
   disabled?: boolean;
   value: string;
   selected?: boolean;
+  children?: SelectItemProps[];
 }
 
 export interface CheckboxItemProps extends SelectItemProps {

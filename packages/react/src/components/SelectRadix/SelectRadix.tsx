@@ -7,6 +7,7 @@ import { SelectRadixProps } from './SelectRadix.types';
 import { useSelectLogic } from './hooks/useSelectLogic';
 import CheckboxSelectItem from './components/CheckboxSelectItem';
 import SelectItem from './components/SelectItem';
+import ExpandableSelectItem from './components/ExpandableSelectItem';
 import Search from '../Search/Search';
 import LabelComponent from '../../shared/Label';
 
@@ -237,8 +238,29 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
                   </div>
                 ) : (
                   <>
-                    {filteredItems.map((item) => (
-                      variant === 'checkbox' ? (
+                    {filteredItems.map((item) => {
+                      const hasChildren = item.children && item.children.length > 0;
+                      
+                      if (hasChildren) {
+                        return (
+                          <ExpandableSelectItem
+                            key={item.id || item.value}
+                            item={item}
+                            variant={variant}
+                            selectedValues={state.selectedValues}
+                            onSelect={(value) => {
+                              if (variant === 'checkbox') {
+                                const isSelected = state.selectedValues.includes(value);
+                                actions.handleMultipleSelect(value, !isSelected);
+                              } else {
+                                actions.handleSingleSelect(value);
+                              }
+                            }}
+                          />
+                        );
+                      }
+                      
+                      return variant === 'checkbox' ? (
                         <CheckboxSelectItem
                           key={item.id || item.value}
                           {...item}
@@ -253,8 +275,8 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
                           {...item}
                           variant={variant}
                         />
-                      )
-                    ))}
+                      );
+                    })}
                     {enableInfiniteScroll && isLoadingMore && (
                       <div className={styles.loadingMore}>
                         Carregando mais itens...
