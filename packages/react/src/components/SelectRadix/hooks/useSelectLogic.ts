@@ -33,9 +33,10 @@ function selectReducer(state: SelectState, action: SelectAction): SelectState {
       return { ...state, hasError: action.payload };
     case 'RESET_SEARCH':
       return { ...state, searchInput: '', searchTerm: '' };
-    case 'VALIDATE':
+    case 'VALIDATE': {
       const hasError = action.payload.required && state.selectedValues.length === 0;
       return { ...state, hasError, touched: true };
+    }
     default:
       return state;
   }
