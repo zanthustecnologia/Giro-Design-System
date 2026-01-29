@@ -123,6 +123,85 @@ const mockItemsWithIcon = [
   },
 ];
 
+const mockItemsWithChildren = [
+  {
+    id: '1',
+    value: 'item1',
+    text: 'List item',
+    children: [
+      {
+        id: '1',
+        value: 'item1',
+        text: 'List item',
+      },
+      {
+        id: '2',
+        value: 'item2',
+        text: 'List-item 2'
+      },
+      {
+        id: '3',
+        value: 'item3',
+        text: 'List-item 3'
+      }
+    ],
+  },
+  {
+    id: '2',
+    value: 'item2',
+    text: 'List-item 2',
+    children: [
+      {
+        id: '1',
+        value: 'item1',
+        text: 'List item',
+      },
+      {
+        id: '2',
+        value: 'item2',
+        text: 'List-item 2'
+      },
+      {
+        id: '3',
+        value: 'item3',
+        text: 'List-item 3'
+      }
+    ],
+  },
+  {
+    id: '3',
+    value: 'item3',
+    text: 'List-item 3',
+    children: [
+      {
+        id: '1',
+        value: 'item1',
+        text: 'List item',
+      },
+      {
+        id: '2',
+        value: 'item2',
+        text: 'List-item 2'
+      },
+      {
+        id: '3',
+        value: 'item3',
+        text: 'List-item 3'
+      }
+    ],
+  },
+  {
+    id: '4',
+    value: 'item4',
+    text: 'List-item 4',
+  },
+  {
+    id: '5',
+    value: 'item5',
+    text: 'List-item 5',
+  },
+];
+
 export const Default: StoryFn<SelectProps> = (args) => (
   <div style={{ maxWidth: 300 }}>
     <Select 
@@ -218,6 +297,16 @@ Disabled.args = {
   label: 'Campo desabilitado',
   value: 'item1',
 };
+
+export const Children: StoryFn<SelectProps> = (args) => (
+  <div style={{ maxWidth: 300 }}>
+    <Select 
+      {...args} 
+      onValueChange={(value) => console.log('Selected:', value)} 
+      items={mockItemsWithChildren}
+    />
+  </div>
+);
 
 export const Position: StoryFn<SelectProps> = (args) => (
   <div style={{ 
