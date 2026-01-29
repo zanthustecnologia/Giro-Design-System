@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
-import clsx from 'clsx';
 import { ChevronRight16Regular, ChevronDown16Regular } from '@fluentui/react-icons';
+import clsx from 'clsx';
+import React, { useState } from 'react';
+
+import styles from '../index.module.scss';
 
 import type { SelectItemProps, SelectVariant } from '../SelectRadix.types';
 
-import styles from '../index.module.scss';
 
 interface ExpandableSelectItemProps {
   item: SelectItemProps;

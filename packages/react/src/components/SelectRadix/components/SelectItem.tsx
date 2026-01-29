@@ -1,8 +1,9 @@
-import React from 'react';
-import { Select } from 'radix-ui';
 import clsx from 'clsx';
-import { SelectItemProps, SelectVariant } from '../SelectRadix.types';
+import { Select } from 'radix-ui';
+import React from 'react';
+
 import styles from '../index.module.scss';
+import { SelectItemProps, SelectVariant } from '../SelectRadix.types';
 
 interface SelectItemComponentProps extends SelectItemProps {
   variant?: SelectVariant;

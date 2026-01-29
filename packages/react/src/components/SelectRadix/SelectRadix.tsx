@@ -1,17 +1,16 @@
-import React, { useMemo, useId, useRef, useEffect } from 'react';
-import { Select } from 'radix-ui';
-import clsx from 'clsx';
 import { ChevronUp16Regular, ChevronDown16Regular } from '@fluentui/react-icons';
+import clsx from 'clsx';
+import { Select } from 'radix-ui';
+import React, { useMemo, useId, useRef, useEffect } from 'react';
 
-import { SelectRadixProps } from './SelectRadix.types';
-import { useSelectLogic } from './hooks/useSelectLogic';
 import CheckboxSelectItem from './components/CheckboxSelectItem';
-import SelectItem from './components/SelectItem';
 import ExpandableSelectItem from './components/ExpandableSelectItem';
-import Search from '../Search/Search';
-import LabelComponent from '../../shared/Label';
-
+import SelectItem from './components/SelectItem';
+import { useSelectLogic } from './hooks/useSelectLogic';
 import styles from './index.module.scss';
+import { SelectRadixProps } from './SelectRadix.types';
+import LabelComponent from '../../shared/Label';
+import Search from '../Search/Search';
 
 const SelectRadix: React.FC<SelectRadixProps> = ({
   items,
