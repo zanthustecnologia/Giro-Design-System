@@ -35,7 +35,8 @@ $select-icon-size: 16px;
   cursor: pointer;
   outline: none;
   position: relative;
-  &:hover:not(.disabled) {
+  &:hover:not(.disabled),
+  &[data-highlighted]:not(.disabled) {
     border: var(--border-width-1) solid var(--color-neutral-low-dark);
     outline: none;
   }
@@ -50,7 +51,8 @@ $select-icon-size: 16px;
   &.error {
     border: var(--border-width-1) solid var(--color-feedback-alert-default);
     &:hover,
-    &:focus {
+    &:focus,
+    &[data-highlighted] {
       border: var(--border-width-2) solid var(--color-feedback-alert-default);
       outline: none;
     }
@@ -66,7 +68,8 @@ $select-icon-size: 16px;
     cursor: not-allowed;
     opacity: 0.6;
     &:hover,
-    &:focus-visible {
+    &:focus-visible,
+    &[data-highlighted] {
       border: var(--border-width-1) solid var(--color-neutral-high-dark);
       outline: none;
     }
@@ -171,8 +174,8 @@ $select-icon-size: 16px;
   height: $select-trigger-height;
   color: var(--color-neutral-low-default);
   font-size: var(--font-size-16);
-  border-radius: var(--border-radius-8);
   display: flex;
+  outline: none;
   align-items: flex-start;
   flex-direction: column;
   justify-content: center;
@@ -183,18 +186,12 @@ $select-icon-size: 16px;
   width: 100%;
   overflow: hidden;
   cursor: pointer;
-  &:hover:not([data-disabled]):not([data-selected='true']) {
-    background-color: var(--color-neutral-high-medium);
-  }
   &.disabled {
     color: var(--color-neutral-low-light);
     cursor: not-allowed;
     .subTitle {
       color: var(--color-neutral-low-light);
     }
-  }
-  &[data-highlighted] {
-    outline: none;
   }
   &[data-state='checked'] {
     color: var(--color-brand-primary-default);
@@ -220,6 +217,9 @@ $select-icon-size: 16px;
   &:hover:not(.disabled) {
     background-color: var(--color-neutral-high-medium);
   }
+  &[data-highlighted]:not(.disabled) {
+    background-color: var(--color-neutral-high-medium);
+  }
   .checkboxContent {
     width: 100%;
   }
@@ -234,6 +234,9 @@ $select-icon-size: 16px;
   margin-bottom: var(--spacing-16);
   cursor: pointer;
   &:hover:not([data-disabled]):not([data-selected='true']) {
+    background-color: var(--color-neutral-high-medium);
+  }
+  &:has([data-highlighted]):not([data-disabled]):not([data-selected='true']) {
     background-color: var(--color-neutral-high-medium);
   }
   &.disabled {

@@ -18,14 +18,6 @@ const CheckboxSelectItem: React.FC<CheckboxItemProps> = ({
     onCheckedChange(Boolean(checkedValue));
   };
 
-  const handleItemClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (!disabled) {
-      onCheckedChange(!checked);
-    }
-  };
-
   return (
     <div
       className={clsx(styles.item, styles.checkboxItem, {
@@ -48,7 +40,6 @@ const CheckboxSelectItem: React.FC<CheckboxItemProps> = ({
               {subTitle && <div className={styles.subTitle}>{subTitle}</div>}
             </div>
           }
-          // onClick={(e: React.MouseEvent) => e.stopPropagation()}
         />
       </div>
     </div>

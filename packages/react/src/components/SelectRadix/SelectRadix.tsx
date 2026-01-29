@@ -119,10 +119,19 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
   };
 
   const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    e.stopPropagation();
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      const input = e.currentTarget;
+      const hasSelection = input.selectionStart !== input.selectionEnd;
+      
+      if (!hasSelection) {
+        e.preventDefault();
+        return;
+      }
+    }
 
     if (e.key === 'Enter') {
       e.preventDefault();
+      e.stopPropagation();
       actions.setSearchTerm(state.searchInput);
     }
     if (e.key === 'Escape') {
