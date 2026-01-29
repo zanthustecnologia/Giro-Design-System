@@ -23,7 +23,6 @@ const CheckboxSelectItem: React.FC<CheckboxItemProps> = ({
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     if (disabled) return;
 
-    // Space ou Enter para marcar/desmarcar o checkbox
     if (e.key === ' ' || e.key === 'Enter') {
       e.preventDefault();
       e.stopPropagation();
@@ -31,7 +30,6 @@ const CheckboxSelectItem: React.FC<CheckboxItemProps> = ({
       return;
     }
 
-    // ArrowDown - move para o próximo item
     if (e.key === 'ArrowDown') {
       e.preventDefault();
       const nextElement = itemRef.current?.nextElementSibling as HTMLDivElement;
@@ -41,7 +39,6 @@ const CheckboxSelectItem: React.FC<CheckboxItemProps> = ({
       return;
     }
 
-    // ArrowUp - move para o item anterior
     if (e.key === 'ArrowUp') {
       e.preventDefault();
       const prevElement = itemRef.current?.previousElementSibling as HTMLDivElement;
@@ -55,7 +52,6 @@ const CheckboxSelectItem: React.FC<CheckboxItemProps> = ({
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (disabled) return;
     
-    // Evita duplo toggle se o clique foi diretamente no checkbox
     const target = e.target as HTMLElement;
     const isCheckboxClick = target.closest('input[type="checkbox"]') || 
                            target.closest('label');

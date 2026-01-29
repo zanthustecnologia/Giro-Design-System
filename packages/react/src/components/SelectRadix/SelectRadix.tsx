@@ -30,16 +30,13 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
   className,
   'aria-label': ariaLabel,
   'data-testid': testId,
-  // Props para label com tooltip
   tooltip = false,
   tooltipText,
   side = 'bottom',
 	align = 'start',
-  // Props para scroll infinito
   enableInfiniteScroll = false,
   onScrollEnd,
   isLoadingMore = false,
-  // Props para busca em API
   enableApiSearch = false,
   onApiSearch,
   isSearching = false,
@@ -61,13 +58,11 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
     search,
     onValueChange,
     onOpenChange,
-    // API search props
     enableApiSearch,
     onApiSearch,
     isSearching,
   });
 
-  // Infinite Scroll Logic
   useEffect(() => {
     const viewport = viewportRef.current;
     if (!viewport || !enableInfiniteScroll) return;
@@ -91,7 +86,6 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
     };
   }, [state.isOpen, enableInfiniteScroll, onScrollEnd, isLoadingMore]);
 
-  // Reset a flag when the select opens
   useEffect(() => {
     if (state.isOpen && enableInfiniteScroll) {
       hasReachedEndRef.current = false;
