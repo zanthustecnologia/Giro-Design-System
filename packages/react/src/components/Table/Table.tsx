@@ -6,7 +6,7 @@ import { ptBR } from 'date-fns/locale';
 import Checkbox from '../Checkbox';
 import LoaderList from './LoaderList';
 import EmptyRows150Color from './EmptyRows150Color';
-import type { TableColumnType, TableAlign, TableColumn, TableRowData, TableProps } from './Table.types';
+import type { TableColumn, TableRowData, TableProps } from './Table.types';
 
 const useSelection = <T extends TableRowData = TableRowData>(
   dataSource: T[],

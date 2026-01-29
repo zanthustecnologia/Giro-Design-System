@@ -8,6 +8,8 @@ export type {
   TableProps,
   TableColumn,
   TableRowData,
+  TableColumnType,
+  TableAlign,
 } from './Table.types';
 
 // Sub-componentes relacionados
