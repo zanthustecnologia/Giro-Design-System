@@ -1,4 +1,4 @@
-import { useReducer, useMemo, useEffect, useRef, useCallback } from 'react';
+import { useReducer, useEffect, useRef, useCallback } from 'react';
 import { normalizeText } from '../../../hooks/NormalizeText';
 import {
   SelectState,
