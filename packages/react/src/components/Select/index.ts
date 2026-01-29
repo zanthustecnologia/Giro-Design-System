@@ -1,6 +1,6 @@
-export { default } from './SelectRadix';
+export { default } from './Select';
 export type { 
-  SelectRadixProps,
+  SelectProps,
   SelectItemProps,
   CheckboxItemProps,
   SelectVariant,
@@ -8,7 +8,7 @@ export type {
   SelectAction,
   UseSelectLogicProps,
   UseSelectLogicReturn
-} from './SelectRadix.types';
+} from './Select.types';
 export { useSelectLogic } from './hooks/useSelectLogic';
 export { default as CheckboxSelectItem } from './components/CheckboxSelectItem';
 export { default as SelectItem } from './components/SelectItem';
