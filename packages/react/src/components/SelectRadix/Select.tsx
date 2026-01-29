@@ -1,6 +1,6 @@
 import { ChevronUp16Regular, ChevronDown16Regular } from '@fluentui/react-icons';
 import clsx from 'clsx';
-import { Select } from 'radix-ui';
+import { Select as SelectRadix } from 'radix-ui';
 import React, { useMemo, useId, useRef, useEffect } from 'react';
 
 import CheckboxSelectItem from './components/CheckboxSelectItem';
@@ -8,11 +8,11 @@ import ExpandableSelectItem from './components/ExpandableSelectItem';
 import SelectItem from './components/SelectItem';
 import { useSelectLogic } from './hooks/useSelectLogic';
 import styles from './index.module.scss';
-import { SelectRadixProps } from './SelectRadix.types';
+import { SelectProps } from './Select.types';
 import LabelComponent from '../../shared/Label';
 import Search from '../Search/Search';
 
-const SelectRadix: React.FC<SelectRadixProps> = ({
+const Select: React.FC<SelectProps> = ({
   items,
   onValueChange,
   onOpenChange,
@@ -98,8 +98,6 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
   );
 
   const filteredItems = useMemo(() => {
-    // Para busca via API, usa searchTerm (só atualiza quando Enter é pressionado)
-    // Para busca local, usa searchInput (atualiza a cada tecla para filtro em tempo real)
     const termToFilter = enableApiSearch ? state.searchTerm : state.searchInput;
     return utils.getFilteredItems(items, termToFilter);
   }, [items, state.searchTerm, state.searchInput, enableApiSearch, utils]);
@@ -143,7 +141,7 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
   };
 
   return (
-    <Select.Root
+    <SelectRadix.Root
       value={variant === 'checkbox' ? '' : (state.selectedValues[0] || '')}
       onValueChange={variant === 'checkbox' ? undefined : actions.handleSingleSelect}
       required={required}
@@ -172,7 +170,7 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
               {label}
             </LabelComponent>
             
-            <Select.Trigger
+            <SelectRadix.Trigger
               className={clsx(styles.trigger, {
                 [styles.error]: state.hasError && state.touched,
                 [styles.disabled]: disabled,
@@ -186,10 +184,10 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
               {variant === 'checkbox' ? (
                 <span className={styles.triggerText}>{displayText}</span>
               ) : (
-                <Select.Value placeholder={placeholder} className={styles.placeholder}>{displayText}</Select.Value>
+                <SelectRadix.Value placeholder={placeholder} className={styles.placeholder}>{displayText}</SelectRadix.Value>
               )}
               {state.isOpen ? <ChevronUp16Regular /> : <ChevronDown16Regular />}
-            </Select.Trigger>
+            </SelectRadix.Trigger>
 
             {!state.isOpen && helperText && !state.hasError && (
               <span className={clsx(
@@ -208,8 +206,8 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
           </div>
         </div>
 
-        <Select.Portal>
-          <Select.Content
+        <SelectRadix.Portal>
+          <SelectRadix.Content
             className={styles.content}
             position="popper"
             side="bottom"
@@ -232,8 +230,8 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
               </div>
             )}
             
-            <Select.Viewport ref={viewportRef} className={styles.viewport}>
-              <Select.Group className={styles.group}>
+            <SelectRadix.Viewport ref={viewportRef} className={styles.viewport}>
+              <SelectRadix.Group className={styles.group}>
                 {filteredItems.length === 0 ? (
                   <div className={styles.noResults}>
                     Nenhum resultado encontrado
@@ -286,15 +284,15 @@ const SelectRadix: React.FC<SelectRadixProps> = ({
                     )}
                   </>
                 )}
-              </Select.Group>
-            </Select.Viewport>
-          </Select.Content>
-        </Select.Portal>
+              </SelectRadix.Group>
+            </SelectRadix.Viewport>
+          </SelectRadix.Content>
+        </SelectRadix.Portal>
       </div>
-    </Select.Root>
+    </SelectRadix.Root>
   );
 };
 
-SelectRadix.displayName = 'SelectRadix';
+Select.displayName = 'Select';
 
-export default SelectRadix;
+export default Select;

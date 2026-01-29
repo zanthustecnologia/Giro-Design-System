@@ -18,7 +18,7 @@ export interface CheckboxItemProps extends SelectItemProps {
 
 export type SelectVariant = 'text' | 'icon' | 'checkbox';
 
-export interface SelectRadixProps {
+export interface SelectProps {
   items: SelectItemProps[];
   onValueChange?: (value: string | string[]) => void;
   onOpenChange?: (open: boolean) => void;

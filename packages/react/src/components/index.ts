@@ -56,13 +56,7 @@ export { default as Search } from './Search';
 export { type SearchProps } from './Search/Search.types';
 
 export { default as Select } from './Select';
-export { type SelectProps, type SelectOption } from './Select/Select.types';
-
-export { default as SelectField } from './SelectField/SelectField';
-export { type SelectFieldProps } from './SelectField/SelectField.types';
-
-export { default as SelectRadix } from './SelectRadix';
-export { type SelectRadixProps } from './SelectRadix/SelectRadix.types';
+export { type SelectProps } from './Select/Select.types';
 
 export { default as Table } from './Table';
 export { default as TableHeader } from './Table/TableHeader';
