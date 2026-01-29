@@ -1,66 +1,21 @@
 import { ReactNode, CSSProperties } from 'react';
 
-// =============================================================================
-// TIPOS BASE
-// =============================================================================
-
 /**
- * Tipo base para representar uma linha de dados da tabela.
- * Pode ser qualquer objeto com propriedades string.
- * 
- * @remarks
- * Este tipo serve como fallback quando não é especificado um tipo genérico.
- * Recomenda-se usar o generic `<T>` para ter type-safety completo.
- * 
- * @example
- * ```tsx
- * // Uso básico (usa TableRowData)
- * <Table dataSource={data} />
- * 
- * // Uso recomendado (com tipo específico)
- * type User = { id: number; name: string };
- * <Table<User> dataSource={users} />
- * ```
+ * Tipo base para dados da tabela. Use `<Table<SeuTipo>>` para type-safety completo.
+ * @example <Table<User> dataSource={users} />
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type TableRowData = Record<string, any>;
 
-// =============================================================================
-// TIPOS AUXILIARES
-// =============================================================================
-
-/**
- * Tipos de coluna suportados pela tabela.
- */
+/** Tipos de coluna suportados */
 export type TableColumnType = 'text' | 'datetime' | 'custom';
 
-/**
- * Opções de alinhamento para colunas da tabela.
- */
+/** Opções de alinhamento de coluna */
 export type TableAlign = 'left' | 'center' | 'right';
 
-// =============================================================================
-// INTERFACES DE CONFIGURAÇÃO
-// =============================================================================
-
 /**
- * Configuração de uma coluna da tabela.
- * 
- * @typeParam T - Tipo dos dados da linha (padrão: TableRowData)
- * 
- * @example
- * ```tsx
- * type Product = { id: number; name: string; price: number };
- * 
- * const columns: TableColumn<Product>[] = [
- *   { key: 'name', label: 'Nome' },
- *   { key: 'price', label: 'Preço', align: 'right' },
- *   { 
- *     key: 'custom', 
- *     label: 'Ações',
- *     render: (row) => <button>Ver {row.name}</button>
- *   }
- * ];
- * ```
+ * Configuração de coluna da tabela
+ * @typeParam T - Tipo dos dados da linha
  */
 export interface TableColumn<T = TableRowData> {
   /** Chave única identificadora da coluna */
@@ -73,94 +28,48 @@ export interface TableColumn<T = TableRowData> {
   format?: string;
   /** Função customizada para renderizar o conteúdo da célula */
   render?: (row: T, index: number) => ReactNode;
-  /** Alinhamento do conteúdo da coluna */
+  /** Alinhamento do conteúdo */
   align?: TableAlign;
-  /** Estilos CSS customizados para a coluna */
+  /** Estilos CSS customizados */
   style?: CSSProperties;
 }
 
-// =============================================================================
-// INTERFACE PRINCIPAL
-// =============================================================================
-
 /**
- * Props do componente Table.
- * 
- * @typeParam T - Tipo dos dados da linha (padrão: TableRowData)
- * 
- * @remarks
- * O componente Table suporta TypeScript Generics para type-safety completo.
- * Especifique o tipo dos seus dados usando `<T>` para ter autocomplete e validação.
- * 
- * @example
- * Uso básico
- * ```tsx
- * <Table
- *   columns={[
- *     { key: 'name', label: 'Nome' },
- *     { key: 'age', label: 'Idade' }
- *   ]}
- *   dataSource={data}
- * />
- * ```
- * 
- * @example
- * Uso com tipo específico e seleção de linhas
- * ```tsx
- * interface User {
- *   id: number;
- *   name: string;
- *   email: string;
- * }
- * 
- * <Table<User>
- *   columns={[
- *     { key: 'name', label: 'Nome' },
- *     { key: 'email', label: 'Email' }
- *   ]}
- *   dataSource={users}
- *   rowSelection={{
- *     selectedRowKeys: selectedKeys,
- *     onChange: (keys, rows) => {
- *       // rows é User[] automaticamente
- *       console.log(rows[0].email);
- *     }
- *   }}
- * />
- * ```
+ * Props do componente Table. Use genérico para autocomplete: `<Table<User>>`
+ * @typeParam T - Tipo dos dados da linha
  */
 export interface TableProps<T = TableRowData> {
-  /** Configuração das colunas da tabela */
+  /** Configuração das colunas */
   columns: TableColumn<T>[];
-  /** Array de dados a serem exibidos na tabela */
+  /** Array de dados a serem exibidos */
   dataSource: T[];
-  /** Classe CSS customizada para o container da tabela */
+  /** Classe CSS customizada */
   className?: string;
-  /** Estado de carregamento da tabela */
+  /** Estado de carregamento */
   loading?: boolean;
   /** Configuração de seleção de linhas */
   rowSelection?: {
-    /** Keys das linhas atualmente selecionadas (modo controlado) */
+    /** Keys das linhas selecionadas (modo controlado) */
     selectedRowKeys?: (string | number)[];
-    /** Callback executado quando a seleção muda */
+    /** Callback quando seleção muda: (keys, rows) => void */
     onChange?: (keys: (string | number)[], rows: T[]) => void;
-    /** Função para customizar props dos checkboxes individuais */
+    /** Customiza props dos checkboxes: (row, index) => { disabled? } */
     getCheckboxProps?: (row: T, index: number) => { disabled?: boolean };
     /** Desabilita o checkbox "selecionar todos" */
     disableSelectAll?: boolean;
   };
-  /** Configurações de localização/i18n */
+  /** Configurações de localização */
   locale?: {
-    /** Texto exibido quando não há dados */
+    /** Texto quando não há dados */
     emptyText?: ReactNode;
   };
-  /** Configuração de eventos de linha */
+  /** Eventos de linha: (row, index) => { onClick?, onDoubleClick?, className? } */
   onRow?: (row: T, index: number) => {
-    /** Evento de clique simples na linha */
+    /** Clique simples na linha */
     onClick?: () => void;
-    /** Evento de clique duplo na linha */
+    /** Clique duplo na linha */
     onDoubleClick?: () => void;
-    /** Classe CSS customizada para a linha */
+    /** Classe CSS da linha */
     className?: string;
   };
 }
