@@ -11,7 +11,6 @@ export interface ButtonProps extends React.HTMLAttributes<HTMLElement> {
   external?: boolean;
   target?: string;
   rel?: string;
-  routerProps?: Record<string, any>;
   type?: 'button' | 'submit' | 'reset';
   disabled?: boolean; 
   onClick?: (event: React.MouseEvent<HTMLElement>) => void;

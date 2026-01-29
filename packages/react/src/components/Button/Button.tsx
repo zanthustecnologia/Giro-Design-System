@@ -16,7 +16,6 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
   external = false,
   target,
   rel,
-  routerProps = {},
   disabled = false,
   onClick,
   size = 'lg',
@@ -136,7 +135,6 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
       if (Component !== 'a') {
         return {
           to: disabled ? '#' : to,
-          ...routerProps,
         };
       }
       return {

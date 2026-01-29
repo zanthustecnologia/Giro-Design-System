@@ -369,25 +369,4 @@ describe('Button', () => {
       expect(button).toBeInTheDocument();
     });
   });
-
-  describe('Router props', () => {
-    it('deve passar routerProps quando usando componente customizado com to', () => {
-      const CustomLink = ({ to, children, customProp, ...props }: any) => (
-        <a href={to} data-custom-prop={customProp} {...props}>{children}</a>
-      );
-      
-      render(
-        <Button 
-          as={CustomLink} 
-          to="/route" 
-          routerProps={{ customProp: 'value' }}
-        >
-          Router Link
-        </Button>
-      );
-      
-      const link = screen.getByRole('link');
-      expect(link).toHaveAttribute('data-custom-prop', 'value');
-    });
-  });
 });
