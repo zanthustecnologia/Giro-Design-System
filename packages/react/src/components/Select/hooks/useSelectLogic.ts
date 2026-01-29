@@ -7,7 +7,7 @@ import {
   UseSelectLogicProps,
   UseSelectLogicReturn,
   SelectItemProps,
-} from '../SelectRadix.types';
+} from '../Select.types';
 
 const initialState: SelectState = {
   isOpen: false,

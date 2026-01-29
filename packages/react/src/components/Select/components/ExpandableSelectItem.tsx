@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 
 import styles from '../index.module.scss';
 
-import type { SelectItemProps, SelectVariant } from '../SelectRadix.types';
+import type { SelectItemProps, SelectVariant } from '../Select.types';
 
 
 interface ExpandableSelectItemProps {

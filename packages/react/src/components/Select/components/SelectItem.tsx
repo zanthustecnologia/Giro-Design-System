@@ -3,7 +3,7 @@ import { Select } from 'radix-ui';
 import React from 'react';
 
 import styles from '../index.module.scss';
-import { SelectItemProps, SelectVariant } from '../SelectRadix.types';
+import { SelectItemProps, SelectVariant } from '../Select.types';
 
 interface SelectItemComponentProps extends SelectItemProps {
   variant?: SelectVariant;

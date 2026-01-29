@@ -3,7 +3,7 @@ import React, { useRef } from 'react';
 
 import Checkbox from '../../Checkbox';
 import styles from '../index.module.scss';
-import { CheckboxItemProps } from '../SelectRadix.types';
+import { CheckboxItemProps } from '../Select.types';
 
 const CheckboxSelectItem: React.FC<CheckboxItemProps> = ({
   text,
