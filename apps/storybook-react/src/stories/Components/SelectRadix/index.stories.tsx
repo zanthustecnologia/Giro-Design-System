@@ -124,59 +124,11 @@ const mockItemsWithIcon = [
   },
 ];
 
-const mockItemsWithAllOptions = [
-  {
-    id: '1',
-    value: 'item1',
-    text: 'List item',
-    icon: <Channel16Regular />,
-    children: [
-      { value: 'maca', text: 'Maçã' },
-      { value: 'banana', text: 'Banana' }
-    ]
-  },
-  {
-    id: '2',
-    value: 'item2',
-    text: 'List-item 2',
-    disabled: true,
-    subTitle: 'Sub item 2 (disabled)',
-    icon: <Channel16Regular />,
-  },
-  {
-    id: '3',
-    value: 'item3',
-    text: 'List-item 3',
-    icon: <Channel16Regular />,
-  },
-  {
-    id: '4',
-    value: 'item4',
-    text: 'List-item 4',
-  },
-  {
-    id: '5',
-    value: 'item5',
-    text: 'List-item 5',
-    subTitle: 'Com subtitle',
-  },
-];
-
 export const Default: StoryFn<SelectRadixProps> = (args) => (
   <div style={{ maxWidth: 300 }}>
     <SelectRadix 
       {...args} 
       onValueChange={(value) => console.log('Selected:', value)}
-    />
-  </div>
-);
-
-export const WithAllOptions: StoryFn<SelectRadixProps> = (args) => (
-  <div style={{ maxWidth: 300 }}>
-    <SelectRadix 
-      {...args} 
-      onValueChange={(value) => console.log('Selected:', value)}
-      items={mockItemsWithAllOptions}  
     />
   </div>
 );
