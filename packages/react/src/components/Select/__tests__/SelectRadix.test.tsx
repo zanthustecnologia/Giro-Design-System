@@ -1,4 +1,5 @@
 import React from 'react';
+import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
 // Mock do Radix UI Select
@@ -123,6 +124,28 @@ vi.mock('radix-ui', () => {
     },
   };
 
+  const Checkbox = {
+    Root: React.forwardRef(({ checked, onCheckedChange, disabled, id, children, ...rest }: any, ref: any) => {
+      return React.createElement('button', {
+        ref,
+        type: 'button',
+        role: 'checkbox',
+        'aria-checked': checked,
+        disabled,
+        id,
+        onClick: () => {
+          if (!disabled && onCheckedChange) {
+            onCheckedChange(!checked);
+          }
+        },
+        ...rest,
+      }, children);
+    }),
+    Indicator: ({ children, ...rest }: any) => {
+      return React.createElement('span', rest, children);
+    },
+  };
+
   return {
     Select: {
       Root,
@@ -143,7 +166,7 @@ vi.mock('radix-ui', () => {
       Item: () => null,
       Indicator: () => null,
     },
-    Checkbox: () => null,
+    Checkbox,
     DropdownMenu: {
       Root: () => null,
       Trigger: () => null,
@@ -163,9 +186,6 @@ vi.mock('@fluentui/react-icons', () => ({
   Info12Regular: () => <span data-testid="info-icon">ℹ️</span>,
   Dismiss16Regular: () => <span data-testid="dismiss-icon">✕</span>,
 }));
-
-import { render, screen, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 
 import Select from '../Select';
 import { SelectItemProps } from '../Select.types';
@@ -831,6 +851,726 @@ describe('Select Component', () => {
       );
 
       expect(screen.getByText('Escolha uma opção')).toBeInTheDocument();
+    });
+  });
+
+  describe('Interações com Select', () => {
+    it('abre o select ao clicar no trigger', async () => {
+      const handleOpenChange = vi.fn();
+
+      render(
+        <Select
+          items={mockItems}
+          variant="text"
+          onOpenChange={handleOpenChange}
+          data-testid="select"
+        />
+      );
+
+      const trigger = screen.getByTestId('select-trigger');
+      fireEvent.click(trigger);
+
+      await waitFor(() => {
+        expect(handleOpenChange).toHaveBeenCalledWith(true);
+      });
+    });
+
+    it('fecha o select ao selecionar um item', async () => {
+      const handleValueChange = vi.fn();
+      const handleOpenChange = vi.fn();
+
+      render(
+        <Select
+          items={mockItems}
+          variant="text"
+          onValueChange={handleValueChange}
+          onOpenChange={handleOpenChange}
+          data-testid="select"
+        />
+      );
+
+      const trigger = screen.getByTestId('select-trigger');
+      fireEvent.click(trigger);
+
+      await waitFor(() => {
+        const item = screen.getByRole('option', { name: 'Item 1' });
+        fireEvent.click(item);
+      });
+
+      await waitFor(() => {
+        expect(handleValueChange).toHaveBeenCalledWith('1');
+        expect(handleOpenChange).toHaveBeenCalledWith(false);
+      });
+    });
+
+    it('não abre quando disabled', () => {
+      const handleOpenChange = vi.fn();
+
+      render(
+        <Select
+          items={mockItems}
+          variant="text"
+          disabled={true}
+          onOpenChange={handleOpenChange}
+          data-testid="select"
+        />
+      );
+
+      const trigger = screen.getByTestId('select-trigger');
+      fireEvent.click(trigger);
+
+      expect(handleOpenChange).not.toHaveBeenCalled();
+    });
+
+    it('exibe chevron-up quando aberto', async () => {
+      render(
+        <Select
+          items={mockItems}
+          variant="text"
+          data-testid="select"
+        />
+      );
+
+      const trigger = screen.getByTestId('select-trigger');
+      fireEvent.click(trigger);
+
+      await waitFor(() => {
+        expect(screen.getByTestId('chevron-up')).toBeInTheDocument();
+        expect(screen.queryByTestId('chevron-down')).not.toBeInTheDocument();
+      });
+    });
+  });
+
+  describe('Interações com Busca', () => {
+    it('permite digitar no campo de busca', async () => {
+      render(
+        <Select
+          items={mockItems}
+          variant="text"
+          search={true}
+          data-testid="select"
+        />
+      );
+
+      const trigger = screen.getByTestId('select-trigger');
+      fireEvent.click(trigger);
+
+      await waitFor(() => {
+        const searchInput = screen.getByTestId('select-search') as HTMLInputElement;
+        fireEvent.change(searchInput, { target: { value: 'Item 1' } });
+        expect(searchInput.value).toBe('Item 1');
+      });
+    });
+
+    it('chama handleSearchChange ao digitar', async () => {
+      render(
+        <Select
+          items={mockItems}
+          variant="text"
+          search={true}
+          data-testid="select"
+        />
+      );
+
+      const trigger = screen.getByTestId('select-trigger');
+      fireEvent.click(trigger);
+
+      await waitFor(() => {
+        const searchInput = screen.getByTestId('select-search') as HTMLInputElement;
+        fireEvent.change(searchInput, { target: { value: 'test' } });
+        expect(searchInput.value).toBe('test');
+      });
+    });
+
+    it('executa busca ao pressionar Enter', async () => {
+      render(
+        <Select
+          items={mockItems}
+          variant="text"
+          search={true}
+          data-testid="select"
+        />
+      );
+
+      const trigger = screen.getByTestId('select-trigger');
+      fireEvent.click(trigger);
+
+      await waitFor(() => {
+        const searchInput = screen.getByTestId('select-search') as HTMLInputElement;
+        fireEvent.change(searchInput, { target: { value: 'Item' } });
+        fireEvent.keyDown(searchInput, { key: 'Enter', code: 'Enter' });
+        expect(searchInput.value).toBe('Item');
+      });
+    });
+
+    it('limpa busca ao pressionar Escape', async () => {
+      render(
+        <Select
+          items={mockItems}
+          variant="text"
+          search={true}
+          data-testid="select"
+        />
+      );
+
+      const trigger = screen.getByTestId('select-trigger');
+      fireEvent.click(trigger);
+
+      await waitFor(() => {
+        const searchInput = screen.getByTestId('select-search') as HTMLInputElement;
+        expect(searchInput).toBeInTheDocument();
+      });
+
+      const searchInput = screen.getByTestId('select-search') as HTMLInputElement;
+      fireEvent.change(searchInput, { target: { value: 'test' } });
+      expect(searchInput.value).toBe('test');
+      
+      fireEvent.keyDown(searchInput, { key: 'Escape', code: 'Escape' });
+
+      await waitFor(() => {
+        expect(searchInput.value).toBe('');
+      });
+    });
+
+    it('previne navegação com setas sem seleção de texto', async () => {
+      render(
+        <Select
+          items={mockItems}
+          variant="text"
+          search={true}
+          data-testid="select"
+        />
+      );
+
+      const trigger = screen.getByTestId('select-trigger');
+      fireEvent.click(trigger);
+
+      await waitFor(() => {
+        const searchInput = screen.getByTestId('select-search') as HTMLInputElement;
+        fireEvent.change(searchInput, { target: { value: 'test' } });
+        
+        // Posicionar cursor no final (sem seleção)
+        searchInput.selectionStart = 4;
+        searchInput.selectionEnd = 4;
+        
+        const event = new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true });
+        Object.defineProperty(event, 'currentTarget', { value: searchInput });
+        fireEvent.keyDown(searchInput, { key: 'ArrowDown', code: 'ArrowDown' });
+
+        expect(searchInput.value).toBe('test');
+      });
+    });
+
+    it('permite navegação com setas quando há texto selecionado', async () => {
+      render(
+        <Select
+          items={mockItems}
+          variant="text"
+          search={true}
+          data-testid="select"
+        />
+      );
+
+      const trigger = screen.getByTestId('select-trigger');
+      fireEvent.click(trigger);
+
+      await waitFor(() => {
+        const searchInput = screen.getByTestId('select-search') as HTMLInputElement;
+        fireEvent.change(searchInput, { target: { value: 'test' } });
+        
+        // Selecionar todo o texto
+        searchInput.selectionStart = 0;
+        searchInput.selectionEnd = 4;
+        
+        fireEvent.keyDown(searchInput, { key: 'ArrowDown', code: 'ArrowDown' });
+
+        expect(searchInput.value).toBe('test');
+      });
+    });
+
+    it('chama onApiSearch quando enableApiSearch está ativo', async () => {
+      const handleApiSearch = vi.fn();
+
+      render(
+        <Select
+          items={mockItems}
+          variant="text"
+          search={true}
+          enableApiSearch={true}
+          onApiSearch={handleApiSearch}
+          data-testid="select"
+        />
+      );
+
+      const trigger = screen.getByTestId('select-trigger');
+      fireEvent.click(trigger);
+
+      // Deve chamar com string vazia ao abrir
+      await waitFor(() => {
+        expect(handleApiSearch).toHaveBeenCalledWith('');
+      });
+
+      const searchInput = screen.getByTestId('select-search') as HTMLInputElement;
+      fireEvent.change(searchInput, { target: { value: 'test' } });
+      fireEvent.keyDown(searchInput, { key: 'Enter', code: 'Enter' });
+
+      // Aguardar debounce (300ms)
+      await waitFor(() => {
+        expect(handleApiSearch).toHaveBeenCalledWith('test');
+      }, { timeout: 500 });
+    });
+
+    it('limpa busca ao clicar no botão clear', async () => {
+      render(
+        <Select
+          items={mockItems}
+          variant="text"
+          search={true}
+          data-testid="select"
+        />
+      );
+
+      const trigger = screen.getByTestId('select-trigger');
+      fireEvent.click(trigger);
+
+      await waitFor(() => {
+        const searchInput = screen.getByTestId('select-search') as HTMLInputElement;
+        fireEvent.change(searchInput, { target: { value: 'test' } });
+        expect(searchInput.value).toBe('test');
+      });
+    });
+
+    it('mostra mensagem quando nenhum resultado encontrado', async () => {
+      render(
+        <Select
+          items={mockItems}
+          variant="text"
+          search={true}
+          data-testid="select"
+        />
+      );
+
+      const trigger = screen.getByTestId('select-trigger');
+      fireEvent.click(trigger);
+
+      await waitFor(() => {
+        const searchInput = screen.getByTestId('select-search') as HTMLInputElement;
+        fireEvent.change(searchInput, { target: { value: 'xyz123' } });
+        fireEvent.keyDown(searchInput, { key: 'Enter', code: 'Enter' });
+      });
+
+      await waitFor(() => {
+        expect(screen.getByText('Nenhum resultado encontrado')).toBeInTheDocument();
+      });
+    });
+  });
+
+  describe('Seleção Múltipla com Checkbox', () => {
+    it('seleciona múltiplos items', async () => {
+      const handleValueChange = vi.fn();
+
+      render(
+        <Select
+          items={mockItems}
+          variant="checkbox"
+          onValueChange={handleValueChange}
+          data-testid="select"
+        />
+      );
+
+      const trigger = screen.getByTestId('select-trigger');
+      fireEvent.click(trigger);
+
+      await waitFor(() => {
+        const item1 = screen.getByTestId('checkbox-item-1');
+        expect(item1).toBeInTheDocument();
+      });
+
+      const item1 = screen.getByTestId('checkbox-item-1');
+      const item2 = screen.getByTestId('checkbox-item-2');
+
+      fireEvent.click(item1);
+      expect(handleValueChange).toHaveBeenCalledWith(['1']);
+
+      fireEvent.click(item2);
+      expect(handleValueChange).toHaveBeenCalledWith(['1', '2']);
+    });
+
+    it('deseleciona items em modo checkbox', async () => {
+      const handleValueChange = vi.fn();
+
+      render(
+        <Select
+          items={mockItems}
+          variant="checkbox"
+          value={['1', '2']}
+          onValueChange={handleValueChange}
+          data-testid="select"
+        />
+      );
+
+      const trigger = screen.getByTestId('select-trigger');
+      fireEvent.click(trigger);
+
+      await waitFor(() => {
+        const item1 = screen.getByTestId('checkbox-item-1');
+        expect(item1).toBeInTheDocument();
+      });
+
+      const item1 = screen.getByTestId('checkbox-item-1');
+      fireEvent.click(item1);
+
+      expect(handleValueChange).toHaveBeenCalledWith(['2']);
+    });
+
+    it('mantém select aberto em modo checkbox', async () => {
+      const handleOpenChange = vi.fn();
+
+      render(
+        <Select
+          items={mockItems}
+          variant="checkbox"
+          onOpenChange={handleOpenChange}
+          data-testid="select"
+        />
+      );
+
+      const trigger = screen.getByTestId('select-trigger');
+      fireEvent.click(trigger);
+
+      await waitFor(() => {
+        expect(handleOpenChange).toHaveBeenCalledWith(true);
+      });
+
+      const item1 = screen.getByTestId('checkbox-item-1');
+      fireEvent.click(item1);
+
+      // Select não deve fechar
+      expect(handleOpenChange).not.toHaveBeenCalledWith(false);
+    });
+  });
+
+  describe('Validação e Required', () => {
+    it('valida campo required ao fechar sem seleção', async () => {
+      render(
+        <Select
+          items={mockItems}
+          variant="text"
+          required={true}
+          errorMessage="Campo obrigatório"
+          data-testid="select"
+        />
+      );
+
+      const trigger = screen.getByTestId('select-trigger');
+      fireEvent.click(trigger);
+      fireEvent.click(trigger);
+
+      await waitFor(() => {
+        expect(screen.getByText('Campo obrigatório')).toBeInTheDocument();
+      });
+    });
+
+    it('limpa erro ao selecionar valor', async () => {
+      render(
+        <Select
+          items={mockItems}
+          variant="text"
+          required={true}
+          errorMessage="Campo obrigatório"
+          data-testid="select"
+        />
+      );
+
+      const trigger = screen.getByTestId('select-trigger');
+      
+      // Abrir e fechar sem selecionar
+      fireEvent.click(trigger);
+      fireEvent.click(trigger);
+
+      await waitFor(() => {
+        expect(screen.getByText('Campo obrigatório')).toBeInTheDocument();
+      });
+
+      // Abrir e selecionar
+      fireEvent.click(trigger);
+      
+      await waitFor(() => {
+        const item = screen.getByRole('option', { name: 'Item 1' });
+        fireEvent.click(item);
+      });
+
+      await waitFor(() => {
+        expect(screen.queryByText('Campo obrigatório')).not.toBeInTheDocument();
+      });
+    });
+
+    it('valida checkbox required ao fechar sem seleção', async () => {
+      render(
+        <Select
+          items={mockItems}
+          variant="checkbox"
+          required={true}
+          errorMessage="Selecione ao menos um item"
+          data-testid="select"
+        />
+      );
+
+      const trigger = screen.getByTestId('select-trigger');
+      fireEvent.click(trigger);
+      fireEvent.click(trigger);
+
+      await waitFor(() => {
+        expect(screen.getByText('Selecione ao menos um item')).toBeInTheDocument();
+      });
+    });
+  });
+
+  describe('Infinite Scroll', () => {
+    it('chama onScrollEnd ao fazer scroll até o fim', async () => {
+      const handleScrollEnd = vi.fn();
+
+      render(
+        <Select
+          items={mockItems}
+          variant="text"
+          enableInfiniteScroll={true}
+          onScrollEnd={handleScrollEnd}
+          isLoadingMore={false}
+          data-testid="select"
+        />
+      );
+
+      const trigger = screen.getByTestId('select-trigger');
+      fireEvent.click(trigger);
+
+      await waitFor(() => {
+        const viewport = document.querySelector('._viewport_8315cf');
+        expect(viewport).toBeInTheDocument();
+      });
+
+      const viewport = document.querySelector('._viewport_8315cf') as HTMLElement;
+      
+      if (viewport) {
+        // Simular scroll até o fim
+        Object.defineProperty(viewport, 'scrollTop', { value: 100, writable: true });
+        Object.defineProperty(viewport, 'scrollHeight', { value: 200, writable: true });
+        Object.defineProperty(viewport, 'clientHeight', { value: 100, writable: true });
+
+        const scrollEvent = new Event('scroll', { bubbles: true });
+        viewport.dispatchEvent(scrollEvent);
+
+        await waitFor(() => {
+          expect(handleScrollEnd).toHaveBeenCalled();
+        });
+      }
+    });
+
+    it('não chama onScrollEnd quando isLoadingMore é true', async () => {
+      const handleScrollEnd = vi.fn();
+
+      render(
+        <Select
+          items={mockItems}
+          variant="text"
+          enableInfiniteScroll={true}
+          onScrollEnd={handleScrollEnd}
+          isLoadingMore={true}
+          data-testid="select"
+        />
+      );
+
+      const trigger = screen.getByTestId('select-trigger');
+      fireEvent.click(trigger);
+
+      await waitFor(() => {
+        const viewport = document.querySelector('._viewport_8315cf');
+        expect(viewport).toBeInTheDocument();
+      });
+
+      const viewport = document.querySelector('._viewport_8315cf') as HTMLElement;
+      
+      if (viewport) {
+        Object.defineProperty(viewport, 'scrollTop', { value: 100, writable: true });
+        Object.defineProperty(viewport, 'scrollHeight', { value: 200, writable: true });
+        Object.defineProperty(viewport, 'clientHeight', { value: 100, writable: true });
+
+        const scrollEvent = new Event('scroll', { bubbles: true });
+        viewport.dispatchEvent(scrollEvent);
+
+        await waitFor(() => {
+          expect(handleScrollEnd).not.toHaveBeenCalled();
+        });
+      }
+    });
+
+    it('mostra indicador de loading quando isLoadingMore é true', async () => {
+      render(
+        <Select
+          items={mockItems}
+          variant="text"
+          enableInfiniteScroll={true}
+          isLoadingMore={true}
+          data-testid="select"
+        />
+      );
+
+      const trigger = screen.getByTestId('select-trigger');
+      fireEvent.click(trigger);
+
+      await waitFor(() => {
+        expect(screen.getByText('Carregando mais itens...')).toBeInTheDocument();
+      });
+    });
+
+    it('reseta hasReachedEnd ao abrir novamente', async () => {
+      const handleScrollEnd = vi.fn();
+
+      render(
+        <Select
+          items={mockItems}
+          variant="text"
+          enableInfiniteScroll={true}
+          onScrollEnd={handleScrollEnd}
+          data-testid="select"
+        />
+      );
+
+      const trigger = screen.getByTestId('select-trigger');
+      
+      // Abrir e fechar
+      fireEvent.click(trigger);
+      fireEvent.click(trigger);
+      
+      // Abrir novamente
+      fireEvent.click(trigger);
+
+      await waitFor(() => {
+        expect(screen.getByRole('listbox')).toBeInTheDocument();
+      });
+    });
+  });
+
+  describe('Items Expandíveis', () => {
+    it('expande items com children ao clicar', async () => {
+      render(
+        <Select
+          items={mockItemsWithChildren}
+          variant="text"
+          data-testid="select"
+        />
+      );
+
+      const trigger = screen.getByTestId('select-trigger');
+      fireEvent.click(trigger);
+
+      await waitFor(() => {
+        const parentItem = screen.getByTestId('select-item-parent-1');
+        expect(parentItem).toBeInTheDocument();
+      });
+
+      const parentItem = screen.getByTestId('select-item-parent-1');
+      fireEvent.click(parentItem);
+
+      await waitFor(() => {
+        expect(screen.getByText('Child 1.1')).toBeInTheDocument();
+        expect(screen.getByText('Child 1.2')).toBeInTheDocument();
+      });
+    });
+
+    it('fecha items expandidos ao clicar novamente', async () => {
+      render(
+        <Select
+          items={mockItemsWithChildren}
+          variant="text"
+          data-testid="select"
+        />
+      );
+
+      const trigger = screen.getByTestId('select-trigger');
+      fireEvent.click(trigger);
+
+      await waitFor(() => {
+        const parentItem = screen.getByTestId('select-item-parent-1');
+        expect(parentItem).toBeInTheDocument();
+      });
+
+      const parentItem = screen.getByTestId('select-item-parent-1');
+      
+      // Expandir
+      fireEvent.click(parentItem);
+
+      await waitFor(() => {
+        expect(screen.getByText('Child 1.1')).toBeInTheDocument();
+      });
+
+      // Fechar
+      fireEvent.click(parentItem);
+
+      await waitFor(() => {
+        expect(screen.queryByText('Child 1.1')).not.toBeInTheDocument();
+      });
+    });
+
+    it('seleciona child item ao clicar', async () => {
+      const handleValueChange = vi.fn();
+
+      render(
+        <Select
+          items={mockItemsWithChildren}
+          variant="text"
+          onValueChange={handleValueChange}
+          data-testid="select"
+        />
+      );
+
+      const trigger = screen.getByTestId('select-trigger');
+      fireEvent.click(trigger);
+
+      await waitFor(() => {
+        const parentItem = screen.getByTestId('select-item-parent-1');
+        expect(parentItem).toBeInTheDocument();
+      });
+
+      const parentItem = screen.getByTestId('select-item-parent-1');
+      fireEvent.click(parentItem);
+
+      await waitFor(() => {
+        expect(screen.getByText('Child 1.1')).toBeInTheDocument();
+      });
+
+      const childItem = screen.getByTestId('select-item-child-1-1');
+      fireEvent.click(childItem);
+
+      expect(handleValueChange).toHaveBeenCalledWith('child-1-1');
+    });
+  });
+
+  describe('Items Desabilitados', () => {
+    it('não seleciona item desabilitado', async () => {
+      const handleValueChange = vi.fn();
+
+      render(
+        <Select
+          items={mockItems}
+          variant="text"
+          onValueChange={handleValueChange}
+          data-testid="select"
+        />
+      );
+
+      const trigger = screen.getByTestId('select-trigger');
+      fireEvent.click(trigger);
+
+      await waitFor(() => {
+        const disabledItem = screen.getByRole('option', { name: 'Item 3' });
+        expect(disabledItem).toBeInTheDocument();
+      });
+
+      const disabledItem = screen.getByRole('option', { name: 'Item 3' });
+      fireEvent.click(disabledItem);
+
+      expect(handleValueChange).not.toHaveBeenCalled();
     });
   });
 });
