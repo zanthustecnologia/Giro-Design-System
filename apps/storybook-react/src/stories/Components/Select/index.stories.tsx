@@ -96,30 +96,35 @@ const mockItemsWithIcon = [
     value: 'item1',
     text: 'List item',
     icon: <Channel16Regular />,
+    subTitle: 'Subtítulo do item 1',
   },
   {
     id: '2',
     value: 'item2',
     text: 'List-item 2',
     icon: <Channel16Regular />,
+    subTitle: 'Subtítulo do item 2',
   },
   {
     id: '3',
     value: 'item3',
     text: 'List-item 3',
     icon: <Channel16Regular />,
+    subTitle: 'Subtítulo do item 3',
   },
   {
     id: '4',
     value: 'item4',
     text: 'List-item 4',
     icon: <Channel16Regular />,
+    subTitle: 'Subtítulo do item 4',
   },
   {
     id: '5',
     value: 'item5',
     text: 'List-item 5',
     icon: <Channel16Regular />,
+    subTitle: 'Subtítulo do item 5',
   },
 ];
 
