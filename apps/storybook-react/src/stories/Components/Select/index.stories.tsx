@@ -263,7 +263,7 @@ Checkbox.args = {
   ...Default.args,
   variant: 'checkbox',
   label: 'Select múltiplo',
-  search: true,
+  search: false,
 };
 
 export const Required: StoryFn<SelectProps> = (args) => (

@@ -65,7 +65,7 @@ const CheckboxSelectItem: React.FC<CheckboxItemProps> = ({
   return (
     <div
       ref={itemRef}
-      className={clsx(styles.item, styles.checkboxItem, {
+      className={clsx(styles.checkboxItem, {
         [styles.disabled]: disabled,
       })}
       role="option"

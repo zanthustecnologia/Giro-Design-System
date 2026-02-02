@@ -212,12 +212,32 @@ $select-icon-size: 16px;
 .checkboxItem {
   height: $select-trigger-height;
   min-height: $select-trigger-height;
-  padding: var(--spacing-8) var(--spacing-16) var(--spacing-8) var(--spacing-8);
   margin-bottom: var(--spacing-16);
   border-radius: var(--border-radius-8);
   outline: none;
   transition: background-color 0.2s ease;
-  
+  cursor: pointer;
+  &.disabled {
+    color: var(--color-neutral-low-light);
+    cursor: not-allowed;
+    .subTitle {
+      color: var(--color-neutral-low-light);
+    }
+  }
+  &[data-state='checked'] {
+    color: var(--color-brand-primary-default);
+    .subTitle {
+      color: var(--color-brand-primary-default);
+    }
+  }
+  &[data-selected='true'] {
+    .title {
+      color: var(--color-brand-primary-default);
+    }
+    .subTitle {
+      color: var(--color-brand-primary-default);
+    }
+  }
   &:hover:not(.disabled) {
     background-color: var(--color-neutral-high-medium);
   }
@@ -288,7 +308,6 @@ $select-icon-size: 16px;
 .checkboxContent {
   display: flex;
   align-items: center;
-  gap: var(--spacing-8);
   width: 100%;
 }
 .textContent {
