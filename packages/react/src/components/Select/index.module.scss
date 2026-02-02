@@ -215,6 +215,10 @@ $select-icon-size: 16px;
   margin-bottom: var(--spacing-16);
   border-radius: var(--border-radius-8);
   outline: none;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  justify-content: center;
   transition: background-color 0.2s ease;
   cursor: pointer;
   &.disabled {
