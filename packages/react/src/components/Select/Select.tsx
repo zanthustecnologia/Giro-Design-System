@@ -103,7 +103,7 @@ const Select: React.FC<SelectProps> = ({
   }, [items, state.searchTerm, state.searchInput, enableApiSearch, utils]);
 
   const containerStyle = useMemo(() => ({
-    maxWidth: typeof maxWidth === 'number' ? `${maxWidth}px` : maxWidth,
+    maxWidth: maxWidth ? `${maxWidth}px` : undefined,
   }), [maxWidth]);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {

@@ -30,7 +30,7 @@ export interface SelectProps {
   search?: boolean;
   label?: string;
   helperText?: string;
-  maxWidth?: string | number;
+  maxWidth?: number;
   errorMessage?: string;
   disabled?: boolean;
   className?: string;
