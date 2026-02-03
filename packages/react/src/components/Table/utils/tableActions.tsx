@@ -49,9 +49,8 @@ const TableActionsMenu = React.memo<{
 
   return (
     <Menu
-      position="right"
-      menuItems={menuItems}
-      onMenuItemClick={handleClick}
+      items={menuItems}
+      onItemSelect={handleClick}
     >
       <MoreVertical16Regular 
         style={{ cursor: 'pointer' }}

@@ -10,10 +10,16 @@ export interface MenuItemProps {
   value?: string;
 }
 
-export interface MenuRadixProps {
+export interface DefaultMenuItemProps {
+  item: MenuItemProps;
+  isSelected: boolean;
+  onSelect: (item: MenuItemProps) => void;
+}
+
+export interface MenuProps {
   items: MenuItemProps[];
   children?: ReactElement;
-  type?:  'text' | 'icon' ;
+  type?: 'text' | 'icon';
   className?: string;
   onItemSelect?: (items: MenuItemProps) => void;
   selectedItems?: MenuItemProps[];

@@ -1,13 +1,8 @@
 import { memo } from 'react';
 import { DropdownMenu } from 'radix-ui';
-import { MenuItemProps } from '../MenuRadix.types';
-import styles from '../MenuRadix.module.scss';
+import { DefaultMenuItemProps } from '../Menu.types';
+import styles from '../Menu.module.scss';
 import clsx from 'clsx';
-interface DefaultMenuItemProps {
-  item: MenuItemProps;
-  isSelected: boolean;
-  onSelect: (item: MenuItemProps) => void;
-}
 
 export const MenuItem = memo(({ item, isSelected, onSelect }: DefaultMenuItemProps) => {
   
@@ -28,7 +23,6 @@ export const MenuItem = memo(({ item, isSelected, onSelect }: DefaultMenuItemPro
           <span className={styles.itemSubText}>{item.subText}</span>
         )}
       </div>
-
     </DropdownMenu.Item>
   );
 });
