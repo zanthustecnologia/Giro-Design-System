@@ -27,19 +27,25 @@ export default {
     },
     icon: {
       control: { type: 'select' },
-      options: ['none', 'add'],
+      options: ['', 'add'],
       mapping: {
         add: <Add16Regular />,
       },
     },
     iconPosition: {
       control: { type: 'select' },
-      options: ['none', 'left', 'right'],
+      options: ['left', 'right', 'both'],
+    },
+    iconOnly: {
+      control: { type: 'boolean' },
     },
     fullWidth: {
       control: { type: 'boolean' },
     },
     disabled: {
+      control: { type: 'boolean' },
+    },
+    loading: {
       control: { type: 'boolean' },
     },
     to: {
@@ -60,17 +66,15 @@ export default {
         disable: true,
       },
     },
+    
   },
 } as Meta<ButtonProps>;
 
-const Template: StoryFn<ButtonProps> = ({ icon, ...args }) => {
-  const { iconPosition } = args;
-
+const Template: StoryFn<ButtonProps> = (args) => {
+  const iconToUse = args.iconOnly && !args.icon ? <Add16Regular /> : args.icon;
+  
   return (
-    <Button
-      {...args}
-      icon={iconPosition === 'none' ? undefined : icon}
-    >
+    <Button {...args} icon={iconToUse}>
       {args.children}
     </Button>
   );
@@ -123,6 +127,9 @@ const TemplateWithIcons: StoryFn<ButtonProps> = (args) => (
       Button
     </Button>
     <Button {...args} icon={<Add16Regular />} iconPosition="left">
+      Button
+    </Button>
+    <Button {...args} icon={<Add16Regular />} iconPosition="both">
       Button
     </Button>
   </div>

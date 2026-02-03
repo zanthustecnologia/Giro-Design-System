@@ -102,7 +102,7 @@ const Drawer: React.FC<DrawerProps> = ({
    * Manipula clique no botão de fechar
    * @param event - Evento de clique
    */
-  const handleCloseClick = (event: React.MouseEvent<HTMLDivElement>): void => {
+  const handleCloseClick = (event: React.MouseEvent<HTMLElement>): void => {
     event.stopPropagation();
     internalClose();
   };

@@ -1,6 +1,9 @@
-import React, { useId, useMemo } from 'react';
+import { SpinnerIos16Regular } from '@fluentui/react-icons';
 import clsx from 'clsx';
+import React, { useId, useMemo } from 'react';
+
 import styles from './Button.module.scss';
+
 import type { ButtonProps } from './Button.types';
 
 const Button = React.forwardRef<HTMLElement, ButtonProps>(({
@@ -13,7 +16,6 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
   external = false,
   target,
   rel,
-  routerProps = {},
   disabled = false,
   onClick,
   size = 'lg',
@@ -24,10 +26,12 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
   fullWidth = false,
   ariaLabel = '',
   iconOnly = false,
+  loading = false,
   ...restProps
 }, ref) => {
 
-  const componentId = id || useId();
+  const generatedId = useId();
+  const componentId = id || generatedId;
 
   const getComponent = (): React.ElementType => {
     if (as) return as;
@@ -35,24 +39,25 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
     if (href) return 'a';   
     if (to) return 'a'; 
     return 'button';
-    };
+  };
 
   const Component = getComponent();
+
   const hasContent = useMemo(() => {
     return children && React.Children.count(children) > 0;
   }, [children]);
 
   const buttonClasses = clsx(
-    styles['zds-button'],
-    styles[`zds-button__${variant}`],
-    styles[`zds-button__${size}`],
+    styles.button,
+    styles[`button-${variant}`],
+    styles[`button-${size}`],
     {
-      [styles['zds-button__with-icon']]: icon && !iconOnly,
-      [styles[`zds-button__icon-position-${iconPosition}`]]: icon && !iconOnly && iconPosition !== 'none',
-      [styles['zds-button__no-content']]: icon && !hasContent && !iconOnly,
-      [styles['zds-button__full-width']]: fullWidth,
-      [styles['zds-button__icon-only']]: iconOnly,
-      [styles['zds-button__disabled']]: disabled,
+      [styles['buttonLoading']]: loading,
+      [styles['buttonWithIcon']]: icon && !iconOnly,
+      [styles[`buttonIconPosition-${iconPosition}`]]: icon && !iconOnly,
+      [styles['buttonNoContent']]: icon && !hasContent && !iconOnly,
+      [styles['buttonFullWidth']]: fullWidth,
+      [styles['buttonIconOnly']]: iconOnly,
     },
     className
   );
@@ -60,9 +65,6 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
   const getAriaLabel = () => {
     if (ariaLabel) return ariaLabel;
     if (iconOnly && !ariaLabel) {
-      if (process.env.NODE_ENV === 'development') {
-        console.warn('Button: Icon-only buttons should have an ariaLabel for accessibility');
-      }
       return 'Botão de ação';
     }
     if (typeof children === 'string') return children;
@@ -78,23 +80,30 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
   };
 
   const renderContent = () => {
-    if (iconOnly && icon) {
+    if (iconOnly && !loading) {
       return (
-        <span className={styles['zds-button__icon-only']} aria-hidden="true">
+        <span className={styles.buttonIconOnly} aria-hidden="true">
           {icon}
+        </span>
+      );
+    }
+    if (loading) {
+      return (
+        <span className={styles.buttonLoading} aria-hidden="true">
+          <SpinnerIos16Regular aria-hidden="true" />
         </span>
       );
     }
     return (
       <>
-        {icon && iconPosition === 'left' && (
-          <span className={styles['zds-button__icon-left']} aria-hidden="true">
+        {icon && (iconPosition === 'left' || iconPosition === 'both') && (
+          <span className={styles.buttonIconLeft} aria-hidden="true">
             {icon}
           </span>
         )}
         {children}
-        {icon && iconPosition === 'right' && (
-          <span className={styles['zds-button__icon-right']} aria-hidden="true">
+        {icon && (iconPosition === 'right' || iconPosition === 'both') && (
+          <span className={styles.buttonIconRight} aria-hidden="true">
             {icon}
           </span>
         )}
@@ -126,7 +135,6 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
       if (Component !== 'a') {
         return {
           to: disabled ? '#' : to,
-          ...routerProps,
         };
       }
       return {
