@@ -152,7 +152,7 @@ const Table = <T extends TableRowData = TableRowData>({
     <div className={clsx(styles['zds-table__container'], className)}>
       <div className={styles['zds-table__scroll-wrapper']}>
         <table 
-        className={styles['zds-table']}
+          className={styles['zds-table']}
           role="table"
           aria-label="Tabela de dados"
           aria-describedby={loading ? `${tableId}-loading` : undefined}
