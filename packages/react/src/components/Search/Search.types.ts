@@ -13,4 +13,5 @@ export interface SearchProps {
   onMouseDown?: (e: React.MouseEvent<HTMLDivElement>) => void;
   className?: string;
   id?: string;
+  'data-testid'?: string; // prop feita para facilitar testes e2e
 }
