@@ -6,18 +6,18 @@ import { ptBR } from 'date-fns/locale';
 import Checkbox from '../Checkbox';
 import LoaderList from './LoaderList';
 import EmptyRows150Color from './EmptyRows150Color';
-import type { TableColumnType, TableAlign, TableColumn, TableRowData, TableProps } from './Table.types';
+import type { TableColumn, TableRowData, TableProps } from './Table.types';
 
-const useSelection = (
-  dataSource: TableRowData[],
-  rowSelection?: TableProps['rowSelection']
+const useSelection = <T extends TableRowData = TableRowData>(
+  dataSource: T[],
+  rowSelection?: TableProps<T>['rowSelection']
 ) => {
   const [internalKeys, setInternalKeys] = useState<(string | number)[]>([]);
   const selectedKeys = rowSelection?.selectedRowKeys ?? internalKeys;
   const selectedSet = useMemo(() => new Set(selectedKeys), [selectedKeys]);
 
   const handleChange = useCallback((newKeys: (string | number)[]) => {
-    const newRows = dataSource.filter((_, index) => newKeys.includes(index));
+    const newRows = dataSource.filter((_, index) => newKeys.includes(index)) as T[];
 
     if (rowSelection?.selectedRowKeys !== undefined) {
       // Controlled
@@ -55,7 +55,7 @@ const useSelection = (
   };
 };
 
-const renderCell = (column: TableColumn, row: TableRowData, index: number): ReactNode => {
+const renderCell = <T extends TableRowData = TableRowData>(column: TableColumn<T>, row: T, index: number): ReactNode => {
   if (column.render) {
     return column.render(row, index);
   }
@@ -76,7 +76,7 @@ const renderCell = (column: TableColumn, row: TableRowData, index: number): Reac
   }
 };
 
-const Table: React.FC<TableProps> = ({
+const Table = <T extends TableRowData = TableRowData>({
   columns = [],
   dataSource = [],
   className,
@@ -84,7 +84,7 @@ const Table: React.FC<TableProps> = ({
   rowSelection,
   locale = {},
   onRow,
-}) => {
+}: TableProps<T>) => {
   if (!Array.isArray(columns) || !Array.isArray(dataSource)) {
     console.warn('Table: columns e dataSource devem ser arrays');
     return null;
@@ -98,26 +98,25 @@ const Table: React.FC<TableProps> = ({
   const finalColumns = useMemo(() => {
     if (!rowSelection) return columns;
 
-    const checkboxColumn: TableColumn = {
+    const checkboxColumn: TableColumn<T> = {
       key: '__checkbox__',
       label: (
-        <Checkbox
-          checked={isAllSelected}
-          indeterminate={isIndeterminate}
-          onCheckedChange={toggleAll}
-          label=''
+          <Checkbox
+            checked={isAllSelected || isIndeterminate}
+            indeterminate={isIndeterminate}
+            onCheckedChange={toggleAll}
+            disabled={rowSelection.disableSelectAll}
           />
         ),
         render: (_, index) => {
           const props = rowSelection.getCheckboxProps?.(dataSource[index], index) || {};
           return (
             <Checkbox
-            checked={selectedSet.has(index)}
-            onCheckedChange={() => toggleRow(index)}
-            disabled={props.disabled}
-            label=''
-          />
-        );
+              checked={selectedSet.has(index)}
+              onCheckedChange={() => toggleRow(index)}
+              disabled={props.disabled}
+            />
+          );
       },
       align: 'center',
     };
@@ -153,7 +152,7 @@ const Table: React.FC<TableProps> = ({
     <div className={clsx(styles['zds-table__container'], className)}>
       <div className={styles['zds-table__scroll-wrapper']}>
         <table 
-        className={styles['zds-table']}
+          className={styles['zds-table']}
           role="table"
           aria-label="Tabela de dados"
           aria-describedby={loading ? `${tableId}-loading` : undefined}
