@@ -1,3 +1,5 @@
+import { Select as SelectRadix } from 'radix-ui';
+import * as React from 'react';
 import { ReactNode } from 'react';
 
 export interface SelectItemProps {
@@ -18,7 +20,10 @@ export interface CheckboxItemProps extends SelectItemProps {
 
 export type SelectVariant = 'text' | 'icon' | 'checkbox';
 
-export interface SelectProps {
+export interface SelectProps extends Omit<
+  React.ComponentPropsWithoutRef<typeof SelectRadix.Root>,
+  'value' | 'onValueChange' | 'required' | 'onOpenChange' | 'disabled'
+> {
   items: SelectItemProps[];
   onValueChange?: (value: string | string[]) => void;
   onOpenChange?: (open: boolean) => void;
@@ -38,7 +43,7 @@ export interface SelectProps {
   'data-testid'?: string;
   tooltip?: boolean;
   tooltipText?: string;
-  side?: "top" | "right" | "bottom" | "left"
+  side?: "top" | "right" | "bottom" | "left";
   align?: "start" | "center" | "end";
   enableInfiniteScroll?: boolean;
   onScrollEnd?: () => void;
