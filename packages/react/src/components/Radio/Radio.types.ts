@@ -1,4 +1,4 @@
-import { RadioGroup as RadioGroupPrimitive } from 'radix-ui';
+import { RadioGroup as RadioRadix } from 'radix-ui';
 import * as React from 'react';
 
 export interface RadioProps {
@@ -9,7 +9,7 @@ export interface RadioProps {
 }
 
 export interface RadioGroupProps extends Omit<
-  React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Root>,
+  React.ComponentPropsWithoutRef<typeof RadioRadix.Root>,
   'defaultValue' | 'onValueChange' | 'name' | 'orientation'
 > {
   id?: string;

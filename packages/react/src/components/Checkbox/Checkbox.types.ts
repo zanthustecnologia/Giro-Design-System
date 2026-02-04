@@ -1,8 +1,8 @@
-import { Checkbox as CheckboxPrimitive } from 'radix-ui';
+import { Checkbox as CheckboxRadix } from 'radix-ui';
 import * as React from 'react';
 
 export interface CheckboxProps extends Omit<
-  React.ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root>,
+  React.ComponentPropsWithoutRef<typeof CheckboxRadix.Root>,
   'checked' | 'onCheckedChange' | 'disabled' | 'id'
 > {
   id?: string;
