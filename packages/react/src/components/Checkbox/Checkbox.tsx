@@ -1,10 +1,12 @@
-import * as React from 'react';
-import { Checkbox as CheckboxRadix } from 'radix-ui';
-import styles from './Checkbox.module.scss';
-import { CheckSmall, CheckHalf } from '@/shared/icons';
-import { CheckboxProps } from './Checkbox.types';
 import clsx from 'clsx';
-import { useId } from 'react';
+import { Checkbox as CheckboxRadix } from 'radix-ui';
+import * as React from 'react';
+
+import { CheckSmall, CheckHalf } from '@/shared/icons';
+
+import styles from './Checkbox.module.scss';
+import { CheckboxProps } from './Checkbox.types';
+
 
 const Checkbox: React.FC<CheckboxProps> = ({
   id,
@@ -16,7 +18,7 @@ const Checkbox: React.FC<CheckboxProps> = ({
   indeterminate = false,
   ...rest
 }) => {
-  const componentId = id || useId();
+  const componentId = id || React.useId();
 
   return (
     <div className={clsx(styles.container, className)}>
