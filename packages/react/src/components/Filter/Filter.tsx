@@ -1,23 +1,23 @@
 // Filter.tsx
+import { ChevronDownRegular, Calendar16Regular } from '@fluentui/react-icons';
+import clsx from 'clsx';
 import React, {
   useState,
   useRef,
   useEffect,
-  ReactNode,
-  ReactElement,
   useCallback,
   useMemo,
 } from 'react';
-import Button from '../Button';
-import Dropdown from '../Dropdown/Dropdown';
-import type { DropdownItem, DropdownType } from '../Dropdown/Dropdown.types';
-import Calendar from '../Calendar/Calendar';
-import styles from './Filter.module.scss';
+
 import Badge from '../Badge';
-import { ChevronDownRegular, Calendar16Regular } from '@fluentui/react-icons';
-import clsx from 'clsx';
+import Button from '../Button';
+import styles from './Filter.module.scss';
+import Calendar from '../Calendar/Calendar';
+import Dropdown from '../Dropdown/Dropdown';
+
 import type { FilterProps } from './Filter.types';
-// ✅ CORREÇÃO: Problema de loop infinito no useEffect
+import type { DropdownType } from '../Dropdown/Dropdown.types';
+
 const Filter: React.FC<FilterProps> = ({
   items = [],
   type = 'checkbox',
