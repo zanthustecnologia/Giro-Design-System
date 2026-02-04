@@ -1,6 +1,9 @@
-import React from 'react';
+import * as React from 'react';
 
-export interface SearchProps {
+export interface SearchProps extends Omit<
+  React.InputHTMLAttributes<HTMLInputElement>,
+  'onChange' | 'onKeyDown' | 'onFocus' | 'onBlur' | 'type'
+> {
   placeholder?: string;
   disabled?: boolean;
   value?: string;
