@@ -1,3 +1,5 @@
+import { DropdownMenu } from 'radix-ui';
+import * as React from 'react';
 import { ReactElement } from 'react';
 
 export interface MenuItemProps {
@@ -16,7 +18,10 @@ export interface DefaultMenuItemProps {
   onSelect: (item: MenuItemProps) => void;
 }
 
-export interface MenuProps {
+export interface MenuProps extends Omit<
+  React.ComponentPropsWithoutRef<typeof DropdownMenu.Content>,
+  'align' | 'onKeyDown'
+> {
   items: MenuItemProps[];
   children?: ReactElement;
   type?: 'text' | 'icon';
