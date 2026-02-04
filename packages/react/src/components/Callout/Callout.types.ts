@@ -1,6 +1,6 @@
-import React from 'react';
+import * as React from 'react';
 
-export interface CalloutProps {
+export interface CalloutProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
   /** Define o tipo de callout */
   type?: 'neutral' | 'color' | 'brand' | 'alert' | 'success';
   /** Define o título com mais destaque */
@@ -13,6 +13,4 @@ export interface CalloutProps {
   className?: string;
   /** Define o id do callout */
   id?: string;
-  /** Props adicionais para o elemento div */
-  [key: string]: any;
 }

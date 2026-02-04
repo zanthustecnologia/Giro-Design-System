@@ -9,7 +9,8 @@ const Callout: React.FC<CalloutProps> = ({
   text = '',
   icon = null,
   className = '',
-  id = ''
+  id = '',
+  ...rest
 }) => {
   const generatedId = useId();
   const titleId = id || `callout-title-${generatedId}`;
@@ -32,6 +33,7 @@ const Callout: React.FC<CalloutProps> = ({
       aria-live="polite"
       role="alert"
       aria-labelledby={title ? titleId : undefined}
+      {...rest}
     >
       <div className={styles['zds-callout__content']}>
         {icon && <span className={styles['zds-callout__icon']}>{icon}</span>}
