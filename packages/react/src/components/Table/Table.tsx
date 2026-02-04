@@ -1,11 +1,13 @@
-import styles from './Table.module.scss';
-import React, { useState, useMemo, useCallback, ReactNode, CSSProperties } from 'react';
 import clsx from 'clsx';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
+import React, { useState, useMemo, useCallback, ReactNode, CSSProperties } from 'react';
+
+import styles from './Table.module.scss';
 import Checkbox from '../Checkbox';
-import LoaderList from './LoaderList';
 import EmptyRows150Color from './EmptyRows150Color';
+import LoaderList from './LoaderList';
+
 import type { TableColumn, TableRowData, TableProps } from './Table.types';
 
 const useSelection = <T extends TableRowData = TableRowData>(
@@ -20,10 +22,8 @@ const useSelection = <T extends TableRowData = TableRowData>(
     const newRows = dataSource.filter((_, index) => newKeys.includes(index)) as T[];
 
     if (rowSelection?.selectedRowKeys !== undefined) {
-      // Controlled
       rowSelection.onChange?.(newKeys, newRows);
     } else {
-      // Uncontrolled
       setInternalKeys(newKeys);
       rowSelection?.onChange?.(newKeys, newRows);
     }

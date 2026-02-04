@@ -1,23 +1,16 @@
-import React from 'react';
 import { ChevronLeft16Regular, ChevronRight16Regular } from '@fluentui/react-icons';
+import React from 'react';
+
 import styles from './Table.module.scss';
 
 export interface TablePaginationProps extends React.HTMLAttributes<HTMLDivElement> {
-  /** Página atual */
   currentPage: number;
-  /** Total de itens */
   totalItems: number;
-  /** Itens por página */
   itemsPerPage: number;
-  /** Callback quando a página muda */
   onPageChange: (page: number) => void;
-  /** Callback quando itens por página muda */
   onItemsPerPageChange: (itemsPerPage: number) => void;
-  /** Opções disponíveis para itens por página */
   pageSizeOptions?: number[];
-  /** Desabilita a paginação */
   disabled?: boolean;
-  /** Classes CSS adicionais */
   className?: string;
 }
 
@@ -32,16 +25,13 @@ const TablePagination: React.FC<TablePaginationProps> = ({
   className = '',
   ...rest
 }) => {
-  // Cálculos
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   const startItem = totalItems > 0 ? (currentPage - 1) * itemsPerPage + 1 : 0;
   const endItem = Math.min(currentPage * itemsPerPage, totalItems);
   
-  // Lógica para habilitar/desabilitar botões
   const canGoPrev = currentPage > 1 && !disabled;
   const canGoNext = currentPage < totalPages && !disabled;
   
-  // Handlers
   const handlePrevious = () => {
     if (canGoPrev) {
       onPageChange(currentPage - 1);
@@ -81,7 +71,6 @@ const TablePagination: React.FC<TablePaginationProps> = ({
         </select>
       </div>
       
-      {/* Informações de paginação */}
       <div className={styles['zds-table__pagination-info']}>
         <span>
           {totalItems > 0 
@@ -91,9 +80,7 @@ const TablePagination: React.FC<TablePaginationProps> = ({
         </span>
       </div>
       
-      {/* Controles de navegação */}
       <div className={styles['zds-table__pagination-controls']}>
-        {/* CORREÇÃO: Ícone envolvido por um <button> com lógica 'disabled' */}
         <button
           className={styles['zds-table__pagination-button']}
           onClick={handlePrevious}
@@ -103,7 +90,6 @@ const TablePagination: React.FC<TablePaginationProps> = ({
           <ChevronLeft16Regular />
         </button>
         
-        {/* CORREÇÃO: Ícone envolvido por um <button> com lógica 'disabled' */}
         <button
           className={styles['zds-table__pagination-button']}
           onClick={handleNext}

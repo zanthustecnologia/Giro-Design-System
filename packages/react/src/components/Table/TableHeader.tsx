@@ -1,8 +1,10 @@
 import React, { useState, KeyboardEvent } from 'react';
-import Search from '../Search/Search';
-import Filter from '../Filter/Filter';
-import type { DropdownItem } from '../Dropdown/Dropdown.types';
+
 import styles from './Table.module.scss';
+import Filter from '../Filter/Filter';
+import Search from '../Search/Search';
+
+import type { DropdownItem } from '../Dropdown/Dropdown.types';
 
 interface BaseFilterItem {
   id?: string;
