@@ -1,9 +1,11 @@
+import * as React from 'react';
 import { ReactNode, ReactElement } from 'react';
+
 import { DropdownItem, DropdownType } from '../Dropdown/Dropdown.types';
 
 type FilterButtonVariant = 'filled' | 'outlined' | 'text';
 
-export interface FilterProps {
+export interface FilterProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Items para o dropdown */
   items?: DropdownItem[];
   /** Tipo do dropdown */

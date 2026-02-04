@@ -39,6 +39,7 @@ const Filter: React.FC<FilterProps> = ({
   minDate,
   maxDate,
   locale = 'pt-br',
+  ...rest
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [currentCalendarDate, setCurrentCalendarDate] = useState<Date | null>(
@@ -153,7 +154,7 @@ const Filter: React.FC<FilterProps> = ({
     [styles[`zds-filter__dropdown--${position}`]]: position,
   });
   return (
-    <div ref={filterRef} className={filterClass}>
+    <div ref={filterRef} className={filterClass} {...rest}>
       <Button
         variant={variant}
         onClick={handleToggle}
