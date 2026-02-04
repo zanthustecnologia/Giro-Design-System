@@ -1,4 +1,5 @@
-import { useReducer, useMemo, useEffect, useRef, useCallback } from 'react';
+import { useReducer, useEffect, useRef, useCallback } from 'react';
+
 import { normalizeText } from '../../../hooks/NormalizeText';
 import {
   SelectState,
@@ -6,7 +7,7 @@ import {
   UseSelectLogicProps,
   UseSelectLogicReturn,
   SelectItemProps,
-} from '../SelectRadix.types';
+} from '../Select.types';
 
 const initialState: SelectState = {
   isOpen: false,
@@ -33,9 +34,10 @@ function selectReducer(state: SelectState, action: SelectAction): SelectState {
       return { ...state, hasError: action.payload };
     case 'RESET_SEARCH':
       return { ...state, searchInput: '', searchTerm: '' };
-    case 'VALIDATE':
+    case 'VALIDATE': {
       const hasError = action.payload.required && state.selectedValues.length === 0;
       return { ...state, hasError, touched: true };
+    }
     default:
       return state;
   }
@@ -47,7 +49,6 @@ export function useSelectLogic({
   search = false,
   onValueChange,
   onOpenChange,
-  // API search props
   enableApiSearch = false,
   onApiSearch,
   isSearching = false,
@@ -62,10 +63,8 @@ export function useSelectLogic({
   const hasInitialSearchRef = useRef<boolean>(false);
   const lastSearchTermRef = useRef<string>('');
 
-  // Função de debounce para busca em API
   const debouncedApiSearch = useCallback(
     (searchTerm: string) => {
-      // Evita chamadas duplicadas com o mesmo termo
       if (lastSearchTermRef.current === searchTerm) {
         return;
       }
@@ -80,7 +79,7 @@ export function useSelectLogic({
         if (enableApiSearch && onApiSearch) {
           onApiSearch(searchTerm);
         }
-      }, 300); // 300ms de debounce
+      }, 300);
     },
     [enableApiSearch, onApiSearch]
   );
@@ -101,17 +100,14 @@ export function useSelectLogic({
   useEffect(() => {
     if (!state.isOpen) {
       dispatch({ type: 'RESET_SEARCH' });
-      // Reset flags quando fechar
       hasInitialSearchRef.current = false;
       lastSearchTermRef.current = '';
     }
   }, [state.isOpen]);
 
-  // Efeito para busca inicial quando abrir o select com API search
   useEffect(() => {
     if (state.isOpen && enableApiSearch && !hasInitialSearchRef.current) {
       hasInitialSearchRef.current = true;
-      // Faz uma busca inicial vazia para carregar os itens (sem debounce para ser mais rápido)
       if (onApiSearch) {
         onApiSearch('');
         lastSearchTermRef.current = '';
@@ -119,20 +115,16 @@ export function useSelectLogic({
     }
   }, [state.isOpen, enableApiSearch, onApiSearch]);
 
-  // Efeito para disparar busca via API somente quando searchTerm for definido (Enter pressionado)
   useEffect(() => {
     if (enableApiSearch && state.searchTerm && state.isOpen) {
-      // Só dispara se for diferente do último termo pesquisado
       if (lastSearchTermRef.current !== state.searchTerm) {
         debouncedApiSearch(state.searchTerm);
       }
     }
   }, [state.searchTerm, enableApiSearch, state.isOpen, debouncedApiSearch]);
 
-  // Efeito para recarregar dados quando o campo de busca ficar vazio
   useEffect(() => {
     if (enableApiSearch && state.isOpen && state.searchInput === '' && state.searchTerm === '') {
-      // Só recarrega se já teve alguma busca anterior
       if (lastSearchTermRef.current !== '') {
         lastSearchTermRef.current = '';
         if (onApiSearch) {
@@ -142,13 +134,11 @@ export function useSelectLogic({
     }
   }, [state.searchInput, state.searchTerm, enableApiSearch, state.isOpen, onApiSearch]);
 
-  // Cleanup do timeout quando componente for desmontado
   useEffect(() => {
     return () => {
       if (debounceTimeoutRef.current) {
         clearTimeout(debounceTimeoutRef.current);
       }
-      // Limpar refs no cleanup
       hasInitialSearchRef.current = false;
       lastSearchTermRef.current = '';
     };
@@ -185,7 +175,6 @@ export function useSelectLogic({
 
   const resetSearch = () => {
     dispatch({ type: 'RESET_SEARCH' });
-    // Reset da ref para permitir nova busca vazia
     lastSearchTermRef.current = '';
   };
 
@@ -255,13 +244,10 @@ export function useSelectLogic({
     items: SelectItemProps[],
     searchTerm: string
   ): SelectItemProps[] => {
-    // Se busca via API estiver ativa, não filtra localmente
-    // Assume que a API já retornou os dados filtrados
     if (enableApiSearch) {
       return items;
     }
 
-    // Busca local (comportamento original)
     if (!searchTerm) return items;
 
     const lowercasedSearchTerm = searchTerm.toLowerCase();

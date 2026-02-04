@@ -1,21 +1,19 @@
 import React from 'react';
 import type { Meta, StoryFn } from '@storybook/react';
-import { SelectRadix } from '@giro-ds/react';
-import type { SelectRadixProps } from '@giro-ds/react';
+import { Select } from '@giro-ds/react';
+import type { SelectProps } from '@giro-ds/react';
 import { Channel16Regular } from '@fluentui/react-icons';
 
-const meta: Meta<SelectRadixProps> = {
-  title: 'Components/SelectRadix',
-  component: SelectRadix,
+const meta: Meta<SelectProps> = {
+  title: 'Components/Select',
+  component: Select,
   parameters: {
-    layout: 'centered',
     docs: {
       description: {
         component:
           'Componente Select usando Radix UI com estilização customizada e melhor organização de código.',
       },
     },
-    layout: 'centered',
   },
   argTypes: {
     items: {
@@ -69,22 +67,16 @@ const mockItems = [
     id: '1',
     value: 'item1',
     text: 'List item',
-    subTitle: 'Sub item 1',
-    icon: <Channel16Regular />,
   },
   {
     id: '2',
     value: 'item2',
-    text: 'List-item 2',
-    disabled: true,
-    subTitle: 'Sub item 2 (disabled)',
-    icon: <Channel16Regular />,
+    text: 'List-item 2'
   },
   {
     id: '3',
     value: 'item3',
-    text: 'List-item 3',
-    icon: <Channel16Regular />,
+    text: 'List-item 3'
   },
   {
     id: '4',
@@ -95,15 +87,131 @@ const mockItems = [
     id: '5',
     value: 'item5',
     text: 'List-item 5',
-    subTitle: 'Com subtitle',
   },
 ];
 
-export const Default: StoryFn<SelectRadixProps> = (args) => (
+const mockItemsWithIcon = [
+  {
+    id: '1',
+    value: 'item1',
+    text: 'List item',
+    icon: <Channel16Regular />,
+    subTitle: 'Subtítulo do item 1',
+  },
+  {
+    id: '2',
+    value: 'item2',
+    text: 'List-item 2',
+    icon: <Channel16Regular />,
+    subTitle: 'Subtítulo do item 2',
+  },
+  {
+    id: '3',
+    value: 'item3',
+    text: 'List-item 3',
+    icon: <Channel16Regular />,
+    subTitle: 'Subtítulo do item 3',
+  },
+  {
+    id: '4',
+    value: 'item4',
+    text: 'List-item 4',
+    icon: <Channel16Regular />,
+    subTitle: 'Subtítulo do item 4',
+  },
+  {
+    id: '5',
+    value: 'item5',
+    text: 'List-item 5',
+    icon: <Channel16Regular />,
+    subTitle: 'Subtítulo do item 5',
+  },
+];
+
+const mockItemsWithChildren = [
+  {
+    id: '1',
+    value: 'item1',
+    text: 'List item',
+    children: [
+      {
+        id: '1',
+        value: 'item1',
+        text: 'List item',
+      },
+      {
+        id: '2',
+        value: 'item2',
+        text: 'List-item 2'
+      },
+      {
+        id: '3',
+        value: 'item3',
+        text: 'List-item 3'
+      }
+    ],
+  },
+  {
+    id: '2',
+    value: 'item2',
+    text: 'List-item 2',
+    children: [
+      {
+        id: '1',
+        value: 'item1',
+        text: 'List item',
+      },
+      {
+        id: '2',
+        value: 'item2',
+        text: 'List-item 2'
+      },
+      {
+        id: '3',
+        value: 'item3',
+        text: 'List-item 3'
+      }
+    ],
+  },
+  {
+    id: '3',
+    value: 'item3',
+    text: 'List-item 3',
+    children: [
+      {
+        id: '1',
+        value: 'item1',
+        text: 'List item',
+      },
+      {
+        id: '2',
+        value: 'item2',
+        text: 'List-item 2'
+      },
+      {
+        id: '3',
+        value: 'item3',
+        text: 'List-item 3'
+      }
+    ],
+  },
+  {
+    id: '4',
+    value: 'item4',
+    text: 'List-item 4',
+  },
+  {
+    id: '5',
+    value: 'item5',
+    text: 'List-item 5',
+  },
+];
+
+export const Default: StoryFn<SelectProps> = (args) => (
   <div style={{ maxWidth: 300 }}>
-    <SelectRadix 
+    <Select 
       {...args} 
-      onValueChange={(value) => console.log('Selected:', value)} 
+      onValueChange={(value) => console.log('Selected:', value)}
     />
   </div>
 );
@@ -116,9 +224,9 @@ Default.args = {
   helperText: 'Texto de ajuda aqui',
 };
 
-export const WithSearch: StoryFn<SelectRadixProps> = (args) => (
+export const WithSearch: StoryFn<SelectProps> = (args) => (
   <div style={{ maxWidth: 300 }}>
-    <SelectRadix 
+    <Select 
       {...args} 
       onValueChange={(value) => console.log('Selected:', value)} 
     />
@@ -131,11 +239,12 @@ WithSearch.args = {
   label: 'Select com busca',
 };
 
-export const WithIcon: StoryFn<SelectRadixProps> = (args) => (
+export const WithIcon: StoryFn<SelectProps> = (args) => (
   <div style={{ maxWidth: 300 }}>
-    <SelectRadix 
+    <Select 
       {...args} 
       onValueChange={(value) => console.log('Selected:', value)} 
+      items={mockItemsWithIcon} 
     />
   </div>
 );
@@ -146,11 +255,11 @@ WithIcon.args = {
   label: 'Select com ícones',
 };
 
-export const Checkbox: StoryFn<SelectRadixProps> = (args) => (
+export const Checkbox: StoryFn<SelectProps> = (args) => (
   <div style={{ maxWidth: 300 }}>
-    <SelectRadix 
+    <Select 
       {...args} 
-      onValueChange={(value) => console.log('Selected:', value)} 
+      onValueChange={(value) => console.log('Selected:', value)}
     />
   </div>
 );
@@ -159,12 +268,12 @@ Checkbox.args = {
   ...Default.args,
   variant: 'checkbox',
   label: 'Select múltiplo',
-  search: true,
+  search: false,
 };
 
-export const Required: StoryFn<SelectRadixProps> = (args) => (
+export const Required: StoryFn<SelectProps> = (args) => (
   <div style={{ maxWidth: 300 }}>
-    <SelectRadix 
+    <Select 
       {...args} 
       onValueChange={(value) => console.log('Selected:', value)} 
     />
@@ -178,9 +287,9 @@ Required.args = {
   helperText: 'Este campo é obrigatório',
 };
 
-export const Disabled: StoryFn<SelectRadixProps> = (args) => (
+export const Disabled: StoryFn<SelectProps> = (args) => (
   <div style={{ maxWidth: 300 }}>
-    <SelectRadix 
+    <Select 
       {...args} 
       onValueChange={(value) => console.log('Selected:', value)} 
     />
@@ -194,7 +303,17 @@ Disabled.args = {
   value: 'item1',
 };
 
-export const Position: StoryFn<SelectRadixProps> = (args) => (
+export const Children: StoryFn<SelectProps> = (args) => (
+  <div style={{ maxWidth: 300 }}>
+    <Select 
+      {...args} 
+      onValueChange={(value) => console.log('Selected:', value)} 
+      items={mockItemsWithChildren}
+    />
+  </div>
+);
+
+export const Position: StoryFn<SelectProps> = (args) => (
   <div style={{ 
     height: '100vh', 
     display: 'flex', 
@@ -211,7 +330,7 @@ export const Position: StoryFn<SelectRadixProps> = (args) => (
     }}>
       <h3 style={{ margin: '0 0 16px 0', color: '#333' }}>Select no topo (abre para baixo)</h3>
       <div style={{ maxWidth: 300 }}>
-        <SelectRadix 
+        <Select 
           {...args}
           label="Select no topo"
           placeholder="Clique para testar"
@@ -233,7 +352,7 @@ export const Position: StoryFn<SelectRadixProps> = (args) => (
         Select próximo ao footer
       </h3>
       <div style={{ maxWidth: 300 }}>
-        <SelectRadix 
+        <Select 
           {...args}
           label="Select no footer"
           placeholder="Clique para testar"
@@ -275,7 +394,7 @@ Position.args = {
   search: true,
 };
 
-export const InfiniteScroll: StoryFn<SelectRadixProps> = () => {
+export const InfiniteScroll: StoryFn<SelectProps> = () => {
   const [items, setItems] = React.useState(
     Array.from({ length: 20 }, (_, i) => ({
       id: `item-${i + 1}`,
@@ -318,7 +437,7 @@ export const InfiniteScroll: StoryFn<SelectRadixProps> = () => {
 
   return (
     <div style={{ maxWidth: '400px' }}>
-      <SelectRadix
+      <Select
         items={items}
         variant="text"
         label="Select com Scroll Infinito"
@@ -337,7 +456,7 @@ export const InfiniteScroll: StoryFn<SelectRadixProps> = () => {
 };
 
 // Story para demonstrar a busca em API
-export const ApiSearch: StoryFn<SelectRadixProps> = () => {
+export const ApiSearch: StoryFn<SelectProps> = () => {
   const [items, setItems] = React.useState([
     { id: '1', value: '1', text: 'Item 1', subTitle: 'Resultado inicial' },
     { id: '2', value: '2', text: 'Item 2', subTitle: 'Resultado inicial' },
@@ -378,7 +497,7 @@ export const ApiSearch: StoryFn<SelectRadixProps> = () => {
 
   return (
     <div style={{ maxWidth: '400px' }}>
-      <SelectRadix
+      <Select
         items={items}
         variant="text"
         label="Select com Busca em API"

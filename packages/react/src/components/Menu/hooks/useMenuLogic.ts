@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { MenuItemProps } from '../MenuRadix.types';
+import { MenuItemProps } from '../Menu.types';
 
 export interface UseMenuLogicProps {
   selectedItems?: MenuItemProps[];

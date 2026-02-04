@@ -40,11 +40,8 @@ export { type FilterProps } from './Filter/Filter.types';
 export { default as ListItem } from './ListItem';
 export { type ListItemProps } from './ListItem/ListItem.types';
 
-export { default as Menu } from './Menu';
-export { type MenuProps, type MenuItem } from './Menu/Menu.types';
-
-export {default as MenuRadix } from './MenuRadix';
-export { type MenuRadixProps } from './MenuRadix/MenuRadix.types';
+export {default as Menu } from './Menu';
+export { type MenuProps } from './Menu/Menu.types';
 
 export { default as Quantity } from './Quantity';
 export { type QuantityProps } from './Quantity/Quantity.types';
@@ -56,13 +53,7 @@ export { default as Search } from './Search';
 export { type SearchProps } from './Search/Search.types';
 
 export { default as Select } from './Select';
-export { type SelectProps, type SelectOption } from './Select/Select.types';
-
-export { default as SelectField } from './SelectField/SelectField';
-export { type SelectFieldProps } from './SelectField/SelectField.types';
-
-export { default as SelectRadix } from './SelectRadix';
-export { type SelectRadixProps } from './SelectRadix/SelectRadix.types';
+export { type SelectProps } from './Select/Select.types';
 
 export { default as Table } from './Table';
 export { default as TableHeader } from './Table/TableHeader';

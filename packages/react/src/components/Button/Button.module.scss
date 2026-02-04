@@ -1,4 +1,44 @@
-.zds-button {
+// Mixins
+@mixin buttonSize($height, $padding-x, $min-width) {
+  height: $height;
+  padding: var(--spacing-0) $padding-x;
+  min-width: $min-width;
+}
+
+@mixin buttonIconPadding($left-padding, $right-padding) {
+  &.buttonIconPosition-left {
+    padding: var(--spacing-0) $right-padding var(--spacing-0) $left-padding;
+  }
+  
+  &.buttonIconPosition-right {
+    padding: var(--spacing-0) $left-padding var(--spacing-0) $right-padding;
+  }
+  &.buttonIconPosition-both {
+    padding: var(--spacing-0) $left-padding ;
+  }
+}
+
+@mixin iconOnlySize($size) {
+  padding: var(--spacing-0);
+  width: $size;
+  height: $size;
+  min-width: $size;
+  max-width: $size;
+  min-height: $size;
+  max-height: $size;
+  flex-shrink: 0;
+}
+
+@mixin iconSize($size: 16px) {
+  svg {
+    width: $size;
+    height: $size;
+    flex-shrink: 0;
+  }
+}
+
+// Base styles
+.button {
   position: relative;
   display: flex;
   flex-direction: row;
@@ -6,7 +46,7 @@
   align-items: center;
   border-radius: var(--border-radius-8);
   box-shadow: none;
-  padding: 0 var(--spacing-24);
+  padding: var(--spacing-0) var(--spacing-24);
   text-align: center;
   transition: all 0.3s ease-in-out;
   cursor: pointer;
@@ -18,195 +58,144 @@
   font-weight: var(--font-weight-medium);
   text-decoration: none;
 }
-.zds-button.zds-button__lg {
-  height: 44px;
-  padding: 0 var(--spacing-24);
-  min-width: 92px;
+
+.button.button-lg {
+  @include buttonSize(44px, var(--spacing-24), 92px);
 }
 
-.zds-button.zds-button__sm {
-  height: 36px;
-  padding: 0 var(--spacing-16);
-  min-width: 76px;
+.button.button-sm {
+  @include buttonSize(36px, var(--spacing-16), 76px);
 }
 
-.zds-button.zds-button__filled {
+.button.button-filled {
   background: var(--color-brand-primary-default);
   color: var(--color-neutral-high-light);
   border: none;
 }
 
-.zds-button.zds-button__outlined {
+.button.button-outlined {
   border: var(--border-width-1) solid var(--color-neutral-high-dark);
   background-color: var(--color-neutral-high-default);
   color: var(--color-brand-primary-default);
 }
 
-.zds-button.zds-button__text {
+.button.button-text {
   border: none;
   outline: none;
   background-color: transparent;
   color: var(--color-brand-primary-default);
 }
 
-.zds-button.zds-button__lg.zds-button__with-icon {
-  &.zds-button__icon-position-left {
-    padding: 0 var(--spacing-24) 0 var(--spacing-16);
-  }
+.button.button-lg.buttonWithIcon {
+  @include buttonIconPadding(var(--spacing-16), var(--spacing-24));
+}
+
+.button.button-sm.buttonWithIcon {
+  @include buttonIconPadding(var(--spacing-8), var(--spacing-16));
+}
+
+.button.button-text.button-lg {
+  padding: var(--spacing-0) var(--spacing-12);
   
-  &.zds-button__icon-position-right {
-    padding: 0 var(--spacing-16) 0 var(--spacing-24);
+  &.buttonWithIcon {
+    @include buttonIconPadding(var(--spacing-8), var(--spacing-12));
+    
+    &.buttonNoContent {
+      padding: var(--spacing-0) var(--spacing-16);
+    }
   }
 }
 
-.zds-button.zds-button__sm.zds-button__with-icon {
-  &.zds-button__icon-position-left {
-    padding: 0 var(--spacing-16) 0 var(--spacing-8);
-  }
+.button.button-text.button-sm {
+  padding: var(--spacing-0) var(--spacing-8);
   
-  &.zds-button__icon-position-right {
-    padding: 0 var(--spacing-8) 0 var(--spacing-16);
-  }
-}
-
-/* 5️⃣ TEXT VARIANT SPECIFICS: Especificidade alta (3-4 classes) */
-.zds-button.zds-button__text.zds-button__lg {
-  padding: 0 var(--spacing-12);
-  
-  &.zds-button__with-icon {
-    &.zds-button__icon-position-left {
-      padding: 0 var(--spacing-12) 0 var(--spacing-8);
-    }
+  &.buttonWithIcon {
+    @include buttonIconPadding(var(--spacing-4), var(--spacing-8));
     
-    &.zds-button__icon-position-right {
-      padding: 0 var(--spacing-8) 0 var(--spacing-12);
-    }
-    
-    &.zds-button__no-content {
-      padding: 0 var(--spacing-16);
+    &.buttonNoContent {
+      padding: var(--spacing-0) var(--spacing-8);
     }
   }
 }
 
-.zds-button.zds-button__text.zds-button__sm {
-  padding: 0 var(--spacing-8);
-  
-  &.zds-button__with-icon {
-    &.zds-button__icon-position-left {
-      padding: 0 var(--spacing-4) 0 var(--spacing-8);
-    }
-    
-    &.zds-button__icon-position-right {
-      padding: 0 var(--spacing-8) 0 var(--spacing-4);
-    }
-    
-    &.zds-button__no-content {
-      padding: 0 var(--spacing-8);
-    }
-  }
+.button.button-lg.buttonIconOnly {
+  @include iconOnlySize(44px);
 }
 
-.zds-button.zds-button__lg.zds-button__icon-only {
-  padding: 0;
-  width: 44px;
-  height: 44px;
-  min-width: 44px;
-  max-width: 44px;
-  max-height: 44px;
-  flex-shrink: 0;
+.button.button-sm.buttonIconOnly {
+  @include iconOnlySize(36px);
 }
 
-.zds-button.zds-button__sm.zds-button__icon-only {
-  padding: 0;
-  width: 36px;
-  height: 36px;
-  min-width: 36px;
-  max-width: 36px;
-  max-height: 36px;
-  flex-shrink: 0;
-}
-.zds-button__icon-only span {
+.buttonIconOnly span {
   width: 16px;
   height: 16px;
 }
 
-.zds-button__icon-left,
-.zds-button__icon-right,
-.zds-button__icon-only {
-  svg {
-    width: 16px;
-    height: 16px;
-    flex-shrink: 0;
-  }
+.buttonIconLeft,
+.buttonIconRight,
+.buttonIconOnly {
+  @include iconSize(16px);
 }
 
-.zds-button svg {
+.button svg {
   width: 16px !important;
   height: 16px !important;
   flex-shrink: 0;
 }
-.zds-button.zds-button__filled.zds-button__lg.zds-button__icon-only,
-.zds-button.zds-button__outlined.zds-button__lg.zds-button__icon-only,
-.zds-button.zds-button__text.zds-button__lg.zds-button__icon-only {
-  padding: 0;
-  width: 44px;
-  height: 44px;
-  min-width: 44px;
-  max-width: 44px;
+
+.button.button-filled.button-lg.buttonIconOnly,
+.button.button-outlined.button-lg.buttonIconOnly,
+.button.button-text.button-lg.buttonIconOnly {
+  @include iconOnlySize(44px);
 }
 
-.zds-button.zds-button__filled.zds-button__sm.zds-button__icon-only,
-.zds-button.zds-button__outlined.zds-button__sm.zds-button__icon-only,
-.zds-button.zds-button__text.zds-button__sm.zds-button__icon-only {
-  padding: 0;
-  width: 36px;
-  height: 36px;
-  min-width: 36px;
-  max-width: 36px;
+.button.button-filled.button-sm.buttonIconOnly,
+.button.button-outlined.button-sm.buttonIconOnly,
+.button.button-text.button-sm.buttonIconOnly {
+  @include iconOnlySize(36px);
 }
-.zds-button__full-width {
-  width: 100%;
+.button.buttonFullWidth {
+  width: 100% !important;
+  max-width: unset !important;
 }
 
-.zds-button__icon-left {
+.buttonIconLeft {
   display: flex;
   margin-right: var(--spacing-8);
 }
 
-.zds-button__icon-right {
+.buttonIconRight {
   display: flex;
   margin-left: var(--spacing-8);
 }
 
-/* 9️⃣ NO-CONTENT OVERRIDES: Remove margens quando sem conteúdo */
-.zds-button.zds-button__no-content .zds-button__icon-left,
-.zds-button.zds-button__no-content .zds-button__icon-right {
-  margin: 0;
+.button.buttonNoContent .buttonIconLeft,
+.button.buttonNoContent .buttonIconRight {
+  margin: var(--spacing-0);
 }
 
-/* 🔟 STATES: Hover, Focus, Active, Disabled */
-.zds-button:hover,
-.zds-button:hover * {
+.button:hover,
+.button:hover * {
   text-decoration: none;
 }
 
 /* FILLED STATES */
-.zds-button.zds-button__filled:hover {
+.button.button-filled:hover {
   background: var(--color-brand-primary-medium);
 }
 
-.zds-button.zds-button__filled:focus {
-  outline: var(--spacing-4) solid var(--color-neutral-high-dark);
-  outline-offset: var(--spacing-2);
+.button.button-filled:focus {
+  outline: var(--border-width-4) solid var(--color-neutral-high-dark);
+  outline-offset: var(--border-width-2);
 }
 
-.zds-button.zds-button__filled:active {
+.button.button-filled:active {
   background: var(--color-brand-primary-dark);
   color: var(--color-neutral-high-light);
   outline: none;
 }
 
-.zds-button.zds-button__filled:disabled {
+.button.button-filled:disabled {
   background: var(--color-neutral-high-light);
   color: var(--color-neutral-low-light);
   cursor: not-allowed;
@@ -215,77 +204,134 @@
 }
 
 /* OUTLINED STATES */
-.zds-button.zds-button__outlined * {
+.button.button-outlined * {
   color: var(--color-brand-primary-default);
 }
 
-.zds-button.zds-button__outlined:hover {
+.button.button-outlined:hover {
   color: var(--color-brand-primary-default);
   background-color: var(--color-neutral-high-medium);
 }
 
-.zds-button.zds-button__outlined:focus {
-  outline: var(--spacing-4) solid var(--color-neutral-high-dark);
+.button.button-outlined:focus {
+  outline: var(--border-width-4) solid var(--color-neutral-high-dark);
+  outline-offset: var(--border-width-2);
   color: var(--color-brand-primary-default);
   background-color: var(--color-neutral-high-default);
 }
 
-.zds-button.zds-button__outlined:focus * {
+.button.button-outlined:focus * {
   color: var(--color-brand-primary-default);
 }
 
-.zds-button.zds-button__outlined:active {
+.button.button-outlined:active {
   outline: none;
   color: var(--color-brand-primary-default);
   background-color: var(--color-neutral-high-dark);
 }
 
-.zds-button.zds-button__outlined:active * {
+.button.button-outlined:active * {
   color: var(--color-brand-primary-default);
 }
 
-.zds-button.zds-button__outlined:disabled,
-.zds-button.zds-button__outlined.disabled {
-  outline: var(--spacing-1) solid var(--color-neutral-high-light);
+.button.button-outlined:disabled,
+.button.button-outlined.disabled {
+  outline: var(--border-width-1) solid var(--color-neutral-high-medium);
   color: var(--color-neutral-high-dark);
   cursor: not-allowed;
   background-color: var(--color-neutral-high-default);
 }
 
-.zds-button.zds-button__outlined:disabled *,
-.zds-button.zds-button__outlined.disabled * {
+.button.button-outlined:disabled *,
+.button.button-outlined.disabled * {
   color: var(--color-neutral-high-dark);
 }
 
 /* TEXT STATES */
-.zds-button.zds-button__text * {
+.button.button-text * {
   color: var(--color-brand-primary-default);
 }
 
-.zds-button.zds-button__text:hover {
+.button.button-text:hover {
   color: var(--color-brand-primary-default);
   background-color: var(--color-neutral-high-medium);
 }
 
-.zds-button.zds-button__text:focus {
-  outline: var(--spacing-4) solid var(--color-neutral-high-dark);
+.button.button-text:focus {
+  outline: var(--border-width-4) solid var(--color-neutral-high-dark);
+  outline-offset: var(--border-width-2);
   color: var(--color-brand-primary-default);
   background-color: transparent;
 }
 
-.zds-button.zds-button__text:active {
+.button.button-text:active {
   outline: none;
   color: var(--color-brand-primary-default);
   background-color: var(--color-neutral-high-dark);
 }
 
-.zds-button.zds-button__text:disabled {
+.button.button-text:disabled,
+.button.button-text.disabled {
   color: var(--color-neutral-high-dark);
   cursor: not-allowed;
-  opacity: 0.5;
-  outline: none;
+  outline: none; 
 
   &:hover {
     background-color: transparent;
+  }
+}
+
+.button.button-text:disabled *,
+.button.button-text.disabled * {
+  color: var(--color-neutral-high-dark);
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.buttonLoading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.button.button-lg.buttonLoading {
+  @include buttonSize(44px, var(--spacing-24), 92px);
+  
+  &.buttonWithIcon {
+    &.buttonIconPosition-left,
+    &.buttonIconPosition-right,
+    &.buttonIconPosition-both,
+    &.buttonNoContent {
+      padding: var(--spacing-0) var(--spacing-24);
+    }
+  }
+}
+
+.button.button-sm.buttonLoading {
+  @include buttonSize(36px, var(--spacing-16), 76px);
+  
+  &.buttonWithIcon {
+    &.buttonIconPosition-left,
+    &.buttonIconPosition-right,
+    &.buttonIconPosition-both,
+    &.buttonNoContent {
+      padding: var(--spacing-0) var(--spacing-16);
+    }
+  }
+}
+
+.buttonLoading span {
+  width: 16px;
+  height: 16px;
+}
+
+.buttonLoading {
+  @include iconSize(16px);
+  
+  svg {
+    animation: spin 1s linear infinite;
   }
 }

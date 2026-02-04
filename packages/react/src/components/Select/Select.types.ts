@@ -1,69 +1,111 @@
-import React from 'react';
-import { DropdownType } from '../Dropdown/Dropdown.types';
+import { ReactNode } from 'react';
 
-export interface SelectOption {
-  /** ID único da opção (opcional, será gerado automaticamente se não fornecido) */
+export interface SelectItemProps {
   id?: string;
-  /** Texto principal da opção */
-  text: string;
-  /** Texto secundário/descrição da opção */
-  subText?: string;
-  /** Ícone da opção (React node) */
-  icon?: React.ReactNode;
-  /** Define se a opção está desabilitada */
+  text: ReactNode;
+  subTitle?: ReactNode;
+  icon?: ReactNode;
   disabled?: boolean;
+  value: string;
+  selected?: boolean;
+  children?: SelectItemProps[];
 }
 
+export interface CheckboxItemProps extends SelectItemProps {
+  checked: boolean;
+  onCheckedChange: (checked: boolean) => void;
+}
+
+export type SelectVariant = 'text' | 'icon' | 'checkbox';
+
 export interface SelectProps {
-  /** ID único do componente */
-  id?: string;
-  /** Array de opções para seleção - obrigatório */
-  options: SelectOption[];
-  /** Valor(es) selecionado(s) */
-  value?: string | string[];
-  /** Valor inicial para seleção (usado apenas na primeira renderização) */
-  initialValue?: string | string[];
-  /** Callback para mudanças na seleção */
-  onChange?: (selectedItems: SelectOption[]) => void;
-  /** Placeholder do campo */
-  placeholder?: string;
-  /** Tipo do dropdown (single ou multiple) */
-  type?: DropdownType;
-  maxHeight?: string;
-  /** Label do campo */
-  label?: string;
-  /** Texto de ajuda */
-  helperText?: string;
-  /** Mensagem de erro */
-  errorMessage?: string;
-  /** Campo obrigatório */
+  items: SelectItemProps[];
+  onValueChange?: (value: string | string[]) => void;
+  onOpenChange?: (open: boolean) => void;
+  variant: SelectVariant;
   required?: boolean;
-  /** Campo desabilitado */
+  value?: string | string[];
+  multiple?: boolean;
+  placeholder?: string;
+  search?: boolean;
+  label?: string;
+  helperText?: string;
+  maxWidth?: number;
+  errorMessage?: string;
   disabled?: boolean;
-  /** Classes CSS adicionais */
   className?: string;
-  /** Texto para acessibilidade */
-  showSubText?: boolean;
-  /** Aria-label do campo */
-  ariaLabel?: string;
-  /** Habilita campo de busca */
-  applySearch?: boolean;
-  /** Placeholder do campo de busca */
-  searchPlaceholder?: string;
-  maxWidth?: string;
-  minWidth?: string;
+  'aria-label'?: string;
+  'data-testid'?: string;
   tooltip?: boolean;
   tooltipText?: string;
-  width?: string;
-  /** Força posição do dropdown: 'top' abre para cima, 'bottom' abre para baixo. Se não especificado, usa detecção automática */
-  position?: 'top' | 'bottom';
-  positionTooltip?: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left' | 'left' | 'right';
-  infiniteScroll?: {
-    status: 'idle' | 'loading' | 'succeeded' | 'failed';
-    page: number;
-    lastPage: number;
-    onLoadMore: () => void;
-    threshold?: number;
-    rootMargin?: string;
+  side?: "top" | "right" | "bottom" | "left"
+  align?: "start" | "center" | "end";
+  enableInfiniteScroll?: boolean;
+  onScrollEnd?: () => void;
+  isLoadingMore?: boolean;
+  enableApiSearch?: boolean;
+  onApiSearch?: (term: string) => void;
+  isSearching?: boolean;
+}
+
+export interface SelectState {
+  isOpen: boolean;
+  selectedValues: string[];
+  searchInput: string;
+  searchTerm: string;
+  touched: boolean;
+  hasError: boolean;
+}
+
+export type SelectAction =
+  | { type: 'SET_OPEN'; payload: boolean }
+  | { type: 'SET_SELECTED_VALUES'; payload: string[] }
+  | { type: 'SET_SEARCH_INPUT'; payload: string }
+  | { type: 'SET_SEARCH_TERM'; payload: string }
+  | { type: 'SET_TOUCHED'; payload: boolean }
+  | { type: 'SET_ERROR'; payload: boolean }
+  | { type: 'RESET_SEARCH' }
+  | { type: 'VALIDATE'; payload: { required: boolean } };
+
+export interface UseSelectLogicProps {
+  value?: string | string[];
+  required?: boolean;
+  search?: boolean;
+  onValueChange?: (value: string | string[]) => void;
+  onOpenChange?: (open: boolean) => void;
+  enableApiSearch?: boolean;
+  onApiSearch?: (term: string) => void;
+  isSearching?: boolean;
+}
+
+export interface UseSelectLogicReturn {
+  state: SelectState;
+  actions: {
+    setOpen: (open: boolean) => void;
+    setSelectedValues: (values: string[]) => void;
+    setSearchInput: (input: string) => void;
+    setSearchTerm: (term: string) => void;
+    setTouched: (touched: boolean) => void;
+    setError: (error: boolean) => void;
+    resetSearch: () => void;
+    validate: () => void;
+    handleSingleSelect: (value: string) => void;
+    handleMultipleSelect: (value: string, checked: boolean) => void;
+  };
+  computed: {
+    displayText: string;
+    filteredItems: SelectItemProps[];
+  };
+  refs: {
+    searchInputRef: React.RefObject<HTMLInputElement | null>;
+  };
+  utils: {
+    getDisplayText: (
+      selectedValues: string[],
+      placeholder: string,
+      variant: string,
+      items: SelectItemProps[]
+    ) => string;
+    getFilteredItems: (items: SelectItemProps[], searchTerm: string) => SelectItemProps[];
   };
 }

@@ -19,6 +19,7 @@ const Search = React.forwardRef<HTMLInputElement, SearchProps>(
       onMouseDown,
       id = '',
       className = '',
+      'data-testid': testId, 
     },
     ref
   ) => {
@@ -90,6 +91,7 @@ const Search = React.forwardRef<HTMLInputElement, SearchProps>(
           disabled={disabled}
           onFocus={handleFocus}
           onBlur={handleBlur}
+          data-testid={testId}
         />
         {currentValue && currentValue.length > 0 && (
           <span
