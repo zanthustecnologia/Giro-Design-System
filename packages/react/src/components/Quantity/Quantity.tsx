@@ -19,7 +19,8 @@ const Quantity: React.FC<QuantityProps> = ({
   size = 'lg',
   id,
   step,
-  className
+  className,
+  ...rest
 }) => {
   // Determina se o componente é controlado externamente
   const isControlled = controlledValue !== undefined;
@@ -276,7 +277,7 @@ const Quantity: React.FC<QuantityProps> = ({
   const inputId = id || uniqueId;
 
   return (
-    <div className={clsx(styles['zds-quantity'], { disabled }, className)}>
+    <div className={clsx(styles['zds-quantity'], { disabled }, className)} {...rest}>
       <Button
         variant='outlined'
         size={size}

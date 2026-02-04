@@ -1,4 +1,9 @@
-export interface QuantityProps {
+import * as React from 'react';
+
+export interface QuantityProps extends Omit<
+  React.HTMLAttributes<HTMLDivElement>,
+  'onChange'
+> {
   /** Valor padrão inicial */
   defaultValue?: number;
   /** Valor controlado externamente */
