@@ -1,6 +1,8 @@
+import * as React from 'react';
+
 export type InputType = 'numeric' | 'alpha' | 'alphanumeric';
 
-export interface VerificationCodeProps {
+export interface VerificationCodeProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Define o número de dígitos do código (padrão: 6) */
   length?: number;
   /** Define tipo de entrada: números, letras ou alfanumérico (padrão: "numeric") */
@@ -15,6 +17,4 @@ export interface VerificationCodeProps {
   disabled?: boolean;
   /** Classe CSS adicional para estilização externa */
   className?: string;
-  /** Props adicionais passadas para os inputs */
-  [key: string]: any;
 }
