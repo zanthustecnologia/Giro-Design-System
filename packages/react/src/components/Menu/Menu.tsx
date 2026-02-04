@@ -1,14 +1,15 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { ChevronRight16Filled } from '@fluentui/react-icons';
+import clsx from 'clsx';
 import { DropdownMenu } from 'radix-ui';
+import { useState, useEffect, useCallback, useRef } from 'react';
+import React from 'react';
+
+import Search from '../Search';
+import MenuItem from './components/MenuItem';
+import { useMenuLogic } from './hooks/useMenuLogic';
+import { useSearchLogic } from './hooks/useSearchLogic';
 import styles from './Menu.module.scss';
 import { MenuItemProps, MenuProps } from './Menu.types';
-import { ChevronRight16Filled } from '@fluentui/react-icons';
-import Search from '../Search';
-import { useSearchLogic } from './hooks/useSearchLogic';
-import { useMenuLogic } from './hooks/useMenuLogic';
-import MenuItem from './components/MenuItem';
-import React from 'react';
-import clsx from 'clsx';
 
 const Menu: React.FC<MenuProps> = ({
   items,
