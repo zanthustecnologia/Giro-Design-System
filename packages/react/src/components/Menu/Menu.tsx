@@ -1,8 +1,7 @@
 import { ChevronRight16Filled } from '@fluentui/react-icons';
 import clsx from 'clsx';
 import { DropdownMenu } from 'radix-ui';
-import { useState, useEffect, useCallback, useRef } from 'react';
-import React from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 
 import Search from '../Search';
 import MenuItem from './components/MenuItem';
