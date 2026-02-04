@@ -8,24 +8,16 @@ export interface TextFieldProps extends Omit<
   React.InputHTMLAttributes<HTMLInputElement>, 
   'onChange' | 'value' | 'type'
 > {
-  /** Controlled value */
   value?: string;
-  /** Change handler - receives string value */
   onChange?: (value: string) => void;
-  /** Label text */
   label?: string;
-  /** Input type */
   type?: TextFieldType;
-  /** Helper text (shown below input) */
   helperText?: string;
-  /** Show tooltip with info icon */
   tooltip?: boolean;
-  /** Tooltip content */
   tooltipText?: string;
   side?: "top" | "right" | "bottom" | "left"
   align?: "start" | "center" | "end";
   errorMessage?: string;
-  /** Leading icon */
   icon?: React.ReactNode;
 }
 
