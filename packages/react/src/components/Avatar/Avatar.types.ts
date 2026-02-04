@@ -1,6 +1,6 @@
-import React from 'react';
+import * as React from 'react';
 
-export interface AvatarProps {
+export interface AvatarProps extends React.HTMLAttributes<HTMLDivElement> {
   id?: string;
   icon: React.ReactNode;
   size?: 'small' | 'large';

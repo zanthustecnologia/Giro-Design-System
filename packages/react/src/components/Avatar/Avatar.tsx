@@ -1,9 +1,17 @@
-import React, { useId } from 'react';
-import styles from './Avatar.module.scss';
 import clsx from 'clsx';
+import React, { useId } from 'react';
+
+import styles from './Avatar.module.scss';
+
 import type { AvatarProps } from './Avatar.types';
 
-let Avatar = ({ id = '', icon, size = 'small', className = '' }: AvatarProps) => {
+const Avatar = ({ 
+  id = '', 
+  icon, 
+  size = 'small', 
+  className = '', 
+  ...rest 
+}: AvatarProps) => {
   const componentId = id || useId();
   const AvatarClass = clsx(
     styles['zds-avatar__circle'],
@@ -15,7 +23,7 @@ let Avatar = ({ id = '', icon, size = 'small', className = '' }: AvatarProps) =>
   );
 
   return (
-    <div className={AvatarClass} id={componentId} role="img" aria-label={`Avatar ${size}`}>
+    <div className={AvatarClass} id={componentId} role="img" aria-label={`Avatar ${size}`} {...rest}>
       <div className={styles['zds-avatar__circle__icon']}>
         {icon}
       </div>
