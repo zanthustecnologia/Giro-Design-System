@@ -13,6 +13,7 @@ const Chips: React.FC<ChipsProps> = ({
   type = 'neutral',
   disabled = false,
   className = '',
+  ...rest
 }) => {
 
   if (!title || title.trim() === '') {
@@ -34,6 +35,7 @@ const Chips: React.FC<ChipsProps> = ({
       className={chipsClass}
       aria-label={`Chip: ${title}`}
       aria-disabled={disabled}
+      {...rest}
     >
       {leftIcon && (
         <span className={styles['zds-chips__icon__left']} aria-hidden="true">

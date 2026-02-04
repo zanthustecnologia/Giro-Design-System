@@ -1,6 +1,6 @@
-import React from 'react';
+import * as React from 'react';
 
-export interface ChipsProps {
+export interface ChipsProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Variante a ser escolhida para utilizar padrões de estilizações pré-definidos */
   type?: 'neutral' | 'brand' | 'color' | 'success' | 'alert';
   /** Texto a ser exibido dentro do componente */
@@ -13,6 +13,4 @@ export interface ChipsProps {
   disabled?: boolean;
   /** Classe CSS adicional */
   className?: string;
-  /** Props adicionais para o elemento div */
-  [key: string]: any;
 }
