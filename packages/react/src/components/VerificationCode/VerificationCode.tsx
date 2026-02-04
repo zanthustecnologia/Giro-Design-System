@@ -1,6 +1,8 @@
-import React, { useRef, useState, useCallback, useEffect } from 'react';
 import clsx from 'clsx';
+import React, { useRef, useState, useCallback, useEffect } from 'react';
+
 import styles from './VerificationCode.module.scss';
+
 import type { InputType, VerificationCodeProps } from './VerificationCode.types';
 
 /**
