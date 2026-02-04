@@ -38,7 +38,7 @@ export interface TableColumn<T = TableRowData> {
  * Props do componente Table. Use genérico para autocomplete: `<Table<User>>`
  * @typeParam T - Tipo dos dados da linha
  */
-export interface TableProps<T = TableRowData> {
+export interface TableProps<T = TableRowData> extends React.HTMLAttributes<HTMLDivElement> {
   /** Configuração das colunas */
   columns: TableColumn<T>[];
   /** Array de dados a serem exibidos */

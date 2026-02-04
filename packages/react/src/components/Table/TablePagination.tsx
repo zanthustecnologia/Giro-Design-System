@@ -2,7 +2,7 @@ import React from 'react';
 import { ChevronLeft16Regular, ChevronRight16Regular } from '@fluentui/react-icons';
 import styles from './Table.module.scss';
 
-export interface TablePaginationProps {
+export interface TablePaginationProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Página atual */
   currentPage: number;
   /** Total de itens */
@@ -30,6 +30,7 @@ const TablePagination: React.FC<TablePaginationProps> = ({
   pageSizeOptions = [10, 25, 50, 100],
   disabled = false,
   className = '',
+  ...rest
 }) => {
   // Cálculos
   const totalPages = Math.ceil(totalItems / itemsPerPage);
@@ -59,8 +60,8 @@ const TablePagination: React.FC<TablePaginationProps> = ({
   };
 
   return (
-    <div className={`${styles['zds-table__pagination']} ${className}`.trim()}>
-      {/* Seletor de itens por página */}
+    <div className={`${styles['zds-table__pagination']} ${className}`.trim()} {...rest}>
+
       <div className={styles['zds-table__pagination-select']}>
         <label htmlFor="items-per-page" className={styles['zds-table__pagination-label']}>
           Itens por página

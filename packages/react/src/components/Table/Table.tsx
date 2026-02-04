@@ -84,6 +84,7 @@ const Table = <T extends TableRowData = TableRowData>({
   rowSelection,
   locale = {},
   onRow,
+  ...rest
 }: TableProps<T>) => {
   if (!Array.isArray(columns) || !Array.isArray(dataSource)) {
     console.warn('Table: columns e dataSource devem ser arrays');
@@ -149,7 +150,7 @@ const Table = <T extends TableRowData = TableRowData>({
   );
 
   return (
-    <div className={clsx(styles['zds-table__container'], className)}>
+    <div className={clsx(styles['zds-table__container'], className)} {...rest}>
       <div className={styles['zds-table__scroll-wrapper']}>
         <table 
           className={styles['zds-table']}

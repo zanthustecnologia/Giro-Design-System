@@ -44,7 +44,7 @@ const isCheckboxFilter = (filter: FilterItem): filter is CheckboxFilterItem => {
   return filter.type === 'checkbox' || filter.type === 'text' || filter.type === 'icon';
 };
 
-export interface TableHeaderProps {
+export interface TableHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
   searchValue?: string;
   onSearchChange?: (value: string) => void;
   searchPlaceholder?: string;
@@ -67,6 +67,7 @@ const TableHeader: React.FC<TableHeaderProps> = ({
   filters,
   filterItems = [],
   className = '',
+  ...rest
 }) => {
   const [internalSearchValue, setInternalSearchValue] = useState(searchValue);
 
@@ -97,7 +98,7 @@ const TableHeader: React.FC<TableHeaderProps> = ({
   const hasFilters = filters || (filterItems && filterItems.length > 0);
 
   return (
-    <div className={`${styles['zds-table-header']} ${className}`.trim()}>
+    <div className={`${styles['zds-table-header']} ${className}`.trim()} {...rest}>
       {showSearch && (onSearchChange || onSearch) && (
         <div className={styles['zds-table-header__search-container']}>
           <Search
