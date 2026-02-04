@@ -1,11 +1,10 @@
-import React from 'react';
-import styles from './Chips.module.scss';
 import clsx from 'clsx';
+import React from 'react';
+
+import styles from './Chips.module.scss';
+
 import type { ChipsProps } from './Chips.types';
 
-/**
- * Componente Chips para exibir tags/etiquetas com ícones opcionais
- */
 const Chips: React.FC<ChipsProps> = ({
   title,
   leftIcon = null,
