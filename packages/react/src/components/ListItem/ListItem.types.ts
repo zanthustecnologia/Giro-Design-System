@@ -1,8 +1,11 @@
-import React from 'react';
+import * as React from 'react';
 
 export type ListItemVariant = 'text' | 'checkbox' | 'radio' | 'icon';
 
-export interface ListItemProps {
+export interface ListItemProps extends Omit<
+  React.LiHTMLAttributes<HTMLLIElement>,
+  'onClick' | 'onChange'
+> {
   /** ID único do componente */
   id?: string;
   /** Classes CSS customizadas */

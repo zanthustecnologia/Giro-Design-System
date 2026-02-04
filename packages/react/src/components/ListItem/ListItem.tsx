@@ -25,7 +25,8 @@ const ListItem: React.FC<ListItemProps> = ({
   icon,
   value = '',
   showSubText = false,
-  hovered = false
+  hovered = false,
+  ...rest
 }) => {
   const componentId = useId();
   const itemId = id || componentId;
@@ -251,6 +252,7 @@ const ListItem: React.FC<ListItemProps> = ({
       aria-labelledby={`${itemId}-text`}
       aria-describedby={showSubText && subText ? `${itemId}-subtext` : undefined}
       data-testid="list-item"
+      {...rest}
     >
       {renderVariantContent()}
     </li>
