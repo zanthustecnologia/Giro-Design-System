@@ -1,8 +1,10 @@
 import React from 'react';
 
+import { TextVariant, BaseProps } from '../../types/common.types';
+
 export interface CalloutProps {
   /** Define o tipo de callout */
-  type?: 'neutral' | 'color' | 'brand' | 'alert' | 'success';
+  type?: TextVariant;
   /** Define o título com mais destaque */
   title?: string | null;
   /** Define o texto com menos destaque */
@@ -10,9 +12,9 @@ export interface CalloutProps {
   /** Define o ícone a ser importado */
   icon?: React.ReactNode;
   /** Define a classe CSS adicional */
-  className?: string;
+  className?: BaseProps['className'];
   /** Define o id do callout */
-  id?: string;
+  id?: BaseProps['id'];
   /** Props adicionais para o elemento div */
   [key: string]: any;
 }
