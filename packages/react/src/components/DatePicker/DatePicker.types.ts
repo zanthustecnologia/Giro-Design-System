@@ -1,10 +1,7 @@
-import { Locale, BaseProps } from '../../types/common.types';
-
-export type CalendarPosition = 'left' | 'right';
-
+import { Locale, BaseProps, Position } from '../../types/common.types';
 export interface DatePickerProps {
   locale?: Locale;
-  calendarPosition?: CalendarPosition;
+  calendarPosition?: Position;
   helperText?: string;
   required?: boolean;
   label?: string;
