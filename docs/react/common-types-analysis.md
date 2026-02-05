@@ -63,7 +63,7 @@ type TooltipAlign = 'start' | 'center' | 'end';
 
 ---
 
-### 5. **IconPosition** ✅
+### 5. **IconPosition** ✅ (não sera necessario pois o Button e o Chips o utilizam de maneiras diferentes)
 
 ```typescript
 type IconPosition = 'left' | 'right';
