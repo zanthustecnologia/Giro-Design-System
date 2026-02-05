@@ -1,3 +1,5 @@
+import { Size, BaseProps } from '../../types/common.types';
+
 export interface QuantityProps {
   /** Valor padrão inicial */
   defaultValue?: number;
@@ -6,15 +8,15 @@ export interface QuantityProps {
   /** Callback chamado quando o valor muda */
   onChange?: (value: number) => void;
   /** Define se o componente está desabilitado */
-  disabled?: boolean;
+  disabled?: BaseProps['disabled'];
   /** Define se o valor do input será decimal ou inteiro */
   decimal?: boolean;
   /** Define o tamanho do componente */
-  size?: 'lg' | 'sm';
+  size?: Size;
   /** Define o número de casas decimais quando decimal for true */
   decimalPlaces?: number;
   step?: number;
-  id?: string;
+  id?: BaseProps['id'];
   /** ClassName adicional para customização */
-  className?: string;
+  className?: BaseProps['className'];
 }
