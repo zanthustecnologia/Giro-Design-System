@@ -5,7 +5,7 @@ import Calendar from '../Calendar/Calendar';
 import { Calendar16Regular } from '@fluentui/react-icons';
 import { formatDate, parseDate, applyDateMask, isValidDateFormat } from './DateUtils';
 import styles from './DatePicker.module.scss';
-import type { DatePickerLocale, CalendarPosition, DatePickerProps } from './DatePicker.types';
+import type { DatePickerProps } from './DatePicker.types';
 
 const DatePicker: React.FC<DatePickerProps> = ({
   locale = 'pt-br',
@@ -228,32 +228,39 @@ const DatePicker: React.FC<DatePickerProps> = ({
   return (
     <div ref={wrapperRef}>
       <div className={clsx(styles['zds-date-picker'])}>
-        <div
-          onClick={handleFieldClick}
-          onFocus={handleFieldFocus}
+        <TextField
+          type="tel"
+          icon={
+            <Calendar16Regular 
+              onClick={!disabled ? handleIconClick : undefined}
+              className={clsx(
+                styles['zds-date-picker__icon'],
+                disabled && styles['zds-date-picker__icon--disabled']
+              )}
+            />
+          }
+          onChange={(e: string | number) => {
+            handleTextFieldChange(String(e));
+          }}
+          onClick={!disabled ? handleFieldClick : undefined}
+          onFocus={!disabled ? handleFieldFocus : undefined}
           onKeyDown={handleKeyDown}
-          style={{ cursor: 'pointer' }}
-        >
-          <TextField
-            type="tel"
-            icon={<Calendar16Regular onClick={handleIconClick} style={{ cursor: 'pointer' }} />}
-            onChange={(e: string | number) => {
-              handleTextFieldChange(String(e));
-            }}
-            aria-label="Open calendar"
-            aria-expanded={showCalendar}
-            aria-controls="calendar-popup"
-            placeholder={locale === 'en-us' ? 'MM/DD/YYYY' : 'DD/MM/YYYY'}
-            value={displayValue}
-            errorMessage={undefined}
-            aria-invalid={!!currentError}
-            aria-describedby={combinedHelperText ? helperTextId : undefined}
-            maxLength={10}
-            helperText={combinedHelperText}
-            required={required}
-            label={label}
-          />
-        </div>
+          value={displayValue}
+          helperText={combinedHelperText}
+          maxLength={10}
+          required={required}
+          label={label}
+          disabled={disabled}
+          id={fieldId}
+          className={className}
+          data-testid={testId}
+          placeholder={locale === 'en-us' ? 'MM/DD/YYYY' : 'DD/MM/YYYY'}
+          aria-label="Open calendar"
+          aria-expanded={showCalendar}
+          aria-controls={calendarId}
+          aria-invalid={!!currentError}
+          aria-describedby={currentError ? errorId : (helperText ? helperTextId : undefined)}
+        />
         <div
           className={clsx(
             styles['zds-date-picker__calendar-popup'],
@@ -269,7 +276,13 @@ const DatePicker: React.FC<DatePickerProps> = ({
               onDaySelect={handleDaySelect}
               locale={locale}
               format={locale === 'en-us' ? 'mm/dd/yyyy' : 'dd/mm/yyyy'}
-
+              minDate={minDate}
+              maxDate={maxDate}
+              id={calendarId}
+              onClear={() => {
+                handleDateChange(null);
+                setCurrentDate(new Date());
+              }}
             />
           )}
         </div>

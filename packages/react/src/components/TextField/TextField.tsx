@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useId, forwardRef } from 'react';
+import React, { useState, useCallback, useId, forwardRef, useEffect } from 'react';
 import clsx from 'clsx';
 import { Dismiss16Regular } from '@fluentui/react-icons';
 import LabelComponent from '../../shared/Label';
@@ -38,6 +38,11 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
     const [isFocused, setIsFocused] = useState(false);
     const generatedId = useId();
     const componentId = id || generatedId;
+
+    // ✅ Sincronizar estado interno com prop value externa
+    useEffect(() => {
+      setInputValue(value);
+    }, [value]);
 
     const handleChange = useCallback(
       (e: React.ChangeEvent<HTMLInputElement>) => {

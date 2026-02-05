@@ -34,3 +34,11 @@
 .zds-calendar--right {
   right: 0;
 }
+
+.zds-date-picker__icon {
+  cursor: pointer;
+}
+
+.zds-date-picker__icon--disabled {
+  cursor: not-allowed;
+}
