@@ -1,8 +1,10 @@
 import React from 'react';
 
+import { Size, BaseProps } from '../../types/common.types';
+
 export interface AvatarProps {
-  id?: string;
+  id?: BaseProps['id'];
   icon: React.ReactNode;
-  size?: 'sm' | 'lg';
-  className?: string;
+  size?: Size;
+  className?: BaseProps['className'];
 }
