@@ -12,7 +12,7 @@ const meta: Meta<AvatarProps> = {
   argTypes: {
     size: {
       control: { type: 'select' },
-      options: ["small", "large"],
+      options: ["sm", "lg"],
     },
     icon: {
       control: { type: 'select' },
@@ -49,6 +49,6 @@ export const Default: Story = {
   render: Template,
   args: {
     icon: <Person16Regular />,
-    size: 'large',
+    size: 'lg',
   },
 };
