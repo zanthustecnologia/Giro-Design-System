@@ -1,7 +1,7 @@
 import { ReactNode, ReactElement } from 'react';
 import { DropdownItem, DropdownType } from '../Dropdown/Dropdown.types';
 
-import { Variant, BaseProps, Locale } from '../../types/common.types';
+import { Variant, BaseProps, Locale, Position } from '../../types/common.types';
 
 export interface FilterProps {
   items?: DropdownItem[];
@@ -15,7 +15,7 @@ export interface FilterProps {
   variant?: Variant;
   onOpen?: () => void;
   onClose?: () => void;
-  position?: 'left' | 'right';
+  position?: Position;
   disabled?: BaseProps['disabled'];
   className?: BaseProps['className'];
   selectedDate?: Date | null;
