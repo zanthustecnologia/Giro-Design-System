@@ -1,6 +1,7 @@
 import React from 'react';
 
-export type Locale = 'pt-br' | 'en-us';
+import { Locale, BaseProps } from '../../types/common.types';
+
 export type DateFormat = 'dd/mm/yyyy' | 'mm/dd/yyyy';
 
 export interface DayItem {
@@ -30,7 +31,7 @@ export interface CalendarProps {
   /** Data do dia Atual */
   currentDate: Date | null;
   /** Classe CSS adicional */
-  className?: string;
+  className?: BaseProps['className'];
   /** Dia Selecionado pelo usuário */
   selectedDate?: Date | null;
   /** Função que é executada quando a data escolhida é alterada */
@@ -45,5 +46,5 @@ export interface CalendarProps {
   /** Formato de exibição da data ('dd/mm/yyyy' ou 'mm/dd/yyyy') */
   format?: DateFormat;
   /** Identificador do elemento raiz do calendário */
-  id?: string;
+  id?: BaseProps['id'];
 }
