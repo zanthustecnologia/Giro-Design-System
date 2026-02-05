@@ -1,9 +1,11 @@
 import React from 'react';
 
+import { Size, BaseProps, Variant } from '../../types/common.types';
+
 export interface ButtonProps extends React.HTMLAttributes<HTMLElement> {
   as?: React.ElementType;
   children?: React.ReactNode;
-  variant?: 'filled' | 'outlined' | 'text';
+  variant?: Variant;
   iconOnly?: boolean; 
   iconPosition?: 'left' | 'right' | 'both';
   href?: string;
@@ -12,11 +14,11 @@ export interface ButtonProps extends React.HTMLAttributes<HTMLElement> {
   target?: string;
   rel?: string;
   type?: 'button' | 'submit' | 'reset';
-  disabled?: boolean; 
+  disabled?: BaseProps['disabled']; 
   onClick?: (event: React.MouseEvent<HTMLElement>) => void;
-  size?: 'lg' | 'sm'; 
-  className?: string;
-  id?: string;
+  size?: Size;
+  className?: BaseProps['className'];
+  id?: BaseProps['id'];
   icon?: React.ReactNode; 
   fullWidth?: boolean;
   ariaLabel?: string; 
