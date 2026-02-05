@@ -1,7 +1,8 @@
 import { ReactNode, ReactElement } from 'react';
-import { DropdownItem, DropdownType } from '../Dropdown/Dropdown.types';
 
 import { Variant, BaseProps, Locale, Position } from '../../types/common.types';
+import { DropdownItem, DropdownType } from '../Dropdown/Dropdown.types';
+
 
 export interface FilterProps {
   items?: DropdownItem[];
