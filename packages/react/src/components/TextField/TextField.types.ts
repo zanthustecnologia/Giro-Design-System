@@ -4,8 +4,6 @@ import { Side, Align } from '../../types/common.types';
 
 export type TextFieldType = 'text' | 'email' | 'password' | 'number' | 'tel' | 'url';
 
-export type TooltipPosition = 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left';
-
 export interface TextFieldProps extends Omit<
   React.InputHTMLAttributes<HTMLInputElement>, 
   'onChange' | 'value' | 'type'
