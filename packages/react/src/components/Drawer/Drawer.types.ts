@@ -1,5 +1,7 @@
 import { ReactNode, ReactElement } from 'react';
 
+import { Variant, BaseProps } from '../../types/common.types';
+
 export interface DrawerProps {
   /** Conteúdo do Drawer */
   children?: ReactNode;
@@ -14,11 +16,11 @@ export interface DrawerProps {
   /** Callback quando o Drawer é aberto */
   onOpen?: () => void;
   /** Classes CSS adicionais */
-  className?: string;
+  className?: BaseProps['className'];
   /** ID único do componente */
-  id?: string;
+  id?: BaseProps['id'];
   /** Se o drawer está desabilitado */
-  disabled?: boolean;
+  disabled?: BaseProps['disabled'];
   /** Callback chamado quando clica no overlay */
   onOverlayClick?: () => void;
   /** Se deve fechar ao clicar no overlay */
@@ -37,9 +39,9 @@ export interface DrawerExampleProps {
   /** Callback quando o Drawer é aberto */
   onOpen?: () => void;
   /** Classes CSS adicionais */
-  className?: string;
+  className?: BaseProps['className'];
   /** Variante do botão */
-  variant?: 'filled' | 'outlined' | 'text';
+  variant?: Variant;
   /** Se o botão está desabilitado */
-  disabled?: boolean;
+  disabled?: BaseProps['disabled'];
 }
