@@ -1,9 +1,10 @@
-export type DatePickerLocale = 'pt-br' | 'en-us';
+import { Locale, BaseProps } from '../../types/common.types';
+
 export type CalendarPosition = 'left' | 'right';
 
 export interface DatePickerProps {
   /** Locale para formatação da data */
-  locale?: DatePickerLocale;
+  locale?: Locale;
   /** Posição do calendário */
   calendarPosition?: CalendarPosition;
   /** Texto de ajuda */
@@ -19,7 +20,7 @@ export interface DatePickerProps {
   /** Callback chamado quando a data muda */
   onChange?: (date: Date | null) => void;
   /** Se o campo está desabilitado */
-  disabled?: boolean;
+  disabled?: BaseProps['disabled'];
   /** Mensagem de erro */
   error?: string;
   /** Data mínima permitida */
@@ -27,7 +28,7 @@ export interface DatePickerProps {
   /** Data máxima permitida */
   maxDate?: Date;
   /** Classes CSS adicionais */
-  className?: string;
+  className?: BaseProps['className'];
   /** ID para testes */
   'data-testid'?: string;
 }
