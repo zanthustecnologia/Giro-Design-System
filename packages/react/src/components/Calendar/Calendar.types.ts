@@ -28,23 +28,15 @@ export interface YearItem {
 }
 
 export interface CalendarProps {
-  /** Data do dia Atual */
   currentDate: Date | null;
-  /** Classe CSS adicional */
   className?: BaseProps['className'];
-  /** Dia Selecionado pelo usuário */
   selectedDate?: Date | null;
-  /** Função que é executada quando a data escolhida é alterada */
   onDateChange?: (date: Date) => void;
-  /** Função que é executada quando um dia é selecionado */
   onDaySelect?: (date: Date) => void;
   onClear?: () => void;
   minDate?: Date;
   maxDate?: Date;
-  /** Locale do calendário ('pt-br' ou 'en-us') */
   locale?: Locale;
-  /** Formato de exibição da data ('dd/mm/yyyy' ou 'mm/dd/yyyy') */
   format?: DateFormat;
-  /** Identificador do elemento raiz do calendário */
   id?: BaseProps['id'];
 }
