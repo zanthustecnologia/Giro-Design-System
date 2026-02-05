@@ -17,7 +17,8 @@ import {
 import { useTranslation } from 'react-i18next';
 import './i18n';
 import Button from '../Button';
-import type { Locale, DateFormat, DayItem, EmptyItem, CalendarItem, YearItem, CalendarProps } from './Calendar.types';
+import type { DateFormat, DayItem, EmptyItem, CalendarItem, YearItem, CalendarProps } from './Calendar.types';
+import { Locale} from '../../types/common.types';
 
 /**
  * Calendar component with keyboard navigation support and full TypeScript implementation.
