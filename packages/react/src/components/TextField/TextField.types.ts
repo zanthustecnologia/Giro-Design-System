@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { Side, Align } from '../../types/common.types';
+
 export type TextFieldType = 'text' | 'email' | 'password' | 'number' | 'tel' | 'url';
 
 export type TooltipPosition = 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left';
@@ -22,8 +24,8 @@ export interface TextFieldProps extends Omit<
   tooltip?: boolean;
   /** Tooltip content */
   tooltipText?: string;
-  side?: "top" | "right" | "bottom" | "left"
-  align?: "start" | "center" | "end";
+  side?: Side;
+  align?: Align;
   errorMessage?: string;
   /** Leading icon */
   icon?: React.ReactNode;
