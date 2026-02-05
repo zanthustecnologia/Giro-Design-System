@@ -5,7 +5,7 @@ import Calendar from '../Calendar/Calendar';
 import { Calendar16Regular } from '@fluentui/react-icons';
 import { formatDate, parseDate, applyDateMask, isValidDateFormat } from './DateUtils';
 import styles from './DatePicker.module.scss';
-import type { DatePickerLocale, CalendarPosition, DatePickerProps } from './DatePicker.types';
+import type { DatePickerProps } from './DatePicker.types';
 
 const DatePicker: React.FC<DatePickerProps> = ({
   locale = 'pt-br',
