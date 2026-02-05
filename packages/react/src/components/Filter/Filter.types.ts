@@ -1,7 +1,7 @@
 import { ReactNode, ReactElement } from 'react';
 import { DropdownItem, DropdownType } from '../Dropdown/Dropdown.types';
 
-type FilterButtonVariant = 'filled' | 'outlined' | 'text';
+import { Variant, BaseProps, Locale } from '../../types/common.types';
 
 export interface FilterProps {
   /** Items para o dropdown */
@@ -21,7 +21,7 @@ export interface FilterProps {
   /** Ícone do botão */
   icon?: ReactElement;
   /** Variante do botão */
-  variant?: FilterButtonVariant;
+  variant?: Variant;
   /** Callback chamado quando o filtro é aberto */
   onOpen?: () => void;
   /** Callback chamado quando o filtro é fechado */
@@ -29,9 +29,9 @@ export interface FilterProps {
   /** Posição do dropdown */
   position?: 'left' | 'right';
   /** Se o filtro está desabilitado */
-  disabled?: boolean;
+  disabled?: BaseProps['disabled'];
   /** Classes CSS adicionais */
-  className?: string;
+  className?: BaseProps['className'];
   /** Data selecionada (quando type='calendar') */
   selectedDate?: Date | null;
   /** Callback quando data é selecionada */
@@ -43,5 +43,5 @@ export interface FilterProps {
   /** Data máxima permitida */
   maxDate?: Date;
   /** Locale do calendar */
-  locale?: 'pt-br' | 'en-us';
+  locale?: Locale;
 }
