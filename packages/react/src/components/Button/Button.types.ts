@@ -1,13 +1,13 @@
 import React from 'react';
 
-import { Size, BaseProps, Variant } from '../../types/common.types';
+import { Size, BaseProps, Variant, Position } from '../../types/common.types';
 
 export interface ButtonProps extends React.HTMLAttributes<HTMLElement> {
   as?: React.ElementType;
   children?: React.ReactNode;
   variant?: Variant;
   iconOnly?: boolean; 
-  iconPosition?: 'left' | 'right' | 'both';
+  iconPosition?: Position;
   href?: string;
   to?: string;
   external?: boolean;
