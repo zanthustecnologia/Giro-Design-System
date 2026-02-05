@@ -1,11 +1,13 @@
 import { ReactNode } from 'react';
 
+import { Side, Align, BaseProps } from '../../types/common.types';
+
 export interface SelectItemProps {
-  id?: string;
+  id?: BaseProps['id'];
   text: ReactNode;
   subTitle?: ReactNode;
   icon?: ReactNode;
-  disabled?: boolean;
+  disabled?: BaseProps['disabled'];
   value: string;
   selected?: boolean;
   children?: SelectItemProps[];
@@ -38,8 +40,8 @@ export interface SelectProps {
   'data-testid'?: string;
   tooltip?: boolean;
   tooltipText?: string;
-  side?: "top" | "right" | "bottom" | "left"
-  align?: "start" | "center" | "end";
+  side?: Side;
+  align?: Align;
   enableInfiniteScroll?: boolean;
   onScrollEnd?: () => void;
   isLoadingMore?: boolean;
