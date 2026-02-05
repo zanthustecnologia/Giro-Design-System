@@ -58,9 +58,11 @@ export { type SelectProps } from './Select/Select.types';
 export { default as Table } from './Table';
 export { default as TableHeader } from './Table/TableHeader';
 export { default as TablePagination } from './Table/TablePagination';
+export { default as TableWrapper } from './Table/TableWrapper';
 export { type TableProps } from './Table/Table.types';
 export { type TablePaginationProps } from './Table/TablePagination';
 export { type TableHeaderProps, type FilterItem } from './Table/TableHeader';
+export { type TableWrapperProps } from './Table/TableWrapper.types';
 
 export { default as TextField } from './TextField';
 export { type TextFieldProps } from './TextField/TextField.types';

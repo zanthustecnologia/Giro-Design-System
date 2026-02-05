@@ -18,3 +18,7 @@ export type { TableHeaderProps } from './TableHeader';
 
 export { default as TablePagination } from './TablePagination';
 export type { TablePaginationProps } from './TablePagination';
+
+// Componente Wrapper
+export { default as TableWrapper } from './TableWrapper';
+export type { TableWrapperProps } from './TableWrapper.types';

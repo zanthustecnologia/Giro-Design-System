@@ -1,33 +1,20 @@
 import React, { useState, useCallback, useMemo } from 'react';
 import type { Meta, StoryFn } from '@storybook/react';
-import { Table, TableHeader, TablePagination, Chips, Button, Menu, Drawer } from '@giro-ds/react';
-import type { FilterItem, MenuProps } from '@giro-ds/react';
-import { MoreVertical16Regular, Edit16Regular, Eye16Regular, Delete16Regular } from '@fluentui/react-icons';
-
-// ✅ ADICIONAR: Interface para props das stories
-interface TableStoryProps {
-  showHeader?: boolean;
-  showSearch?: boolean;
-  showFilters?: boolean;
-  showPagination?: boolean;
-  showSelection?: boolean;
-  itemsPerPage?: number;
-  loading?: boolean;
-}
+import { TableWrapper, Chips, Button, Menu } from '@giro-ds/react';
+import type { FilterItem } from '@giro-ds/react';
+import { MoreVertical16Regular } from '@fluentui/react-icons';
 
 const meta: Meta = {
   title: 'Components/Table',
-  component: Table,
+  component: TableWrapper,
   parameters: {
     layout: 'centered'
   },
   argTypes: {
-    // ✅ Props da tabela
     loading: {
       control: 'boolean',
       description: 'Estado de carregamento da tabela'
     },
-    // ✅ NOVOS: Controls para header e pagination
     showHeader: {
       control: 'boolean',
       description: 'Exibir cabeçalho com busca e filtros',
@@ -214,7 +201,6 @@ const basicColumns = [
   },
 ];
 
-// ✅ STORY DEFAULT - Configurável via Controls
 export const Default: StoryFn = ({
   showHeader = true,
   showSearch = true,
@@ -233,13 +219,11 @@ export const Default: StoryFn = ({
   const [startDateFilter, setStartDateFilter] = useState<Date | null>(null);
   const [endDateFilter, setEndDateFilter] = useState<Date | null>(null);
 
-  // ✅ ATUALIZAR: itemsPerPage quando prop muda
   React.useEffect(() => {
     setItemsPerPage(initialItemsPerPage);
     setCurrentPage(1);
   }, [initialItemsPerPage]);
 
-  // ✅ LIMPAR: Filtros quando showFilters é desabilitado
   React.useEffect(() => {
     if (!showFilters) {
       setSelectedStatus([]);
@@ -249,7 +233,6 @@ export const Default: StoryFn = ({
     }
   }, [showFilters]);
 
-  // ✅ LIMPAR: Busca quando showSearch é desabilitado
   React.useEffect(() => {
     if (!showSearch) {
       setSearchValue('');
@@ -430,7 +413,6 @@ export const Default: StoryFn = ({
     setCurrentPage(1);
   };
 
-  // ✅ FILTROS: Condicionais baseados em showFilters
   const filterItems = useMemo((): FilterItem[] => {
     if (!showFilters) return [];
 
@@ -494,19 +476,6 @@ export const Default: StoryFn = ({
 
   return (
     <div>
-      {/* ✅ HEADER CONDICIONAL */}
-      {showHeader && (
-        <TableHeader
-          searchValue={searchValue}
-          onSearchChange={handleSearchChange}
-          searchPlaceholder="Buscar promoções..."
-          showSearch={showSearch}
-          showFilters={showFilters}
-          filterItems={filterItems}
-        />
-      )}
-
-      {/* ✅ INDICADOR DE FILTROS ATIVOS (somente se showHeader e showFilters) */}
       {showHeader && showFilters && activeFiltersCount > 0 && (
         <div style={{
           display: 'flex',
@@ -531,28 +500,33 @@ export const Default: StoryFn = ({
         </div>
       )}
 
-      {/* ✅ TABELA */}
-      <Table
-        columns={memoizedColumns}
-        dataSource={loading ? [] : paginatedData}
-        loading={loading}
-        rowSelection={showSelection ? {
-          selectedRowKeys: selectedKeys,
-          onChange: setSelectedKeys,
+      <TableWrapper
+        header={showHeader ? {
+          searchValue: searchValue,
+          onSearchChange: handleSearchChange,
+          searchPlaceholder: "Buscar promoções...",
+          showSearch: showSearch,
+          showFilters: showFilters,
+          filterItems: filterItems,
+        } : undefined}
+        table={{
+          columns: memoizedColumns,
+          dataSource: loading ? [] : paginatedData,
+          loading: loading,
+          rowSelection: showSelection ? {
+            selectedRowKeys: selectedKeys,
+            onChange: setSelectedKeys,
+          } : undefined
+        }}
+        pagination={showPagination && !loading && totalItems > 0 ? {
+          currentPage: currentPage,
+          totalItems: totalItems,
+          itemsPerPage: itemsPerPage,
+          onPageChange: setCurrentPage,
+          onItemsPerPageChange: handleItemsPerPageChange,
+          pageSizeOptions: [5, 10, 15, 20],
         } : undefined}
       />
-
-      {/* ✅ PAGINAÇÃO CONDICIONAL */}
-      {showPagination && !loading && totalItems > 0 && (
-        <TablePagination
-          currentPage={currentPage}
-          totalItems={totalItems}
-          itemsPerPage={itemsPerPage}
-          onPageChange={setCurrentPage}
-          onItemsPerPageChange={handleItemsPerPageChange}
-          pageSizeOptions={[5, 10, 15, 20]}
-        />
-      )}
     </div>
   );
 };
@@ -566,28 +540,27 @@ Default.args ={
   loading: false
 }
 
-// ✅ STORY BÁSICA - Apenas a tabela
 export const Basic: StoryFn = () => (
-
-  <Table
-    columns={basicColumns}
-    dataSource={promotionData.slice(0, 5)}
+  <TableWrapper
+    table={{
+      columns: basicColumns,
+      dataSource: promotionData.slice(0, 5)
+    }}
   />
-
 );
 
-// ✅ STORY LOADING - Estado de carregamento
 export const Loading: StoryFn = () => (
   <div style={{ padding: '20px' }}>
-    <Table
-      columns={basicColumns}
-      dataSource={[]}
-      loading={true}
+    <TableWrapper
+      table={{
+        columns: basicColumns,
+        dataSource: [],
+        loading: true
+      }}
     />
   </div>
 );
 
-// ✅ STORY CALENDAR FILTERS - Demonstração dos filtros de calendário
 export const CalendarFilters: StoryFn = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchValue, setSearchValue] = useState('');
@@ -665,7 +638,6 @@ export const CalendarFilters: StoryFn = () => {
   const activeFiltersCount = selectedStatus.length + selectedTypes.length +
     (startDateFilter ? 1 : 0) + (endDateFilter ? 1 : 0);
 
-  // ✅ FILTROS: Tipagem segura para CalendarFilters
   const filterItems: FilterItem[] = useMemo(() => [
     {
       id: 'status-filter',
@@ -741,16 +713,6 @@ export const CalendarFilters: StoryFn = () => {
         Filtros de Calendário - Demonstração
       </h3>
 
-      {/* Header com filtros incluindo calendário */}
-      <TableHeader
-        searchValue={searchValue}
-        onSearchChange={setSearchValue}
-        searchPlaceholder="Buscar promoções..."
-        showSearch={true}
-        showFilters={true}
-        filterItems={filterItems}
-      />
-
       {/* Indicador de filtros ativos */}
       {activeFiltersCount > 0 && (
         <div style={{
@@ -797,23 +759,28 @@ export const CalendarFilters: StoryFn = () => {
         </div>
       )}
 
-      {/* Tabela */}
-      <Table
-        columns={basicColumns}
-        dataSource={paginatedData}
+      <TableWrapper
+        header={{
+          searchValue: searchValue,
+          onSearchChange: setSearchValue,
+          searchPlaceholder: "Buscar promoções...",
+          showSearch: true,
+          showFilters: true,
+          filterItems: filterItems,
+        }}
+        table={{
+          columns: basicColumns,
+          dataSource: paginatedData
+        }}
+        pagination={totalItems > 0 ? {
+          currentPage: currentPage,
+          totalItems: totalItems,
+          itemsPerPage: itemsPerPage,
+          onPageChange: setCurrentPage,
+          onItemsPerPageChange: handleItemsPerPageChange,
+          pageSizeOptions: [5, 10, 15],
+        } : undefined}
       />
-
-      {/* Paginação */}
-      {totalItems > 0 && (
-        <TablePagination
-          currentPage={currentPage}
-          totalItems={totalItems}
-          itemsPerPage={itemsPerPage}
-          onPageChange={setCurrentPage}
-          onItemsPerPageChange={handleItemsPerPageChange}
-          pageSizeOptions={[5, 10, 15]}
-        />
-      )}
 
       {/* Estatísticas */}
       <div style={{
@@ -829,56 +796,17 @@ export const CalendarFilters: StoryFn = () => {
   );
 };
 
-/*
-✅ IMPLEMENTAÇÃO DOS FILTROS DE CALENDÁRIO - DOCUMENTAÇÃO
-
-1. ESTRUTURA DE DADOS:
-   - Cada item de promoção agora inclui propriedades `startDateObj` e `endDateObj` como objetos Date
-   - Mantidas as strings de data originais (`startDate`, `endDate`) para exibição
-
-2. FILTROS IMPLEMENTADOS:
-   - Data Início: Filtra promoções que começam na data selecionada ou depois
-   - Data Fim: Filtra promoções que terminam na data selecionada ou antes
-
-3. INTERFACE DOS FILTROS:
-   - Botões mostram a data selecionada quando ativa
-   - Placeholder explicativo para cada filtro
-   - Contador de filtros ativos
-   - Botão "Limpar filtros" para resetar todos os filtros
-
-4. LÓGICA DE FILTRAGEM:
-   - Filtros são aplicados em sequência (busca → status → tipo → datas)
-   - Filtros de data usam comparação de objetos Date
-   - Resultados são paginados após aplicação dos filtros
-
-5. STORIES DISPONÍVEIS:
-   - `Default`: Tabela completa com todos os controles
-   - `CalendarFilters`: Demonstração específica dos filtros de calendário
-   - `Basic`: Tabela simples sem filtros
-   - `Loading`: Estado de carregamento
-
-6. EXEMPLO DE USO:
-   - Selecionar "Data Início: 01/12/2024" mostra apenas promoções que começam em dezembro
-   - Selecionar "Data Fim: 30/11/2024" mostra apenas promoções que terminam até novembro
-   - Combinar ambos os filtros cria um range específico
-
-7. INTEGRAÇÃO:
-   - Os filtros de calendário seguem a mesma interface dos outros filtros
-   - Podem ser combinados com filtros de status e tipo
-   - Funcionam em conjunto com busca por texto
-*/
-
-// ✅ STORY EMPTY - Sem dados
 export const Empty: StoryFn = () => (
   <div style={{ padding: '20px' }}>
-    <Table
-      columns={basicColumns}
-      dataSource={[]}
+    <TableWrapper
+      table={{
+        columns: basicColumns,
+        dataSource: []
+      }}
     />
   </div>
 );
 
-// ✅ STORY WITH SELECTION - Com seleção de linhas
 export const WithSelection: StoryFn = () => {
   const [selectedKeys, setSelectedKeys] = useState<(string | number)[]>([1, 3]);
 
@@ -912,15 +840,17 @@ export const WithSelection: StoryFn = () => {
         )}
       </div>
 
-      <Table
-        columns={basicColumns}
-        dataSource={promotionData.slice(0, 6)}
-        rowSelection={{
-          selectedRowKeys: selectedKeys,
-          onChange: (keys, rows) => {
-            setSelectedKeys(keys);
-            console.log('Seleção alterada:', keys, rows);
-          },
+      <TableWrapper
+        table={{
+          columns: basicColumns,
+          dataSource: promotionData.slice(0, 6),
+          rowSelection: {
+            selectedRowKeys: selectedKeys,
+            onChange: (keys, rows) => {
+              setSelectedKeys(keys);
+              console.log('Seleção alterada:', keys, rows);
+            },
+          }
         }}
       />
     </div>
