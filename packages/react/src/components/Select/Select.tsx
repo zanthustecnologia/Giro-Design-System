@@ -111,32 +111,23 @@ const Select: React.FC<SelectProps> = ({
   };
 
   const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    // Permite navegação com setas e Enter, mas bloqueia typeahead para outras teclas
     const isNavigationKey = ['ArrowDown', 'ArrowUp', 'Enter', 'Escape', 'Tab'].includes(e.key);
     
     if (!isNavigationKey) {
-      // Bloqueia typeahead apenas para teclas de digitação
       e.stopPropagation();
       return;
     }
     
     if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
-      const input = e.currentTarget;
-      const hasSelection = input.selectionStart !== input.selectionEnd;
-      
-      if (!hasSelection) {
-        e.preventDefault();
-        return;
-      }
+      e.currentTarget.blur();
+      return;
     }
 
     if (e.key === 'Enter') {
-      e.preventDefault();
-      e.stopPropagation();
-      actions.setSearchTerm(state.searchInput);
+      e.currentTarget.blur();
+      return;
     } else if (e.key === 'Escape') {
       e.preventDefault();
-      e.stopPropagation();
       actions.resetSearch();
     }
   };
