@@ -1,25 +1,62 @@
 import { ReactNode } from 'react';
 
+/**
+ * Props do componente Dialog
+ * @example
+ * ```tsx
+ * <Dialog 
+ *   show={isOpen}
+ *   title="Confirmar exclusão"
+ *   text="Tem certeza que deseja excluir este item?"
+ *   textConfirm="Excluir"
+ *   textCancel="Cancelar"
+ *   fnConfirm={handleDelete}
+ *   fnCancel={handleCancel}
+ *   onClose={handleClose}
+ * />
+ * ```
+ * @example
+ * ```tsx
+ * <Dialog 
+ *   show={showDialog}
+ *   title="Informação"
+ *   onClose={() => setShowDialog(false)}
+ * >
+ *   <p>Conteúdo customizado do dialog</p>
+ * </Dialog>
+ * ```
+ */
 export interface DialogProps {
+  /** Conteúdo customizado do dialog */
   children?: ReactNode;
-  /** Se o Dialog está visível */
+  
+  /** Define se o dialog está visível */
   show: boolean;
-  /** Título exibido no cabeçalho do Dialog (obrigatório) */
+  
+  /** Título exibido no cabeçalho do dialog */
   title: string;
-  /** Texto do corpo do Dialog */
+  
+  /** Texto ou conteúdo do corpo do dialog */
   text?: ReactNode;
+  
   /** Texto do botão de confirmação */
   textConfirm?: string;
+  
   /** Texto do botão de cancelamento */
   textCancel?: string;
-  /** Função chamada ao confirmar */
+  
+  /** Callback executado ao confirmar: () => void */
   fnConfirm?: () => void;
-  /** Função chamada ao cancelar */
+  
+  /** Callback executado ao cancelar: () => void */
   fnCancel?: () => void;
-  /** Função chamada ao fechar o Dialog */
+  
+  /** Callback executado ao fechar o dialog: () => void */
   onClose?: () => void;
-  /** ID opcional para o Dialog */
+  
+  /** ID único do elemento */
   id?: string;
-  /** Classe CSS opcional */
+  
+  /** Classe CSS customizada */
   className?: string;
 }
