@@ -9,7 +9,7 @@ export interface TextFieldProps extends Omit<
   'onChange' | 'value' | 'type'
 > {
   /** Controlled value */
-  value?: string;
+  value?: string | number;
   /** Change handler - receives string value */
   onChange?: (value: string) => void;
   /** Label text */

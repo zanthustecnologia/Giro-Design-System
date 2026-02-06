@@ -33,15 +33,18 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
     },
     ref
   ) => {
-    const [inputValue, setInputValue] = useState(value);
+    const normalizeValue = (val: string | number): string => {
+      return val === undefined || val === null ? '' : String(val);
+    };
+    
+    const [inputValue, setInputValue] = useState(normalizeValue(value));
     const [inputError, setInputError] = useState('');
     const [isFocused, setIsFocused] = useState(false);
     const generatedId = useId();
     const componentId = id || generatedId;
 
-    // ✅ Sincronizar estado interno com prop value externa
     useEffect(() => {
-      setInputValue(value);
+      setInputValue(normalizeValue(value));
     }, [value]);
 
     const handleChange = useCallback(
