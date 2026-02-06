@@ -21,7 +21,7 @@ $select-icon-size: 16px;
   min-width: $select-content-min-width;
   width: 100%;
   height: $select-trigger-height;
-  padding: var(--spacing-16);
+  padding:  var(--spacing-16);
   border-radius: var(--border-radius-8);
   border: var(--border-width-1) solid var(--color-neutral-high-dark);
   background-color: var(--color-neutral-high-default);
@@ -124,7 +124,7 @@ $select-icon-size: 16px;
   border-radius: var(--border-radius-8);
   border: var(--border-width-1) solid var(--color-neutral-high-dark);
   box-shadow: $select-shadow;
-  padding: var(--spacing-16);
+  padding: var(--spacing-0) var(--spacing-16);
   min-width: $select-content-min-width;
   max-height: $select-content-max-height;
   overflow: hidden;
@@ -168,7 +168,7 @@ $select-icon-size: 16px;
   overflow: visible;
 }
 .searchWrapper {
-  margin-bottom: var(--spacing-16);
+  margin: var(--spacing-16) var(--spacing-0);
 }
 .item {
   height: $select-trigger-height;
@@ -348,6 +348,7 @@ $select-icon-size: 16px;
   padding: var(--spacing-16);
   text-align: center;
   font-style: italic;
+  margin-bottom: var(--spacing-16);
 }
 @media (max-width: 768px) {
   .content {

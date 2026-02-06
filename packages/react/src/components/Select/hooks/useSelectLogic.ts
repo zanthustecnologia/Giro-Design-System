@@ -116,7 +116,7 @@ export function useSelectLogic({
   }, [state.isOpen, enableApiSearch, onApiSearch]);
 
   useEffect(() => {
-    if (enableApiSearch && state.searchTerm && state.isOpen) {
+    if (enableApiSearch && state.isOpen) {
       if (lastSearchTermRef.current !== state.searchTerm) {
         debouncedApiSearch(state.searchTerm);
       }

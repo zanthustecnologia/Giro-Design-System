@@ -107,28 +107,32 @@ const Select: React.FC<SelectProps> = ({
   }), [maxWidth]);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    actions.setSearchInput(e.target.value);
+    const value = e.target.value;
+    actions.setSearchInput(value);
+    
+    if (enableApiSearch) {
+      actions.setSearchTerm(value);
+    }
   };
 
   const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const isNavigationKey = ['ArrowDown', 'ArrowUp', 'Enter', 'Escape', 'Tab'].includes(e.key);
+    
+    if (!isNavigationKey) {
+      e.stopPropagation();
+      return;
+    }
+    
     if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
-      const input = e.currentTarget;
-      const hasSelection = input.selectionStart !== input.selectionEnd;
-      
-      if (!hasSelection) {
-        e.preventDefault();
-        return;
-      }
+      e.currentTarget.blur();
+      return;
     }
 
     if (e.key === 'Enter') {
+      e.currentTarget.blur();
+      return;
+    } else if (e.key === 'Escape') {
       e.preventDefault();
-      e.stopPropagation();
-      actions.setSearchTerm(state.searchInput);
-    }
-    if (e.key === 'Escape') {
-      e.preventDefault();
-      e.stopPropagation();
       actions.resetSearch();
     }
   };
