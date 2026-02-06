@@ -107,7 +107,12 @@ const Select: React.FC<SelectProps> = ({
   }), [maxWidth]);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    actions.setSearchInput(e.target.value);
+    const value = e.target.value;
+    actions.setSearchInput(value);
+    
+    if (enableApiSearch) {
+      actions.setSearchTerm(value);
+    }
   };
 
   const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
