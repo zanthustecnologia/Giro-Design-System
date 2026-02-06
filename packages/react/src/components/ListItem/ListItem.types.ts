@@ -1,36 +1,75 @@
 import React from 'react';
 
+import { BaseProps } from '../../types/common.types';
+
+/** Variantes disponíveis para o ListItem */
 export type ListItemVariant = 'text' | 'checkbox' | 'radio' | 'icon';
 
+/**
+ * Props do componente ListItem
+ * @example
+ * ```tsx
+ * <ListItem 
+ *   variant="text"
+ *   text="Item da lista"
+ *   subText="Descrição do item"
+ *   onClick={handleClick}
+ * />
+ * ```
+ * @example
+ * ```tsx
+ * <ListItem 
+ *   variant="checkbox"
+ *   text="Aceitar termos"
+ *   checked={isChecked}
+ *   onChange={setIsChecked}
+ *   disabled={false}
+ * />
+ * ```
+ */
 export interface ListItemProps {
-  /** ID único do componente */
-  id?: string;
-  /** Classes CSS customizadas */
-  className?: string;
+  /** ID único do elemento */
+  id?: BaseProps['id'];
+  
+  /** Classe CSS customizada */
+  className?: BaseProps['className'];
+  
   /** Variante do item da lista */
   variant?: ListItemVariant;
+  
   /** Texto principal do item */
   text?: string;
-  /** Nome do input (para checkbox/radio) */
+  
+  /** Nome do input (para variantes checkbox/radio) */
   name?: string;
-  /** Texto secundário/descrição */
+  
+  /** Texto secundário/descrição do item */
   subText?: string;
-  /** Se o item está desabilitado */
-  disabled?: boolean;
-  /** Estado de checked (para checkbox/radio) */
+  
+  /** Estado desabilitado do item */
+  disabled?: BaseProps['disabled'];
+  
+  /** Estado de checked (para variantes checkbox/radio) */
   checked?: boolean;
-  /** Estado de selecionado (para text/icon) */
+  
+  /** Estado de selecionado (para variantes text/icon) */
   selected?: boolean;
-  /** Callback para clique no item */
+  
+  /** Callback executado ao clicar no item: (event) => void */
   onClick?: (event: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>) => void;
-  /** Callback para mudança de estado */
+  
+  /** Callback executado quando o estado muda: (checked) => void */
   onChange?: (checked: boolean) => void;
-  /** Ícone do item (para variant icon) */
+  
+  /** Ícone do item (para variante icon) */
   icon?: React.ReactNode;
-  /** Valor do input (para checkbox/radio) */
+  
+  /** Valor do input (para variantes checkbox/radio) */
   value?: string;
-  /** Se deve mostrar o subtexto */
+  
+  /** Define se deve mostrar o subtexto */
   showSubText?: boolean;
+  
   /** Estado de hover */
   hovered?: boolean;
 }
