@@ -1,18 +1,44 @@
 import React from 'react';
 
+/**
+ * Props do componente Chips
+ * @example
+ * ```tsx
+ * <Chips 
+ *   type="success"
+ *   title="Ativo"
+ *   leftIcon={<CheckIcon />}
+ * />
+ * ```
+ * @example
+ * ```tsx
+ * <Chips 
+ *   type="brand"
+ *   title="Novo"
+ *   rightIcon={<CloseIcon />}
+ *   disabled={false}
+ * />
+ * ```
+ */
 export interface ChipsProps {
-  /** Variante a ser escolhida para utilizar padrões de estilizações pré-definidos */
+  /** Tipo visual do chip */
   type?: 'neutral' | 'brand' | 'color' | 'success' | 'alert';
-  /** Texto a ser exibido dentro do componente */
+  
+  /** Texto a ser exibido dentro do chip */
   title: string;
-  /** Ícone react que ficará posicionado à esquerda no componente */
+  
+  /** Ícone posicionado à esquerda do texto */
   leftIcon?: React.ReactNode;
-  /** Ícone react que ficará posicionado à direita no componente */
+  
+  /** Ícone posicionado à direita do texto */
   rightIcon?: React.ReactNode;
-  /** Estado alterável para desabilitar */
+  
+  /** Estado desabilitado do chip */
   disabled?: boolean;
-  /** Classe CSS adicional */
+  
+  /** Classe CSS customizada */
   className?: string;
+  
   /** Props adicionais para o elemento div */
   [key: string]: any;
 }
