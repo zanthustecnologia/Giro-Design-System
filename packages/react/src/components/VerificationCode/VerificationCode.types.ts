@@ -1,20 +1,52 @@
+import { BaseProps } from '../../types/common.types';
+
+/** Tipos de entrada suportados pelo VerificationCode */
 export type InputType = 'numeric' | 'alpha' | 'alphanumeric';
 
+/**
+ * Props do componente VerificationCode
+ * @example
+ * ```tsx
+ * <VerificationCode 
+ *   length={6}
+ *   inputType="numeric"
+ *   onComplete={(code) => handleVerification(code)}
+ * />
+ * ```
+ * @example
+ * ```tsx
+ * <VerificationCode 
+ *   length={4}
+ *   inputType="alphanumeric"
+ *   onComplete={handleCode}
+ *   hasError={!!error}
+ *   errorMessage="Código inválido"
+ *   disabled={isVerifying}
+ * />
+ * ```
+ */
 export interface VerificationCodeProps {
-  /** Define o número de dígitos do código (padrão: 6) */
+  /** Número de dígitos do código (padrão: 6) */
   length?: number;
-  /** Define tipo de entrada: números, letras ou alfanumérico (padrão: "numeric") */
+  
+  /** Tipo de entrada permitida (padrão: "numeric") */
   inputType?: InputType;
-  /** Callback chamado quando todos os campos são preenchidos */
+  
+  /** Callback executado quando todos os campos são preenchidos: (value) => void */
   onComplete?: (value: string) => void;
-  /** Indica se o campo está em estado de erro */
+  
+  /** Define se o campo está em estado de erro */
   hasError?: boolean;
+  
   /** Mensagem de erro exibida abaixo do componente */
   errorMessage?: string;
-  /** Define se o componente deve estar desabilitado */
-  disabled?: boolean;
-  /** Classe CSS adicional para estilização externa */
-  className?: string;
+  
+  /** Estado desabilitado do componente */
+  disabled?: BaseProps['disabled'];
+  
+  /** Classe CSS customizada */
+  className?: BaseProps['className'];
+  
   /** Props adicionais passadas para os inputs */
   [key: string]: any;
 }
