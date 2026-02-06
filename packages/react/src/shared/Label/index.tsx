@@ -32,20 +32,22 @@ const LabelComponent = ({
 }: LabelProps) => (
   <>
     {tooltip ? (
-      <Tooltip side={side} align={align} text={tooltipText || ''} >
+      <div className={styles.labelContainer}>
         <Label.Root
-          className={clsx(
-            styles.wrapperLabel,
-            error && styles.errorLabel,
-            className
-          )}
-          htmlFor={htmlFor}
-        >
-          {children}
-          {required && <span className={styles.requiredLabel}>*</span>}
-          <Info12Regular className={styles.infoIcon} />
+            className={clsx(
+              styles.wrapperLabel,
+              error && styles.errorLabel,
+              className
+            )}
+            htmlFor={htmlFor}
+          >
+            {children}
+            {required && <span className={styles.requiredLabel}>*</span>}
         </Label.Root>
-      </Tooltip>
+        <Tooltip side={side} align={align} text={tooltipText || ''} >
+          <Info12Regular className={styles.infoIcon} />
+        </Tooltip>
+      </div>
     ) : (
       <Label.Root
         className={clsx(
