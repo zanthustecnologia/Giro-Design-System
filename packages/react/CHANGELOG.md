@@ -1,5 +1,11 @@
 # @giro-ds/react
 
+## 3.0.3
+
+### Patch Changes
+
+- 5adc12c: fix: resolve Select and TextField bugs including API search, keyboard navigation, input value handling, and layout spacing adjustments
+
 ## 3.0.2
 
 ### Patch Changes
