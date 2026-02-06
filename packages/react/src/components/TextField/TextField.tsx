@@ -44,8 +44,21 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
     const componentId = id || generatedId;
 
     useEffect(() => {
-      setInputValue(normalizeValue(value));
-    }, [value]);
+      const newValue = normalizeValue(value);
+      setInputValue(newValue);
+      
+      // Reavaliar erro quando valor muda externamente (ex: DatePicker atualiza o campo)
+      if (inputError) {
+        const error = validateInput({
+          value: newValue,
+          type,
+          maxLength,
+          errorMessage,
+          required,
+        });
+        setInputError(error);
+      }
+    }, [value, inputError, type, maxLength, errorMessage, required]);
 
     const handleChange = useCallback(
       (e: React.ChangeEvent<HTMLInputElement>) => {
