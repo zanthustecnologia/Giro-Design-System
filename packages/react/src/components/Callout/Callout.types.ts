@@ -1,18 +1,44 @@
 import React from 'react';
 
+/**
+ * Props do componente Callout
+ * @example
+ * ```tsx
+ * <Callout 
+ *   type="success" 
+ *   title="Sucesso!"
+ *   text="Operação realizada com sucesso"
+ *   icon={<CheckIcon />}
+ * />
+ * ```
+ * @example
+ * ```tsx
+ * <Callout 
+ *   type="alert"
+ *   title="Atenção"
+ *   text="Verifique os campos obrigatórios"
+ * />
+ * ```
+ */
 export interface CalloutProps {
-  /** Define o tipo de callout */
+  /** Tipo visual do callout */
   type?: 'neutral' | 'color' | 'brand' | 'alert' | 'success';
-  /** Define o título com mais destaque */
+  
+  /** Título principal do callout (texto em destaque) */
   title?: string | null;
-  /** Define o texto com menos destaque */
+  
+  /** Texto descritivo do callout */
   text?: string;
-  /** Define o ícone a ser importado */
+  
+  /** Ícone a ser exibido no callout */
   icon?: React.ReactNode;
-  /** Define a classe CSS adicional */
+  
+  /** Classe CSS customizada */
   className?: string;
-  /** Define o id do callout */
+  
+  /** ID único do elemento */
   id?: string;
+  
   /** Props adicionais para o elemento div */
   [key: string]: any;
 }
