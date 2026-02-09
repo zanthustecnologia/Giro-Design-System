@@ -68,6 +68,9 @@ export { type TextFieldProps } from './TextField/TextField.types';
 export { default as Toast, ToastProvider, useToast } from './Toast';
 export { type ToastType, type ToastMessage, type ToastOptions, type ToastContextType } from './Toast/Toast.types';
 
+export { default as ToastRadix } from './ToastRadix';
+export { type ToastProps } from './ToastRadix/Toast.types';
+
 export { default as Tooltip } from './Tooltip';
 export { type TooltipProps } from './Tooltip/Tooltip.types';
 
