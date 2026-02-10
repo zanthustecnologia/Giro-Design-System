@@ -3,9 +3,8 @@ import * as React from 'react';
 
 export interface ToastProps extends Omit<
   React.ComponentPropsWithoutRef<typeof ToastRadix.Root>,
-   'disabled' 
+   'icon' | 'title' | 'description' | 'action' | 'close'
 > {
-  disabled?: boolean;
   children: React.ReactNode;
   message?: string;
   titulo?: string;
@@ -14,4 +13,6 @@ export interface ToastProps extends Omit<
   close?: string;
   automaticClose?: boolean;
   duration?: number;
+  icon?: React.ReactNode; 
+  iconType: 'Info' | 'Sucess' | 'Alert';
 }

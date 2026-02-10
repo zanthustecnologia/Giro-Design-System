@@ -1,4 +1,5 @@
 import React from 'react';
+import { Delete16Regular, Add16Regular } from '@fluentui/react-icons';
 import type { Meta, StoryObj, StoryFn } from '@storybook/react';
 import { ToastRadix, Button } from '@giro-ds/react';
 import type { ToastProps } from '@giro-ds/react';
@@ -40,6 +41,11 @@ const meta: Meta<ToastProps> = {
     automaticClose: { 
       control: 'boolean',
       description: 'Define se o toast deve fechar automaticamente após a duração definida',
+    },
+    iconType: {
+          control: { type: 'select' },
+          options: ['', "Info", 'Sucess', 'Alert'],
+          description: 'Ícone a ser exibido no toast',
     },
   },
 };
