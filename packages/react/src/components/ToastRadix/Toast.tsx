@@ -12,10 +12,9 @@ const Toast: React.FC<ToastProps> = ({
   titulo = 'Titulo',
   descricao = 'Descrição',
   acao = 'Ação',
-  close = 'X',
   duration,
   icon,
-  iconCLosed = <Dismiss16Filled />,
+  iconClosed = <Dismiss16Filled />,
   automaticClose = true,
   iconType,
 }) => {
@@ -52,10 +51,12 @@ const Toast: React.FC<ToastProps> = ({
           <span className={styles.Icon} aria-hidden="true">
             {icon}
           </span>
-          <ToastRadix.Title className={styles.ToastTitle}> {titulo} </ToastRadix.Title>
-          <ToastRadix.Description className={styles.ToastDescription}> {descricao} </ToastRadix.Description>
+          <div>
+            <ToastRadix.Title className={styles.ToastTitle}> {titulo} </ToastRadix.Title>
+            <ToastRadix.Description className={styles.ToastDescription}> {descricao} </ToastRadix.Description>
+          </div>
           {/* <ToastRadix.Action className={styles.ToastAction} altText='a'> {acao} </ToastRadix.Action> */}
-          <ToastRadix.Close className={styles.ToastClose}> {iconCLosed} </ToastRadix.Close>
+          <ToastRadix.Close className={styles.ToastClose}> {iconClosed} </ToastRadix.Close>
       </ToastRadix.Root>
 
       <ToastRadix.Viewport className={styles.ToastViewport} />

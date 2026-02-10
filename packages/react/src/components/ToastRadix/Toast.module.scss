@@ -1,18 +1,11 @@
-
-/* reset */
-button {
-	all: unset;
-}
-
 .ToastViewport {
-	--viewport-padding: 25px;
 	position: fixed;
 	bottom: 0;
 	right: 0;
 	display: flex;
 	flex-direction: column;
-	padding: var(--viewport-padding);
-	gap: 10px;
+	padding: var(--spacing-24);
+	gap: var(--spacing-10);
 	width: 390px;
 	max-width: 100vw;
 	margin: 0;
@@ -22,14 +15,14 @@ button {
 }
 
 .toastRoot {
-	font-size: var(--font-size-16);
-	// color: var(--color-neutral-high-default);
+	color: var(--color-neutral-high-default);
 	display: inline-flex;
-	height: 48px;
-	padding: 10px 16px;
+	height: var(--spacing-48);
+	width: 297px;
+	padding: var(--spacing-10) var(--spacing-16);
 	align-items: center;
-	gap: 24px;
-	border-radius: 8px;
+	gap: var(--spacing-24);
+	border-radius: var(--border-radius-8);
 	background-color: var(--color-neutral-low-dark);
 
     @media (max-width: 360px) {
@@ -37,98 +30,27 @@ button {
         max-width: 100%;
     }
 }
-.ToastRoot[data-state="open"] {
-	animation: slideIn 150ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-.ToastRoot[data-state="closed"] {
-	animation: hide 100ms ease-in;
-}
-.ToastRoot[data-swipe="move"] {
-	transform: translateX(var(--radix-toast-swipe-move-x));
-}
-.ToastRoot[data-swipe="cancel"] {
-	transform: translateX(0);
-	transition: transform 200ms ease-out;
-}
-.ToastRoot[data-swipe="end"] {
-	animation: swipeOut 100ms ease-out;
+
+div.ToastRoot[data-state="open"] {
+	animation: slideIn 0.4s ease forwards;
 }
 
-@keyframes hide {
-	from {
-		opacity: 1;
-	}
-	to {
-		opacity: 0;
-	}
-}
-
-@keyframes slideIn {
-	from {
-		transform: translateX(calc(100% + var(--viewport-padding)));
-	}
-	to {
-		transform: translateX(0);
-	}
-}
-
-@keyframes swipeOut {
-	from {
-		transform: translateX(var(--radix-toast-swipe-end-x));
-	}
-	to {
-		transform: translateX(calc(100% + var(--viewport-padding)));
-	}
-}
-
-.ToastTitle, .ToastDescription {
+.ToastTitle {
 	font-size: var(--font-size-16);
-	color: var(--color-neutral-high-default);
+}
+
+.ToastDescription {
+	font-size: var(--font-size-14);
 }
 
 .ToastAction {
 	grid-area: action;
 }
 
-.Button {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	border-radius: 4px;
-	font-weight: 500;
-	user-select: none;
-}
-.Button.small {
-	font-size: 12px;
-	padding: 0 10px;
-	line-height: 25px;
-	height: 25px;
-}
-.Button.large {
-	font-size: 15px;
-	padding: 0 15px;
-	line-height: 35px;
-	height: 35px;
-}
-.Button.violet {
-	background-color: white;
-	color: var(--violet-11);
-	box-shadow: 0 2px 10px var(--black-a7);
-}
-.Button.violet:hover {
-	background-color: var(--mauve-3);
-}
-.Button.violet:focus {
-	box-shadow: 0 0 0 2px black;
-}
-.Button.green {
-	background-color: var(--green-2);
-	color: var(--green-11);
-	box-shadow: inset 0 0 0 1px var(--green-7);
-}
-.Button.green:hover {
-	box-shadow: inset 0 0 0 1px var(--green-8);
-}
-.Button.green:focus {
-	box-shadow: 0 0 0 2px var(--green-8);
+.ToastClose {
+	grid-area: close;
+	cursor: pointer;
+	background-color: transparent;
+	border: none;
+	color: var(--color-neutral-high-default);
 }
