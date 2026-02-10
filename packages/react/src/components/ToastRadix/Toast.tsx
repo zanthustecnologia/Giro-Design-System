@@ -11,21 +11,24 @@ const Toast: React.FC<ToastProps> = ({
   descricao = 'Descrição',
   acao = 'Ação',
   close = 'Fechar',
-  duration = 1500,
+  duration,
   automaticClose = true,
 }) => {
   const [open, setOpen] = React.useState(false);
+
+  if (automaticClose) {
+    duration = 5000; 
+  } else {
+    duration = 10000000000000000;
+  } // Metodo encontrado para desabilitar o auto close, futuramente encontrar uma forma para mudar isso
 
   return (
     <ToastRadix.Provider swipeDirection="right">
       <Button
         onClick={() => {
           setOpen(false);
-          if (automaticClose) {
-            setTimeout(() => setOpen(true), duration);
-          } else {
-            setOpen(true)
-        }}}
+          setTimeout(() => setOpen(true), 100);
+          }}
       >
         {message}  
       </Button>
