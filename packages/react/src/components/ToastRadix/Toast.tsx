@@ -16,11 +16,9 @@ const Toast: React.FC<ToastProps> = ({
 }) => {
   const [open, setOpen] = React.useState(false);
 
-  if (automaticClose) {
-    duration = 5000; 
-  } else {
-    duration = 10000000000000000;
-  } // Metodo encontrado para desabilitar o auto close, futuramente encontrar uma forma para mudar isso
+  if (!automaticClose) {
+    duration = Infinity; 
+  }
 
   return (
     <ToastRadix.Provider swipeDirection="right">
