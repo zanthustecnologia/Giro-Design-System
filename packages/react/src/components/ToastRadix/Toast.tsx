@@ -1,6 +1,7 @@
+import { Info16Regular, CheckmarkCircle16Color, Warning16Regular, Dismiss16Filled} from '@fluentui/react-icons';
 import { Toast as ToastRadix } from 'radix-ui';
-import { Info16Regular, CheckmarkCircle16Color, Warning16Regular} from '@fluentui/react-icons';
 import * as React from "react";
+
 import styles from './Toast.module.scss';
 import { ToastProps } from './Toast.types';
 import Button from '../Button/Button';
@@ -11,9 +12,10 @@ const Toast: React.FC<ToastProps> = ({
   titulo = 'Titulo',
   descricao = 'Descrição',
   acao = 'Ação',
-  close = 'Fechar',
+  close = 'X',
   duration,
   icon,
+  iconCLosed = <Dismiss16Filled />,
   automaticClose = true,
   iconType,
 }) => {
@@ -42,21 +44,21 @@ const Toast: React.FC<ToastProps> = ({
         {message}  
       </Button>
       <ToastRadix.Root 
-        className="ToastRoot" 
+        className={styles.toastRoot} 
         open={open} 
         onOpenChange={setOpen} 
         duration={duration}
       >
-          <span className={styles.buttonIconLeft} aria-hidden="true">
+          <span className={styles.Icon} aria-hidden="true">
             {icon}
           </span>
-          <ToastRadix.Title className="ToastTitle"> {titulo} </ToastRadix.Title>
-          <ToastRadix.Description className="ToastDescription"> {descricao} </ToastRadix.Description>
-          <ToastRadix.Action className="ToastAction" altText='a'> {acao} </ToastRadix.Action>
-          <ToastRadix.Close> {close} </ToastRadix.Close>
+          <ToastRadix.Title className={styles.ToastTitle}> {titulo} </ToastRadix.Title>
+          <ToastRadix.Description className={styles.ToastDescription}> {descricao} </ToastRadix.Description>
+          {/* <ToastRadix.Action className={styles.ToastAction} altText='a'> {acao} </ToastRadix.Action> */}
+          <ToastRadix.Close className={styles.ToastClose}> {iconCLosed} </ToastRadix.Close>
       </ToastRadix.Root>
 
-      <ToastRadix.Viewport className="ToastViewport" />
+      <ToastRadix.Viewport className={styles.ToastViewport} />
     </ToastRadix.Provider>
   );
 };
