@@ -17,7 +17,30 @@ const meta: Meta<ToastProps> = {
     },
   },
   argTypes: {
-    
+    titulo: {
+      control: 'text',
+      description: 'Titulo a ser exibido no toast',
+    },
+    descricao: {
+      control: 'text',
+      description: 'Descrição a ser exibida no toast',
+    },
+    acao: {
+      control: 'text',
+      description: 'Texto da ação no toast',
+    },
+    close: {
+      control: 'text',
+      description: 'Texto do botão de fechar no toast',
+    },
+    duration: {
+      control: 'number',
+      description: 'Duração do toast em milissegundos',
+    },
+    automaticClose: { 
+      control: 'boolean',
+      description: 'Define se o toast deve fechar automaticamente após a duração definida',
+    },
   },
 };
 
@@ -25,11 +48,8 @@ export default meta;
 
 export const Default: StoryFn<ToastProps> = (args) => (
   <div style={{ maxWidth: 300 }}>
-    <Button>
-      Show Toast
-      <ToastRadix 
-      {...args}
-      />
-    </Button>
+    <ToastRadix {...args}>
+     
+    </ToastRadix>
   </div>
 );
