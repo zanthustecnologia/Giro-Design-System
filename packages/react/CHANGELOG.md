@@ -1,5 +1,11 @@
 # @giro-ds/react
 
+## 3.0.4
+
+### Patch Changes
+
+- 1d1cae3: fix: correct Select component prop type (onChange to onValueChange)
+
 ## 3.0.3
 
 ### Patch Changes
