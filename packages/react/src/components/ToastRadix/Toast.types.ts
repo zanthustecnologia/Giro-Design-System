@@ -13,6 +13,7 @@ export interface ToastProps extends Omit<
   close?: string;
   automaticClose?: boolean;
   duration?: number;
-  icon?: React.ReactNode; 
+  icon?: React.ReactNode;
+  iconClosed?: React.ReactNode;
   iconType: 'Info' | 'Sucess' | 'Alert';
 }
