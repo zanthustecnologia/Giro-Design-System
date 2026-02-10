@@ -27,17 +27,25 @@ button {
 }
 
 .ToastRoot {
-	background-color: white;
-	border-radius: 6px;
-	box-shadow:
-		hsl(206 22% 7% / 35%) 0px 10px 38px -10px,
-		hsl(206 22% 7% / 20%) 0px 10px 20px -15px;
-	padding: 15px;
-	display: grid;
-	grid-template-areas: "title action" "description action";
-	grid-template-columns: auto max-content;
-	column-gap: 15px;
-	align-items: center;
+	position: relative;
+    background-color: var(--color-neutral-low-dark);
+    margin-top: var(--spacing-16);
+    min-height: var(--spacing-48);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    padding: 0 var(--spacing-16);
+    border-radius: var(--border-radius-8);
+    transition: transform 0.4s, opacity 0.4s;
+    transform: translateX(-100%);
+    opacity: 0;
+    will-change: transform, opacity;
+
+    @media (max-width: 360px) {
+        width: fit-content;
+        max-width: 100%;
+    }
 }
 .ToastRoot[data-state="open"] {
 	animation: slideIn 150ms cubic-bezier(0.16, 1, 0.3, 1);

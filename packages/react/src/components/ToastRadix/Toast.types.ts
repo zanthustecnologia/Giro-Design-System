@@ -7,4 +7,11 @@ export interface ToastProps extends Omit<
 > {
   disabled?: boolean;
   children: React.ReactNode;
+  message?: string;
+  titulo?: string;
+  descricao?: string;
+  acao?: string;
+  close?: string;
+  automaticClose?: boolean;
+  duration?: number;
 }
