@@ -4,11 +4,9 @@ import * as React from "react";
 
 import styles from './Toast.module.scss';
 import { ToastProps } from './Toast.types';
-import Button from '../Button/Button';
 
 const Toast: React.FC<ToastProps> = ({ 
   children,
-  message = 'Show Toast',
   titulo = 'Titulo',
   descricao,
   acao,
