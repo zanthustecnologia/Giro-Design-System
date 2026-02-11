@@ -14,7 +14,7 @@ const Toast: React.FC<ToastProps> = ({
   icon,
   iconClosed = <Dismiss16Filled />,
   automaticClose = true,
-  iconType,
+  iconType = "Info",
 }) => {
   const [open, setOpen] = React.useState(false);
 
@@ -27,6 +27,7 @@ const Toast: React.FC<ToastProps> = ({
     ? React.cloneElement(children, { onClick: handleTrigger } as any)
     : children;
 
+  
   if (!automaticClose) {
     duration = Infinity; 
   }
