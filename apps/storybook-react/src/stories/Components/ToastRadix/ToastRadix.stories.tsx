@@ -55,7 +55,9 @@ export default meta;
 export const Default: StoryFn<ToastProps> = (args) => (
   <div style={{ maxWidth: 300 }}>
     <ToastRadix {...args}>
-       
+       <Button>
+          Show Toast
+      </Button>
     </ToastRadix>
   </div>
 );

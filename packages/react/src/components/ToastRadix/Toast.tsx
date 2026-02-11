@@ -20,6 +20,15 @@ const Toast: React.FC<ToastProps> = ({
 }) => {
   const [open, setOpen] = React.useState(false);
 
+  const handleTrigger = () => {
+    setOpen(false);
+    setTimeout(() => setOpen(true), 100);
+  };
+
+  const trigger = React.isValidElement(children)
+    ? React.cloneElement(children, { onClick: handleTrigger } as any)
+    : children;
+
   if (!automaticClose) {
     duration = Infinity; 
   }
@@ -34,14 +43,7 @@ const Toast: React.FC<ToastProps> = ({
 
   return (
     <ToastRadix.Provider  swipeDirection="left">
-      <Button
-        onClick={() => {
-          setOpen(false);
-          setTimeout(() => setOpen(true), 100);
-          }}
-      >
-        {message}  
-      </Button>
+      {trigger}
       <ToastRadix.Root 
         className={styles.toastRoot} 
         open={open} 
