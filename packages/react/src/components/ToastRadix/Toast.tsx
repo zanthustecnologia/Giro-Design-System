@@ -10,8 +10,8 @@ const Toast: React.FC<ToastProps> = ({
   children,
   message = 'Show Toast',
   titulo = 'Titulo',
-  descricao = 'Descrição',
-  acao = 'Ação',
+  descricao,
+  acao,
   duration,
   icon,
   iconClosed = <Dismiss16Filled />,
@@ -33,7 +33,7 @@ const Toast: React.FC<ToastProps> = ({
   }
 
   return (
-    <ToastRadix.Provider swipeDirection="right">
+    <ToastRadix.Provider  swipeDirection="left">
       <Button
         onClick={() => {
           setOpen(false);
