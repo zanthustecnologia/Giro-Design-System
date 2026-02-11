@@ -1,4 +1,4 @@
-import { Info16Regular, CheckmarkCircle16Color, Warning16Regular, Dismiss16Filled} from '@fluentui/react-icons';
+import { Info20Filled, CheckmarkCircle20Filled, Warning20Filled, Dismiss16Filled} from '@fluentui/react-icons';
 import { Toast as ToastRadix } from 'radix-ui';
 import * as React from "react";
 
@@ -25,11 +25,11 @@ const Toast: React.FC<ToastProps> = ({
   }
 
   if (iconType === 'Info') {
-    icon = <Info16Regular />;
+    icon = <Info20Filled />;
   } else if (iconType === 'Sucess') {
-    icon = <CheckmarkCircle16Color />;
+    icon = <CheckmarkCircle20Filled />;
   } else if (iconType === 'Alert') {
-    icon = <Warning16Regular />;
+    icon = <Warning20Filled />;
   }
 
   return (
@@ -48,7 +48,7 @@ const Toast: React.FC<ToastProps> = ({
         onOpenChange={setOpen} 
         duration={duration}
       >
-          <span className={styles.Icon} aria-hidden="true">
+          <span className={`${styles.Icon} ${iconType ? styles[`Icon${iconType}`] : ''}`} aria-hidden="true">
             {icon}
           </span>
           <div>

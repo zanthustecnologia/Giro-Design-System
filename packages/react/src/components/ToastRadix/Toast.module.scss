@@ -72,3 +72,15 @@ div.ToastRoot[data-state="open"] {
 .Icon {
 	margin: 10px 16px;
 }
+
+.IconInfo {
+	color: var(--color-brand-primary-light); 
+}
+
+.IconSucess {
+	color: var(--color-feedback-success-medium); 
+}
+
+.IconAlert {
+	color: var(--color-feedback-alert-medium); 
+}
