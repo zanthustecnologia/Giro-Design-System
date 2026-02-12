@@ -1,10 +1,10 @@
 import React from 'react';
+import { BaseProps, Side, Align } from '@/types';
 
-export interface TooltipProps {
-  id?: string;
+export interface TooltipProps extends BaseProps {
   text: React.ReactNode;
-  side?: "top" | "right" | "bottom" | "left"
-  align?: "start" | "center" | "end";
+  side?: Side;
+  align?: Align;
   sideOffset?: number;
   alignOffset?: number;
   maxWidth?: number;
