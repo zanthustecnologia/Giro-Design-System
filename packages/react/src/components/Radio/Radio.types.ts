@@ -41,9 +41,7 @@ export interface RadioProps {
  * />
  * ```
  */
-export interface RadioGroupProps {
-  /** ID único do elemento */
-  id?: BaseProps['id'];
+export interface RadioGroupProps extends BaseProps {
   
   /** Array de itens de rádio */
   items: RadioProps[];
