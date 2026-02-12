@@ -72,12 +72,9 @@ export interface YearItem {
  * />
  * ```
  */
-export interface CalendarProps {
+export interface CalendarProps extends BaseProps {
   /** Data do dia atual */
   currentDate: Date | null;
-  
-  /** Classe CSS customizada */
-  className?: BaseProps['className'];
   
   /** Dia selecionado pelo usuário */
   selectedDate?: Date | null;
@@ -102,7 +99,4 @@ export interface CalendarProps {
   
   /** Formato de exibição da data */
   format?: DateFormat;
-  
-  /** ID único do elemento */
-  id?: BaseProps['id'];
 }
