@@ -28,10 +28,10 @@
 .toastRoot {
 	color: var(--color-neutral-high-default);
 	display: inline-flex;
-	min-height: var(--spacing-48);
+	min-height: var(--spacing-32);
+	min-width: 297px;
 	max-width: 500px;
-	padding: var(--spacing-10) var(--spacing-16);
-	align-items: center;
+	padding: var(--spacing-8) var(--spacing-16);
 	border-radius: var(--border-radius-8);
 	background-color: var(--color-neutral-low-dark);
 
@@ -39,6 +39,7 @@
         width: 328px;                    
 				max-width: 100%; 
 				box-sizing: border-box;
+				min-height: var(--spacing-48);
     }
 }
 
@@ -57,6 +58,9 @@ div.ToastRoot[data-state="open"] {
 .ToastContent {
 	flex: 1;
 	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 }
 
 .ToastTitle, .ToastDescription {
@@ -75,16 +79,17 @@ div.ToastRoot[data-state="open"] {
 	border: none;
 	color: var(--color-neutral-high-default);
 	margin-left: auto;
-	margin-right: var(--spacing-16);
 	padding: 0;
 	display: flex;
 	align-items: center;
+	flex-shrink: 0;
 }
 
 .Icon {
-	margin: 0 var(--spacing-16);
+	margin-right: var(--spacing-16);
 	display: flex;
 	align-items: center;
+	flex-shrink: 0;
 }
 
 .IconInfo {
