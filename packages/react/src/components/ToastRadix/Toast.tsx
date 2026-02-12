@@ -54,7 +54,7 @@ const Toast: React.FC<ToastProps> = ({
       <span className={`${styles.Icon} ${iconType ? styles[`Icon${iconType}`] : ''}`} aria-hidden="true">
         {displayIcon}
       </span>
-      <div>
+      <div className={styles.ToastContent}>
         <ToastRadix.Title className={styles.ToastTitle}> {titulo} </ToastRadix.Title>
         {descricao && <ToastRadix.Description className={styles.ToastDescription}> {descricao} </ToastRadix.Description>}
       </div>
