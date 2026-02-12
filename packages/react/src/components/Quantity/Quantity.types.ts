@@ -21,7 +21,7 @@ import { Size, BaseProps } from '../../types/common.types';
  * />
  * ```
  */
-export interface QuantityProps {
+export interface QuantityProps extends BaseProps {
   /** Valor inicial (modo não controlado) */
   defaultValue?: number;
   
@@ -30,9 +30,6 @@ export interface QuantityProps {
   
   /** Callback executado quando o valor muda: (value) => void */
   onChange?: (value: number) => void;
-  
-  /** Estado desabilitado do componente */
-  disabled?: BaseProps['disabled'];
   
   /** Habilita entrada de valores decimais */
   decimal?: boolean;
@@ -45,10 +42,4 @@ export interface QuantityProps {
   
   /** Incremento/decremento ao clicar nos botões */
   step?: number;
-  
-  /** ID único do elemento */
-  id?: BaseProps['id'];
-  
-  /** Classe CSS customizada */
-  className?: BaseProps['className'];
 }
