@@ -2,9 +2,9 @@ import { Info20Filled, CheckmarkCircle20Filled, Warning20Filled, Dismiss16Filled
 import { Toast as ToastRadix } from 'radix-ui';
 import * as React from "react";
 
-import { useToastContext } from './hooks/useToast';
 import styles from './Toast.module.scss';
 import { ToastProps } from './Toast.types';
+import { useToastContext } from './useToast';
 
 const Toast: React.FC<ToastProps> = ({ 
   id,

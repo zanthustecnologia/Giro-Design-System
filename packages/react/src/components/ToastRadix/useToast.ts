@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import { ToastContext } from '../context';
-import { ToastMessage } from '../Toast.types';
+import { ToastContext } from './context';
+import { ToastMessage } from './Toast.types';
 
 export const useToastContext = () => {
   const context = React.useContext(ToastContext);
