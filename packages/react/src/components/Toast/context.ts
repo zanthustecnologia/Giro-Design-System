@@ -1,10 +1,10 @@
 import * as React from 'react';
 
-import { ToastMessage } from './Toast.types';
+import { ToastProps } from './Toast.types';
 
 export interface ToastContextValue {
-  toasts: ToastMessage[];
-  showToast: (toast: Omit<ToastMessage, 'id'>) => void;
+  toasts: ToastProps[];
+  showToast: (toast: Omit<ToastProps, 'id'>) => void;
   dismissToast: (id: string) => void;
 }
 

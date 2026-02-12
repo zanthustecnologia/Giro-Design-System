@@ -1,7 +1,13 @@
+import { Toast } from 'radix-ui';
 import * as React from 'react';
 
-export interface ToastMessage {
-  id?: string;
+import { BaseProps } from '@/types';
+export interface ToastProps extends 
+  BaseProps,
+  Omit<
+    React.ComponentPropsWithoutRef<typeof Toast.Root>,
+    'open' | 'onOpenChange' | 'duration' | 'className'
+  > {
   titulo?: string;
   descricao?: string;
   automaticClose?: boolean;
@@ -9,8 +15,4 @@ export interface ToastMessage {
   icon?: React.ReactNode;
   iconClosed?: React.ReactNode;
   iconType?: 'Info' | 'Sucess' | 'Alert';
-}
-
-export interface ToastProps extends ToastMessage {
-  id: string;
 }

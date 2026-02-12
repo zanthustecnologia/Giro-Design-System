@@ -1,17 +1,17 @@
 import * as React from 'react';
 
 import { ToastContext } from '../context';
-import { ToastMessage } from '../Toast.types';
+import { ToastProps } from '../Toast.types';
 
 export const ToastProvider: React.FC<{ children: React.ReactNode; maxToasts?: number }> = ({ 
   children, 
   maxToasts = 5 
 }) => {
-  const [toasts, setToasts] = React.useState<ToastMessage[]>([]);
+  const [toasts, setToasts] = React.useState<ToastProps[]>([]);
 
-  const showToast = React.useCallback((toast: Omit<ToastMessage, 'id'>) => {
+  const showToast = React.useCallback((toast: Omit<ToastProps, 'id'>) => {
     const id = `toast-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-    const newToast: ToastMessage = { ...toast, id };
+    const newToast: ToastProps = { ...toast, id };
 
     setToasts((prevToasts) => {
       const updatedToasts = [...prevToasts, newToast];
