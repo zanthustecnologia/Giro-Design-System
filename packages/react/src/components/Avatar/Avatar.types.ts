@@ -17,16 +17,11 @@ import { Size, BaseProps } from '../../types/common.types';
  * />
  * ```
  */
-export interface AvatarProps {
-  /** ID único do elemento */
-  id?: BaseProps['id'];
+export interface AvatarProps extends BaseProps {
   
   /** Ícone ou conteúdo a ser exibido no avatar */
   icon: React.ReactNode;
   
   /** Tamanho do avatar */
   size?: Size;
-  
-  /** Classe CSS customizada */
-  className?: BaseProps['className'];
 }
