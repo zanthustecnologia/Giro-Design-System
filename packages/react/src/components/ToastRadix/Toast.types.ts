@@ -1,19 +1,16 @@
-import { Toast as ToastRadix } from 'radix-ui';
 import * as React from 'react';
 
-export interface ToastProps extends Omit<
-  React.ComponentPropsWithoutRef<typeof ToastRadix.Root>,
-   'icon' | 'title' | 'description' | 'action' | 'close'
-> {
-  children: React.ReactNode;
-  message?: string;
+export interface ToastMessage {
+  id?: string;
   titulo?: string;
   descricao?: string;
-  acao?: string;
-  close?: string;
   automaticClose?: boolean;
   duration?: number;
   icon?: React.ReactNode;
   iconClosed?: React.ReactNode;
-  iconType: 'Info' | 'Sucess' | 'Alert';
+  iconType?: 'Info' | 'Sucess' | 'Alert';
+}
+
+export interface ToastProps extends ToastMessage {
+  id: string;
 }

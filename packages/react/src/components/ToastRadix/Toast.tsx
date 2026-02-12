@@ -2,66 +2,64 @@ import { Info20Filled, CheckmarkCircle20Filled, Warning20Filled, Dismiss16Filled
 import { Toast as ToastRadix } from 'radix-ui';
 import * as React from "react";
 
+import { useToastContext } from './hooks/useToast';
 import styles from './Toast.module.scss';
 import { ToastProps } from './Toast.types';
 
 const Toast: React.FC<ToastProps> = ({ 
-  children,
+  id,
   titulo = 'Titulo',
   descricao,
-  acao,
-  duration,
+  duration = 5000,
   icon,
   iconClosed = <Dismiss16Filled />,
   automaticClose = true,
   iconType = "Info",
 }) => {
   const [open, setOpen] = React.useState(false);
+  const { dismissToast } = useToastContext();
 
-  const handleTrigger = () => {
-    setOpen(false);
-    setTimeout(() => setOpen(true), 100);
+  React.useEffect(() => {
+    setOpen(true);
+  }, []);
+
+  const handleOpenChange = (isOpen: boolean) => {
+    setOpen(isOpen);
+    if (!isOpen && id) {
+      // Pequeno delay para a animação de saída
+      setTimeout(() => dismissToast(id), 200);
+    }
   };
 
-  const trigger = React.isValidElement(children)
-    ? React.cloneElement(children, { onClick: handleTrigger } as any)
-    : children;
+  let displayIcon = icon;
+  const effectiveDuration = automaticClose ? duration : Infinity;
 
-  
-  if (!automaticClose) {
-    duration = Infinity; 
-  }
-
-  if (iconType === 'Info') {
-    icon = <Info20Filled />;
-  } else if (iconType === 'Sucess') {
-    icon = <CheckmarkCircle20Filled />;
-  } else if (iconType === 'Alert') {
-    icon = <Warning20Filled />;
+  if (!icon) {
+    if (iconType === 'Info') {
+      displayIcon = <Info20Filled />;
+    } else if (iconType === 'Sucess') {
+      displayIcon = <CheckmarkCircle20Filled />;
+    } else if (iconType === 'Alert') {
+      displayIcon = <Warning20Filled />;
+    }
   }
 
   return (
-    <ToastRadix.Provider  swipeDirection="left">
-      {trigger}
-      <ToastRadix.Root 
-        className={styles.toastRoot} 
-        open={open} 
-        onOpenChange={setOpen} 
-        duration={duration}
-      >
-          <span className={`${styles.Icon} ${iconType ? styles[`Icon${iconType}`] : ''}`} aria-hidden="true">
-            {icon}
-          </span>
-          <div>
-            <ToastRadix.Title className={styles.ToastTitle}> {titulo} </ToastRadix.Title>
-            <ToastRadix.Description className={styles.ToastDescription}> {descricao} </ToastRadix.Description>
-          </div>
-          {/* <ToastRadix.Action className={styles.ToastAction} altText='a'> {acao} </ToastRadix.Action> */}
-          <ToastRadix.Close className={styles.ToastClose}> {iconClosed} </ToastRadix.Close>
-      </ToastRadix.Root>
-
-      <ToastRadix.Viewport className={styles.ToastViewport} />
-    </ToastRadix.Provider>
+    <ToastRadix.Root 
+      className={styles.toastRoot} 
+      open={open} 
+      onOpenChange={handleOpenChange} 
+      duration={effectiveDuration}
+    >
+      <span className={`${styles.Icon} ${iconType ? styles[`Icon${iconType}`] : ''}`} aria-hidden="true">
+        {displayIcon}
+      </span>
+      <div>
+        <ToastRadix.Title className={styles.ToastTitle}> {titulo} </ToastRadix.Title>
+        {descricao && <ToastRadix.Description className={styles.ToastDescription}> {descricao} </ToastRadix.Description>}
+      </div>
+      <ToastRadix.Close className={styles.ToastClose}> {iconClosed} </ToastRadix.Close>
+    </ToastRadix.Root>
   );
 };
 
