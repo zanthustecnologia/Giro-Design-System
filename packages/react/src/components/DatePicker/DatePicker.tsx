@@ -10,7 +10,7 @@ import type { DatePickerLocale, CalendarPosition, DatePickerProps } from './Date
 const DatePicker: React.FC<DatePickerProps> = ({
   locale = 'pt-br',
   calendarPosition = 'left',
-  helperText = '',
+  helperText,
   required = false,
   label = 'Data',
   value,
@@ -20,7 +20,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
   error: externalError,
   minDate,
   maxDate,
-  className = '',
+  className,
   'data-testid': testId,
 }) => {
   // ✅ IDs únicos para acessibilidade

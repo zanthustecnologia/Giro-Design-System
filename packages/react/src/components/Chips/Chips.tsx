@@ -7,11 +7,11 @@ import type { ChipsProps } from './Chips.types';
 
 const Chips: React.FC<ChipsProps> = ({
   title,
-  leftIcon = null,
-  rightIcon = null,
+  leftIcon,
+  rightIcon,
   type = 'neutral',
   disabled = false,
-  className = '',
+  className,
   ...rest
 }) => {
 

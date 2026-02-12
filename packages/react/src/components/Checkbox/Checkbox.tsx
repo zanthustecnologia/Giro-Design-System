@@ -10,7 +10,7 @@ import { CheckboxProps } from './Checkbox.types';
 
 const Checkbox: React.FC<CheckboxProps> = ({
   id,
-  label='',
+  label,
   onCheckedChange,
   checked,
   disabled,

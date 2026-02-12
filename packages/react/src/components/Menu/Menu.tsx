@@ -20,7 +20,7 @@ const Menu: React.FC<MenuProps> = ({
   isLoadingMore,
   onApiSearch,
   enableApiSearch,
-  selectedItems = [],
+  selectedItems,
   onOpenChange,
   align = 'start',
   className,

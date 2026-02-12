@@ -6,10 +6,10 @@ import styles from './Avatar.module.scss';
 import type { AvatarProps } from './Avatar.types';
 
 const Avatar = ({ 
-  id = '', 
+  id, 
   icon, 
   size = 'small', 
-  className = '', 
+  className, 
   ...rest 
 }: AvatarProps) => {
   const componentId = id || useId();

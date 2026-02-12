@@ -19,8 +19,8 @@ const Search = React.forwardRef<HTMLInputElement, SearchProps>(
       onClear,
       onClick,
       onMouseDown,
-      id = '',
-      className = '',
+      id,
+      className,
       'data-testid': testId, 
       ...rest
     },

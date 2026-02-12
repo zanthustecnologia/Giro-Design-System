@@ -35,9 +35,9 @@ const VerificationCode: React.FC<VerificationCodeProps> = ({
   inputType = 'numeric',
   onComplete,
   hasError = false,
-  errorMessage = '',
+  errorMessage,
   disabled = false,
-  className = '',
+  className,
   ...rest
 }) => {
 

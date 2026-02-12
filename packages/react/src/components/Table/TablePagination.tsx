@@ -22,7 +22,7 @@ const TablePagination: React.FC<TablePaginationProps> = ({
   onItemsPerPageChange,
   pageSizeOptions = [10, 25, 50, 100],
   disabled = false,
-  className = '',
+  className,
   ...rest
 }) => {
   const totalPages = Math.ceil(totalItems / itemsPerPage);

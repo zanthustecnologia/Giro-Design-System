@@ -77,12 +77,12 @@ const renderCell = <T extends TableRowData = TableRowData>(column: TableColumn<T
 };
 
 const Table = <T extends TableRowData = TableRowData>({
-  columns = [],
-  dataSource = [],
+  columns,
+  dataSource,
   className,
   loading = false,
   rowSelection,
-  locale = {},
+  locale,
   onRow,
   ...rest
 }: TableProps<T>) => {

@@ -31,7 +31,7 @@ const Calendar: React.FC<CalendarProps> = ({
   onClear,
   locale = 'pt-br',
   format = 'dd/mm/yyyy',
-  id = '',
+  id,
   minDate,
   maxDate,
 }) => {

@@ -7,11 +7,11 @@ import type { CalloutProps } from './Callout.types';
 
 const Callout: React.FC<CalloutProps> = ({
   type = 'neutral',
-  title = null,
-  text = '',
-  icon = null,
-  className = '',
-  id = '',
+  title,
+  text,
+  icon,
+  className,
+  id,
   ...rest
 }) => {
   const generatedId = useId();

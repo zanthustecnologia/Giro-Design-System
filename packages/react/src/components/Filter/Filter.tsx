@@ -19,9 +19,9 @@ import type { FilterProps } from './Filter.types';
 import type { DropdownType } from '../Dropdown/Dropdown.types';
 
 const Filter: React.FC<FilterProps> = ({
-  items = [],
+  items,
   type = 'checkbox',
-  selectedIds = [],
+  selectedIds,
   onApplyFilter,
   placeholder = 'Selecionar...',
   enableSearch = false,
@@ -32,7 +32,7 @@ const Filter: React.FC<FilterProps> = ({
   onClose,
   position = 'left',
   disabled = false,
-  className = '',
+  className,
   selectedDate,
   onDateSelect,
   onClearDate,

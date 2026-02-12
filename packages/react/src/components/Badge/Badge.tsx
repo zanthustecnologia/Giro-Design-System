@@ -7,7 +7,7 @@ const Badge: React.FC<BadgeProps> = ({
   children,
   badgeValue = null,
   type = 'notification',
-  className = '',
+  className,
   id,
   'aria-label': ariaLabel,
 }) => {
