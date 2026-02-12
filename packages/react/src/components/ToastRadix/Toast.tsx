@@ -26,7 +26,6 @@ const Toast: React.FC<ToastProps> = ({
   const handleOpenChange = (isOpen: boolean) => {
     setOpen(isOpen);
     if (!isOpen && id) {
-      // Pequeno delay para a animação de saída
       setTimeout(() => dismissToast(id), 200);
     }
   };
