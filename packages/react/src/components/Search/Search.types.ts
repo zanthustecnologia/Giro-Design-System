@@ -23,12 +23,9 @@ import { BaseProps } from '../../types/common.types';
  * />
  * ```
  */
-export interface SearchProps {
+export interface SearchProps extends BaseProps {
   /** Placeholder do campo de busca */
   placeholder?: string;
-  
-  /** Estado desabilitado do campo */
-  disabled?: BaseProps['disabled'];
   
   /** Valor controlado do campo */
   value?: string;
@@ -53,12 +50,6 @@ export interface SearchProps {
   
   /** Callback executado ao pressionar mouse no componente: (e) => void */
   onMouseDown?: (e: React.MouseEvent<HTMLDivElement>) => void;
-  
-  /** Classe CSS customizada */
-  className?: BaseProps['className'];
-  
-  /** ID único do elemento */
-  id?: BaseProps['id'];
   
   /** ID para testes automatizados */
   'data-testid'?: string;
