@@ -50,18 +50,12 @@ export type DropdownType = 'text' | 'checkbox' | 'icon';
  * />
  * ```
  */
-export interface DropdownProps {
-  /** Classe CSS customizada */
-  className?: BaseProps['className'];
-  
+export interface DropdownProps extends BaseProps {
   /** Força posição do dropdown: 'top' abre para cima, 'bottom' para baixo (detecção automática se não especificado) */
   position?: 'top' | 'bottom';
   
   /** Array de itens para o dropdown */
   items: DropdownItem[];
-  
-  /** ID único do elemento */
-  id?: BaseProps['id'];
   
   /** Tipo do dropdown */
   type?: DropdownType;
