@@ -19,12 +19,9 @@ import { BaseProps } from '../../types/common.types';
  * />
  * ```
  */
-export interface SwitchProps {
+export interface SwitchProps extends BaseProps {
   /** Estado inicial (modo não controlado) */
   defaultChecked?: boolean;
-  
-  /** Estado desabilitado do switch */
-  disabled?: BaseProps['disabled'];
   
   /** Callback executado quando o estado muda: (checked) => void */
   onCheckedChange?: (checked: boolean) => void;
