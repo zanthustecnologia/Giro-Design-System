@@ -22,7 +22,7 @@ import { TextVariant, BaseProps } from '../../types/common.types';
  * />
  * ```
  */
-export interface ChipsProps {
+export interface ChipsProps extends BaseProps {
   /** Tipo visual do chip */
   type?: TextVariant;
   
@@ -34,12 +34,6 @@ export interface ChipsProps {
   
   /** Ícone posicionado à direita do texto */
   rightIcon?: React.ReactNode;
-  
-  /** Estado desabilitado do chip */
-  disabled?: BaseProps['disabled'];
-  
-  /** Classe CSS customizada */
-  className?: BaseProps['className'];
   
   /** Props adicionais para o elemento div */
   [key: string]: any;
