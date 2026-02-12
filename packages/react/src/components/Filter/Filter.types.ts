@@ -27,7 +27,7 @@ import { DropdownItem, DropdownType } from '../Dropdown/Dropdown.types';
  * />
  * ```
  */
-export interface FilterProps {
+export interface FilterProps extends BaseProps {
   /** Array de itens para filtros do tipo dropdown */
   items?: DropdownItem[];
   
@@ -63,12 +63,6 @@ export interface FilterProps {
   
   /** Posição do dropdown em relação ao botão */
   position?: Position;
-  
-  /** Estado desabilitado do filtro */
-  disabled?: BaseProps['disabled'];
-  
-  /** Classe CSS customizada */
-  className?: BaseProps['className'];
   
   /** Data selecionada (para tipo calendar) */
   selectedDate?: Date | null;
