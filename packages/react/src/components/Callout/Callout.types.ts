@@ -22,7 +22,7 @@ import { TextVariant, BaseProps } from '../../types/common.types';
  * />
  * ```
  */
-export interface CalloutProps {
+export interface CalloutProps extends BaseProps {
   /** Tipo visual do callout */
   type?: TextVariant;
   
@@ -34,12 +34,6 @@ export interface CalloutProps {
   
   /** Ícone a ser exibido no callout */
   icon?: React.ReactNode;
-  
-  /** Classe CSS customizada */
-  className?: BaseProps['className'];
-  
-  /** ID único do elemento */
-  id?: BaseProps['id'];
   
   /** Props adicionais para o elemento div */
   [key: string]: any;
