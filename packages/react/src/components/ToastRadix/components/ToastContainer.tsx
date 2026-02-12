@@ -1,7 +1,7 @@
 import { Toast as ToastRadix } from 'radix-ui';
 import * as React from 'react';
 
-import { useToastContext } from '../hooks/useToast';
+import { useToastContext } from '../useToast';
 import Toast from '../Toast';
 import styles from '../Toast.module.scss';
 

@@ -83,6 +83,18 @@ const ToastExample: React.FC = () => {
       >
         Toast Sem Auto-close
       </Button>
+
+      <Button
+        onClick={() =>
+          showToast({
+            titulo: 'Sem auto-close',
+            iconType: 'Info',
+            automaticClose: false,
+          })
+        }
+      >
+        Toast Sem Descrição
+      </Button>
     </div>
   );
 };
