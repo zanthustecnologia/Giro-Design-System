@@ -27,12 +27,7 @@ export type ListItemVariant = 'text' | 'checkbox' | 'radio' | 'icon';
  * />
  * ```
  */
-export interface ListItemProps {
-  /** ID único do elemento */
-  id?: BaseProps['id'];
-  
-  /** Classe CSS customizada */
-  className?: BaseProps['className'];
+export interface ListItemProps extends BaseProps {
   
   /** Variante do item da lista */
   variant?: ListItemVariant;
@@ -45,9 +40,6 @@ export interface ListItemProps {
   
   /** Texto secundário/descrição do item */
   subText?: string;
-  
-  /** Estado desabilitado do item */
-  disabled?: BaseProps['disabled'];
   
   /** Estado de checked (para variantes checkbox/radio) */
   checked?: boolean;
