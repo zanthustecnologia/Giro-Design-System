@@ -36,7 +36,7 @@ const LabelComponent = ({
         <Label.Root
           className={clsx(
             styles.wrapperLabel,
-            error && styles.errorLabel,
+            error && !disabled && styles.errorLabel,
             className
           )}
           htmlFor={htmlFor}
@@ -50,7 +50,7 @@ const LabelComponent = ({
       <Label.Root
         className={clsx(
           styles.wrapperLabel,
-          error && styles.errorLabel,
+          error && !disabled && styles.errorLabel,
           disabled && styles.disabledLabel,
           className
         )}
