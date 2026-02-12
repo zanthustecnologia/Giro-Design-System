@@ -25,7 +25,7 @@ export type InputType = 'numeric' | 'alpha' | 'alphanumeric';
  * />
  * ```
  */
-export interface VerificationCodeProps {
+export interface VerificationCodeProps extends BaseProps {
   /** Número de dígitos do código (padrão: 6) */
   length?: number;
   
@@ -40,12 +40,6 @@ export interface VerificationCodeProps {
   
   /** Mensagem de erro exibida abaixo do componente */
   errorMessage?: string;
-  
-  /** Estado desabilitado do componente */
-  disabled?: BaseProps['disabled'];
-  
-  /** Classe CSS customizada */
-  className?: BaseProps['className'];
   
   /** Props adicionais passadas para os inputs */
   [key: string]: any;

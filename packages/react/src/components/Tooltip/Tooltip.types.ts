@@ -23,9 +23,7 @@ import { Side, Align, BaseProps } from '../../types/common.types';
  * </Tooltip>
  * ```
  */
-export interface TooltipProps {
-  /** ID único do elemento */
-  id?: BaseProps['id'];
+export interface TooltipProps extends BaseProps {
   
   /** Conteúdo do tooltip */
   text: React.ReactNode;
