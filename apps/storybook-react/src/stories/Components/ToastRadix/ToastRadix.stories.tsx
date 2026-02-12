@@ -1,10 +1,10 @@
-import { ToastRadixProvider, ToastContainer, useToastRadix, Button } from '@giro-ds/react';
+import { ToastProvider, ToastContainer, useToast, Button } from '@giro-ds/react';
 import React from 'react';
 
 import type { Meta, StoryFn } from '@storybook/react';
 
 const meta: Meta = {
-  title: 'Components/ToastRadix',
+  title: 'Components/Toast',
   component: ToastContainer,
   parameters: {
     docs: {
@@ -16,10 +16,10 @@ const meta: Meta = {
   },
   decorators: [
     (Story) => (
-      <ToastRadixProvider maxToasts={5}>
+      <ToastProvider maxToasts={5}>
         <Story />
         <ToastContainer />
-      </ToastRadixProvider>
+      </ToastProvider>
     ),
   ],
 };
@@ -28,7 +28,7 @@ export default meta;
 
 // Componente de exemplo para usar dentro do Provider
 const ToastExample: React.FC = () => {
-  const { showToast } = useToastRadix();
+  const { showToast } = useToast();
 
   return (
     <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
@@ -102,7 +102,7 @@ const ToastExample: React.FC = () => {
 export const Default: StoryFn = () => <ToastExample />;
 
 export const MultipleToasts: StoryFn = () => {
-  const { showToast } = useToastRadix();
+  const { showToast } = useToast();
 
   const showMultiple = () => {
     const tipos: Array<'Info' | 'Sucess' | 'Alert'> = ['Info', 'Sucess', 'Alert'];
@@ -132,7 +132,7 @@ export const MultipleToasts: StoryFn = () => {
 };
 
 export const StressTest: StoryFn = () => {
-  const { showToast } = useToastRadix();
+  const { showToast } = useToast();
   const [count, setCount] = React.useState(0);
 
   const addToast = () => {
