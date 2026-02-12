@@ -5,9 +5,7 @@ import { Side, Align, BaseProps } from '../../types/common.types';
 /**
  * Representa um item do select
  */
-export interface SelectItemProps {
-  /** ID único do item */
-  id?: BaseProps['id'];
+export interface SelectItemProps extends BaseProps {
   
   /** Texto principal do item */
   text: ReactNode;
@@ -17,9 +15,6 @@ export interface SelectItemProps {
   
   /** Ícone do item */
   icon?: ReactNode;
-  
-  /** Estado desabilitado do item */
-  disabled?: BaseProps['disabled'];
   
   /** Valor do item */
   value: string;
@@ -72,7 +67,7 @@ export type SelectVariant = 'text' | 'icon' | 'checkbox';
  * />
  * ```
  */
-export interface SelectProps {
+export interface SelectProps extends BaseProps {
   /** Array de itens do select */
   items: SelectItemProps[];
   
@@ -111,12 +106,6 @@ export interface SelectProps {
   
   /** Mensagem de erro a ser exibida */
   errorMessage?: string;
-  
-  /** Estado desabilitado do campo */
-  disabled?: boolean;
-  
-  /** Classe CSS customizada */
-  className?: string;
   
   /** Label acessível para leitores de tela */
   'aria-label'?: string;
