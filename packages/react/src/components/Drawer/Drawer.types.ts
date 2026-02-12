@@ -31,7 +31,7 @@ import { Variant, BaseProps } from '../../types/common.types';
  * </Drawer>
  * ```
  */
-export interface DrawerProps {
+export interface DrawerProps extends BaseProps {
   /** Conteúdo a ser exibido dentro do drawer */
   children?: ReactNode;
   
@@ -49,15 +49,6 @@ export interface DrawerProps {
   
   /** Callback executado ao abrir o drawer: () => void */
   onOpen?: () => void;
-  
-  /** Classe CSS customizada */
-  className?: BaseProps['className'];
-  
-  /** ID único do elemento */
-  id?: BaseProps['id'];
-  
-  /** Estado desabilitado do drawer */
-  disabled?: BaseProps['disabled'];
   
   /** Callback executado ao clicar no overlay: () => void */
   onOverlayClick?: () => void;
@@ -80,7 +71,7 @@ export interface DrawerProps {
  * />
  * ```
  */
-export interface DrawerExampleProps {
+export interface DrawerExampleProps extends BaseProps {
   /** Texto do botão trigger */
   text?: string;
   
@@ -93,12 +84,6 @@ export interface DrawerExampleProps {
   /** Callback executado ao abrir: () => void */
   onOpen?: () => void;
   
-  /** Classe CSS customizada */
-  className?: BaseProps['className'];
-  
   /** Variante visual do botão trigger */
   variant?: Variant;
-  
-  /** Estado desabilitado do botão trigger */
-  disabled?: BaseProps['disabled'];
 }
