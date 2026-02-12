@@ -28,7 +28,7 @@ import { BaseProps } from '../../types/common.types';
  * </Dialog>
  * ```
  */
-export interface DialogProps {
+export interface DialogProps extends BaseProps {
   /** Conteúdo customizado do dialog */
   children?: ReactNode;
   
@@ -55,10 +55,4 @@ export interface DialogProps {
   
   /** Callback executado ao fechar o dialog: () => void */
   onClose?: () => void;
-  
-  /** ID único do elemento */
-  id?: BaseProps['id'];
-  
-  /** Classe CSS customizada */
-  className?: BaseProps['className'];
 }
