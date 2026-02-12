@@ -1,5 +1,11 @@
 # @giro-ds/react
 
+## 3.0.5
+
+### Patch Changes
+
+- 670abc4: fix: update TextField and Label components
+
 ## 3.0.4
 
 ### Patch Changes
