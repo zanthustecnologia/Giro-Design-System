@@ -22,7 +22,7 @@ import { Size, BaseProps, Variant, Position } from '../../types/common.types';
  * </Button>
  * ```
  */
-export interface ButtonProps extends React.HTMLAttributes<HTMLElement> {
+export interface ButtonProps extends BaseProps, React.HTMLAttributes<HTMLElement> {
   /** Elemento customizado a ser renderizado (ex: 'a', Link do React Router) */
   as?: React.ElementType;
   
@@ -56,20 +56,8 @@ export interface ButtonProps extends React.HTMLAttributes<HTMLElement> {
   /** Tipo HTML do botão */
   type?: 'button' | 'submit' | 'reset';
   
-  /** Estado desabilitado do botão */
-  disabled?: BaseProps['disabled'];
-  
-  /** Callback executado ao clicar no botão: (event) => void */
-  onClick?: (event: React.MouseEvent<HTMLElement>) => void;
-  
   /** Tamanho do botão */
   size?: Size;
-  
-  /** Classe CSS customizada */
-  className?: BaseProps['className'];
-  
-  /** ID único do elemento */
-  id?: BaseProps['id'];
   
   /** Ícone a ser exibido no botão */
   icon?: React.ReactNode;
