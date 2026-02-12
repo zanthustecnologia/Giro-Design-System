@@ -473,8 +473,8 @@ describe('useToast', () => {
       );
 
       expect(toastFunctions).toBeTruthy();
-      expect(toastFunctions?.showToast).toBeInstanceOf(Function);
-      expect(toastFunctions?.dismissToast).toBeInstanceOf(Function);
+      expect(typeof toastFunctions!.showToast).toBe('function');
+      expect(typeof toastFunctions!.dismissToast).toBe('function');
     });
 
     it('showToast deve adicionar um toast', async () => {
