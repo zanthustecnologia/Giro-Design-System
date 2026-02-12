@@ -66,7 +66,7 @@ export { default as TextField } from './TextField';
 export { type TextFieldProps } from './TextField/TextField.types';
 
 export { Toast, ToastProvider, ToastContainer, useToast } from './Toast';
-export { type ToastProps, type ToastMessage} from './Toast/Toast.types';
+export { type ToastProps} from './Toast/Toast.types';
 
 export { default as Tooltip } from './Tooltip';
 export { type TooltipProps } from './Tooltip/Tooltip.types';
