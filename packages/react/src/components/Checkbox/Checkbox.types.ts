@@ -22,9 +22,7 @@ import { BaseProps } from '../../types/common.types';
  * />
  * ```
  */
-export interface CheckboxProps {
-  /** ID único do elemento */
-  id?: BaseProps['id'];
+export interface CheckboxProps extends BaseProps {
   
   /** Label ou conteúdo a ser exibido ao lado do checkbox */
   label?: React.ReactNode;
@@ -37,12 +35,6 @@ export interface CheckboxProps {
   
   /** Estado atual (modo controlado) */
   checked?: boolean;
-  
-  /** Estado desabilitado do checkbox */
-  disabled?: BaseProps['disabled'];
-  
-  /** Classe CSS customizada */
-  className?: BaseProps['className'];
   
   /** Estado indeterminado (usado em selecionar todos com seleção parcial) */
   indeterminate?: boolean;
