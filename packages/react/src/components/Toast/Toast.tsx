@@ -6,7 +6,7 @@ import styles from './Toast.module.scss';
 import { ToastProps } from './Toast.types';
 import { useToastContext } from './useToast';
 
-const Toast: React.FC<ToastProps> = ({ 
+const Toast: React.FC<ToastProps & { id: string }> = ({ 
   id,
   titulo = 'Titulo',
   descricao,
@@ -15,6 +15,7 @@ const Toast: React.FC<ToastProps> = ({
   iconClosed = <Dismiss16Filled />,
   automaticClose = true,
   iconType = "Info",
+  ...restProps
 }) => {
   const [open, setOpen] = React.useState(false);
   const { dismissToast } = useToastContext();
@@ -49,6 +50,7 @@ const Toast: React.FC<ToastProps> = ({
       open={open} 
       onOpenChange={handleOpenChange} 
       duration={effectiveDuration}
+      {...restProps}
     >
       <span className={`${styles.Icon} ${iconType ? styles[`Icon${iconType}`] : ''}`} aria-hidden="true">
         {displayIcon}

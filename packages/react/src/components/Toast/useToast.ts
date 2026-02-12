@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { ToastContext } from './context';
-import { ToastMessage } from './Toast.types';
+import { ToastProps } from './Toast.types';
 
 export const useToastContext = () => {
   const context = React.useContext(ToastContext);
@@ -15,7 +15,7 @@ export const useToast = () => {
   const { showToast, dismissToast } = useToastContext();
 
   return {
-    showToast: (toast: Omit<ToastMessage, 'id'>) => showToast(toast),
+    showToast: (toast: Omit<ToastProps, 'id'>) => showToast(toast),
     dismissToast: (id: string) => dismissToast(id),
   };
 };
