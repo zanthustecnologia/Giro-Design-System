@@ -23,7 +23,7 @@ import { Locale, BaseProps, Position } from '../../types/common.types';
  * />
  * ```
  */
-export interface DatePickerProps {
+export interface DatePickerProps extends BaseProps {
   /** Locale para formatação da data */
   locale?: Locale;
   
@@ -48,9 +48,6 @@ export interface DatePickerProps {
   /** Callback executado quando a data muda: (date) => void */
   onChange?: (date: Date | null) => void;
   
-  /** Estado desabilitado do campo */
-  disabled?: BaseProps['disabled'];
-  
   /** Mensagem de erro a ser exibida */
   error?: string;
   
@@ -59,9 +56,6 @@ export interface DatePickerProps {
   
   /** Data máxima selecionável */
   maxDate?: Date;
-  
-  /** Classe CSS customizada */
-  className?: BaseProps['className'];
   
   /** ID para testes automatizados */
   'data-testid'?: string;
