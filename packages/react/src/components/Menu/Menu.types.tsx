@@ -69,7 +69,7 @@ export interface DefaultMenuItemProps {
  * />
  * ```
  */
-export interface MenuProps {
+export interface MenuProps extends BaseProps {
   /** Array de itens do menu */
   items: MenuItemProps[];
   
@@ -78,9 +78,6 @@ export interface MenuProps {
   
   /** Tipo de visualização do menu */
   type?: 'text' | 'icon';
-  
-  /** Classe CSS customizada */
-  className?: BaseProps['className'];
   
   /** Callback executado quando um item é selecionado: (item) => void */
   onItemSelect?: (items: MenuItemProps) => void;
