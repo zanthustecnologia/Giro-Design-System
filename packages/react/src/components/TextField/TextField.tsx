@@ -114,8 +114,8 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
         : undefined;
 
     const containerClass = clsx(styles.container, {
-      [styles.error]: hasError,
       [styles.disabled]: disabled,
+      [styles.error]: hasError && !disabled,
       [className!]: className,
     });
 
