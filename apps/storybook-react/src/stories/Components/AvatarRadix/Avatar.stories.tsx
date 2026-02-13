@@ -49,6 +49,7 @@ export const Default: Story = {
   render: Template,
   args: {
     icon: <Person16Regular />,
+    size: 'lg',
   },
 };
 

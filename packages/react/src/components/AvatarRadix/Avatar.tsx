@@ -23,7 +23,7 @@ const Avatar: React.FC<AvatarRadixProps> = ({ id ,
   );
 
   return (
-    <div style={{ display: "flex", gap: 20 }}>
+    <div>
       <AvatarRadix.Root className={AvatarClass}>
         {src && (
             <AvatarRadix.Image
@@ -32,7 +32,7 @@ const Avatar: React.FC<AvatarRadixProps> = ({ id ,
               alt="Avatar"
             />
         )}
-        <AvatarRadix.Fallback className={styles.AvatarImage}>
+        <AvatarRadix.Fallback className={styles.AvatarFallback}>
           {icon}
         </AvatarRadix.Fallback>
       </AvatarRadix.Root>
