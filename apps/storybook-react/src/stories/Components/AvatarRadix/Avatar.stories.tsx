@@ -1,11 +1,13 @@
-import { AvatarRadix } from "@giro-ds/react";
-import type { AvatarRadixProps } from "@giro-ds/react";
-import React from "react";
 import { Person16Regular, Add16Regular, Add16Filled, ArrowCircleDown12Regular } from "@fluentui/react-icons";
+import { Avatar } from "@giro-ds/react";
+import React from "react";
+
+import type { AvatarProps } from "@giro-ds/react";
 import type { Meta, StoryObj } from '@storybook/react';
-const meta: Meta<AvatarRadixProps> = {
-  title: "Components/AvatarRadix",
-  component: AvatarRadix,
+
+const meta: Meta<AvatarProps> = {
+  title: "Components/Avatar",
+  component: Avatar,
   parameters: {
     layout: 'centered'
   },
@@ -24,23 +26,18 @@ const meta: Meta<AvatarRadixProps> = {
         arrow: <ArrowCircleDown12Regular />,
       },
     },
-    className: {
-      table: {
-        disable: true,
-      },
-    },
   },
 };
 
 export default meta;
 
-type Story = StoryObj<AvatarRadixProps>;
+type Story = StoryObj<AvatarProps>;
 
 
-const Template = ({ icon, ...args }: AvatarRadixProps) => {
+const Template = ({ icon, ...args }: AvatarProps) => {
   return (
     <div>
-      <AvatarRadix {...args} icon={icon} />
+      <Avatar {...args} icon={icon} />
     </div>
   );
 };
