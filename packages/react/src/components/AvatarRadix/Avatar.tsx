@@ -6,8 +6,8 @@ import styles from './Avatar.module.scss';
 
 import type { AvatarRadixProps } from './Avatar.types';
 
-const Avatar: React.FC<AvatarRadixProps> = ({ id ,
-   icon,
+const Avatar: React.FC<AvatarRadixProps> = ({
+  icon,
   size = 'lg',
   src,
   className 

@@ -1,9 +1,9 @@
 import React from 'react';
 
-export interface AvatarRadixProps {
-  id?: string;
+import { BaseProps, Size } from '@/types';
+
+export interface AvatarRadixProps extends BaseProps {
   icon: React.ReactNode;
-  size?: 'sm' | 'lg';
+  size?: Size;
   src?: string;
-  className?: string;
 }
