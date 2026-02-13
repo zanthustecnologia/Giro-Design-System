@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { Avatar as AvatarRadix } from "radix-ui";
-import React, { useId } from 'react';
+import React from 'react';
 
 import styles from './Avatar.module.scss';
 
@@ -10,7 +10,8 @@ const Avatar: React.FC<AvatarRadixProps> = ({
   icon,
   size = 'lg',
   src,
-  className 
+  className,
+  ...rest
 }) => {
   const AvatarClass = clsx(
     styles.AvatarRoot,
@@ -23,7 +24,7 @@ const Avatar: React.FC<AvatarRadixProps> = ({
 
   return (
     <div>
-      <AvatarRadix.Root className={AvatarClass}>
+      <AvatarRadix.Root className={AvatarClass} {...rest}>
         {src && (
             <AvatarRadix.Image
               className={styles.AvatarImage}
