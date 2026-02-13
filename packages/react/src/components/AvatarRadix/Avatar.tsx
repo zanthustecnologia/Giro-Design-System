@@ -12,7 +12,6 @@ const Avatar: React.FC<AvatarRadixProps> = ({ id ,
   src,
   className 
 }) => {
-  const componentId = id || useId();
   const AvatarClass = clsx(
     styles.AvatarRoot,
     {
