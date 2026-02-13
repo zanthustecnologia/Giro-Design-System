@@ -3,8 +3,6 @@
 	align-items: center;
 	justify-content: center;
 	vertical-align: middle;
-	overflow: hidden;
-	user-select: none;
 	border-radius: var(--border-radius-circular);
 }
 
@@ -24,7 +22,9 @@
 	height: 100%;
 	object-fit: cover;
   border-radius: var(--border-radius-circular);
-	// border-radius: inherit;
+  display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .AvatarFallback {
@@ -36,11 +36,11 @@
 	color: var(--color-neutral-low-default);
   background-color: var(--color-neutral-high-medium);
   border-radius: var(--border-radius-circular);
-	font-weight: 500;
+	font-weight: var(--font-weight-medium);
 }
 
 .AvatarRoot--sm .AvatarFallback {
-	font-size: 12px;
+	font-size: var(--font-size-12);
   svg {
 		width: 16px !important;
     height: 16px !important;
@@ -48,7 +48,7 @@
 }
 
 .AvatarRoot--lg .AvatarFallback {
-	font-size: 18px;
+	font-size: var(--font-size-18);
   svg {
 		width: 24px !important;
     height: 24px !important;
