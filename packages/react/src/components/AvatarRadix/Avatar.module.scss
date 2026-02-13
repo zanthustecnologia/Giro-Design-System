@@ -1,0 +1,51 @@
+.AvatarRoot {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	vertical-align: middle;
+	overflow: hidden;
+	user-select: none;
+	border-radius: 100%;
+}
+
+.AvatarRoot.AvatarRoot--sm {
+  width: 32px;
+  height: 32px;
+  & div.AvatarImage {
+    svg,
+    path {
+      display: flex;
+      align-items: center;
+      width: 16px !important;
+      height: 16px !important;
+      color: var(--color-neutral-low-default);
+    }
+  }
+}
+
+.AvatarRoot.AvatarRoot--lg {
+  width: 44px;
+  height: 44px;
+  & div.AvatarImage svg,
+  path {
+    display: flex;
+    align-items: center;
+    width: 24px !important;
+    height: 24px !important;
+    color: var(--color-neutral-low-default);
+  }
+}
+
+.AvatarImage {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	border-radius: inherit;
+  display: flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--violet-11);
+	font-size: 15px;
+	line-height: 1;
+	font-weight: 500;
+}

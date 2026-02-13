@@ -1,0 +1,62 @@
+import { AvatarRadix } from "@giro-ds/react";
+import type { AvatarRadixProps } from "@giro-ds/react";
+import React from "react";
+import { Person16Regular, Add16Regular, Add16Filled, ArrowCircleDown12Regular } from "@fluentui/react-icons";
+import type { Meta, StoryObj } from '@storybook/react';
+const meta: Meta<AvatarRadixProps> = {
+  title: "Components/AvatarRadix",
+  component: AvatarRadix,
+  parameters: {
+    layout: 'centered'
+  },
+  argTypes: {
+    size: {
+      control: { type: 'select' },
+      options: ["sm", "lg"],
+    },
+    icon: {
+      control: { type: 'select' },
+      options: ['none', 'add16R', 'add16F', 'arrow'],
+      mapping: {
+        none: <Person16Regular />,
+        add16R: <Add16Regular />,
+        add16F: <Add16Filled />,
+        arrow: <ArrowCircleDown12Regular />,
+      },
+    },
+    className: {
+      table: {
+        disable: true,
+      },
+    },
+  },
+};
+
+export default meta;
+
+type Story = StoryObj<AvatarRadixProps>;
+
+
+const Template = ({ icon, ...args }: AvatarRadixProps) => {
+  return (
+    <div>
+      <AvatarRadix {...args} icon={icon} />
+    </div>
+  );
+};
+
+export const Default: Story = {
+  render: Template,
+  args: {
+    icon: <Person16Regular />,
+  },
+};
+
+export const ComImagem: Story = {
+  render: Template,
+  args: {
+    icon: <Person16Regular />,
+    size: 'lg',
+    src: 'https://images.unsplash.com/photo-1511485977113-f34c92461ad9?ixlib=rb-1.2.1&w=128&h=128&dpr=2&q=80', // Imagem de exemplo do Radix UI
+  },
+};
