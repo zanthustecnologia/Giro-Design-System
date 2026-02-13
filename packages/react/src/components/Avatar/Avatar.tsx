@@ -1,24 +1,41 @@
-import React, { useId } from 'react';
-import styles from './Avatar.module.scss';
 import clsx from 'clsx';
+import { Avatar as AvatarRadix } from "radix-ui";
+import React from 'react';
+
+import styles from './Avatar.module.scss';
+
 import type { AvatarProps } from './Avatar.types';
 
-let Avatar = ({ id = '', icon, size = 'small', className = '' }: AvatarProps) => {
-  const componentId = id || useId();
+const Avatar: React.FC<AvatarProps> = ({
+  icon,
+  size = 'sm',
+  src,
+  className,
+  ...rest
+}) => {
   const AvatarClass = clsx(
-    styles['zds-avatar__circle'],
+    styles.AvatarRoot,
     {
-      [styles['zds-avatar__large']]: size === 'large',
-      [styles['zds-avatar__small']]: size === 'small',
+      [styles['AvatarRoot--lg']]: size === 'lg',
+      [styles['AvatarRoot--sm']]: size === 'sm',
     },
     className
   );
 
   return (
-    <div className={AvatarClass} id={componentId} role="img" aria-label={`Avatar ${size}`}>
-      <div className={styles['zds-avatar__circle__icon']}>
-        {icon}
-      </div>
+    <div>
+      <AvatarRadix.Root className={AvatarClass} {...rest}>
+        {src && (
+            <AvatarRadix.Image
+              className={styles.AvatarImage}
+              src={src}
+              alt="Avatar"
+            />
+        )}
+        <AvatarRadix.Fallback className={styles.AvatarFallback}>
+          {icon}
+        </AvatarRadix.Fallback>
+      </AvatarRadix.Root>
     </div>
   );
 };

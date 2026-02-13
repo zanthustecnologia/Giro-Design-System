@@ -38,7 +38,7 @@ export default meta;
 // Template base
 const Template = (args: React.ComponentProps<typeof Tooltip>) => (
   <Tooltip {...args}>
-    <Avatar icon={<Person16Regular />} size="small" />
+    <Avatar icon={<Person16Regular />}/>
   </Tooltip>
 );
 
@@ -49,7 +49,7 @@ export const Default: Story = {
   },
   render: (args) => (
     <Tooltip {...args}>
-      <Avatar icon={<Person16Regular />} size="small" />
+      <Avatar icon={<Person16Regular />}/>
     </Tooltip>
   ),
 };

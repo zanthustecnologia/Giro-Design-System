@@ -1,44 +1,56 @@
-.zds-avatar__circle {
-  border-radius: var(--border-radius-circular);
-  background-color: var(--color-neutral-high-medium);
-  display: flex;
-  align-items: center;
+.AvatarRoot {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	vertical-align: middle;
+	border-radius: var(--border-radius-circular);
 }
 
-.zds-avatar__circle.zds-avatar__large {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: var(--border-radius-circular);
-  background-color: var(--color-neutral-high-medium);
-  width: 44px;
-  height: 44px;
-  & div.zds-avatar__circle__icon svg,
-  path {
-    display: flex;
-    align-items: center;
-    width: 24px !important;
-    height: 24px !important;
-    color: var(--color-neutral-low-default);
-  }
-}
-
-.zds-avatar__circle.zds-avatar__small {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: var(--border-radius-circular);
-  background-color: var(--color-neutral-high-medium);
+.AvatarRoot.AvatarRoot--sm {
   width: 32px;
   height: 32px;
-  & div.zds-avatar__circle__icon {
-    svg,
-    path {
-      display: flex;
-      align-items: center;
-      width: 16px !important;
-      height: 16px !important;
-      color: var(--color-neutral-low-default);
-    }
-  }
+}
+
+.AvatarRoot.AvatarRoot--lg {
+  width: 44px;
+  height: 44px;
+
+}
+
+.AvatarImage {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+  border-radius: var(--border-radius-circular);
+  display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.AvatarFallback {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--color-neutral-low-default);
+  background-color: var(--color-neutral-high-medium);
+  border-radius: var(--border-radius-circular);
+	font-weight: var(--font-weight-medium);
+}
+
+.AvatarRoot--sm .AvatarFallback {
+	font-size: var(--font-size-12);
+  svg {
+		width: 16px !important;
+    height: 16px !important;
+	}
+}
+
+.AvatarRoot--lg .AvatarFallback {
+	font-size: var(--font-size-18);
+  svg {
+		width: 24px !important;
+    height: 24px !important;
+	}
 }

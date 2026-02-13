@@ -1,8 +1,9 @@
 import React from 'react';
 
-export interface AvatarProps {
-  id?: string;
+import { BaseProps, Size } from '@/types';
+
+export interface AvatarProps extends BaseProps {
   icon: React.ReactNode;
-  size?: 'small' | 'large';
-  className?: string;
+  size?: Size;
+  src?: string;
 }
