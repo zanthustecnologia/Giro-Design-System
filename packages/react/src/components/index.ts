@@ -1,6 +1,9 @@
 export { default as Avatar } from './Avatar';
 export { type AvatarProps } from './Avatar/Avatar.types';
 
+export { default as AvatarRadix } from './AvatarRadix';
+export { type AvatarRadixProps } from './AvatarRadix/Avatar.types';
+
 export { default as Badge } from './Badge';
 export { type BadgeProps } from './Badge/Badge.types';
 
