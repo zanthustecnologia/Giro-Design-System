@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { BaseProps, Size } from '@/types';
+import { BaseProps, Size } from '../../types';
 
 /**
  * Props do componente Avatar
