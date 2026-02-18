@@ -28,6 +28,9 @@ export { type DatePickerProps } from './DatePicker/DatePicker.types';
 export { default as Dialog } from './Dialog';
 export { type DialogProps } from './Dialog/Dialog.types';
 
+export { default as DialogRadix } from './DialogRadix';
+export { type DialogRadixProps } from './DialogRadix/Dialog.types';
+
 export { default as Drawer } from './Drawer';
 export { type DrawerProps } from './Drawer/Drawer.types';
 
