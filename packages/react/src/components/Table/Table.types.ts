@@ -1,5 +1,5 @@
 import { ReactNode, CSSProperties } from 'react';
-import { BaseProps } from '../types';
+import { BaseProps } from '../../types';
 
 /**
  * Tipo base para dados da tabela. Use `<Table<SeuTipo>>` para type-safety completo.

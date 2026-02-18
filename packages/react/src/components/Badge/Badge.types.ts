@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-import {BaseProps} from '../../types/common.types';
+import {BaseProps} from '../../types';
 
 /** Tipos de badge suportados */
 export type BadgeType = 'notification' | 'status';
