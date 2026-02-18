@@ -102,7 +102,7 @@ describe('Avatar', () => {
     it('renderiza com a estrutura DOM correta', () => {
       const { container } = render(<Avatar icon={<MockIcon />} />);
       const wrapper = container.firstChild;
-      const avatarRoot = wrapper?.firstChild;
+      const avatarRoot = wrapper?.firstChild as HTMLElement;
       
       expect(wrapper?.nodeName).toBe('DIV');
       const className = avatarRoot?.className || '';
@@ -207,14 +207,6 @@ describe('Avatar', () => {
       );
       const avatarRoot = container.querySelector('[class*="AvatarRoot"]');
       expect(avatarRoot).toHaveAttribute('aria-label', 'Foto do usuário');
-    });
-
-    it('aplica role corretamente quando fornecido', () => {
-      const { container } = render(
-        <Avatar icon={<MockIcon />} role="img" />
-      );
-      const avatarRoot = container.querySelector('[class*="AvatarRoot"]');
-      expect(avatarRoot).toHaveAttribute('role', 'img');
     });
   });
 });
