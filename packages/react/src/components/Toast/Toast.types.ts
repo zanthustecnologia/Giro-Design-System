@@ -1,7 +1,7 @@
 import { Toast } from 'radix-ui';
 import * as React from 'react';
 
-import { BaseProps } from '@/types';
+import { BaseProps } from '../../types';
 export interface ToastProps extends 
   BaseProps,
   Omit<
