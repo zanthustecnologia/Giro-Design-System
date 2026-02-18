@@ -4,6 +4,7 @@
 	justify-content: center;
 	vertical-align: middle;
 	border-radius: var(--border-radius-circular);
+	background-color: var(--color-neutral-high-medium);
 }
 
 .AvatarRoot.AvatarRoot--sm {
@@ -34,7 +35,6 @@
 	align-items: center;
 	justify-content: center;
 	color: var(--color-neutral-low-default);
-  background-color: var(--color-neutral-high-medium);
   border-radius: var(--border-radius-circular);
 	font-weight: var(--font-weight-medium);
 }
