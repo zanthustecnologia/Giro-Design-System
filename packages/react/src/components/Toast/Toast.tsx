@@ -37,7 +37,7 @@ const Toast: React.FC<ToastProps & { id: string }> = ({
   if (!icon) {
     if (iconType === 'Info') {
       displayIcon = <Info20Filled />;
-    } else if (iconType === 'Sucess') {
+    } else if (iconType === 'Success') {
       displayIcon = <CheckmarkCircle20Filled />;
     } else if (iconType === 'Alert') {
       displayIcon = <Warning20Filled />;
