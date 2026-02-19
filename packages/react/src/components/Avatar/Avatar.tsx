@@ -8,7 +8,7 @@ import type { AvatarProps } from './Avatar.types';
 
 const Avatar: React.FC<AvatarProps> = ({
   icon,
-  size = 'sm',
+  size = 'lg',
   src,
   className,
   ...rest
