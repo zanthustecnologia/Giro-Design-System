@@ -195,7 +195,7 @@ const Filter: React.FC<FilterProps> = ({
             />
           ) : (
             <Dropdown
-              items={items}
+              items={items || []}
               type={type as DropdownType}
               defaultSelectedIds={selectedIds}
               placeholder={placeholder}

@@ -137,7 +137,7 @@ const Table = <T extends TableRowData = TableRowData>({
     );
   }
 
-  const emptyText = locale.emptyText || (
+  const emptyText = locale?.emptyText || (
     <div className={styles['zds-table__empty']}>
       <div className={styles['zds-table__empty__content']}>
         <EmptyRows150Color />

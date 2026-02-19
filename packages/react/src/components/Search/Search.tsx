@@ -67,10 +67,11 @@ const Search = React.forwardRef<HTMLInputElement, SearchProps>(
       if (disabled) return;
       onKeyDown?.(e);
     };
-    const searchClass = clsx(styles['zds-search'], {
-      disabled,
-      [className]: className,
-    });
+    const searchClass = clsx(
+      styles['zds-search'],
+      { disabled },
+      className
+    );
     return (
       <div className={searchClass} onClick={onClick} onMouseDown={onMouseDown}>
         <span

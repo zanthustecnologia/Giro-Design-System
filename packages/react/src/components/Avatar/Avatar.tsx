@@ -5,7 +5,7 @@ import styles from './Avatar.module.scss';
 
 import type { AvatarProps } from './Avatar.types';
 
-let Avatar = ({ id = '', icon, size = 'sm', className = '' }: AvatarProps) => {
+let Avatar = ({ id = '', icon, size = 'sm', className = '', ...rest }: AvatarProps) => {
   const componentId = id || useId();
   const AvatarClass = clsx(
     styles['zds-avatar__circle'],

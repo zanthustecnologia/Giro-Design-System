@@ -33,7 +33,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
     },
     ref
   ) => {
-    const normalizeValue = (val: string | number): string => {
+    const normalizeValue = (val: string | number | undefined): string => {
       return val === undefined || val === null ? '' : String(val);
     };
     
