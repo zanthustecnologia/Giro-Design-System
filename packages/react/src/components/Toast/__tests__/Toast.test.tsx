@@ -121,7 +121,7 @@ describe('Toast', () => {
       });
     });
 
-    it('deve renderizar ícone Success quando iconType="Sucess"', async () => {
+    it('deve renderizar ícone Success quando iconType="Success"', async () => {
       let toastFunctions: ReturnType<typeof useToast> | null = null;
 
       const { container } = render(
@@ -134,14 +134,14 @@ describe('Toast', () => {
       await act(async () => {
         if (toastFunctions) {
           toastFunctions.showToast({ 
-            titulo: 'Toast Sucesso', 
-            iconType: 'Sucess' 
+            titulo: 'Toast Successo', 
+            iconType: 'Success' 
           });
         }
       });
 
       await waitFor(() => {
-        const iconSpan = container.querySelector('[class*="IconSucess"]');
+        const iconSpan = container.querySelector('[class*="IconSuccess"]');
         expect(iconSpan).toBeInTheDocument();
       });
     });
@@ -531,7 +531,7 @@ describe('ToastContainer', () => {
       await act(async () => {
         if (toastFunctions) {
           toastFunctions.showToast({ titulo: 'Toast Container 1', iconType: 'Info' });
-          toastFunctions.showToast({ titulo: 'Toast Container 2', iconType: 'Sucess' });
+          toastFunctions.showToast({ titulo: 'Toast Container 2', iconType: 'Success' });
           toastFunctions.showToast({ titulo: 'Toast Container 3', iconType: 'Alert' });
         }
       });
@@ -578,7 +578,7 @@ describe('Integração completa', () => {
         toastFunctions.showToast({
           titulo: 'Sucesso',
           descricao: 'Operação realizada com sucesso',
-          iconType: 'Sucess'
+          iconType: 'Success'
         });
 
         toastFunctions.showToast({

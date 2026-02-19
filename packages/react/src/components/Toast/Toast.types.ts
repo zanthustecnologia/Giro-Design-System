@@ -14,5 +14,5 @@ export interface ToastProps extends
   duration?: number;
   icon?: React.ReactNode;
   iconClosed?: React.ReactNode;
-  iconType?: 'Info' | 'Sucess' | 'Alert';
+  iconType?: 'Info' | 'Success' | 'Alert';
 }

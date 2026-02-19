@@ -50,7 +50,7 @@ const ToastExample: React.FC = () => {
           showToast({
             titulo: 'Sucesso!',
             descricao: 'Operação realizada com sucesso.',
-            iconType: 'Sucess',
+            iconType: 'Success',
             duration: 5000,
           })
         }
@@ -105,7 +105,7 @@ export const MultipleToasts: StoryFn = () => {
   const { showToast } = useToast();
 
   const showMultiple = () => {
-    const tipos: Array<'Info' | 'Sucess' | 'Alert'> = ['Info', 'Sucess', 'Alert'];
+    const tipos: Array<'Info' | 'Success' | 'Alert'> = ['Info', 'Success', 'Alert'];
     
     for (let i = 1; i <= 5; i++) {
       setTimeout(() => {
@@ -140,7 +140,7 @@ export const StressTest: StoryFn = () => {
     showToast({
       titulo: `Toast #${count + 1}`,
       descricao: 'Quando passar de 5, o mais antigo é removido automaticamente.',
-      iconType: count % 3 === 0 ? 'Info' : count % 3 === 1 ? 'Sucess' : 'Alert',
+      iconType: count % 3 === 0 ? 'Info' : count % 3 === 1 ? 'Success' : 'Alert',
       duration: 10000,
     });
   };
