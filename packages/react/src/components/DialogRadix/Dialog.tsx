@@ -1,11 +1,14 @@
 import { AlertDialog } from "radix-ui";
 import * as React from "react";
 import './Dialog.module.scss';
+import { DialogRadixProps } from "./Dialog.types";
 
-const Dialog = () => (
+const Dialog: React.FC<DialogRadixProps> = ({
+  children,
+}) => (
 	<AlertDialog.Root>
 		<AlertDialog.Trigger asChild>
-			<button className="Button violet">Dialog</button>
+			{children}
 		</AlertDialog.Trigger>
 		<AlertDialog.Portal>
 			<AlertDialog.Overlay className="AlertDialogOverlay" />

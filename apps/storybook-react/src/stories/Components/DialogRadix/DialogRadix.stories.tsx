@@ -89,15 +89,16 @@ const DialogStoryWrapper: StoryFn<DialogStoryWrapperArgs> = (args) => {
 
   return (
     <>
-      <Button onClick={() => setShow(true)}>Abrir Dialog</Button>
+      
       <DialogRadix
         {...args}
         show={show}
         fnConfirm={handleOk}
         fnCancel={handleCancel}
         onClose={handleClose}
-        text={args.text || 'Conteúdo do diálogo'}
-      />
+        text={args.text || 'Conteúdo do diálogo'}>  
+        <Button onClick={() => setShow(true)}>Abrir Dialog</Button>
+      </DialogRadix>
     </>
   );
 };
