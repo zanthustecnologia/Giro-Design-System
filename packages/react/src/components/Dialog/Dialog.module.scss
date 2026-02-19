@@ -1,112 +1,63 @@
-@import "@radix-ui/colors/black-alpha.css";
-@import "@radix-ui/colors/mauve.css";
-@import "@radix-ui/colors/red.css";
-@import "@radix-ui/colors/violet.css";
-
-/* reset */
-button {
-	all: unset;
+.zds-dialog__overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(17, 17, 25, 0.3);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.AlertDialogOverlay {
-	background-color: var(--black-a9);
-	position: fixed;
-	inset: 0;
-	animation: overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+.zds-dialog__wrapper {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2001;
 }
 
-.AlertDialogContent {
-	background-color: var(--gray-1);
-	border-radius: 6px;
-	box-shadow: var(--shadow-6);
-	position: fixed;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	width: 90vw;
-	max-width: 500px;
-	max-height: 85vh;
-	padding: 25px;
-	animation: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-.AlertDialogContent:focus {
-	outline: none;
+.zds-dialog {
+  background: var(--color-neutral-high-default);
+  border-radius: var(--border-radius-16);
+  border: var(--border-width-1) solid var(--color-neutral-high-dark);
+  padding: var(--spacing-24);
+  width: 400px;
+  max-width: calc(100vw - var(--spacing-32));
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  font-family: var(--font-family-primary);
 }
 
-.AlertDialogTitle {
-	margin: 0;
-	color: var(--mauve-12);
-	font-size: 17px;
-	font-weight: 500;
+// Título do dialog
+.zds-dialog__title {
+  font-size: var(--font-size-20);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-neutral-low-default);
+  margin: 0 0 var(--spacing-16) 0;
 }
 
-.AlertDialogDescription {
-	margin-bottom: 20px;
-	color: var(--mauve-11);
-	font-size: 15px;
-	line-height: 1.5;
+// Texto do dialog
+.zds-dialog__text {
+  font-size: var(--font-size-16);
+  color: var(--color-neutral-low-dark);
+  font-weight: var(--font-weight-regular);
+  margin-bottom: var(--spacing-32);
 }
 
-.Button {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	border-radius: 4px;
-	padding: 0 15px;
-	font-size: 15px;
-	line-height: 1;
-	font-weight: 500;
-	height: 35px;
-	user-select: none;
+// Ações alinhadas à direita, com espaçamento entre botões
+.zds-dialog__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-16);
 }
-.Button:focus:not(:focus-visible) {
-	outline: 0;
-}
-.Button:focus-visible {
-	outline: 2px solid var(--violet-6);
-	outline-offset: 1px;
-}
-.Button.violet {
-	background-color: var(--violet-4);
-	color: var(--violet-12);
-	outline-color: var(--violet-6);
-}
-.Button.violet:hover {
-	background-color: var(--mauve-3);
-}
-.Button.red {
-	background-color: var(--red-4);
-	color: var(--red-11);
-	outline-color: var(--red-7);
-}
-.Button.red:hover {
-	background-color: var(--red-5);
-}
-.Button.mauve {
-	background-color: var(--mauve-4);
-	color: var(--mauve-11);
-	outline-color: var(--mauve-7);
-}
-.Button.mauve:hover {
-	background-color: var(--mauve-5);
-}
-
-@keyframes overlayShow {
-	from {
-		opacity: 0;
-	}
-	to {
-		opacity: 1;
-	}
-}
-
-@keyframes contentShow {
-	from {
-		opacity: 0;
-		transform: translate(-50%, -48%) scale(0.96);
-	}
-	to {
-		opacity: 1;
-		transform: translate(-50%, -50%) scale(1);
-	}
+@media (max-width: 1024px) {
+  .zds-dialog {
+    width: 312px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    position: fixed;
+  }
 }
