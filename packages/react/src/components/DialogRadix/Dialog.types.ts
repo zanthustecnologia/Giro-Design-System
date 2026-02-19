@@ -2,8 +2,7 @@ import { ReactNode } from 'react';
 
 export interface DialogRadixProps {
   children?: ReactNode;
-  show: boolean;
-  title: string;
+  title?: string;
   text?: ReactNode;
   textConfirm?: string;
   textCancel?: string;

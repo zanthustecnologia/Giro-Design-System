@@ -18,10 +18,6 @@ const meta: Meta<typeof DialogRadix> = {
     },
     },
   argTypes: {
-    show: {
-      control: 'boolean',
-      description: 'Controla a visibilidade do Dialog'
-    },
     title: {
       control: 'text',
       description: 'Título do Dialog'
@@ -55,17 +51,10 @@ const meta: Meta<typeof DialogRadix> = {
 
 export default meta;
 
-/**
- * Props para o DialogStoryWrapper
- */
-interface DialogStoryWrapperArgs extends Omit<DialogRadixProps, 'show'> {
+interface DialogStoryWrapperArgs extends Omit<DialogRadixProps> {
   [key: string]: any;
 }
 
-/**
- * Storybook wrapper para exibir o Dialog ao clicar no botão.
- * O Dialog só fecha via ESC ou pelos botões.
- */
 const DialogStoryWrapper: StoryFn<DialogStoryWrapperArgs> = (args) => {
   const [show, setShow] = useState<boolean>(false);
 
@@ -92,10 +81,6 @@ const DialogStoryWrapper: StoryFn<DialogStoryWrapperArgs> = (args) => {
       
       <DialogRadix
         {...args}
-        show={show}
-        fnConfirm={handleOk}
-        fnCancel={handleCancel}
-        onClose={handleClose}
         text={args.text || 'Conteúdo do diálogo'}>  
         <Button onClick={() => setShow(true)}>Abrir Dialog</Button>
       </DialogRadix>
