@@ -1,20 +1,56 @@
 import * as React from 'react';
 
-export interface SearchProps extends Omit<
-  React.InputHTMLAttributes<HTMLInputElement>,
-  'onChange' | 'onKeyDown' | 'onFocus' | 'onBlur' | 'type'
-> {
+import { BaseProps } from '../../types/common.types';
+
+/**
+ * Props do componente Search
+ * @example
+ * ```tsx
+ * <Search 
+ *   placeholder="Buscar..."
+ *   value={searchTerm}
+ *   onChange={(e) => setSearchTerm(e.target.value)}
+ *   onClear={() => setSearchTerm('')}
+ * />
+ * ```
+ * @example
+ * ```tsx
+ * <Search 
+ *   placeholder="Pesquisar produtos"
+ *   disabled={isLoading}
+ *   onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+ *   onFocus={handleFocus}
+ * />
+ * ```
+ */
+export interface SearchProps extends BaseProps {
+  /** Placeholder do campo de busca */
   placeholder?: string;
-  disabled?: boolean;
+  
+  /** Valor controlado do campo */
   value?: string;
+  
+  /** Callback executado quando o valor muda: (e) => void */
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  
+  /** Callback executado ao pressionar tecla: (e) => void */
   onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+  
+  /** Callback executado ao focar no campo: (e) => void */
   onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
+  
+  /** Callback executado ao desfocar do campo: (e) => void */
   onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
+  
+  /** Callback executado ao limpar o campo: () => void */
   onClear?: () => void;
+  
+  /** Callback executado ao clicar no componente: (e) => void */
   onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
+  
+  /** Callback executado ao pressionar mouse no componente: (e) => void */
   onMouseDown?: (e: React.MouseEvent<HTMLDivElement>) => void;
-  className?: string;
-  id?: string;
-  'data-testid'?: string; // prop feita para facilitar testes e2e
+  
+  /** ID para testes automatizados */
+  'data-testid'?: string;
 }

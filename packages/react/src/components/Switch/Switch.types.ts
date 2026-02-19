@@ -1,12 +1,37 @@
-import { Switch as SwitchRadix } from 'radix-ui';
-import * as React from 'react';
+import { BaseProps } from '../../types/common.types';
 
-export interface SwitchProps extends Omit<
-  React.ComponentPropsWithoutRef<typeof SwitchRadix.Root>,
-  'defaultChecked' | 'disabled' | 'onCheckedChange'
-> {
+/**
+ * Props do componente Switch
+ * @example
+ * ```tsx
+ * <Switch 
+ *   checked={isEnabled}
+ *   onCheckedChange={setIsEnabled}
+ * />
+ * ```
+ * @example
+ * ```tsx
+ * <Switch 
+ *   defaultChecked={true}
+ *   disabled={isLoading}
+ *   onCheckedChange={(checked) => console.log(checked)}
+ *   name="notifications"
+ * />
+ * ```
+ */
+export interface SwitchProps extends BaseProps {
+  /** Estado inicial (modo não controlado) */
   defaultChecked?: boolean;
-  disabled?: boolean;
+  
+  /** Callback executado quando o estado muda: (checked) => void */
   onCheckedChange?: (checked: boolean) => void;
+  
+  /** Nome do input */
+  name?: string;
+  
+  /** Valor do input */
+  value?: string;
+  
+  /** Estado atual (modo controlado) */
   checked?: boolean;
 }

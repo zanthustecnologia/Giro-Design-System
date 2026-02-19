@@ -5,19 +5,13 @@ import styles from './Avatar.module.scss';
 
 import type { AvatarProps } from './Avatar.types';
 
-const Avatar = ({ 
-  id, 
-  icon, 
-  size = 'small', 
-  className, 
-  ...rest 
-}: AvatarProps) => {
+let Avatar = ({ id = '', icon, size = 'sm', className = '' }: AvatarProps) => {
   const componentId = id || useId();
   const AvatarClass = clsx(
     styles['zds-avatar__circle'],
     {
-      [styles['zds-avatar__large']]: size === 'large',
-      [styles['zds-avatar__small']]: size === 'small',
+      [styles['zds-avatar__large']]: size === 'lg',
+      [styles['zds-avatar__small']]: size === 'sm',
     },
     className
   );

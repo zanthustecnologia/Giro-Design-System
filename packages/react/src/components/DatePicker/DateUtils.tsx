@@ -1,5 +1,4 @@
-// ✅ Types básicos
-export type Locale = 'pt-br' | 'en-us';
+import { Locale } from '../../types/common.types';
 
 /**
  * Formata uma data para string conforme o locale.

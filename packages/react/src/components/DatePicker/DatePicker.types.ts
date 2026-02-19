@@ -1,33 +1,62 @@
-export type DatePickerLocale = 'pt-br' | 'en-us';
-export type CalendarPosition = 'left' | 'right';
+import { Locale, BaseProps, Position } from '../../types/common.types';
 
-export interface DatePickerProps {
+/**
+ * Props do componente DatePicker
+ * @example
+ * ```tsx
+ * <DatePicker 
+ *   label="Data de nascimento"
+ *   value={birthDate}
+ *   onChange={setBirthDate}
+ *   locale="pt-br"
+ * />
+ * ```
+ * @example
+ * ```tsx
+ * <DatePicker 
+ *   label="Data de início"
+ *   required
+ *   helperText="Selecione a data de início do projeto"
+ *   minDate={new Date()}
+ *   calendarPosition="right"
+ *   error={errorMessage}
+ * />
+ * ```
+ */
+export interface DatePickerProps extends BaseProps {
   /** Locale para formatação da data */
-  locale?: DatePickerLocale;
-  /** Posição do calendário */
-  calendarPosition?: CalendarPosition;
-  /** Texto de ajuda */
+  locale?: Locale;
+  
+  /** Posição do calendário em relação ao campo */
+  calendarPosition?: Position;
+  
+  /** Texto de ajuda exibido abaixo do campo */
   helperText?: string;
-  /** Se o campo é obrigatório */
+  
+  /** Define se o campo é obrigatório */
   required?: boolean;
-  /** Label do campo */
+  
+  /** Label do campo de data */
   label?: string;
+  
   /** Valor controlado da data */
   value?: Date | null;
+  
   /** Valor inicial para modo não controlado */
   defaultValue?: Date | null;
-  /** Callback chamado quando a data muda */
+  
+  /** Callback executado quando a data muda: (date) => void */
   onChange?: (date: Date | null) => void;
-  /** Se o campo está desabilitado */
-  disabled?: boolean;
-  /** Mensagem de erro */
+  
+  /** Mensagem de erro a ser exibida */
   error?: string;
-  /** Data mínima permitida */
+  
+  /** Data mínima selecionável */
   minDate?: Date;
-  /** Data máxima permitida */
+  
+  /** Data máxima selecionável */
   maxDate?: Date;
-  /** Classes CSS adicionais */
-  className?: string;
-  /** ID para testes */
+  
+  /** ID para testes automatizados */
   'data-testid'?: string;
 }

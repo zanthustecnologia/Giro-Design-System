@@ -1,24 +1,67 @@
 import * as React from 'react';
 
+import { BaseProps } from '../../types/common.types';
+
+/** Variantes disponíveis para o ListItem */
 export type ListItemVariant = 'text' | 'checkbox' | 'radio' | 'icon';
 
-export interface ListItemProps extends Omit<
-  React.LiHTMLAttributes<HTMLLIElement>,
-  'onClick' | 'onChange'
-> {
-  id?: string;
-  className?: string;
+/**
+ * Props do componente ListItem
+ * @example
+ * ```tsx
+ * <ListItem 
+ *   variant="text"
+ *   text="Item da lista"
+ *   subText="Descrição do item"
+ *   onClick={handleClick}
+ * />
+ * ```
+ * @example
+ * ```tsx
+ * <ListItem 
+ *   variant="checkbox"
+ *   text="Aceitar termos"
+ *   checked={isChecked}
+ *   onChange={setIsChecked}
+ *   disabled={false}
+ * />
+ * ```
+ */
+export interface ListItemProps extends BaseProps {
+  
+  /** Variante do item da lista */
   variant?: ListItemVariant;
+  
+  /** Texto principal do item */
   text?: string;
+  
+  /** Nome do input (para variantes checkbox/radio) */
   name?: string;
+  
+  /** Texto secundário/descrição do item */
   subText?: string;
-  disabled?: boolean;
+  
+  /** Estado de checked (para variantes checkbox/radio) */
   checked?: boolean;
+  
+  /** Estado de selecionado (para variantes text/icon) */
   selected?: boolean;
+  
+  /** Callback executado ao clicar no item: (event) => void */
   onClick?: (event: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>) => void;
+  
+  /** Callback executado quando o estado muda: (checked) => void */
   onChange?: (checked: boolean) => void;
+  
+  /** Ícone do item (para variante icon) */
   icon?: React.ReactNode;
+  
+  /** Valor do input (para variantes checkbox/radio) */
   value?: string;
+  
+  /** Define se deve mostrar o subtexto */
   showSubText?: boolean;
+  
+  /** Estado de hover */
   hovered?: boolean;
 }

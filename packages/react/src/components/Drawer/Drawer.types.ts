@@ -1,45 +1,89 @@
 import { ReactNode, ReactElement } from 'react';
 
-export interface DrawerProps {
-  /** Conteúdo do Drawer */
+import { Variant, BaseProps } from '../../types/common.types';
+
+/**
+ * Props do componente Drawer
+ * @example
+ * ```tsx
+ * <Drawer 
+ *   isOpen={isDrawerOpen}
+ *   onClose={handleClose}
+ *   title="Menu"
+ * >
+ *   <nav>
+ *     <a href="/home">Home</a>
+ *     <a href="/about">Sobre</a>
+ *   </nav>
+ * </Drawer>
+ * ```
+ * @example
+ * ```tsx
+ * <Drawer 
+ *   isOpen={showDrawer}
+ *   onClose={() => setShowDrawer(false)}
+ *   title="Configurações"
+ *   customWidth="400px"
+ *   closeOnOverlayClick={true}
+ *   closeOnEscape={true}
+ * >
+ *   <Settings />
+ * </Drawer>
+ * ```
+ */
+export interface DrawerProps extends BaseProps {
+  /** Conteúdo a ser exibido dentro do drawer */
   children?: ReactNode;
-  /** Largura do Drawer (use design tokens quando possível) */
+  
+  /** Largura customizada do drawer (ex: '400px', '50%') */
   customWidth?: string;
-  /** Callback quando o Drawer é fechado */
+  
+  /** Callback executado ao fechar o drawer: () => void */
   onClose: () => void;
-  /** Título do Drawer */
+  
+  /** Título exibido no cabeçalho do drawer */
   title?: string;
-  /** Determina se o drawer está aberto */
+  
+  /** Define se o drawer está aberto */
   isOpen: boolean;
-  /** Callback quando o Drawer é aberto */
+  
+  /** Callback executado ao abrir o drawer: () => void */
   onOpen?: () => void;
-  /** Classes CSS adicionais */
-  className?: string;
-  /** ID único do componente */
-  id?: string;
-  /** Se o drawer está desabilitado */
-  disabled?: boolean;
-  /** Callback chamado quando clica no overlay */
+  
+  /** Callback executado ao clicar no overlay: () => void */
   onOverlayClick?: () => void;
-  /** Se deve fechar ao clicar no overlay */
+  
+  /** Define se o drawer fecha ao clicar no overlay */
   closeOnOverlayClick?: boolean;
-  /** Se deve fechar ao pressionar ESC */
+  
+  /** Define se o drawer fecha ao pressionar ESC */
   closeOnEscape?: boolean;
 }
 
-export interface DrawerExampleProps {
-  /** Texto do botão */
+/**
+ * Props do componente DrawerExample (trigger para abrir o drawer)
+ * @example
+ * ```tsx
+ * <DrawerExample 
+ *   text="Abrir menu"
+ *   icon={<MenuIcon />}
+ *   onOpen={handleOpen}
+ * />
+ * ```
+ */
+export interface DrawerExampleProps extends BaseProps {
+  /** Texto do botão trigger */
   text?: string;
-  /** Ícone do botão */
+  
+  /** Ícone do botão trigger */
   icon?: ReactElement;
-  /** Conteúdo do Drawer */
+  
+  /** Conteúdo customizado do botão trigger */
   children?: ReactNode;
-  /** Callback quando o Drawer é aberto */
+  
+  /** Callback executado ao abrir: () => void */
   onOpen?: () => void;
-  /** Classes CSS adicionais */
-  className?: string;
-  /** Variante do botão */
-  variant?: 'filled' | 'outlined' | 'text';
-  /** Se o botão está desabilitado */
-  disabled?: boolean;
+  
+  /** Variante visual do botão trigger */
+  variant?: Variant;
 }

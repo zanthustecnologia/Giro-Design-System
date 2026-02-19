@@ -1,4 +1,5 @@
 import { ReactNode, CSSProperties } from 'react';
+import { BaseProps } from '../../types';
 
 /**
  * Tipo base para dados da tabela. Use `<Table<SeuTipo>>` para type-safety completo.
@@ -38,13 +39,11 @@ export interface TableColumn<T = TableRowData> {
  * Props do componente Table. Use genérico para autocomplete: `<Table<User>>`
  * @typeParam T - Tipo dos dados da linha
  */
-export interface TableProps<T = TableRowData> extends React.HTMLAttributes<HTMLDivElement> {
+export interface TableProps<T = TableRowData> extends BaseProps{
   /** Configuração das colunas */
   columns: TableColumn<T>[];
   /** Array de dados a serem exibidos */
   dataSource: T[];
-  /** Classe CSS customizada */
-  className?: string;
   /** Estado de carregamento */
   loading?: boolean;
   /** Configuração de seleção de linhas */
