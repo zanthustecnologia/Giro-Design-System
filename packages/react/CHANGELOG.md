@@ -1,5 +1,18 @@
 # @giro-ds/react
 
+## 3.0.6
+
+### Patch Changes
+
+- refactor(react): internal improvements and build optimizations
+  - Add interface inheritance to reduce code duplication (Avatar, Badge, Button, Calendar, Callout, Checkbox, Chips, DatePicker, Drawer, Dropdown, Filter, ListItem, Menu, Radio, Search, Select, Switch, Table, TextField, Toast, Tooltip, VerificationCode)
+  - Apply spread props pattern across multiple components for better prop forwarding
+  - Exclude deprecated files from build process (vite.config.ts, tsconfig.json)
+  - Fix CSS application issues in Dialog component
+  - Fix Tooltip component bugs
+  - Update Rollup configuration for modern Sass API
+  - Enhance component props handling and default values (TextField, Avatar, Filter, ListItem, Search, Table)
+
 ## 3.0.5
 
 ### Patch Changes
