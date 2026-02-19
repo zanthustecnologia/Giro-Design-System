@@ -17,7 +17,7 @@ const Drawer: React.FC<DrawerProps> = ({
   title = 'Título',
   isOpen = false,
   onOpen,
-  className = '',
+  className,
   id,
   disabled = false,
   onOverlayClick,

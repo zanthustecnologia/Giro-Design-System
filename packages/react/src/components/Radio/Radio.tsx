@@ -1,9 +1,10 @@
-import React from 'react';
+import clsx from 'clsx';
 import { RadioGroup } from 'radix-ui';
+import React, { useId } from 'react';
+
 import styles from './Radio.module.scss';
 import { RadioGroupProps } from './Radio.types';
-import { useId } from 'react';
-import clsx from 'clsx';
+
 const Radio: React.FC<RadioGroupProps> = ({
   items,
   onValueChange,

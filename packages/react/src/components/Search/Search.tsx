@@ -1,7 +1,9 @@
-import React, { useState, useId } from 'react';
 import { Search16Regular, Dismiss16Regular } from '@fluentui/react-icons';
 import clsx from 'clsx';
+import React, { useState, useId } from 'react';
+
 import styles from './Search.module.scss';
+
 import type { SearchProps } from './Search.types';
 
 const Search = React.forwardRef<HTMLInputElement, SearchProps>(
@@ -17,9 +19,10 @@ const Search = React.forwardRef<HTMLInputElement, SearchProps>(
       onClear,
       onClick,
       onMouseDown,
-      id = '',
-      className = '',
+      id,
+      className,
       'data-testid': testId, 
+      ...rest
     },
     ref
   ) => {
@@ -92,6 +95,7 @@ const Search = React.forwardRef<HTMLInputElement, SearchProps>(
           onFocus={handleFocus}
           onBlur={handleBlur}
           data-testid={testId}
+          {...rest}
         />
         {currentValue && currentValue.length > 0 && (
           <span

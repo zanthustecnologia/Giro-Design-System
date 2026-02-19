@@ -10,7 +10,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
   (
     {
       className,
-      value = '',
+      value,
       label,
       placeholder,
       type = 'text',
@@ -20,10 +20,10 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
       required = false,
       helperText,
       tooltip = false,
-      tooltipText = '',
+      tooltipText,
       side = 'bottom',
 	    align = 'start',
-      errorMessage = '',
+      errorMessage,
       id,
       icon,
       onBlur,

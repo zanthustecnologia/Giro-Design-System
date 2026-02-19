@@ -1,14 +1,12 @@
-import React, { useState, useRef, useCallback, useEffect, useId, useMemo } from 'react';
-import Button from '../Button/Button';
-import styles from './Quantity.module.scss';
 import { Add16Regular, Subtract16Regular } from '@fluentui/react-icons';
 import clsx from 'clsx';
+import React, { useState, useRef, useCallback, useEffect, useId, useMemo } from 'react';
+
+import styles from './Quantity.module.scss';
+import Button from '../Button/Button';
+
 import type { QuantityProps } from './Quantity.types';
 
-/**
- * Componente Quantity - permite incrementar/decrementar valores numéricos
- * Suporta modo controlado e não controlado, valores decimais e inteiros
- */
 const Quantity: React.FC<QuantityProps> = ({
   defaultValue = 0,
   value: controlledValue,
@@ -19,12 +17,11 @@ const Quantity: React.FC<QuantityProps> = ({
   size = 'lg',
   id,
   step,
-  className
+  className,
+  ...rest
 }) => {
-  // Determina se o componente é controlado externamente
   const isControlled = controlledValue !== undefined;
 
-  // Estados internos para valor e input
   const [value, setValue] = useState<number>(isControlled ? controlledValue : defaultValue);
   const [inputValue, setInputValue] = useState<string>(
     decimal
@@ -113,13 +110,10 @@ const Quantity: React.FC<QuantityProps> = ({
 
     const rawValue = event.target.value;
 
-    // ✅ APLICAR: Filtro em tempo real
     const filteredValue = filterInput(rawValue);
 
-    // ✅ SEMPRE: Atualizar input com valor filtrado
     setInputValue(filteredValue);
 
-    // ✅ PROCESSAR: Apenas valores válidos
     if (filteredValue === '' || filteredValue === '.') {
       if (!isControlled) {
         setValue(0);
@@ -129,9 +123,8 @@ const Quantity: React.FC<QuantityProps> = ({
     }
 
     if (decimal) {
-      // Estados intermediários permitidos
       if (filteredValue.endsWith('.')) {
-        return; // "5." é válido, mas não processa ainda
+        return;
       }
 
       const parsedValue = parseFloat(filteredValue);
@@ -276,7 +269,7 @@ const Quantity: React.FC<QuantityProps> = ({
   const inputId = id || uniqueId;
 
   return (
-    <div className={clsx(styles['zds-quantity'], { disabled }, className)}>
+    <div className={clsx(styles['zds-quantity'], { disabled }, className)} {...rest}>
       <Button
         variant='outlined'
         size={size}

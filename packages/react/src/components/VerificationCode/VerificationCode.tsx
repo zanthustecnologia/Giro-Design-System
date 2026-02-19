@@ -1,6 +1,8 @@
-import React, { useRef, useState, useCallback, useEffect } from 'react';
 import clsx from 'clsx';
+import React, { useRef, useState, useCallback, useEffect } from 'react';
+
 import styles from './VerificationCode.module.scss';
+
 import type { InputType, VerificationCodeProps } from './VerificationCode.types';
 
 /**
@@ -33,9 +35,10 @@ const VerificationCode: React.FC<VerificationCodeProps> = ({
   inputType = 'numeric',
   onComplete,
   hasError = false,
-  errorMessage = '',
+  errorMessage,
   disabled = false,
-  className = ''
+  className,
+  ...rest
 }) => {
 
   const validLength = Math.min(Math.max(length, 1), 100);
@@ -148,7 +151,7 @@ const VerificationCode: React.FC<VerificationCodeProps> = ({
 
   return (
     <>
-      <div className={clsx(styles['zds-verification-code__container'], className)}>
+      <div className={clsx(styles['zds-verification-code__container'], className)} {...rest}>
         {values.map((val, i) => (
           <input
             id={`zds-verification-code__element-${i}`}

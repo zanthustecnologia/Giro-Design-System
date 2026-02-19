@@ -1,21 +1,18 @@
-import React, { useId, useCallback, useState, useEffect } from "react";
 import clsx from "clsx";
+import React, { useId, useCallback, useState, useEffect } from "react";
+
+import styles from './ListItem.module.scss';
 import Checkbox from '../Checkbox/Checkbox';
 import Radio from '../Radio/Radio';
-import styles from './ListItem.module.scss';
+
 import type { ListItemVariant, ListItemProps } from './ListItem.types';
 
-/**
- * Componente ListItem do Zanthus Design System
- * Implementa item de lista unificado com variações text, checkbox, radio e icon
- * Segue padrões WCAG 2.1 AA para acessibilidade
- */
 const ListItem: React.FC<ListItemProps> = ({
   id,
   className,
   variant = 'text',
-  text = '',
-  name = '',
+  text,
+  name,
   subText,
   disabled = false,
   checked = false,
@@ -23,19 +20,16 @@ const ListItem: React.FC<ListItemProps> = ({
   onClick,
   onChange,
   icon,
-  value = '',
+  value,
   showSubText = false,
-  hovered = false
+  hovered = false,
+  ...rest
 }) => {
   const componentId = useId();
   const itemId = id || componentId;
   const [internalChecked, setInternalChecked] = useState<boolean>(checked);
   const [internalSelected, setInternalSelected] = useState<boolean>(selected);
 
-  /**
-   * Handler para clique em checkbox.
-   * Alterna o estado e dispara o callback onChange.
-   */
   const handleCheckboxClick = useCallback((e: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>): void => {
     if (disabled) return;
     const newChecked = !internalChecked;
@@ -44,10 +38,6 @@ const ListItem: React.FC<ListItemProps> = ({
     onClick?.(e);
   }, [disabled, internalChecked, onChange, onClick]);
 
-  /**
-   * Handler para clique em radio.
-   * Marca como selecionado se ainda não estiver e dispara o callback onChange.
-   */
   const handleRadioClick = useCallback((e: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>): void => {
     if (disabled) return;
     if (!internalChecked) {
@@ -57,10 +47,6 @@ const ListItem: React.FC<ListItemProps> = ({
     onClick?.(e);
   }, [disabled, internalChecked, onChange, onClick]);
 
-  /**
-   * Handler para clique em variantes text e icon.
-   * Alterna o estado de seleção interno.
-   */
   const handleTextOrIconClick = useCallback((e: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>): void => {
     if (disabled) return;
     const newSelected = !internalSelected;
@@ -68,10 +54,6 @@ const ListItem: React.FC<ListItemProps> = ({
     onClick?.(e);
   }, [disabled, internalSelected, onClick]);
 
-  /**
-   * Handler para eventos de teclado (Enter ou Espaço).
-   * Direciona para o handler correto conforme o variant.
-   */
   const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLLIElement>): void => {
     if (!disabled && (e.key === 'Enter' || e.key === ' ')) {
       e.preventDefault();
@@ -91,7 +73,6 @@ const ListItem: React.FC<ListItemProps> = ({
     }
   }, [disabled, variant, handleCheckboxClick, handleRadioClick, handleTextOrIconClick]);
 
-  // ✅ Sincronização com props externas
   useEffect(() => {
     setInternalChecked(checked);
   }, [checked]);
@@ -100,9 +81,6 @@ const ListItem: React.FC<ListItemProps> = ({
     setInternalSelected(selected);
   }, [selected]);
 
-  /**
-   * Renderiza o conteúdo do item conforme o variant.
-   */
   const renderVariantContent = useCallback((): React.ReactNode => {
     const validVariants: ListItemVariant[] = ['text', 'checkbox', 'radio', 'icon'];
     const currentVariant = validVariants.includes(variant) ? variant : 'text';
@@ -251,6 +229,7 @@ const ListItem: React.FC<ListItemProps> = ({
       aria-labelledby={`${itemId}-text`}
       aria-describedby={showSubText && subText ? `${itemId}-subtext` : undefined}
       data-testid="list-item"
+      {...rest}
     >
       {renderVariantContent()}
     </li>

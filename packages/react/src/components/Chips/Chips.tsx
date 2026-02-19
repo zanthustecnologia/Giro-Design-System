@@ -1,18 +1,18 @@
-import React from 'react';
-import styles from './Chips.module.scss';
 import clsx from 'clsx';
+import React from 'react';
+
+import styles from './Chips.module.scss';
+
 import type { ChipsProps } from './Chips.types';
 
-/**
- * Componente Chips para exibir tags/etiquetas com ícones opcionais
- */
 const Chips: React.FC<ChipsProps> = ({
   title,
-  leftIcon = null,
-  rightIcon = null,
+  leftIcon,
+  rightIcon,
   type = 'neutral',
   disabled = false,
-  className = '',
+  className,
+  ...rest
 }) => {
 
   if (!title || title.trim() === '') {
@@ -34,6 +34,7 @@ const Chips: React.FC<ChipsProps> = ({
       className={chipsClass}
       aria-label={`Chip: ${title}`}
       aria-disabled={disabled}
+      {...rest}
     >
       {leftIcon && (
         <span className={styles['zds-chips__icon__left']} aria-hidden="true">
