@@ -6,9 +6,6 @@ export interface DialogRadixProps {
   text?: ReactNode;
   textConfirm?: string;
   textCancel?: string;
-  fnConfirm?: () => void;
-  fnCancel?: () => void;
-  onClose?: () => void;
   id?: string;
   className?: string;
 }
