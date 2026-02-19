@@ -56,33 +56,14 @@ interface DialogStoryWrapperArgs extends DialogRadixProps {
 }
 
 const DialogStoryWrapper: StoryFn<DialogStoryWrapperArgs> = (args) => {
-  const [show, setShow] = useState<boolean>(false);
-
-  // Handler para ação OK
-  const handleOk = (): void => {
-    if (args.fnOk) args.fnOk();
-    setShow(false);
-  };
-
-  // Handler para ação Cancelar
-  const handleCancel = (): void => {
-    if (args.fnCancel) args.fnCancel();
-    setShow(false);
-  };
-
-  // Handler para fechar o dialog (ESC ou ação externa)
-  const handleClose = (): void => {
-    if (args.onClose) args.onClose();
-    setShow(false);
-  };
-
+  
   return (
     <>
       
       <DialogRadix
         {...args}
         text={args.text || 'Conteúdo do diálogo'}>  
-        <Button onClick={() => setShow(true)}>Abrir Dialog</Button>
+        <Button>Abrir Dialog</Button>
       </DialogRadix>
     </>
   );
@@ -99,63 +80,6 @@ Default.args = {
   textCancel: 'Cancelar',
 };
 
-Default.parameters = {
-  docs: {
-    source: {
-      code: `
-/**
- * Exemplo de uso do componente Dialog.
- * - O Dialog é aberto ao clicar no botão.
- * - O fechamento pode ser feito pelos botões ou via ESC.
- * - Não é possível fechar o dialogo clicando fora dele.
- */
-
-import React, { useState } from "react";
-import Dialog from "./Dialog";
-import Button from "../Button/Button";
-
-/**
- * Exemplo de uso do Dialog.
- */
-function Example() {
-  const [show, setShow] = useState<boolean>(false);
-
-  // Handler para ação OK
-  const handleOk = (): void => {
-    setShow(false);
-  };
-
-  // Handler para ação Cancelar
-  const handleCancel = (): void => {
-    setShow(false);
-  };
-
-  // Handler para fechar o dialog (ESC ou ação externa)
-  const handleClose = (): void => {
-    setShow(false);
-  };
-
-  return (
-    <>
-      <Button onClick={() => setShow(true)}>Abrir Dialog</Button>
-      <Dialog
-        show={show}
-        title="Título do dialogo"
-        text="Mensagem do dialogo"
-        textOk="Ação"
-        textCancel=""
-        fnOk={handleOk}
-        fnCancel={handleCancel}
-        onClose={handleClose}
-      />
-    </>
-  );
-}
-      `.trim(),
-    },
-  },
-};
-
 /**
  * Story: Dialog com duas ações (OK e Cancelar)
  */
@@ -164,56 +88,5 @@ TwoActions.args = {
   title: 'Título do dialogo',
   text: 'Mensagem do dialogo',
   textOk: 'Ação',
-  textCancel: 'Ação',
-};
-
-TwoActions.parameters = {
-  docs: {
-    source: {
-      code: `
-/**
- * Exemplo de uso do componente Dialog com duas ações.
- * - O Dialog é aberto ao clicar no botão.
- * - O fechamento pode ser feito pelos botões ou via ESC.
- * - Não é possível fechar o dialogo clicando fora dele.
- */
-
-import React, { useState } from "react";
-import Dialog from "./Dialog";
-import Button from "../Button/Button";
-
-function Example() {
-  const [show, setShow] = useState<boolean>(false);
-
-  const handleOk = (): void => {
-    setShow(false);
-  };
-
-  const handleCancel = (): void => {
-    setShow(false);
-  };
-
-  const handleClose = (): void => {
-    setShow(false);
-  };
-
-  return (
-    <>
-      <Button onClick={() => setShow(true)}>Abrir Dialog</Button>
-      <Dialog
-        show={show}
-        title="Título do dialogo"
-        text="Mensagem do dialogo"
-        textOk="Ação"
-        textCancel="Ação"
-        fnOk={handleOk}
-        fnCancel={handleCancel}
-        onClose={handleClose}
-      />
-    </>
-  );
-}
-      `.trim(),
-    },
-  },
+  textCancel: 'cancelar',
 };
