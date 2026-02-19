@@ -10,4 +10,9 @@ export default defineConfig({
       '@components': path.resolve(__dirname, 'src/components'), // ✅ Funciona
     },
   },
+  build: {
+    rollupOptions: {
+      external: [/\.deprecated/],
+    },
+  },
 });
