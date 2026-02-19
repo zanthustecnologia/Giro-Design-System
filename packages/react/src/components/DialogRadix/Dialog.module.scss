@@ -3,17 +3,20 @@
 @import "@radix-ui/colors/red.css";
 @import "@radix-ui/colors/violet.css";
 
-.AlertDialogOverlay {
-	background-color: var(--black-a9);
+.DialogOverlay {
 	position: fixed;
-	inset: 0;
+  inset: 0;
+  background: var(--color-neutral-high-dark);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 	animation: overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+	
 }
 
-.AlertDialogContent {
-	background-color: var(--gray-1);
-	border-radius: 6px;
-	box-shadow: var(--shadow-6);
+.DialogContent {
+	background: var(--color-neutral-high-default);
 	position: fixed;
 	top: 50%;
 	left: 50%;
@@ -22,20 +25,23 @@
 	max-width: 500px;
 	max-height: 85vh;
 	padding: 25px;
+	z-index: 11;
+	border-radius: 16px;
+	border: 1px solid var(--color-neutral-high-dark);
 	animation: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
 }
-.AlertDialogContent:focus {
+.DialogContent:focus {
 	outline: none;
 }
 
-.AlertDialogTitle {
+.DialogTitle {
 	margin: 0;
 	color: var(--mauve-12);
 	font-size: 17px;
 	font-weight: 500;
 }
 
-.AlertDialogDescription {
+.DialogDescription {
 	margin-bottom: 20px;
 	color: var(--mauve-11);
 	font-size: 15px;

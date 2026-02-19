@@ -1,30 +1,35 @@
 import { AlertDialog } from "radix-ui";
 import * as React from "react";
-import './Dialog.module.scss';
+
+import styles from './Dialog.module.scss';
 import { DialogRadixProps } from "./Dialog.types";
 
 const Dialog: React.FC<DialogRadixProps> = ({
   children,
+  title,
+  text,
+  textConfirm,
+  textCancel,
 }) => (
 	<AlertDialog.Root>
 		<AlertDialog.Trigger asChild>
 			{children}
 		</AlertDialog.Trigger>
 		<AlertDialog.Portal>
-			<AlertDialog.Overlay className="AlertDialogOverlay" />
-			<AlertDialog.Content className="AlertDialogContent">
-				<AlertDialog.Title className="AlertDialogTitle">
-					Ação do Dialog
+			<AlertDialog.Overlay className={styles.DialogOverlay} />
+			<AlertDialog.Content className={styles.DialogContent}>
+				<AlertDialog.Title className={styles.DialogTitle}>
+					{title}
 				</AlertDialog.Title>
-				<AlertDialog.Description className="AlertDialogDescription">
-					Aplicação da ação
+				<AlertDialog.Description className={styles.DialogDescription}>
+					{text}
 				</AlertDialog.Description>
 				<div style={{ display: "flex", gap: 25, justifyContent: "flex-end" }}>
 					<AlertDialog.Cancel asChild>
-						<button className="Button mauve">Cancelar</button>
+						<button className={styles.Button + ' ' + styles.mauve}>{textCancel}</button>
 					</AlertDialog.Cancel>
 					<AlertDialog.Action asChild>
-						<button className="Button red">Ação</button>
+						<button className={styles.Button + ' ' + styles.red}>{textConfirm}</button>
 					</AlertDialog.Action>
 				</div>
 			</AlertDialog.Content>
