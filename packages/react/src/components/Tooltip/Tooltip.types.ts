@@ -1,16 +1,5 @@
-import { Tooltip as TooltipRadix } from 'radix-ui';
 import React from 'react';
 
-<<<<<<< HEAD
-export interface TooltipProps extends Omit<
-  React.ComponentPropsWithoutRef<typeof TooltipRadix.Content>,
-  'side' | 'align' | 'sideOffset'
-> {
-  text: React.ReactNode;
-  side?: "top" | "right" | "bottom" | "left";
-  align?: "start" | "center" | "end";
-  sideOffset?: number;
-=======
 import { Side, Align, BaseProps } from '../../types/common.types';
 
 /**
@@ -52,7 +41,6 @@ export interface TooltipProps extends BaseProps {
   alignOffset?: number;
   
   /** Largura máxima do tooltip em pixels */
->>>>>>> origin/refactor/reestruturacaoTypes
   maxWidth?: number;
   
   /** Elemento que dispara o tooltip ao hover */

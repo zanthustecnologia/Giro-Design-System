@@ -64,11 +64,8 @@ export interface TextFieldProps extends Omit<
   
   /** Mensagem de erro a ser exibida */
   errorMessage?: string;
-<<<<<<< HEAD
-=======
   
   /** Ícone a ser exibido no campo */
->>>>>>> origin/refactor/reestruturacaoTypes
   icon?: React.ReactNode;
 }
 
