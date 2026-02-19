@@ -51,7 +51,7 @@ const meta: Meta<typeof DialogRadix> = {
 
 export default meta;
 
-interface DialogStoryWrapperArgs extends Omit<DialogRadixProps> {
+interface DialogStoryWrapperArgs extends DialogRadixProps {
   [key: string]: any;
 }
 
