@@ -35,7 +35,12 @@ module.exports = [
           generateScopedName: '[name]__[local]___[hash:base64:5]',
         },
         autoModules: true,
-        use: ['sass'],
+        use: [
+          ['sass', { 
+            api: 'modern',
+            silenceDeprecations: ['legacy-js-api']
+          }]
+        ],
         minimize: true,
       }),
       typescript({
