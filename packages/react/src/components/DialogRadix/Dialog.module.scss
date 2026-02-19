@@ -35,7 +35,7 @@
 	display: flex;
 	align-items: center;
 	gap: var(--spacing-12);
-	margin: var(--spacing-0);
+	margin: 0 0 var(--spacing-16) 0;
 	color: var(--color-neutral-low-default);
 	font-size: var(--font-size-20);
 	font-weight: var(--font-weight-bold);
@@ -43,56 +43,12 @@
 }
 
 .DialogDescription {
-	margin-bottom: 20px;
+	margin-bottom: var(--spacing-32);
 	color: var(--color-neutral-low-dark);
 	font-family: var(--font-family-primary);
 	font-weight: var(--font-weight-regular);
 	font-size: var(--font-size-16);
 	line-height: 1.3;
-}
-
-.Button {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	border-radius: 4px;
-	padding: 0 15px;
-	font-size: 15px;
-	line-height: 1;
-	font-weight: 500;
-	height: 35px;
-	user-select: none;
-}
-.Button:focus:not(:focus-visible) {
-	outline: 0;
-}
-.Button:focus-visible {
-	outline: 2px solid var(--violet-6);
-	outline-offset: 1px;
-}
-.Button.violet {
-	background-color: var(--violet-4);
-	color: var(--violet-12);
-	outline-color: var(--violet-6);
-}
-.Button.violet:hover {
-	background-color: var(--mauve-3);
-}
-.Button.red {
-	background-color: var(--red-4);
-	color: var(--red-11);
-	outline-color: var(--red-7);
-}
-.Button.red:hover {
-	background-color: var(--red-5);
-}
-.Button.mauve {
-	background-color: var(--mauve-4);
-	color: var(--mauve-11);
-	outline-color: var(--mauve-7);
-}
-.Button.mauve:hover {
-	background-color: var(--mauve-5);
 }
 
 @keyframes overlayShow {
