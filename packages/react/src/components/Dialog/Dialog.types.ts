@@ -23,4 +23,8 @@ export interface DialogProps extends BaseProps, React.HTMLAttributes<HTMLDivElem
   textConfirm?: string;
   /** Texto do botão de cancelamento */
   textCancel?: string;
+  /** Função chamada ao confirmar a ação */
+  onConfirm?: () => void;
+  /** Função chamada ao cancelar a ação */
+  onCancel?: () => void;
 }

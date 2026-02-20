@@ -34,17 +34,13 @@ const meta: Meta<typeof Dialog> = {
       control: 'text',
       description: 'Texto do botão Cancelar'
     },
-    fnConfirm: {
-      action: 'Confirmar clicado',
+    onConfirm: {
+      control: 'text',
       description: 'Função executada ao clicar Confirmar'
     },
-    fnCancel: {
-      action: 'Cancelar clicado',
-      description: 'Função executada ao cancelar'
-    },
-    onClose: {
-      action: 'Fechado',
-      description: 'Função executada ao fechar'
+    onCancel: {
+      control: 'text',
+      description: 'Função executada ao clicar Cancelar'
     },
   },
 };

@@ -12,6 +12,8 @@ const Dialog: React.FC<DialogProps> = ({
   text,
   textConfirm,
   textCancel,
+	onConfirm,
+	onCancel,
   ...restProps
 }) => (
 	<AlertDialog.Root {...restProps}>
@@ -27,14 +29,14 @@ const Dialog: React.FC<DialogProps> = ({
 				<AlertDialog.Description className={styles.DialogDescription}>
 					{text}
 				</AlertDialog.Description>
-				<div style={{ display: "flex", gap: 25, justifyContent: "flex-end" }}>
+				<div className={styles.DivButtons}>
 					{!!(textCancel && textCancel.trim()) && (
 						<AlertDialog.Cancel asChild>
-							<Button variant="outlined">{textCancel}</Button>
+							<Button variant="outlined" {...(onCancel && { onClick: onCancel })}>{textCancel}</Button>
 						</AlertDialog.Cancel>
 					)}
 					<AlertDialog.Action asChild>
-						<Button variant="filled">{textConfirm}</Button>
+						<Button variant="filled" {...(onConfirm && { onClick: onConfirm })}>{textConfirm}</Button>
 					</AlertDialog.Action>
 				</div>
 			</AlertDialog.Content>
