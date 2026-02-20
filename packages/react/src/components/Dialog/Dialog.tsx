@@ -12,8 +12,9 @@ const Dialog: React.FC<DialogProps> = ({
   text,
   textConfirm,
   textCancel,
+  ...restProps
 }) => (
-	<AlertDialog.Root>
+	<AlertDialog.Root {...restProps}>
 		<AlertDialog.Trigger asChild>
 			{children}
 		</AlertDialog.Trigger>
