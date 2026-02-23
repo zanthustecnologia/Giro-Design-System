@@ -50,10 +50,11 @@ div.ToastRoot[data-state="open"] {
 
 .ToastTitle {
 	font-size: var(--font-size-16);
-}
-
-.ToastDescription {
-	font-size: var(--font-size-12);
+	font-weight: var(--font-weight-regular);
+	font-family: var(--font-family-primary);
+	color: var(--color-neutral-high-default);
+	line-height: 130%;
+	margin-right: 24px;
 }
 
 .ToastContent {
@@ -62,11 +63,6 @@ div.ToastRoot[data-state="open"] {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-}
-
-.ToastTitle, .ToastDescription {
-	font-weight: var(--font-weight-regular);
-	color: var(--color-neutral-high-default);
 }
 
 .ToastAction {

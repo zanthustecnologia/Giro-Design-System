@@ -9,7 +9,6 @@ import { useToastContext } from './useToast';
 const Toast: React.FC<ToastProps & { id: string }> = ({ 
   id,
   titulo = 'Titulo',
-  descricao,
   duration = 5000,
   icon,
   iconClosed = <Dismiss16Filled />,
@@ -57,7 +56,6 @@ const Toast: React.FC<ToastProps & { id: string }> = ({
       </span>
       <div className={styles.ToastContent}>
         <ToastRadix.Title className={styles.ToastTitle}> {titulo} </ToastRadix.Title>
-        {descricao && <ToastRadix.Description className={styles.ToastDescription}> {descricao} </ToastRadix.Description>}
       </div>
       <ToastRadix.Close className={styles.ToastClose}> {iconClosed} </ToastRadix.Close>
     </ToastRadix.Root>
