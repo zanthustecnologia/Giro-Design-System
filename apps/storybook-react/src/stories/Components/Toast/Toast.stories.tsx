@@ -35,7 +35,7 @@ const ToastExample: React.FC = () => {
       <Button
         onClick={() =>
           showToast({
-            title: 'Informação',
+            title: 'Informação!',
             iconType: 'Info',
             duration: 5000,
           })
@@ -90,6 +90,18 @@ const ToastExample: React.FC = () => {
         }
       >
         Toast Sem Descrição
+      </Button>
+
+      <Button
+        onClick={() =>
+          showToast({
+            title: 'Informação Informação Informação Informação Informação Informação Informação Informação Informação Informação',
+            iconType: 'Info',
+            duration: 5000,
+          })
+        }
+      >
+        Quebra de linha automática
       </Button>
     </div>
   );

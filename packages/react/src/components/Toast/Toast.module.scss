@@ -55,6 +55,10 @@ div.ToastRoot[data-state="open"] {
 	color: var(--color-neutral-high-default);
 	line-height: 130%;
 	margin-right: 24px;
+	overflow-wrap: break-word;
+	word-wrap: break-word;
+	word-break: break-word;
+	hyphens: auto;
 }
 
 .ToastContent {
