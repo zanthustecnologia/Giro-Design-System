@@ -41,7 +41,7 @@ const ToastExample: React.FC = () => {
           })
         }
       >
-        Mostrar Info
+        Toast info
       </Button>
 
       <Button
@@ -53,7 +53,7 @@ const ToastExample: React.FC = () => {
           })
         }
       >
-        Mostrar Sucesso
+        Toast success
       </Button>
 
       <Button
@@ -65,7 +65,7 @@ const ToastExample: React.FC = () => {
           })
         }
       >
-        Mostrar Alerta
+        Toast alert
       </Button>
 
       <Button
@@ -83,19 +83,7 @@ const ToastExample: React.FC = () => {
       <Button
         onClick={() =>
           showToast({
-            title: 'Sem auto-close',
-            iconType: 'Info',
-            automaticClose: false,
-          })
-        }
-      >
-        Toast Sem Descrição
-      </Button>
-
-      <Button
-        onClick={() =>
-          showToast({
-            title: 'Informação Informação Informação Informação Informação Informação Informação Informação Informação Informação',
+            title: 'Quebra de linha automática, este é um texto mais longo para demonstrar como o toast lida com conteúdos extensos. Ele deve quebrar a linha automaticamente e ajustar seu tamanho conforme necessário.',
             iconType: 'Info',
             duration: 5000,
           })
@@ -108,35 +96,6 @@ const ToastExample: React.FC = () => {
 };
 
 export const Default: StoryFn = () => <ToastExample />;
-
-export const MultipleToasts: StoryFn = () => {
-  const { showToast } = useToast();
-
-  const showMultiple = () => {
-    const tipos: Array<'Info' | 'Success' | 'Alert'> = ['Info', 'Success', 'Alert'];
-    
-    for (let i = 1; i <= 5; i++) {
-      setTimeout(() => {
-        showToast({
-          title: `Toast ${i}`,
-          iconType: tipos[i % 3],
-          duration: 8000,
-        });
-      }, i * 300);
-    }
-  };
-
-  return (
-    <div>
-      <Button onClick={showMultiple}>
-        Mostrar 5 Toasts
-      </Button>
-      <p style={{ marginTop: '16px', color: '#666' }}>
-        Clique para ver 5 toasts aparecendo em sequência. O sistema limita em 5 simultâneos.
-      </p>
-    </div>
-  );
-};
 
 export const StressTest: StoryFn = () => {
   const { showToast } = useToast();
