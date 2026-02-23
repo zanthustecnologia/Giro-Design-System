@@ -54,7 +54,7 @@ div.ToastRoot[data-state="open"] {
 	font-family: var(--font-family-primary);
 	color: var(--color-neutral-high-default);
 	line-height: 130%;
-	margin-right: 24px;
+	margin-right: var(--spacing-24);
 	overflow-wrap: break-word;
 	word-wrap: break-word;
 	word-break: break-word;
@@ -80,7 +80,7 @@ div.ToastRoot[data-state="open"] {
 	border: none;
 	color: var(--color-neutral-high-default);
 	margin-left: auto;
-	padding: 0;
+	padding: var(--spacing-0);
 	display: flex;
 	align-items: center;
 	flex-shrink: 0;
