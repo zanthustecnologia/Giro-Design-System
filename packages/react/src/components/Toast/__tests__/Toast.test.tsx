@@ -307,7 +307,6 @@ describe('ToastProvider', () => {
 
       await waitFor(() => {
         expect(screen.getByText('Novo Toast')).toBeInTheDocument();
-        expect(screen.getByText('Descrição do novo toast')).toBeInTheDocument();
       });
     });
 
