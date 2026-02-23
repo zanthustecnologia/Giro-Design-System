@@ -9,7 +9,6 @@ export interface ToastProps extends
     'open' | 'onOpenChange' | 'duration' | 'className'
   > {
   titulo?: string;
-  descricao?: string;
   automaticClose?: boolean;
   duration?: number;
   icon?: React.ReactNode;
