@@ -9,9 +9,10 @@
 	max-width: 100vw;
 	margin: var(--spacing-0);
 	list-style: none;
-	z-index: 5;
+	z-index: 15;
 	outline: none;
 	padding: var(--spacing-48);
+	
 
 	@media (max-width: 1024px) {
     padding: var(--spacing-32);
@@ -34,7 +35,6 @@
 	padding: var(--spacing-8) var(--spacing-16);
 	border-radius: var(--border-radius-8);
 	background-color: var(--color-neutral-low-dark);
-	z-index: 15;
 
     @media (max-width: 360px) {
         width: 328px;                    
