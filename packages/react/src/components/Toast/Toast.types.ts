@@ -8,7 +8,7 @@ export interface ToastProps extends
     React.ComponentPropsWithoutRef<typeof Toast.Root>,
     'open' | 'onOpenChange' | 'duration' | 'className'
   > {
-  titulo?: string;
+  title: string;
   automaticClose?: boolean;
   duration?: number;
   icon?: React.ReactNode;

@@ -19,7 +19,7 @@ const TestComponent = ({ onMount }: { onMount?: (toastFn: ReturnType<typeof useT
 
   return (
     <div>
-      <button onClick={() => toast.showToast({ titulo: 'Test' })}>
+      <button onClick={() => toast.showToast({ title: 'Test' })}>
         Show Toast
       </button>
     </div>
@@ -40,7 +40,7 @@ describe('Toast', () => {
 
       await act(async () => {
         if (toastFunctions) {
-          toastFunctions.showToast({ titulo: 'Título do Toast' });
+          toastFunctions.showToast({ title: 'Título do Toast' });
         }
       });
 
@@ -49,7 +49,7 @@ describe('Toast', () => {
       });
     });
 
-    it('deve renderizar o toast com título e descrição', async () => {
+    it('deve renderizar o toast com título', async () => {
       let toastFunctions: ReturnType<typeof useToast> | null = null;
 
       render(
@@ -62,38 +62,13 @@ describe('Toast', () => {
       await act(async () => {
         if (toastFunctions) {
           toastFunctions.showToast({ 
-            titulo: 'Título', 
-            descricao: 'Descrição do toast' 
+            title: 'Título',
           });
         }
       });
 
       await waitFor(() => {
         expect(screen.getByText('Título')).toBeInTheDocument();
-        expect(screen.getByText('Descrição do toast')).toBeInTheDocument();
-      });
-    });
-
-    it('não deve renderizar descrição quando não fornecida', async () => {
-      let toastFunctions: ReturnType<typeof useToast> | null = null;
-
-      const { container } = render(
-        <ToastProvider>
-          <TestComponent onMount={(fn) => { toastFunctions = fn; }} />
-          <ToastContainer />
-        </ToastProvider>
-      );
-
-      await act(async () => {
-        if (toastFunctions) {
-          toastFunctions.showToast({ titulo: 'Apenas título' });
-        }
-      });
-
-      await waitFor(() => {
-        expect(screen.getByText('Apenas título')).toBeInTheDocument();
-        const description = container.querySelector('[class*="ToastDescription"]');
-        expect(description).not.toBeInTheDocument();
       });
     });
   });
@@ -111,7 +86,7 @@ describe('Toast', () => {
 
       await act(async () => {
         if (toastFunctions) {
-          toastFunctions.showToast({ titulo: 'Toast Info' });
+          toastFunctions.showToast({ title: 'Toast Info' });
         }
       });
 
@@ -134,7 +109,7 @@ describe('Toast', () => {
       await act(async () => {
         if (toastFunctions) {
           toastFunctions.showToast({ 
-            titulo: 'Toast Successo', 
+            title: 'Toast Successo', 
             iconType: 'Success' 
           });
         }
@@ -159,7 +134,7 @@ describe('Toast', () => {
       await act(async () => {
         if (toastFunctions) {
           toastFunctions.showToast({ 
-            titulo: 'Toast Alerta', 
+            title: 'Toast Alerta', 
             iconType: 'Alert' 
           });
         }
@@ -185,7 +160,7 @@ describe('Toast', () => {
       await act(async () => {
         if (toastFunctions) {
           toastFunctions.showToast({ 
-            titulo: 'Toast Custom', 
+            title: 'Toast Custom', 
             icon: <CustomIcon /> 
           });
         }
@@ -210,7 +185,7 @@ describe('Toast', () => {
 
       await act(async () => {
         if (toastFunctions) {
-          toastFunctions.showToast({ titulo: 'Toast' });
+          toastFunctions.showToast({ title: 'Toast' });
         }
       });
 
@@ -234,7 +209,7 @@ describe('Toast', () => {
       await act(async () => {
         if (toastFunctions) {
           toastFunctions.showToast({ 
-            titulo: 'Toast', 
+            title: 'Toast', 
             iconClosed: <CustomCloseIcon /> 
           });
         }
@@ -260,7 +235,7 @@ describe('Toast', () => {
       await act(async () => {
         if (toastFunctions) {
           toastFunctions.showToast({ 
-            titulo: 'Toast', 
+            title: 'Toast', 
             duration: 3000 
           });
         }
@@ -284,7 +259,7 @@ describe('Toast', () => {
       await act(async () => {
         if (toastFunctions) {
           toastFunctions.showToast({ 
-            titulo: 'Toast', 
+            title: 'Toast', 
             automaticClose: false 
           });
         }
@@ -325,8 +300,7 @@ describe('ToastProvider', () => {
       await act(async () => {
         if (toastFunctions) {
           toastFunctions.showToast({
-            titulo: 'Novo Toast',
-            descricao: 'Descrição do novo toast'
+            title: 'Novo Toast'
           });
         }
       });
@@ -349,9 +323,9 @@ describe('ToastProvider', () => {
 
       await act(async () => {
         if (toastFunctions) {
-          toastFunctions.showToast({ titulo: 'Toast 1' });
-          toastFunctions.showToast({ titulo: 'Toast 2' });
-          toastFunctions.showToast({ titulo: 'Toast 3' });
+          toastFunctions.showToast({ title: 'Toast 1' });
+          toastFunctions.showToast({ title: 'Toast 2' });
+          toastFunctions.showToast({ title: 'Toast 3' });
         }
       });
 
@@ -374,9 +348,9 @@ describe('ToastProvider', () => {
 
       await act(async () => {
         if (toastFunctions) {
-          toastFunctions.showToast({ titulo: 'Toast 1' });
-          toastFunctions.showToast({ titulo: 'Toast 2' });
-          toastFunctions.showToast({ titulo: 'Toast 3' });
+          toastFunctions.showToast({ title: 'Toast 1' });
+          toastFunctions.showToast({ title: 'Toast 2' });
+          toastFunctions.showToast({ title: 'Toast 3' });
         }
       });
 
@@ -400,7 +374,7 @@ describe('ToastProvider', () => {
       await act(async () => {
         if (toastFunctions) {
           for (let i = 1; i <= 6; i++) {
-            toastFunctions.showToast({ titulo: `Toast ${i}` });
+            toastFunctions.showToast({ title: `Toast ${i}` });
           }
         }
       });
@@ -424,8 +398,8 @@ describe('ToastProvider', () => {
 
       await act(async () => {
         if (toastFunctions) {
-          toastFunctions.showToast({ titulo: 'Toast 1' });
-          toastFunctions.showToast({ titulo: 'Toast 2' });
+          toastFunctions.showToast({ title: 'Toast 1' });
+          toastFunctions.showToast({ title: 'Toast 2' });
         }
       });
 
@@ -490,8 +464,7 @@ describe('useToast', () => {
       await act(async () => {
         if (toastFunctions) {
           toastFunctions.showToast({
-            titulo: 'Teste showToast',
-            descricao: 'Descrição teste',
+            title: 'Teste showToast',
             iconType: 'Info'
           });
         }
@@ -499,7 +472,6 @@ describe('useToast', () => {
 
       await waitFor(() => {
         expect(screen.getByText('Teste showToast')).toBeInTheDocument();
-        expect(screen.getByText('Descrição teste')).toBeInTheDocument();
       });
     });
   });
@@ -530,9 +502,9 @@ describe('ToastContainer', () => {
 
       await act(async () => {
         if (toastFunctions) {
-          toastFunctions.showToast({ titulo: 'Toast Container 1', iconType: 'Info' });
-          toastFunctions.showToast({ titulo: 'Toast Container 2', iconType: 'Success' });
-          toastFunctions.showToast({ titulo: 'Toast Container 3', iconType: 'Alert' });
+          toastFunctions.showToast({ title: 'Toast Container 1', iconType: 'Info' });
+          toastFunctions.showToast({ title: 'Toast Container 2', iconType: 'Success' });
+          toastFunctions.showToast({ title: 'Toast Container 3', iconType: 'Alert' });
         }
       });
 
@@ -570,20 +542,17 @@ describe('Integração completa', () => {
     await act(async () => {
       if (toastFunctions) {
         toastFunctions.showToast({
-          titulo: 'Informação',
-          descricao: 'Toast de informação',
+          title: 'Informação',
           iconType: 'Info'
         });
 
         toastFunctions.showToast({
-          titulo: 'Sucesso',
-          descricao: 'Operação realizada com sucesso',
+          title: 'Sucesso',
           iconType: 'Success'
         });
 
         toastFunctions.showToast({
-          titulo: 'Alerta',
-          descricao: 'Atenção necessária',
+          title: 'Alerta',
           iconType: 'Alert'
         });
       }
@@ -629,8 +598,8 @@ describe('Integração completa', () => {
 
     await act(async () => {
       if (toastFunctions) {
-        toastFunctions.showToast({ titulo: 'Toast 1' });
-        toastFunctions.showToast({ titulo: 'Toast 2' });
+        toastFunctions.showToast({ title: 'Toast 1' });
+        toastFunctions.showToast({ title: 'Toast 2' });
       }
     });
 
@@ -641,7 +610,7 @@ describe('Integração completa', () => {
 
     await act(async () => {
       if (toastFunctions) {
-        toastFunctions.showToast({ titulo: 'Toast 3' });
+        toastFunctions.showToast({ title: 'Toast 3' });
       }
     });
 

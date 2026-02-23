@@ -35,8 +35,7 @@ const ToastExample: React.FC = () => {
       <Button
         onClick={() =>
           showToast({
-            titulo: 'Informação',
-            descricao: 'Esta é uma notificação informativa.',
+            title: 'Informação',
             iconType: 'Info',
             duration: 5000,
           })
@@ -48,8 +47,7 @@ const ToastExample: React.FC = () => {
       <Button
         onClick={() =>
           showToast({
-            titulo: 'Sucesso!',
-            descricao: 'Operação realizada com sucesso.',
+            title: 'Sucesso!',
             iconType: 'Success',
             duration: 5000,
           })
@@ -61,8 +59,7 @@ const ToastExample: React.FC = () => {
       <Button
         onClick={() =>
           showToast({
-            titulo: 'Atenção!',
-            descricao: 'Algo precisa da sua atenção.',
+            title: 'Atenção!',
             iconType: 'Alert',
             duration: 5000,
           })
@@ -74,8 +71,7 @@ const ToastExample: React.FC = () => {
       <Button
         onClick={() =>
           showToast({
-            titulo: 'Sem auto-close',
-            descricao: 'Este toast não fecha automaticamente.',
+            title: 'Sem auto-close',
             iconType: 'Info',
             automaticClose: false,
           })
@@ -87,7 +83,7 @@ const ToastExample: React.FC = () => {
       <Button
         onClick={() =>
           showToast({
-            titulo: 'Sem auto-close',
+            title: 'Sem auto-close',
             iconType: 'Info',
             automaticClose: false,
           })
@@ -110,8 +106,7 @@ export const MultipleToasts: StoryFn = () => {
     for (let i = 1; i <= 5; i++) {
       setTimeout(() => {
         showToast({
-          titulo: `Toast ${i}`,
-          descricao: `Esta é a notificação número ${i}`,
+          title: `Toast ${i}`,
           iconType: tipos[i % 3],
           duration: 8000,
         });
@@ -138,8 +133,7 @@ export const StressTest: StoryFn = () => {
   const addToast = () => {
     setCount((prev) => prev + 1);
     showToast({
-      titulo: `Toast #${count + 1}`,
-      descricao: 'Quando passar de 5, o mais antigo é removido automaticamente.',
+      title: `Toast #${count + 1}`,
       iconType: count % 3 === 0 ? 'Info' : count % 3 === 1 ? 'Success' : 'Alert',
       duration: 10000,
     });
