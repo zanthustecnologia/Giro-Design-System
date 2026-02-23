@@ -26,21 +26,21 @@ const meta: Meta<typeof Dialog> = {
       control: 'text',
       description: 'Conteúdo do Dialog'
     },
-    textConfirm: {
+    textPrimaryAction: {
       control: 'text',
-      description: 'Texto do botão Confirmar'
+      description: 'Texto do botão de ação primária'
     },
-    textCancel: {
+    textSecondaryAction: {
       control: 'text',
-      description: 'Texto do botão Cancelar'
+      description: 'Texto do botão de ação secundária'
     },
-    onConfirm: {
+    onPrimaryAction: {
       control: 'text',
-      description: 'Função executada ao clicar Confirmar'
+      description: 'Função executada ao clicar na ação primária'
     },
-    onCancel: {
+    onSecondaryAction: {
       control: 'text',
-      description: 'Função executada ao clicar Cancelar'
+      description: 'Função executada ao clicar na ação secundária'
     },
   },
 };
@@ -72,7 +72,7 @@ export const Default = DialogStoryWrapper.bind({});
 Default.args = {
   title: 'Título do dialogo',
   text: 'Mensagem do dialogo',
-  textConfirm: 'Ação',
+  textPrimaryAction: 'Ação',
 };
 
 /**
@@ -82,6 +82,6 @@ export const TwoActions = DialogStoryWrapper.bind({});
 TwoActions.args = {
   title: 'Título do dialogo',
   text: 'Mensagem do dialogo',
-  textConfirm: 'Ação',
-  textCancel: 'Cancelar',
+  textPrimaryAction: 'Ação',
+  textSecondaryAction: 'Cancelar',
 };

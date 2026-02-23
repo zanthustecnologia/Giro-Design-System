@@ -153,7 +153,7 @@ describe('Dialog', () => {
         <Dialog
           title="Título de teste"
           text="Texto de teste"
-          textConfirm="Confirmar"
+          textPrimaryAction="Confirmar"
         >
           <button>Abrir Dialog</button>
         </Dialog>
@@ -169,7 +169,7 @@ describe('Dialog', () => {
         <Dialog
           title="Título de teste"
           text="Texto de teste"
-          textConfirm="Confirmar"
+          textPrimaryAction="Confirmar"
         >
           <button>Abrir</button>
         </Dialog>
@@ -186,7 +186,7 @@ describe('Dialog', () => {
         <Dialog
           title="Título"
           text="Descrição de teste"
-          textConfirm="Confirmar"
+          textPrimaryAction="Confirmar"
         >
           <button>Abrir</button>
         </Dialog>
@@ -203,7 +203,7 @@ describe('Dialog', () => {
         <Dialog
           title="Título"
           text={<span data-testid="custom-text">Texto customizado</span>}
-          textConfirm="Confirmar"
+          textPrimaryAction="Confirmar"
         >
           <button>Abrir</button>
         </Dialog>
@@ -220,7 +220,7 @@ describe('Dialog', () => {
         <Dialog
           title="Título"
           text="Texto"
-          textConfirm="Confirmar Ação"
+          textPrimaryAction="Confirmar Ação"
         >
           <button>Abrir</button>
         </Dialog>
@@ -230,15 +230,15 @@ describe('Dialog', () => {
       expect(screen.getByText('Confirmar Ação')).toBeInTheDocument();
     });
 
-    it('renderiza o botão de cancelamento quando textCancel é fornecido', async () => {
+    it('renderiza o botão de cancelamento quando textSecondaryAction é fornecido', async () => {
       const user = userEvent.setup();
       
       render(
         <Dialog
           title="Título"
           text="Texto"
-          textConfirm="Confirmar"
-          textCancel="Cancelar Ação"
+          textPrimaryAction="Confirmar"
+          textSecondaryAction="Cancelar Ação"
         >
           <button>Abrir</button>
         </Dialog>
@@ -248,14 +248,14 @@ describe('Dialog', () => {
       expect(screen.getByText('Cancelar Ação')).toBeInTheDocument();
     });
 
-    it('NÃO renderiza o botão de cancelamento quando textCancel não é fornecido', async () => {
+    it('NÃO renderiza o botão de cancelamento quando textSecondaryAction não é fornecido', async () => {
       const user = userEvent.setup();
       
       render(
         <Dialog
           title="Título"
           text="Texto"
-          textConfirm="Confirmar"
+          textPrimaryAction="Confirmar"
         >
           <button>Abrir</button>
         </Dialog>
@@ -265,15 +265,15 @@ describe('Dialog', () => {
       expect(screen.queryByTestId('alert-dialog-cancel')).not.toBeInTheDocument();
     });
 
-    it('NÃO renderiza o botão de cancelamento quando textCancel é string vazia', async () => {
+    it('NÃO renderiza o botão de cancelamento quando textSecondaryAction é string vazia', async () => {
       const user = userEvent.setup();
       
       render(
         <Dialog
           title="Título"
           text="Texto"
-          textConfirm="Confirmar"
-          textCancel=""
+          textPrimaryAction="Confirmar"
+          textSecondaryAction=""
         >
           <button>Abrir</button>
         </Dialog>
@@ -283,15 +283,15 @@ describe('Dialog', () => {
       expect(screen.queryByTestId('alert-dialog-cancel')).not.toBeInTheDocument();
     });
 
-    it('NÃO renderiza o botão de cancelamento quando textCancel é apenas espaços em branco', async () => {
+    it('NÃO renderiza o botão de cancelamento quando textSecondaryAction é apenas espaços em branco', async () => {
       const user = userEvent.setup();
       
       render(
         <Dialog
           title="Título"
           text="Texto"
-          textConfirm="Confirmar"
-          textCancel="   "
+          textPrimaryAction="Confirmar"
+          textSecondaryAction="   "
         >
           <button>Abrir</button>
         </Dialog>
@@ -308,7 +308,7 @@ describe('Dialog', () => {
         <Dialog
           title="Título"
           text="Texto"
-          textConfirm="Confirmar"
+          textPrimaryAction="Confirmar"
         >
           <button>Abrir</button>
         </Dialog>
@@ -325,7 +325,7 @@ describe('Dialog', () => {
         <Dialog
           title="Título"
           text="Texto"
-          textConfirm="Confirmar"
+          textPrimaryAction="Confirmar"
         >
           <button>Abrir</button>
         </Dialog>
@@ -347,7 +347,7 @@ describe('Dialog', () => {
         <Dialog
           title="Título"
           text="Texto"
-          textConfirm="Confirmar"
+          textPrimaryAction="Confirmar"
         >
           <button>Abrir Dialog</button>
         </Dialog>
@@ -371,8 +371,8 @@ describe('Dialog', () => {
         <Dialog
           title="Título Persistente"
           text="Descrição Persistente"
-          textConfirm="OK"
-          textCancel="Fechar"
+          textPrimaryAction="OK"
+          textSecondaryAction="Fechar"
         >
           <button>Abrir</button>
         </Dialog>
@@ -395,7 +395,7 @@ describe('Dialog', () => {
         <Dialog
           title="Título"
           text="Texto"
-          textConfirm="Confirmar"
+          textPrimaryAction="Confirmar"
         >
           <button>Abrir</button>
         </Dialog>
@@ -412,7 +412,7 @@ describe('Dialog', () => {
         <Dialog
           title="Título do Dialog"
           text="Texto"
-          textConfirm="Confirmar"
+          textPrimaryAction="Confirmar"
         >
           <button>Abrir</button>
         </Dialog>
@@ -430,7 +430,7 @@ describe('Dialog', () => {
         <Dialog
           title="Título"
           text="Texto"
-          textConfirm="Confirmar"
+          textPrimaryAction="Confirmar"
           data-custom-prop="valor-customizado"
         >
           <button>Abrir</button>
@@ -447,7 +447,7 @@ describe('Dialog', () => {
       render(
         <Dialog
           text="Apenas texto"
-          textConfirm="Confirmar"
+          textPrimaryAction="Confirmar"
         >
           <button>Abrir</button>
         </Dialog>
@@ -465,7 +465,7 @@ describe('Dialog', () => {
       render(
         <Dialog
           title="Apenas título"
-          textConfirm="Confirmar"
+          textPrimaryAction="Confirmar"
         >
           <button>Abrir</button>
         </Dialog>
@@ -482,7 +482,7 @@ describe('Dialog', () => {
         <Dialog
           title="Título"
           text="Texto"
-          textConfirm="Confirmar"
+          textPrimaryAction="Confirmar"
         >
           <div>Custom Trigger</div>
         </Dialog>
@@ -494,7 +494,7 @@ describe('Dialog', () => {
         <Dialog
           title="Título"
           text="Texto"
-          textConfirm="Confirmar"
+          textPrimaryAction="Confirmar"
         >
           <span>Span Trigger</span>
         </Dialog>
@@ -505,14 +505,14 @@ describe('Dialog', () => {
   });
 
   describe('Casos extremos', () => {
-    it('lida com textConfirm vazio', async () => {
+    it('lida com textPrimaryAction vazio', async () => {
       const user = userEvent.setup();
       
       render(
         <Dialog
           title="Título"
           text="Texto"
-          textConfirm=""
+          textPrimaryAction=""
         >
           <button>Abrir</button>
         </Dialog>
@@ -531,7 +531,7 @@ describe('Dialog', () => {
         <Dialog
           title={longTitle}
           text="Texto"
-          textConfirm="OK"
+          textPrimaryAction="OK"
         >
           <button>Abrir</button>
         </Dialog>
@@ -558,7 +558,7 @@ describe('Dialog', () => {
         <Dialog
           title="Título"
           text={complexContent}
-          textConfirm="OK"
+          textPrimaryAction="OK"
         >
           <button>Abrir</button>
         </Dialog>

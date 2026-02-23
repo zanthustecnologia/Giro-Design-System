@@ -10,10 +10,10 @@ const Dialog: React.FC<DialogProps> = ({
   children,
   title,
   text,
-  textConfirm,
-  textCancel,
-	onConfirm,
-	onCancel,
+  textPrimaryAction,
+  textSecondaryAction,
+	onPrimaryAction,
+	onSecondaryAction,
   ...restProps
 }) => (
 	<AlertDialog.Root {...restProps}>
@@ -30,13 +30,13 @@ const Dialog: React.FC<DialogProps> = ({
 					{text}
 				</AlertDialog.Description>
 				<div className={styles.DivButtons}>
-					{!!(textCancel && textCancel.trim()) && (
+					{!!(textSecondaryAction && textSecondaryAction.trim()) && (
 						<AlertDialog.Cancel asChild>
-							<Button variant="outlined" {...(onCancel && { onClick: onCancel })}>{textCancel}</Button>
+							<Button variant="outlined" {...(onSecondaryAction && { onClick: onSecondaryAction })}>{textSecondaryAction}</Button>
 						</AlertDialog.Cancel>
 					)}
 					<AlertDialog.Action asChild>
-						<Button variant="filled" {...(onConfirm && { onClick: onConfirm })}>{textConfirm}</Button>
+						<Button variant="filled" {...(onPrimaryAction && { onClick: onPrimaryAction })}>{textPrimaryAction}</Button>
 					</AlertDialog.Action>
 				</div>
 			</AlertDialog.Content>

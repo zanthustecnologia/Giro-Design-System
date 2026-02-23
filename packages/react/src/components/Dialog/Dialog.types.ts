@@ -19,12 +19,12 @@ export interface DialogProps extends BaseProps, React.HTMLAttributes<HTMLDivElem
   title?: string;
   /** Texto ou conteúdo do corpo do diálogo */
   text?: ReactNode;
-  /** Texto do botão de confirmação */
-  textConfirm?: string;
-  /** Texto do botão de cancelamento */
-  textCancel?: string;
-  /** Função chamada ao confirmar a ação */
-  onConfirm?: () => void;
-  /** Função chamada ao cancelar a ação */
-  onCancel?: () => void;
+  /** Texto do botão de ação primária */
+  textPrimaryAction?: string;
+  /** Texto do botão de ação secundária */
+  textSecondaryAction?: string;
+  /** Função chamada ao executar a ação primária */
+  onPrimaryAction?: () => void;
+  /** Função chamada ao executar a ação secundária */
+  onSecondaryAction?: () => void;
 }
