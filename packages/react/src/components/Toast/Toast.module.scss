@@ -63,7 +63,7 @@ div.ToastRoot[data-state="open"] {
 
 .ToastContent {
 	flex: 1;
-	min-width: 0;
+	min-width: var(--spacing-0);
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
