@@ -18,12 +18,17 @@ const meta: Meta<AvatarProps> = {
     },
     icon: {
       control: { type: 'select' },
-      options: ['none', 'add16R', 'add16F', 'arrow'],
+      options: ['none', 'person', 'add16R', 'add16F', 'arrow'],
       mapping: {
-        none: <Person16Regular />,
+        none: null,
+        person: <Person16Regular />,
         add16R: <Add16Regular />,
         add16F: <Add16Filled />,
         arrow: <ArrowCircleDown12Regular />,
+      },
+      initialLetters: {
+        control: 'text',
+        description: 'Letras iniciais a serem exibidas quando não houver imagem ou ícone(colocar apenas 2 caracteres)'
       },
     },
   },
@@ -47,6 +52,7 @@ export const Default: Story = {
   args: {
     icon: <Person16Regular />,
     size: 'lg',
+    initialLetters: 'GR',
   },
 };
 
@@ -56,5 +62,6 @@ export const ComImagem: Story = {
     icon: <Person16Regular />,
     size: 'lg',
     src: 'https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80', // Imagem de exemplo do Radix UI
+    initialLetters: 'GR',
   },
 };

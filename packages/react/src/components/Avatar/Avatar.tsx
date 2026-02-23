@@ -12,6 +12,7 @@ const Avatar: React.FC<AvatarProps> = ({
   size = 'lg',
   src,
   className,
+  initialLetters,
   ...rest
 }) => {
   const AvatarClass = clsx(
@@ -34,7 +35,7 @@ const Avatar: React.FC<AvatarProps> = ({
             />
         )}
         <AvatarRadix.Fallback className={styles.AvatarFallback}>
-          {icon}
+          {icon || initialLetters}
         </AvatarRadix.Fallback>
       </AvatarRadix.Root>
     </div>

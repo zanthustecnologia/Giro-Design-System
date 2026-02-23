@@ -15,9 +15,11 @@ import { BaseProps, Size } from '../../types';
  */
 export interface AvatarProps extends BaseProps {
   /** Ícone ou conteúdo a ser exibido no fallback quando não há imagem ou ela falha ao carregar */
-  icon: React.ReactNode;
+  icon?: React.ReactNode;
   /** Tamanho do avatar: 'sm' (32px) ou 'lg' (44px). @default 'lg' */
   size?: Size;
   /** URL da imagem do avatar. Quando fornecido, exibe a imagem; caso contrário, mostra o ícone */
   src?: string;
+  /** Texto alternativo da imagem do avatar, usado como as iniciais do nome */
+  initialLetters?: string;
 }
