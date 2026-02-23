@@ -34,6 +34,7 @@
 	padding: var(--spacing-8) var(--spacing-16);
 	border-radius: var(--border-radius-8);
 	background-color: var(--color-neutral-low-dark);
+	z-index: 15;
 
     @media (max-width: 360px) {
         width: 328px;                    
