@@ -1,26 +1,26 @@
 .container {
   max-width: 1920px;
-  margin: 0 auto;
-  padding: 0 16px;
+  margin: var(--spacing-0) auto;
+  padding: var(--spacing-0) var(--spacing-16);
 
   @media (min-width: 640px) {
-    padding: 0 16px;
+    padding: var(--spacing-0) var(--spacing-16);
   }
 
   @media (min-width: 768px) {
-    padding: 0 32px;
+    padding: var(--spacing-0) var(--spacing-32);
   }
 
   @media (min-width: 1024px) {
-    padding: 0 48px;
+    padding: var(--spacing-0) var(--spacing-48);
   }
 
   @media (min-width: 1280px) {
-    padding: 0 48px;
+    padding: var(--spacing-0) var(--spacing-48);
   }
 
   @media (min-width: 1536px) {
-    padding: 0;
+    padding: var(--spacing-0);
   }
 }
 
