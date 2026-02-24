@@ -47,26 +47,26 @@
     &:-webkit-autofill:hover,
     &:-webkit-autofill:focus,
     &:-webkit-autofill:active {
-      -webkit-box-shadow: 0 0 0 1000px var(--color-neutral-high-default) inset !important;
-      box-shadow: 0 0 0 1000px var(--color-neutral-high-default) inset !important;
-      -webkit-transition: background-color 5000s ease-in-out 0s !important;
-      transition: background-color 5000s ease-in-out 0s !important;
-      background-color: transparent !important;
-      background-image: none !important;
-      color: var(--color-neutral-low-default) !important;
-      -webkit-text-fill-color: var(--color-neutral-low-default) !important;
+      -webkit-box-shadow: 0 0 0 1000px var(--color-neutral-high-default) inset;
+      box-shadow: 0 0 0 1000px var(--color-neutral-high-default) inset;
+      -webkit-transition: background-color 5000s ease-in-out 0s;
+      transition: background-color 5000s ease-in-out 0s;
+      background-color: transparent;
+      background-image: none;
+      color: var(--color-neutral-low-default);
+      -webkit-text-fill-color: var(--color-neutral-low-default);
     }
 
     &:-moz-autofill {
-      background-color: transparent !important;
-      background-image: none !important;
-      box-shadow: 0 0 0 1000px var(--color-neutral-high-default) inset !important;
-      color: var(--color-neutral-low-default) !important;
+      background-color: transparent;
+      background-image: none;
+      box-shadow: 0 0 0 1000px var(--color-neutral-high-default) inset;
+      color: var(--color-neutral-low-default);
     }
 
     &:-ms-input-placeholder {
-      background-color: transparent !important;
-      color: var(--color-neutral-low-default) !important;
+      background-color: transparent;
+      color: var(--color-neutral-low-default);
     }
   }
   &__clearIcon {
@@ -110,6 +110,6 @@
   }
   &:-webkit-autofill-strong-password,
   &:-webkit-autofill-strong-password-viewable {
-    background-color: var(--color-neutral-high-default) !important;
+    background-color: var(--color-neutral-high-default);
   }
 }
