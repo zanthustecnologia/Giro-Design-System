@@ -29,7 +29,8 @@ const Search = React.forwardRef<HTMLInputElement, SearchProps>(
     const [internalValue, setInternalValue] = useState<string>('');
     const isControlled = value !== undefined && onChange !== undefined;
     const currentValue = isControlled ? value : internalValue;
-    const inputId = id || useId();
+    const generatedId = useId();
+    const inputId = id || generatedId;
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
       if (disabled) return;
 

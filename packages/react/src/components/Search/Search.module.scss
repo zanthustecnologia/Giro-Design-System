@@ -4,7 +4,7 @@
   align-items: center;
   justify-content: center;
   position: relative;
-  width: 100%;
+  width: 360px; //Mudar para 100% caso queira que ocupe a tela inteira
   height: 44px;
   box-sizing: border-box;
   padding: var(--spacing-0) var(--spacing-16);
@@ -52,8 +52,8 @@
     &:-webkit-autofill:hover,
     &:-webkit-autofill:focus,
     &:-webkit-autofill:active {
-      -webkit-box-shadow: 0 0 0 1000px var(--color-neutral-high-default) inset;
-      box-shadow: 0 0 0 1000px var(--color-neutral-high-default) inset;
+      -webkit-box-shadow: var(--spacing-0) var(--spacing-0) var(--spacing-0) 1000px var(--color-neutral-high-default) inset;
+      box-shadow: var(--spacing-0) var(--spacing-0) var(--spacing-0) 1000px var(--color-neutral-high-default) inset;
       -webkit-transition: background-color 5000s ease-in-out 0s;
       transition: background-color 5000s ease-in-out 0s;
       background-color: transparent;
@@ -65,7 +65,7 @@
     &:-moz-autofill {
       background-color: transparent;
       background-image: none;
-      box-shadow: 0 0 0 1000px var(--color-neutral-high-default) inset;
+      box-shadow: var(--spacing-0) var(--spacing-0) var(--spacing-0) 1000px var(--color-neutral-high-default) inset;
       color: var(--color-neutral-low-default);
     }
 
