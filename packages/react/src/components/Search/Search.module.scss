@@ -1,5 +1,5 @@
 
-.zds-search {
+.search {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -15,7 +15,7 @@
   font-size: var(--font-size-16);
   font-weight: var(--font-weight-regular);
 
-  &__leftIcon {
+  &__LeftIcon {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -69,7 +69,7 @@
       color: var(--color-neutral-low-default);
     }
   }
-  &__clearIcon {
+  &__ClearIcon {
     position: absolute;
     right: 16px;
     width: 16px;
@@ -101,8 +101,8 @@
       }
     }
 
-    .zds-search__leftIcon,
-    .zds-search__clearIcon {
+    .search__LeftIcon,
+    .search__ClearIcon {
       color: var(--color-neutral-high-dark);
       cursor: not-allowed;
     }

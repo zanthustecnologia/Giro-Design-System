@@ -68,14 +68,14 @@ const Search = React.forwardRef<HTMLInputElement, SearchProps>(
       onKeyDown?.(e);
     };
     const searchClass = clsx(
-      styles['zds-search'],
+      styles['search'],
       { disabled },
       className
     );
     return (
       <div className={searchClass} onClick={onClick} onMouseDown={onMouseDown}>
         <span
-          className={clsx(styles['zds-search__leftIcon'], { disabled })}
+          className={clsx(styles['search__LeftIcon'], { disabled })}
           tabIndex={-1}
           role="presentation"
           aria-hidden="true"
@@ -100,7 +100,7 @@ const Search = React.forwardRef<HTMLInputElement, SearchProps>(
         />
         {currentValue && currentValue.length > 0 && (
           <span
-            className={styles['zds-search__clearIcon']}
+            className={styles['search__ClearIcon']}
             aria-hidden="true"
             onClick={clearInputSearch}
           >
@@ -112,6 +112,6 @@ const Search = React.forwardRef<HTMLInputElement, SearchProps>(
   }
 );
 
-Search.displayName = 'ZdsSearch';
+Search.displayName = 'Search';
 
 export default Search;
