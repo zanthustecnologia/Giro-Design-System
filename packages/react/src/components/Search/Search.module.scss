@@ -23,7 +23,7 @@
     color: var(--color-brand-primary-default);
 
     &.disabled {
-      color: var(--color-neutral-high-dark);
+      color: var(--color-neutral-high-medium);
     }
   }
 
@@ -39,6 +39,11 @@
     background-color: transparent;
     font-size: var(--font-size-16);
     font-weight: var(--font-weight-regular);
+    &.disabled {
+      color: var(--color-neutral-high-medium);
+      cursor: not-allowed;
+    }
+    
     &::placeholder {
       color: var(--color-neutral-low-medium);
     }
@@ -103,7 +108,7 @@
 
     .searchLeftIcon,
     .searchClearIcon {
-      color: var(--color-neutral-high-dark);
+      color: var(--color-neutral-high-medium);
       cursor: not-allowed;
     }
     

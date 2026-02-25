@@ -69,13 +69,13 @@ const Search = React.forwardRef<HTMLInputElement, SearchProps>(
     };
     const searchClass = clsx(
       styles['search'],
-      { disabled },
+      { [styles.disabled]: disabled },
       className
     );
     return (
       <div className={searchClass} onClick={onClick} onMouseDown={onMouseDown}>
         <span
-          className={clsx(styles['searchLeftIcon'], { disabled })}
+          className={clsx(styles['searchLeftIcon'], { [styles.disabled]: disabled })}
           tabIndex={-1}
           role="presentation"
           aria-hidden="true"
