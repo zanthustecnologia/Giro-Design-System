@@ -75,7 +75,7 @@ const Search = React.forwardRef<HTMLInputElement, SearchProps>(
     return (
       <div className={searchClass} onClick={onClick} onMouseDown={onMouseDown}>
         <span
-          className={clsx(styles['search__LeftIcon'], { disabled })}
+          className={clsx(styles['searchLeftIcon'], { disabled })}
           tabIndex={-1}
           role="presentation"
           aria-hidden="true"
@@ -100,7 +100,7 @@ const Search = React.forwardRef<HTMLInputElement, SearchProps>(
         />
         {currentValue && currentValue.length > 0 && (
           <span
-            className={styles['search__ClearIcon']}
+            className={styles['searchClearIcon']}
             aria-hidden="true"
             onClick={clearInputSearch}
           >
