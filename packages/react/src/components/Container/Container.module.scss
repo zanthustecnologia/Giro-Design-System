@@ -1,15 +1,12 @@
 .container {
   margin: var(--spacing-0) auto;
+  padding: var(--spacing-0) var(--spacing-16);
 
-  @media (max-width: 360px) {
-    padding: var(--spacing-0) var(--spacing-16);
-  }
-
-  @media (orientation: portrait) and (max-width: 768px) {
+  @media (min-width: 361px) and (orientation: portrait) and (max-width: 768px) {
     padding: var(--spacing-0) var(--spacing-32);
   }
 
-  @media (max-width: 1024px) {
+  @media (min-width: 361px) and (max-width: 1024px) {
     padding: var(--spacing-0) var(--spacing-32);
   }
 
