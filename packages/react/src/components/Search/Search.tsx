@@ -74,7 +74,19 @@ const Search = React.forwardRef<HTMLInputElement, SearchProps>(
       className
     );
     return (
-      <div className={searchClass} onClick={onClick} onMouseDown={onMouseDown}>
+      <div 
+        className={searchClass} 
+        onClick={onClick} 
+        onMouseDown={onMouseDown}
+        role={onClick || onMouseDown ? "button" : undefined}
+        tabIndex={onClick || onMouseDown ? 0 : undefined}
+        onKeyDown={onClick || onMouseDown ? (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            onClick?.(e as any);
+          }
+        } : undefined}
+      >
         <span
           className={clsx(styles['searchLeftIcon'], { [styles.disabled]: disabled })}
           tabIndex={-1}
