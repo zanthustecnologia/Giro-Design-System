@@ -196,20 +196,6 @@ $select-icon-size: 16px;
       color: var(--color-neutral-low-light);
     }
   }
-  &[data-state='checked'] {
-    color: var(--color-brand-primary-default);
-    .subTitle {
-      color: var(--color-brand-primary-default);
-    }
-  }
-  &[data-selected='true'] {
-    .title {
-      color: var(--color-brand-primary-default);
-    }
-    .subTitle {
-      color: var(--color-brand-primary-default);
-    }
-  }
 }
 
 .checkboxItem {
@@ -229,20 +215,6 @@ $select-icon-size: 16px;
     cursor: not-allowed;
     .subTitle {
       color: var(--color-neutral-low-light);
-    }
-  }
-  &[data-state='checked'] {
-    color: var(--color-brand-primary-default);
-    .subTitle {
-      color: var(--color-brand-primary-default);
-    }
-  }
-  &[data-selected='true'] {
-    .title {
-      color: var(--color-brand-primary-default);
-    }
-    .subTitle {
-      color: var(--color-brand-primary-default);
     }
   }
   &:hover:not(.disabled) {
@@ -282,15 +254,6 @@ $select-icon-size: 16px;
     cursor: not-allowed;
     .subTitle {
       color: var(--color-neutral-low-light);
-    }
-  }
-  &[data-selected='true'],
-  &.selected {
-    .title {
-      color: var(--color-brand-primary-default);
-    }
-    .subTitle {
-      color: var(--color-brand-primary-default);
     }
   }
 }
