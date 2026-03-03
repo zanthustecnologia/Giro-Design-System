@@ -5,6 +5,7 @@
 .root {
   position: relative; 
   box-sizing: border-box;
+  border-radius: var(--border-radius-8);
   box-shadow: 0px 2px 16px 0px rgba(0, 0, 0, 0.20);
   padding: var(--spacing-16) var(--spacing-24);
 }
@@ -140,6 +141,7 @@
   align-content: center;
   height: 44px;
   line-height: 130%;
+  text-transform: capitalize;
   font-weight: var(--font-weight-bold);
   font-size: var(--font-size-16);
 }
@@ -200,6 +202,7 @@
   font-weight: var(--font-weight-medium);
   font-size: var(--font-size-12);
   text-align: center;
+  text-transform: capitalize;
 }
 
 .week_number {
