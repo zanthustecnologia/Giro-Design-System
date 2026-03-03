@@ -5,6 +5,8 @@
 .root {
   position: relative; 
   box-sizing: border-box;
+  box-shadow: 0px 2px 16px 0px rgba(0, 0, 0, 0.20);
+  padding: var(--spacing-16) var(--spacing-24);
 }
 
 .root * {
@@ -15,6 +17,7 @@
   width: 44px;
   height: 44px;
   text-align: center;
+  vertical-align: middle;
 }
 
 .day_button {
@@ -23,19 +26,25 @@
   margin: var(--spacing-0);
   cursor: pointer;
   font: inherit;
-  color: inherit;
+  color: var(--color-neutral-low-default);
   justify-content: center;
   align-items: center;
-  display: flex;
-
-  width: 42px;
-  height: 42px;
+  display: inline-flex;
+  width: 36px;
+  height: 36px;
   border: var(--border-width-2) solid transparent;
   border-radius: var(--border-radius-circular);
+  font-weight: var(--font-weight-regular);
+  font-size: var(--font-size-12);
 }
 
 .day_button:disabled {
   cursor: revert;
+}
+
+.day_button:hover {
+  border: var(--border-width-2) solid var(--color-neutral-high-medium);
+  background-color: var(--color-neutral-high-medium);
 }
 
 .caption_label {
@@ -68,8 +77,12 @@
   justify-content: center;
   position: relative;
   appearance: none;
-  width: 36px;
-  height: 36px;
+  width: 16px;
+  height: 16px;
+}
+
+.button_previous {
+  margin-right: var(--spacing-24);
 }
 
 .button_next:disabled,
@@ -77,13 +90,12 @@
 .button_previous:disabled,
 .button_previous[aria-disabled="true"] {
   cursor: revert;
-
   opacity: 0.5;
 }
 
 .chevron {
   display: inline-block;
-  fill: var(--color-brand-primary-default);
+  fill: var(--color-neutral-low-default);
 }
 
 .root[dir="rtl"] .nav .chevron {
@@ -107,7 +119,7 @@
   inset-inline-start: var(--spacing-0);
   width: 100%;
   margin: var(--spacing-0);
-  padding: var(--spacing-0);
+  padding: var(--spacing-4);
   cursor: inherit;
   border: var(--border-width-none);
   line-height: inherit;
@@ -127,8 +139,9 @@
   display: flex;
   align-content: center;
   height: 44px;
+  line-height: 130%;
   font-weight: var(--font-weight-bold);
-  font-size: large;
+  font-size: var(--font-size-16);
 }
 
 .root[data-nav-layout="around"] .month,
@@ -185,14 +198,14 @@
   opacity: 0.75;
   padding: var(--spacing-8) var(--spacing-0);
   font-weight: var(--font-weight-medium);
-  font-size: smaller;
+  font-size: var(--font-size-12);
   text-align: center;
 }
 
 .week_number {
   opacity: 0.75;
   font-weight: var(--font-weight-regular);
-  font-size: small;
+  font-size: var(--font-size-12);
   height: 44px;
   width: 44px;
   border: var(--border-width-2) solid transparent;
@@ -204,13 +217,10 @@
   color: var(--color-brand-primary-default);
 }
 
-.selected {
-  font-weight: bold;
-  font-size: large;
-}
-
 .selected .day_button {
   border: var(--border-width-2) solid var(--color-brand-primary-default);
+  background-color: var(--color-brand-primary-default);
+  color: var(--color-neutral-high-default);
 }
 
 .outside {

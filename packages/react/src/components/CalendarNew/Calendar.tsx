@@ -9,14 +9,12 @@ const Calendar = () => {
 
   return (
     <DayPicker
-    classNames={styles}
+      captionLayout="dropdown"
+      classNames={styles}
       animate
       mode="single"
       selected={selected}
       onSelect={setSelected}
-      footer={
-        selected ? `Selected: ${selected.toLocaleDateString()}` : "Pick a day."
-      }
       showOutsideDays 
       timeZone="America/Sao_Paulo" 
       locale={ptBR}
