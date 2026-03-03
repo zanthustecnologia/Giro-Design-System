@@ -1,78 +1,9 @@
-/* Variables declaration */
-.root {
-  --rdp-accent-color: blue; /* The accent color used for selected days and UI elements. */
-  --rdp-accent-background-color: #f0f0ff; /* The accent background color used for selected days and UI elements. */
-
-  --rdp-day-height: 44px; /* The height of the day cells. */
-  --rdp-day-width: 44px; /* The width of the day cells. */
-
-  --rdp-day_button-border-radius: 100%; /* The border radius of the day cells. */
-  --rdp-day_button-border: 2px solid transparent; /* The border of the day cells. */
-  --rdp-day_button-height: 42px; /* The height of the day cells. */
-  --rdp-day_button-width: 42px; /* The width of the day cells. */
-
-  --rdp-selected-border: 2px solid var(--rdp-accent-color); /* The border of the selected days. */
-  --rdp-disabled-opacity: 0.5; /* The opacity of the disabled days. */
-  --rdp-outside-opacity: 0.75; /* The opacity of the days outside the current month. */
-  --rdp-today-color: var(--rdp-accent-color); /* The color of the today's date. */
-
-  --rdp-dropdown-gap: 0.5rem; /* The gap between the dropdowns used in the month captons. */
-
-  --rdp-months-gap: 2rem; /* The gap between the months in the multi-month view. */
-
-  --rdp-nav_button-disabled-opacity: 0.5; /* The opacity of the disabled navigation buttons. */
-  --rdp-nav_button-height: 2.25rem; /* The height of the navigation buttons. */
-  --rdp-nav_button-width: 2.25rem; /* The width of the navigation buttons. */
-  --rdp-nav-height: 2.75rem; /* The height of the navigation bar. */
-
-  --rdp-range_middle-background-color: var(--rdp-accent-background-color); /* The color of the background for days in the middle of a range. */
-  --rdp-range_middle-color: inherit; /* The color of the range text. */
-
-  --rdp-range_start-color: white; /* The color of the range text. */
-  --rdp-range_start-background: linear-gradient(
-    var(--rdp-gradient-direction),
-    transparent 50%,
-    var(--rdp-range_middle-background-color) 50%
-  ); /* Used for the background of the start of the selected range. */
-  --rdp-range_start-date-background-color: var(--rdp-accent-color); /* The background color of the date when at the start of the selected range. */
-
-  --rdp-range_end-background: linear-gradient(
-    var(--rdp-gradient-direction),
-    var(--rdp-range_middle-background-color) 50%,
-    transparent 50%
-  ); /* Used for the background of the end of the selected range. */
-  --rdp-range_end-color: white; /* The color of the range text. */
-  --rdp-range_end-date-background-color: var(--rdp-accent-color); /* The background color of the date when at the end of the selected range. */
-
-  --rdp-week_number-border-radius: 100%; /* The border radius of the week number. */
-  --rdp-week_number-border: 2px solid transparent; /* The border of the week number. */
-
-  --rdp-week_number-height: var(--rdp-day-height); /* The height of the week number cells. */
-  --rdp-week_number-opacity: 0.75; /* The opacity of the week number. */
-  --rdp-week_number-width: var(--rdp-day-width); /* The width of the week number cells. */
-  --rdp-weeknumber-text-align: center; /* The text alignment of the weekday cells. */
-
-  --rdp-weekday-opacity: 0.75; /* The opacity of the weekday. */
-  --rdp-weekday-padding: 0.5rem 0rem; /* The padding of the weekday. */
-  --rdp-weekday-text-align: center; /* The text alignment of the weekday cells. */
-
-  --rdp-gradient-direction: 90deg;
-
-  --rdp-animation_duration: 0.3s;
-  --rdp-animation_timing: cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.root[dir="rtl"] {
-  --rdp-gradient-direction: -90deg;
-}
-
 .root[data-broadcast-calendar="true"] {
-  --rdp-outside-opacity: unset;
+  opacity: unset;
 }
 
-/* Root of the component. */
 .root {
-  position: relative; /* Required to position the navigation toolbar. */
+  position: relative; 
   box-sizing: border-box;
 }
 
@@ -81,15 +12,15 @@
 }
 
 .day {
-  width: var(--rdp-day-width);
-  height: var(--rdp-day-height);
+  width: 44px;
+  height: 44px;
   text-align: center;
 }
 
 .day_button {
   background: none;
-  padding: 0;
-  margin: 0;
+  padding: var(--spacing-0);
+  margin: var(--spacing-0);
   cursor: pointer;
   font: inherit;
   color: inherit;
@@ -97,10 +28,10 @@
   align-items: center;
   display: flex;
 
-  width: var(--rdp-day_button-width);
-  height: var(--rdp-day_button-height);
-  border: var(--rdp-day_button-border);
-  border-radius: var(--rdp-day_button-border-radius);
+  width: 42px;
+  height: 42px;
+  border: var(--border-width-2) solid transparent;
+  border-radius: var(--border-radius-circular);
 }
 
 .day_button:disabled {
@@ -109,27 +40,24 @@
 
 .caption_label {
   z-index: 1;
-
   position: relative;
   display: inline-flex;
   align-items: center;
-
   white-space: nowrap;
-  border: 0;
+  border: var(--border-width-none);
 }
 
 .dropdown:focus-visible ~ .caption_label {
   outline: 5px auto Highlight;
-  /* biome-ignore lint/suspicious/noDuplicateProperties: backward compatibility */
   outline: 5px auto -webkit-focus-ring-color;
 }
 
 .button_next,
 .button_previous {
-  border: none;
+  border: var(--border-width-none);
   background: none;
-  padding: 0;
-  margin: 0;
+  padding: var(--spacing-0);
+  margin: var(--spacing-0);
   cursor: pointer;
   font: inherit;
   color: inherit;
@@ -140,9 +68,8 @@
   justify-content: center;
   position: relative;
   appearance: none;
-
-  width: var(--rdp-nav_button-width);
-  height: var(--rdp-nav_button-height);
+  width: 36px;
+  height: 36px;
 }
 
 .button_next:disabled,
@@ -151,12 +78,12 @@
 .button_previous[aria-disabled="true"] {
   cursor: revert;
 
-  opacity: var(--rdp-nav_button-disabled-opacity);
+  opacity: 0.5;
 }
 
 .chevron {
   display: inline-block;
-  fill: var(--rdp-accent-color);
+  fill: var(--color-brand-primary-default);
 }
 
 .root[dir="rtl"] .nav .chevron {
@@ -168,23 +95,21 @@
   position: relative;
   display: inline-flex;
   align-items: center;
-  gap: var(--rdp-dropdown-gap);
+  gap: var(--spacing-8);
 }
 .dropdown {
   z-index: 2;
-
-  /* Reset */
   opacity: 0;
   appearance: none;
   position: absolute;
-  inset-block-start: 0;
-  inset-block-end: 0;
-  inset-inline-start: 0;
+  inset-block-start: var(--spacing-0);
+  inset-block-end: var(--spacing-0);
+  inset-inline-start: var(--spacing-0);
   width: 100%;
-  margin: 0;
-  padding: 0;
+  margin: var(--spacing-0);
+  padding: var(--spacing-0);
   cursor: inherit;
-  border: none;
+  border: var(--border-width-none);
   line-height: inherit;
 }
 
@@ -195,14 +120,14 @@
 }
 
 .dropdown_root[data-disabled="true"] .chevron {
-  opacity: var(--rdp-disabled-opacity);
+  opacity: 0.5;
 }
 
 .month_caption {
   display: flex;
   align-content: center;
-  height: var(--rdp-nav-height);
-  font-weight: bold;
+  height: 44px;
+  font-weight: var(--font-weight-bold);
   font-size: large;
 }
 
@@ -213,24 +138,24 @@
 
 .root[data-nav-layout="around"] .month_caption {
   justify-content: center;
-  margin-inline-start: var(--rdp-nav_button-width);
-  margin-inline-end: var(--rdp-nav_button-width);
+  margin-inline-start: var(--spacing-32);
+  margin-inline-end: var(--spacing-32);
   position: relative;
 }
 
 .root[data-nav-layout="around"] .button_previous {
   position: absolute;
-  inset-inline-start: 0;
-  top: 0;
-  height: var(--rdp-nav-height);
+  inset-inline-start: var(--spacing-0);
+  top: var(--spacing-0);
+  height: 44px;
   display: inline-flex;
 }
 
 .root[data-nav-layout="around"] .button_next {
   position: absolute;
-  inset-inline-end: 0;
-  top: 0;
-  height: var(--rdp-nav-height);
+  inset-inline-end: var(--spacing-0);
+  top: var(--spacing-0);
+  height: 44px;
   display: inline-flex;
   justify-content: center;
 }
@@ -239,7 +164,7 @@
   position: relative;
   display: flex;
   flex-wrap: wrap;
-  gap: var(--rdp-months-gap);
+  gap: var(--spacing-32);
   max-width: fit-content;
 }
 
@@ -249,38 +174,34 @@
 
 .nav {
   position: absolute;
-  inset-block-start: 0;
-  inset-inline-end: 0;
-
+  inset-block-start: var(--spacing-0);
+  inset-inline-end: var(--spacing-0);
   display: flex;
   align-items: center;
-
-  height: var(--rdp-nav-height);
+  height: 44px;
 }
 
 .weekday {
-  opacity: var(--rdp-weekday-opacity);
-  padding: var(--rdp-weekday-padding);
-  font-weight: 500;
+  opacity: 0.75;
+  padding: var(--spacing-8) var(--spacing-0);
+  font-weight: var(--font-weight-medium);
   font-size: smaller;
-  text-align: var(--rdp-weekday-text-align);
-  text-transform: var(--rdp-weekday-text-transform);
+  text-align: center;
 }
 
 .week_number {
-  opacity: var(--rdp-week_number-opacity);
-  font-weight: 400;
+  opacity: 0.75;
+  font-weight: var(--font-weight-regular);
   font-size: small;
-  height: var(--rdp-week_number-height);
-  width: var(--rdp-week_number-width);
-  border: var(--rdp-week_number-border);
-  border-radius: var(--rdp-week_number-border-radius);
-  text-align: var(--rdp-weeknumber-text-align);
+  height: 44px;
+  width: 44px;
+  border: var(--border-width-2) solid transparent;
+  border-radius: var(--border-radius-circular);
+  text-align: center;
 }
 
-/* DAY MODIFIERS */
 .today:not(.outside) {
-  color: var(--rdp-today-color);
+  color: var(--color-brand-primary-default);
 }
 
 .selected {
@@ -289,49 +210,49 @@
 }
 
 .selected .day_button {
-  border: var(--rdp-selected-border);
+  border: var(--border-width-2) solid var(--color-brand-primary-default);
 }
 
 .outside {
-  opacity: var(--rdp-outside-opacity);
+  opacity: 0.75;
 }
 
 .disabled:not(.selected) {
-  opacity: var(--rdp-disabled-opacity);
+  opacity: 0.5;
 }
 
 .hidden {
   visibility: hidden;
-  color: var(--rdp-range_start-color);
+  color: var(--color-neutral-high-default);
 }
 
 .range_start {
-  background: var(--rdp-range_start-background);
+  background: linear-gradient(90deg, transparent 50%, var(--color-neutral-high-default) 50%);
 }
 
 .range_start .day_button {
-  background-color: var(--rdp-range_start-date-background-color);
-  color: var(--rdp-range_start-color);
+  background-color: var(--color-brand-primary-default);
+  color: var(--color-neutral-high-default);
 }
 
 .range_middle {
-  background-color: var(--rdp-range_middle-background-color);
+  background-color: var(--color-neutral-high-default);
 }
 
 .range_middle .day_button {
   border: unset;
   border-radius: unset;
-  color: var(--rdp-range_middle-color);
+  color: inherit;
 }
 
 .range_end {
-  background: var(--rdp-range_end-background);
-  color: var(--rdp-range_end-color);
+  background: linear-gradient(90deg, var(--color-neutral-high-default) 50%, transparent 50%);
+  color: var(--color-neutral-high-default);
 }
 
 .range_end .day_button {
-  color: var(--rdp-range_start-color);
-  background-color: var(--rdp-range_end-date-background-color);
+  color: var(--color-neutral-high-default);
+  background-color: var(--color-brand-primary-default);
 }
 
 .range_start.range_end {
@@ -342,7 +263,7 @@
   cursor: pointer;
 }
 
-@keyframes rdp-slide_in_left {
+@keyframes slide_in_left {
   0% {
     transform: translateX(-100%);
   }
@@ -351,7 +272,7 @@
   }
 }
 
-@keyframes rdp-slide_in_right {
+@keyframes slide_in_right {
   0% {
     transform: translateX(100%);
   }
@@ -360,7 +281,7 @@
   }
 }
 
-@keyframes rdp-slide_out_left {
+@keyframes slide_out_left {
   0% {
     transform: translateX(0);
   }
@@ -369,7 +290,7 @@
   }
 }
 
-@keyframes rdp-slide_out_right {
+@keyframes slide_out_right {
   0% {
     transform: translateX(0);
   }
@@ -379,46 +300,38 @@
 }
 
 .weeks_before_enter {
-  animation: rdp-slide_in_left var(--rdp-animation_duration)
-    var(--rdp-animation_timing) forwards;
+  animation: slide_in_left 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 .weeks_before_exit {
-  animation: rdp-slide_out_left var(--rdp-animation_duration)
-    var(--rdp-animation_timing) forwards;
+  animation: slide_out_left 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 .weeks_after_enter {
-  animation: rdp-slide_in_right var(--rdp-animation_duration)
-    var(--rdp-animation_timing) forwards;
+  animation: slide_in_right 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 .weeks_after_exit {
-  animation: rdp-slide_out_right var(--rdp-animation_duration)
-    var(--rdp-animation_timing) forwards;
+  animation: slide_out_right 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 .root[dir="rtl"] .weeks_after_enter {
-  animation: rdp-slide_in_left var(--rdp-animation_duration)
-    var(--rdp-animation_timing) forwards;
+  animation: slide_in_left 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 .root[dir="rtl"] .weeks_before_exit {
-  animation: rdp-slide_out_right var(--rdp-animation_duration)
-    var(--rdp-animation_timing) forwards;
+  animation: slide_out_right 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 .root[dir="rtl"] .weeks_before_enter {
-  animation: rdp-slide_in_right var(--rdp-animation_duration)
-    var(--rdp-animation_timing) forwards;
+  animation: slide_in_right 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 .root[dir="rtl"] .weeks_after_exit {
-  animation: rdp-slide_out_left var(--rdp-animation_duration)
-    var(--rdp-animation_timing) forwards;
+  animation: slide_out_left 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
-@keyframes rdp-fade_in {
+@keyframes fade_in {
   from {
     opacity: 0;
   }
@@ -427,7 +340,7 @@
   }
 }
 
-@keyframes rdp-fade_out {
+@keyframes fade_out {
   from {
     opacity: 1;
   }
@@ -437,21 +350,17 @@
 }
 
 .caption_after_enter {
-  animation: rdp-fade_in var(--rdp-animation_duration)
-    var(--rdp-animation_timing) forwards;
+  animation: fade_in 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 .caption_after_exit {
-  animation: rdp-fade_out var(--rdp-animation_duration)
-    var(--rdp-animation_timing) forwards;
+  animation: fade_out 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 .caption_before_enter {
-  animation: rdp-fade_in var(--rdp-animation_duration)
-    var(--rdp-animation_timing) forwards;
+  animation: fade_in 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 .caption_before_exit {
-  animation: rdp-fade_out var(--rdp-animation_duration)
-    var(--rdp-animation_timing) forwards;
+  animation: fade_out 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
