@@ -14,7 +14,7 @@ export const ToastContainer: React.FC = () => {
         if (!toast.id) return null;
         return <Toast key={toast.id} id={toast.id} {...toast} />;
       })}
-      <ToastRadix.Viewport className={styles.ToastViewport} />
+      <ToastRadix.Viewport className={styles.toastViewport} />
     </ToastRadix.Provider>
   );
 };

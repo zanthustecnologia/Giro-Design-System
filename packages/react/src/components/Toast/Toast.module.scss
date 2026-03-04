@@ -1,4 +1,4 @@
-.ToastViewport {
+.toastViewport {
 	position: fixed;
 	bottom: var(--spacing-0);
 	left: var(--spacing-0);
@@ -44,11 +44,11 @@
     }
 }
 
-div.ToastRoot[data-state="open"] {
+div.toastRoot[data-state="open"] {
 	animation: slideIn 0.4s ease forwards;
 }
 
-.ToastTitle {
+.toastTitle {
 	font-size: var(--font-size-16);
 	font-weight: var(--font-weight-regular);
 	font-family: var(--font-family-primary);
@@ -61,7 +61,7 @@ div.ToastRoot[data-state="open"] {
 	hyphens: auto;
 }
 
-.ToastContent {
+.toastContent {
 	flex: 1;
 	min-width: var(--spacing-0);
 	display: flex;
@@ -69,11 +69,7 @@ div.ToastRoot[data-state="open"] {
 	justify-content: center;
 }
 
-.ToastAction {
-	grid-area: action;
-}
-
-.ToastClose {
+.toastClose {
 	grid-area: close;
 	cursor: pointer;
 	background-color: transparent;
@@ -93,14 +89,14 @@ div.ToastRoot[data-state="open"] {
 	flex-shrink: 0;
 }
 
-.IconInfo {
+.iconInfo {
 	color: var(--color-brand-primary-light); 
 }
 
-.IconSuccess {
+.iconSuccess {
 	color: var(--color-feedback-success-medium); 
 }
 
-.IconAlert {
+.iconAlert {
 	color: var(--color-feedback-alert-medium); 
 }

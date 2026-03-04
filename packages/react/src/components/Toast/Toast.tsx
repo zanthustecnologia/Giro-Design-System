@@ -51,13 +51,13 @@ const Toast: React.FC<ToastProps & { id: string }> = ({
       duration={effectiveDuration}
       {...restProps}
     >
-      <span className={`${styles.Icon} ${iconType ? styles[`Icon${iconType}`] : ''}`} aria-hidden="true">
+      <span className={`${styles.Icon} ${iconType ? styles[`icon${iconType}`] : ''}`} aria-hidden="true">
         {displayIcon}
       </span>
-      <div className={styles.ToastContent}>
-        <ToastRadix.Title className={styles.ToastTitle}> {title} </ToastRadix.Title>
+      <div className={styles.toastContent}>
+        <ToastRadix.Title className={styles.toastTitle}> {title} </ToastRadix.Title>
       </div>
-      <ToastRadix.Close className={styles.ToastClose}> {iconClosed} </ToastRadix.Close>
+      <ToastRadix.Close className={styles.toastClose}> {iconClosed} </ToastRadix.Close>
     </ToastRadix.Root>
   );
 };
