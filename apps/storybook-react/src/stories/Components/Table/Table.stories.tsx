@@ -921,6 +921,9 @@ export const WithSelection: StoryFn = () => {
             setSelectedKeys(keys);
             console.log('Seleção alterada:', keys, rows);
           },
+          getCheckboxProps: (row) => ({
+            disabled: row.id === 3,
+          }),
         }}
       />
     </div>
