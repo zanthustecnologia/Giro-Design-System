@@ -15,7 +15,6 @@ const Calendar = () => {
       mode="single"
       selected={selected}
       onSelect={setSelected}
-      showOutsideDays 
       timeZone="America/Sao_Paulo" 
       locale={ptBR}
     />
