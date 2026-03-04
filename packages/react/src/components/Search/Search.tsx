@@ -68,14 +68,13 @@ const Search = React.forwardRef<HTMLInputElement, SearchProps>(
       if (disabled) return;
       onKeyDown?.(e);
     };
-    const searchClass = clsx(
-      styles['search'],
-      { [styles.disabled]: disabled },
-      className
-    );
     return (
       <div 
-        className={searchClass} 
+        className={clsx(
+          styles.search,
+          { [styles.disabled]: disabled },
+          className
+        )} 
         onClick={onClick} 
         onMouseDown={onMouseDown}
         role={onClick || onMouseDown ? "button" : undefined}
@@ -88,7 +87,7 @@ const Search = React.forwardRef<HTMLInputElement, SearchProps>(
         } : undefined}
       >
         <span
-          className={clsx(styles['searchLeftIcon'], { [styles.disabled]: disabled })}
+          className={clsx(styles.searchLeftIcon, { [styles.disabled]: disabled })}
           tabIndex={-1}
           role="presentation"
           aria-hidden="true"
@@ -113,7 +112,7 @@ const Search = React.forwardRef<HTMLInputElement, SearchProps>(
         />
         {currentValue && currentValue.length > 0 && (
           <span
-            className={styles['searchClearIcon']}
+            className={styles.searchClearIcon}
             aria-hidden="true"
             onClick={clearInputSearch}
           >
