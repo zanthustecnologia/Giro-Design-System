@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { ToastProps } from './Toast.types';
+import { ToastProps } from '../components/Toast/Toast.types';
 
 export interface ToastContextValue {
   toasts: ToastProps[];

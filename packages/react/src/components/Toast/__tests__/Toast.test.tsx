@@ -5,7 +5,7 @@ import * as React from 'react';
 
 import { ToastProvider } from '../components/ToastProvider';
 import { ToastContainer } from '../components/ToastContainer';
-import { useToast } from '../useToast';
+import { useToast } from '../../../hooks/useToast';
 
 // Componente de teste para usar o hook
 const TestComponent = ({ onMount }: { onMount?: (toastFn: ReturnType<typeof useToast>) => void }) => {

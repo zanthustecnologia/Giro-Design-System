@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { ToastContext } from '../context';
+import { ToastContext } from '../../../contexts/ToastContext';
 import { ToastProps } from '../Toast.types';
 
 export const ToastProvider: React.FC<{ children: React.ReactNode; maxToasts?: number }> = ({ 

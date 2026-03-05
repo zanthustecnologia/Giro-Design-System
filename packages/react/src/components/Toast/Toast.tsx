@@ -4,7 +4,7 @@ import * as React from "react";
 
 import styles from './Toast.module.scss';
 import { ToastProps } from './Toast.types';
-import { useToastContext } from './useToast';
+import { useToastContext } from '../../hooks/useToast';
 
 const Toast: React.FC<ToastProps & { id: string }> = ({ 
   id,
