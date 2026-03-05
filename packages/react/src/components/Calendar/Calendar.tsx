@@ -46,7 +46,6 @@ const Calendar = ({
     selected ?? selectedDate ?? undefined
   );
 
-  // Suporte a controlled (selected/selectedDate) e uncontrolled
   const resolvedSelected =
     selected !== undefined
       ? (selected ?? undefined)
@@ -56,7 +55,6 @@ const Calendar = ({
 
   const resolvedLocale = locale === "pt-br" ? ptBR : enUS;
 
-  // Combina minDate/maxDate com qualquer Matcher extra recebido via disabled
   const disabledMatchers = [
     ...(minDate ? [{ before: minDate }] : []),
     ...(maxDate ? [{ after: maxDate }] : []),
