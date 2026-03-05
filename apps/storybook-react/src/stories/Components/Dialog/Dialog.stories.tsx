@@ -22,7 +22,7 @@ const meta: Meta<typeof Dialog> = {
       control: 'text',
       description: 'Título do Dialog'
     },
-    text: {
+    bodyContent: {
       control: 'text',
       description: 'Conteúdo do Dialog'
     },
@@ -52,15 +52,22 @@ interface DialogStoryWrapperArgs extends DialogProps {
 }
 
 const DialogStoryWrapper: StoryFn<DialogStoryWrapperArgs> = (args) => {
+
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleOpen = () => setIsOpen(true);
+  const handleClose = () => setIsOpen(false);
   
   return (
     <>
-      
+      <Button onClick={handleOpen}>Abrir Dialog</Button>
       <Dialog
         {...args}
-        text={args.text || 'Conteúdo do diálogo'}>  
-        <Button>Abrir Dialog</Button>
-      </Dialog>
+        show={isOpen}
+        bodyContent={args.bodyContent || 'Conteúdo do diálogo'}
+        onPrimaryAction={handleClose}
+        onSecondaryAction={handleClose}
+      />
     </>
   );
 };
@@ -71,7 +78,7 @@ const DialogStoryWrapper: StoryFn<DialogStoryWrapperArgs> = (args) => {
 export const Default = DialogStoryWrapper.bind({});
 Default.args = {
   title: 'Título do dialogo',
-  text: 'Mensagem do dialogo',
+  bodyContent: 'Mensagem do dialogo',
   textPrimaryAction: 'Ação',
 };
 
@@ -81,7 +88,7 @@ Default.args = {
 export const TwoActions = DialogStoryWrapper.bind({});
 TwoActions.args = {
   title: 'Título do dialogo',
-  text: 'Mensagem do dialogo',
+  bodyContent: 'Mensagem do dialogo',
   textPrimaryAction: 'Ação',
   textSecondaryAction: 'Cancelar',
 };

@@ -7,19 +7,20 @@ import { DialogProps } from "./Dialog.types";
 import Button from '../Button/Button';
 
 const Dialog: React.FC<DialogProps> = ({
-  children,
+  // children,
+	show = false,
   title,
-  text,
+  bodyContent,
   textPrimaryAction,
   textSecondaryAction,
 	onPrimaryAction,
 	onSecondaryAction,
   ...restProps
 }) => (
-	<AlertDialog.Root {...restProps}>
-		<AlertDialog.Trigger asChild>
+	<AlertDialog.Root open={show} {...restProps}>
+		{/* <AlertDialog.Trigger asChild>
 			{children}
-		</AlertDialog.Trigger>
+		</AlertDialog.Trigger> */}
 		<AlertDialog.Portal>
 			<AlertDialog.Overlay className={styles.DialogOverlay} />
 			<AlertDialog.Content className={styles.DialogContent}>
@@ -27,7 +28,7 @@ const Dialog: React.FC<DialogProps> = ({
 					{title}
 				</AlertDialog.Title>
 				<AlertDialog.Description className={styles.DialogDescription}>
-					{text}
+					{bodyContent}
 				</AlertDialog.Description>
 				<div className={styles.DivButtons}>
 					{!!(textSecondaryAction && textSecondaryAction.trim()) && (

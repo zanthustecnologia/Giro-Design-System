@@ -7,18 +7,21 @@ import { BaseProps } from '../../types/common.types';
  * @example
  * <Dialog
  *   title="Confirmar ação"
- *   text="Tem certeza que deseja continuar?"
+ *   bodyContent="Tem certeza que deseja continuar?"
  *   textConfirm="Confirmar"
  *   textCancel="Cancelar"
  * />
  */
 export interface DialogProps extends BaseProps, React.HTMLAttributes<HTMLDivElement> {
   /** Conteúdo customizado do diálogo */
-  children?: ReactNode;
+  // children?: ReactNode;
+
+  show: boolean;
+
   /** Título exibido no cabeçalho do diálogo */
   title?: string;
   /** Texto ou conteúdo do corpo do diálogo */
-  text?: ReactNode;
+  bodyContent?: ReactNode;
   /** Texto do botão de ação primária */
   textPrimaryAction?: string;
   /** Texto do botão de ação secundária */
