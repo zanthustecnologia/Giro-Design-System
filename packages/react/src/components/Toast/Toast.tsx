@@ -6,6 +6,34 @@ import styles from './Toast.module.scss';
 import { ToastProps } from './Toast.types';
 import { useToastContext } from '../../hooks/useToast';
 
+/**
+ * Componente individual de notificação Toast.
+ *
+ * Consome o contexto do `ToastProvider` para gerenciar seu próprio ciclo de vida.
+ * Cada instância recebe um `id` único gerado pelo provider e o utiliza para
+ * se remover da fila ao ser fechada.
+ *
+ * Construído sobre `Toast.Root` do **Radix UI**, com suporte completo a
+ * acessibilidade (ARIA) e gesto de swipe para a esquerda.
+ *
+ * @remarks
+ * Este componente não deve ser usado diretamente. Utilize o hook `useToast`
+ * para exibir toasts programaticamente.
+ *
+ * @example
+ * ```tsx
+ * // Uso indireto via hook (recomendado)
+ * const { showToast } = useToast();
+ *
+ * showToast({
+ *   title: 'Item salvo',
+ *   iconType: 'Success',
+ *   duration: 3000,
+ * });
+ * ```
+ *
+ * @param props - {@link ToastProps} combinadas com o `id` único do toast
+ */
 const Toast: React.FC<ToastProps & { id: string }> = ({ 
   id,
   title,
