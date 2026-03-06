@@ -83,15 +83,6 @@
 }
 
 
-.itemSelected {	
-	.itemText,
-	.itemSubText {
-		color: var(--color-brand-primary-default);
-		font-weight: var(--font-weight-medium);
-	}
-}
-
-
 .wrapperText {
 	display: flex;
 	flex-direction: column;
