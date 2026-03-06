@@ -880,7 +880,7 @@ export const Empty: StoryFn = () => (
 
 // ✅ STORY WITH SELECTION - Com seleção de linhas
 export const WithSelection: StoryFn = () => {
-  const [selectedKeys, setSelectedKeys] = useState<(string | number)[]>([1, 3]);
+  const [selectedKeys, setSelectedKeys] = useState<(string | number)[]>([1, 2]);
 
   return (
     <div style={{ padding: '20px' }}>
@@ -921,6 +921,9 @@ export const WithSelection: StoryFn = () => {
             setSelectedKeys(keys);
             console.log('Seleção alterada:', keys, rows);
           },
+          getCheckboxProps: (row) => ({
+            disabled: row.id === 4,
+          }),
         }}
       />
     </div>
