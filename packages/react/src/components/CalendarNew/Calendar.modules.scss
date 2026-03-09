@@ -1,0 +1,59 @@
+.myCalendar {
+  .MuiDateCalendar-root {
+    background: var(--color-neutral-high-default);
+    color: var(--color-neutral-low-default);
+    box-shadow: 0px 2px 16px 0px rgba(0, 0, 0, 0.20);
+    border-color: var(--color-neutral-high-default);
+    border-width: var(--border-width-1);
+    border-radius: var(--border-radius-8);
+    max-height: 305px;
+    max-width: 310px;
+  }
+
+  .MuiSvgIcon-root {
+    width: 16px;
+    height: 16px;
+    color: var(--color-neutral-low-default);
+  }
+
+  .MuiPickersCalendarHeader-root {
+    color: var(--color-neutral-low-default);
+  }
+
+  .MuiPickersCalendarHeader-label {
+    font-weight: var(--font-weight-regular);
+    color: var(--color-neutral-low-default);
+    text-transform: capitalize;
+    font-size: var(--font-size-16);
+    font-weight: var(--font-weight-regular);
+    line-height: 130%;
+  }
+
+  .MuiDayCalendar-weekDayLabel {
+    color: var(--color-neutral-low-default);
+    font-weight: var(--font-weight-medium);
+    text-transform: capitalize;
+    font-size: var(--font-size-12);
+    line-height: 18px;
+    letter-spacing: 1px;
+  }
+
+  .MuiPickersDay-root {
+    margin-bottom: var(--spacing-0);
+    font-size: var(--font-size-12);
+    font-weight: var(--font-weight-regular);
+    line-height: normal;
+    letter-spacing: 0.24px;
+    width: 36px;
+    height: 36px;
+  }
+
+  .MuiPickersDay-root.Mui-selected {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    background: var(--color-brand-primary-default);
+  }
+
+  
+}

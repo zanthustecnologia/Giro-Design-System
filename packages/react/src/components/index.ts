@@ -10,6 +10,8 @@ export { type ButtonProps } from './Button/Button.types';
 export { default as Calendar } from './Calendar';
 export { type CalendarProps, type DateFormat, type DayItem, type EmptyItem, type CalendarItem, type YearItem } from './Calendar/Calendar.types';
 
+export { default as CalendarNew } from './CalendarNew';
+
 export { default as Callout } from './Callout';
 export { type CalloutProps } from './Callout/Callout.types';
 
