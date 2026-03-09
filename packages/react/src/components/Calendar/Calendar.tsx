@@ -1,6 +1,6 @@
-import { enUS, ptBR } from "date-fns/locale";
 import { useState } from "react";
 import { DayPicker } from "react-day-picker";
+import { enUS, ptBR } from "react-day-picker/locale";
 
 import styles from "./Calendar.module.scss";
 
