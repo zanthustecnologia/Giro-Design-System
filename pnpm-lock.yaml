@@ -151,6 +151,9 @@ importers:
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
+      date-fns:
+        specifier: ^4.1.0
+        version: 4.1.0
       i18next:
         specifier: ^25.3.6
         version: 25.7.3(typescript@5.9.3)
@@ -200,9 +203,6 @@ importers:
       autoprefixer:
         specifier: ^10.4.20
         version: 10.4.23(postcss@8.5.6)
-      date-fns:
-        specifier: ^4.1.0
-        version: 4.1.0
       jsdom:
         specifier: ^25.0.1
         version: 25.0.1
@@ -1952,7 +1952,6 @@ packages:
 
   '@rollup/rollup-win32-x64-msvc@4.53.5':
     resolution: {integrity: sha512-JRpZUhCfhZ4keB5v0fe02gQJy05GqboPOaxvjugW04RLSYYoB/9t2lx2u/tMs/Na/1NXfY8QYjgRljRpN+MjTQ==}
-    cpu: [x64]
     os: [win32]
 
   '@rtsao/scc@1.1.0':
