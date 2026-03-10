@@ -7,10 +7,10 @@ describe('Popover', () => {
   describe('Renderização básica', () => {
     it('renderiza o trigger corretamente', () => {
       render(
-        <Popover>
-          <button>Abrir Popover</button>
-          <div>Conteúdo</div>
-        </Popover>
+        <Popover
+          trigger={<button>Abrir Popover</button>}
+          content={<div>Conteúdo</div>}
+        />
       );
 
       expect(screen.getByText('Abrir Popover')).toBeInTheDocument();
@@ -18,10 +18,10 @@ describe('Popover', () => {
 
     it('não renderiza o conteúdo quando está fechado', () => {
       render(
-        <Popover>
-          <button>Abrir Popover</button>
-          <div>Conteúdo do Popover</div>
-        </Popover>
+        <Popover
+          trigger={<button>Abrir Popover</button>}
+          content={<div>Conteúdo do Popover</div>}
+        />
       );
 
       expect(screen.queryByText('Conteúdo do Popover')).not.toBeInTheDocument();
@@ -30,10 +30,10 @@ describe('Popover', () => {
     it('renderiza o conteúdo ao clicar no trigger', async () => {
       const user = userEvent.setup();
       render(
-        <Popover>
-          <button>Abrir Popover</button>
-          <div>Conteúdo do Popover</div>
-        </Popover>
+        <Popover
+          trigger={<button>Abrir Popover</button>}
+          content={<div>Conteúdo do Popover</div>}
+        />
       );
 
       await user.click(screen.getByText('Abrir Popover'));
@@ -45,10 +45,10 @@ describe('Popover', () => {
 
     it('renderiza qualquer elemento como trigger', () => {
       render(
-        <Popover>
-          <span data-testid="trigger-span">Trigger Span</span>
-          <p>Conteúdo</p>
-        </Popover>
+        <Popover
+          trigger={<span data-testid="trigger-span">Trigger Span</span>}
+          content={<p>Conteúdo</p>}
+        />
       );
 
       expect(screen.getByTestId('trigger-span')).toBeInTheDocument();
@@ -57,13 +57,15 @@ describe('Popover', () => {
     it('renderiza conteúdo complexo dentro do popover', async () => {
       const user = userEvent.setup();
       render(
-        <Popover>
-          <button>Abrir</button>
-          <div>
-            <h3>Título</h3>
-            <p>Descrição</p>
-          </div>
-        </Popover>
+        <Popover
+          trigger={<button>Abrir</button>}
+          content={
+            <div>
+              <h3>Título</h3>
+              <p>Descrição</p>
+            </div>
+          }
+        />
       );
 
       await user.click(screen.getByText('Abrir'));
@@ -79,10 +81,10 @@ describe('Popover', () => {
     it('abre o popover ao clicar no trigger', async () => {
       const user = userEvent.setup();
       render(
-        <Popover>
-          <button>Abrir Popover</button>
-          <div>Conteúdo visível</div>
-        </Popover>
+        <Popover
+          trigger={<button>Abrir Popover</button>}
+          content={<div>Conteúdo visível</div>}
+        />
       );
 
       expect(screen.queryByText('Conteúdo visível')).not.toBeInTheDocument();
@@ -97,10 +99,10 @@ describe('Popover', () => {
     it('fecha o popover ao pressionar Escape', async () => {
       const user = userEvent.setup();
       render(
-        <Popover>
-          <button>Abrir Popover</button>
-          <div>Conteúdo</div>
-        </Popover>
+        <Popover
+          trigger={<button>Abrir Popover</button>}
+          content={<div>Conteúdo</div>}
+        />
       );
 
       await user.click(screen.getByText('Abrir Popover'));
@@ -120,10 +122,10 @@ describe('Popover', () => {
       const user = userEvent.setup();
       render(
         <div>
-          <Popover>
-            <button>Abrir Popover</button>
-            <div>Conteúdo</div>
-          </Popover>
+          <Popover
+            trigger={<button>Abrir Popover</button>}
+            content={<div>Conteúdo</div>}
+          />
           <div data-testid="fora">Área externa</div>
         </div>
       );
@@ -147,10 +149,11 @@ describe('Popover', () => {
       const onDateSelect = () => {};
       expect(() =>
         render(
-          <Popover onDateSelect={onDateSelect}>
-            <button>Trigger</button>
-            <div>Conteúdo</div>
-          </Popover>
+          <Popover
+            onDateSelect={onDateSelect}
+            trigger={<button>Trigger</button>}
+            content={<div>Conteúdo</div>}
+          />
         )
       ).not.toThrow();
     });
@@ -158,10 +161,11 @@ describe('Popover', () => {
     it('aceita a prop align sem erros', () => {
       expect(() =>
         render(
-          <Popover align="start">
-            <button>Trigger</button>
-            <div>Conteúdo</div>
-          </Popover>
+          <Popover
+            align="start"
+            trigger={<button>Trigger</button>}
+            content={<div>Conteúdo</div>}
+          />
         )
       ).not.toThrow();
     });
@@ -169,10 +173,11 @@ describe('Popover', () => {
     it('aceita a prop side sem erros', () => {
       expect(() =>
         render(
-          <Popover side="bottom">
-            <button>Trigger</button>
-            <div>Conteúdo</div>
-          </Popover>
+          <Popover
+            side="bottom"
+            trigger={<button>Trigger</button>}
+            content={<div>Conteúdo</div>}
+          />
         )
       ).not.toThrow();
     });
@@ -182,10 +187,11 @@ describe('Popover', () => {
       aligns.forEach((align) => {
         expect(() =>
           render(
-            <Popover align={align}>
-              <button>Trigger</button>
-              <div>Conteúdo</div>
-            </Popover>
+            <Popover
+              align={align}
+              trigger={<button>Trigger</button>}
+              content={<div>Conteúdo</div>}
+            />
           )
         ).not.toThrow();
       });
@@ -196,10 +202,11 @@ describe('Popover', () => {
       sides.forEach((side) => {
         expect(() =>
           render(
-            <Popover side={side}>
-              <button>Trigger</button>
-              <div>Conteúdo</div>
-            </Popover>
+            <Popover
+              side={side}
+              trigger={<button>Trigger</button>}
+              content={<div>Conteúdo</div>}
+            />
           )
         ).not.toThrow();
       });
