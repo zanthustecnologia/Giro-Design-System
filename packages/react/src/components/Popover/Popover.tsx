@@ -5,7 +5,9 @@ import styles from "./Popover.module.scss";
 import { PopoverProps } from "./Popover.types";
 
 const Popover: React.FC<PopoverProps> = ({
-  children
+  children,
+  side = "left",
+  align = "end",
 }) => {
    const [trigger, content] = React.Children.toArray(children);
 
@@ -15,7 +17,7 @@ const Popover: React.FC<PopoverProps> = ({
         {trigger}
       </PopoverRadix.Trigger>
       <PopoverRadix.Portal>
-        <PopoverRadix.Content className={styles.Content} sideOffset={5}>
+        <PopoverRadix.Content className={styles.Content} sideOffset={5} side={side} align={align}>
             {content}
           <PopoverRadix.Arrow className={styles.Arrow} />
         </PopoverRadix.Content>
