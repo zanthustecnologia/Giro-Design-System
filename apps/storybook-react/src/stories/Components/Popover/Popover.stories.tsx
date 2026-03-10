@@ -37,11 +37,15 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const Template = ({ side, align }: React.ComponentProps<typeof Popover>): JSX.Element => {
+  const [dateLocale, setDateLocale] = React.useState('');
+
   return (
-    <Popover side={side} align={align}>
-      <Button>Open Popover</Button>
-      <Calendar />
-    </Popover>
+    <Popover
+      side={side}
+      align={align}
+      trigger={<Button>Open Popover</Button>}
+      content={<Calendar onDaySelect={(date) => setDateLocale(date.toLocaleDateString('pt-BR'))} />}
+    />
   );
 };
 
