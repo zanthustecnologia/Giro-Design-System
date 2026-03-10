@@ -9,15 +9,15 @@
   position: absolute;
   top: 100%;
   margin-top: var(--spacing-8);
-  box-shadow: 0 var(--spacing-8) var(--spacing-24) rgba(17, 17, 25, 0.25);
+  box-shadow: var(--spacing-0) var(--spacing-8) var(--spacing-24) rgba(17, 17, 25, 0.25);
 }
 
 .datePickerCalendarLeft {
-  left: 0;
+  left: var(--spacing-0);
 }
 
 .datePickerCalendarRight {
-  right: 0;
+  right: var(--spacing-0);
 }
 
 .datePickerIcon {
