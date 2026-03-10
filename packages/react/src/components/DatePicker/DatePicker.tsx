@@ -25,13 +25,11 @@ const DatePicker: React.FC<DatePickerProps> = ({
   className,
   'data-testid': testId,
 }) => {
-  // ✅ IDs únicos para acessibilidade
   const fieldId = useId();
   const calendarId = `${fieldId}-calendar`;
   const errorId = `${fieldId}-error`;
   const helperTextId = `${fieldId}-help`;
 
-  // ✅ Suporte controlled/uncontrolled adequado
   const isControlled = value !== undefined;
   const [internalDate, setInternalDate] = useState<Date | null>(defaultValue || null);
   const [tempInputValue, setTempInputValue] = useState<string>('');
@@ -41,12 +39,10 @@ const DatePicker: React.FC<DatePickerProps> = ({
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
   const wrapperRef = useRef<HTMLDivElement>(null);
 
-  // ✅ Estados derivados - uma única fonte de verdade
   const currentSelectedDate = isControlled ? value : internalDate;
   const currentError = externalError || internalError;
   const displayValue = isEditing ? tempInputValue : (currentSelectedDate ? formatDate(currentSelectedDate, locale) : '');
 
-  // ✅ Combinar helperText normal com mensagem de erro
   const combinedHelperText = useMemo(() => {
     const texts = [];
     if (helperText) {
@@ -58,7 +54,6 @@ const DatePicker: React.FC<DatePickerProps> = ({
     return texts.join(' • ');
   }, [helperText, currentError]);
 
-  // ✅ Click outside handler
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
@@ -73,7 +68,6 @@ const DatePicker: React.FC<DatePickerProps> = ({
     };
   }, [showCalendar]);
 
-  // ✅ Handler unificado para mudança de data - SEMPRE chama onChange
   const handleDateChange = useCallback((newDate: Date | null) => {
     if (!isControlled) {
       setInternalDate(newDate);
@@ -103,26 +97,20 @@ const DatePicker: React.FC<DatePickerProps> = ({
     }
   };
 
-  // ✅ FUNÇÃO CORRIGIDA: Permite números e barras da máscara
   const filterNumericInput = (inputValue: string): string => {
-    // Permite apenas números e barras (para manter a máscara)
     return inputValue.replace(/[^\d/]/g, '');
   };
 
-  // ✅ Handler para prevenir teclas não numéricas
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     const { key, ctrlKey, metaKey } = event;
 
-    // ✅ NOVA FUNCIONALIDADE: Enter fecha calendário se data válida
     if (key === 'Enter') {
       if (showCalendar) {
-        // Se há uma data válida selecionada, fechar calendário
         if (currentSelectedDate) {
           setShowCalendar(false);
           event.preventDefault();
           return;
         }
-        // Se a data digitada está completa e válida, processar e fechar
         if (tempInputValue.length === 10 && isValidDateFormat(tempInputValue, locale)) {
           const parsedDate = parseDate(tempInputValue, locale);
           if (parsedDate && !isNaN(parsedDate.getTime())) {
@@ -133,14 +121,12 @@ const DatePicker: React.FC<DatePickerProps> = ({
           }
         }
       } else {
-        // Se calendário está fechado, Enter abre o calendário
         setShowCalendar(true);
         event.preventDefault();
         return;
       }
     }
 
-    // ✅ Escape sempre fecha o calendário
     if (key === 'Escape') {
       if (showCalendar) {
         setShowCalendar(false);
@@ -149,22 +135,18 @@ const DatePicker: React.FC<DatePickerProps> = ({
       }
     }
 
-    // Permite teclas de controle (Backspace, Delete, Tab, etc.)
     const controlKeys = [
       'Backspace', 'Delete', 'Tab', 'ArrowLeft', 'ArrowRight',
       'ArrowUp', 'ArrowDown', 'Home', 'End'
     ];
 
-    // Permite Ctrl+A, Ctrl+C, Ctrl+V, Ctrl+X (atalhos de teclado)
     const isCtrlCommand = ctrlKey || metaKey;
     const allowedCtrlKeys = ['a', 'c', 'v', 'x'];
 
-    // Se é uma tecla de controle ou atalho permitido, deixa passar
     if (controlKeys.includes(key) || (isCtrlCommand && allowedCtrlKeys.includes(key.toLowerCase()))) {
       return;
     }
 
-    // Se não é um número (0-9), previne a entrada
     if (!/^\d$/.test(key)) {
       event.preventDefault();
     }
@@ -176,20 +158,15 @@ const DatePicker: React.FC<DatePickerProps> = ({
   };
 
   const handleTextFieldChange = (value: string) => {
-    // ✅ Filtra caracteres inválidos, mantendo números e barras
     const filteredValue = filterNumericInput(value);
 
-    // ✅ Remove barras para processar apenas números
     const numbersOnly = filteredValue.replace(/[^\d]/g, '');
 
-    // ✅ Aplica máscara progressiva em tempo real
     const maskedValue = applyDateMask(numbersOnly, locale);
 
-    // ✅ Atualizar valor temporário SEMPRE (máscara em tempo real)
     setTempInputValue(maskedValue);
     setIsEditing(true);
 
-    // ✅ Limpar erro se campo estiver vazio
     if (maskedValue === '') {
       setInternalError('');
       handleDateChange(null);
@@ -197,7 +174,6 @@ const DatePicker: React.FC<DatePickerProps> = ({
       return;
     }
 
-    // ✅ Validar apenas quando data estiver completa (10 caracteres)
     if (maskedValue.length === 10) {
       if (isValidDateFormat(maskedValue, locale)) {
         const parsedDate = parseDate(maskedValue, locale);
@@ -214,13 +190,10 @@ const DatePicker: React.FC<DatePickerProps> = ({
         handleDateChange(null);
       }
     } else {
-      // ✅ Data incompleta - limpar erro mas não validar ainda
       setInternalError('');
-      // ✅ Não chamar handleDateChange para data incompleta
     }
   };
 
-  // ✅ Effect para atualizar valor do campo quando data muda
   useEffect(() => {
     if (!isEditing && currentSelectedDate) {
       setTempInputValue(formatDate(currentSelectedDate, locale));
