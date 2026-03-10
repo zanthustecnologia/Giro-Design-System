@@ -1,10 +1,12 @@
-import React, { useState, useEffect, useRef, useCallback, useId, KeyboardEvent, useMemo } from 'react';
-import clsx from 'clsx';
-import TextField from '../TextField';
-import Calendar from '../Calendar/Calendar';
 import { Calendar16Regular } from '@fluentui/react-icons';
-import { formatDate, parseDate, applyDateMask, isValidDateFormat } from './DateUtils';
+import clsx from 'clsx';
+import React, { useState, useEffect, useRef, useCallback, useId, KeyboardEvent, useMemo } from 'react';
+
+import Calendar from '../Calendar/Calendar';
+import TextField from '../TextField';
 import styles from './DatePicker.module.scss';
+import { formatDate, parseDate, applyDateMask, isValidDateFormat } from './DateUtils';
+
 import type { DatePickerProps } from './DatePicker.types';
 
 const DatePicker: React.FC<DatePickerProps> = ({
