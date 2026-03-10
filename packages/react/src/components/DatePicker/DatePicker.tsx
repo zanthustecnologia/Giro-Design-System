@@ -227,15 +227,15 @@ const DatePicker: React.FC<DatePickerProps> = ({
 
   return (
     <div ref={wrapperRef}>
-      <div className={clsx(styles['zds-date-picker'])}>
+      <div className={clsx(styles.datePicker)}>
         <TextField
           type="tel"
           icon={
             <Calendar16Regular 
               onClick={!disabled ? handleIconClick : undefined}
               className={clsx(
-                styles['zds-date-picker__icon'],
-                disabled && styles['zds-date-picker__icon--disabled']
+                styles.datePickerIcon,
+                disabled && styles.datePickerIconDisabled
               )}
             />
           }
@@ -263,9 +263,9 @@ const DatePicker: React.FC<DatePickerProps> = ({
         />
         <div
           className={clsx(
-            styles['zds-date-picker__calendar-popup'],
-            calendarPosition === 'left' && styles['zds-calendar--left'],
-            calendarPosition === 'right' && styles['zds-calendar--right']
+            styles.datePickerCalendarPopup,
+            calendarPosition === 'left' && styles.datePickerCalendarLeft,
+            calendarPosition === 'right' && styles.datePickerCalendarRight
           )}
         >
           {showCalendar && (
