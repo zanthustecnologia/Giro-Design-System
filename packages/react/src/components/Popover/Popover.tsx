@@ -17,7 +17,7 @@ const Popover: React.FC<PopoverProps> = ({
         {trigger}
       </PopoverRadix.Trigger>
       <PopoverRadix.Portal>
-        <PopoverRadix.Content className={styles.Content} sideOffset={5} side={side} align={align}>
+        <PopoverRadix.Content asChild className={styles.Content} sideOffset={5} side={side} align={align}>
             {content}
           <PopoverRadix.Arrow className={styles.Arrow} />
         </PopoverRadix.Content>
