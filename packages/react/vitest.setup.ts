@@ -5,3 +5,15 @@ global.ResizeObserver = class ResizeObserver {
   unobserve() {}
   disconnect() {}
 };
+
+global.IntersectionObserver = class IntersectionObserver {
+  root: Element | Document | null = null;
+  rootMargin: string = '';
+  thresholds: ReadonlyArray<number> = [];
+  observe() {}
+  unobserve() {}
+  disconnect() {}
+  takeRecords(): IntersectionObserverEntry[] {
+    return [];
+  }
+};
