@@ -394,7 +394,7 @@ describe('DatePicker', () => {
 
       await waitFor(() => {
         expect(onChange).toHaveBeenCalledWith(expect.any(Date));
-        const calledDate: Date = onChange.mock.calls.at(-1)[0];
+        const calledDate: Date = onChange.mock.calls[onChange.mock.calls.length - 1][0];
         expect(calledDate.getDate()).toBe(15);
         expect(calledDate.getMonth()).toBe(0);
         expect(calledDate.getFullYear()).toBe(2024);
