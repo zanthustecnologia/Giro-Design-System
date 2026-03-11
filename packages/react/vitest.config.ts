@@ -7,7 +7,7 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: ['./vitest.setup.ts'],
     css: true,
-    exclude: ['**/.deprecated/**'],
+    exclude: ['node_modules/**', '**/.deprecated/**'],
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html'],

@@ -85,13 +85,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
     setShowCalendar((prev) => !prev);
   };
 
-  const handleFieldClick = () => {
-    if (!disabled) {
-      setShowCalendar(true);
-    }
-  };
-
-  const handleFieldFocus = () => {
+  const handleOpenCalendar = () => {
     if (!disabled) {
       setShowCalendar(true);
     }
@@ -217,8 +211,8 @@ const DatePicker: React.FC<DatePickerProps> = ({
           onChange={(e: string | number) => {
             handleTextFieldChange(String(e));
           }}
-          onClick={!disabled ? handleFieldClick : undefined}
-          onFocus={!disabled ? handleFieldFocus : undefined}
+          onClick={!disabled ? handleOpenCalendar : undefined}
+          onFocus={!disabled ? handleOpenCalendar : undefined}
           onKeyDown={handleKeyDown}
           value={displayValue}
           helperText={combinedHelperText}
