@@ -1,7 +1,7 @@
 import React from 'react';
 
-import type { Matcher } from 'react-day-picker';
 import type { BaseProps, Locale } from '../../types/common.types';
+import type { Matcher } from 'react-day-picker';
 
 // ---------------------------------------------------------------------------
 // Tipos auxiliares
@@ -100,6 +100,14 @@ export interface CalendarProps extends Omit<BaseProps, 'disabled'> {
    * - `'dropdown-years'` — dropdown apenas para ano.
    */
   captionLayout?: 'dropdown' | 'label' | 'dropdown-months' | 'dropdown-years';
+
+  /**
+   * Modo do seletor de mês/ano no cabeçalho do calendário.
+   * - `'dropdown'` — usa os dropdowns nativos do react-day-picker (padrão).
+   * - `'grid'` — exibe um painel em grade para seleção visual de mês e ano,
+   *   substituindo os dropdowns por botões clicáveis no cabeçalho.
+   */
+  captionMode?: 'dropdown' | 'grid';
 
   /** Inverte a ordem dos anos no dropdown. */
   reverseYears?: boolean;
