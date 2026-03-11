@@ -22,7 +22,6 @@ const DatePicker: React.FC<DatePickerProps> = ({
   error: externalError,
   minDate,
   maxDate,
-  className,
   'data-testid': testId,
 }) => {
   const fieldId = useId();
@@ -198,6 +197,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
     <div ref={wrapperRef}>
       <div className={clsx(styles.datePicker)}>
         <TextField
+          className={styles.textfieldContainer}
           type="tel"
           icon={
             <Calendar16Regular 
@@ -221,7 +221,6 @@ const DatePicker: React.FC<DatePickerProps> = ({
           label={label}
           disabled={disabled}
           id={fieldId}
-          className={className}
           data-testid={testId}
           placeholder={locale === 'en-us' ? 'MM/DD/YYYY' : 'DD/MM/YYYY'}
           aria-label="Open calendar"
