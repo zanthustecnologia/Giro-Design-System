@@ -286,7 +286,7 @@ const Calendar = ({
                     onClick={() => setYearPageStart((s) => s + YEARS_PER_PAGE)}
                     aria-label="Próximos anos"
                   >
-                    ›s
+                    ›
                   </button>
                 </div>
                 <div className={`${styles.gridCells} ${styles.gridCellsYears}`}>
