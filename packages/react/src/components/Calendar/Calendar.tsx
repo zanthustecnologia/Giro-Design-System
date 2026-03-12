@@ -7,8 +7,6 @@ import styles from "./Calendar.module.scss";
 import type { CalendarProps } from "./Calendar.types";
 import type { MonthCaptionProps } from "react-day-picker";
 
-// ─── Grid Picker Context ───────────────────────────────────────────────────────
-
 type GridView = "days" | "months" | "years";
 
 interface GridPickerContext {
@@ -19,8 +17,6 @@ interface GridPickerContext {
 }
 
 const GridCtx = createContext<GridPickerContext | null>(null);
-
-// ─── Custom MonthCaption para o modo grid ─────────────────────────────────────
 
 const GridMonthCaption = ({ calendarMonth, displayIndex: _displayIndex, ...divProps }: MonthCaptionProps) => {
   const ctx = useContext(GridCtx);
@@ -51,11 +47,7 @@ const GridMonthCaption = ({ calendarMonth, displayIndex: _displayIndex, ...divPr
   );
 };
 
-// ─── Constantes ───────────────────────────────────────────────────────────────
-
 const YEARS_PER_PAGE = 12;
-
-// ─── Componente Calendar ──────────────────────────────────────────────────────
 
 const Calendar = ({
   selected,
@@ -137,8 +129,6 @@ const Calendar = ({
 
   const isGridMode = captionMode === "grid";
 
-  // ─── Helpers do modo grid ──────────────────────────────────────────────────
-
   const resolvedDisplayMonth = currentDate ?? internalDisplayMonth;
   const displayedMonthIndex = resolvedDisplayMonth.getMonth();
   const displayedYear = resolvedDisplayMonth.getFullYear();
@@ -194,8 +184,6 @@ const Calendar = ({
     onYearLabelClick: handleYearLabelClick,
   };
 
-  // ─── Props compartilhadas do DayPicker ────────────────────────────────────
-
   const sharedDayPickerProps = {
     classNames: styles,
     modifiers,
@@ -225,8 +213,6 @@ const Calendar = ({
     "aria-labelledby": ariaLabelledBy,
   };
 
-  // ─── Modo padrão (dropdown/label) ─────────────────────────────────────────
-
   if (!isGridMode) {
     return (
       <DayPicker
@@ -239,8 +225,6 @@ const Calendar = ({
       />
     );
   }
-
-  // ─── Modo grid ────────────────────────────────────────────────────────────
 
   return (
     <GridCtx.Provider value={gridCtxValue}>
@@ -255,23 +239,23 @@ const Calendar = ({
         />
         {gridView !== "days" && (
           <div
-            className={styles.grid_overlay}
+            className={styles.gridOverlay}
             role="dialog"
             aria-modal="true"
             aria-label={gridView === "months" ? "Selecione o mês" : "Selecione o ano"}
           >
             {gridView === "months" && (
               <>
-                <div className={styles.grid_overlay_header}>
+                <div className={styles.gridOverlayHeader}>
                   <span>{displayedYear}</span>
                 </div>
-                <div className={styles.grid_cells}>
+                <div className={styles.gridCells}>
                   {monthsGrid.map(({ index, label, disabled: monthDisabled }) => (
                     <button
                       key={index}
                       type="button"
                       disabled={monthDisabled}
-                      className={`${styles.grid_cell}${displayedMonthIndex === index ? ` ${styles.grid_cell_active}` : ""}`}
+                      className={`${styles.gridCell}${displayedMonthIndex === index ? ` ${styles.gridCellActive}` : ""}`}
                       onClick={() => handleGridMonthSelect(index)}
                     >
                       {label}
@@ -282,10 +266,10 @@ const Calendar = ({
             )}
             {gridView === "years" && (
               <>
-                <div className={styles.grid_overlay_header}>
+                <div className={styles.gridOverlayHeader}>
                   <button
                     type="button"
-                    className={styles.grid_nav_btn}
+                    className={styles.gridNavBtn}
                     disabled={!canGoPrevYears}
                     onClick={() => setYearPageStart((s) => s - YEARS_PER_PAGE)}
                     aria-label="Anos anteriores"
@@ -297,20 +281,20 @@ const Calendar = ({
                   </span>
                   <button
                     type="button"
-                    className={styles.grid_nav_btn}
+                    className={styles.gridNavBtn}
                     disabled={!canGoNextYears}
                     onClick={() => setYearPageStart((s) => s + YEARS_PER_PAGE)}
                     aria-label="Próximos anos"
                   >
-                    ›
+                    ›s
                   </button>
                 </div>
-                <div className={`${styles.grid_cells} ${styles.grid_cells_years}`}>
+                <div className={`${styles.gridCells} ${styles.gridCellsYears}`}>
                   {yearsInPage.map((year) => (
                     <button
                       key={year}
                       type="button"
-                      className={`${styles.grid_cell}${displayedYear === year ? ` ${styles.grid_cell_active}` : ""}`}
+                      className={`${styles.gridCell}${displayedYear === year ? ` ${styles.gridCellActive}` : ""}`}
                       onClick={() => handleGridYearSelect(year)}
                     >
                       {year}

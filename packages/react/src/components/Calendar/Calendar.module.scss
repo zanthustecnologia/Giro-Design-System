@@ -411,9 +411,9 @@
   }
 }
 
-/* ─── Modo grid: painel overlay ─────────────────────────────────────────── */
+/* ─────────────────────────── SCSS do modo grid do ano e dos meses ─────────────────────────────────────────── */
 
-.grid_overlay {
+.gridOverlay {
   position: absolute;
   inset: 0;
   background-color: var(--color-neutral-high-default);
@@ -425,7 +425,7 @@
   z-index: 2;
 }
 
-.grid_overlay_header {
+.gridOverlayHeader {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -436,7 +436,7 @@
   flex-shrink: 0;
 }
 
-.grid_cells {
+.gridCells {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: var(--spacing-8);
@@ -444,11 +444,11 @@
   align-content: start;
 }
 
-.grid_cells_years {
+.gridCellsYears {
   grid-template-columns: repeat(3, 1fr);
 }
 
-.grid_cell {
+.gridCell {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -475,7 +475,7 @@
   }
 }
 
-.grid_cell_active {
+.gridCellActive {
   background-color: var(--color-brand-primary-default);
   color: var(--color-neutral-high-default);
   border-color: var(--color-brand-primary-default);
@@ -486,7 +486,7 @@
   }
 }
 
-.grid_nav_btn {
+.gridNavBtn {
   display: flex;
   align-items: center;
   justify-content: center;
