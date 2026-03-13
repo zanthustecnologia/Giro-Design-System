@@ -2,6 +2,7 @@ import { SpinnerIos16Regular } from '@fluentui/react-icons';
 import clsx from 'clsx';
 import React, { useId, useMemo } from 'react';
 
+import Tooltip from '../Tooltip';
 import styles from './Button.module.scss';
 
 import type { ButtonProps } from './Button.types';
@@ -27,6 +28,9 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
   ariaLabel,
   iconOnly = false,
   loading = false,
+  tooltipText = 'Ação',
+  tooltipSide = 'top',
+  tooltipAlign = 'center',
   ...restProps
 }, ref) => {
 
@@ -150,6 +154,19 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
 
     return {};
   };
+
+  if (iconOnly && !loading) {
+    return (
+      <Tooltip text={tooltipText} side={tooltipSide} align={tooltipAlign}>
+        <Component
+          {...baseProps}
+          {...getNavigationProps()}
+        >
+          {renderContent()}
+        </Component>
+      </Tooltip>
+    );
+  }
 
   return (
     <Component
