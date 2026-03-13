@@ -29,7 +29,7 @@
   min-height: $size;
   max-height: $size;
   flex-shrink: 0;
-  color: var(--color-brand-primary-default);
+  color: var(--color-neutral-high-default);
 }
 
 @mixin iconSize($size: 16px) {
@@ -198,7 +198,7 @@
 
 .button.button-filled:disabled {
   background: var(--color-neutral-high-light);
-  color: var(--color-neutral-high-default);
+  color: var(--color-neutral-low-light);
   cursor: not-allowed;
   opacity: 0.5;
   outline: none;
