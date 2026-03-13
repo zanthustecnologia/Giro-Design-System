@@ -47,7 +47,7 @@ const GridMonthCaption = ({ calendarMonth, displayIndex: _displayIndex, ...divPr
   );
 };
 
-const YEARS_PER_PAGE = 12;
+const YEARS_PER_PAGE = 20;
 
 const Calendar = ({
   selected,
@@ -96,7 +96,7 @@ const Calendar = ({
 
   const [gridView, setGridView] = useState<GridView>("days");
   const [yearPageStart, setYearPageStart] = useState<number>(
-    () => (currentDate ?? defaultMonth ?? new Date()).getFullYear() - 5
+    () => (currentDate ?? defaultMonth ?? new Date()).getFullYear() - 9
   );
 
   const resolvedSelected =
@@ -155,7 +155,7 @@ const Calendar = ({
   };
 
   const handleYearLabelClick = () => {
-    setYearPageStart(displayedYear - 5);
+    setYearPageStart(displayedYear - 9);
     setGridView((v) => (v === "years" ? "days" : "years"));
   };
 
@@ -239,7 +239,7 @@ const Calendar = ({
         />
         {gridView !== "days" && (
           <div
-            className={styles.gridOverlay}
+            className={`${styles.gridOverlay}${gridView === "years" ? ` ${styles.gridOverlayYears}` : ""}`}
             role="dialog"
             aria-modal="true"
             aria-label={gridView === "months" ? "Selecione o mês" : "Selecione o ano"}

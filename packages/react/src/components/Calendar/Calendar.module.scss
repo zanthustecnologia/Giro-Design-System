@@ -429,10 +429,10 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 45px;
   font-weight: var(--font-weight-bold);
   font-size: var(--font-size-16);
   color: var(--color-neutral-low-default);
+  height: 45px;
   flex-shrink: 0;
 }
 
@@ -445,14 +445,14 @@
 }
 
 .gridCellsYears {
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
 }
 
 .gridCell {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 44px;
+  height: 36px;
   border-radius: var(--border-radius-pill);
   border: var(--border-width-2) solid transparent;
   background: none;
