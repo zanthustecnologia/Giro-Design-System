@@ -7,16 +7,13 @@
 @mixin buttonIconPadding($left-padding, $right-padding) {
   &.buttonIconPosition-left {
     padding: var(--spacing-0) $right-padding var(--spacing-0) $left-padding;
-    color: var(--color-brand-primary-default);
   }
   
   &.buttonIconPosition-right {
     padding: var(--spacing-0) $left-padding var(--spacing-0) $right-padding;
-    color: var(--color-brand-primary-default);
   }
   &.buttonIconPosition-both {
     padding: var(--spacing-0) $left-padding ;
-    color: var(--color-brand-primary-default);
   }
 }
 
