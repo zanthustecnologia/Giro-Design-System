@@ -1,4 +1,4 @@
-import { SpinnerIos16Regular } from '@fluentui/react-icons';
+import { SpinnerIos16Regular, Add16Regular } from '@fluentui/react-icons';
 import clsx from 'clsx';
 import React, { useId, useMemo } from 'react';
 
@@ -51,15 +51,17 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
     return children && React.Children.count(children) > 0;
   }, [children]);
 
+  const resolvedIcon = iconOnly && !icon ? <Add16Regular /> : icon;
+
   const buttonClasses = clsx(
     styles.button,
     styles[`button-${variant}`],
     styles[`button-${size}`],
     {
       [styles['buttonLoading']]: loading,
-      [styles['buttonWithIcon']]: icon && !iconOnly,
-      [styles[`buttonIconPosition-${iconPosition}`]]: icon && !iconOnly,
-      [styles['buttonNoContent']]: icon && !hasContent && !iconOnly,
+      [styles['buttonWithIcon']]: resolvedIcon && !iconOnly,
+      [styles[`buttonIconPosition-${iconPosition}`]]: resolvedIcon && !iconOnly,
+      [styles['buttonNoContent']]: resolvedIcon && !hasContent && !iconOnly,
       [styles['buttonFullWidth']]: fullWidth,
       [styles['buttonIconOnly']]: iconOnly,
     },
@@ -87,7 +89,7 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
     if (iconOnly && !loading) {
       return (
         <span className={styles.buttonIconOnly} aria-hidden="true">
-          {icon}
+          {resolvedIcon}
         </span>
       );
     }
@@ -100,15 +102,15 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
     }
     return (
       <>
-        {icon && (iconPosition === 'left' || iconPosition === 'both') && (
+        {resolvedIcon && (iconPosition === 'left' || iconPosition === 'both') && (
           <span className={styles.buttonIconLeft} aria-hidden="true">
-            {icon}
+            {resolvedIcon}
           </span>
         )}
         {children}
-        {icon && (iconPosition === 'right' || iconPosition === 'both') && (
+        {resolvedIcon && (iconPosition === 'right' || iconPosition === 'both') && (
           <span className={styles.buttonIconRight} aria-hidden="true">
-            {icon}
+            {resolvedIcon}
           </span>
         )}
       </>
