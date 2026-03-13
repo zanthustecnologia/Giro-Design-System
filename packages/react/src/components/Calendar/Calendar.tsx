@@ -12,7 +12,6 @@ type GridView = "days" | "months" | "years";
 interface GridPickerContext {
   view: GridView;
   intlLocale: string;
-  onMonthLabelClick: () => void;
   onYearLabelClick: () => void;
 }
 
@@ -20,21 +19,16 @@ const GridCtx = createContext<GridPickerContext | null>(null);
 
 const GridMonthCaption = ({ calendarMonth, displayIndex: _displayIndex, ...divProps }: MonthCaptionProps) => {
   const ctx = useContext(GridCtx);
-  const { view, intlLocale, onMonthLabelClick, onYearLabelClick } = ctx ?? ({} as GridPickerContext);
+  const { view, intlLocale, onYearLabelClick } = ctx ?? ({} as GridPickerContext);
   const date = calendarMonth.date;
   const monthLabel = new Intl.DateTimeFormat(intlLocale, { month: "long" }).format(date);
   const yearLabel = String(date.getFullYear());
 
   return (
     <div {...divProps}>
-      <button
-        type="button"
-        className={styles.caption_grid_btn}
-        aria-pressed={view === "months"}
-        onClick={onMonthLabelClick}
-      >
+      <span className={styles.caption_grid_label}>
         {monthLabel}
-      </button>
+      </span>
       <button
         type="button"
         className={styles.caption_grid_btn}
@@ -42,6 +36,16 @@ const GridMonthCaption = ({ calendarMonth, displayIndex: _displayIndex, ...divPr
         onClick={onYearLabelClick}
       >
         {yearLabel}
+        <svg
+          className={`${styles.caption_year_chevron}${view === "years" ? ` ${styles.caption_year_chevron_open}` : ""}`}
+          width="12"
+          height="12"
+          viewBox="0 0 12 12"
+          fill="none"
+          aria-hidden="true"
+        >
+          <path d="M2 4L6 8L10 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
       </button>
     </div>
   );
@@ -150,10 +154,6 @@ const Calendar = ({
     setGridView("months");
   };
 
-  const handleMonthLabelClick = () => {
-    setGridView((v) => (v === "months" ? "days" : "months"));
-  };
-
   const handleYearLabelClick = () => {
     setYearPageStart(displayedYear - 9);
     setGridView((v) => (v === "years" ? "days" : "years"));
@@ -180,7 +180,6 @@ const Calendar = ({
   const gridCtxValue: GridPickerContext = {
     view: gridView,
     intlLocale,
-    onMonthLabelClick: handleMonthLabelClick,
     onYearLabelClick: handleYearLabelClick,
   };
 
@@ -246,8 +245,28 @@ const Calendar = ({
           >
             {gridView === "months" && (
               <>
-                <div className={styles.gridOverlayHeader}>
-                  <span>{displayedYear}</span>
+                <div className={styles.gridOverlayCaption}>
+                  <span className={styles.caption_grid_label}>
+                    {new Intl.DateTimeFormat(intlLocale, { month: "long" }).format(resolvedDisplayMonth)}
+                  </span>
+                  <button
+                    type="button"
+                    className={styles.caption_grid_btn}
+                    onClick={() => setGridView("days")}
+                    aria-label="Fechar seleção de mês"
+                  >
+                    {displayedYear}
+                    <svg
+                      className={`${styles.caption_year_chevron} ${styles.caption_year_chevron_open}`}
+                      width="12"
+                      height="12"
+                      viewBox="0 0 12 12"
+                      fill="none"
+                      aria-hidden="true"
+                    >
+                      <path d="M2 4L6 8L10 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </button>
                 </div>
                 <div className={styles.gridCells}>
                   {monthsGrid.map(({ index, label, disabled: monthDisabled }) => (
@@ -266,28 +285,48 @@ const Calendar = ({
             )}
             {gridView === "years" && (
               <>
-                <div className={styles.gridOverlayHeader}>
-                  <button
-                    type="button"
-                    className={styles.gridNavBtn}
-                    disabled={!canGoPrevYears}
-                    onClick={() => setYearPageStart((s) => s - YEARS_PER_PAGE)}
-                    aria-label="Anos anteriores"
-                  >
-                    ‹
-                  </button>
-                  <span>
-                    {clampedYearPageStart} – {clampedYearPageStart + yearsInPage.length - 1}
+                <div className={styles.gridOverlayCaption}>
+                  <span className={styles.caption_grid_label}>
+                    {new Intl.DateTimeFormat(intlLocale, { month: "long" }).format(resolvedDisplayMonth)}
                   </span>
                   <button
                     type="button"
-                    className={styles.gridNavBtn}
-                    disabled={!canGoNextYears}
-                    onClick={() => setYearPageStart((s) => s + YEARS_PER_PAGE)}
-                    aria-label="Próximos anos"
+                    className={styles.caption_grid_btn}
+                    onClick={() => setGridView("days")}
+                    aria-label="Fechar seleção de ano"
                   >
-                    ›
+                    {displayedYear}
+                    <svg
+                      className={`${styles.caption_year_chevron} ${styles.caption_year_chevron_open}`}
+                      width="12"
+                      height="12"
+                      viewBox="0 0 12 12"
+                      fill="none"
+                      aria-hidden="true"
+                    >
+                      <path d="M2 4L6 8L10 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
                   </button>
+                  <div className={styles.gridOverlayYearsNav}>
+                    <button
+                      type="button"
+                      className={styles.gridNavBtn}
+                      disabled={!canGoPrevYears}
+                      onClick={() => setYearPageStart((s) => s - YEARS_PER_PAGE)}
+                      aria-label="Anos anteriores"
+                    >
+                      ‹
+                    </button>
+                    <button
+                      type="button"
+                      className={styles.gridNavBtn}
+                      disabled={!canGoNextYears}
+                      onClick={() => setYearPageStart((s) => s + YEARS_PER_PAGE)}
+                      aria-label="Próximos anos"
+                    >
+                      ›
+                    </button>
+                  </div>
                 </div>
                 <div className={`${styles.gridCells} ${styles.gridCellsYears}`}>
                   {yearsInPage.map((year) => (

@@ -76,6 +76,12 @@
   appearance: none;
   width: 16px;
   height: 16px;
+
+  &:hover,
+  &:focus-visible {
+    background-color: transparent;
+    outline: none;
+  }
 }
 
 .button_previous {
@@ -402,13 +408,37 @@
 
   &:hover,
   &:focus-visible {
-    background-color: var(--color-neutral-high-medium);
+    background-color: transparent;
     outline: none;
   }
 
   &[aria-pressed="true"] {
     color: var(--color-brand-primary-default);
   }
+}
+
+.caption_year_chevron {
+  display: inline-block;
+  margin-left: var(--spacing-4);
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.caption_grid_label {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: var(--spacing-0) var(--spacing-8);
+  font: inherit;
+  color: var(--color-neutral-low-default);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-16);
+  text-transform: capitalize;
+  line-height: 130%;
+}
+
+.caption_year_chevron_open {
+  transform: rotate(180deg);
 }
 
 /* ─────────────────────────── SCSS do modo grid do ano e dos meses ─────────────────────────────────────────── */
@@ -425,16 +455,36 @@
   z-index: 2;
 }
 
-.gridOverlayHeader {
+.gridOverlayCaption {
+  position: relative;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  align-content: center;
+  height: 45px;
+  line-height: 130%;
+  text-transform: capitalize;
   font-weight: var(--font-weight-bold);
   font-size: var(--font-size-16);
-  color: var(--color-neutral-low-default);
-  padding: var(--spacing-0) var(--spacing-24);
-  height: 45px;
   flex-shrink: 0;
+  padding: var(--spacing-0) var(--spacing-16);
+}
+
+.gridOverlayCaption .caption_grid_btn {
+  &:hover,
+  &:focus-visible {
+    background-color: transparent;
+    outline: none;
+  }
+}
+
+.gridOverlayYearsNav {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-end: 0;
+  display: flex;
+  align-items: center;
+  height: 44px;
+  gap: var(--spacing-8);
+  padding: var(--spacing-0) var(--spacing-24);
 }
 
 .gridCells {
@@ -504,14 +554,5 @@
   color: var(--color-neutral-low-default);
   padding: var(--spacing-0);
   flex-shrink: 0;
-
-  &:hover:not(:disabled) {
-    background-color: var(--color-neutral-high-medium);
-  }
-
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
 }
 
