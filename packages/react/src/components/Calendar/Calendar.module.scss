@@ -8,10 +8,9 @@
   border-radius: var(--border-radius-8);
   box-shadow: 0px 2px 16px 0px rgba(0, 0, 0, 0.20);
   padding: var(--spacing-16) var(--spacing-24);
-  padding-top: var(--spacing-0);
   background-color: var(--color-neutral-high-default);
-  width: 310px;
-  height: 320px;
+  min-width: 320px;
+  min-height: 320px;
 }
 
 .root * {
@@ -398,13 +397,14 @@
   height: 100%;
   background: none;
   border: var(--border-width-none);
-  padding: var(--spacing-0) var(--spacing-8);
+  padding: var(--spacing-0) var(--border-width-2);
   margin: var(--spacing-0);
   cursor: pointer;
   font: inherit;
   color: var(--color-neutral-low-default);
-  font-weight: var(--font-weight-bold);
+  font-weight: var(--font-weight-regular);
   font-size: var(--font-size-16);
+  font-family: var(--font-family-primary);
   border-radius: var(--border-radius-pill);
   text-transform: capitalize;
   line-height: 130%;
@@ -422,7 +422,7 @@
 
 .caption_year_chevron {
   display: inline-block;
-  margin-left: var(--spacing-4);
+  margin-left: var(--spacing-8);
   flex-shrink: 0;
   transition: transform 0.2s ease;
 }
@@ -431,10 +431,11 @@
   display: flex;
   align-items: center;
   height: 100%;
-  padding: var(--spacing-0) var(--spacing-8);
+  padding: var(--spacing-0) var(--border-width-2);
   font: inherit;
   color: var(--color-neutral-low-default);
-  font-weight: var(--font-weight-bold);
+  font-weight: var(--font-weight-regular);
+  font-family: var(--font-family-primary);
   font-size: var(--font-size-16);
   text-transform: capitalize;
   line-height: 130%;
@@ -450,7 +451,6 @@
   background-color: var(--color-neutral-high-default);
   border-radius: var(--border-radius-4);
   padding: var(--spacing-16) var(--spacing-0);
-  padding-top: var(--spacing-0);
   display: flex;
   flex-direction: column;
   gap: var(--spacing-16);
@@ -486,9 +486,9 @@
   display: flex;
   align-items: center;
   height: 44px;
-  gap: var(--spacing-8);
-  padding: var(--spacing-0) var(--spacing-24);
-  padding-right: var(--spacing-16);
+  width: 56px;
+  padding-right: 30px;
+  gap: 28px;
 }
 
 .gridCells {
@@ -546,11 +546,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
   background: none;
   border: var(--border-width-none);
-  border-radius: var(--border-radius-4);
   cursor: pointer;
   font: inherit;
   color: var(--color-neutral-low-default);
