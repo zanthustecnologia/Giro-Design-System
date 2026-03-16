@@ -28,7 +28,7 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
   ariaLabel,
   iconOnly = false,
   loading = false,
-  tooltipText = 'Ação',
+  tooltipText,
   tooltipSide = 'top',
   tooltipAlign = 'center',
   ...restProps
