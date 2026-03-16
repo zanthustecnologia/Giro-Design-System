@@ -495,6 +495,7 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: var(--spacing-8);
+  padding: var(--spacing-4);
   flex: 1;
   align-content: start;
 }
