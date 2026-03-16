@@ -468,6 +468,7 @@
   font-size: var(--font-size-16);
   flex-shrink: 0;
   padding: var(--spacing-0) var(--spacing-16);
+  padding-left: var(--spacing-24);
 }
 
 .gridOverlayCaption .caption_grid_btn {
@@ -487,6 +488,7 @@
   height: 44px;
   gap: var(--spacing-8);
   padding: var(--spacing-0) var(--spacing-24);
+  padding-right: var(--spacing-16);
 }
 
 .gridCells {
@@ -551,9 +553,12 @@
   border-radius: var(--border-radius-4);
   cursor: pointer;
   font: inherit;
-  font-size: var(--font-size-20);
-  font-weight: var(--font-weight-bold);
   color: var(--color-neutral-low-default);
   padding: var(--spacing-0);
   flex-shrink: 0;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: revert;
+  }
 }
