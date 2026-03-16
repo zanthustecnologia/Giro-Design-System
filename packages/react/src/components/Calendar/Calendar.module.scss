@@ -551,9 +551,12 @@
   border-radius: var(--border-radius-4);
   cursor: pointer;
   font: inherit;
-  font-size: var(--font-size-20);
-  font-weight: var(--font-weight-bold);
   color: var(--color-neutral-low-default);
   padding: var(--spacing-0);
   flex-shrink: 0;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: revert;
+  }
 }
