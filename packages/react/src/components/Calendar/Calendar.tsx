@@ -1,10 +1,57 @@
-import { useState } from "react";
+import { createContext, useContext, useState } from "react";
 import { DayPicker } from "react-day-picker";
 import { enUS, ptBR } from "react-day-picker/locale";
 
 import styles from "./Calendar.module.scss";
 
 import type { CalendarProps } from "./Calendar.types";
+import type { MonthCaptionProps } from "react-day-picker";
+
+type GridView = "days" | "months" | "years";
+
+interface GridPickerContext {
+  view: GridView;
+  intlLocale: string;
+  onYearLabelClick: () => void;
+}
+
+const GridCtx = createContext<GridPickerContext | null>(null);
+
+const GridMonthCaption = ({ calendarMonth, displayIndex: _displayIndex, ...divProps }: MonthCaptionProps) => {
+  const ctx = useContext(GridCtx);
+  const { view, intlLocale, onYearLabelClick } = ctx ?? ({} as GridPickerContext);
+  const date = calendarMonth.date;
+  const monthLabel = new Intl.DateTimeFormat(intlLocale, { month: "long" }).format(date);
+  const yearLabel = String(date.getFullYear());
+
+  return (
+    <div {...divProps}>
+      <span className={styles.caption_grid_label}>
+        {monthLabel}
+      </span>
+      <button
+        type="button"
+        className={styles.caption_grid_btn}
+        aria-pressed={view === "years"}
+        onClick={onYearLabelClick}
+      >
+        {yearLabel}
+        <svg
+          className={`${styles.caption_year_chevron}${view === "years" ? ` ${styles.caption_year_chevron_open}` : ""}`}
+          width="12"
+          height="12"
+          viewBox="0 0 12 12"
+          fill="none"
+          aria-hidden="true"
+        >
+          <path d="M2 4L6 8L10 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </button>
+    </div>
+  );
+};
+
+const YEARS_PER_PAGE = 20;
 
 const Calendar = ({
   selected,
@@ -24,6 +71,7 @@ const Calendar = ({
   format: _format,
   locale = "pt-br",
   captionLayout = "dropdown",
+  captionMode = "grid",
   reverseYears,
   fixedWeeks,
   showOutsideDays,
@@ -46,6 +94,15 @@ const Calendar = ({
     selected ?? selectedDate ?? undefined
   );
 
+  const [internalDisplayMonth, setInternalDisplayMonth] = useState<Date>(
+    () => currentDate ?? defaultMonth ?? new Date()
+  );
+
+  const [gridView, setGridView] = useState<GridView>("days");
+  const [yearPageStart, setYearPageStart] = useState<number>(
+    () => (currentDate ?? defaultMonth ?? new Date()).getFullYear() - 9
+  );
+
   const resolvedSelected =
     selected !== undefined
       ? (selected ?? undefined)
@@ -54,6 +111,7 @@ const Calendar = ({
         : internalSelected;
 
   const resolvedLocale = locale === "pt-br" ? ptBR : enUS;
+  const intlLocale = locale === "pt-br" ? "pt-BR" : "en-US";
 
   const disabledMatchers = [
     ...(minDate ? [{ before: minDate }] : []),
@@ -68,40 +126,226 @@ const Calendar = ({
     }
   };
 
+  const handleMonthChange = (date: Date) => {
+    setInternalDisplayMonth(date);
+    onDateChange?.(date);
+  };
+
+  const isGridMode = captionMode === "grid";
+
+  const resolvedDisplayMonth = currentDate ?? internalDisplayMonth;
+  const displayedMonthIndex = resolvedDisplayMonth.getMonth();
+  const displayedYear = resolvedDisplayMonth.getFullYear();
+
+  const startYear = startMonth?.getFullYear() ?? 1900;
+  const endYear = endMonth?.getFullYear() ?? 2100;
+
+  const handleGridMonthSelect = (monthIndex: number) => {
+    const newDate = new Date(displayedYear, monthIndex, 1);
+    setInternalDisplayMonth(newDate);
+    onDateChange?.(newDate);
+    setGridView("days");
+  };
+
+  const handleGridYearSelect = (year: number) => {
+    const newDate = new Date(year, displayedMonthIndex, 1);
+    setInternalDisplayMonth(newDate);
+    onDateChange?.(newDate);
+    setGridView("months");
+  };
+
+  const handleYearLabelClick = () => {
+    setYearPageStart(displayedYear - 9);
+    setGridView((v) => (v === "years" ? "days" : "years"));
+  };
+
+  const clampedYearPageStart = Math.max(startYear, yearPageStart);
+  const yearsInPage = Array.from({ length: YEARS_PER_PAGE }, (_, i) => clampedYearPageStart + i).filter(
+    (y) => y <= endYear
+  );
+
+  const canGoPrevYears = clampedYearPageStart - YEARS_PER_PAGE >= startYear;
+  const canGoNextYears = clampedYearPageStart + YEARS_PER_PAGE <= endYear;
+
+  const monthsGrid = Array.from({ length: 12 }, (_, i) => ({
+    index: i,
+    label: new Intl.DateTimeFormat(intlLocale, { month: "short" }).format(new Date(2000, i, 1)),
+    disabled:
+      (startMonth != null &&
+        new Date(displayedYear, i, 1) < new Date(startMonth.getFullYear(), startMonth.getMonth(), 1)) ||
+      (endMonth != null &&
+        new Date(displayedYear, i, 1) > new Date(endMonth.getFullYear(), endMonth.getMonth(), 1)),
+  }));
+
+  const gridCtxValue: GridPickerContext = {
+    view: gridView,
+    intlLocale,
+    onYearLabelClick: handleYearLabelClick,
+  };
+
+  const sharedDayPickerProps = {
+    classNames: styles,
+    modifiers,
+    modifiersClassNames,
+    animate,
+    mode: "single" as const,
+    selected: resolvedSelected,
+    onSelect: handleSelect,
+    startMonth,
+    endMonth,
+    numberOfMonths,
+    disabled: disabledMatchers.length > 0 ? disabledMatchers : undefined,
+    hidden,
+    timeZone,
+    locale: resolvedLocale,
+    reverseYears,
+    fixedWeeks,
+    showOutsideDays,
+    showWeekNumber,
+    hideNavigation,
+    disableNavigation,
+    navLayout,
+    role,
+    title,
+    footer,
+    "aria-label": ariaLabel,
+    "aria-labelledby": ariaLabelledBy,
+  };
+
+  if (!isGridMode) {
+    return (
+      <DayPicker
+        id={id}
+        {...sharedDayPickerProps}
+        captionLayout={captionLayout}
+        month={currentDate ?? undefined}
+        defaultMonth={defaultMonth}
+        onMonthChange={onDateChange}
+      />
+    );
+  }
+
   return (
-    <DayPicker
-      id={id}
-      classNames={styles}
-      captionLayout={captionLayout}
-      modifiers={modifiers}
-      modifiersClassNames={modifiersClassNames}
-      animate={animate}
-      mode="single"
-      selected={resolvedSelected}
-      onSelect={handleSelect}
-      month={currentDate ?? undefined}
-      defaultMonth={defaultMonth}
-      startMonth={startMonth}
-      endMonth={endMonth}
-      numberOfMonths={numberOfMonths}
-      onMonthChange={onDateChange}
-      disabled={disabledMatchers.length > 0 ? disabledMatchers : undefined}
-      hidden={hidden}
-      timeZone={timeZone}
-      locale={resolvedLocale}
-      reverseYears={reverseYears}
-      fixedWeeks={fixedWeeks}
-      showOutsideDays={showOutsideDays}
-      showWeekNumber={showWeekNumber}
-      hideNavigation={hideNavigation}
-      disableNavigation={disableNavigation}
-      navLayout={navLayout}
-      role={role}
-      title={title}
-      footer={footer}
-      aria-label={ariaLabel}
-      aria-labelledby={ariaLabelledBy}
-    />
+    <GridCtx.Provider value={gridCtxValue}>
+      <div className={styles.calendar_grid_wrapper}>
+        <DayPicker
+          id={id}
+          {...sharedDayPickerProps}
+          captionLayout="label"
+          month={resolvedDisplayMonth}
+          onMonthChange={handleMonthChange}
+          components={{ MonthCaption: GridMonthCaption }}
+        />
+        {gridView !== "days" && (
+          <div
+            className={`${styles.gridOverlay}${gridView === "years" ? ` ${styles.gridOverlayYears}` : ""}`}
+            role="dialog"
+            aria-modal="true"
+            aria-label={gridView === "months" ? "Selecione o mês" : "Selecione o ano"}
+          >
+            {gridView === "months" && (
+              <>
+                <div className={styles.gridOverlayCaption}>
+                  <span className={styles.caption_grid_label}>
+                    {new Intl.DateTimeFormat(intlLocale, { month: "long" }).format(resolvedDisplayMonth)}
+                  </span>
+                  <button
+                    type="button"
+                    className={styles.caption_grid_btn}
+                    onClick={() => setGridView("days")}
+                    aria-label="Fechar seleção de mês"
+                  >
+                    {displayedYear}
+                    <svg
+                      className={`${styles.caption_year_chevron} ${styles.caption_year_chevron_open}`}
+                      width="12"
+                      height="12"
+                      viewBox="0 0 12 12"
+                      fill="none"
+                      aria-hidden="true"
+                    >
+                      <path d="M2 4L6 8L10 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </button>
+                </div>
+                <div className={styles.gridCells}>
+                  {monthsGrid.map(({ index, label, disabled: monthDisabled }) => (
+                    <button
+                      key={index}
+                      type="button"
+                      disabled={monthDisabled}
+                      className={`${styles.gridCell}${displayedMonthIndex === index ? ` ${styles.gridCellActive}` : ""}`}
+                      onClick={() => handleGridMonthSelect(index)}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
+              </>
+            )}
+            {gridView === "years" && (
+              <>
+                <div className={styles.gridOverlayCaption}>
+                  <span className={styles.caption_grid_label}>
+                    {new Intl.DateTimeFormat(intlLocale, { month: "long" }).format(resolvedDisplayMonth)}
+                  </span>
+                  <button
+                    type="button"
+                    className={styles.caption_grid_btn}
+                    onClick={() => setGridView("days")}
+                    aria-label="Fechar seleção de ano"
+                  >
+                    {displayedYear}
+                    <svg
+                      className={`${styles.caption_year_chevron} ${styles.caption_year_chevron_open}`}
+                      width="12"
+                      height="12"
+                      viewBox="0 0 12 12"
+                      fill="none"
+                      aria-hidden="true"
+                    >
+                      <path d="M2 4L6 8L10 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </button>
+                  <div className={styles.gridOverlayYearsNav}>
+                    <button
+                      type="button"
+                      className={styles.gridNavBtn}
+                      disabled={!canGoPrevYears}
+                      onClick={() => setYearPageStart((s) => s - YEARS_PER_PAGE)}
+                      aria-label="Anos anteriores"
+                    >
+                      ‹
+                    </button>
+                    <button
+                      type="button"
+                      className={styles.gridNavBtn}
+                      disabled={!canGoNextYears}
+                      onClick={() => setYearPageStart((s) => s + YEARS_PER_PAGE)}
+                      aria-label="Próximos anos"
+                    >
+                      ›
+                    </button>
+                  </div>
+                </div>
+                <div className={`${styles.gridCells} ${styles.gridCellsYears}`}>
+                  {yearsInPage.map((year) => (
+                    <button
+                      key={year}
+                      type="button"
+                      className={`${styles.gridCell}${displayedYear === year ? ` ${styles.gridCellActive}` : ""}`}
+                      onClick={() => handleGridYearSelect(year)}
+                    >
+                      {year}
+                    </button>
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+        )}
+      </div>
+    </GridCtx.Provider>
   );
 };
 
