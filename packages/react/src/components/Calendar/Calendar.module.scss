@@ -384,7 +384,7 @@
   animation: fade_out 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
-/* ─── Modo grid: wrapper e botões do cabeçalho ──────────────────────────── */
+/* ─────────────────────────── SCSS do modo grid do ano e dos meses ─────────────────────────────────────────── */
 
 .calendar_grid_wrapper {
   position: relative;
@@ -442,8 +442,6 @@
 .caption_year_chevron_open {
   transform: rotate(180deg);
 }
-
-/* ─────────────────────────── SCSS do modo grid do ano e dos meses ─────────────────────────────────────────── */
 
 .gridOverlay {
   position: absolute;
@@ -557,4 +555,3 @@
   padding: var(--spacing-0);
   flex-shrink: 0;
 }
-
