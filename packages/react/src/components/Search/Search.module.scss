@@ -1,5 +1,5 @@
 
-.zds-search {
+.search {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -7,7 +7,7 @@
   width: 100%;
   height: 44px;
   box-sizing: border-box;
-  padding: 0px var(--spacing-16);
+  padding: var(--spacing-0) var(--spacing-16);
   gap: var(--spacing-16);
   border: var(--border-width-1) solid var(--color-neutral-high-dark);
   border-radius: var(--border-radius-8);
@@ -15,7 +15,7 @@
   font-size: var(--font-size-16);
   font-weight: var(--font-weight-regular);
 
-  &__leftIcon {
+  &LeftIcon {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -23,7 +23,7 @@
     color: var(--color-brand-primary-default);
 
     &.disabled {
-      color: var(--color-neutral-high-dark);
+      color: var(--color-neutral-high-medium);
     }
   }
 
@@ -32,13 +32,18 @@
     flex: 1;
     min-width: 0;
     width: auto;
-    padding: 0px;
-    border: 0;
-    outline: 0;
+    padding: var(--spacing-0);
+    border: var(--spacing-0);
+    outline: var(--spacing-0);
     overflow: hidden;
     background-color: transparent;
     font-size: var(--font-size-16);
     font-weight: var(--font-weight-regular);
+    &.disabled {
+      color: var(--color-neutral-high-medium);
+      cursor: not-allowed;
+    }
+    
     &::placeholder {
       color: var(--color-neutral-low-medium);
     }
@@ -47,31 +52,31 @@
     &:-webkit-autofill:hover,
     &:-webkit-autofill:focus,
     &:-webkit-autofill:active {
-      -webkit-box-shadow: 0 0 0 1000px var(--color-neutral-high-default) inset !important;
-      box-shadow: 0 0 0 1000px var(--color-neutral-high-default) inset !important;
-      -webkit-transition: background-color 5000s ease-in-out 0s !important;
-      transition: background-color 5000s ease-in-out 0s !important;
-      background-color: transparent !important;
-      background-image: none !important;
-      color: var(--color-neutral-low-default) !important;
-      -webkit-text-fill-color: var(--color-neutral-low-default) !important;
+      -webkit-box-shadow: var(--spacing-0) var(--spacing-0) var(--spacing-0) 1000px var(--color-neutral-high-default) inset;
+      box-shadow: var(--spacing-0) var(--spacing-0) var(--spacing-0) 1000px var(--color-neutral-high-default) inset;
+      -webkit-transition: background-color 5000s ease-in-out 0s;
+      transition: background-color 5000s ease-in-out 0s;
+      background-color: transparent;
+      background-image: none;
+      color: var(--color-neutral-low-default);
+      -webkit-text-fill-color: var(--color-neutral-low-default);
     }
 
     &:-moz-autofill {
-      background-color: transparent !important;
-      background-image: none !important;
-      box-shadow: 0 0 0 1000px var(--color-neutral-high-default) inset !important;
-      color: var(--color-neutral-low-default) !important;
+      background-color: transparent;
+      background-image: none;
+      box-shadow: var(--spacing-0) var(--spacing-0) var(--spacing-0) 1000px var(--color-neutral-high-default) inset;
+      color: var(--color-neutral-low-default);
     }
 
     &:-ms-input-placeholder {
-      background-color: transparent !important;
-      color: var(--color-neutral-low-default) !important;
+      background-color: transparent;
+      color: var(--color-neutral-low-default);
     }
   }
-  &__clearIcon {
+  &ClearIcon {
     position: absolute;
-    right: 16px;
+    right: var(--spacing-16);
     width: 16px;
     height: 16px;
     cursor: pointer;
@@ -101,15 +106,15 @@
       }
     }
 
-    .zds-search__leftIcon,
-    .zds-search__clearIcon {
-      color: var(--color-neutral-high-dark);
+    .searchLeftIcon,
+    .searchClearIcon {
+      color: var(--color-neutral-high-medium);
       cursor: not-allowed;
     }
     
   }
   &:-webkit-autofill-strong-password,
   &:-webkit-autofill-strong-password-viewable {
-    background-color: var(--color-neutral-high-default) !important;
+    background-color: var(--color-neutral-high-default);
   }
 }

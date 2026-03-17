@@ -29,7 +29,8 @@ const Search = React.forwardRef<HTMLInputElement, SearchProps>(
     const [internalValue, setInternalValue] = useState<string>('');
     const isControlled = value !== undefined && onChange !== undefined;
     const currentValue = isControlled ? value : internalValue;
-    const inputId = id || useId();
+    const generatedId = useId();
+    const inputId = id || generatedId;
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
       if (disabled) return;
 
@@ -67,15 +68,26 @@ const Search = React.forwardRef<HTMLInputElement, SearchProps>(
       if (disabled) return;
       onKeyDown?.(e);
     };
-    const searchClass = clsx(
-      styles['zds-search'],
-      { disabled },
-      className
-    );
     return (
-      <div className={searchClass} onClick={onClick} onMouseDown={onMouseDown}>
+      <div 
+        className={clsx(
+          styles.search,
+          { [styles.disabled]: disabled },
+          className
+        )} 
+        onClick={onClick} 
+        onMouseDown={onMouseDown}
+        role={onClick || onMouseDown ? "button" : undefined}
+        tabIndex={onClick || onMouseDown ? 0 : undefined}
+        onKeyDown={onClick || onMouseDown ? (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            onClick?.(e as any);
+          }
+        } : undefined}
+      >
         <span
-          className={clsx(styles['zds-search__leftIcon'], { disabled })}
+          className={clsx(styles.searchLeftIcon, { [styles.disabled]: disabled })}
           tabIndex={-1}
           role="presentation"
           aria-hidden="true"
@@ -100,7 +112,7 @@ const Search = React.forwardRef<HTMLInputElement, SearchProps>(
         />
         {currentValue && currentValue.length > 0 && (
           <span
-            className={styles['zds-search__clearIcon']}
+            className={styles.searchClearIcon}
             aria-hidden="true"
             onClick={clearInputSearch}
           >
@@ -112,6 +124,6 @@ const Search = React.forwardRef<HTMLInputElement, SearchProps>(
   }
 );
 
-Search.displayName = 'ZdsSearch';
+Search.displayName = 'Search';
 
 export default Search;
