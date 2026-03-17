@@ -1,5 +1,5 @@
-// ✅ OVERLAY: Estados via CSS
-.zds-custom__drawer-shadow {
+
+.drawerShadow {
   position: fixed;
   z-index: 1000;
   background-color: var(--color-neutral-low-default);
@@ -8,13 +8,9 @@
   bottom: 0;
   top: 0;
   transition: all 0.3s ease;
-
-  // ✅ ESTADO FECHADO: Oculto por padrão
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-
-  // ✅ ESTADO ABERTO: Visível quando ativo
   &--visible {
     opacity: 0.3;
     visibility: visible;
@@ -22,32 +18,27 @@
   }
 }
 
-// ✅ DRAWER: Estados via CSS
-.zds-custom__drawer-sidebar {
+.drawerSidebar {
   position: fixed;
   background-color: var(--color-neutral-high-default);
   border: var(--border-width-1) solid var(--color-neutral-high-dark);
-  right: 0;
-  top: 0;
-  bottom: 0;
+  right: var(--spacing-0);
+  top: var(--spacing-0);
+  bottom: var(--spacing-0);
   overflow: auto;
   display: flex;
   flex-direction: column;
   z-index: 1001;
   font-family: var(--font-family-primary);
-
-  // ✅ ESTADO FECHADO: Fora da tela por padrão
   width: 0;
   opacity: 0;
   visibility: hidden;
   transform: translateX(100%);
   transition: all 0.3s ease;
 
-  // ✅ RESPONSIVIDADE: Mobile first
   @media (max-width: 768px) {
     width: 100%;
-
-    right: 0;
+    right: var(--spacing-0);
     transform: translateX(100%);
 
     &--open {
@@ -79,15 +70,15 @@
   }
 }
 
-.zds-custom__drawer-sidebar .zds-drawer__title-close {
+.drawerSidebar .drawerTitleClose {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--spacing-24) var(--spacing-24) 0 var(--spacing-24);
+  padding: var(--spacing-24) var(--spacing-24) var(--spacing-0) var(--spacing-24);
   flex-shrink: 0;
 }
 
-.zds-custom__drawer-sidebar .zds-drawer__title-close .zds-drawer__title {
+.drawerSidebar .drawerTitleClose .drawerTitle {
   font-size: var(--font-size-24);
   font-weight: var(--font-weight-bold);
   color: var(--color-neutral-low-default);
@@ -100,7 +91,7 @@
   white-space: nowrap;
 }
 
-.zds-custom__drawer-sidebar .zds-drawer__children {
+.drawerSidebar .drawerChildren {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -109,7 +100,7 @@
   overflow-y: auto;
 }
 
-.zds-drawer__children {
+.drawerChildren {
   font-size: var(--font-size-16);
   font-weight: var(--font-weight-regular);
   color: var(--color-neutral-low-default);
