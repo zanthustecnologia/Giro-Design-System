@@ -1,102 +1,177 @@
 import React from 'react';
 
-import { Locale, BaseProps } from '../../types/common.types';
+import type { Matcher } from 'react-day-picker';
+import type { BaseProps, Locale } from '../../types/common.types';
 
-/** Formatos de exibição de data disponíveis */
-export type DateFormat = 'dd/mm/yyyy' | 'mm/dd/yyyy';
+// ---------------------------------------------------------------------------
+// Tipos auxiliares
+// ---------------------------------------------------------------------------
 
-/**
- * Representa um dia no calendário
- */
-export interface DayItem {
-  /** Tipo do item (sempre 'day') */
-  type: 'day';
-  /** Chave única para renderização */
-  key: number;
-  /** Número do dia */
-  day: number;
-  /** Objeto Date completo */
-  date: Date;
-  /** Indica se é o dia atual */
-  isToday: boolean;
-  /** Indica se o dia está selecionado */
-  isSelected: boolean;
-  /** Label acessível do dia */
-  label: string;
-}
+/** Formato de exibição da data aceito pelo componente. */
+export type DateFormat = 'dd/mm/yyyy' | 'mm/dd/yyyy' | (string & {});
 
-/**
- * Representa um espaço vazio no grid do calendário
- */
-export interface EmptyItem {
-  /** Tipo do item (sempre 'empty') */
-  type: 'empty';
-  /** Chave única para renderização */
-  key: string;
-}
+// ---------------------------------------------------------------------------
+// Props do componente Calendar
+// ---------------------------------------------------------------------------
 
-/** Item do calendário (pode ser um dia ou espaço vazio) */
-export type CalendarItem = DayItem | EmptyItem;
+export interface CalendarProps extends Omit<BaseProps, 'disabled'> {
+  // --- Seleção ----------------------------------------------------------
 
-/**
- * Representa um ano na visualização de seleção de ano
- */
-export interface YearItem {
-  /** Número do ano */
-  year: number;
-  /** Indica se é o ano atual */
-  isCurrent: boolean;
-  /** Chave única para renderização */
-  key: number;
-}
+  /** Data selecionada atualmente (usada pelo DatePicker). */
+  selected?: Date | null;
 
-/**
- * Props do componente Calendar
- * @example
- * ```tsx
- * <Calendar 
- *   currentDate={new Date()} 
- *   onDateChange={(date) => console.log(date)}
- *   locale="pt-br"
- * />
- * ```
- * @example
- * ```tsx
- * <Calendar 
- *   currentDate={new Date()}
- *   selectedDate={selectedDate}
- *   onDaySelect={handleDaySelect}
- *   minDate={new Date('2024-01-01')}
- *   maxDate={new Date('2024-12-31')}
- *   format="dd/mm/yyyy"
- * />
- * ```
- */
-export interface CalendarProps extends BaseProps {
-  /** Data do dia atual */
-  currentDate: Date | null;
-  
-  /** Dia selecionado pelo usuário */
+  /** Data selecionada atualmente (usada pelo Filter). */
   selectedDate?: Date | null;
-  
-  /** Callback executado quando a data escolhida é alterada: (date) => void */
-  onDateChange?: (date: Date) => void;
-  
-  /** Callback executado quando um dia é selecionado: (date) => void */
+
+  // --- Navegação --------------------------------------------------------
+
+  /**
+   * Mês exibido no calendário. Use junto com `onDateChange` para
+   * controlar a navegação externamente.
+   */
+  currentDate?: Date | null;
+
+  /**
+   * Mês inicial padrão exibido quando não controlado.
+   * @default currentMonth
+   */
+  defaultMonth?: Date;
+
+  /** Primeiro mês navegável. */
+  startMonth?: Date;
+
+  /** Último mês navegável. */
+  endMonth?: Date;
+
+  /** Número de meses exibidos simultaneamente. @default 1 */
+  numberOfMonths?: number;
+
+  // --- Callbacks --------------------------------------------------------
+
+  /** Chamado quando o usuário seleciona um dia. */
   onDaySelect?: (date: Date) => void;
-  
-  /** Callback executado ao limpar a seleção: () => void */
+
+  /** Chamado quando o usuário navega entre meses. */
+  onDateChange?: (date: Date) => void;
+
+  /** Chamado quando o usuário limpa a seleção. */
   onClear?: () => void;
-  
-  /** Data mínima selecionável */
+
+  // --- Restrições -------------------------------------------------------
+
+  /** Data mínima selecionável. */
   minDate?: Date;
-  
-  /** Data máxima selecionável */
+
+  /** Data máxima selecionável. */
   maxDate?: Date;
-  
-  /** Locale do calendário */
-  locale?: Locale;
-  
-  /** Formato de exibição da data */
+
+  /**
+   * Dias desabilitados — aceita qualquer `Matcher` do react-day-picker
+   * (Date, DateRange, DateBefore, DateAfter, DayOfWeek, função…).
+   */
+  disabled?: Matcher | Matcher[];
+
+  /**
+   * Dias ocultados — aceita qualquer `Matcher` do react-day-picker.
+   */
+  hidden?: Matcher | Matcher[];
+
+  // --- Formatação e localização ----------------------------------------
+
+  /**
+   * Formato de exibição da data.
+   * @example 'dd/mm/yyyy' | 'mm/dd/yyyy'
+   */
   format?: DateFormat;
+
+  /**
+   * Locale da interface — aceita os códigos internos do design system.
+   * @default 'pt-br'
+   */
+  locale?: Locale;
+
+  // --- Layout ----------------------------------------------------------
+
+  /**
+   * Layout do cabeçalho do calendário.
+   * - `'label'` — exibe mês/ano como texto (padrão).
+   * - `'dropdown'` — exibe dropdowns para mês e ano.
+   * - `'dropdown-months'` — dropdown apenas para mês.
+   * - `'dropdown-years'` — dropdown apenas para ano.
+   */
+  captionLayout?: 'dropdown' | 'label' | 'dropdown-months' | 'dropdown-years';
+
+  /** Inverte a ordem dos anos no dropdown. */
+  reverseYears?: boolean;
+
+  /** Sempre exibe 6 semanas por mês, preenchendo com dias do mês seguinte. */
+  fixedWeeks?: boolean;
+
+  /** Exibe os dias pertencentes ao mês anterior/próximo. */
+  showOutsideDays?: boolean;
+
+  /** Exibe a coluna com o número da semana. */
+  showWeekNumber?: boolean;
+
+  /** Oculta os botões de navegação (sem desabilitar a navegação). */
+  hideNavigation?: boolean;
+
+  /** Desabilita a navegação entre meses. */
+  disableNavigation?: boolean;
+
+  /**
+   * Posicionamento dos botões de navegação.
+   * - `'around'` — um botão de cada lado do caption.
+   * - `'after'` — ambos após o caption.
+   */
+  navLayout?: 'after' | 'around';
+
+  // --- Acessibilidade --------------------------------------------------
+
+  /** Atributo `aria-label` para o elemento raiz. */
+  'aria-label'?: string;
+
+  /** Atributo `aria-labelledby` para o elemento raiz. */
+  'aria-labelledby'?: string;
+
+  /** Foca automaticamente o primeiro dia selecionado ou hoje. */
+  autoFocus?: boolean;
+
+  /** Atributo `role` do elemento raiz (`'application'` ou `'dialog'`). */
+  role?: 'application' | 'dialog';
+
+  /** Atributo `title` do elemento raiz. */
+  title?: string;
+
+  // --- Animação --------------------------------------------------------
+
+  /** Anima a transição entre meses. */
+  animate?: boolean;
+
+  // --- Fuso horário ----------------------------------------------------
+
+  /**
+   * Fuso horário IANA usado nos cálculos de datas.
+   * @example 'America/Sao_Paulo'
+   */
+  timeZone?: string;
+
+  // --- Estilização -----------------------------------------------------
+
+  /** Estilos inline para o elemento raiz. */
+  style?: React.CSSProperties;
+
+  /** Substitui os `classNames` padrão do react-day-picker. */
+  classNames?: Partial<Record<string, string>>;
+
+  /** Modificadores customizados para dias específicos. */
+  modifiers?: Record<string, Matcher | Matcher[] | undefined>;
+
+  /** ClassNames aplicadas aos dias que correspondem aos `modifiers`. */
+  modifiersClassNames?: Record<string, string>;
+
+  // --- Footer ----------------------------------------------------------
+
+  /** Rodapé do calendário — exibido como live region para acessibilidade. */
+  footer?: React.ReactNode;
 }

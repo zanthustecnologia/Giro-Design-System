@@ -8,7 +8,7 @@ export { default as Button } from './Button';
 export { type ButtonProps } from './Button/Button.types';
 
 export { default as Calendar } from './Calendar';
-export { type CalendarProps, type DateFormat, type DayItem, type EmptyItem, type CalendarItem, type YearItem } from './Calendar/Calendar.types';
+export { type CalendarProps } from './Calendar/Calendar.types';
 
 export { default as Callout } from './Callout';
 export { type CalloutProps } from './Callout/Callout.types';
@@ -19,7 +19,7 @@ export { type CheckboxProps } from './Checkbox/Checkbox.types'
 export { default as Chips } from './Chips';
 export { type ChipsProps } from './Chips/Chips.types';
 
-export { default as Container } from './Container';
+export { default as Container } from './Container/Container';
 export { type ContainerProps } from './Container/Container.types';
 
 export { default as DatePicker } from './DatePicker';
@@ -43,6 +43,9 @@ export { type ListItemProps } from './ListItem/ListItem.types';
 export {default as Menu } from './Menu';
 export { type MenuProps } from './Menu/Menu.types';
 
+export { default as Popover } from './Popover';
+export { type PopoverProps } from './Popover/Popover.types';
+
 export { default as Quantity } from './Quantity';
 export { type QuantityProps } from './Quantity/Quantity.types';
 
@@ -65,8 +68,8 @@ export { type TableHeaderProps, type FilterItem } from './Table/TableHeader';
 export { default as TextField } from './TextField';
 export { type TextFieldProps } from './TextField/TextField.types';
 
-export { default as Toast, ToastProvider, useToast } from './Toast';
-export { type ToastType, type ToastMessage, type ToastOptions, type ToastContextType } from './Toast/Toast.types';
+export { Toast, ToastProvider, ToastContainer, useToast } from './Toast';
+export { type ToastProps} from './Toast/Toast.types';
 
 export { default as Tooltip } from './Tooltip';
 export { type TooltipProps } from './Tooltip/Tooltip.types';

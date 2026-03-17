@@ -70,15 +70,11 @@ export default {
   },
 } as Meta<ButtonProps>;
 
-const Template: StoryFn<ButtonProps> = (args) => {
-  const iconToUse = args.iconOnly && !args.icon ? <Add16Regular /> : args.icon;
-  
-  return (
-    <Button {...args} icon={iconToUse}>
-      {args.children}
-    </Button>
-  );
-};
+const Template: StoryFn<ButtonProps> = (args) => (
+  <Button {...args}>
+    {args.children}
+  </Button>
+);
 
 export const Default = Template.bind({});
 Default.args = {

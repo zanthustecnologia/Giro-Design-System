@@ -36,14 +36,23 @@ const useSelection = <T extends TableRowData = TableRowData>(
     handleChange(newKeys);
   }, [selectedKeys, selectedSet, handleChange]);
 
-  const toggleAll = useCallback(() => {
-    const allKeys = dataSource.map((_, index) => index);
-    const newKeys = selectedKeys.length === dataSource.length ? [] : allKeys;
-    handleChange(newKeys);
-  }, [dataSource, selectedKeys.length, handleChange]);
+  const selectableKeys = useMemo(() => (
+    dataSource
+      .map((row, index) => ({ index, disabled: rowSelection?.getCheckboxProps?.(row, index)?.disabled }))
+      .filter(({ disabled }) => !disabled)
+      .map(({ index }) => index)
+  ), [dataSource, rowSelection]);
 
-  const isAllSelected = selectedKeys.length === dataSource.length && dataSource.length > 0;
-  const isIndeterminate = selectedKeys.length > 0 && selectedKeys.length < dataSource.length;
+  const toggleAll = useCallback(() => {
+    const isAllSelectableSelected = selectableKeys.every(k => selectedSet.has(k));
+    const newKeys = isAllSelectableSelected
+      ? selectedKeys.filter(k => !selectableKeys.includes(k as number))
+      : [...new Set([...selectedKeys, ...selectableKeys])];
+    handleChange(newKeys);
+  }, [selectableKeys, selectedKeys, selectedSet, handleChange]);
+
+  const isAllSelected = selectableKeys.length > 0 && selectableKeys.every(k => selectedSet.has(k));
+  const isIndeterminate = selectableKeys.some(k => selectedSet.has(k)) && !isAllSelected;
 
   return {
     selectedSet,

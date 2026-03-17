@@ -1,5 +1,13 @@
 # @giro-ds/react
 
+## 3.0.7
+
+### Patch Changes
+
+- fix(Label): corrige alinhamento do componente Label adicionando margin-bottom e removendo margin-top do Select trigger
+- fix(Select, Menu): remove coloração azul aplicada ao texto dos itens selecionados nos componentes Menu e Select
+- fix(Table): corrige comportamento do "selecionar todos" para respeitar checkboxes desabilitados via getCheckboxProps
+
 ## 3.0.6
 
 ### Patch Changes

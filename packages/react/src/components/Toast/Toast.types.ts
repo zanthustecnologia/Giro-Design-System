@@ -1,72 +1,64 @@
-import { ReactNode } from 'react';
+import { Toast } from 'radix-ui';
+import * as React from 'react';
 
-/** Tipos de toast disponíveis */
-export type ToastType = 'success' | 'alert' | 'info';
-
-/**
- * Representa uma mensagem de toast
- */
-export interface ToastMessage {
-  /** ID único da mensagem */
-  id: string;
-  
-  /** Conteúdo da mensagem */
-  message: string;
-  
-  /** Tipo visual do toast */
-  type: ToastType;
-  
-  /** Define se o toast permanece até ser fechado manualmente */
-  persistent?: boolean;
-  
-  /** Duração em milissegundos antes de auto-fechar */
-  duration?: number;
-  
-  /** Timestamp de quando foi criado */
-  timestamp: number;
-}
+import { BaseProps } from '../../types';
 
 /**
- * Opções para exibição do toast
- */
-export interface ToastOptions {
-  /** Define se o toast permanece até ser fechado manualmente */
-  persistent?: boolean;
-  
-  /** Duração em milissegundos antes de auto-fechar */
-  duration?: number;
-}
-
-/**
- * Contexto do sistema de toasts
+ * Props do componente individual de notificação `Toast`.
+ *
+ * Estende {@link BaseProps} e os atributos nativos do `Toast.Root` do Radix UI,
+ * excluindo as propriedades controladas internamente (`open`, `onOpenChange`,
+ * `duration`, `className`).
+ *
  * @example
  * ```tsx
- * const { showToast, hideToast } = useToast();
- * 
- * showToast('Operação realizada com sucesso!', 'success');
+ * showToast({
+ *   title: 'Sucesso!',
+ *   iconType: 'Success',
+ *   duration: 3000,
+ * });
  * ```
  */
-export interface ToastContextType {
-  /** Exibe um toast e retorna seu ID: (message, type?, options?) => string */
-  showToast: (message: string, type?: ToastType, options?: ToastOptions) => string;
-  
-  /** Oculta um toast específico: (id) => void */
-  hideToast: (id: string) => void;
-  
-  /** Oculta todos os toasts: () => void */
-  hideAllToasts: () => void;
-}
-
-/**
- * Props do componente ToastProvider
- * @example
- * ```tsx
- * <ToastProvider>
- *   <App />
- * </ToastProvider>
- * ```
- */
-export interface ToastProviderProps {
-  /** Conteúdo da aplicação */
-  children: ReactNode;
+export interface ToastProps extends 
+  BaseProps,
+  Omit<
+    React.ComponentPropsWithoutRef<typeof Toast.Root>,
+    'open' | 'onOpenChange' | 'duration' | 'className'
+  > {
+  /**
+   * Título principal exibido no toast.
+   */
+  title: string;
+  /**
+   * Define se o toast fecha automaticamente após o tempo definido em `duration`.
+   * @default true
+   */
+  automaticClose?: boolean;
+  /**
+   * Tempo em milissegundos até o toast fechar automaticamente.
+   * Só tem efeito quando `automaticClose` é `true`.
+   * @default 5000
+   */
+  duration?: number;
+  /**
+   * Ícone customizado exibido no toast.
+   * Quando fornecido, substitui o ícone gerado automaticamente por `iconType`.
+   */
+  icon?: React.ReactNode;
+  /**
+   * Ícone exibido no botão de fechar o toast.
+   * @default <Dismiss16Filled />
+   */
+  iconClosed?: React.ReactNode;
+  /**
+   * Tipo do ícone exibido automaticamente no toast.
+   *
+   * - `'Info'` → ícone informativo (`Info20Filled`)
+   * - `'Success'` → ícone de sucesso (`CheckmarkCircle20Filled`)
+   * - `'Alert'` → ícone de alerta/erro (`Warning20Filled`)
+   *
+   * Ignorado quando a prop `icon` for fornecida.
+   * @default 'Info'
+   */
+  iconType?: 'Info' | 'Success' | 'Alert';
 }

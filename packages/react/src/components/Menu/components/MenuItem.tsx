@@ -12,7 +12,8 @@ export const MenuItem = memo(({ item, isSelected, onSelect }: DefaultMenuItemPro
 
   return (
     <DropdownMenu.Item
-      className={clsx(styles.item, { [styles.itemSelected]: isSelected })}
+      className={clsx(styles.item)}
+      data-selected={isSelected || undefined}
       onSelect={handleSelect}
       disabled={item.disabled}
     >

@@ -272,8 +272,7 @@ describe('Menu', () => {
 
       await waitFor(() => {
         const item1 = screen.getByText('Item 1').closest('div[role="menuitem"]');
-        // CSS modules geram classes hash, então verificamos se contém a classe
-        expect(item1?.className).toMatch(/itemSelected/);
+        expect(item1).toHaveAttribute('data-selected', 'true');
       });
     });
 
