@@ -483,8 +483,8 @@
 
 .gridOverlayYearsNav {
   position: absolute;
-  inset-block-start: 0;
-  inset-inline-end: 0;
+  inset-block-start: var(--spacing-0);
+  inset-inline-end: var(--spacing-0);
   display: flex;
   align-items: center;
   height: 44px;
