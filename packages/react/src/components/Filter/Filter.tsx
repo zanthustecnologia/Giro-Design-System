@@ -183,7 +183,7 @@ const Filter: React.FC<FilterProps> = ({
           {type === 'calendar' ? (
             <Calendar
               currentDate={currentCalendarDate}
-              selectedDate={selectedDate}
+              selected={selectedDate}
               onDaySelect={handleDateSelection}
               onDateChange={handleCalendarNavigation}
               minDate={minDate}
