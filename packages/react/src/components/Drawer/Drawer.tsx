@@ -150,6 +150,10 @@ const Drawer: React.FC<DrawerProps> = ({
           >
             {title}
           </div>
+          <Button
+          variant='text'
+          iconOnly
+          />
           <Button 
             onClick={handleCloseClick}
             variant='text'
