@@ -18,6 +18,12 @@ const Drawer: React.FC<DrawerProps> = ({
   onOverlayClick,
   closeOnOverlayClick = true,
   closeOnEscape = true,
+  additionalButon1,
+  additionalButon1Click,
+  button1Icon,
+  additionalButon2 = false,
+  additionalButon2Click,
+  button2Icon,
 }) => {
 
   const internalClose = useCallback((): void => {
@@ -113,20 +119,25 @@ const Drawer: React.FC<DrawerProps> = ({
           >
             {title}
           </div>
-          <Button 
-            onClick={handleCloseClick}
-            variant='text'
-            iconOnly
-            icon={<Dismiss16Regular />}
-            size='lg'
-          />
-          <Button 
-            onClick={handleCloseClick}
-            variant='text'
-            iconOnly
-            icon={<Dismiss16Regular />}
-            size='lg'
-          />
+         {additionalButon1 && (
+            <Button 
+              onClick={additionalButon1Click}
+              variant='text'
+              iconOnly
+              icon={button1Icon}
+              size='lg'
+            />
+          )}
+
+          {additionalButon2 && additionalButon1 && (
+            <Button 
+              onClick={additionalButon2Click}
+              variant='text'
+              iconOnly
+              icon={button2Icon}
+              size='lg'
+            />
+          )}
           <Button 
             onClick={handleCloseClick}
             variant='text'

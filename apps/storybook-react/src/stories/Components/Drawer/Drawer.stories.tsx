@@ -42,6 +42,14 @@ const meta: Meta<typeof Drawer> = {
         defaultValue: { summary: '0px' },
       },
     },
+    additionalButon1: { 
+      control: 'boolean',
+      defaultValue: false,
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'false' },
+      },
+    },
     children: { 
       control: false,
       table: {
@@ -163,4 +171,8 @@ Default.args = {
   customWidth: '400px',
   closeOnOverlayClick: true,
   closeOnEscape: true,
+  button1Icon: <Filter16Regular />,
+  additionalButon1: true,
+  button2Icon: <Filter16Regular />,
+  additionalButon2: true,
 };
