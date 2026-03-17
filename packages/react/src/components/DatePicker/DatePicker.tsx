@@ -270,7 +270,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
         >
           {showCalendar && (
             <Calendar
-              selectedDate={currentSelectedDate}
+              selected={currentSelectedDate}
               currentDate={currentDate}
               onDateChange={setCurrentDate}
               onDaySelect={handleDaySelect}
