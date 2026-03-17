@@ -562,3 +562,17 @@
     cursor: revert;
   }
 }
+
+.chevronNavBtnPrev {
+  width: 14px; 
+  height: 16px;
+  fill: none;
+  transform: rotate(90deg);
+}
+
+.chevronNavBtnNext {
+  width: 14px; 
+  height: 16px;
+  fill: none;
+  transform: rotate(-90deg);
+}
