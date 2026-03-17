@@ -55,7 +55,6 @@ const YEARS_PER_PAGE = 20;
 
 const Calendar = ({
   selected,
-  selectedDate,
   currentDate,
   defaultMonth,
   startMonth,
@@ -76,7 +75,7 @@ const Calendar = ({
   const animate = true;
 
   const [internalSelected, setInternalSelected] = useState<Date | undefined>(
-    selected ?? selectedDate ?? undefined
+    selected ?? undefined
   );
 
   const [internalDisplayMonth, setInternalDisplayMonth] = useState<Date>(
@@ -91,9 +90,7 @@ const Calendar = ({
   const resolvedSelected =
     selected !== undefined
       ? (selected ?? undefined)
-      : selectedDate !== undefined
-        ? (selectedDate ?? undefined)
-        : internalSelected;
+      : internalSelected;
 
   const resolvedLocale = locale === "pt-br" ? ptBR : enUS;
   const intlLocale = locale === "pt-br" ? "pt-BR" : "en-US";

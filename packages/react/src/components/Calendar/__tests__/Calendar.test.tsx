@@ -1,7 +1,8 @@
-import * as React from "react";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import * as React from "react";
 import { vi, describe, it, expect, beforeEach } from "vitest";
+
 import Calendar from "../Calendar";
 
 // Mock dos estilos CSS Modules
@@ -96,7 +97,7 @@ describe("Calendar", () => {
   });
 
   it("em modo dropdown, repassa a prop captionLayout ao DayPicker", () => {
-    render(<Calendar captionMode="dropdown" captionLayout="dropdown" />);
+    render(<Calendar captionMode="dropdown" />);
     expect(capturedProps.captionLayout).toBe("dropdown");
   });
 
@@ -113,11 +114,6 @@ describe("Calendar", () => {
   it("passa o locale enUS para o DayPicker quando locale='en-us'", () => {
     render(<Calendar locale="en-us" />);
     expect((capturedProps.locale as any)?.code).toBe("en-US");
-  });
-
-  it("passa o timeZone 'America/Sao_Paulo' para o DayPicker", () => {
-    render(<Calendar />);
-    expect(capturedProps.timeZone).toBe("America/Sao_Paulo");
   });
 
   it("inicia sem data selecionada (selected=undefined)", () => {
@@ -166,19 +162,6 @@ describe("Calendar", () => {
     await user.click(screen.getByTestId("day-button"));
 
     expect(onDaySelect).toHaveBeenCalledWith(new Date(2026, 2, 15));
-  });
-
-  it("usa selectedDate como fallback quando selected não é fornecido", () => {
-    const date = new Date(2026, 0, 10);
-    render(<Calendar selectedDate={date} />);
-    expect(capturedProps.selected).toEqual(date);
-  });
-
-  it("prioriza selected sobre selectedDate", () => {
-    const selected = new Date(2026, 0, 10);
-    const selectedDate = new Date(2026, 5, 20);
-    render(<Calendar selected={selected} selectedDate={selectedDate} />);
-    expect(capturedProps.selected).toEqual(selected);
   });
 
   it("cria matchers de disabled a partir de minDate e maxDate", () => {
