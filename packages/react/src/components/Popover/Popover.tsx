@@ -9,14 +9,35 @@ const Popover: React.FC<PopoverProps> = ({
   content,
   side = "left",
   align = "end",
+  open,
+  onOpenChange,
 }) => {
+  const isControlled = open !== undefined;
+
   return (
-    <PopoverRadix.Root>
-      <PopoverRadix.Trigger asChild>
-        {trigger}
-      </PopoverRadix.Trigger>
+    <PopoverRadix.Root
+      {...(isControlled ? { open, onOpenChange } : {})}
+    >
+      {isControlled ? (
+        // Modo controlado: usa Anchor para posicionamento sem comportamento de toggle
+        <PopoverRadix.Anchor asChild>
+          {trigger}
+        </PopoverRadix.Anchor>
+      ) : (
+        <PopoverRadix.Trigger asChild>
+          {trigger}
+        </PopoverRadix.Trigger>
+      )}
       <PopoverRadix.Portal>
-        <PopoverRadix.Content className={styles.Content} sideOffset={5} side={side} align={align}>
+        <PopoverRadix.Content
+          className={styles.Content}
+          sideOffset={5}
+          side={side}
+          align={align}
+          onOpenAutoFocus={isControlled ? (e) => e.preventDefault() : undefined}
+          onCloseAutoFocus={isControlled ? (e) => e.preventDefault() : undefined}
+          onInteractOutside={isControlled ? (e) => e.preventDefault() : undefined}
+        >
             {content}
           <PopoverRadix.Arrow className={styles.Arrow} />
         </PopoverRadix.Content>

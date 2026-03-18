@@ -57,7 +57,10 @@ const DatePickerNew: React.FC<DatePickerNewProps> = ({
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      if (wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
+      const target = event.target as Element;
+      const isInsideWrapper = wrapperRef.current?.contains(target as Node);
+      const isInsideCalendar = !!target.closest?.('[data-radix-popper-content-wrapper]');
+      if (!isInsideWrapper && !isInsideCalendar) {
         setShowCalendar(false);
       }
     }
@@ -84,12 +87,6 @@ const DatePickerNew: React.FC<DatePickerNewProps> = ({
 
   const handleIconClick = () => {
     setShowCalendar((prev) => !prev);
-  };
-
-  const handleOpenCalendar = () => {
-    if (!disabled) {
-      setShowCalendar(true);
-    }
   };
 
   const filterNumericInput = (inputValue: string): string => {
@@ -152,6 +149,12 @@ const DatePickerNew: React.FC<DatePickerNewProps> = ({
     handleDateChange(newSelectedDate);
   };
 
+  const handleFocus = () => {
+    if (!disabled) {
+      setShowCalendar(true);
+    }
+  };
+
   const handleTextFieldChange = (value: string) => {
     const filteredValue = filterNumericInput(value);
 
@@ -199,6 +202,8 @@ const DatePickerNew: React.FC<DatePickerNewProps> = ({
     <div ref={wrapperRef}>
       <div className={clsx(styles.datePicker)}>
         <Popover
+          open={showCalendar}
+          onOpenChange={setShowCalendar}
           trigger={
             <TextField
               className={styles.textfieldContainer}
@@ -216,6 +221,7 @@ const DatePickerNew: React.FC<DatePickerNewProps> = ({
                 handleTextFieldChange(String(e));
               }}
               onKeyDown={handleKeyDown}
+              onFocus={handleFocus}
               value={displayValue}
               helperText={combinedHelperText}
               maxLength={10}
