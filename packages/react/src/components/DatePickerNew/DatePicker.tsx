@@ -6,7 +6,7 @@ import Calendar from '../Calendar/Calendar';
 import Popover from '../Popover';
 import TextField from '../TextField';
 import styles from './DatePicker.module.scss';
-import { formatDate, parseDate, applyDateMask, isValidDateFormat } from './DateUtils';
+import { formatDate, parseDate, applyDateMask, isValidDateFormat } from './Utils/DateUtils';
 
 import type { DatePickerNewProps } from './DatePicker.types';
 

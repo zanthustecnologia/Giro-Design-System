@@ -1,4 +1,4 @@
-import { Locale } from '../../types/common.types';
+import { Locale } from '../../../types/common.types';
 
 export function formatDate(date: Date, locale: Locale = 'pt-br'): string {
   if (!date || !(date instanceof Date)) {
