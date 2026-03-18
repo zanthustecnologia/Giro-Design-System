@@ -89,10 +89,6 @@ const DatePickerNew: React.FC<DatePickerNewProps> = ({
     setShowCalendar((prev) => !prev);
   };
 
-  const filterNumericInput = (inputValue: string): string => {
-    return inputValue.replace(/[^\d/]/g, '');
-  };
-
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     const { key, ctrlKey, metaKey } = event;
 
@@ -156,11 +152,7 @@ const DatePickerNew: React.FC<DatePickerNewProps> = ({
   };
 
   const handleTextFieldChange = (value: string) => {
-    const filteredValue = filterNumericInput(value);
-
-    const numbersOnly = filteredValue.replace(/[^\d]/g, '');
-
-    const maskedValue = applyDateMask(numbersOnly, locale);
+    const maskedValue = applyDateMask(value, locale);
 
     setTempInputValue(maskedValue);
     setIsEditing(true);
@@ -192,15 +184,8 @@ const DatePickerNew: React.FC<DatePickerNewProps> = ({
     }
   };
 
-  useEffect(() => {
-    if (!isEditing && currentSelectedDate) {
-      setTempInputValue(formatDate(currentSelectedDate, locale));
-    }
-  }, [locale, currentSelectedDate, isEditing]);
-
   return (
-    <div ref={wrapperRef}>
-      <div className={clsx(styles.datePicker)}>
+    <div ref={wrapperRef} className={styles.datePicker}>
         <Popover
           open={showCalendar}
           onOpenChange={setShowCalendar}
@@ -222,6 +207,7 @@ const DatePickerNew: React.FC<DatePickerNewProps> = ({
               }}
               onKeyDown={handleKeyDown}
               onFocus={handleFocus}
+              persistIcon
               value={displayValue}
               helperText={combinedHelperText}
               maxLength={10}
@@ -258,7 +244,6 @@ const DatePickerNew: React.FC<DatePickerNewProps> = ({
           side={calendarSide}
           align={calendarAlign}
         />         
-      </div>
     </div>
   );
 };

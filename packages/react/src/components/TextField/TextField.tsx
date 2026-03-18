@@ -29,6 +29,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
       onBlur,
       onFocus,
       name,
+      persistIcon = false,
       ...inputProps
     },
     ref
@@ -103,8 +104,8 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
       [onFocus]
     );
 
-    const showCustomIcon = inputValue.trim().length === 0 && icon;
-    const showClearIcon = isFocused && inputValue.trim().length > 0;
+    const showCustomIcon = (inputValue.trim().length === 0 || persistIcon) && icon;
+    const showClearIcon = isFocused && inputValue.trim().length > 0 && !persistIcon;
     const hasError = Boolean(inputError);
     const displayHelperText = inputError || helperText || '\u00A0';
     const helperId = inputError

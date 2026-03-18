@@ -67,6 +67,9 @@ export interface TextFieldProps extends Omit<
   
   /** Ícone a ser exibido no campo */
   icon?: React.ReactNode;
+
+  /** Mantém o ícone visível mesmo quando o campo tem valor */
+  persistIcon?: boolean;
 }
 
 /**
