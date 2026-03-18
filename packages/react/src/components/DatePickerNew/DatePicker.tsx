@@ -90,7 +90,7 @@ const DatePickerNew: React.FC<DatePickerNewProps> = ({
   };
 
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
-    const { key, ctrlKey, metaKey } = event;
+    const { key } = event;
 
     if (key === 'Enter') {
       if (showCalendar) {
@@ -124,14 +124,10 @@ const DatePickerNew: React.FC<DatePickerNewProps> = ({
     }
 
     const controlKeys = [
-      'Backspace', 'Delete', 'Tab', 'ArrowLeft', 'ArrowRight',
-      'ArrowUp', 'ArrowDown', 'Home', 'End'
+      'Backspace', 'Delete', 'ArrowLeft', 'ArrowRight',
     ];
 
-    const isCtrlCommand = ctrlKey || metaKey;
-    const allowedCtrlKeys = ['a', 'c', 'v', 'x'];
-
-    if (controlKeys.includes(key) || (isCtrlCommand && allowedCtrlKeys.includes(key.toLowerCase()))) {
+    if (controlKeys.includes(key)) {
       return;
     }
 
