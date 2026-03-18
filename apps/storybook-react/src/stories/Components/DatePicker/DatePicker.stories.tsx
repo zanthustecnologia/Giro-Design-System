@@ -57,7 +57,7 @@ const meta: Meta<typeof DatePicker> = {
       description: 'Label do campo',
     },
   },
-} satisfies Meta<typeof DatePickerNew>;
+} satisfies Meta<typeof DatePicker>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
