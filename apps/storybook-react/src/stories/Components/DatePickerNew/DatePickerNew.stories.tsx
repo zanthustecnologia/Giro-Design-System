@@ -109,6 +109,16 @@ export const Default: Story = {
   },
 };
 
+export const Controlled: Story = {
+  render: ControlledTemplate,
+  args: {
+    locale: 'pt-br',
+    calendarSide: 'bottom',
+    label: 'Data de nascimento',
+    helperText: 'Selecione sua data de nascimento',
+  },
+};
+
 export const WithBrazilianLocale: Story = {
   render: Template,
   args: {
@@ -126,15 +136,6 @@ export const EnglishLocale: Story = {
     calendarSide: 'bottom',
     label: 'Date (US)',
     helperText: 'Format: MM/DD/YYYY',
-  },
-};
-
-export const RightPositioned: Story = {
-  render: Template,
-  args: {
-    locale: 'pt-br',
-    calendarSide: 'bottom',
-    label: 'Data (Calendário à direita)',
   },
 };
 
