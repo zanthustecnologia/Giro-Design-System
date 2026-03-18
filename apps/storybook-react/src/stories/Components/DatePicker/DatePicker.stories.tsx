@@ -14,9 +14,6 @@ const meta: Meta<typeof DatePicker> = {
     ),
   ],
   parameters: {
-    controls: {
-      sort: 'alpha',
-    },
     layout: 'centered',
     },
   argTypes: {
@@ -29,13 +26,22 @@ const meta: Meta<typeof DatePicker> = {
         defaultValue: { summary: 'pt-br' },
       },
     },
-    calendarPosition: {
+    calendarSide: {
       control: { type: 'select' },
-      options: ['left', 'right'],
+      options: ['left', 'right', 'top', 'bottom'],
       description: 'Posição do calendário dropdown',
       table: {
-        type: { summary: "'left' | 'right'" },
-        defaultValue: { summary: 'left' },
+        type: { summary: "'left' | 'right' | 'top' | 'bottom'" },
+        defaultValue: { summary: 'bottom' },
+      },
+    },
+    calendarAlign: {
+      control: { type: 'select' },
+      options: ['start', 'center', 'end'],
+      description: 'Alinhamento do calendário em relação ao campo',
+      table: {
+        type: { summary: "'start' | 'center' | 'end'" },
+        defaultValue: { summary: 'center' },
       },
     },
     required: {
@@ -51,7 +57,7 @@ const meta: Meta<typeof DatePicker> = {
       description: 'Label do campo',
     },
   },
-} satisfies Meta<typeof DatePicker>;
+} satisfies Meta<typeof DatePickerNew>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -97,7 +103,17 @@ export const Default: Story = {
   render: Template,
   args: {
     locale: 'pt-br',
-    calendarPosition: 'left',
+    calendarSide: 'bottom',
+    label: 'Data de nascimento',
+    helperText: 'Selecione sua data de nascimento',
+  },
+};
+
+export const Controlled: Story = {
+  render: ControlledTemplate,
+  args: {
+    locale: 'pt-br',
+    calendarSide: 'bottom',
     label: 'Data de nascimento',
     helperText: 'Selecione sua data de nascimento',
   },
@@ -107,7 +123,7 @@ export const WithBrazilianLocale: Story = {
   render: Template,
   args: {
     locale: 'pt-br',
-    calendarPosition: 'left',
+    calendarSide: 'bottom',
     label: 'Data (Brasil)',
     helperText: 'Formato: DD/MM/AAAA',
   },
@@ -117,18 +133,9 @@ export const EnglishLocale: Story = {
   render: Template,
   args: {
     locale: 'en-us',
-    calendarPosition: 'left',
+    calendarSide: 'bottom',
     label: 'Date (US)',
     helperText: 'Format: MM/DD/YYYY',
-  },
-};
-
-export const RightPositioned: Story = {
-  render: Template,
-  args: {
-    locale: 'pt-br',
-    calendarPosition: 'right',
-    label: 'Data (Calendário à direita)',
   },
 };
 
@@ -136,7 +143,7 @@ export const WithError: Story = {
   render: Template,
   args: {
     locale: 'pt-br',
-    calendarPosition: 'left',
+    calendarSide: 'bottom',
     label: 'Data com erro',
     required: true,
   },

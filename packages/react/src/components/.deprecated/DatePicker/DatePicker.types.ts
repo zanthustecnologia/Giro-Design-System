@@ -1,4 +1,4 @@
-import { Locale, BaseProps, Side, Align } from '../../types/common.types';
+import { Locale, BaseProps, Position } from '../../types/common.types';
 
 /**
  * Props do componente DatePicker
@@ -23,15 +23,12 @@ import { Locale, BaseProps, Side, Align } from '../../types/common.types';
  * />
  * ```
  */
-export interface DatePickerNewProps extends BaseProps {
+export interface DatePickerProps extends BaseProps {
   /** Locale para formatação da data */
   locale?: Locale;
   
   /** Posição do calendário em relação ao campo */
-  calendarSide?: Side;
-
-  /** Alinhamento do calendário em relação ao campo */
-  calendarAlign?: Align;
+  calendarPosition?: Position;
   
   /** Texto de ajuda exibido abaixo do campo */
   helperText?: string;
@@ -62,5 +59,4 @@ export interface DatePickerNewProps extends BaseProps {
   
   /** ID para testes automatizados */
   'data-testid'?: string;
-
 }

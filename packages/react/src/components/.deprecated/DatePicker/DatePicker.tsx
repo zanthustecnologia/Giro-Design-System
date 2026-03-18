@@ -3,17 +3,15 @@ import clsx from 'clsx';
 import React, { useState, useEffect, useRef, useCallback, useId, KeyboardEvent, useMemo } from 'react';
 
 import Calendar from '../Calendar/Calendar';
-import Popover from '../Popover';
 import TextField from '../TextField';
 import styles from './DatePicker.module.scss';
-import { formatDate, parseDate, applyDateMask, isValidDateFormat } from './Utils/DateUtils';
+import { formatDate, parseDate, applyDateMask, isValidDateFormat } from './DateUtils';
 
-import type { DatePickerNewProps } from './DatePicker.types';
+import type { DatePickerProps } from './DatePicker.types';
 
-const DatePickerNew: React.FC<DatePickerNewProps> = ({
+const DatePicker: React.FC<DatePickerProps> = ({
   locale = 'pt-br',
-  calendarSide = 'bottom',
-  calendarAlign = 'center',
+  calendarPosition = 'left',
   helperText,
   required = false,
   label = 'Data',
@@ -57,10 +55,7 @@ const DatePickerNew: React.FC<DatePickerNewProps> = ({
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      const target = event.target as Element;
-      const isInsideWrapper = wrapperRef.current?.contains(target as Node);
-      const isInsideCalendar = !!target.closest?.('[data-radix-popper-content-wrapper]');
-      if (!isInsideWrapper && !isInsideCalendar) {
+      if (wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
         setShowCalendar(false);
       }
     }
@@ -89,8 +84,18 @@ const DatePickerNew: React.FC<DatePickerNewProps> = ({
     setShowCalendar((prev) => !prev);
   };
 
+  const handleOpenCalendar = () => {
+    if (!disabled) {
+      setShowCalendar(true);
+    }
+  };
+
+  const filterNumericInput = (inputValue: string): string => {
+    return inputValue.replace(/[^\d/]/g, '');
+  };
+
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
-    const { key } = event;
+    const { key, ctrlKey, metaKey } = event;
 
     if (key === 'Enter') {
       if (showCalendar) {
@@ -124,10 +129,14 @@ const DatePickerNew: React.FC<DatePickerNewProps> = ({
     }
 
     const controlKeys = [
-      'Backspace', 'Delete', 'ArrowLeft', 'ArrowRight',
+      'Backspace', 'Delete', 'Tab', 'ArrowLeft', 'ArrowRight',
+      'ArrowUp', 'ArrowDown', 'Home', 'End'
     ];
 
-    if (controlKeys.includes(key)) {
+    const isCtrlCommand = ctrlKey || metaKey;
+    const allowedCtrlKeys = ['a', 'c', 'v', 'x'];
+
+    if (controlKeys.includes(key) || (isCtrlCommand && allowedCtrlKeys.includes(key.toLowerCase()))) {
       return;
     }
 
@@ -141,14 +150,12 @@ const DatePickerNew: React.FC<DatePickerNewProps> = ({
     handleDateChange(newSelectedDate);
   };
 
-  const handleFocus = () => {
-    if (!disabled) {
-      setShowCalendar(true);
-    }
-  };
-
   const handleTextFieldChange = (value: string) => {
-    const maskedValue = applyDateMask(value, locale);
+    const filteredValue = filterNumericInput(value);
+
+    const numbersOnly = filteredValue.replace(/[^\d]/g, '');
+
+    const maskedValue = applyDateMask(numbersOnly, locale);
 
     setTempInputValue(maskedValue);
     setIsEditing(true);
@@ -180,47 +187,56 @@ const DatePickerNew: React.FC<DatePickerNewProps> = ({
     }
   };
 
+  useEffect(() => {
+    if (!isEditing && currentSelectedDate) {
+      setTempInputValue(formatDate(currentSelectedDate, locale));
+    }
+  }, [locale, currentSelectedDate, isEditing]);
+
   return (
-    <div ref={wrapperRef} className={styles.datePicker}>
-        <Popover
-          open={showCalendar}
-          onOpenChange={setShowCalendar}
-          trigger={
-            <TextField
-              className={styles.textfieldContainer}
-              type="tel"
-              icon={
-                <Calendar16Regular 
-                  onClick={!disabled ? handleIconClick : undefined}
-                  className={clsx(
-                    styles.datePickerIcon,
-                    disabled && styles.datePickerIconDisabled
-                  )}
-                />
-              }
-              onChange={(e: string | number) => {
-                handleTextFieldChange(String(e));
-              }}
-              onKeyDown={handleKeyDown}
-              onFocus={handleFocus}
-              persistIcon
-              value={displayValue}
-              helperText={combinedHelperText}
-              maxLength={10}
-              required={required}
-              label={label}
-              disabled={disabled}
-              id={fieldId}
-              data-testid={testId}
-              placeholder={locale === 'en-us' ? 'MM/DD/YYYY' : 'DD/MM/YYYY'}
-              aria-label="Open calendar"
-              aria-expanded={showCalendar}
-              aria-controls={calendarId}
-              aria-invalid={!!currentError}
-              aria-describedby={currentError ? errorId : (helperText ? helperTextId : undefined)}
-            />       
+    <div ref={wrapperRef}>
+      <div className={clsx(styles.datePicker)}>
+        <TextField
+          className={styles.textfieldContainer}
+          type="tel"
+          icon={
+            <Calendar16Regular 
+              onClick={!disabled ? handleIconClick : undefined}
+              className={clsx(
+                styles.datePickerIcon,
+                disabled && styles.datePickerIconDisabled
+              )}
+            />
           }
-          content={
+          onChange={(e: string | number) => {
+            handleTextFieldChange(String(e));
+          }}
+          onClick={!disabled ? handleOpenCalendar : undefined}
+          onFocus={!disabled ? handleOpenCalendar : undefined}
+          onKeyDown={handleKeyDown}
+          value={displayValue}
+          helperText={combinedHelperText}
+          maxLength={10}
+          required={required}
+          label={label}
+          disabled={disabled}
+          id={fieldId}
+          data-testid={testId}
+          placeholder={locale === 'en-us' ? 'MM/DD/YYYY' : 'DD/MM/YYYY'}
+          aria-label="Open calendar"
+          aria-expanded={showCalendar}
+          aria-controls={calendarId}
+          aria-invalid={!!currentError}
+          aria-describedby={currentError ? errorId : (helperText ? helperTextId : undefined)}
+        />
+        <div
+          className={clsx(
+            styles.datePickerCalendarPopup,
+            calendarPosition === 'left' && styles.datePickerCalendarLeft,
+            calendarPosition === 'right' && styles.datePickerCalendarRight
+          )}
+        >
+          {showCalendar && (
             <Calendar
               selected={currentSelectedDate}
               currentDate={currentDate}
@@ -235,13 +251,12 @@ const DatePickerNew: React.FC<DatePickerNewProps> = ({
                 handleDateChange(null);
                 setCurrentDate(new Date());
               }}
-            /> 
-          }
-          side={calendarSide}
-          align={calendarAlign}
-        />         
+            />
+          )}
+        </div>
+      </div>
     </div>
   );
 };
 
-export default React.memo(DatePickerNew);
+export default React.memo(DatePicker);

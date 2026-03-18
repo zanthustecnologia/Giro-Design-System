@@ -25,9 +25,6 @@ export { type ContainerProps } from './Container/Container.types';
 export { default as DatePicker } from './DatePicker';
 export { type DatePickerProps } from './DatePicker/DatePicker.types';
 
-export { default as DatePickerNew } from './DatePickerNew';
-export { type DatePickerNewProps } from './DatePickerNew/DatePicker.types';
-
 export { default as Dialog } from './Dialog';
 export { type DialogProps } from './Dialog/Dialog.types';
 
