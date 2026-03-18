@@ -55,43 +55,27 @@ const YEARS_PER_PAGE = 20;
 
 const Calendar = ({
   selected,
-  selectedDate,
   currentDate,
   defaultMonth,
   startMonth,
   endMonth,
-  numberOfMonths,
   onDaySelect,
   onDateChange,
   onClear: _onClear,
   minDate,
   maxDate,
   disabled,
-  hidden,
   format: _format,
   locale = "pt-br",
-  captionLayout = "dropdown",
   captionMode = "grid",
-  reverseYears,
-  fixedWeeks,
-  showOutsideDays,
-  showWeekNumber,
-  hideNavigation,
-  disableNavigation,
-  navLayout,
-  role,
-  title,
-  animate = true,
-  timeZone = "America/Sao_Paulo",
-  modifiers,
-  modifiersClassNames,
-  footer,
+  autoFocus,
   id,
   "aria-label": ariaLabel,
-  "aria-labelledby": ariaLabelledBy,
 }: CalendarProps) => {
+  const animate = true;
+
   const [internalSelected, setInternalSelected] = useState<Date | undefined>(
-    selected ?? selectedDate ?? undefined
+    selected ?? undefined
   );
 
   const [internalDisplayMonth, setInternalDisplayMonth] = useState<Date>(
@@ -106,9 +90,7 @@ const Calendar = ({
   const resolvedSelected =
     selected !== undefined
       ? (selected ?? undefined)
-      : selectedDate !== undefined
-        ? (selectedDate ?? undefined)
-        : internalSelected;
+      : internalSelected;
 
   const resolvedLocale = locale === "pt-br" ? ptBR : enUS;
   const intlLocale = locale === "pt-br" ? "pt-BR" : "en-US";
@@ -185,31 +167,16 @@ const Calendar = ({
 
   const sharedDayPickerProps = {
     classNames: styles,
-    modifiers,
-    modifiersClassNames,
     animate,
     mode: "single" as const,
     selected: resolvedSelected,
     onSelect: handleSelect,
     startMonth,
     endMonth,
-    numberOfMonths,
     disabled: disabledMatchers.length > 0 ? disabledMatchers : undefined,
-    hidden,
-    timeZone,
     locale: resolvedLocale,
-    reverseYears,
-    fixedWeeks,
-    showOutsideDays,
-    showWeekNumber,
-    hideNavigation,
-    disableNavigation,
-    navLayout,
-    role,
-    title,
-    footer,
+    autoFocus,
     "aria-label": ariaLabel,
-    "aria-labelledby": ariaLabelledBy,
   };
 
   if (!isGridMode) {
@@ -217,7 +184,7 @@ const Calendar = ({
       <DayPicker
         id={id}
         {...sharedDayPickerProps}
-        captionLayout={captionLayout}
+        captionLayout="dropdown"
         month={currentDate ?? undefined}
         defaultMonth={defaultMonth}
         onMonthChange={onDateChange}
@@ -315,7 +282,7 @@ const Calendar = ({
                       onClick={() => setYearPageStart((s) => s - YEARS_PER_PAGE)}
                       aria-label="Anos anteriores"
                     >
-                      <svg width="14" height="16" viewBox="0 0 12 12" fill="none" aria-hidden="true" style={{ transform: "rotate(90deg)" }}>
+                      <svg viewBox="0 0 12 12" aria-hidden="true" className={styles.chevronNavBtnPrev}>
                         <path d="M2 4L6 8L10 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </button>
@@ -326,7 +293,7 @@ const Calendar = ({
                       onClick={() => setYearPageStart((s) => s + YEARS_PER_PAGE)}
                       aria-label="Próximos anos"
                     >
-                      <svg width="14" height="16" viewBox="0 0 12 12" fill="none" aria-hidden="true" style={{ transform: "rotate(-90deg)" }}>
+                      <svg viewBox="0 0 12 12" aria-hidden="true" className={styles.chevronNavBtnNext}>
                         <path d="M2 4L6 8L10 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </button>
