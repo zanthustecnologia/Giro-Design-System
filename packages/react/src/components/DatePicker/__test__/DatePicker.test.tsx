@@ -468,7 +468,7 @@ describe('DatePicker', () => {
       expect(input).toHaveValue('');
     });
 
-    it('limpa o campo e chama onChange com null ao digitar data com formato incorreto', async () => {
+    it('exibe erro e chama onChange com null ao digitar data com formato incorreto', async () => {
       const onChange = vi.fn();
       render(<DatePicker defaultValue={new Date(2024, 0, 15)} onChange={onChange} />);
 
@@ -479,7 +479,8 @@ describe('DatePicker', () => {
       expect(onChange).toHaveBeenCalledWith(null);
 
       await waitFor(() => {
-        expect(input).toHaveValue('');
+        expect(input).toHaveValue('99/01/2024');
+        expect(screen.queryByText('Data inválida')).not.toBeInTheDocument();
       });
     });
   });

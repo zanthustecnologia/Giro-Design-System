@@ -1,6 +1,6 @@
 import { Calendar16Regular } from '@fluentui/react-icons';
 import clsx from 'clsx';
-import React, { useState, useEffect, useRef, useCallback, useId, KeyboardEvent, useMemo } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useId, KeyboardEvent } from 'react';
 
 import Calendar from '../Calendar/Calendar';
 import Popover from '../Popover';
@@ -28,8 +28,6 @@ const DatePicker: React.FC<DatePickerProps> = ({
 }) => {
   const fieldId = useId();
   const calendarId = `${fieldId}-calendar`;
-  const errorId = `${fieldId}-error`;
-  const helperTextId = `${fieldId}-help`;
 
   const isControlled = value !== undefined;
   const [internalDate, setInternalDate] = useState<Date | null>(defaultValue || null);
@@ -41,19 +39,12 @@ const DatePicker: React.FC<DatePickerProps> = ({
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   const currentSelectedDate = isControlled ? value : internalDate;
-  const currentError = externalError || internalError;
+  const hasValidationError = !!(externalError || internalError);
   const displayValue = isEditing ? tempInputValue : (currentSelectedDate ? formatDate(currentSelectedDate, locale) : '');
 
-  const combinedHelperText = useMemo(() => {
-    const texts = [];
-    if (helperText) {
-      texts.push(helperText);
-    }
-    if (currentError) {
-      texts.push(currentError);
-    }
-    return texts.join(' • ');
-  }, [helperText, currentError]);
+  const combinedHelperText = externalError && helperText
+    ? `${helperText} • ${externalError}`
+    : externalError || helperText || '';
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -169,11 +160,13 @@ const DatePicker: React.FC<DatePickerProps> = ({
           setCurrentDate(parsedDate);
         } else {
           setInternalError('Data inválida');
-          handleDateChange(null);
+          if (!isControlled) setInternalDate(null);
+          onChange?.(null);
         }
       } else {
         setInternalError('Data inválida');
-        handleDateChange(null);
+        if (!isControlled) setInternalDate(null);
+        onChange?.(null);
       }
     } else {
       setInternalError('');
@@ -205,7 +198,8 @@ const DatePicker: React.FC<DatePickerProps> = ({
               onFocus={handleFocus}
               persistIcon
               value={displayValue}
-              helperText={combinedHelperText}
+              helperText={!externalError ? (helperText || undefined) : undefined}
+              error={hasValidationError ? (externalError ? (combinedHelperText || true) : true) : undefined}
               maxLength={10}
               required={required}
               label={label}
@@ -216,8 +210,8 @@ const DatePicker: React.FC<DatePickerProps> = ({
               aria-label="Open calendar"
               aria-expanded={showCalendar}
               aria-controls={calendarId}
-              aria-invalid={!!currentError}
-              aria-describedby={currentError ? errorId : (helperText ? helperTextId : undefined)}
+              aria-invalid={hasValidationError}
+              aria-describedby={externalError ? undefined : (helperText ? `${fieldId}-help` : undefined)}
             />       
           }
           content={
