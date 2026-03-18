@@ -1,0 +1,41 @@
+.datePicker {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: var(--spacing-8);
+  position: relative;
+}
+
+.textfieldContainer {
+  width: 100%;
+  max-width: 280px;
+  
+  @media (max-width: 360px) {
+    max-width: 100%;
+    min-width: 280px;
+  }
+  
+  @media (max-width: 768px) {
+    max-width: 320px;
+  }
+}
+
+.datePickerCalendarPopup {
+  position: absolute;
+  top: 100%;
+}
+
+.datePickerCalendarLeft {
+  left: var(--spacing-0);
+}
+
+.datePickerCalendarRight {
+  right: var(--spacing-0);
+}
+
+.datePickerIcon {
+  cursor: pointer;
+}
+
+.datePickerIconDisabled {
+  cursor: not-allowed;
+}
