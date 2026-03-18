@@ -20,9 +20,6 @@ interface CalendarBaseProps extends Omit<BaseProps, 'disabled'> {
   /** Data selecionada atualmente (usada pelo DatePicker). */
   selected?: Date | null;
 
-  /** Data selecionada atualmente (usada pelo Filter). */
-  selectedDate?: Date | null;
-
   // --- Navegação --------------------------------------------------------
 
   /**
