@@ -21,12 +21,6 @@ const Drawer: React.FC<DrawerProps> = ({
   onOverlayClick,
   closeOnOverlayClick = true,
   closeOnEscape = true,
-  additionalButon1,
-  additionalButon1Click,
-  button1Icon,
-  additionalButon2 = false,
-  additionalButon2Click,
-  button2Icon,
 }) => {
 
   const internalClose = useCallback((): void => {
@@ -124,6 +118,7 @@ const Drawer: React.FC<DrawerProps> = ({
           </div>
           
           <div>{headerContent}</div>
+
           <Button 
             onClick={handleCloseClick}
             variant='text'

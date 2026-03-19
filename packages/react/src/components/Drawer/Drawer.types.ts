@@ -61,24 +61,6 @@ export interface DrawerProps extends BaseProps {
   
   /** Define se o drawer fecha ao pressionar ESC */
   closeOnEscape?: boolean;
-
-  /** Define se o drawer possui um botão adicional 1 */
-  additionalButon1?: boolean;
-
-  /** Callback executado ao clicar no botão adicional 1: () => void */
-  additionalButon1Click?: () => void;
-
-  /** Ícone do botão adicional 1 */
-  button1Icon?: React.ReactNode;
-  
-  /** Define se o drawer possui um botão adicional 2 */
-  additionalButon2?: boolean;
-
-  /** Callback executado ao clicar no botão adicional 2: () => void */
-  additionalButon2Click?: () => void;
-
-  /** Ícone do botão adicional 2 */
-  button2Icon?: React.ReactNode;
 }
 
 /**
