@@ -9,6 +9,7 @@ import {
   parseDate,
   applyDateMask,
   isValidDateFormat,
+  validatePartialDate,
 } from '../Utils/DateUtils';
 
 // Mock CSS module
@@ -191,6 +192,64 @@ describe('DateUtils', () => {
 
     it('rejeita data incompleta', () => {
       expect(isValidDateFormat('15/01', 'pt-br')).toBe(false);
+    });
+  });
+
+  describe('validatePartialDate', () => {
+    it('retorna valid para string vazia', () => {
+      expect(validatePartialDate('')).toBe('valid');
+    });
+
+    it('retorna incomplete para 1 dígito', () => {
+      expect(validatePartialDate('1')).toBe('incomplete');
+    });
+
+    it('retorna valid para dia válido pt-br (15)', () => {
+      expect(validatePartialDate('15', 'pt-br')).toBe('valid');
+    });
+
+    it('retorna invalid para dia inválido pt-br (32)', () => {
+      expect(validatePartialDate('32', 'pt-br')).toBe('invalid');
+    });
+
+    it('retorna invalid para dia zero pt-br (00)', () => {
+      expect(validatePartialDate('00', 'pt-br')).toBe('invalid');
+    });
+
+    it('retorna valid para mês válido en-us (12)', () => {
+      expect(validatePartialDate('12', 'en-us')).toBe('valid');
+    });
+
+    it('retorna invalid para mês inválido en-us (13)', () => {
+      expect(validatePartialDate('13', 'en-us')).toBe('invalid');
+    });
+
+    it('retorna incomplete ao digitar o mês (length 4)', () => {
+      expect(validatePartialDate('15/0', 'pt-br')).toBe('incomplete');
+    });
+
+    it('retorna valid para dia+mês válidos pt-br (15/01)', () => {
+      expect(validatePartialDate('15/01', 'pt-br')).toBe('valid');
+    });
+
+    it('retorna invalid para mês inválido pt-br (15/13)', () => {
+      expect(validatePartialDate('15/13', 'pt-br')).toBe('invalid');
+    });
+
+    it('retorna incomplete ao digitar o ano (length 7)', () => {
+      expect(validatePartialDate('15/01/2', 'pt-br')).toBe('incomplete');
+    });
+
+    it('retorna valid para data completa válida pt-br', () => {
+      expect(validatePartialDate('15/01/2024', 'pt-br')).toBe('valid');
+    });
+
+    it('retorna invalid para data inexistente completa (30/02/2024)', () => {
+      expect(validatePartialDate('30/02/2024', 'pt-br')).toBe('invalid');
+    });
+
+    it('retorna valid para data completa válida en-us', () => {
+      expect(validatePartialDate('01/15/2024', 'en-us')).toBe('valid');
     });
   });
 });

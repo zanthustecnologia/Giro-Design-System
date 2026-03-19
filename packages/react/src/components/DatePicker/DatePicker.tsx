@@ -6,7 +6,7 @@ import Calendar from '../Calendar/Calendar';
 import Popover from '../Popover';
 import TextField from '../TextField';
 import styles from './DatePicker.module.scss';
-import { formatDate, parseDate, applyDateMask, isValidDateFormat } from './Utils/DateUtils';
+import { formatDate, parseDate, applyDateMask, isValidDateFormat, validatePartialDate } from './Utils/DateUtils';
 
 import type { DatePickerProps } from './DatePicker.types';
 
@@ -151,25 +151,23 @@ const DatePicker: React.FC<DatePickerProps> = ({
       return;
     }
 
-    if (maskedValue.length === 10) {
-      if (isValidDateFormat(maskedValue, locale)) {
-        const parsedDate = parseDate(maskedValue, locale);
-        if (parsedDate && !isNaN(parsedDate.getTime())) {
-          setInternalError('');
-          handleDateChange(parsedDate);
-          setCurrentDate(parsedDate);
-        } else {
-          setInternalError('Data inválida');
-          if (!isControlled) setInternalDate(null);
-          onChange?.(null);
-        }
-      } else {
-        setInternalError('Data inválida');
+    const result = validatePartialDate(maskedValue, locale);
+
+    if (result === 'invalid') {
+      setInternalError('invalid');
+      if (maskedValue.length === 10) {
         if (!isControlled) setInternalDate(null);
         onChange?.(null);
       }
-    } else {
+    } else if (result === 'valid') {
       setInternalError('');
+      if (maskedValue.length === 10) {
+        const parsedDate = parseDate(maskedValue, locale);
+        if (parsedDate) {
+          handleDateChange(parsedDate);
+          setCurrentDate(parsedDate);
+        }
+      }
     }
   };
 
@@ -199,7 +197,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
               persistIcon
               value={displayValue}
               helperText={!externalError ? (helperText || undefined) : undefined}
-              error={hasValidationError ? (externalError ? (combinedHelperText || true) : true) : undefined}
+              error={hasValidationError ? (externalError ? combinedHelperText : true) : undefined}
               maxLength={10}
               required={required}
               label={label}

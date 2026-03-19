@@ -79,3 +79,31 @@ export function parseDate(dateString: string, locale: Locale = 'pt-br'): Date | 
 
   return date;
 }
+
+export function validatePartialDate(value: string, locale: Locale = 'pt-br'): 'valid' | 'invalid' | 'incomplete' {
+  if (value.length === 0) return 'valid';
+
+  if (value.length === 2) {
+    const n = parseInt(value, 10);
+    const isValid = locale === 'en-us' ? n >= 1 && n <= 12 : n >= 1 && n <= 31;
+    return isValid ? 'valid' : 'invalid';
+  }
+
+  if (value.length === 5) {
+    const parts = value.split('/');
+    const a = parseInt(parts[0], 10);
+    const b = parseInt(parts[1], 10);
+    const isValid = locale === 'en-us'
+      ? a >= 1 && a <= 12 && b >= 1 && b <= 31
+      : a >= 1 && a <= 31 && b >= 1 && b <= 12;
+    return isValid ? 'valid' : 'invalid';
+  }
+
+  if (value.length === 10) {
+    if (!isValidDateFormat(value, locale)) return 'invalid';
+    const parsed = parseDate(value, locale);
+    return parsed ? 'valid' : 'invalid';
+  }
+
+  return 'incomplete';
+}
