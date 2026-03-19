@@ -45,11 +45,6 @@ const meta: Meta<typeof TextArea> = {
       if: { arg: 'tooltip', truthy: true },
       description: 'Texto do tooltip'
     },
-    helper: {
-      control: 'boolean',
-      if: { arg: 'helperText', truthy: true },
-      description: 'Exibir texto de ajuda'
-    },
     helperText: {
       control: 'text',
       description: 'Texto de ajuda'
@@ -101,7 +96,6 @@ export const Default: Story = {
     required: false,
     tooltip: true,
     helperText: 'Optional support text',
-    trailingIcon: true,
     label: 'Label',
     tooltipText: 'Tooltip text'
   },

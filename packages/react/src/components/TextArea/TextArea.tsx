@@ -28,7 +28,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
       onFocus,
       name,
       rows = 4,
-      resize = 'vertical',
+      resize = 'both',
       showCharCount = false,
       ...textareaProps
     },

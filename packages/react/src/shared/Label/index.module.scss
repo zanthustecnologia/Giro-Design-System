@@ -33,4 +33,17 @@
 }
 .disabledLabel {
   color: var(--color-neutral-high-dark);
+  .requiredLabel {
+    color: var(--color-neutral-high-dark);
+  }
+}
+.disabledIcon {
+  color: var(--color-neutral-high-dark);
+}
+.disabledContainer {
+  color: var(--color-neutral-high-dark);
+
+  .infoIcon {
+    color: var(--color-neutral-high-dark);
+  }
 }
