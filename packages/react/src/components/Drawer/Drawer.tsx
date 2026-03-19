@@ -117,7 +117,9 @@ const Drawer: React.FC<DrawerProps> = ({
             {title}
           </div>
           
-          <div>{headerContent}</div>
+          {headerContent && (
+            <div>{headerContent}</div>
+          )}
 
           <Button 
             onClick={handleCloseClick}
