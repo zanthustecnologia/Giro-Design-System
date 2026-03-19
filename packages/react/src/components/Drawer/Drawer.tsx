@@ -1,12 +1,15 @@
-import React, { useEffect, useState, useCallback, ReactNode, ReactElement } from 'react';
-import clsx from 'clsx';
-import styles from './Drawer.module.scss';
 import { Dismiss16Regular } from '@fluentui/react-icons';
+import clsx from 'clsx';
+import React, { useEffect, useState, useCallback, ReactNode, ReactElement } from 'react';
+
+import styles from './Drawer.module.scss';
 import Button from '../Button/Button';
+
 import type { DrawerProps, DrawerExampleProps } from './Drawer.types';
 
 const Drawer: React.FC<DrawerProps> = ({
   children,
+  headerContent,
   customWidth = '400px',
   onClose,
   title = 'Título',
@@ -119,25 +122,8 @@ const Drawer: React.FC<DrawerProps> = ({
           >
             {title}
           </div>
-         {additionalButon1 && (
-            <Button 
-              onClick={additionalButon1Click}
-              variant='text'
-              iconOnly
-              icon={button1Icon}
-              size='lg'
-            />
-          )}
-
-          {additionalButon2 && additionalButon1 && (
-            <Button 
-              onClick={additionalButon2Click}
-              variant='text'
-              iconOnly
-              icon={button2Icon}
-              size='lg'
-            />
-          )}
+          
+          <div>{headerContent}</div>
           <Button 
             onClick={handleCloseClick}
             variant='text'

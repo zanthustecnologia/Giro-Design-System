@@ -14,6 +14,7 @@ interface DrawerExampleProps {
   customWidth?: string;
   noPadding?: boolean;
   className?: string;
+
 }
 const meta: Meta<typeof Drawer> = {
   title: 'Components/Drawer',
@@ -75,6 +76,7 @@ export default meta;
  */
 const DrawerExample: React.FC<DrawerExampleProps> = ({ 
   children, 
+  headerContent,
   title = 'Título do Drawer',
   customWidth = '400px',
   className = '',
