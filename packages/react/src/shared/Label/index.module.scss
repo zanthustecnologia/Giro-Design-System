@@ -2,6 +2,7 @@
   display: flex;
   align-items: center;
   gap: var(--spacing-0) var(--spacing-4);
+  margin-bottom: var(--spacing-4);
 }
 
 .wrapperLabel {
@@ -14,7 +15,6 @@
   align-items: center;
   gap: var(--spacing-4);
   flex-direction: row;
-  margin-bottom: var(--spacing-4);
 }
 .requiredLabel {
   color: var(--color-brand-primary-default);
