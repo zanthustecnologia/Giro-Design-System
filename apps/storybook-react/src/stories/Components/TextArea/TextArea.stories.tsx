@@ -106,20 +106,6 @@ export const Default: Story = {
   ),
 };
 
-export const WithoutTooltip: Story = {
-  args: {
-    placeholder: 'Digite seu email',
-    label: 'Email',
-    tooltip: false,
-    helperText: 'Insira um email válido',
-  },
-  render: (args) => (
-    <div className='storybook__container'>
-      <TextArea {...args} />
-    </div>
-  ),
-};
-
 export const Disabled: Story = {
   args: {
     placeholder: 'Campo desabilitado',
