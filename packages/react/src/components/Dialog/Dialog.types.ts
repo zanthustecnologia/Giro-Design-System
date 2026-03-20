@@ -8,13 +8,11 @@ import { BaseProps } from '../../types/common.types';
  * <Dialog
  *   title="Confirmar ação"
  *   bodyContent="Tem certeza que deseja continuar?"
- *   textConfirm="Confirmar"
- *   textCancel="Cancelar"
+ *   textPrimaryAction="Confirmar"
+ *   textSecondaryAction="Cancelar"
  * />
  */
 export interface DialogProps extends BaseProps, React.HTMLAttributes<HTMLDivElement> {
-  /** Conteúdo customizado do diálogo */
-  // children?: ReactNode;
 
   show: boolean;
 
