@@ -24,15 +24,26 @@ const meta: Meta<typeof Filter> = {
         defaultValue: { summary: 'Filter' },
       },
     },
-    position: {
+    side: {
       control: {
         type: 'select',
-        options: ['left', 'right'],
+        options: ['top', 'right', 'bottom', 'left'],
       },
-      description: 'Posição do dropdown',
+      description: 'Lado de abertura do popover em relação ao botão',
       table: {
-        type: { summary: "'left' | 'right'" },
-        defaultValue: { summary: 'left' },
+        type: { summary: "'top' | 'right' | 'bottom' | 'left'" },
+        defaultValue: { summary: 'bottom' },
+      },
+    },
+    align: {
+      control: {
+        type: 'select',
+        options: ['start', 'center', 'end'],
+      },
+      description: 'Alinhamento do popover em relação ao botão',
+      table: {
+        type: { summary: "'start' | 'center' | 'end'" },
+        defaultValue: { summary: 'center' },
       },
     },
     variant: {
@@ -116,12 +127,6 @@ const categoryItems = [
   { id: 'livros', text: 'Livros', subText: 'Literatura e educação' },
 ];
 
-const priorityItems = [
-  { id: 'alta', text: 'Alta' },
-  { id: 'media', text: 'Média' },
-  { id: 'baixa', text: 'Baixa' },
-];
-
 // Template básico com Dropdown integrado
 const FilterTemplate = (args: FilterProps) => {
   const [appliedFilters, setAppliedFilters] = useState<string[]>([]);
@@ -148,7 +153,8 @@ export const Default: Story = {
     items: statusItems,
     buttonText: 'Status',
     type: 'checkbox',
-    position: 'left',
+    side: 'bottom',
+    align: 'center',
     variant: 'outlined',
     disabled: false,
   },
@@ -161,18 +167,8 @@ export const WithSearch: Story = {
     buttonText: 'Categoria',
     type: 'checkbox',
     enableSearch: true,
-    position: 'left',
-    variant: 'outlined',
-  },
-};
-
-export const RightPosition: Story = {
-  render: FilterTemplate,
-  args: {
-    items: priorityItems,
-    buttonText: 'Prioridade',
-    type: 'checkbox',
-    position: 'right',
+    side: 'bottom',
+    align: 'center',
     variant: 'outlined',
   },
 };
@@ -184,7 +180,8 @@ export const Disabled: Story = {
     buttonText: 'Status',
     type: 'checkbox',
     disabled: true,
-    position: 'left',
+    side: 'bottom',
+    align: 'center',
     variant: 'outlined',
   },
 };
@@ -215,7 +212,8 @@ export const CalendarFilter: Story = {
             onDateSelect={handleDateSelect}
             locale="pt-br"
             variant="outlined"
-            position="left"
+            side="bottom"
+            align="start"
             onClearDate={handleClearDate}
           />
         </div>

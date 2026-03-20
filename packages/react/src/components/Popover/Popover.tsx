@@ -9,16 +9,26 @@ const Popover: React.FC<PopoverProps> = ({
   content,
   side = "left",
   align = "end",
+  open,
+  onOpenChange,
+  showArrow = true,
+  onOpenAutoFocus,
 }) => {
   return (
-    <PopoverRadix.Root>
+    <PopoverRadix.Root open={open} onOpenChange={onOpenChange}>
       <PopoverRadix.Trigger asChild>
         {trigger}
       </PopoverRadix.Trigger>
       <PopoverRadix.Portal>
-        <PopoverRadix.Content className={styles.Content} sideOffset={5} side={side} align={align}>
+        <PopoverRadix.Content
+          className={styles.Content}
+          sideOffset={5}
+          side={side}
+          align={align}
+          onOpenAutoFocus={onOpenAutoFocus}
+        >
             {content}
-          <PopoverRadix.Arrow className={styles.Arrow} />
+          {showArrow && <PopoverRadix.Arrow className={styles.Arrow} />}
         </PopoverRadix.Content>
       </PopoverRadix.Portal>
     </PopoverRadix.Root>
