@@ -159,7 +159,7 @@ const Filter: React.FC<FilterProps> = ({
     return selectedIds.length - 1;
   }, [selectedIds]);
 
-  const filterClass = clsx(styles['zds-filter__container'], className);
+  const filterClass = clsx(styles.container, className);
 
   const triggerButton = (
     <Button
@@ -171,12 +171,10 @@ const Filter: React.FC<FilterProps> = ({
       iconPosition="right"
       size="lg"
     >
-      <div className={styles['zds-filter-button__content']}>
-        {icon && <span className={styles['zds-filter-button__icon']}>{icon}</span>}
-        <span className={styles['zds-filter-button__text']}>{buttonDisplayText}</span>
-        <span
-          className={`${styles['zds-filter-button__arrow']} ${isOpen ? styles['zds-filter-button__arrow--open'] : ''}`}
-        >
+      <div className={styles.buttonContent}>
+        {icon && <span className={styles.buttonIcon}>{icon}</span>}
+        <span className={styles.buttonText}>{buttonDisplayText}</span>
+        <span className={clsx(styles.buttonArrow, { [styles.buttonArrowOpen]: isOpen })}>
           {getBadgeValue() && (
             <Badge badgeValue={`+${getBadgeValue()}`} type="status" />
           )}
@@ -200,9 +198,9 @@ const Filter: React.FC<FilterProps> = ({
         aria-label="Selecionar data para filtro"
       />
     ) : (
-      <div className={styles['zds-filter__panel']}>
+      <div className={styles.panel}>
         {searchVisible && (
-          <div className={styles['zds-filter__search']}>
+          <div className={styles.search}>
             <Search
               value={searchQuery}
               placeholder={placeholder}
@@ -213,7 +211,7 @@ const Filter: React.FC<FilterProps> = ({
           </div>
         )}
         <ul
-          className={styles['zds-filter__list']}
+          className={styles.list}
           role="listbox"
           aria-multiselectable={type === 'checkbox'}
         >
@@ -227,10 +225,9 @@ const Filter: React.FC<FilterProps> = ({
                   role="option"
                   aria-selected={isSelected}
                   aria-disabled={item.disabled}
-                  className={clsx(styles['zds-filter__item'], {
-                    [styles['zds-filter__item--selected']]: isSelected,
-                    [styles['zds-filter__item--disabled']]: item.disabled,
-                    [styles['zds-filter__item--checkbox']]: type === 'checkbox',
+                  className={clsx(styles.item, {
+                    [styles.itemSelected]: isSelected,
+                    [styles.itemDisabled]: item.disabled,
                   })}
                   onMouseDown={(e) => e.preventDefault()}
                   onClick={() => toggleItem(itemId, item)}
@@ -250,19 +247,19 @@ const Filter: React.FC<FilterProps> = ({
                     />
                   )}
                   {type === 'icon' && item.icon && (
-                    <span className={styles['zds-filter__item-icon']}>{item.icon}</span>
+                    <span className={styles.itemIcon}>{item.icon}</span>
                   )}
-                  <span className={styles['zds-filter__item-text']}>{item.text}</span>
+                  <span className={styles.itemText}>{item.text}</span>
                 </li>
               );
             })
           ) : (
-            <li className={styles['zds-filter__no-results']} role="status" aria-live="polite">
+            <li className={styles.noResults} role="status" aria-live="polite">
               Nenhum item encontrado
             </li>
           )}
         </ul>
-        <div className={styles['zds-filter__footer']}>
+        <div className={styles.footer}>
           <Button size="sm" variant="outlined" onClick={handleClearFilter}>
             Limpar
           </Button>

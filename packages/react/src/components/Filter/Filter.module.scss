@@ -1,11 +1,9 @@
-// Filter Component Styles
-.zds-filter__container {
+.container {
   position: relative;
   display: inline-block;
 }
 
-// Painel de conteúdo do Popover (lista de itens)
-.zds-filter__panel {
+.panel {
   display: flex;
   flex-direction: column;
   min-width: 210px;
@@ -14,12 +12,12 @@
   overflow: hidden;
 }
 
-.zds-filter__search {
+.search {
   padding: var(--spacing-8);
   box-sizing: border-box;
 }
 
-.zds-filter__list {
+.list {
   list-style: none;
   margin: 0;
   padding: var(--spacing-8) var(--spacing-16);
@@ -35,7 +33,7 @@
   width: 100%;
 }
 
-.zds-filter__item {
+.item {
   display: flex;
   align-items: center;
   gap: var(--spacing-8);
@@ -53,25 +51,25 @@
     background-color: var(--color-neutral-high-medium);
   }
 
-  &--selected {
-    .zds-filter__item-text {
-      color: var(--color-brand-primary-default);
-    }
-  }
-
-  &--disabled {
-    cursor: not-allowed;
-    opacity: 0.5;
-    pointer-events: none;
-  }
-
   &:focus {
     outline: 2px solid var(--color-brand-primary-default);
     outline-offset: -2px;
   }
 }
 
-.zds-filter__item-text {
+.itemSelected {
+  .itemText {
+    color: var(--color-brand-primary-default);
+  }
+}
+
+.itemDisabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.itemText {
   font-size: var(--font-size-16);
   font-weight: var(--font-weight-regular);
   white-space: nowrap;
@@ -80,7 +78,7 @@
   flex: 1;
 }
 
-.zds-filter__item-icon {
+.itemIcon {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -90,7 +88,7 @@
   color: var(--color-neutral-low-default);
 }
 
-.zds-filter__no-results {
+.noResults {
   font-family: var(--font-family-primary);
   font-size: var(--font-size-12);
   font-weight: var(--font-weight-regular);
@@ -100,7 +98,7 @@
   list-style: none;
 }
 
-.zds-filter__footer {
+.footer {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
@@ -110,69 +108,18 @@
   border-top: 1px solid var(--color-neutral-high-dark);
 }
 
-.zds-filter__button {
+.buttonContent {
   display: flex;
   align-items: center;
-  
-  .zds-filter__icon {
-    display: flex;
-    align-items: center;
-  }
-
-  .zds-filter__text {
-    display: flex;
-    align-items: center;
-  }
-
-  .zds-filter__arrow {
-    display: flex;
-    align-items: center;
-    transition: transform 0.2s ease;
-    font-size: var(--font-size-12);
-    
-    &--up {
-      transform: rotate(180deg);
-    }
-    
-    &--down {
-      transform: rotate(0deg);
-    }
-  }
-  
-  &--open {
-    .zds-filter__arrow {
-      transform: rotate(180deg);
-    }
-  }
-}
-
-.zds-filter__dropdown {
-  position: absolute;
-  z-index: 15;
-  min-width: 200px;
-  max-height: 300px;
-  margin-top: var(--spacing-8);
-  &--left {
-    left: 0;
-  }
-  
-  &--right {
-    right: 0;
-    left: auto;
-  }
-}
-.zds-filter-button__content{
-  display: flex;
-  align-items: center;
-
   justify-content: center;
 }
-.zds-filter-button__arrow{
-  display: flex;
-  align-items: center; 
-}
-.zds-filter-button__icon{
 
+.buttonArrow {
+  display: flex;
+  align-items: center;
+}
+
+.buttonIcon {
   width: 16px;
   height: 16px;
 }
