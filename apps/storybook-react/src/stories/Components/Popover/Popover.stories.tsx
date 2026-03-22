@@ -43,7 +43,7 @@ const Template = ({ side, align }: React.ComponentProps<typeof Popover>): JSX.El
     <Popover
       side={side}
       align={align}
-      trigger={<Button>Open Popover</Button>}
+      trigger={<Button>Open popover</Button>}
       content={<Calendar onDaySelect={(date) => setDateLocale(date.toLocaleDateString('pt-BR'))} />}
     />
   );
