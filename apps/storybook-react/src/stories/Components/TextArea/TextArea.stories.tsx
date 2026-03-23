@@ -36,6 +36,11 @@ const meta: Meta<typeof TextArea> = {
       options: ['start', 'center', 'end'],
       description: 'Posição do tooltip'
     },
+    resize: {
+      control: 'select',
+      options: ['none', 'both', 'vertical'],
+      description: 'Controle de redimensionamento do campo'
+    },
     tooltip: {
       control: 'boolean',
       description: 'Exibir tooltip'
