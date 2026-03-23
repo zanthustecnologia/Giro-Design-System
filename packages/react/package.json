@@ -68,6 +68,7 @@
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
     "i18next": "^25.3.6",
+    "intro.js": "^8.3.2",
     "radix-ui": "^1.4.3",
     "react-day-picker": "^9.14.0",
     "react-i18next": "^15.6.1",
