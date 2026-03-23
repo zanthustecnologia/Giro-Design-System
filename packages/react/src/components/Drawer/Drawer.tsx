@@ -118,7 +118,7 @@ const Drawer: React.FC<DrawerProps> = ({
           </div>
           
           {headerContent && (
-            <div>{headerContent}</div>
+            <div className={styles.drawerHeaderContent}>{headerContent}</div>
           )}
 
           <Button 

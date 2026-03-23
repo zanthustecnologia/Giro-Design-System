@@ -105,3 +105,10 @@
   font-weight: var(--font-weight-regular);
   color: var(--color-neutral-low-default);
 }
+
+.drawerHeaderContent {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-8);
+  flex-shrink: 0;
+}
