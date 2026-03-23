@@ -30,40 +30,25 @@ const LabelComponent = ({
   error = false,
   disabled = false
 }: LabelProps) => (
-  <>
-    {tooltip ? (
-      <div className={clsx(styles.labelContainer, disabled && styles.disabledContainer)}>
-        <Label.Root
-            className={clsx(
-              styles.wrapperLabel,
-              error && !disabled && styles.errorLabel,
-              disabled && styles.disabledLabel,
-              className
-            )}
-            htmlFor={htmlFor}
-          >
-            {children}
-            {required && <span className={styles.requiredLabel}>*</span>}
-        </Label.Root>
-        <Tooltip side={side} align={align} text={tooltipText || ''} >
-          <Info12Regular className={clsx(styles.infoIcon, disabled && styles.disabledIcon)} />
-        </Tooltip>
-      </div>
-    ) : (
-      <Label.Root
-        className={clsx(
-          styles.wrapperLabel,
-          error && !disabled && styles.errorLabel,
-          disabled && styles.disabledLabel,
-          className
-        )}
-        htmlFor={htmlFor}
-      >
-        {children}
-        {required && <span className={styles.requiredLabel}>*</span>}
-      </Label.Root>
+  <div className={clsx(styles.labelContainer, disabled && styles.disabledContainer)}>
+    <Label.Root
+      className={clsx(
+        styles.wrapperLabel,
+        error && !disabled && styles.errorLabel,
+        disabled && styles.disabledLabel,
+        className
+      )}
+      htmlFor={htmlFor}
+    >
+      {children}
+      {required && <span className={styles.requiredLabel}>*</span>}
+    </Label.Root>
+    {tooltip && (
+      <Tooltip side={side} align={align} text={tooltipText || ''}>
+        <Info12Regular className={clsx(styles.infoIcon, disabled && styles.disabledIcon)} />
+      </Tooltip>
     )}
-  </>
+  </div>
 );
 
 export default LabelComponent;
