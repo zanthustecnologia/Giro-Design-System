@@ -1,8 +1,7 @@
 .labelContainer {
   display: flex;
   align-items: center;
-  gap: var(--spacing-0) var(--spacing-4);
-  margin-bottom: var(--spacing-4);
+  gap:var(--spacing-4);
 }
 
 .wrapperLabel {
@@ -13,7 +12,6 @@
   font-weight: var(--font-weight-regular);
   display: flex;
   align-items: center;
-  gap: var(--spacing-4);
   flex-direction: row;
 }
 .requiredLabel {
