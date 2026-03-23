@@ -99,7 +99,7 @@ const DrawerExample: React.FC<DrawerExampleProps> = ({
         title={title}
         customWidth={customWidth}
         className={className}
-        headerContent={(<Button iconOnly variant="text" icon={<Filter16Regular />} />)}
+        headerContent={(<Button iconOnly variant="outlined" icon={<Filter16Regular />} />)}
       >
         {children || (
   

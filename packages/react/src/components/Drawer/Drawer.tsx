@@ -123,7 +123,7 @@ const Drawer: React.FC<DrawerProps> = ({
 
           <Button 
             onClick={handleCloseClick}
-            variant='text'
+            variant='outlined'
             iconOnly
             icon={<Dismiss16Regular />}
             size='lg'
