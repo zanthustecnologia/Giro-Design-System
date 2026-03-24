@@ -45,7 +45,14 @@ const LabelComponent = ({
     </Label.Root>
     {tooltip && (
       <Tooltip side={side} align={align} text={tooltipText || ''}>
-        <Info12Regular className={clsx(styles.infoIcon, disabled && styles.disabledIcon)} />
+        <span
+          className={
+            disabled ? styles.disabledIcon : error ?
+            styles.errorIcon : styles.infoIcon
+          }
+        >
+          <Info12Regular />
+        </span>
       </Tooltip>
     )}
   </div>

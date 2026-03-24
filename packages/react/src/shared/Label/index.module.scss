@@ -15,17 +15,27 @@
   flex-direction: row;
 }
 .requiredLabel {
-  color: var(--color-brand-primary-default);
+  color: var(--color-neutral-low-default);
+  margin-left: var(--spacing-4);
 }
 .infoIcon {
-  color: var(--color-brand-primary-default);
+  display: inline-flex;
+  line-height: 0;
+  color: var(--color-neutral-low-default);
+}
+.errorIcon {
+  display: inline-flex;
+  line-height: 0;
+  color: var(--color-feedback-alert-default);
+}
+.disabledIcon {
+  display: inline-flex;
+  line-height: 0;
+  color: var(--color-neutral-high-dark);
 }
 .errorLabel {
   color: var(--color-feedback-alert-default);
   .requiredLabel {
-    color: var(--color-feedback-alert-default);
-  }
-  .infoIcon {
     color: var(--color-feedback-alert-default);
   }
 }
@@ -34,9 +44,6 @@
   .requiredLabel {
     color: var(--color-neutral-high-dark);
   }
-}
-.disabledIcon {
-  color: var(--color-neutral-high-dark);
 }
 .disabledContainer {
   color: var(--color-neutral-high-dark);
