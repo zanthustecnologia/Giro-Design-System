@@ -65,4 +65,6 @@ export interface TextAreaProps extends Omit<
 
   /** Exibe contador de caracteres (requer maxLength) */
   showCharCount?: boolean;
+
+  height?: number;
 }

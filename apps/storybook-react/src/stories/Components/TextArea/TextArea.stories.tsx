@@ -58,6 +58,10 @@ const meta: Meta<typeof TextArea> = {
       control: 'number',
       description: 'Número máximo de caracteres'
     },
+    height: {
+      control: 'number',
+      description: 'Altura do campo'
+    },
     required: {
       control: 'boolean',
       description: 'Campo obrigatório'

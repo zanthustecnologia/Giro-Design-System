@@ -30,6 +30,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
       rows = 4,
       resize = 'vertical',
       showCharCount = false,
+      height,
       ...textareaProps
     },
     ref
@@ -128,7 +129,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
               aria-invalid={hasError}
               aria-required={required}
               aria-describedby={helperId}
-              style={{ resize }}
+              style={{ resize, height }}
             />
           </div>
 
