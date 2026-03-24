@@ -79,9 +79,9 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
       [onFocus]
     );
 
-    const hasError = Boolean(textareaError);
-    const displayHelperText = textareaError || helperText || '\u00A0';
-    const helperId = textareaError
+    const hasError = Boolean(textareaError) || Boolean(errorMessage);
+    const displayHelperText = errorMessage || textareaError || helperText || '\u00A0';
+    const helperId = (textareaError || errorMessage)
       ? `${componentId}-error`
       : helperText
         ? `${componentId}-helper`
