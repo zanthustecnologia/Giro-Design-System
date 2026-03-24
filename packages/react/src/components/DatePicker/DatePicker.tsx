@@ -13,7 +13,7 @@ import type { DatePickerProps } from './DatePicker.types';
 const DatePicker: React.FC<DatePickerProps> = ({
   locale = 'pt-br',
   calendarSide = 'bottom',
-  calendarAlign = 'center',
+  calendarAlign = 'start',
   helperText,
   required = false,
   label = 'Data',
@@ -231,6 +231,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
           }
           side={calendarSide}
           align={calendarAlign}
+          sideOffset={8}
         />         
     </div>
   );

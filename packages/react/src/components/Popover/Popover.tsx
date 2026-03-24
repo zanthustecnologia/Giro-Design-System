@@ -8,7 +8,8 @@ const Popover: React.FC<PopoverProps> = ({
   trigger,
   content,
   side = "left",
-  align = "end",
+  align = "start",  
+  sideOffset = 5,  
   open,
   onOpenChange,
 }) => {
@@ -19,7 +20,6 @@ const Popover: React.FC<PopoverProps> = ({
       {...(isControlled ? { open, onOpenChange } : {})}
     >
       {isControlled ? (
-        // Modo controlado: usa Anchor para posicionamento sem comportamento de toggle
         <PopoverRadix.Anchor asChild>
           {trigger}
         </PopoverRadix.Anchor>
@@ -31,7 +31,7 @@ const Popover: React.FC<PopoverProps> = ({
       <PopoverRadix.Portal>
         <PopoverRadix.Content
           className={styles.Content}
-          sideOffset={5}
+          sideOffset={sideOffset}
           side={side}
           align={align}
           onOpenAutoFocus={isControlled ? (e) => e.preventDefault() : undefined}
@@ -39,7 +39,6 @@ const Popover: React.FC<PopoverProps> = ({
           onInteractOutside={isControlled ? (e) => e.preventDefault() : undefined}
         >
             {content}
-          <PopoverRadix.Arrow className={styles.Arrow} />
         </PopoverRadix.Content>
       </PopoverRadix.Portal>
     </PopoverRadix.Root>

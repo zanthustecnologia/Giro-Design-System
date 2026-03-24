@@ -31,7 +31,7 @@ export interface DatePickerProps extends BaseProps {
   calendarSide?: Side;
 
   /** Alinhamento do calendário em relação ao campo */
-  calendarAlign?: Align;
+  calendarAlign?: Exclude<Align, 'center'>;
   
   /** Texto de ajuda exibido abaixo do campo */
   helperText?: string;

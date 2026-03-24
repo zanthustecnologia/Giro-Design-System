@@ -37,11 +37,11 @@ const meta: Meta<typeof DatePicker> = {
     },
     calendarAlign: {
       control: { type: 'select' },
-      options: ['start', 'center', 'end'],
+      options: ['start', 'end'],
       description: 'Alinhamento do calendário em relação ao campo',
       table: {
-        type: { summary: "'start' | 'center' | 'end'" },
-        defaultValue: { summary: 'center' },
+        type: { summary: "'start' | 'end'" },
+        defaultValue: { summary: 'start' },
       },
     },
     required: {
