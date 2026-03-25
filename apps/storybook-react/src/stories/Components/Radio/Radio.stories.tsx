@@ -1,4 +1,4 @@
-import { Meta, StoryObj } from '@storybook/react';
+import { Meta, StoryFn, StoryObj } from '@storybook/react';
 import { Radio } from '@giro-ds/react';
 import type { RadioGroupProps } from '@giro-ds/react';
 
@@ -11,7 +11,7 @@ const meta: Meta<typeof Radio> = {
   args: {
     orientation: 'vertical',
     defaultValue: 'option-1',
-    ariaLabel: 'Option 1 (change me!)',
+    ariaLabel: 'Selecione uma opção',
   },
   argTypes: {
     orientation: {
@@ -27,6 +27,10 @@ const meta: Meta<typeof Radio> = {
     onValueChange: {
       action: 'valueChanged',
     },
+    items: { table: { disable: true } },
+    id: { table: { disable: true } },
+    className: { table: { disable: true } },
+    name: { table: { disable: true } },
   },
 };
 
@@ -34,70 +38,44 @@ export default meta;
 type Story = StoryObj<typeof Radio>;
 
 const basicItems: RadioGroupProps['items'] = [
-  {
-    id: 'radio-1',
-    value: 'option-1',
-    label: 'Option 1',
-  },
-  {
-    id: 'radio-2',
-    value: 'option-2',
-    label: 'Option 2',
-  },
-];
-
-const itemsWithDisabled: RadioGroupProps['items'] = [
-  {
-    id: 'radio-1',
-    value: 'option-1',
-    label: 'Option 1',
-  },
-  {
-    id: 'radio-2',
-    value: 'option-2',
-    label: 'Option 2 (Disabled)',
-    disabled: true,
-  },
-  {
-    id: 'radio-3',
-    value: 'option-3',
-    label: 'Option 3',
-  },
+  { value: 'option-1', label: 'Opção 1' },
+  { value: 'option-2', label: 'Opção 2' },
+  { value: 'option-3', label: 'Opção 3' },
 ];
 
 export const Default: Story = {
-  render: (args) => {
-    const items = [...basicItems];
-
-    items[0].label = args.ariaLabel || 'Option 1';
-
-    return (
-      <Radio
-        items={items}
-        orientation={args.orientation}
-        ariaLabel={args.ariaLabel}
-        onValueChange={(e) => console.log(e)}
-      />
-    );
-  },
+  render: (args) => (
+    <Radio
+      {...args}
+      items={basicItems}
+    />
+  ),
 };
 
-export const DisabledRadio: Story = {
-  render: (args) => {
-      const items = [...itemsWithDisabled];
+export const Horizontal: StoryFn = () => (
+  <Radio
+    orientation="horizontal"
+    defaultValue="option-1"
+    ariaLabel="Frequência de envio"
+    items={[
+      { value: 'option-1', label: 'Diário' },
+      { value: 'option-2', label: 'Semanal' },
+      { value: 'option-3', label: 'Mensal' },
+    ]}
+  />
+);
 
-      items[0].label = args.ariaLabel || 'Option 1';
-
-      return (
-        <Radio
-          items={items}
-          orientation={args.orientation}
-          ariaLabel={args.ariaLabel}
-          onValueChange={(e) => console.log(e)}
-        />
-      );
-  }
-};
+export const ComItemDesabilitado: StoryFn = () => (
+  <Radio
+    defaultValue="option-1"
+    ariaLabel="Método de pagamento"
+    items={[
+      { value: 'option-1', label: 'Cartão de crédito' },
+      { value: 'option-2', label: 'Boleto bancário' },
+      { value: 'option-3', label: 'Pix', disabled: true },
+    ]}
+  />
+);
 
 export const MultiRadio: Story = {
   render: (args) => {

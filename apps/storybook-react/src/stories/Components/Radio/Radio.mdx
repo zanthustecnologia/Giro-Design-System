@@ -1,0 +1,152 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as RadioStories from './Radio.stories';
+import { Radio } from '@giro-ds/react';
+import { UsageGuidelines } from '../../../internal-components/mdx/UsageGuidelines/UsageGuidelines';
+import { ComponentRules } from '../../../internal-components/mdx/Rules/Rules';
+import { Footer } from '../../../internal-components/mdx/Footer/Footer';
+
+<Meta of={RadioStories} />
+
+# Radio
+
+Radio é um controle de formulário que permite ao usuário selecionar exatamente uma opção dentro de um grupo. Ao contrário do [Checkbox](?path=/docs/components-checkbox--docs), selecionar um item automaticamente desmarca os demais.
+
+<Canvas of={RadioStories.Default} />
+
+## Importação
+
+```js
+import { Radio } from '@giro-ds/react';
+```
+
+## Propriedades
+
+<Controls />
+
+## Uso
+
+<UsageGuidelines
+  guidelines={[
+    <>
+      Use Radio quando o usuário precisar escolher exatamente uma opção de um conjunto mutuamente exclusivo. Para seleções independentes e múltiplas, use <a href="?path=/docs/components-checkbox--docs">Checkbox</a>.
+    </>,
+    <>
+      Agrupe sempre os radio buttons sob um mesmo <code>ariaLabel</code> para que leitores de tela identifiquem o contexto da escolha.
+    </>,
+    <>
+      Defina um <code>defaultValue</code> sempre que houver uma opção pré-selecionada esperada. Evite deixar o grupo sem seleção inicial quando uma escolha for obrigatória.
+    </>,
+    <>
+      Use a orientação <code>horizontal</code> apenas quando as opções forem curtas e em número reduzido. Para listas longas ou labels extensas, prefira a orientação vertical.
+    </>,
+    <>
+      Nunca use radio buttons para acionar ações imediatas. Eles representam uma escolha que será confirmada posteriormente, geralmente por um <a href="?path=/docs/components-button--docs">Button</a> de submissão.
+    </>,
+  ]}
+/>
+
+## Variações
+
+### Horizontal
+
+<Canvas of={RadioStories.Horizontal} />
+
+### Com item desabilitado
+
+<Canvas of={RadioStories.ComItemDesabilitado} />
+
+## O que fazer e não fazer
+
+<ComponentRules
+  rules={[
+    {
+      negative: {
+        component: (
+          <Radio
+            defaultValue="sim"
+            ariaLabel="Confirmação"
+            items={[
+              { value: 'sim', label: 'Sim' },
+              { value: 'nao', label: 'Não' },
+            ]}
+          />
+        ),
+        description: "Evite usar radio buttons para escolhas binárias simples como Sim/Não. Nesse caso, um Switch ou Checkbox pode ser mais adequado."
+      },
+      positive: {
+        component: (
+          <Radio
+            defaultValue="cartao"
+            ariaLabel="Método de pagamento"
+            items={[
+              { value: 'cartao', label: 'Cartão de crédito' },
+              { value: 'boleto', label: 'Boleto bancário' },
+              { value: 'pix', label: 'Pix' },
+            ]}
+          />
+        ),
+        description: "Use radio buttons quando há três ou mais opções mutuamente exclusivas com contexto claro de escolha única."
+      }
+    },
+    {
+      negative: {
+        component: (
+          <Radio
+            defaultValue="mensal"
+            orientation="horizontal"
+            ariaLabel="Plano de assinatura"
+            items={[
+              { value: 'mensal', label: 'Plano mensal com renovação automática' },
+              { value: 'anual', label: 'Plano anual com desconto de 20%' },
+            ]}
+          />
+        ),
+        description: "Evite orientação horizontal com labels longas. O texto quebra e dificulta a leitura e a associação com o controle."
+      },
+      positive: {
+        component: (
+          <Radio
+            defaultValue="mensal"
+            ariaLabel="Plano de assinatura"
+            items={[
+              { value: 'mensal', label: 'Plano mensal com renovação automática' },
+              { value: 'anual', label: 'Plano anual com desconto de 20%' },
+            ]}
+          />
+        ),
+        description: "Use orientação vertical para labels longas. A leitura flui de forma natural e a associação entre rótulo e controle fica clara."
+      }
+    },
+    {
+      negative: {
+        component: (
+          <Radio
+            ariaLabel="Frequência"
+            items={[
+              { value: 'diario', label: 'Diário' },
+              { value: 'semanal', label: 'Semanal' },
+              { value: 'mensal', label: 'Mensal' },
+            ]}
+          />
+        ),
+        description: "Evite deixar o grupo sem seleção inicial quando uma opção é obrigatória. O usuário pode avançar sem perceber que precisa escolher."
+      },
+      positive: {
+        component: (
+          <Radio
+            defaultValue="semanal"
+            ariaLabel="Frequência"
+            items={[
+              { value: 'diario', label: 'Diário' },
+              { value: 'semanal', label: 'Semanal' },
+              { value: 'mensal', label: 'Mensal' },
+            ]}
+          />
+        ),
+        description: "Defina um defaultValue para a opção mais comum ou esperada. Isso reduz a carga cognitiva e orienta o usuário."
+      }
+    }
+  ]}
+/>
+
+<Footer />
