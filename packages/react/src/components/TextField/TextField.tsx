@@ -154,6 +154,9 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
               aria-invalid={hasError}
               aria-required={required}
               aria-describedby={helperId}
+              className={clsx({
+                [styles.inputWithIcon]: showCustomIcon || showClearIcon,
+              })}
             />
             
             {showCustomIcon && <span className={styles.icon}>{icon}</span>}
