@@ -8,7 +8,7 @@ const meta: Meta<typeof Filter> = {
   title: 'Components/Filter',
   component: Filter,
   parameters: {
-    layout: 'centered',
+    // layout: 'centered',
     docs: {
       description: {
         component: 'Componente de filtro que encapsula o Dropdown com modo filter automático.',
@@ -125,6 +125,11 @@ const categoryItems = [
   { id: 'moda', text: 'Moda', subText: 'Roupas e acessórios' },
   { id: 'esportes', text: 'Esportes', subText: 'Equipamentos esportivos' },
   { id: 'livros', text: 'Livros', subText: 'Literatura e educação' },
+  { id: 'livros', text: 'Livros', subText: 'Literatura e educação' },
+  { id: 'livros', text: 'Livros', subText: 'Literatura e educação' },
+  { id: 'livros', text: 'Livros', subText: 'Literatura e educação' },
+  { id: 'livros', text: 'Livros', subText: 'Literatura e educação' },
+  
 ];
 
 // Template básico com Dropdown integrado
