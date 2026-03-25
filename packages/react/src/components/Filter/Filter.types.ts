@@ -74,7 +74,7 @@ export interface FilterProps extends BaseProps {
   side?: Side;
 
   /** Alinhamento do popover em relação ao botão */
-  align?: Align;
+  align?: Exclude<Align, 'center'>;
   
   /** Data selecionada (para tipo calendar) */
   selectedDate?: Date | null;

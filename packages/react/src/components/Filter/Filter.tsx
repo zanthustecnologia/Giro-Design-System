@@ -33,7 +33,7 @@ const Filter: React.FC<FilterProps> = ({
   onOpen,
   onClose,
   side = 'bottom',
-  align = 'center',
+  align = 'start',
   disabled = false,
   className,
   selectedDate,

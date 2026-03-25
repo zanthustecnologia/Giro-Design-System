@@ -42,7 +42,7 @@ const meta: Meta<typeof Filter> = {
       },
       description: 'Alinhamento do popover em relação ao botão',
       table: {
-        type: { summary: "'start' | 'center' | 'end'" },
+        type: { summary: "'start' | 'end'" },
         defaultValue: { summary: 'center' },
       },
     },
@@ -154,7 +154,7 @@ export const Default: Story = {
     buttonText: 'Status',
     type: 'checkbox',
     side: 'bottom',
-    align: 'center',
+    align: 'start',
     variant: 'outlined',
     disabled: false,
   },
