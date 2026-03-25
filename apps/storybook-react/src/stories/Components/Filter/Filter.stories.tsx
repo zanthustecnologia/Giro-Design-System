@@ -125,11 +125,10 @@ const categoryItems = [
   { id: 'moda', text: 'Moda', subText: 'Roupas e acessórios' },
   { id: 'esportes', text: 'Esportes', subText: 'Equipamentos esportivos' },
   { id: 'livros', text: 'Livros', subText: 'Literatura e educação' },
-  { id: 'livros', text: 'Livros', subText: 'Literatura e educação' },
-  { id: 'livros', text: 'Livros', subText: 'Literatura e educação' },
-  { id: 'livros', text: 'Livros', subText: 'Literatura e educação' },
-  { id: 'livros', text: 'Livros', subText: 'Literatura e educação' },
-  
+  { id: 'alimentacao', text: 'Alimentação', subText: 'Produtos alimentícios' },
+  { id: 'beleza', text: 'Beleza', subText: 'Cosméticos e cuidados' },
+  { id: 'eletronicos', text: 'Eletrônicos', subText: 'Gadgets e acessórios' },
+  { id: 'automotivo', text: 'Automotivo', subText: 'Peças e acessórios' },
 ];
 
 // Template básico com Dropdown integrado
