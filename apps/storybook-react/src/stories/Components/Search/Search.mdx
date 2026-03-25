@@ -1,0 +1,106 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as SearchStories from './Search.stories';
+import { Search } from '@giro-ds/react';
+import { UsageGuidelines } from '../../../internal-components/mdx/UsageGuidelines/UsageGuidelines';
+import { ComponentRules } from '../../../internal-components/mdx/Rules/Rules';
+import { Footer } from '../../../internal-components/mdx/Footer/Footer';
+
+<Meta of={SearchStories} />
+
+# Search
+
+O Search é um campo de busca com ícone de lupa à esquerda e botão de limpar à direita. Permite ao usuário filtrar conteúdo por digitação. O botão de limpar aparece automaticamente quando há texto no campo e o apaga com um clique. Funciona tanto de forma autônoma quanto conduzido por estado externo.
+
+<Canvas of={SearchStories.Default} />
+
+## Importação
+
+```js
+import { Search } from '@giro-ds/react';
+```
+
+<div style={{ marginTop: '48px' }} />
+
+## Propriedades
+
+<Controls />
+
+<div style={{ marginTop: '48px' }} />
+
+## Uso
+
+<UsageGuidelines
+  guidelines={[
+    <>
+      Use o Search para filtrar conteúdo de uma lista, tabela ou conjunto de resultados em tempo real. Não é um campo de formulário genérico nem um substituto para campos de texto comuns.
+    </>,
+    <>
+      Defina um <code>placeholder</code> que oriente o usuário sobre o escopo da busca. Um placeholder específico, como "Buscar por nome ou CPF", reduz a incerteza sobre o que pode ser pesquisado.
+    </>,
+    <>
+      O botão de limpar aparece automaticamente quando há conteúdo digitado. No modo controlado, forneça <code>onClear</code> para garantir que o estado externo seja zerado junto com o campo.
+    </>,
+    <>
+      Use <code>onKeyDown</code> para capturar a ação de submissão quando o usuário pressiona Enter. Para filtragem em tempo real, isso não é necessário, pois <code>onChange</code> já atualiza os resultados a cada caractere.
+    </>,
+    <>
+      O Search pode atuar como gatilho visual: quando <code>onClick</code> é fornecido, o componente assume comportamento de botão acessível e abre um painel de busca mais elaborado, como um modal ou flyout. Isso mantém a familiaridade visual de um campo de pesquisa sem comprometer a acessibilidade.
+    </>,
+    <>
+      Use o estado desabilitado quando a busca não está disponível no momento, como durante um carregamento ou quando a interação depende de uma ação anterior.
+    </>,
+  ]}
+/>
+
+<div style={{ marginTop: '48px' }} />
+
+## Variações
+
+### Modo controlado
+
+Quando o search precisa filtrar uma lista ou refletir resultados em tempo real, gerencie o valor com estado externo. O componente atualiza os resultados a cada caractere digitado.
+
+<Canvas of={SearchStories.Controlado} />
+
+### Desabilitado
+
+Use o estado desabilitado quando a busca está temporariamente indisponível. Acompanhe com um `placeholder` que comunique o motivo, sempre que possível.
+
+<Canvas of={SearchStories.Desabilitado} />
+
+### Como gatilho
+
+Quando a experiência de busca requer um painel dedicado, como um modal com sugestões ou filtros avançados, forneça `onClick` ao Search. O componente passa a se comportar como um botão acessível, mantendo a aparência de um campo de pesquisa.
+
+<Canvas of={SearchStories.ComoGatilho} />
+
+<div style={{ marginTop: '48px' }} />
+
+## O que fazer e não fazer
+
+<ComponentRules
+  rules={[
+    {
+      positive: {
+        component: <Search placeholder="Buscar cliente por nome ou CPF" />,
+        description: "Use um placeholder que descreva o escopo da busca. O usuário sabe exatamente por quais critérios pode pesquisar."
+      },
+      negative: {
+        component: <Search placeholder="Pesquisar" />,
+        description: "Evite placeholders genéricos que não comunicam o que pode ser buscado. O usuário não sabe quais critérios são suportados."
+      }
+    },
+    {
+      positive: {
+        component: <Search placeholder="Busca indisponível durante o carregamento" disabled />,
+        description: "Ao desabilitar o Search, use o placeholder para comunicar o motivo da indisponibilidade. Isso reduz a frustração do usuário."
+      },
+      negative: {
+        component: <Search placeholder="Buscar produto" disabled />,
+        description: "Evite desabilitar o Search sem nenhuma indicação de por que a busca está bloqueada. O usuário não entende o que está impedindo a interação."
+      }
+    },
+  ]}
+/>
+
+<Footer />

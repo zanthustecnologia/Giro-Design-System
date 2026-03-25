@@ -1,0 +1,135 @@
+﻿import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as QuantityStories from './Quantity.stories';
+import { UsageGuidelines } from '../../../internal-components/mdx/UsageGuidelines/UsageGuidelines';
+import { ComponentRules } from '../../../internal-components/mdx/Rules/Rules';
+import { Footer } from '../../../internal-components/mdx/Footer/Footer';
+import { Quantity } from '@giro-ds/react';
+
+<Meta of={QuantityStories} />
+
+# Quantity
+
+O Quantity é um campo de entrada numérica com botões de incremento e decremento. Permite ao usuário ajustar um valor de forma precisa, seja por clique nos botões ou por digitação direta. Funciona tanto com valores inteiros quanto com valores decimais.
+
+<Canvas of={QuantityStories.Default} />
+
+## Importação
+
+```js
+import { Quantity } from '@giro-ds/react';
+```
+
+<div style={{ marginTop: '48px' }} />
+
+## Propriedades
+
+<Controls />
+
+<div style={{ marginTop: '48px' }} />
+
+## Uso
+
+<UsageGuidelines
+  guidelines={[
+    <>
+      Use o Quantity quando o usuário precisar ajustar uma quantidade de forma controlada, como número de itens em um carrinho, doses de um medicamento ou número de parcelas. Prefira o Quantity ao campo de texto simples nesses cenários, pois os botões de incremento e decremento reduzem erros de digitação.
+    </>,
+    <>
+      O valor mínimo é sempre zero. O botão de diminuir é desativado automaticamente ao atingi-lo. Não é possível inserir valores negativos.
+    </>,
+    <>
+      Para valores monetários, percentuais ou qualquer grandeza que exija casas decimais, ative o modo decimal. O campo formata o valor automaticamente ao perder o foco, garantindo consistência na exibição.
+    </>,
+    <>
+      O tamanho compacto é indicado para contextos densos, como linhas de tabela ou listas de itens. O tamanho padrão é recomendado para formulários e fluxos de cadastro.
+    </>,
+    <>
+      O campo aceita digitação direta além dos botões. O usuário pode também usar as teclas de seta para cima e para baixo para ajustar o valor, tornando o componente acessível por teclado.
+    </>,
+    <>
+      Quando vários Quantity aparecem juntos no mesmo contexto, como itens de um pedido, garanta que todos usem a mesma configuração de casas decimais e que o layout pai alinhe os campos em coluna, para manter consistência visual entre as linhas.
+    </>,
+  ]}
+/>
+
+<div style={{ marginTop: '48px' }} />
+
+## Variações
+
+### Tamanhos
+
+O Quantity possui dois tamanhos. O padrão é adequado para formulários e fluxos de cadastro. O compacto é indicado para tabelas, listas de itens e outros contextos com espaço reduzido.
+
+<Canvas of={QuantityStories.Tamanhos} />
+
+### Decimal
+
+Quando o valor ajustado não é um número inteiro, como um preço, peso ou percentual, ative o modo decimal. O campo aceita apenas dígitos e um separador decimal, e formata o valor automaticamente ao sair do campo.
+
+<Canvas of={QuantityStories.Decimal} />
+
+### Modo controlado
+
+Quando o valor do Quantity precisa ser sincronizado com outros elementos da tela, como um resumo de pedido ou um cálculo em tempo real, o componente pode ser conduzido por estado externo. Qualquer alteração é refletida imediatamente no restante da interface.
+
+<Canvas of={QuantityStories.Controlado} />
+
+### Desabilitado
+
+Use o estado desabilitado quando a quantidade não pode ser alterada no momento, por exemplo enquanto um item está sendo processado ou quando a interação depende de outra ação anterior.
+
+<Canvas of={QuantityStories.Desabilitado} />
+
+<div style={{ marginTop: '48px' }} />
+
+## O que fazer e não fazer
+
+<ComponentRules
+  rules={[
+    {
+      positive: {
+        component: (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'flex-start' }}>
+            <label style={{ fontSize: '13px', fontWeight: 600, color: 'var(--color-neutral-low-dark)' }}>
+              Quantidade de itens
+            </label>
+            <Quantity defaultValue={1} size="lg" />
+          </div>
+        ),
+        description: "Sempre associe o Quantity a um rótulo (label) que descreva claramente o que está sendo quantificado."
+      },
+      negative: {
+        component: (
+          <Quantity defaultValue={1} size="lg" />
+        ),
+        description: "Não use o Quantity sem contexto. Sem um rótulo, o usuário não sabe o que está sendo ajustado."
+      }
+    },
+    {
+      positive: {
+        component: (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'flex-start' }}>
+            <label style={{ fontSize: '13px', fontWeight: 600, color: 'var(--color-neutral-low-dark)' }}>
+              Preço unitário (R$)
+            </label>
+            <Quantity decimal decimalPlaces={2} step={0.01} defaultValue={9.99} />
+          </div>
+        ),
+        description: "Ative o modo decimal com os parâmetros de precisão adequados para valores monetários ou percentuais. O campo passa a aceitar casas decimais e formata o valor corretamente."
+      },
+      negative: {
+        component: (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'flex-start' }}>
+            <label style={{ fontSize: '13px', fontWeight: 600, color: 'var(--color-neutral-low-dark)' }}>
+              Preço unitário (R$)
+            </label>
+            <Quantity defaultValue={10} />
+          </div>
+        ),
+        description: "Não use o modo inteiro para valores que precisam de casas decimais. O usuário não consegue inserir centavos e o valor será truncado incorretamente."
+      }
+    },
+  ]}
+/>
+
+<Footer />

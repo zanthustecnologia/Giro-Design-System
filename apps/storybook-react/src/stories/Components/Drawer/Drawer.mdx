@@ -41,7 +41,7 @@ import { Drawer } from '@giro-ds/react';
       Defina um <code>title</code> descritivo que identifique claramente o propósito do painel. Títulos vagos como "Painel" ou "Menu" prejudicam a usabilidade.
     </>,
     <>
-      Use <code>closeOnOverlayClick={false}</code> e <code>closeOnEscape={false}</code> apenas quando o conteúdo exigir ação explícita do usuário, como preenchimento de formulário obrigatório. Nesse caso, forneça um botão de ação visível para confirmar ou cancelar.
+      Desative o fechamento por overlay e pelo Escape apenas quando o conteúdo exigir ação explícita do usuário, como preenchimento de formulário obrigatório. Nesse caso, forneça um botão de ação visível para confirmar ou cancelar.
     </>,
     <>
       Utilize <code>customWidth</code> para ajustar a largura ao conteúdo. Em dispositivos móveis o Drawer ocupa 100% da largura independentemente dessa prop.
@@ -61,7 +61,7 @@ Use `customWidth` para controlar a largura do painel. O valor padrão é `400px`
 
 ### Sem fechamento por overlay
 
-Com `closeOnOverlayClick={false}` e `closeOnEscape={false}`, o usuário só pode fechar o Drawer pelos botões de ação disponíveis no conteúdo. Útil para formulários onde a saída inadvertida causaria perda de dados.
+Com o fechamento por overlay e por Escape desativados, o usuário só pode fechar o Drawer pelos botões de ação disponíveis no conteúdo. Útil para formulários onde a saída inadvertida causaria perda de dados.
 
 <img src="/images/drawer/drawer-sem-overlay.svg" alt="Drawer com overlay bloqueado e botoes de acao no rodape" style={{ width: '100%', borderRadius: '8px', marginTop: '16px' }} />
 
