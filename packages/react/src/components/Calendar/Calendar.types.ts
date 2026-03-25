@@ -1,5 +1,3 @@
-import React from 'react';
-
 import type { BaseProps, Locale } from '../../types/common.types';
 import type { Matcher } from 'react-day-picker';
 
@@ -92,15 +90,4 @@ interface CalendarBaseProps extends Omit<BaseProps, 'disabled'> {
   classNames?: Partial<Record<string, string>>;
 }
 
-// --- Layout --------------------------------------------------------------
-
-type CalendarCaptionProps = {
-  /**
-   * Modo do seletor de mês/ano no cabeçalho do calendário.
-   * - `'grid'` (padrão) — painel em grade para seleção visual de mês e ano.
-   * - `'dropdown'` — dropdowns nativos do react-day-picker.
-   */
-  captionMode?: 'dropdown' | 'grid';
-};
-
-export type CalendarProps = CalendarBaseProps & CalendarCaptionProps;
+export type CalendarProps = CalendarBaseProps;

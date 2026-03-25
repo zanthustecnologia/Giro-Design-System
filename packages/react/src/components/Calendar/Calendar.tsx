@@ -67,7 +67,6 @@ const Calendar = ({
   disabled,
   format: _format,
   locale = "pt-br",
-  captionMode = "grid",
   autoFocus,
   id,
   "aria-label": ariaLabel,
@@ -112,8 +111,6 @@ const Calendar = ({
     setInternalDisplayMonth(date);
     onDateChange?.(date);
   };
-
-  const isGridMode = captionMode === "grid";
 
   const resolvedDisplayMonth = currentDate ?? internalDisplayMonth;
   const displayedMonthIndex = resolvedDisplayMonth.getMonth();
@@ -178,19 +175,6 @@ const Calendar = ({
     autoFocus,
     "aria-label": ariaLabel,
   };
-
-  if (!isGridMode) {
-    return (
-      <DayPicker
-        id={id}
-        {...sharedDayPickerProps}
-        captionLayout="dropdown"
-        month={currentDate ?? undefined}
-        defaultMonth={defaultMonth}
-        onMonthChange={onDateChange}
-      />
-    );
-  }
 
   return (
     <GridCtx.Provider value={gridCtxValue}>
