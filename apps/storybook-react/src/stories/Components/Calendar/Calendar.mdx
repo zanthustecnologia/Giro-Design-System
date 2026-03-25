@@ -1,0 +1,57 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as CalendarStories from './Calendar.stories';
+import { UsageGuidelines } from '../../../internal-components/mdx/UsageGuidelines/UsageGuidelines';
+import { Footer } from '../../../internal-components/mdx/Footer/Footer';
+
+<Meta of={CalendarStories} />
+
+# Calendar
+
+O Calendar é um componente de seleção de datas que permite ao usuário navegar entre meses e anos e escolher um dia específico.
+Suporta internacionalização (português e inglês), datas mínimas e máximas.
+
+<Canvas of={CalendarStories.Default} />
+
+## Importação
+
+```js
+import { Calendar } from '@giro-ds/react';
+```
+
+## Propriedades
+
+<Controls />
+
+## Uso
+
+<UsageGuidelines
+  guidelines={[
+    <>
+      Use o Calendar em contextos onde o usuário precisa selecionar uma data específica, como formulários de agendamento, filtros por período ou campos de data de nascimento.
+    </>,
+    <>
+      Combine com <code>minDate</code> e <code>maxDate</code> para restringir o intervalo de datas disponíveis conforme a regra de negócio.
+    </>,
+    <>
+      Utilize <code>locale="pt-br"</code> para interfaces em português e <code>locale="en-us"</code> para interfaces em inglês.
+    </>,
+    <>
+      Para uso como campo de formulário, prefira o componente <code>DatePicker</code>, que encapsula o Calendar com um input de texto.
+    </>,
+    <>
+      Não use o Calendar sem <code>minDate</code>/<code>maxDate</code> quando apenas um intervalo específico de datas é válido para a regra de negócio.
+    </>,
+  ]}
+/>
+
+## Variações
+
+### Com restrição de período
+
+<Canvas of={CalendarStories.WithDateRestriction} />
+
+### Inglês
+
+<Canvas of={CalendarStories.EnglishLocale} />
+
+<Footer />

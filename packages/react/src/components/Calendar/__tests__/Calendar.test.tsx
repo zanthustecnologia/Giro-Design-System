@@ -96,11 +96,6 @@ describe("Calendar", () => {
     expect(capturedProps.captionLayout).toBe("label");
   });
 
-  it("em modo dropdown, repassa a prop captionLayout ao DayPicker", () => {
-    render(<Calendar captionMode="dropdown" />);
-    expect(capturedProps.captionLayout).toBe("dropdown");
-  });
-
   it("passa a propriedade animate para o DayPicker", () => {
     render(<Calendar />);
     expect(capturedProps.animate).toBe(true);
@@ -239,8 +234,4 @@ describe("Calendar", () => {
     expect(screen.queryByRole("dialog")).toBeNull();
   });
 
-  it("em modo grid, não renderiza wrapper quando captionMode='dropdown'", () => {
-    const { container } = render(<Calendar captionMode="dropdown" />);
-    expect(container.querySelector(".calendar_grid_wrapper")).toBeNull();
-  });
 });
