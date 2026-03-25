@@ -1,0 +1,100 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as ContainerStories from './Container.stories';
+import { Container } from '@giro-ds/react';
+import { UsageGuidelines } from '../../../internal-components/mdx/UsageGuidelines/UsageGuidelines';
+import { ComponentRules } from '../../../internal-components/mdx/Rules/Rules';
+import { Footer } from '../../../internal-components/mdx/Footer/Footer';
+import { Callout } from '@giro-ds/react';
+import { Info24Regular } from '@fluentui/react-icons';
+
+<Meta of={ContainerStories} />
+
+# Container
+
+O Container é um componente de layout que envolve o conteúdo principal da página em um elemento `<main>` semântico. Ele aplica padding horizontal responsivo com base nos tokens do design system e centraliza o conteúdo horizontalmente, garantindo consistência visual entre diferentes tamanhos de tela.
+
+<Canvas of={ContainerStories.Default} />
+
+<div style={{ marginTop: '16px' }}>
+  <Callout type="neutral" icon={<Info24Regular />} text="A borda tracejada exibida acima é apenas um recurso visual desta documentação para evidenciar os limites do componente. O Container real não possui nenhuma borda ou estilo visual próprio." />
+</div>
+
+<div style={{ marginTop: '48px' }} />
+
+## Importação
+
+```js
+import { Container } from '@giro-ds/react';
+```
+
+<div style={{ marginTop: '48px' }} />
+
+## Uso
+
+<UsageGuidelines
+  guidelines={[
+    <>
+      Use o Container como wrapper do conteúdo principal de uma página. Ele é projetado para ser usado uma única vez por página, como o bloco centralizador do conteúdo principal.
+    </>,
+    <>
+      O Container renderiza um elemento <code>&lt;main&gt;</code>, que é um marco semântico importante para acessibilidade. Por isso, não aninhe Containers, pois isso gera múltiplos elementos <code>&lt;main&gt;</code> na mesma página, o que é inválido no HTML5.
+    </>,
+    <>
+      O padding horizontal é aplicado automaticamente e se adapta ao tamanho da tela, usando tokens de espaçamento do design system. Não adicione padding ou margem externa ao redor do Container.
+    </>,
+    <>
+      Em telas muito grandes (acima de 1921px), o Container aplica uma largura máxima de 1824px, impedindo que o conteúdo se expanda indefinidamente. Não sobrescreva essa limitação com estilos customizados.
+    </>,
+  ]}
+/>
+
+<div style={{ marginTop: '48px' }} />
+
+## O que fazer e não fazer
+
+<ComponentRules
+  rules={[
+    {
+      positive: {
+        component: (
+          <Container>
+            <p>Conteúdo da página</p>
+          </Container>
+        ),
+        description: "Use o Container uma única vez por página, como wrapper do conteúdo principal, aproveitando o padding responsivo e a semântica do elemento main."
+      },
+      negative: {
+        component: (
+          <Container>
+            <Container>
+              <p>Conteúdo aninhado</p>
+            </Container>
+          </Container>
+        ),
+        description: "Não aninhe Containers. Isso gera múltiplos elementos main na mesma página, o que é inválido semanticamente e prejudica a acessibilidade."
+      },
+    },
+    {
+      positive: {
+        component: (
+          <Container>
+            <p>O espaçamento é gerenciado pelo próprio componente.</p>
+          </Container>
+        ),
+        description: "Permita que o Container gerencie o espaçamento horizontal por conta própria, sem adicionar margens ou padding externo ao redor dele."
+      },
+      negative: {
+        component: (
+          <div style={{ padding: '48px' }}>
+            <Container>
+              <p>Espaçamento duplicado</p>
+            </Container>
+          </div>
+        ),
+        description: "Evite adicionar padding externo ao Container. Isso duplica o espaçamento e quebra a consistência responsiva definida pelos tokens."
+      },
+    },
+  ]}
+/>
+
+<Footer />
