@@ -1,0 +1,142 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as FilterStories from './Filter.stories';
+import { Filter } from '@giro-ds/react';
+import { UsageGuidelines } from '../../../internal-components/mdx/UsageGuidelines/UsageGuidelines';
+import { ComponentRules } from '../../../internal-components/mdx/Rules/Rules';
+import { Footer } from '../../../internal-components/mdx/Footer/Footer';
+
+<Meta of={FilterStories} />
+
+# Filter
+
+O Filter é um componente de filtro que encapsula um Dropdown com modo de seleção automática. 
+Ele permite que o usuário selecione um ou mais itens de uma lista para refinar a exibição de conteúdo na interface, 
+com suporte a seleção por checkbox, texto, ícone ou calendário.
+
+<Canvas of={FilterStories.Default} />
+
+## Importação
+
+```js
+import { Filter } from '@giro-ds/react';
+```
+
+## Propriedades
+
+<Controls />
+
+## Uso
+
+<UsageGuidelines
+  guidelines={[
+    <>
+      Use o Filter para permitir que o usuário refine conjuntos de dados ou listas extensas.
+    </>,
+    <>
+      Prefira <code>type="checkbox"</code> quando múltiplas seleções forem necessárias. Use <code>type="text"</code> ou <code>type="icon"</code> para seleção única.
+    </>,
+    <>
+      Ative <code>enableSearch</code> quando a lista de itens for longa (mais de 8 itens) para facilitar a localização.
+    </>,
+    <>
+      O texto do botão (<code>buttonText</code>) deve ser claro e representar o critério de filtro, como "Status", "Categoria" ou "Período".
+    </>,
+    <>
+      Use <code>type="calendar"</code> combinado com <code>onDateSelect</code> para filtros de data.
+    </>,
+  ]}
+/>
+
+## Variações
+
+### Com busca
+
+<Canvas of={FilterStories.WithSearch} />
+
+### Desabilitado
+
+<Canvas of={FilterStories.Disabled} />
+
+### Filtro de calendário
+
+<Canvas of={FilterStories.CalendarFilter} />
+
+### Múltiplos filtros
+
+<Canvas of={FilterStories.MultipleFilters} />
+
+## O que fazer e não fazer
+
+<ComponentRules
+  rules={[
+    {
+      positive: {
+        component: (
+          <Filter
+            items={[
+              { id: 'ativo', text: 'Ativo' },
+              { id: 'inativo', text: 'Inativo' },
+            ]}
+            buttonText="Status"
+            type="checkbox"
+            variant="outlined"
+          />
+        ),
+        description: "Use um rótulo descritivo que represente o critério de filtro aplicado."
+      },
+      negative: {
+        component: (
+          <Filter
+            items={[
+              { id: 'ativo', text: 'Ativo' },
+              { id: 'inativo', text: 'Inativo' },
+            ]}
+            buttonText="Filtrar"
+            type="checkbox"
+            variant="outlined"
+          />
+        ),
+        description: "Evite rótulos genéricos como \"Filtrar\" que não comunicam qual critério será aplicado."
+      }
+    },
+    {
+      positive: {
+        component: (
+          <div style={{ display: 'flex', gap: '8px' }}>
+            <Filter
+              items={[{ id: 'ativo', text: 'Ativo' }, { id: 'inativo', text: 'Inativo' }]}
+              buttonText="Status"
+              type="checkbox"
+              variant="outlined"
+            />
+            <Filter
+              items={[{ id: 'tech', text: 'Tecnologia' }, { id: 'casa', text: 'Casa' }]}
+              buttonText="Categoria"
+              type="checkbox"
+              variant="outlined"
+            />
+          </div>
+        ),
+        description: "Agrupe filtros relacionados lado a lado para compor critérios de busca combinados."
+      },
+      negative: {
+        component: (
+          <Filter
+            items={[
+              { id: 'ativo', text: 'Ativo' },
+              { id: 'inativo', text: 'Inativo' },
+              { id: 'tech', text: 'Tecnologia' },
+              { id: 'casa', text: 'Casa' },
+            ]}
+            buttonText="Tudo"
+            type="checkbox"
+            variant="outlined"
+          />
+        ),
+        description: "Evite misturar critérios de naturezas diferentes em um único filtro."
+      }
+    }
+  ]}
+/>
+
+<Footer />
