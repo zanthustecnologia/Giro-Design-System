@@ -29,19 +29,19 @@ import { Avatar } from '@giro-ds/react';
 <UsageGuidelines
   guidelines={[
     <>
-      Forneça sempre um fallback, <code>icon</code> ou <code>initialLetters</code>, para garantir que o avatar seja exibido quando a imagem falha ou não é fornecida.
+      Forneça sempre um ícone ou iniciais como alternativa visual, para garantir que o avatar seja exibido corretamente quando a imagem falha ou não é fornecida.
     </>,
     <>
-      A ordem de prioridade de exibição é: imagem (<code>src</code>) → fallback (<code>icon</code> ou <code>initialLetters</code>).
+      A ordem de prioridade de exibição é: imagem → ícone → iniciais. Quando a imagem não carrega, o avatar exibe o ícone ou as iniciais automaticamente.
     </>,
     <>
-      Use no máximo 2 caracteres em <code>initialLetters</code>.
+      Use no máximo 2 caracteres para as iniciais, normalmente a primeira letra do nome e do sobrenome.
     </>,
     <>
-      Use o tamanho <code>lg</code> (44px) para perfis em destaque, como cabeçalhos e cards de usuário.
+      Use o tamanho grande (44px) para perfis em destaque, como cabeçalhos e cards de usuário.
     </>,
     <>
-      Use o tamanho <code>sm</code> (32px) para contextos de leitura densa, como listas, tabelas e menus.
+      Use o tamanho pequeno (32px) para contextos de leitura densa, como listas, tabelas e menus.
     </>,
   ]}
 />
@@ -77,21 +77,21 @@ import { Avatar } from '@giro-ds/react';
     {
       negative: {
         component: <Avatar size="lg" />,
-        description: "Evite usar o avatar sem nenhum fallback. Quando a imagem não carrega, o componente ficará vazio."
+        description: "Evite usar o avatar sem ícone ou iniciais de apoio. Quando a imagem não carrega, o avatar ficará em branco."
       },
       positive: {
         component: [<Avatar icon={<Person16Regular />} size="lg" />, <Avatar initialLetters="GR" size="lg" />],
-        description: "Sempre forneça ícone ou iniciais como fallback para garantir a exibição em caso de falha ou ausência de imagem."
+        description: "Sempre forneça um ícone ou iniciais como alternativa para garantir que o avatar seja exibido em caso de falha ou ausência de imagem."
       }
     },
     {
       negative: {
-        component: [<Avatar icon={<Person16Regular />} size="lg" />, <Avatar icon={<Person16Regular />} size="lg" />, <Avatar icon={<Person16Regular />} size="lg" />],
-        description: "Evite misturar tamanhos diferentes de avatar em um mesmo contexto visual sem critério hierárquico claro."
+        component: [<Avatar icon={<Person16Regular />} size="lg" />, <Avatar icon={<Person16Regular />} size="sm" />, <Avatar icon={<Person16Regular />} size="lg" />],
+        description: "Evite misturar tamanhos de avatar sem um critério claro. Tamanhos alternados aleatoriamente criam inconsistência visual e dificultam a leitura da interface."
       },
       positive: {
-        component: [<Avatar icon={<Person16Regular />} size="lg" />, <Avatar icon={<Person16Regular />} size="sm" />, <Avatar icon={<Person16Regular />} size="sm" />],
-        description: "Use o tamanho lg para o elemento principal e sm para os secundários, respeitando a hierarquia visual."
+        component: [<Avatar icon={<Person16Regular />} size="sm" />, <Avatar icon={<Person16Regular />} size="sm" />, <Avatar icon={<Person16Regular />} size="sm" />],
+        description: "Use tamanhos consistentes dentro de um mesmo contexto, por exemplo, sempre o tamanho pequeno em listas e tabelas, e sempre o tamanho grande em perfis e cabeçalhos."
       }
     }
   ]}
