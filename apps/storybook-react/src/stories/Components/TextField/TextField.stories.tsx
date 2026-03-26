@@ -38,6 +38,11 @@ const meta: Meta<typeof TextField> = {
       options: ['start', 'center', 'end'],
       description: 'Posição do tooltip'
     },
+    type: {
+      control: 'select',
+      options: ['text', 'email', 'password', 'number', 'tel', 'url'],
+      description: 'Tipo do input'
+    },
     icon: {
       control: { type: 'select' },
       options: ['none', 'Mail', 'Clock', 'Upload'],
