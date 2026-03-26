@@ -1,0 +1,166 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as TextFieldStories from './TextField.stories';
+import { TextField } from '@giro-ds/react';
+import { Mail16Regular } from '@fluentui/react-icons';
+import { UsageGuidelines } from '../../../internal-components/mdx/UsageGuidelines/UsageGuidelines';
+import { ComponentRules } from '../../../internal-components/mdx/Rules/Rules';
+import { Footer } from '../../../internal-components/mdx/Footer/Footer';
+
+<Meta of={TextFieldStories} name="Docs" />
+
+# Text Field
+
+O Text Field é um campo de entrada de texto que suporta validação, ícones e feedback visual de estado. Pode ser usado para capturar texto livre, e-mail, senha, número, telefone ou URL.
+
+<Canvas of={TextFieldStories.Default} />
+
+## Importação
+
+```js
+import { TextField } from '@giro-ds/react';
+```
+
+<div style={{ marginTop: '48px' }} />
+
+## Propriedades
+
+<Controls />
+
+<div style={{ marginTop: '48px' }} />
+
+## Uso
+
+<UsageGuidelines
+  guidelines={[
+    <>
+      Sempre defina um <code>label</code> descritivo. O rótulo identifica o campo para o usuário e é essencial para acessibilidade.
+    </>,
+    <>
+      Use o prefixo <strong>Ex.:</strong> no placeholder seguido de um exemplo real do dado esperado. Por exemplo, se o campo pede um CPF, use <code>Ex.: 000 000 000-00</code>. Isso orienta o formato sem substituir o <code>helperText</code>.
+    </>,
+    <>
+      Use <code>helperText</code> para fornecer dicas contextuais sobre o formato esperado, como "Digite somente números" ou "Use seu e-mail corporativo".
+    </>,
+    <>
+      O ícone definido via <code>icon</code> é exibido apenas quando o campo está vazio, servindo como indicação visual do tipo de dado esperado. Ele desaparece ao digitar.
+    </>,
+    <>
+      O botão de limpar aparece automaticamente quando o campo está em foco e contém conteúdo. Não é necessário implementar essa lógica manualmente.
+    </>,
+    <>
+      Use <code>errorMessage</code> para personalizar a mensagem de erro de validação. Quando omitido, o componente usa mensagens padrão para campos obrigatórios e limite de caracteres.
+    </>,
+    <>
+      Use <code>type</code> adequado ao dado: <code>"email"</code> para e-mails, <code>"password"</code> para senhas, <code>"tel"</code> para telefones. O tipo correto ativa o teclado adequado em dispositivos móveis e habilita validações nativas do navegador.
+    </>,
+  ]}
+/>
+
+<div style={{ marginTop: '48px' }} />
+
+## Variações
+
+### Com ícone
+
+O ícone é exibido enquanto o campo está vazio e desaparece ao digitar, indicando visualmente o tipo de dado esperado. Não é necessário controlar sua visibilidade manualmente.
+
+<Canvas of={TextFieldStories.ComIcone} />
+
+### Com tooltip
+
+Use o tooltip no label para fornecer informações adicionais sem poluir o layout. O ícone de interrogação aparece ao lado do rótulo e exibe o conteúdo de <code>tooltipText</code> ao passar o cursor.
+
+<Canvas of={TextFieldStories.ComTooltip} />
+
+### Desabilitado
+
+Use o estado desabilitado quando o campo não puder ser editado no contexto atual. O conteúdo permanece visível, mas o usuário não consegue interagir com ele.
+
+<Canvas of={TextFieldStories.Disabled} />
+
+### Obrigatório e com validação
+
+Campos obrigatórios exibem um indicador visual e validam o conteúdo ao perder o foco. A mensagem de erro é exibida abaixo do campo e pode ser personalizada via <code>errorMessage</code>.
+
+<Canvas of={TextFieldStories.Required} />
+
+<div style={{ marginTop: '48px' }} />
+
+## O que fazer e não fazer
+
+<ComponentRules
+  rules={[
+    {
+      positive: {
+        component: (
+          <TextField
+            label="CPF"
+            placeholder="000.000.000-00"
+            helperText="Somente números, sem pontos ou traços"
+          />
+        ),
+        description: "Use um label descritivo e um helperText que oriente o formato esperado. O usuário sabe exatamente o que digitar antes mesmo de começar."
+      },
+      negative: {
+        component: (
+          <TextField
+            label="Campo"
+            placeholder="Digite aqui"
+          />
+        ),
+        description: "Evite labels e placeholders genéricos. Sem contexto, o usuário não sabe qual informação é esperada nem em qual formato."
+      }
+    },
+    {
+      positive: {
+        component: (
+          <TextField
+            label="E-mail"
+            placeholder="seu@email.com"
+            type="email"
+            icon={<Mail16Regular />}
+          />
+        ),
+        description: "Use o type correto para o dado coletado. O tipo 'email' ativa teclado e validações adequadas em dispositivos móveis e navegadores."
+      },
+      negative: {
+        component: (
+          <TextField
+            label="E-mail"
+            placeholder="seu@email.com"
+            type="text"
+          />
+        ),
+        description: "Não use type='text' para dados com formato específico. Isso perde validações nativas e prejudica a experiência em mobile."
+      }
+    },
+    {
+      positive: {
+        component: (
+          <TextField
+            label="Senha"
+            placeholder="Mínimo 8 caracteres"
+            type="password"
+            required
+            helperText="Use letras, números e símbolos"
+          />
+        ),
+        description: "Campos obrigatórios devem ser marcados com required e ter um helperText que comunique as restrições antes que o usuário erre."
+      },
+      negative: {
+        component: (
+          <TextField
+            label="Senha"
+            placeholder="Digite sua senha"
+            type="password"
+            required
+            errorMessage="Senha inválida"
+          />
+        ),
+        description: "Não deixe o usuário descobrir os critérios de validação somente após o erro. Informe as regras antes com helperText."
+      }
+    },
+  ]}
+/>
+
+<Footer />
