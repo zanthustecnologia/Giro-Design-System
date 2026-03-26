@@ -9,7 +9,7 @@ interface FooterProps {
 
 export const Footer: React.FC<FooterProps> = ({ 
   title = "Feedback", 
-  description = "Conte para nós o que você achou do nosso design system" 
+  description = "Gostaríamos de saber sua opinião sobre o Giro" 
 }) => {
   return (
     <div className={styles.docsFooter}>
