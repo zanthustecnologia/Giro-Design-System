@@ -28,19 +28,19 @@ import { Radio } from '@giro-ds/react';
 <UsageGuidelines
   guidelines={[
     <>
-      Use Radio quando o usuário precisar escolher exatamente uma opção de um conjunto mutuamente exclusivo. Para seleções independentes e múltiplas, use <a href="?path=/docs/components-checkbox--docs">Checkbox</a>.
+      Use Radio quando o usuário precisar escolher exatamente uma opção de um conjunto. Para seleções independentes e múltiplas, use <a href="?path=/docs/components-checkbox--docs">Checkbox</a>.
     </>,
     <>
-      Agrupe sempre os radio buttons sob um mesmo <code>ariaLabel</code> para que leitores de tela identifiquem o contexto da escolha.
+      Sempre defina um rótulo descritivo para o grupo de opções, para que leitores de tela identifiquem o contexto da escolha.
     </>,
     <>
-      Defina um <code>defaultValue</code> sempre que houver uma opção pré-selecionada esperada. Evite deixar o grupo sem seleção inicial quando uma escolha for obrigatória.
+      Quando houver uma opção recomendada ou mais comum, deixe-a pré-selecionada. Evite grupos sem seleção inicial quando a escolha for obrigatória.
     </>,
     <>
-      Use a orientação <code>horizontal</code> apenas quando as opções forem curtas e em número reduzido. Para listas longas ou labels extensas, prefira a orientação vertical.
+      Use layout horizontal apenas quando as opções forem curtas e em número reduzido. Para listas longas ou textos extensos, prefira o layout vertical.
     </>,
     <>
-      Nunca use radio buttons para acionar ações imediatas. Eles representam uma escolha que será confirmada posteriormente, geralmente por um <a href="?path=/docs/components-button--docs">Button</a> de submissão.
+      Nunca use Radio buttons para acionar ações imediatas. Eles representam uma escolha que será confirmada posteriormente, geralmente por um <a href="?path=/docs/components-button--docs">botão</a> de envio.
     </>,
   ]}
 />
@@ -101,7 +101,7 @@ import { Radio } from '@giro-ds/react';
             ]}
           />
         ),
-        description: "Evite orientação horizontal com labels longas. O texto quebra e dificulta a leitura e a associação com o controle."
+        description: "Evite orientação horizontal com textos longos. O rótulo quebra e dificulta a leitura e a associação com o controle."
       },
       positive: {
         component: (
@@ -114,7 +114,7 @@ import { Radio } from '@giro-ds/react';
             ]}
           />
         ),
-        description: "Use orientação vertical para labels longas. A leitura flui de forma natural e a associação entre rótulo e controle fica clara."
+        description: "Use layout vertical para textos longos. A leitura flui de forma natural e a associação entre rótulo e controle fica clara."
       }
     },
     {
@@ -143,7 +143,7 @@ import { Radio } from '@giro-ds/react';
             ]}
           />
         ),
-        description: "Defina um defaultValue para a opção mais comum ou esperada. Isso reduz a carga cognitiva e orienta o usuário."
+        description: "Deixe pré-selecionada a opção mais comum ou esperada. Isso reduz a carga cognitiva e orienta o usuário."
       }
     }
   ]}

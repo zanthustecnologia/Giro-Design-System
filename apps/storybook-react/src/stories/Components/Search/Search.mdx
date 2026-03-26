@@ -9,7 +9,7 @@ import { Footer } from '../../../internal-components/mdx/Footer/Footer';
 
 # Search
 
-O Search é um campo de busca com ícone de lupa à esquerda e botão de limpar à direita. Permite ao usuário filtrar conteúdo por digitação. O botão de limpar aparece automaticamente quando há texto no campo e o apaga com um clique. Funciona tanto de forma autônoma quanto conduzido por estado externo.
+O Search é um campo de busca com ícone de lupa à esquerda e botão de limpar à direita. Permite ao usuário filtrar conteúdo por digitação. O botão de limpar aparece automaticamente quando há texto no campo e o apaga com um clique. Funciona tanto de forma autônoma quanto conectado a um estado externo.
 
 <Canvas of={SearchStories.Default} />
 
@@ -64,13 +64,13 @@ Quando o search precisa filtrar uma lista ou refletir resultados em tempo real, 
 
 ### Desabilitado
 
-Use o estado desabilitado quando a busca está temporariamente indisponível. Acompanhe com um `placeholder` que comunique o motivo, sempre que possível.
+Use o estado desabilitado quando a busca está temporariamente indisponível. Acompanhe com uma mensagem de orientação que comunique o motivo, sempre que possível.
 
 <Canvas of={SearchStories.Desabilitado} />
 
 ### Como gatilho
 
-Quando a experiência de busca requer um painel dedicado, como um modal com sugestões ou filtros avançados, forneça `onClick` ao Search. O componente passa a se comportar como um botão acessível, mantendo a aparência de um campo de pesquisa.
+Quando a experiência de busca requer um painel dedicado, como um modal com sugestões ou filtros avançados, passe um handler de clique ao Search. O componente passa a se comportar como um botão acessível, mantendo a aparência de um campo de pesquisa.
 
 <Canvas of={SearchStories.ComoGatilho} />
 

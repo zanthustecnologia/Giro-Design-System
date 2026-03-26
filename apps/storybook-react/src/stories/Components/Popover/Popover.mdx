@@ -42,22 +42,19 @@ import { Popover } from '@giro-ds/react';
 <UsageGuidelines
   guidelines={[
     <>
-      Passe qualquer elemento React em <code>trigger</code>. O Popover usa <code>asChild</code> internamente, preservando o comportamento semantico do gatilho.
+      O gatilho pode ser qualquer elemento: um botão, ícone ou link. O Popover se ancora automaticamente a ele.
     </>,
     <>
-      Passe qualquer conteúdo React em <code>content</code>. Use para exibir informações complementares, ações contextuais ou confirmações simples diretamente no fluxo da tela.
+      O conteúdo interno é livre: use texto, ícones, ações ou dados complementares conforme a necessidade.
     </>,
     <>
-      Use <code>side</code> para controlar de qual lado o painel abre em relação ao gatilho. O padrão é <code>"left"</code>. O Radix UI ajusta automaticamente caso o painel vazaria para fora da viewport.
+      Você pode controlar de qual lado o painel abre em relação ao gatilho: acima, abaixo, à esquerda ou à direita. O padrão é abaixo, à esquerda, o componente se reposiciona automaticamente se não houver espaço suficiente na tela.
     </>,
-    <>
-      Use <code>align</code> para alinhar o painel ao longo do eixo perpendicular ao <code>side</code>. O padrão é <code>"end"</code>.
-    </>,
-    <>
+        <>
       O Popover fecha automaticamente ao clicar fora do painel ou pressionar Escape. Não é necessário controlar o estado de abertura manualmente.
     </>,
     <>
-      Mantenha o conteúdo breve e objetivo. Para fluxos que exigem múltiplas etapas ou formulários extensos, prefira o <a href="?path=/docs/components-dialog--docs">Dialog</a>.
+      Mantenha o conteúdo breve e objetivo.
     </>,
   ]}
 />
@@ -68,7 +65,7 @@ import { Popover } from '@giro-ds/react';
 
 ### Posicionamento
 
-Use `side` para abrir o Popover acima, abaixo, à direita ou à esquerda do gatilho. O Radix UI reposiciona automaticamente se houver colisão com a borda da tela.
+Use as opções de posicionamento para abrir o Popover acima, abaixo, à direita ou à esquerda do gatilho. O componente se reposiciona automaticamente se houver colisão com a borda da tela.
 
 <Canvas of={PopoverStories.Posicionamento} />
 

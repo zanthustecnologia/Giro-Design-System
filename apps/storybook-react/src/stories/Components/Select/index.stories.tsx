@@ -313,6 +313,12 @@ export const Children: StoryFn<SelectProps> = (args) => (
   </div>
 );
 
+Children.args = {
+  ...Default.args,
+  label: 'Itens agrupados',
+  placeholder: 'Selecione um item',
+};
+
 export const Position: StoryFn<SelectProps> = (args) => (
   <div style={{ 
     height: '100vh', 
