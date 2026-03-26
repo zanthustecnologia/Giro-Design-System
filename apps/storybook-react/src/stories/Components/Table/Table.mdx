@@ -1,0 +1,99 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as TableStories from './Table.stories';
+import { UsageGuidelines } from '../../../internal-components/mdx/UsageGuidelines/UsageGuidelines';
+import { Footer } from '../../../internal-components/mdx/Footer/Footer';
+
+<Meta of={TableStories} name="Docs" />
+
+# Table
+
+A tabela organiza dados em linhas e colunas, facilitando a leitura e comparação de informações. Pode ser composta com busca, filtros e paginação, dependendo da complexidade dos dados exibidos.
+
+<Canvas of={TableStories.ComBuscaEFiltros} />
+
+## Importação
+
+```js
+import { Table, TableHeader, TablePagination } from '@giro-ds/react';
+```
+
+<div style={{ marginTop: '48px' }} />
+
+## Propriedades
+
+<Controls />
+
+<div style={{ marginTop: '48px' }} />
+
+## Uso
+
+<UsageGuidelines
+  guidelines={[
+    <>
+      Use a tabela quando o conteúdo precisar ser comparado linha a linha. Para listas simples sem comparação, considere um layout de cards ou lista.
+    </>,
+    <>
+      Defina colunas com rótulos curtos e objetivos. O cabeçalho de cada coluna deve deixar claro o que o dado representa, sem exigir leitura do conteúdo das células.
+    </>,
+    <>
+      Use o cabeçalho com busca e filtros quando a lista puder ter muitos itens. Para tabelas curtas e estáticas, o cabeçalho é opcional.
+    </>,
+    <>
+      Use a paginação quando o número de linhas puder crescer além do que cabe na tela. Prefira manter entre 5 e 10 itens por página para não sobrecarregar a visualização.
+    </>,
+    <>
+      Use a seleção de linhas quando o usuário precisar aplicar uma ação em múltiplos itens de uma vez, como excluir ou exportar em lote.
+    </>,
+    <>
+      Células com conteúdo variável, como status ou tipo, devem usar Chips para facilitar a identificação visual. Células de ação devem ficar na última coluna, alinhadas à direita.
+    </>,
+  ]}
+/>
+
+<div style={{ marginTop: '48px' }} />
+
+## Variações
+
+### Com busca e filtros
+
+O cabeçalho combina busca por texto e filtros por categoria. Os resultados são atualizados em tempo real conforme o usuário interage.
+
+<Canvas of={TableStories.ComBuscaEFiltros} />
+
+### Somente busca
+
+Quando os dados têm uma dimensão principal de pesquisa e não precisam de filtros adicionais, use apenas o campo de busca.
+
+<Canvas of={TableStories.SomenteBusca} />
+
+### Com filtro de calendário
+
+Use o filtro de calendário para permitir buscas por intervalo de datas. Útil em tabelas com dados históricos ou agendamentos.
+
+<Canvas of={TableStories.ComFiltroCalendario} />
+
+### Sem cabeçalho
+
+Para tabelas curtas e estáticas, é possível omitir o cabeçalho e apresentar os dados diretamente com paginação.
+
+<Canvas of={TableStories.SemHeader} />
+
+### Com seleção de linhas
+
+A seleção permite que o usuário marque múltiplas linhas para executar ações em lote.
+
+<Canvas of={TableStories.ComSelecao} />
+
+### Carregando
+
+Exibido enquanto os dados estão sendo buscados. A tabela mostra um indicador de carregamento no lugar das linhas.
+
+<Canvas of={TableStories.Carregando} />
+
+### Sem dados
+
+Estado exibido quando não há resultados para os filtros aplicados ou quando a lista está vazia.
+
+<Canvas of={TableStories.Vazia} />
+
+<Footer />
