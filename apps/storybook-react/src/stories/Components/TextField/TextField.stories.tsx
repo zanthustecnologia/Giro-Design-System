@@ -167,7 +167,7 @@ export const ComTooltip: Story = {
 export const Disabled: Story = {
   args: {
     placeholder: 'Ex.: João da Silva',
-    label: 'Campo Desabilitado',
+    label: 'Campo desabilitado',
     disabled: true,
     helperText: 'Este campo está desabilitado',
   },
