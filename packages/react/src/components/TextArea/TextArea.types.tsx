@@ -54,8 +54,11 @@ export interface TextAreaProps extends Omit<
   /** Alinhamento do tooltip */
   align?: Align;
 
-  /** Mensagem de erro a ser exibida */
+  /** Mensagem de erro customizada para a validação interna (required, etc.) */
   errorMessage?: string;
+
+  /** Erro externo para controle via formulários (react-hook-form, formik, etc.) */
+  error?: string;
 
   /** Número de linhas visíveis */
   rows?: number;

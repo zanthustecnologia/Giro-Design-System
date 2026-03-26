@@ -23,6 +23,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
       side = 'bottom',
       align = 'start',
       errorMessage,
+      error,
       id,
       onBlur,
       onFocus,
@@ -79,9 +80,9 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
       [onFocus]
     );
 
-    const hasError = Boolean(textareaError) || Boolean(errorMessage);
-    const displayHelperText = errorMessage || textareaError || helperText || '\u00A0';
-    const helperId = (textareaError || errorMessage)
+    const hasError = Boolean(textareaError) || Boolean(error);
+    const displayHelperText = error || textareaError || helperText || '\u00A0';
+    const helperId = (textareaError || error)
       ? `${componentId}-error`
       : helperText
         ? `${componentId}-helper`
