@@ -56,27 +56,9 @@ import { Table, TableHeader, TablePagination } from '@giro-ds/react';
 
 ### Com busca e filtros
 
-O cabeçalho combina busca por texto e filtros por categoria. Os resultados são atualizados em tempo real conforme o usuário interage.
+O cabeçalho combina busca por texto, filtro por categoria e filtro por data de início. Os resultados são atualizados em tempo real conforme o usuário interage.
 
 <Canvas of={TableStories.ComBuscaEFiltros} />
-
-### Somente busca
-
-Quando os dados têm uma dimensão principal de pesquisa e não precisam de filtros adicionais, use apenas o campo de busca.
-
-<Canvas of={TableStories.SomenteBusca} />
-
-### Com filtro de calendário
-
-Use o filtro de calendário para permitir buscas por intervalo de datas. Útil em tabelas com dados históricos ou agendamentos.
-
-<Canvas of={TableStories.ComFiltroCalendario} />
-
-### Sem cabeçalho
-
-Para tabelas curtas e estáticas, é possível omitir o cabeçalho e apresentar os dados diretamente com paginação.
-
-<Canvas of={TableStories.SemHeader} />
 
 ### Com seleção de linhas
 
@@ -84,16 +66,12 @@ A seleção permite que o usuário marque múltiplas linhas para executar açõe
 
 <Canvas of={TableStories.ComSelecao} />
 
-### Carregando
-
-Exibido enquanto os dados estão sendo buscados. A tabela mostra um indicador de carregamento no lugar das linhas.
-
-<Canvas of={TableStories.Carregando} />
-
 ### Sem dados
 
 Estado exibido quando não há resultados para os filtros aplicados ou quando a lista está vazia.
 
 <Canvas of={TableStories.Vazia} />
+
+As demais variações — somente busca, sem cabeçalho e carregando — estão disponíveis na sidebar do Storybook.
 
 <Footer />

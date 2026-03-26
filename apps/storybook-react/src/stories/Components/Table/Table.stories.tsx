@@ -140,36 +140,50 @@ const colunasCompletas = [
   },
 ];
 
-// ComBuscaEFiltros — busca + filtro de status + paginação
+// ComBuscaEFiltros — busca + filtro de status + filtro de calendário + paginação
 export const ComBuscaEFiltros: StoryFn = () => {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
   const [perPage, setPerPage] = useState(5);
   const [selectedStatus, setSelectedStatus] = useState<string[]>([]);
+  const [dataInicio, setDataInicio] = useState<Date | null>(null);
   const [selected, setSelected] = useState<(string | number)[]>([]);
 
   const filtered = useMemo(() => promocoes.filter(item => {
     const matchSearch = item.nome.toLowerCase().includes(search.toLowerCase());
     const matchStatus = selectedStatus.length === 0 || selectedStatus.includes(item.status.toLowerCase().replace(' ', '-'));
-    return matchSearch && matchStatus;
-  }), [search, selectedStatus]);
+    const matchDate = !dataInicio || item.inicioObj >= dataInicio;
+    return matchSearch && matchStatus && matchDate;
+  }), [search, selectedStatus, dataInicio]);
 
   const paginated = filtered.slice((page - 1) * perPage, page * perPage);
 
-  const filters: FilterItem[] = [{
-    id: 'status',
-    buttonText: selectedStatus.length > 0 ? `Status (${selectedStatus.length})` : 'Status',
-    type: 'checkbox',
-    items: [
-      { id: 'ativa', text: 'Ativa' },
-      { id: 'inativa', text: 'Inativa' },
-      { id: 'agendada', text: 'Agendada' },
-      { id: 'expirada', text: 'Expirada' },
-    ],
-    selectedIds: selectedStatus,
-    onSelectionChange: (ids) => { setSelectedStatus(ids); setPage(1); },
-    position: 'left',
-  }];
+  const filters: FilterItem[] = [
+    {
+      id: 'status',
+      buttonText: selectedStatus.length > 0 ? `Status (${selectedStatus.length})` : 'Status',
+      type: 'checkbox',
+      items: [
+        { id: 'ativa', text: 'Ativa' },
+        { id: 'inativa', text: 'Inativa' },
+        { id: 'agendada', text: 'Agendada' },
+        { id: 'expirada', text: 'Expirada' },
+      ],
+      selectedIds: selectedStatus,
+      onSelectionChange: (ids) => { setSelectedStatus(ids); setPage(1); },
+      position: 'left',
+    },
+    {
+      id: 'inicio',
+      buttonText: dataInicio ? `A partir de ${dataInicio.toLocaleDateString('pt-BR')}` : 'Data de início',
+      type: 'calendar',
+      selectedDate: dataInicio,
+      onDateSelect: (date: Date) => { setDataInicio(date); setPage(1); },
+      minDate: new Date(2024, 0, 1),
+      maxDate: new Date(2024, 11, 31),
+      position: 'left',
+    },
+  ];
 
   return (
     <div style={{ width: 800 }}>
