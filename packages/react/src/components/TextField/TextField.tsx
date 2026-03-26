@@ -50,14 +50,14 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
       
       // Reavaliar erro quando valor muda externamente (ex: DatePicker atualiza o campo)
       if (inputError) {
-        const error = validateInput({
+        const validationError = validateInput({
           value: newValue,
           type,
           maxLength,
           errorMessage,
           required,
         });
-        setInputError(error);
+        setInputError(validationError);
       }
     }, [value, inputError, type, maxLength, errorMessage, required]);
 
