@@ -1,7 +1,6 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { TextField } from '@giro-ds/react';
-import { Source } from '@storybook/addon-docs/blocks';
 import { Mail16Regular, Clock16Regular, ArrowUpload16Regular } from '@fluentui/react-icons';
 
 type Story = StoryObj<typeof TextField>;
@@ -59,11 +58,6 @@ const meta: Meta<typeof TextField> = {
       if: { arg: 'tooltip', truthy: true },
       description: 'Texto do tooltip'
     },
-    helper: {
-      control: 'boolean',
-      if: { arg: 'helperText', truthy: true },
-      description: 'Exibir texto de ajuda'
-    },
     helperText: {
       control: 'text',
       description: 'Texto de ajuda'
@@ -75,10 +69,6 @@ const meta: Meta<typeof TextField> = {
     required: {
       control: 'boolean',
       description: 'Campo obrigatório'
-    },
-    trailingIcon: {
-      control: 'boolean',
-      description: 'Exibir ícone à direita'
     },
     className: {
       table: {
@@ -119,7 +109,6 @@ export const Default: Story = {
     required: false,
     tooltip: true,
     helperText: 'Optional support text',
-    trailingIcon: true,
     label: 'Label',
     tooltipText: 'Tooltip text'
   },
