@@ -20,17 +20,30 @@
   align-items: center;
   align-self: stretch;
   width: 100%;
+  height: 44px;
+  border-radius: var(--border-radius-8);
+  border: var(--border-width-1) solid var(--color-neutral-high-dark);
+  background-color: var(--color-neutral-high-default);
+  box-sizing: border-box;
+
+  &:hover {
+    border: var(--border-width-1) solid var(--color-neutral-low-dark);
+  }
+
+  &:focus-within {
+    border: none;
+    outline: var(--border-width-2) solid var(--color-brand-primary-default);
+  }
 
   input {
     min-width: 150px;
-    width: 100%;
     display: inline-flex;
     height: 44px;
     padding: 0px var(--spacing-16);
     align-items: center;
     align-self: stretch;
     border-radius: var(--border-radius-8);
-    border: var(--border-width-1) solid var(--color-neutral-high-dark);
+    border: none;
     outline: none;
     color: var(--color-neutral-low-default);
     font-size: var(--font-size-16);
@@ -38,16 +51,7 @@
     text-overflow: ellipsis;
     overflow: hidden;
     box-sizing: border-box;
-    background-color: var(--color-neutral-high-default);
-
-    &:hover {
-      border: var(--border-width-1) solid var(--color-neutral-low-dark);
-    }
-
-    &:focus-visible {
-      border: none;
-      outline: var(--border-width-2) solid var(--color-brand-primary-default);
-    }
+    background-color: transparent;
 
     &::placeholder {
       color: var(--color-neutral-low-medium);
@@ -87,7 +91,7 @@
 }
 
 .inputWithIcon {
-  padding-right: 48px !important;
+  width: calc(100% - 48px);
 }
 
 .clearButton {
@@ -124,10 +128,11 @@
     color: var(--color-feedback-alert-default);
   }
 
-  .inputContainer input {
+  .inputContainer {
     border: var(--border-width-1) solid var(--color-feedback-alert-default);
 
-    &:focus-visible {
+    &:focus-within {
+      border: none;
       outline: var(--border-width-1) solid var(--color-feedback-alert-default);
     }
   }
@@ -136,19 +141,24 @@
 // Estado desabilitado
 .disabled {
   .label,
-  .required,
-  .inputContainer input {
-    border: var(--border-width-1) solid var(--color-neutral-high-dark);
+  .required {
     color: var(--color-neutral-high-dark);
+  }
+
+  .inputContainer {
+    border: var(--border-width-1) solid var(--color-neutral-high-dark);
     background-color: var(--color-neutral-high-default);
 
-    &::placeholder {
-      color: var(--color-neutral-high-dark);
+    &:hover {
+      border: var(--border-width-1) solid var(--color-neutral-high-dark);
     }
 
-    &:hover,
-    &:disabled {
-      border: var(--border-width-1) solid var(--color-neutral-high-dark);
+    input {
+      color: var(--color-neutral-high-dark);
+
+      &::placeholder {
+        color: var(--color-neutral-high-dark);
+      }
     }
   }
 
