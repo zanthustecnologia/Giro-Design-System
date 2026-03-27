@@ -1,0 +1,118 @@
+.changelog {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  max-width: 1198px;
+}
+
+.versionGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.versionHeading {
+  font-family: var(--font-family-primary, 'Figtree', sans-serif);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--color-neutral-low-default, #111119);
+  margin: 0;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--color-neutral-high-medium, #e2e4ea);
+}
+
+.cards {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.entry {
+  border: 1px solid var(--color-neutral-high-medium, #e2e4ea);
+  border-radius: var(--border-radius-8);
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.badge {
+  font-family: var(--font-family-primary, 'Figtree', sans-serif);
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+  padding: 3px 10px;
+  border-radius: var(--border-radius-pill);
+  letter-spacing: 0.02em;
+}
+
+.badgeReact {
+  background-color: var(--color-brand-primary-medium);
+}
+
+.badgeTokens {
+  background-color: var(--color-brand-secondary-default);
+}
+
+.badgeUtilities {
+  background-color: var(--color-neutral-low-dark);
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  &.major .sectionLabel {
+    color: var(--color-feedback-error-default, #c62828);
+  }
+
+  &.minor .sectionLabel {
+    color: var(--color-brand-primary-default, #3b45f2);
+  }
+
+  &.patch .sectionLabel {
+    color: var(--color-neutral-low-medium, #88898c);
+  }
+}
+
+.sectionLabel {
+  font-family: var(--font-family-primary, 'Figtree', sans-serif);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.list {
+  margin: 0;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  li {
+    font-family: var(--font-family-primary, 'Figtree', sans-serif);
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--color-neutral-low-default, #111119);
+
+    strong {
+      font-weight: 600;
+    }
+
+    code {
+      font-family: monospace;
+      font-size: 13px;
+      background: var(--color-neutral-high-light, #f5f6fa);
+      padding: 1px 5px;
+      border-radius: var(--border-radius-4);
+    }
+  }
+}

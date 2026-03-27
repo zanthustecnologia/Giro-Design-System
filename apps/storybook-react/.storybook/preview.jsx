@@ -26,6 +26,7 @@ const preview = {
         order: [
           'Bem-vindo',
           'Comece aqui',
+          'Changelog',
           'Foundation',
           'Layout',
           'Components',

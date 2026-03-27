@@ -66,6 +66,38 @@ const config = {
     //    (ajuda o Vite a não duplicar módulos linkados)
     viteConfig.resolve.preserveSymlinks = false;
 
+    // 5) Permite que o Vite acesse arquivos fora da raiz do app (ex: changelogs dos packages)
+    viteConfig.server = viteConfig.server || {};
+    viteConfig.server.fs = viteConfig.server.fs || {};
+    viteConfig.server.fs.allow = [
+      ...(viteConfig.server.fs.allow || []),
+      path.resolve(__dirname, '..'),          // raiz do app (src/, public/, etc.)
+      path.resolve(__dirname, '../../../packages'),
+    ];
+
+    // 6) Virtual module que expõe o conteúdo dos CHANGELOGs em build/dev time
+    const fs = await import('node:fs');
+    const readChangelog = (pkg) =>
+      fs.readFileSync(path.resolve(__dirname, `../../../packages/${pkg}/CHANGELOG.md`), 'utf-8');
+
+    const changelogPlugin = {
+      name: 'virtual-changelogs',
+      resolveId(id) {
+        if (id === 'virtual:changelogs') return '\0virtual:changelogs';
+      },
+      load(id) {
+        if (id === '\0virtual:changelogs') {
+          return [
+            `export const reactChangelog = ${JSON.stringify(readChangelog('react'))};`,
+            `export const tokensChangelog = ${JSON.stringify(readChangelog('tokens'))};`,
+            `export const utilitiesChangelog = ${JSON.stringify(readChangelog('utilities'))};`,
+          ].join('\n');
+        }
+      },
+    };
+
+    viteConfig.plugins = [...(viteConfig.plugins || []), changelogPlugin];
+
     return viteConfig;
   }
 };
