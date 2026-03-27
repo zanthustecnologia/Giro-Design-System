@@ -27,8 +27,8 @@ const preview = {
           'Bem-vindo',
           'Comece aqui',
           'Foundation',
+          'Layout',
           'Components',
-          'Utilities',
           'Patterns',
           '*', // Todas as outras histórias
         ],
