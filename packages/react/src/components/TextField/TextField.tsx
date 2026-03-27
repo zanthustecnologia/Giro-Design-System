@@ -1,9 +1,11 @@
-import React, { useState, useCallback, useId, forwardRef, useEffect } from 'react';
-import clsx from 'clsx';
 import { Dismiss16Regular } from '@fluentui/react-icons';
-import LabelComponent from '../../shared/Label';
+import clsx from 'clsx';
+import React, { useState, useCallback, useId, forwardRef, useEffect } from 'react';
+
 import styles from './TextField.module.scss';
 import { validateInput } from './utils';
+import LabelComponent from '../../shared/Label';
+
 import type { TextFieldProps } from './TextField.types';
 
 const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
@@ -107,7 +109,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
     const showCustomIcon = inputValue.trim().length === 0 && icon;
     const showClearIcon = isFocused && inputValue.trim().length > 0;
     const hasError = Boolean(inputError) || Boolean(error);
-    const displayHelperText = error || inputError || helperText || '\u00A0';
+    const displayHelperText = (error ? errorMessage : undefined) || inputError || helperText || '\u00A0';
     const helperId = (inputError || error)
       ? `${componentId}-error`
       : helperText
