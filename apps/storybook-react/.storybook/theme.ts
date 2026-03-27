@@ -1,5 +1,5 @@
 import { create } from 'storybook/theming';
-import GiroLogo from '../src/assets/giro-logo.svg';
+import GiroLogo from '../src/stories/General/Welcome/assets/giro-logo.svg';
 
 const config = {
   colors: {

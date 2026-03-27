@@ -28,6 +28,7 @@ const preview = {
           'Comece aqui',
           'Foundation',
           'Components',
+          'Utilities',
           'Patterns',
           '*', // Todas as outras histórias
         ],

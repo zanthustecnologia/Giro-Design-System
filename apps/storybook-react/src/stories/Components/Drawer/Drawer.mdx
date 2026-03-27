@@ -5,6 +5,13 @@ import { ComponentRules } from '../../../internal-components/mdx/Rules/Rules';
 import { Footer } from '../../../internal-components/mdx/Footer/Footer';
 import { Drawer, Button } from '@giro-ds/react';
 
+import DrawerLarguraCustomizada from './assets/drawer-largura-customizada.svg';
+import DrawerSemOverlay from './assets/drawer-sem-overlay.svg';
+import DrawerDoSecundario from './assets/drawer-do-secundario.svg';
+import DrawerDontPrimario from './assets/drawer-dont-primario.svg';
+import DrawerDoBotoes from './assets/drawer-do-botoes.svg';
+import DrawerDontSemSaida from './assets/drawer-dont-sem-saida.svg';
+
 <Meta of={DrawerStories} />
 
 # Drawer
@@ -57,13 +64,13 @@ import { Drawer } from '@giro-ds/react';
 
 Use `customWidth` para controlar a largura do painel. O valor padrão é `400px`. Em dispositivos móveis, o Drawer sempre ocupa 100% da tela independentemente dessa prop.
 
-<img src="/images/drawer/drawer-largura-customizada.svg" alt="Drawer com largura expandida mostrando mais conteudo" style={{ width: '100%', borderRadius: '8px', marginTop: '16px' }} />
+<img src={DrawerLarguraCustomizada} alt="Drawer com largura expandida mostrando mais conteudo" style={{ width: '100%', borderRadius: '8px', marginTop: '16px' }} />
 
 ### Sem fechamento por overlay
 
 Com o fechamento por overlay e por Escape desativados, o usuário só pode fechar o Drawer pelos botões de ação disponíveis no conteúdo. Útil para formulários onde a saída inadvertida causaria perda de dados.
 
-<img src="/images/drawer/drawer-sem-overlay.svg" alt="Drawer com overlay bloqueado e botoes de acao no rodape" style={{ width: '100%', borderRadius: '8px', marginTop: '16px' }} />
+<img src={DrawerSemOverlay} alt="Drawer com overlay bloqueado e botoes de acao no rodape" style={{ width: '100%', borderRadius: '8px', marginTop: '16px' }} />
 
 <div style={{ marginTop: '48px' }} />
 
@@ -73,21 +80,21 @@ Com o fechamento por overlay e por Escape desativados, o usuário só pode fecha
   rules={[
     {
       positive: {
-        component: <img src="/images/drawer/drawer-do-secundario.svg" alt="Drawer como painel de filtros ao lado do conteudo da pagina" style={{ width: '100%', borderRadius: '8px' }} />,
+        component: <img src={DrawerDoSecundario} alt="Drawer como painel de filtros ao lado do conteudo da pagina" style={{ width: '100%', borderRadius: '8px' }} />,
         description: "Use o Drawer para conteúdo secundário como filtros, configurações ou edição rápida. O conteúdo da página permanece visível sob o overlay."
       },
       negative: {
-        component: <img src="/images/drawer/drawer-dont-primario.svg" alt="Drawer ocupando quase toda a tela substituindo a pagina" style={{ width: '100%', borderRadius: '8px' }} />,
+        component: <img src={DrawerDontPrimario} alt="Drawer ocupando quase toda a tela substituindo a pagina" style={{ width: '100%', borderRadius: '8px' }} />,
         description: "Não use o Drawer como substituto de uma página inteira. Quando o painel ocupa quase toda a tela, o usuário perde o contexto da página."
       }
     },
     {
       positive: {
-        component: <img src="/images/drawer/drawer-do-botoes.svg" alt="Drawer com botoes Cancelar e Salvar no rodape" style={{ width: '100%', borderRadius: '8px' }} />,
+        component: <img src={DrawerDoBotoes} alt="Drawer com botoes Cancelar e Salvar no rodape" style={{ width: '100%', borderRadius: '8px' }} />,
         description: "Ao desabilitar o fechamento por overlay, sempre forneça botões de ação explícitos no rodapé para o usuário poder sair com segurança."
       },
       negative: {
-        component: <img src="/images/drawer/drawer-dont-sem-saida.svg" alt="Drawer com overlay bloqueado e sem botoes de saida" style={{ width: '100%', borderRadius: '8px' }} />,
+        component: <img src={DrawerDontSemSaida} alt="Drawer com overlay bloqueado e sem botoes de saida" style={{ width: '100%', borderRadius: '8px' }} />,
         description: "Não bloqueie o fechamento por overlay sem oferecer uma alternativa. O rodapé vazio sem botões prende o usuário no painel."
       }
     },
