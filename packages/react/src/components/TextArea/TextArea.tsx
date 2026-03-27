@@ -81,7 +81,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
     );
 
     const hasError = Boolean(textareaError) || Boolean(error);
-    const displayHelperText = error || textareaError || helperText || '\u00A0';
+    const displayHelperText = (error ? errorMessage : undefined) || textareaError || helperText || '\u00A0';
     const helperId = (textareaError || error)
       ? `${componentId}-error`
       : helperText
