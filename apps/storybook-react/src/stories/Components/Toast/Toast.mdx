@@ -1,0 +1,147 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as ToastStories from './Toast.stories';
+import { UsageGuidelines } from '../../../internal-components/mdx/UsageGuidelines/UsageGuidelines';
+import { ComponentRules } from '../../../internal-components/mdx/Rules/Rules';
+import { Footer } from '../../../internal-components/mdx/Footer/Footer';
+import { CheckmarkCircle20Filled, Info20Filled, Warning20Filled } from '@fluentui/react-icons';
+
+<Meta of={ToastStories} name="Docs" />
+
+# Toast
+
+O Toast exibe notificações transitórias no canto inferior esquerdo da tela. É acionado de forma programática via hook e se fecha automaticamente após alguns segundos, sem interromper o fluxo do usuário.
+
+<Canvas of={ToastStories.Tipos} />
+
+## Configuração
+
+O Toast requer dois componentes de infraestrutura adicionados uma única vez no nível da aplicação.
+
+```jsx
+import { ToastProvider, ToastContainer } from '@giro-ds/react';
+
+function App() {
+  return (
+    <ToastProvider>
+      {/* conteúdo da aplicação */}
+      <ToastContainer />
+    </ToastProvider>
+  );
+}
+```
+
+Para exibir um toast em qualquer componente filho:
+
+```jsx
+import { useToast } from '@giro-ds/react';
+
+function MeuComponente() {
+  const { showToast } = useToast();
+
+  return (
+    <Button onClick={() => showToast({ title: 'Dados salvos com sucesso.', iconType: 'Success' })}>
+      Salvar
+    </Button>
+  );
+}
+```
+
+<div style={{ marginTop: '48px' }} />
+
+## Propriedades
+
+<Controls />
+
+<div style={{ marginTop: '48px' }} />
+
+## Uso
+
+<UsageGuidelines
+  guidelines={[
+    <>
+      Use o Toast para feedback transitório de ações do sistema, como confirmações de envio, exclusões ou erros leves. Não o use para comunicar erros críticos que exijam ação imediata do usuário.
+    </>,
+    <>
+      Escolha o tipo de ícone de acordo com o contexto: <strong>Success</strong> para ações concluídas, <strong>Alert</strong> para avisos que merecem atenção mas não impedem o fluxo, e <strong>Info</strong> para notificações neutras.
+    </>,
+    <>
+      Mantenha o título curto e objetivo. O Toast foi projetado para mensagens diretas: uma frase é o suficiente. Evite explicações longas.
+    </>,
+    <>
+      Desative o fechamento automático apenas quando a informação contiver algo que o usuário precise ler com atenção antes de prosseguir, como um código ou aviso importante.
+    </>,
+    <>
+      O sistema suporta até 5 toasts simultâneos. Quando esse limite é atingido, o mais antigo é removido automaticamente. Evite acionar múltiplas notificações em sequência rápida.
+    </>,
+    <>
+      O Toast não substitui validações de formulário nem mensagens de erro inline. Use-o para feedback de ações globais, não para orientar o preenchimento de campos.
+    </>,
+  ]}
+/>
+
+<div style={{ marginTop: '48px' }} />
+
+## Variações
+
+### Tipos de notificação
+
+O Toast suporta três tipos visuais: informativo, sucesso e alerta. Cada tipo tem uma cor de ícone distinta que comunica a natureza da mensagem antes mesmo da leitura.
+
+<Canvas of={ToastStories.Tipos} />
+
+### Persistente
+
+Quando `automaticClose` é desativado, o toast permanece visível até que o usuário o feche manualmente. Use apenas quando a informação precisar ser lida com atenção antes de prosseguir.
+
+<Canvas of={ToastStories.Persistente} />
+
+<div style={{ marginTop: '48px' }} />
+
+## O que fazer e não fazer
+
+<ComponentRules
+  rules={[
+    {
+      positive: {
+        component: (
+          <div style={{ background: 'var(--color-neutral-low-dark)', color: 'var(--color-neutral-high-default)', padding: '8px 16px', borderRadius: '8px', display: 'inline-flex', gap: '8px', alignItems: 'center', fontSize: '16px', maxWidth: '400px' }}>
+            <CheckmarkCircle20Filled style={{ color: 'var(--color-feedback-success-medium)', flexShrink: 0 }} />
+            Arquivo exportado com sucesso.
+          </div>
+        ),
+        description: "Use mensagens diretas que confirmam o resultado da ação. O usuário entende o que aconteceu sem precisar ler duas vezes."
+      },
+      negative: {
+        component: (
+          <div style={{ background: 'var(--color-neutral-low-dark)', color: 'var(--color-neutral-high-default)', padding: '8px 16px', borderRadius: '8px', display: 'inline-flex', gap: '8px', alignItems: 'center', fontSize: '16px', maxWidth: '400px' }}>
+            <CheckmarkCircle20Filled style={{ color: 'var(--color-feedback-success-medium)', flexShrink: 0 }} />
+            Sua solicitação foi processada pelo sistema e o arquivo foi gerado. Verifique sua pasta de downloads para acessá-lo.
+          </div>
+        ),
+        description: "Evite textos longos no Toast. Notificações transitórias somem rapidamente. Se o conteúdo é extenso, o usuário não consegue ler antes do fechamento."
+      }
+    },
+    {
+      positive: {
+        component: (
+          <div style={{ background: 'var(--color-neutral-low-dark)', color: 'var(--color-neutral-high-default)', padding: '8px 16px', borderRadius: '8px', display: 'inline-flex', gap: '8px', alignItems: 'center', fontSize: '16px', maxWidth: '400px' }}>
+            <Warning20Filled style={{ color: 'var(--color-feedback-alert-medium)', flexShrink: 0 }} />
+            Não foi possível concluir a ação. Tente novamente.
+          </div>
+        ),
+        description: "Use o tipo de ícone condizente com o conteúdo. Um aviso de falha com ícone de alerta comunica a gravidade de forma imediata."
+      },
+      negative: {
+        component: (
+          <div style={{ background: 'var(--color-neutral-low-dark)', color: 'var(--color-neutral-high-default)', padding: '8px 16px', borderRadius: '8px', display: 'inline-flex', gap: '8px', alignItems: 'center', fontSize: '16px', maxWidth: '400px' }}>
+            <CheckmarkCircle20Filled style={{ color: 'var(--color-feedback-success-medium)', flexShrink: 0 }} />
+            Não foi possível concluir a ação. Tente novamente.
+          </div>
+        ),
+        description: "Não use um tipo que contradiz o conteúdo. Ícone de sucesso em mensagem de erro cria ambiguidade e confunde o usuário."
+      }
+    },
+  ]}
+/>
+
+<Footer />

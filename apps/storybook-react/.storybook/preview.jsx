@@ -24,7 +24,8 @@ const preview = {
     options: {
       storySort: {
         order: [
-          'Welcome',
+          'Bem-vindo',
+          'Comece aqui',
           'Foundation',
           'Components',
           'Patterns',

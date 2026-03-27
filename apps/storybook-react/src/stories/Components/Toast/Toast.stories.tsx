@@ -1,4 +1,5 @@
 import { ToastProvider, ToastContainer, useToast, Button } from '@giro-ds/react';
+import type { ToastProps } from '@giro-ds/react';
 import React from 'react';
 
 import type { Meta, StoryFn } from '@storybook/react';
@@ -96,6 +97,48 @@ const ToastExample: React.FC = () => {
 };
 
 export const Default: StoryFn = () => <ToastExample />;
+
+// Helper: exibe toasts automaticamente ao montar, sem interação
+type AutoItem = Pick<ToastProps, 'title' | 'iconType'>;
+const AutoToast: React.FC<{ items: AutoItem[]; height?: number }> = ({ items, height = 280 }) => {
+  const { showToast } = useToast();
+
+  React.useEffect(() => {
+    const timeouts: ReturnType<typeof setTimeout>[] = [];
+    items.forEach((item, i) => {
+      const t = setTimeout(
+        () => showToast({ ...item, automaticClose: false }),
+        i * 80,
+      );
+      timeouts.push(t);
+    });
+    return () => timeouts.forEach(clearTimeout);
+  }, []);
+
+  return <div style={{ minHeight: height }} />;
+};
+
+// Tipos — os três tipos visuais já abertos
+export const Tipos: StoryFn = () => (
+  <AutoToast
+    items={[
+      { title: 'Arquivo exportado com sucesso.', iconType: 'Success' },
+      { title: 'Sessão expira em 5 minutos.', iconType: 'Alert' },
+      { title: 'Sincronização em andamento.', iconType: 'Info' },
+    ]}
+    height={320}
+  />
+);
+
+// Persistente — toast que não fecha automaticamente
+export const Persistente: StoryFn = () => (
+  <AutoToast
+    items={[
+      { title: 'Código de ativação: AB-1234-XZ. Salve antes de continuar.', iconType: 'Info' },
+    ]}
+    height={140}
+  />
+);
 
 export const StressTest: StoryFn = () => {
   const { showToast } = useToast();
