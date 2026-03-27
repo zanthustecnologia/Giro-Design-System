@@ -1,26 +1,87 @@
 .changelog {
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 32px;
   max-width: 1198px;
 }
 
+/* ── Version group ── */
 .versionGroup {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
-.versionHeading {
+.versionHeadingBtn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 0 10px 0;
+  gap: 12px;
+}
+
+.versionLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.versionNumber {
   font-family: var(--font-family-primary, 'Figtree', sans-serif);
   font-size: 22px;
   font-weight: 700;
   color: var(--color-neutral-low-default, #111119);
-  margin: 0;
-  padding-bottom: 8px;
-  border-bottom: 2px solid var(--color-neutral-high-medium, #e2e4ea);
 }
 
+.latestBadge {
+  font-family: var(--font-family-primary, 'Figtree', sans-serif);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background-color: var(--color-brand-primary-default);
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: var(--border-radius-pill);
+}
+
+.versionDate {
+  font-family: var(--font-family-primary, 'Figtree', sans-serif);
+  font-size: 16px;
+  color: var(--color-neutral-low-medium, #88898c);
+}
+
+.versionRight {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.countChip {
+  font-family: var(--font-family-primary, 'Figtree', sans-serif);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: var(--border-radius-pill);
+}
+
+.countMajor {
+  background-color: #fdecea;
+  color: var(--color-feedback-alert-dark, #b4052f);
+}
+
+.countMinor {
+  background-color: #eef0fe;
+  color: var(--color-brand-primary-default, #3b45f2);
+}
+
+.countPatch {
+  background-color: var(--color-neutral-high-light, #f5f6fa);
+  color: var(--color-neutral-low-medium, #88898c);
+}
+
+/* ── Cards ── */
 .cards {
   display: flex;
   flex-direction: column;
@@ -52,34 +113,26 @@
   letter-spacing: 0.02em;
 }
 
-.badgeReact {
-  background-color: var(--color-brand-primary-medium);
-}
+.badgeReact      { background-color: var(--color-brand-primary-default); }
+.badgeTokens     { background-color: var(--color-feedback-success-dark); }
+.badgeUtilities  { background-color: var(--color-neutral-low-dark); }
 
-.badgeTokens {
-  background-color: var(--color-brand-secondary-default);
-}
-
-.badgeUtilities {
-  background-color: var(--color-neutral-low-dark);
-}
-
+/* ── Section ── */
 .section {
   display: flex;
   flex-direction: column;
   gap: 8px;
 
-  &.major .sectionLabel {
-    color: var(--color-feedback-error-default, #c62828);
-  }
+  &.major .sectionLabel { color: var(--color-feedback-alert-default, #e81e42); }
+  &.minor .sectionLabel { color: var(--color-brand-primary-default, #3b45f2); }
+  &.patch .sectionLabel { color: var(--color-neutral-low-medium, #88898c); }
+}
 
-  &.minor .sectionLabel {
-    color: var(--color-brand-primary-default, #3b45f2);
-  }
-
-  &.patch .sectionLabel {
-    color: var(--color-neutral-low-medium, #88898c);
-  }
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
 }
 
 .sectionLabel {
@@ -90,6 +143,19 @@
   letter-spacing: 0.08em;
 }
 
+.migrationLink {
+  font-family: var(--font-family-primary, 'Figtree', sans-serif);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-brand-primary-default, #3b45f2);
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+/* ── List ── */
 .list {
   margin: 0;
   padding-left: 18px;
@@ -103,9 +169,7 @@
     line-height: 1.6;
     color: var(--color-neutral-low-default, #111119);
 
-    strong {
-      font-weight: 600;
-    }
+    strong { font-weight: 600; }
 
     code {
       font-family: monospace;
@@ -116,3 +180,4 @@
     }
   }
 }
+

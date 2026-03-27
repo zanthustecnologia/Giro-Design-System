@@ -77,8 +77,28 @@ const config = {
 
     // 6) Virtual module que expõe o conteúdo dos CHANGELOGs em build/dev time
     const fs = await import('node:fs');
+    const { execSync } = await import('node:child_process');
+
     const readChangelog = (pkg) =>
       fs.readFileSync(path.resolve(__dirname, `../../../packages/${pkg}/CHANGELOG.md`), 'utf-8');
+
+    // Lê datas dos git tags (ex: "@giro-ds/react@4.0.0" -> "2026-03-17")
+    const getTagDates = () => {
+      try {
+        const out = execSync(
+          `git tag --format="%(refname:short)|%(creatordate:short)"`,
+          { cwd: path.resolve(__dirname, '../../..'), encoding: 'utf-8' }
+        );
+        const dates = {};
+        for (const line of out.split('\n')) {
+          const [tag, date] = line.split('|');
+          if (tag && date) dates[tag.trim()] = date.trim();
+        }
+        return dates;
+      } catch {
+        return {};
+      }
+    };
 
     const changelogPlugin = {
       name: 'virtual-changelogs',
@@ -91,6 +111,7 @@ const config = {
             `export const reactChangelog = ${JSON.stringify(readChangelog('react'))};`,
             `export const tokensChangelog = ${JSON.stringify(readChangelog('tokens'))};`,
             `export const utilitiesChangelog = ${JSON.stringify(readChangelog('utilities'))};`,
+            `export const tagDates = ${JSON.stringify(getTagDates())};`,
           ].join('\n');
         }
       },
