@@ -12,7 +12,6 @@ const Popover: React.FC<PopoverProps> = ({
   sideOffset = 5,
   open,
   onOpenChange,
-  showArrow = true,
   onOpenAutoFocus,
 }) => {
   return (
@@ -29,7 +28,6 @@ const Popover: React.FC<PopoverProps> = ({
           onOpenAutoFocus={onOpenAutoFocus}
         >
             {content}
-          {showArrow && <PopoverRadix.Arrow className={styles.Arrow} />}
         </PopoverRadix.Content>
       </PopoverRadix.Portal>
     </PopoverRadix.Root>
