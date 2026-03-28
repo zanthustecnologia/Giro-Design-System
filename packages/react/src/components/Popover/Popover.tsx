@@ -8,24 +8,36 @@ const Popover: React.FC<PopoverProps> = ({
   trigger,
   content,
   side = "left",
-  align = "end",
-  sideOffset = 5,
+  align = "start",  
+  sideOffset = 8,  
   open,
   onOpenChange,
+  asAnchor = false,
+  onOpenAutoFocus,
+  onCloseAutoFocus,
 }) => {
   return (
     <PopoverRadix.Root open={open} onOpenChange={onOpenChange}>
-      <PopoverRadix.Trigger asChild>
-        {trigger}
-      </PopoverRadix.Trigger>
+      {asAnchor ? (
+        <PopoverRadix.Anchor asChild>
+          {trigger}
+        </PopoverRadix.Anchor>
+      ) : (
+        <PopoverRadix.Trigger asChild>
+          {trigger}
+        </PopoverRadix.Trigger>
+      )}
       <PopoverRadix.Portal>
         <PopoverRadix.Content
           className={styles.Content}
           sideOffset={sideOffset}
           side={side}
           align={align}
+          onOpenAutoFocus={asAnchor ? (e) => e.preventDefault() : onOpenAutoFocus}
+          onCloseAutoFocus={asAnchor ? (e) => e.preventDefault() : onCloseAutoFocus}
+          onInteractOutside={asAnchor ? (e) => e.preventDefault() : undefined}
         >
-            {content}
+          {content}
         </PopoverRadix.Content>
       </PopoverRadix.Portal>
     </PopoverRadix.Root>

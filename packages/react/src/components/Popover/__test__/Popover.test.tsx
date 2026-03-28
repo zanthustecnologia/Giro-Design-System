@@ -1,6 +1,6 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import Popover from '../Popover';
 
 describe('Popover', () => {
@@ -145,19 +145,6 @@ describe('Popover', () => {
   });
 
   describe('Props opcionais', () => {
-    it('aceita a prop onDateSelect sem erros', () => {
-      const onDateSelect = () => {};
-      expect(() =>
-        render(
-          <Popover
-            onDateSelect={onDateSelect}
-            trigger={<button>Trigger</button>}
-            content={<div>Conteúdo</div>}
-          />
-        )
-      ).not.toThrow();
-    });
-
     it('aceita a prop align sem erros', () => {
       expect(() =>
         render(
@@ -210,6 +197,86 @@ describe('Popover', () => {
           )
         ).not.toThrow();
       });
+    });
+
+    it('aceita showArrow sem erros', () => {
+      expect(() =>
+        render(
+          <Popover
+            showArrow
+            trigger={<button>Trigger</button>}
+            content={<div>Conteúdo</div>}
+          />
+        )
+      ).not.toThrow();
+    });
+
+    it('aceita onOpenAutoFocus e onCloseAutoFocus sem erros', () => {
+      const onOpenAutoFocus = (e: Event) => e.preventDefault();
+      const onCloseAutoFocus = (e: Event) => e.preventDefault();
+      expect(() =>
+        render(
+          <Popover
+            onOpenAutoFocus={onOpenAutoFocus}
+            onCloseAutoFocus={onCloseAutoFocus}
+            trigger={<button>Trigger</button>}
+            content={<div>Conteúdo</div>}
+          />
+        )
+      ).not.toThrow();
+    });
+  });
+
+  describe('Modo asAnchor', () => {
+    it('não abre o popover ao clicar no trigger quando asAnchor=true', async () => {
+      const user = userEvent.setup();
+      const onOpenChange = vi.fn();
+      render(
+        <Popover
+          asAnchor
+          open={false}
+          onOpenChange={onOpenChange}
+          trigger={<button>Trigger Âncora</button>}
+          content={<div>Conteúdo</div>}
+        />
+      );
+
+      await user.click(screen.getByText('Trigger Âncora'));
+
+      expect(onOpenChange).not.toHaveBeenCalled();
+    });
+
+    it('abre o popover via prop open quando asAnchor=true', async () => {
+      render(
+        <Popover
+          asAnchor
+          open={true}
+          onOpenChange={() => {}}
+          trigger={<button>Trigger Âncora</button>}
+          content={<div>Conteúdo Controlado</div>}
+        />
+      );
+
+      await waitFor(() => {
+        expect(screen.getByText('Conteúdo Controlado')).toBeInTheDocument();
+      });
+    });
+
+    it('sincroniza estado externo via open/onOpenChange sem asAnchor (modo Filter)', async () => {
+      const user = userEvent.setup();
+      const onOpenChange = vi.fn();
+      render(
+        <Popover
+          open={false}
+          onOpenChange={onOpenChange}
+          trigger={<button>Trigger Filter</button>}
+          content={<div>Conteúdo Filter</div>}
+        />
+      );
+
+      await user.click(screen.getByText('Trigger Filter'));
+
+      expect(onOpenChange).toHaveBeenCalledWith(true);
     });
   });
 });
