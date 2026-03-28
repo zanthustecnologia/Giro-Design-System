@@ -12,7 +12,7 @@ interface BaseFilterItem {
   buttonText: string | React.ReactNode;
   icon?: React.ReactElement;
   side?: Side;
-  align?: Align;
+  align?: Exclude<Align, 'center'>;
   disabled?: boolean;
   onToggle?: (isOpen: boolean) => void;
   tooltip?: string;
