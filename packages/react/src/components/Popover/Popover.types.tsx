@@ -12,6 +12,4 @@ export interface PopoverProps {
   open?: boolean;
   /** Callback chamado quando o estado de abertura muda */
   onOpenChange?: (open: boolean) => void;
-  /** Callback chamado ao abrir — chamar e.preventDefault() cancela o foco automático */
-  onOpenAutoFocus?: (e: Event) => void;
 }

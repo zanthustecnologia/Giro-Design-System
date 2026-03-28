@@ -12,7 +12,6 @@ const Popover: React.FC<PopoverProps> = ({
   sideOffset = 5,
   open,
   onOpenChange,
-  onOpenAutoFocus,
 }) => {
   return (
     <PopoverRadix.Root open={open} onOpenChange={onOpenChange}>
@@ -25,7 +24,6 @@ const Popover: React.FC<PopoverProps> = ({
           sideOffset={sideOffset}
           side={side}
           align={align}
-          onOpenAutoFocus={onOpenAutoFocus}
         >
             {content}
         </PopoverRadix.Content>
