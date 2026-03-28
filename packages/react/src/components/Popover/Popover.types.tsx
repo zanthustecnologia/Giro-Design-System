@@ -6,6 +6,8 @@ export interface PopoverProps {
   onDateSelect?: (date: Date) => void;
   align?: Align;
   side?: Side;
+  /** Distância em pixels entre o conteúdo e o trigger */
+  sideOffset?: number;
   /** Controla o estado de abertura em modo controlado */
   open?: boolean;
   /** Callback chamado quando o estado de abertura muda */

@@ -9,6 +9,7 @@ const Popover: React.FC<PopoverProps> = ({
   content,
   side = "left",
   align = "end",
+  sideOffset = 5,
   open,
   onOpenChange,
   showArrow = true,
@@ -22,7 +23,7 @@ const Popover: React.FC<PopoverProps> = ({
       <PopoverRadix.Portal>
         <PopoverRadix.Content
           className={styles.Content}
-          sideOffset={5}
+          sideOffset={sideOffset}
           side={side}
           align={align}
           onOpenAutoFocus={onOpenAutoFocus}
