@@ -38,12 +38,12 @@ const meta: Meta<typeof Filter> = {
     align: {
       control: {
         type: 'select',
-        options: ['start', 'center', 'end'],
+        options: ['start', 'end'],
       },
       description: 'Alinhamento do popover em relação ao botão',
       table: {
         type: { summary: "'start' | 'end'" },
-        defaultValue: { summary: 'center' },
+        defaultValue: { summary: 'start' },
       },
     },
     variant: {
@@ -172,7 +172,7 @@ export const WithSearch: Story = {
     type: 'checkbox',
     enableSearch: true,
     side: 'bottom',
-    align: 'center',
+    align: 'start',
     variant: 'outlined',
   },
 };
@@ -185,7 +185,7 @@ export const Disabled: Story = {
     type: 'checkbox',
     disabled: true,
     side: 'bottom',
-    align: 'center',
+    align: 'start',
     variant: 'outlined',
   },
 };
