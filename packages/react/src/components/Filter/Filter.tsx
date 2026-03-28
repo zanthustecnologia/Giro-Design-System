@@ -241,7 +241,6 @@ const Filter: React.FC<FilterProps> = ({
                   {type === 'checkbox' && (
                     <Checkbox
                       checked={isSelected}
-                      onCheckedChange={() => {}}
                       disabled={item.disabled}
                       label=""
                     />
