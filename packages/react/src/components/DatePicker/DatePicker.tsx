@@ -176,6 +176,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
         <Popover
           open={showCalendar}
           onOpenChange={setShowCalendar}
+          asAnchor={true}
           trigger={
             <TextField
               className={styles.textfieldContainer}
