@@ -109,9 +109,9 @@ const Drawer: React.FC<DrawerProps> = ({
         id={id}
       >
      
-        <div className={clsx(styles['drawerTitleClose'])}>
+        <div className={styles.drawerTitleClose}>
           <div 
-            className={clsx(styles['drawerTitle'])} 
+            className={styles.drawerTitle} 
             id={id ? `${id}-title` : 'drawer-title'}
           >
             {title}
@@ -130,7 +130,7 @@ const Drawer: React.FC<DrawerProps> = ({
           />
         </div>
         <div 
-          className={clsx(styles['drawerChildren'])} 
+          className={styles.drawerChildren} 
           data-testid="drawer-content"
         >
           {children}
