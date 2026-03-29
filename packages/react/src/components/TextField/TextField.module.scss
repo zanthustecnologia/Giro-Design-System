@@ -37,6 +37,7 @@
 
   input {
     min-width: 150px;
+    width: 100%;
     display: inline-flex;
     height: 44px;
     padding: 0px var(--spacing-16);
@@ -91,7 +92,7 @@
 }
 
 .inputWithIcon {
-  width: calc(100% - 32px);
+  width: calc(100% - 32px) !important;
 }
 
 .clearButton {
