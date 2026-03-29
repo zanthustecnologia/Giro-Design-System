@@ -25,10 +25,8 @@ const meta: Meta<typeof Filter> = {
       },
     },
     side: {
-      control: {
-        type: 'select',
-        options: ['top', 'right', 'bottom', 'left'],
-      },
+      control: 'select',
+      options: ['top', 'right', 'bottom', 'left'],
       description: 'Lado de abertura do popover em relação ao botão',
       table: {
         type: { summary: "'top' | 'right' | 'bottom' | 'left'" },
@@ -36,10 +34,8 @@ const meta: Meta<typeof Filter> = {
       },
     },
     align: {
-      control: {
-        type: 'select',
-        options: ['start', 'end'],
-      },
+      control: 'select',
+      options: ['start', 'end'],
       description: 'Alinhamento do popover em relação ao botão',
       table: {
         type: { summary: "'start' | 'end'" },
@@ -47,10 +43,8 @@ const meta: Meta<typeof Filter> = {
       },
     },
     variant: {
-      control: {
-        type: 'select',
-        options: ['filled', 'outlined', 'text'],
-      },
+      control: 'select',
+      options: ['filled', 'outlined', 'text'],
       description: 'Variante do botão',
       table: {
         type: { summary: "'filled' | 'outlined' | 'text'" },
@@ -58,10 +52,8 @@ const meta: Meta<typeof Filter> = {
       },
     },
     type: {
-      control: {
-        type: 'select',
-        options: ['checkbox', 'text', 'icon'],
-      },
+      control: 'select',
+      options: ['checkbox', 'text', 'icon'],
       description: 'Tipo do dropdown',
       table: {
         type: { summary: "'checkbox' | 'text' | 'icon'" },
