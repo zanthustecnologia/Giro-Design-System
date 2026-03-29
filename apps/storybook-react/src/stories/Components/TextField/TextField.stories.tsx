@@ -119,7 +119,7 @@ export const Default: Story = {
   },
   render: (args) => (
     <div className='storybook__container'>
-      <TextField {...args}  error/>
+      <TextField {...args} />
     </div>
   ),
 };
