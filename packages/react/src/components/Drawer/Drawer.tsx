@@ -1,6 +1,7 @@
 import { Dismiss16Regular } from '@fluentui/react-icons';
 import clsx from 'clsx';
 import React, { useEffect, useState, useCallback, ReactNode, ReactElement } from 'react';
+import { createPortal } from 'react-dom';
 
 import styles from './Drawer.module.scss';
 import Button from '../Button/Button';
@@ -77,7 +78,7 @@ const Drawer: React.FC<DrawerProps> = ({
     internalClose();
   };
 
-  return (
+  return createPortal(
     <>
       <div
         className={clsx(styles['drawerShadow'], {
@@ -136,7 +137,8 @@ const Drawer: React.FC<DrawerProps> = ({
           {children}
         </div>
       </div>
-    </>
+    </>,
+    document.body
   );
 };
 
