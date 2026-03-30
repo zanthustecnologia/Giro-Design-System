@@ -7,7 +7,7 @@
   box-sizing: border-box;
   border-radius: var(--border-radius-8);
   box-shadow: 0px 2px 16px 0px rgba(0, 0, 0, 0.20);
-  padding: var(--spacing-16) var(--spacing-24);
+  padding: var(--spacing-24);
   background-color: var(--color-neutral-high-default);
   min-width: 320px;
   min-height: 320px;
@@ -148,6 +148,7 @@
   text-transform: capitalize;
   font-weight: var(--font-weight-regular);
   font-size: var(--font-size-16);
+  margin-bottom: var(--spacing-8);
 }
 
 .root[data-nav-layout="around"] .month,
