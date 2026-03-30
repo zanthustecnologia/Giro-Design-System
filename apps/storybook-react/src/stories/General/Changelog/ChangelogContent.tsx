@@ -1,4 +1,5 @@
 import React from 'react';
+import { Chips } from '@giro-ds/react';
 import { reactChangelog, tokensChangelog, utilitiesChangelog, tagDates } from 'virtual:changelogs';
 import styles from './Changelog.module.scss';
 
@@ -99,10 +100,10 @@ function formatDate(iso: string): string {
   return `${parseInt(day)} de ${months[parseInt(month) - 1]} de ${year}`;
 }
 
-const PACKAGE_CLASS: Record<string, string> = {
-  '@giro-ds/react': styles.badgeReact,
-  '@giro-ds/tokens': styles.badgeTokens,
-  '@giro-ds/utilities': styles.badgeUtilities,
+const PACKAGE_CHIP_TYPE: Record<string, 'brand' | 'color' | 'neutral'> = {
+  '@giro-ds/react': 'brand',
+  '@giro-ds/tokens': 'color',
+  '@giro-ds/utilities': 'neutral',
 };
 
 export function ChangelogContent() {
@@ -148,7 +149,7 @@ export function ChangelogContent() {
             <div className={styles.versionHeadingBtn}>
               <div className={styles.versionLeft}>
                 <span className={styles.versionNumber}>v{version}</span>
-                {isLatest && <span className={styles.latestBadge}>LATEST</span>}
+                {isLatest && <span className={styles.latestBadge}>Latest</span>}
                 {date && <span className={styles.versionDate}>{formatDate(date)}</span>}
               </div>
               <div className={styles.versionRight}>
@@ -173,16 +174,11 @@ export function ChangelogContent() {
             <div className={styles.cards}>
                 {entries.map((entry) => (
                   <div key={entry.packageName} className={styles.entry}>
-                    <div className={styles.header}>
-                      <span className={`${styles.badge} ${PACKAGE_CLASS[entry.packageName]}`}>
-                        {entry.packageName}
-                      </span>
-                    </div>
-
-                    {entry.sections.map((section) => (
+                    {entry.sections.map((section, sectionIndex) => (
                       <div key={section.type} className={`${styles.section} ${styles[section.type]}`}>
                         <div className={styles.sectionHeader}>
                           <span className={styles.sectionLabel}>{section.label}</span>
+                          <div className={styles.sectionHeaderRight}>
                           {section.migrationUrl && (
                             <a
                               href={`https://github.com/zanthustecnologia/Giro-Design-System/blob/main/${section.migrationUrl}`}
@@ -193,6 +189,13 @@ export function ChangelogContent() {
                               Ver Migration Guide →
                             </a>
                           )}
+                          {sectionIndex === 0 && (
+                            <Chips
+                              type={PACKAGE_CHIP_TYPE[entry.packageName]}
+                              title={entry.packageName}
+                            />
+                          )}
+                          </div>
                         </div>
                         <ul className={styles.list}>
                           {section.items.map((item, i) => (

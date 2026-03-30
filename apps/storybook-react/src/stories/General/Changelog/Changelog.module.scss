@@ -36,20 +36,18 @@
 
 .latestBadge {
   font-family: var(--font-family-primary, 'Figtree', sans-serif);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  background-color: var(--color-brand-primary-default);
-  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
   padding: 2px 8px;
   border-radius: var(--border-radius-pill);
+  background-color: #e6f9f0;
+  color: var(--color-feedback-success-dark, #0a7a45);
 }
 
 .versionDate {
   font-family: var(--font-family-primary, 'Figtree', sans-serif);
   font-size: 16px;
-  color: var(--color-neutral-low-medium, #88898c);
+  color: var(--color-neutral-low-dark, #88898c);
 }
 
 .versionRight {
@@ -97,25 +95,13 @@
   gap: 16px;
 }
 
-.header {
+.sectionHeaderRight {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
 
-.badge {
-  font-family: var(--font-family-primary, 'Figtree', sans-serif);
-  font-size: 12px;
-  font-weight: 600;
-  color: #fff;
-  padding: 3px 10px;
-  border-radius: var(--border-radius-pill);
-  letter-spacing: 0.02em;
-}
 
-.badgeReact      { background-color: var(--color-brand-primary-default); }
-.badgeTokens     { background-color: var(--color-feedback-success-dark); }
-.badgeUtilities  { background-color: var(--color-neutral-low-dark); }
 
 /* ── Section ── */
 .section {
