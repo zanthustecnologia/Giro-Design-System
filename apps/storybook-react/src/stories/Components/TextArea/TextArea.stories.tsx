@@ -62,10 +62,6 @@ const meta: Meta<typeof TextArea> = {
       control: 'number',
       description: 'Altura do campo'
     },
-    rows: {
-      control: 'number',
-      description: 'Número de linhas visíveis do campo'
-    },
     required: {
       control: 'boolean',
       description: 'Campo obrigatório'
@@ -107,7 +103,6 @@ export const Default: Story = {
     maxLength: 100,
     className: '',
     required: false,
-    rows: 4,
     tooltip: true,
     helperText: 'Optional support text',
     label: 'Label',

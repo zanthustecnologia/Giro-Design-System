@@ -11,7 +11,6 @@ import { Side, Align } from '../../types/common.types';
  *   value={description}
  *   onChange={setDescription}
  *   placeholder="Digite uma descrição"
- *   rows={4}
  * />
  * ```
  * @example
@@ -63,9 +62,6 @@ export interface TextAreaProps extends Omit<
 
   /** Sinaliza erro externo para controle via formulários (react-hook-form, formik, etc.) */
   error?: boolean;
-
-  /** Número de linhas visíveis */
-  rows?: number;
 
   /** Controla o redimensionamento do textarea */
   resize?: 'none' | 'vertical' | 'both';

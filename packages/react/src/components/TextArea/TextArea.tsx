@@ -28,7 +28,6 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
       onBlur,
       onFocus,
       name,
-      rows = 4,
       resize = 'vertical',
       showCharCount = false,
       height,
@@ -126,7 +125,6 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
               onBlur={handleBlur}
               maxLength={maxLength}
               disabled={disabled}
-              rows={rows}
               aria-invalid={hasError}
               aria-required={required}
               aria-describedby={helperId}
