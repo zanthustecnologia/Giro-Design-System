@@ -1,4 +1,5 @@
 import * as React from 'react';
+import type { ComponentPropsWithoutRef } from 'react';
 
 import { BaseProps } from '../../types/common.types';
 
@@ -23,7 +24,13 @@ import { BaseProps } from '../../types/common.types';
  * />
  * ```
  */
-export interface SearchProps extends BaseProps {
+
+type NativeInputProps = Omit<
+  ComponentPropsWithoutRef<'input'>,
+  'value' | 'defaultValue' | 'onChange' | 'onClick' | 'onMouseDown'
+>;
+
+export interface SearchProps extends BaseProps, NativeInputProps {
   /** Placeholder do campo de busca */
   placeholder?: string;
   

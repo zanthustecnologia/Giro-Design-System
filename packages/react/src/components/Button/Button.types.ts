@@ -70,4 +70,13 @@ export interface ButtonProps extends BaseProps, React.HTMLAttributes<HTMLElement
   
   /** Estado de carregamento (exibe spinner) */
   loading?: boolean;
+
+  /** Texto do tooltip exibido quando o botão é apenas ícone */
+  tooltipText?: string;
+
+  /** Lado em que o tooltip será exibido */
+  tooltipSide?: 'top' | 'bottom' | 'left' | 'right';
+
+  /** Alinhamento do tooltip */
+  tooltipAlign?: 'start' | 'center' | 'end';
 }

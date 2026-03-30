@@ -1,5 +1,22 @@
 # @giro-ds/react
 
+## 4.0.0
+
+### Major Changes
+
+- de4c785: **BREAKING CHANGES:**
+  - **Avatar**: Size values changed from 'small'/'large' to 'sm'/'lg' for Radix UI alignment
+  - **Dialog**: Complete migration to Radix UI - removed props: show, onClose; renamed: fnConfirm→onConfirm, fnCancel→onCancel
+  - **Toast**: Complete API rewrite - now requires ToastProvider/ToastContainer setup and uses object-based API: showToast({ title, iconType, ... })
+
+  **New Features:**
+  - **Button**: Added automatic tooltip for iconOnly mode with new props: tooltipText, tooltipSide, tooltipAlign
+  - **Popover**: New component based on Radix UI with trigger/content pattern
+
+  **Improvements:**
+  - **Container**: Internal refactoring with design tokens and comprehensive tests
+  - **Search**: Fixed useId() bug and improved accessibility with keyboard navigation
+
 ## 3.0.7
 
 ### Patch Changes
