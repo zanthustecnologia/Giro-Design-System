@@ -11,7 +11,7 @@ import { CheckmarkCircle20Filled, Info20Filled, Warning20Filled } from '@fluentu
 
 O Toast exibe notificações transitórias no canto inferior esquerdo da tela. É acionado de forma programática via hook e se fecha automaticamente após alguns segundos, sem interromper o fluxo do usuário.
 
-<Canvas of={ToastStories.Tipos} />
+<Canvas of={ToastStories.Default} />
 
 ## Configuração
 
@@ -87,7 +87,11 @@ function MeuComponente() {
 
 O Toast suporta três tipos visuais: informativo, sucesso e alerta. Cada tipo tem uma cor de ícone distinta que comunica a natureza da mensagem antes mesmo da leitura.
 
-<Canvas of={ToastStories.Tipos} />
+<Canvas of={ToastStories.Sucesso} />
+
+<Canvas of={ToastStories.Alerta} />
+
+<Canvas of={ToastStories.Info} />
 
 ### Persistente
 
