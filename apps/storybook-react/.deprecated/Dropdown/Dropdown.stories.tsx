@@ -18,8 +18,14 @@ const mockValues: DropdownItem[] = [
 const meta: Meta<typeof Dropdown> = {
   title: "Components/Dropdown",
   component: Dropdown,
+  tags: ['deprecated'],
   parameters: {
-    layout: 'fullscreen'
+    layout: 'fullscreen',
+    docs: {
+      description: {
+        component: '> ⚠️ **Componente descontinuado.** O Dropdown foi substituído pelo **Select**. Utilize o Select para novos desenvolvimentos.',
+      },
+    },
   },
   argTypes: {
     applySearch: {

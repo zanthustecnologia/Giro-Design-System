@@ -64,3 +64,39 @@ export const WithButton: Story = {
     </Tooltip>
   ),
 };
+
+export const PositionBottom: Story = {
+  args: {
+    text: 'Abaixo do elemento',
+    side: 'bottom',
+  },
+  render: (args) => (
+    <Tooltip {...args}>
+      <Button>Hover me</Button>
+    </Tooltip>
+  ),
+};
+
+export const PositionLeft: Story = {
+  args: {
+    text: 'À esquerda do elemento',
+    side: 'left',
+  },
+  render: (args) => (
+    <Tooltip {...args}>
+      <Button>Hover me</Button>
+    </Tooltip>
+  ),
+};
+
+export const PositionRight: Story = {
+  args: {
+    text: 'À direita do elemento',
+    side: 'right',
+  },
+  render: (args) => (
+    <Tooltip {...args}>
+      <Button>Hover me</Button>
+    </Tooltip>
+  ),
+};

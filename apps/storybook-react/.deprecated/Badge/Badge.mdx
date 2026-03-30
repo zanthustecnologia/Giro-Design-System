@@ -1,0 +1,134 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as BadgeStories from './Badge.stories';
+import { Badge, Avatar, Button } from '@giro-ds/react';
+import { Add16Regular } from '@fluentui/react-icons';
+import { UsageGuidelines } from '../../../internal-components/mdx/UsageGuidelines/UsageGuidelines';
+import { ComponentRules } from '../../../internal-components/mdx/Rules/Rules';
+import { Footer } from '../../../internal-components/mdx/Footer/Footer';
+
+<Meta of={BadgeStories} />
+
+# Badge
+
+O Badge é um indicador visual sobreposto a um elemento. É usado para comunicar notificações não lidas, contagens ou estados de presença sem interromper o fluxo da interface.
+
+<Canvas of={BadgeStories.Default} />
+
+## Importação
+
+```js
+import { Badge } from '@giro-ds/react';
+```
+
+<div style={{ marginTop: '48px' }} />
+
+## Propriedades
+
+<Controls />
+
+<div style={{ marginTop: '48px' }} />
+
+## Uso
+
+<UsageGuidelines
+  guidelines={[
+    <>
+      Use o Badge de notificação para indicar a quantidade de itens não vistos, como mensagens ou alertas. Quando não há itens, omita o Badge ou exiba-o sem valor para indicar apenas que o recurso está disponível.
+    </>,
+    <>
+      Quando o valor ultrapassar o limite configurado, o Badge exibe automaticamente o limite seguido de "+". Use esse recurso para evitar que números muito grandes quebrem o layout do indicador.
+    </>,
+    <>
+      Use o Badge de status para representar presença ou disponibilidade de uma pessoa ou entidade. Ele não exibe valor numérico, apenas um indicador visual de estado.
+    </>,
+    <>
+      O Badge sempre deve ser aplicado sobre um elemento interativo ou informativo como Avatar ou botão. Evite aplicá-lo em elementos decorativos ou sem significado funcional.
+    </>,
+    <>
+      Forneça um rótulo acessível descritivo para que leitores de tela comuniquem corretamente o significado do Badge ao usuário.
+    </>,
+  ]}
+/>
+
+<div style={{ marginTop: '48px' }} />
+
+## Variações
+
+### Sem valor
+
+Quando não há itens para notificar, o Badge pode ser exibido sem valor para indicar que o recurso está ativo.
+
+<Canvas of={BadgeStories.SemValor} />
+
+### Valor acima do limite
+
+Quando o número ultrapassa o máximo configurado, o Badge exibe o limite seguido de "+" para evitar overflow visual.
+
+<Canvas of={BadgeStories.ValorAlto} />
+
+### Em botão
+
+O Badge pode ser aplicado sobre um botão para indicar notificações relacionadas àquela ação.
+
+<Canvas of={BadgeStories.EmBotao} />
+
+### Status
+
+O Badge de status indica presença ou disponibilidade sem exibir valor numérico.
+
+<Canvas of={BadgeStories.Status} />
+
+<div style={{ marginTop: '48px' }} />
+
+## O que fazer e não fazer
+
+<ComponentRules
+  rules={[
+    {
+      negative: {
+        component: (
+          <div style={{ display: 'flex', gap: '24px' }}>
+            <Badge type="notification" badgeValue={3}>
+              <Avatar icon={<Add16Regular />} />
+            </Badge>
+            <Badge type="notification" badgeValue={3}>
+              <Avatar icon={<Add16Regular />} />
+            </Badge>
+            <Badge type="notification" badgeValue={3}>
+              <Avatar icon={<Add16Regular />} />
+            </Badge>
+          </div>
+        ),
+        description: 'Evite usar múltiplos Badges próximos. O excesso de indicadores simultaneamente visíveis reduz a atenção do usuário e dificulta a leitura da interface.'
+      },
+      positive: {
+        component: (
+          <Badge type="notification" badgeValue={3}>
+            <Avatar icon={<Add16Regular />} />
+          </Badge>
+        ),
+        description: 'Reserve o Badge para os elementos que realmente precisam chamar atenção. Menos indicadores visíveis simultâneos aumentam a eficácia de cada um.'
+      }
+    },
+    {
+      negative: {
+        component: (
+          <Badge type="notification" badgeValue={1523}>
+            <Button>Mensagens</Button>
+          </Badge>
+        ),
+        description: 'Não exiba números muito grandes sem configurar um valor máximo. Valores extensos deformam o Badge e prejudicam o layout.'
+      },
+      positive: {
+        component: (
+          <Badge type="notification" badgeValue={1523} maxValue={99}>
+            <Button>Mensagens</Button>
+          </Badge>
+        ),
+        description: 'Configure o valor máximo para truncar números grandes com "+". O usuário entende que há muitos itens sem precisar ver o número exato.'
+      }
+    }
+  ]}
+/>
+
+<Footer />

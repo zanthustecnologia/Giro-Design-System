@@ -7,7 +7,7 @@ import { Footer } from '../../../internal-components/mdx/Footer/Footer';
 
 # Calendar
 
-O Calendar é um componente de seleção de datas baseado em `react-day-picker`. Suporta internacionalização, restrição de intervalo, múltiplos meses, dropdown de navegação e dias desabilitados por regras customizadas.
+O Calendar é um componente de seleção de datas. Suporta internacionalização, restrição de intervalo, múltiplos meses, dropdown de navegação e dias desabilitados por regras customizadas.
 
 <Canvas of={CalendarStories.Default} />
 
@@ -30,19 +30,19 @@ import { Calendar } from '@giro-ds/react';
 <UsageGuidelines
   guidelines={[
     <>
-      O Calendar é um componente <strong>semi-controlado</strong>: a seleção pode ser controlada externamente via <code>selected</code> + <code>onDaySelect</code> ou deixada para o estado interno. Prefira o modo controlado em formulários para integrar com validação.
+      O Calendar pode funcionar de forma <strong>controlada</strong> ou autônoma. Em formulários, controle a data selecionada externamente para integrar com validação e garantir que o valor seja enviado corretamente.
     </>,
     <>
-      Use <code>minDate</code> e <code>maxDate</code> para restringir o intervalo selecionável ao contexto do formulário. Datas fora do intervalo são desabilitadas automaticamente e não exigem lógica adicional no <code>onDaySelect</code>.
+      Para limitar o intervalo de datas disponíveis, defina uma data mínima e uma data máxima. Datas fora do intervalo são desabilitadas automaticamente, sem necessidade de lógica adicional.
     </>,
     <>
-      Prefira <code>captionLayout="dropdown"</code> quando o intervalo de anos for amplo, como em campos de data de nascimento. Para seleções próximas ao mês atual, o layout padrão com setas de navegação é mais intuitivo.
+      Quando o intervalo de anos for amplo, como em campos de data de nascimento, use o modo de navegação por dropdown. Para seleções próximas ao mês atual, a navegação com setas é mais intuitiva.
     </>,
     <>
-      Use <code>numberOfMonths={2}</code> com cautela. Dois meses exigem mais espaço horizontal e podem causar overflow em telas estreitas. Avalie se o contexto realmente exige a comparação visual entre meses.
+      Exibir dois meses lado a lado exige mais espaço horizontal e pode causar overflow em telas estreitas. Reserve essa configuração para contextos que realmente exijam comparação visual entre meses.
     </>,
     <>
-      Para desabilitar dias específicos além do intervalo min/max, use a prop <code>disabled</code> com <code>Matcher</code> do <code>react-day-picker</code>: aceita <code>Date[]</code>, <code>DayOfWeek</code>, <code>DateRange</code> ou uma função predicado.
+      Para desabilitar dias específicos além do intervalo de datas, use a opção de desabilitação customizada. Ela aceita listas de datas, dias da semana, intervalos de período ou uma função de verificação.
     </>,
   ]}
 />
@@ -53,31 +53,31 @@ import { Calendar } from '@giro-ds/react';
 
 ### Com data pré-selecionada
 
-Passe `selected` com um valor inicial para exibir o calendário com um dia já marcado. Útil ao editar um registro com data existente.
+Use o Calendar com uma data já marcada ao exibir um formulário de edição com valor existente.
 
 <Canvas of={CalendarStories.ComDataSelecionada} />
 
 ### Dropdown de navegação
 
-`captionLayout="dropdown"` substitui as setas por dropdowns de mês e ano, facilitando a navegação em intervalos amplos.
+O modo dropdown substitui as setas por seletores de mês e ano, facilitando a navegação em intervalos amplos de datas.
 
 <Canvas of={CalendarStories.ComDropdownNavegacao} />
 
 ### Restrição de datas
 
-`minDate` e `maxDate` definem o intervalo selecionável. Dias fora do intervalo ficam desabilitados visualmente.
+Com uma data mínima e máxima definidas, os dias fora do intervalo ficam desabilitados visualmente e não podem ser selecionados.
 
 <Canvas of={CalendarStories.ComRestricaoDeDatas} />
 
 ### Múltiplos meses
 
-`numberOfMonths={2}` exibe dois meses lado a lado. Útil para seleção de períodos ou comparação de disponibilidade.
+A exibição com dois meses lado a lado facilita a comparação de disponibilidade e a seleção de períodos.
 
 <Canvas of={CalendarStories.MultiplosMeses} />
 
 ### Locale em inglês
 
-`locale="en-us"` alterna os rótulos de dias da semana, meses e navegação para inglês.
+Ao alterar o idioma para inglês, os rótulos de dias da semana, meses e botões de navegação são exibidos no idioma correspondente.
 
 <Canvas of={CalendarStories.EmIngles} />
 

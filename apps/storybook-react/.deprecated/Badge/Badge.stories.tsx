@@ -97,10 +97,43 @@ Default.args = {
   type: 'notification',
 };
 
-Default.parameters = {
-  docs: {
-    description: {
-      story: 'Badge padrão com valor zero exibido sobre um Avatar.',
-    },
-  },
+export const SemValor: StoryFn<BadgeStoryProps> = (args): ReactElement => (
+  <Badge {...args}>
+    <Avatar icon={<Add16Regular />} />
+  </Badge>
+);
+SemValor.args = {
+  type: 'notification',
+  badgeValue: null,
+};
+
+export const ValorAlto: StoryFn<BadgeStoryProps> = (args): ReactElement => (
+  <Badge {...args}>
+    <Avatar icon={<Add16Regular />} />
+  </Badge>
+);
+ValorAlto.args = {
+  type: 'notification',
+  badgeValue: 150,
+  maxValue: 99,
+};
+
+export const EmBotao: StoryFn<BadgeStoryProps> = (args): ReactElement => (
+  <Badge {...args}>
+    <Button>Notificações</Button>
+  </Badge>
+);
+EmBotao.args = {
+  type: 'notification',
+  badgeValue: 3,
+};
+
+export const Status: StoryFn<BadgeStoryProps> = (args): ReactElement => (
+  <Badge {...args}>
+    <Avatar icon={<Add16Regular />} />
+  </Badge>
+);
+Status.args = {
+  type: 'status',
+  badgeValue: null,
 };
