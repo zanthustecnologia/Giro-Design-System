@@ -1,0 +1,192 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { Footer } from '../../../internal-components/mdx/Footer/Footer';
+import { Callout } from '@giro-ds/react';
+import { Info20Regular } from '@fluentui/react-icons';
+
+<Meta title="Giro MCP" />
+
+# Giro MCP
+
+O **Giro MCP** é um servidor <a href="https://modelcontextprotocol.io" target="_blank" rel="noopener noreferrer">Model Context Protocol</a> que conecta o Giro Design System às ferramentas de IA. Com ele, assistentes como o GitHub Copilot e o Cursor conseguem consultar componentes, props, tokens e guias de migração do Giro **em tempo real**, diretamente do seu editor.
+
+## Tools disponíveis
+
+- **`list-giro-components`**: Lista todos os componentes públicos do `@giro-ds/react`
+- **`get-giro-component-metadata`**: Retorna props, tipos, valores padrão e descrições de um componente
+- **`get-giro-component-examples`**: Fornece exemplos de uso em React prontos para copiar
+- **`list-giro-tokens`**: Lista tokens do `@giro-ds/tokens` com filtros por categoria
+- **`giro-migration-guide`**: Retorna o guia de breaking changes e migração entre versões
+- **`find-giro-component`**: Busca componentes por descrição em português ou inglês (`"input de texto"`, `"modal de confirmação"`)
+- **`review-giro-usage`**: Analisa um trecho de código JSX/TSX em busca de props inválidas, props obrigatórias ausentes e padrões desatualizados
+- **`review-giro-css`**: Verifica CSS, SCSS ou `style={{}}` inline em busca de valores fixos que deveriam ser tokens (`#3b45f2`, `500px`, `4px`)
+- **`resolve-giro-token`**: Retorna os tokens mais adequados para uma intenção de design (`"cor de erro"`, `"espaçamento grande"`, `"raio de borda"`)
+- **`generate-giro-component`**: Gera um trecho JSX/TSX pronto a partir de uma descrição em português ou inglês (`"formulário de login"`, `"modal de confirmação"`)
+- **`get-giro-system-prompt`**: Retorna um prompt de sistema para tornar qualquer IA ciente do Giro DS, pronto para colar no ChatGPT, Claude ou Cursor Rules
+- **`get-giro-changelog`**: Lista APIs depreciadas com versão, prop afetada e sugestão de substituição, filtrável por componente
+
+## Por que usar o Giro MCP?
+
+Sem o MCP, a IA desconhece os componentes do Giro DS e pode gerar código com props erradas, variantes inexistentes ou padrões desatualizados. Com o MCP ativo:
+
+- **Menos erros de API**: a IA conhece os props corretos de cada componente, incluindo tipos e valores default
+- **Código consistente**: os exemplos gerados seguem os padrões do design system, não padrões genéricos de React
+- **Busca por intenção**: descreva o que você precisa em português e a IA encontra o componente ou token certo
+- **Diagnóstico em tempo real**: cole um trecho de código e receba feedback sobre props inválidas ou obrigatórias faltando
+- **Auditoria de CSS**: detecta valores hardcoded em estilos e sugere o token equivalente do design system
+- **Geração de código**: descreva o que quer construir e receba um JSX completo com os componentes e props corretos
+- **Portável para qualquer IA**: gere um system prompt pronto para colar no ChatGPT, Claude ou Cursor Rules
+- **Migração assistida**: ao atualizar versões, a IA consulta o guia de breaking changes e APIs deprecadas automaticamente
+- **Tokens sempre atualizados**: cores, espaçamentos e tipografia são fornecidos diretamente da fonte
+- **Zero configuração extra**: funciona em qualquer projeto que já usa `@giro-ds/react`, sem plugins adicionais
+
+## Para quem usa o Giro DS
+
+Se você consome `@giro-ds/react` nos seus projetos, o MCP faz com que a sua IA entenda o design system automaticamente.
+
+### Configuração no VS Code
+
+Se você instalar o pacote `@giro-ds/mcp` como dependência, o arquivo `.vscode/mcp.json` é criado automaticamente na raiz do projeto — sem configuração manual. Basta recarregar o VS Code e ativar o servidor no painel MCP.
+
+```bash
+npm install @giro-ds/mcp
+```
+
+Alternativamente, se preferir usar sem instalar (via `npx`), crie o arquivo `.vscode/mcp.json` manualmente:
+
+```json
+{
+  "servers": {
+    "giro-ds": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@giro-ds/mcp"]
+    }
+  }
+}
+```
+
+### Configuração no Cursor
+
+Edite `~/.cursor/mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "giro-ds": {
+      "command": "npx",
+      "args": ["-y", "@giro-ds/mcp"]
+    }
+  }
+}
+```
+
+### Como usar
+
+Com o servidor ativo, use o modo **Agent** do Copilot Chat e pergunte naturalmente:
+
+- *"Quais componentes existem no Giro DS?"*
+- *"Quais são as props do Drawer?"*
+- *"Me dê um exemplo de uso do Select com grupos"*
+- *"Liste os tokens de spacing do Giro DS"*
+- *"O que mudou do v3 para o v4?"*
+- *"Crie um formulário de login usando componentes do Giro DS"*
+- *"Qual componente usar para exibir uma notificação de sucesso?"*
+- *"Qual token usar para a cor de fundo de um card?"*
+- *"Revise esse código e veja se estou usando o Button corretamente"*
+- *"Esse CSS usa valores hardcoded? Substitua pelos tokens do Giro DS"*
+- *"Crie um formulário de endereço com campos de texto, select de estado e botão de salvar"*
+- *"Gere um system prompt do Giro DS para eu usar no ChatGPT"*
+- *"Quais props foram depreciadas no Dialog?"*
+
+<Callout type="brand" title="Dica" text="Quanto mais contexto você der na pergunta, mais preciso será o código gerado pela IA." icon={<Info20Regular />} />
+
+
+## Para desenvolvedores do Giro DS
+
+Se você contribui com o monorepo, o servidor local já está configurado. O arquivo `.vscode/mcp.json` na raiz aponta diretamente para o build local.
+
+### Rodando localmente
+
+```bash
+# Instalar dependências
+pnpm install
+
+# Compilar o pacote MCP
+pnpm --filter @giro-ds/mcp build
+```
+
+O servidor ficará disponível em `packages/mcp/dist/index.js`.
+
+### Auto-geração de componentes
+
+Os metadados dos componentes são gerados automaticamente a partir dos arquivos `.types.ts` do `@giro-ds/react`, usando `ts-morph` para fazer a leitura do AST TypeScript.
+
+```bash
+# Regera src/data/components.generated.ts
+pnpm --filter @giro-ds/mcp generate
+```
+
+O script lê todos os arquivos `*.types.ts` ativos (ignorando `.deprecated`), extrai props, descrições JSDoc, exemplos via `@example` e valores padrão via `@default`, e grava o resultado em `src/data/components.generated.ts`.
+
+Execute o `generate` sempre que um componente for adicionado ou tiver sua interface alterada, e depois recompile:
+
+```bash
+pnpm --filter @giro-ds/mcp generate
+pnpm --filter @giro-ds/mcp build
+```
+
+### Adicionando metadados extras manualmente
+
+Casos em que a geração automática não consegue extrair todas as informações (descrições de alto nível, exemplos complexos), edite `packages/mcp/src/data/components.ts`:
+
+```ts
+{
+  name: 'NomeDoComponente',
+  description: 'Descrição objetiva do componente.',
+  category: 'Components',
+  keywords: ['formulário', 'seleção', 'opção'],
+  props: [
+    {
+      name: 'variant',
+      type: "'filled' | 'outlined'",
+      required: false,
+      defaultValue: "'filled'",
+      description: 'Variante visual'
+    },
+  ],
+  examples: [
+    '<NomeDoComponente variant="filled">Exemplo</NomeDoComponente>',
+  ],
+}
+```
+
+Os dados do arquivo estático são mesclados com os gerados automaticamente. Componentes já presentes no arquivo gerado não são duplicados.
+
+### Auto-geração de tokens
+
+Os tokens do MCP são gerados automaticamente a partir do build do `@giro-ds/tokens`, lendo o arquivo CSS compilado pelo Style Dictionary.
+
+```bash
+# Gera src/data/tokens.generated.ts
+pnpm --filter @giro-ds/mcp generate:tokens
+```
+
+Execute o `generate:tokens` sempre que novos tokens forem adicionados ao `@giro-ds/tokens` (após rodar o build do pacote de tokens):
+
+```bash
+pnpm --filter @giro-ds/tokens build
+pnpm --filter @giro-ds/mcp generate:tokens
+pnpm --filter @giro-ds/mcp build
+```
+
+### Adicionando um token temporariamente (sem regenerar)
+
+Se precisar adicionar ou sobrescrever um token antes da próxima geração, edite `packages/mcp/src/data/tokens.ts` e adicione no array `MANUAL_OVERRIDES`:
+
+```ts
+{ name: '--meu-novo-token', value: '#ff0000', category: 'color-brand' }
+```
+
+Tokens em `MANUAL_OVERRIDES` com o mesmo nome que os gerados automaticamente sobrescrevem o valor gerado. Tokens novos são adicionados ao final da lista.
+
+<Footer/>

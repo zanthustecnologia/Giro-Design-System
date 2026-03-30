@@ -74,7 +74,7 @@ const preview = {
       storySort: {
         order: [
           'Boas-vindas',
-          'Comece aqui',          'Playground',          'Changelog',          'Contribua',
+          'Comece aqui',          'Giro MCP',          'Playground',          'Changelog',          'Contribua',
           'Foundation',
           'Layout',
           'Components',

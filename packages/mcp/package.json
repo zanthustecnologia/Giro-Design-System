@@ -1,0 +1,37 @@
+{
+  "name": "@giro-ds/mcp",
+  "version": "1.0.0",
+  "description": "Model Context Protocol (MCP) server for Giro Design System — enables AI tools to access component metadata, design tokens and migration guides.",
+  "license": "MIT",
+  "private": false,
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "giro-mcp": "dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "generate": "tsx scripts/generate.ts",
+    "generate:tokens": "tsx scripts/generate-tokens.ts",
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsc -p tsconfig.json --watch",
+    "start": "node dist/index.js",
+    "postinstall": "node --input-type=module -e \"import('./dist/postinstall.js').catch(()=>{})\"",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.28.0",
+    "ts-morph": "^27.0.2",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "tsx": "^4.21.0",
+    "typescript": "^5.7.3"
+  }
+}
