@@ -1,0 +1,84 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as CalendarStories from './Calendar.stories';
+import { UsageGuidelines } from '../../../internal-components/mdx/UsageGuidelines/UsageGuidelines';
+import { Footer } from '../../../internal-components/mdx/Footer/Footer';
+
+<Meta of={CalendarStories} />
+
+# Calendar
+
+O Calendar é um componente de seleção de datas baseado em `react-day-picker`. Suporta internacionalização, restrição de intervalo, múltiplos meses, dropdown de navegação e dias desabilitados por regras customizadas.
+
+<Canvas of={CalendarStories.Default} />
+
+## Importação
+
+```js
+import { Calendar } from '@giro-ds/react';
+```
+
+<div style={{ marginTop: '48px' }} />
+
+## Propriedades
+
+<Controls />
+
+<div style={{ marginTop: '48px' }} />
+
+## Uso
+
+<UsageGuidelines
+  guidelines={[
+    <>
+      O Calendar é um componente <strong>semi-controlado</strong>: a seleção pode ser controlada externamente via <code>selected</code> + <code>onDaySelect</code> ou deixada para o estado interno. Prefira o modo controlado em formulários para integrar com validação.
+    </>,
+    <>
+      Use <code>minDate</code> e <code>maxDate</code> para restringir o intervalo selecionável ao contexto do formulário. Datas fora do intervalo são desabilitadas automaticamente e não exigem lógica adicional no <code>onDaySelect</code>.
+    </>,
+    <>
+      Prefira <code>captionLayout="dropdown"</code> quando o intervalo de anos for amplo, como em campos de data de nascimento. Para seleções próximas ao mês atual, o layout padrão com setas de navegação é mais intuitivo.
+    </>,
+    <>
+      Use <code>numberOfMonths={2}</code> com cautela. Dois meses exigem mais espaço horizontal e podem causar overflow em telas estreitas. Avalie se o contexto realmente exige a comparação visual entre meses.
+    </>,
+    <>
+      Para desabilitar dias específicos além do intervalo min/max, use a prop <code>disabled</code> com <code>Matcher</code> do <code>react-day-picker</code>: aceita <code>Date[]</code>, <code>DayOfWeek</code>, <code>DateRange</code> ou uma função predicado.
+    </>,
+  ]}
+/>
+
+<div style={{ marginTop: '48px' }} />
+
+## Variações
+
+### Com data pré-selecionada
+
+Passe `selected` com um valor inicial para exibir o calendário com um dia já marcado. Útil ao editar um registro com data existente.
+
+<Canvas of={CalendarStories.ComDataSelecionada} />
+
+### Dropdown de navegação
+
+`captionLayout="dropdown"` substitui as setas por dropdowns de mês e ano, facilitando a navegação em intervalos amplos.
+
+<Canvas of={CalendarStories.ComDropdownNavegacao} />
+
+### Restrição de datas
+
+`minDate` e `maxDate` definem o intervalo selecionável. Dias fora do intervalo ficam desabilitados visualmente.
+
+<Canvas of={CalendarStories.ComRestricaoDeDatas} />
+
+### Múltiplos meses
+
+`numberOfMonths={2}` exibe dois meses lado a lado. Útil para seleção de períodos ou comparação de disponibilidade.
+
+<Canvas of={CalendarStories.MultiplosMeses} />
+
+### Locale em inglês
+
+`locale="en-us"` alterna os rótulos de dias da semana, meses e navegação para inglês.
+
+<Canvas of={CalendarStories.EmIngles} />
+
+<Footer />
