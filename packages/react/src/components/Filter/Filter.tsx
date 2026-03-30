@@ -276,7 +276,6 @@ const Filter: React.FC<FilterProps> = ({
         onOpenChange={handleOpenChange}
         side={side}
         align={align}
-        showArrow={false}
         onOpenAutoFocus={(e) => e.preventDefault()}
         trigger={triggerButton}
         content={popoverContent}
