@@ -196,6 +196,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
               onKeyDown={handleKeyDown}
               onFocus={handleFocus}
               persistIcon
+              autoComplete="off"
               value={displayValue}
               helperText={!externalError ? (helperText || undefined) : undefined}
               error={hasValidationError ? (externalError ? combinedHelperText : true) : undefined}
