@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 
 // Mock do Radix UI AlertDialog
@@ -152,7 +152,7 @@ describe('Dialog', () => {
       render(
         <Dialog
           title="Título de teste"
-          text="Texto de teste"
+          bodyContent="Texto de teste"
           textPrimaryAction="Confirmar"
         >
           <button>Abrir Dialog</button>
@@ -168,7 +168,7 @@ describe('Dialog', () => {
       render(
         <Dialog
           title="Título de teste"
-          text="Texto de teste"
+          bodyContent="Texto de teste"
           textPrimaryAction="Confirmar"
         >
           <button>Abrir</button>
@@ -185,7 +185,7 @@ describe('Dialog', () => {
       render(
         <Dialog
           title="Título"
-          text="Descrição de teste"
+          bodyContent="Descrição de teste"
           textPrimaryAction="Confirmar"
         >
           <button>Abrir</button>
@@ -202,7 +202,7 @@ describe('Dialog', () => {
       render(
         <Dialog
           title="Título"
-          text={<span data-testid="custom-text">Texto customizado</span>}
+          bodyContent={<span data-testid="custom-text">Texto customizado</span>}
           textPrimaryAction="Confirmar"
         >
           <button>Abrir</button>
@@ -219,7 +219,7 @@ describe('Dialog', () => {
       render(
         <Dialog
           title="Título"
-          text="Texto"
+          bodyContent="Texto"
           textPrimaryAction="Confirmar Ação"
         >
           <button>Abrir</button>
@@ -236,7 +236,7 @@ describe('Dialog', () => {
       render(
         <Dialog
           title="Título"
-          text="Texto"
+          bodyContent="Texto"
           textPrimaryAction="Confirmar"
           textSecondaryAction="Cancelar Ação"
         >
@@ -254,7 +254,7 @@ describe('Dialog', () => {
       render(
         <Dialog
           title="Título"
-          text="Texto"
+          bodyContent="Texto"
           textPrimaryAction="Confirmar"
         >
           <button>Abrir</button>
@@ -271,7 +271,7 @@ describe('Dialog', () => {
       render(
         <Dialog
           title="Título"
-          text="Texto"
+          bodyContent="Texto"
           textPrimaryAction="Confirmar"
           textSecondaryAction=""
         >
@@ -289,7 +289,7 @@ describe('Dialog', () => {
       render(
         <Dialog
           title="Título"
-          text="Texto"
+          bodyContent="Texto"
           textPrimaryAction="Confirmar"
           textSecondaryAction="   "
         >
@@ -307,7 +307,7 @@ describe('Dialog', () => {
       render(
         <Dialog
           title="Título"
-          text="Texto"
+          bodyContent="Texto"
           textPrimaryAction="Confirmar"
         >
           <button>Abrir</button>
@@ -324,7 +324,7 @@ describe('Dialog', () => {
       render(
         <Dialog
           title="Título"
-          text="Texto"
+          bodyContent="Texto"
           textPrimaryAction="Confirmar"
         >
           <button>Abrir</button>
@@ -346,7 +346,7 @@ describe('Dialog', () => {
       render(
         <Dialog
           title="Título"
-          text="Texto"
+          bodyContent="Texto"
           textPrimaryAction="Confirmar"
         >
           <button>Abrir Dialog</button>
@@ -370,7 +370,7 @@ describe('Dialog', () => {
       render(
         <Dialog
           title="Título Persistente"
-          text="Descrição Persistente"
+          bodyContent="Descrição Persistente"
           textPrimaryAction="OK"
           textSecondaryAction="Fechar"
         >
@@ -394,7 +394,7 @@ describe('Dialog', () => {
       render(
         <Dialog
           title="Título"
-          text="Texto"
+          bodyContent="Texto"
           textPrimaryAction="Confirmar"
         >
           <button>Abrir</button>
@@ -411,7 +411,7 @@ describe('Dialog', () => {
       render(
         <Dialog
           title="Título do Dialog"
-          text="Texto"
+          bodyContent="Texto"
           textPrimaryAction="Confirmar"
         >
           <button>Abrir</button>
@@ -429,7 +429,7 @@ describe('Dialog', () => {
       render(
         <Dialog
           title="Título"
-          text="Texto"
+          bodyContent="Texto"
           textPrimaryAction="Confirmar"
           data-custom-prop="valor-customizado"
         >
@@ -446,7 +446,7 @@ describe('Dialog', () => {
       
       render(
         <Dialog
-          text="Apenas texto"
+          bodyContent="Apenas texto"
           textPrimaryAction="Confirmar"
         >
           <button>Abrir</button>
@@ -464,6 +464,7 @@ describe('Dialog', () => {
       
       render(
         <Dialog
+          show={true}
           title="Apenas título"
           textPrimaryAction="Confirmar"
         >
@@ -481,7 +482,7 @@ describe('Dialog', () => {
       const { rerender } = render(
         <Dialog
           title="Título"
-          text="Texto"
+          bodyContent="Texto"
           textPrimaryAction="Confirmar"
         >
           <div>Custom Trigger</div>
@@ -493,7 +494,7 @@ describe('Dialog', () => {
       rerender(
         <Dialog
           title="Título"
-          text="Texto"
+          bodyContent="Texto"
           textPrimaryAction="Confirmar"
         >
           <span>Span Trigger</span>
@@ -511,7 +512,7 @@ describe('Dialog', () => {
       render(
         <Dialog
           title="Título"
-          text="Texto"
+          bodyContent="Texto"
           textPrimaryAction=""
         >
           <button>Abrir</button>
@@ -530,7 +531,7 @@ describe('Dialog', () => {
       render(
         <Dialog
           title={longTitle}
-          text="Texto"
+          bodyContent="Texto"
           textPrimaryAction="OK"
         >
           <button>Abrir</button>
@@ -557,7 +558,7 @@ describe('Dialog', () => {
       render(
         <Dialog
           title="Título"
-          text={complexContent}
+          bodyContent={complexContent}
           textPrimaryAction="OK"
         >
           <button>Abrir</button>

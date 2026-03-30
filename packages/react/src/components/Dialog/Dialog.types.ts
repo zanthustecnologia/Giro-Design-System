@@ -16,7 +16,7 @@ export interface DialogProps extends BaseProps, React.HTMLAttributes<HTMLDivElem
   /** Conteúdo customizado do diálogo */
   // children?: ReactNode;
 
-  show: boolean;
+  show?: boolean;
 
   /** Título exibido no cabeçalho do diálogo */
   title?: string;
