@@ -6,6 +6,7 @@
  */
 import * as fs from 'fs';
 import * as path from 'path';
+import { fileURLToPath } from 'url';
 
 const MCP_CONFIG = {
   servers: {
@@ -24,7 +25,7 @@ function getProjectRoot(): string | null {
   if (!initCwd) return null;
 
   // Avoid running when the package is being developed locally (e.g. in the monorepo itself)
-  const packageDir = path.resolve(import.meta.dirname, '..');
+  const packageDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
   if (path.resolve(initCwd) === path.resolve(packageDir)) return null;
 
   return initCwd;

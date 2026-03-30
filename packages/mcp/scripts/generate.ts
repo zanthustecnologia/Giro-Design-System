@@ -5,10 +5,12 @@
 import { Project, InterfaceDeclaration, JSDocableNode, PropertySignature } from 'ts-morph';
 import * as path from 'path';
 import * as fs from 'fs';
-import * as glob from 'fs';
+import { fileURLToPath } from 'url';
 
-const COMPONENTS_DIR = path.resolve('../../packages/react/src/components');
-const OUTPUT_FILE = path.resolve('src/data/components.generated.ts');
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+const COMPONENTS_DIR = path.resolve(__dirname, '../../../react/src/components');
+const OUTPUT_FILE = path.resolve(__dirname, '../src/data/components.generated.ts');
 
 const SKIP_DIRS = ['.deprecated'];
 
