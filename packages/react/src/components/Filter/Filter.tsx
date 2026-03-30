@@ -259,10 +259,10 @@ const Filter: React.FC<FilterProps> = ({
           )}
         </ul>
         <div className={styles.footer}>
-          <Button size="sm" variant="outlined" onClick={handleClearFilter}>
+          <Button variant="outlined" onClick={handleClearFilter}>
             Limpar
           </Button>
-          <Button size="sm" onClick={handleApplyFilter}>
+          <Button onClick={handleApplyFilter}>
             Aplicar
           </Button>
         </div>
