@@ -1,4 +1,3 @@
-
 export type Size = 'sm' | 'lg';
 
 export type Variant = 'filled' | 'outlined' | 'text';
@@ -18,5 +17,3 @@ export interface BaseProps {
   className?: string;
   disabled?: boolean;
 }
-
-

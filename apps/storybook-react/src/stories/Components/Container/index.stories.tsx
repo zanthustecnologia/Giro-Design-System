@@ -22,7 +22,13 @@ export const Default: Story = {
   render: () => (
     <Container>
       <h1>Container Padrão</h1>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fuga placeat earum perferendis quam harum ut saepe rem explicabo expedita ipsum inventore nemo eaque voluptatum molestiae non aut labore, necessitatibus nobis.</p>
+      <p>“Ser, ou não ser: eis a questão:<br/>
+        Será mais nobre em nosso espírito sofrer <br/>
+        pedradas e flechadas do destino feroz, <br/>
+        ou insurgir-nos contra um mar de angústias <br/>
+        e, combatendo-o, dar-lhe fim?”
+      </p>
+      <p>— William Shakespeare, Hamlet (Ato III, Cena I)</p>
       <p>Texto adicional no container padrão.</p>
     </Container>
   )

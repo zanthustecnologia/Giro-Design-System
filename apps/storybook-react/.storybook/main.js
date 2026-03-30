@@ -42,7 +42,9 @@ const config = {
       ...(viteConfig.optimizeDeps.include || []),
       'react',
       'react-dom',
-      '@fluentui/react-icons'
+      '@fluentui/react-icons',
+      'react-day-picker',
+      'date-fns'
     ];
 
     // 2) Força uma ÚNICA instância de React (evita múltiplos Reacts no monorepo)

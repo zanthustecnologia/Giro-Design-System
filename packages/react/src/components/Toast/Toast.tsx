@@ -1,267 +1,93 @@
-// ✅ NOVA IMPLEMENTAÇÃO SIMPLIFICADA
-import React, { createContext, useContext, useState, useCallback, useRef, useEffect, useMemo, ReactNode } from 'react';
-import clsx from 'clsx';
+import { Info20Filled, CheckmarkCircle20Filled, Warning20Filled, Dismiss16Filled} from '@fluentui/react-icons';
+import { Toast as ToastRadix } from 'radix-ui';
+import * as React from "react";
+
 import styles from './Toast.module.scss';
-import {
-  CheckmarkCircle20Filled,
-  Dismiss16Regular,
-  Warning20Filled,
-  Info20Filled,
-} from '@fluentui/react-icons';
-import type { ToastType, ToastMessage, ToastOptions, ToastContextType } from './Toast.types';
+import { ToastProps } from './Toast.types';
+import { useToastContext } from '../../hooks/useToast';
 
-const sanitizeMessage = (message: string): string => {
-  if (typeof message !== 'string') return 'Mensagem inválida';
-  
-  return message
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#x27;')
-    .replace(/&/g, '&amp;')
-    .slice(0, 500); 
-};
-
-const generateId = (): string => {
-  return `toast-${Date.now()}-${Math.random().toString(36).slice(2, 11)}`;
-};
-
-const MAX_TOASTS = 5;
-const DEFAULT_DURATION = 5000;
-
-const ToastContext = createContext<ToastContextType | undefined>(undefined);
-
-const toastVariants = {
-  success: {
-    icon: <CheckmarkCircle20Filled />,
-    className: styles['zds-toast__success'],
-  },
-  alert: {
-    icon: <Warning20Filled />,
-    className: styles['zds-toast__alert'],
-  },
-  info: {
-    icon: <Info20Filled />,
-    className: styles['zds-toast__info'],
-  },
-} as const;
-
-interface ToastItemProps {
-  toast: ToastMessage;
-  onClose: (id: string) => void;
-  isVisible: boolean;
-}
-
-const ToastItem: React.FC<ToastItemProps> = ({ toast, onClose, isVisible }) => {
-  const variant = toastVariants[toast.type];
-  
-  const handleKeyDown = (event: React.KeyboardEvent) => {
-    if (event.key === 'Escape') {
-      onClose(toast.id);
-    }
-  };
-
-  return (
-    <div
-      className={clsx(
-        styles['zds-toast__item'],
-        variant.className,
-        isVisible && styles['zds-toast__active']
-      )}
-      role={toast.type === 'alert' ? 'alert' : 'status'}
-      aria-live={toast.type === 'alert' ? 'assertive' : 'polite'}
-      aria-atomic="true"
-      tabIndex={toast.persistent ? 0 : -1}
-      onKeyDown={handleKeyDown}
-    >
-      <span className={styles['zds-toast__icon']} aria-hidden="true">
-        {variant.icon}
-      </span>
-      <span 
-        className={styles['zds-toast__message']}
-        dangerouslySetInnerHTML={{ __html: sanitizeMessage(toast.message) }}
-      />
-      <button
-        type="button"
-        className={styles['zds-toast__close']}
-        aria-label={`Fechar notificação: ${toast.message.slice(0, 50)}${toast.message.length > 50 ? '...' : ''}`}
-        onClick={() => onClose(toast.id)}
-      >
-        <Dismiss16Regular aria-hidden="true" />
-      </button>
-    </div>
-  );
-};
-
-interface ToastContainerProps {
-  toasts: ToastMessage[];
-  onClose: (id: string) => void;
-  visibleToasts: Set<string>;
-}
-
-const ToastContainer: React.FC<ToastContainerProps> = ({ toasts, onClose, visibleToasts }) => {
-  if (toasts.length === 0) return null;
-
-  return (
-    <div 
-      className={styles['zds-toast__container']}
-      role="log"
-      aria-label="Notificações do sistema"
-    >
-      {toasts.map(toast => (
-        <ToastItem
-          key={toast.id}
-          toast={toast}
-          onClose={onClose}
-          isVisible={visibleToasts.has(toast.id)}
-        />
-      ))}
-    </div>
-  );
-};
-
-export interface ToastProviderProps {
-  children: ReactNode;
-  maxToasts?: number;
-}
-
-export const ToastProvider: React.FC<ToastProviderProps> = ({ 
-  children, 
-  maxToasts = MAX_TOASTS 
+/**
+ * Componente individual de notificação Toast.
+ *
+ * Consome o contexto do `ToastProvider` para gerenciar seu próprio ciclo de vida.
+ * Cada instância recebe um `id` único gerado pelo provider e o utiliza para
+ * se remover da fila ao ser fechada.
+ *
+ * Construído sobre `Toast.Root` do **Radix UI**, com suporte completo a
+ * acessibilidade (ARIA) e gesto de swipe para a esquerda.
+ *
+ * @remarks
+ * Este componente não deve ser usado diretamente. Utilize o hook `useToast`
+ * para exibir toasts programaticamente.
+ *
+ * @example
+ * ```tsx
+ * // Uso indireto via hook (recomendado)
+ * const { showToast } = useToast();
+ *
+ * showToast({
+ *   title: 'Item salvo',
+ *   iconType: 'Success',
+ *   duration: 3000,
+ * });
+ * ```
+ *
+ * @param props - {@link ToastProps} combinadas com o `id` único do toast
+ */
+const Toast: React.FC<ToastProps & { id: string }> = ({ 
+  id,
+  title,
+  duration = 5000,
+  icon,
+  iconClosed = <Dismiss16Filled />,
+  automaticClose = true,
+  iconType = "Info",
+  ...restProps
 }) => {
-  const [toasts, setToasts] = useState<ToastMessage[]>([]);
-  const [visibleToasts, setVisibleToasts] = useState<Set<string>>(new Set());
-  const timeouts = useRef<Map<string, NodeJS.Timeout>>(new Map());
+  const [open, setOpen] = React.useState(false);
+  const { dismissToast } = useToastContext();
 
-  const clearToastTimeout = useCallback((id: string) => {
-    const timeoutId = timeouts.current.get(id);
-    if (timeoutId) {
-      clearTimeout(timeoutId);
-      timeouts.current.delete(id);
-    }
+  React.useEffect(() => {
+    setOpen(true);
   }, []);
 
-  const showToast = useCallback((
-    message: string, 
-    type: ToastType = 'info', 
-    options: ToastOptions = {}
-  ): string => {
-    const id = generateId();
-    const sanitizedMessage = sanitizeMessage(message);
-    
-    if (!sanitizedMessage || sanitizedMessage === 'Mensagem inválida') {
-      console.warn('Toast: Mensagem inválida ou vazia');
-      return '';
+  const handleOpenChange = (isOpen: boolean) => {
+    setOpen(isOpen);
+    if (!isOpen && id) {
+      setTimeout(() => dismissToast(id), 200);
     }
+  };
 
-    const newToast: ToastMessage = {
-      id,
-      message: sanitizedMessage,
-      type,
-      persistent: options.persistent || false,
-      duration: options.duration || DEFAULT_DURATION,
-      timestamp: Date.now(),
-    };
+  let displayIcon = icon;
+  const effectiveDuration = automaticClose ? duration : Infinity;
 
-    // ✅ LIMITE DE TOASTS
-    setToasts(prev => {
-      const filtered = prev.slice(-(maxToasts - 1));
-      return [...filtered, newToast];
-    });
-
-    // ✅ ANIMAÇÃO DE ENTRADA
-    setTimeout(() => {
-      setVisibleToasts(prev => new Set([...prev, id]));
-    }, 50);
-
-    // ✅ AUTO-HIDE SE NÃO FOR PERSISTENTE
-    if (!newToast.persistent) {
-      const timeoutId = setTimeout(() => {
-        hideToast(id);
-      }, newToast.duration);
-      
-      timeouts.current.set(id, timeoutId);
+  if (!icon) {
+    if (iconType === 'Info') {
+      displayIcon = <Info20Filled />;
+    } else if (iconType === 'Success') {
+      displayIcon = <CheckmarkCircle20Filled />;
+    } else if (iconType === 'Alert') {
+      displayIcon = <Warning20Filled />;
     }
-
-    return id;
-  }, [maxToasts]);
-
-  const hideToast = useCallback((id: string) => {
-    clearToastTimeout(id);
-    
-    // ✅ ANIMAÇÃO DE SAÍDA
-    setVisibleToasts(prev => {
-      const newSet = new Set(prev);
-      newSet.delete(id);
-      return newSet;
-    });
-
-    // ✅ REMOÇÃO APÓS ANIMAÇÃO
-    setTimeout(() => {
-      setToasts(prev => prev.filter(toast => toast.id !== id));
-    }, 450);
-  }, [clearToastTimeout]);
-
-  const hideAllToasts = useCallback(() => {
-    timeouts.current.forEach(clearTimeout);
-    timeouts.current.clear();
-    
-    setVisibleToasts(new Set());
-    setTimeout(() => {
-      setToasts([]);
-    }, 450);
-  }, []);
-
-  useEffect(() => {
-    return () => {
-      timeouts.current.forEach(clearTimeout);
-      timeouts.current.clear();
-    };
-  }, []);
-
-  const contextValue = useMemo<ToastContextType>(() => ({
-    showToast,
-    hideToast,
-    hideAllToasts,
-  }), [showToast, hideToast, hideAllToasts]);
+  }
 
   return (
-    <ToastContext.Provider value={contextValue}>
-      {children}
-      <ToastContainer 
-        toasts={toasts} 
-        onClose={hideToast}
-        visibleToasts={visibleToasts}
-      />
-    </ToastContext.Provider>
+    <ToastRadix.Root 
+      className={styles.toastRoot} 
+      open={open} 
+      onOpenChange={handleOpenChange} 
+      duration={effectiveDuration}
+      {...restProps}
+    >
+      <span className={`${styles.Icon} ${iconType ? styles[`icon${iconType}`] : ''}`} aria-hidden="true">
+        {displayIcon}
+      </span>
+      <div className={styles.toastContent}>
+        <ToastRadix.Title className={styles.toastTitle}> {title} </ToastRadix.Title>
+      </div>
+      <ToastRadix.Close className={styles.toastClose}> {iconClosed} </ToastRadix.Close>
+    </ToastRadix.Root>
   );
 };
 
-export const useToast = (): ToastContextType => {
-  const context = useContext(ToastContext);
-  if (!context) {
-    throw new Error('useToast must be used within a ToastProvider');
-  }
-  return context;
-};
-
-
-export const Toast = (() => {
-  let toastContext: ToastContextType | null = null;
-  
-  const setContext = (context: ToastContextType) => {
-    toastContext = context;
-  };
-  
-  const show = (message: string, type: ToastType = 'info', options?: ToastOptions) => {
-    if (!toastContext) {
-      console.error('Toast context not available. Make sure ToastProvider is mounted.');
-      return '';
-    }
-    return toastContext.showToast(message, type, options);
-  };
-  
-  return { show, setContext };
-})();
-
-export default ToastProvider;
+export default Toast;

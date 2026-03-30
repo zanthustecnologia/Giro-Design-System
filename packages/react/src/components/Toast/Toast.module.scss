@@ -1,94 +1,102 @@
-.zds-toast__container {
-    position: fixed;
-    bottom: var(--spacing-48);
-    left: var(--spacing-48);
-    z-index: var(--z-index-toast, 9000);
+.toastViewport {
+	position: fixed;
+	bottom: var(--spacing-0);
+	left: var(--spacing-0);
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: var(--spacing-16);
+	max-width: 100vw;
+	margin: var(--spacing-0);
+	list-style: none;
+	z-index: 15;
+	outline: none;
+	padding: var(--spacing-48);
+	
 
-    @media (max-width: 1024px) {
-        left: var(--spacing-32);
-    }
+	@media (max-width: 1024px) {
+    padding: var(--spacing-32);
+  }
+
+	@media (max-width: 360px) {
+    padding: var(--spacing-16);
+		width: 100vw;
+		right: var(--spacing-0);
+		left: var(--spacing-0);
+  }
+}
+
+.toastRoot {
+	color: var(--color-neutral-high-default);
+	display: inline-flex;
+	min-height: var(--spacing-32);
+	min-width: 297px;
+	max-width: 500px;
+	padding: var(--spacing-8) var(--spacing-16);
+	border-radius: var(--border-radius-8);
+	background-color: var(--color-neutral-low-dark);
 
     @media (max-width: 360px) {
-        left: var(--spacing-16);
-        right: var(--spacing-16);
-        bottom: var(--spacing-16);
-        padding: 0;
+        width: 328px;                    
+				max-width: 100%; 
+				box-sizing: border-box;
+				min-height: var(--spacing-48);
     }
 }
 
-.zds-toast__item {
-    position: relative;
-    background-color: var(--color-neutral-low-dark);
-    margin-top: var(--spacing-16);
-    min-height: var(--spacing-48);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: fit-content;
-    padding: 0 var(--spacing-16);
-    border-radius: var(--border-radius-8);
-    transition: transform 0.4s, opacity 0.4s;
-    transform: translateX(-100%);
-    opacity: 0;
-    will-change: transform, opacity;
-
-    @media (max-width: 360px) {
-        width: fit-content;
-        max-width: 100%;
-    }
-
-    .zds-toast__message {
-        font-family: var(--font-family-primary);
-        font-size: var(--font-size-16);
-        color: var(--color-neutral-high-default);
-        margin-left: var(--spacing-16);
-    }
-
-    .zds-toast__icon {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .zds-toast__close {
-        cursor: pointer;
-        color: var(--color-neutral-high-default);
-        background-color: transparent;
-        border: none;
-        margin-left: var(--spacing-24);
-
-        &:focus-visible {
-            outline: 2px solid var(--color-brand-primary-light);
-            outline-offset: 2px;
-        }
-    }
+div.toastRoot[data-state="open"] {
+	animation: slideIn 0.4s ease forwards;
 }
 
-.zds-toast__active {
-    transform: translateX(0);
-    opacity: 1;
+.toastTitle {
+	font-size: var(--font-size-16);
+	font-weight: var(--font-weight-regular);
+	font-family: var(--font-family-primary);
+	color: var(--color-neutral-high-default);
+	line-height: 130%;
+	margin-right: var(--spacing-24);
+	overflow-wrap: break-word;
+	word-wrap: break-word;
+	word-break: break-word;
+	hyphens: auto;
 }
 
-.zds-toast__success {
-    .zds-toast__icon i,
-    .zds-toast__icon path {
-        color: var(--color-feedback-success-medium);
-        fill: var(--color-feedback-success-medium);
-    }
+.toastContent {
+	flex: 1;
+	min-width: var(--spacing-0);
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 }
 
-.zds-toast__alert {
-    .zds-toast__icon i,
-    .zds-toast__icon path {
-        color: var(--color-feedback-alert-medium);
-        fill: var(--color-feedback-alert-medium);
-    }
+.toastClose {
+	grid-area: close;
+	cursor: pointer;
+	background-color: transparent;
+	border: none;
+	color: var(--color-neutral-high-default);
+	margin-left: auto;
+	padding: var(--spacing-0);
+	display: flex;
+	align-items: center;
+	flex-shrink: 0;
 }
 
-.zds-toast__info {
-    .zds-toast__icon i,
-    .zds-toast__icon path {
-        color: var(--color-brand-primary-light);
-        fill: var(--color-brand-primary-light);
-    }
+.Icon {
+	margin-right: var(--spacing-16);
+	display: flex;
+	align-items: center;
+	flex-shrink: 0;
+}
+
+.iconInfo {
+	color: var(--color-brand-primary-light); 
+}
+
+.iconSuccess {
+	color: var(--color-feedback-success-medium); 
+}
+
+.iconAlert {
+	color: var(--color-feedback-alert-medium); 
 }
