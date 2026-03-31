@@ -204,7 +204,7 @@ export const CalendarFilter: Story = {
           onDateSelect={handleDateSelect}
           locale="pt-br"
           variant="outlined"
-          position="left"
+          side="bottom"
           onClearDate={handleClearDate}
         />
       </div>
@@ -241,5 +241,17 @@ export const MultipleFilters: Story = {
         </div>
       </div>
     );
+  },
+};
+
+export const RightPosition: Story = {
+  render: FilterTemplate,
+  args: {
+    items: categoryItems,
+    buttonText: 'Categoria',
+    type: 'checkbox',
+    side: 'bottom',
+    align: 'end',
+    variant: 'outlined',
   },
 };
