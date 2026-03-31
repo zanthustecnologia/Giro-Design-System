@@ -13,7 +13,7 @@ interface FooterProps {
 export const Footer: React.FC<FooterProps> = ({ 
   title = "Feedback", 
   description = "Gostaríamos de saber sua opinião sobre o Giro",
-  bugReportUrl = "https://github.com/zanthustecnologia/design-system-monorepo/issues/new?template=bug_report.yml",
+  bugReportUrl = "https://github.com/zanthustecnologia/Giro-Design-System/issues/new/choose",
   generalContactUrl = "https://docs.google.com/forms/d/e/1FAIpQLSecghffIsNo6ux2Op5lgTLzJ62ZQyyNpRRg5vYmiH4F5aAjvA/viewform?usp=dialog",
 }) => {
   return (
