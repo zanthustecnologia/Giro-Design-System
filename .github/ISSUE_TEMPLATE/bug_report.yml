@@ -1,7 +1,7 @@
-name: "🐛 Bug Report"
+name: '🐛 Bug Report'
 description: Reporte um comportamento inesperado ou erro
-title: "[Bug]: "
-labels: ["bug"]
+title: '[Bug]: '
+labels: ['bug']
 body:
   - type: markdown
     attributes:
@@ -17,7 +17,7 @@ body:
     id: version
     attributes:
       label: Versão do pacote Giro DS
-      placeholder: "ex: 3.2.0"
+      placeholder: 'ex: 3.2.0'
     validations:
       required: true
 
@@ -26,7 +26,7 @@ body:
     attributes:
       label: Componente
       description: Qual componente está com problema?
-      placeholder: "ex: Avatar, Button, Switch..."
+      placeholder: 'ex: Avatar, Button, Switch...'
     validations:
       required: true
 
