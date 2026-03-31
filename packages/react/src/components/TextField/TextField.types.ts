@@ -62,12 +62,16 @@ export interface TextFieldProps extends Omit<
   /** Alinhamento do tooltip */
   align?: Align;
   
-  /** Mensagem de erro customizada para validações internas (required/maxLength) */
+  /**
+   * Mensagem de erro exibida no campo.
+   * Usada tanto pela validação interna (required, formato, etc.)
+   * quanto pelo controle externo via formulários (react-hook-form, formik, etc.)
+   */
   errorMessage?: string;
 
-  /** Erro externo: string exibe estilização + mensagem, true exibe apenas estilização */
-  error?: string | true;
-  
+  /** Sinaliza erro externo para controle via formulários (react-hook-form, formik, etc.) */
+  error?: boolean;
+
   /** Ícone a ser exibido no campo */
   icon?: React.ReactNode;
 

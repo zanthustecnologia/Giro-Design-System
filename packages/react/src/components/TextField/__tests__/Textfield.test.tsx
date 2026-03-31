@@ -127,6 +127,31 @@ describe('TextField', () => {
       expect(screen.queryByText(/Campo deve ter no máximo/)).not.toBeInTheDocument();
       expect(screen.queryByText(/Campo obrigatório/)).not.toBeInTheDocument();
     });
+
+    it('exibe erro externo via prop error sem necessidade de blur', () => {
+      render(<TextField error errorMessage="Erro do formulário" />);
+
+      expect(screen.getByText('Erro do formulário')).toBeInTheDocument();
+    });
+
+    it('prop error ativa aria-invalid diretamente', () => {
+      render(<TextField error errorMessage="Erro do formulário" />);
+
+      expect(screen.getByRole('textbox')).toHaveAttribute('aria-invalid', 'true');
+    });
+
+    it('prop error tem prioridade sobre helperText', () => {
+      render(<TextField error errorMessage="Erro do formulário" helperText="Texto de ajuda" />);
+
+      expect(screen.getByText('Erro do formulário')).toBeInTheDocument();
+      expect(screen.queryByText('Texto de ajuda')).not.toBeInTheDocument();
+    });
+
+    it('não exibe estado de erro quando error é undefined', () => {
+      render(<TextField error={undefined} />);
+
+      expect(screen.getByRole('textbox')).toHaveAttribute('aria-invalid', 'false');
+    });
   });
 
   describe('Estado Disabled', () => {

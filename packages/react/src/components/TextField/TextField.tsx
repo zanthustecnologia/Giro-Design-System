@@ -1,9 +1,11 @@
-import React, { useState, useCallback, useId, forwardRef, useEffect } from 'react';
-import clsx from 'clsx';
 import { Dismiss16Regular } from '@fluentui/react-icons';
-import LabelComponent from '../../shared/Label';
+import clsx from 'clsx';
+import React, { useState, useCallback, useId, forwardRef, useEffect } from 'react';
+
 import styles from './TextField.module.scss';
 import { validateInput } from './utils';
+import LabelComponent from '../../shared/Label';
+
 import type { TextFieldProps } from './TextField.types';
 
 const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
@@ -24,7 +26,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
       side = 'bottom',
 	    align = 'start',
       errorMessage,
-      error: externalError,
+      error,
       id,
       icon,
       onBlur,
@@ -51,14 +53,14 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
       
       // Reavaliar erro quando valor muda externamente (ex: DatePicker atualiza o campo)
       if (inputError) {
-        const error = validateInput({
+        const validationError = validateInput({
           value: newValue,
           type,
           maxLength,
           errorMessage,
           required,
         });
-        setInputError(error);
+        setInputError(validationError);
       }
     }, [value, inputError, type, maxLength, errorMessage, required]);
 
@@ -105,12 +107,11 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
       [onFocus]
     );
 
-    const showCustomIcon = (inputValue.trim().length === 0 || persistIcon) && icon;
-    const showClearIcon = isFocused && inputValue.trim().length > 0 && !persistIcon;
-    const hasError = Boolean(inputError) || Boolean(externalError);
-    const externalErrorMessage = typeof externalError === 'string' ? externalError : '';
-    const displayHelperText = inputError || externalErrorMessage || helperText || '\u00A0';
-    const helperId = (inputError || externalErrorMessage)
+    const showCustomIcon = inputValue.trim().length === 0 && icon;
+    const showClearIcon = isFocused && inputValue.trim().length > 0;
+    const hasError = Boolean(inputError) || Boolean(error);
+    const displayHelperText = (error ? errorMessage : undefined) || inputError || helperText || '\u00A0';
+    const helperId = (inputError || error)
       ? `${componentId}-error`
       : helperText
         ? `${componentId}-helper`
@@ -157,6 +158,9 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
               aria-invalid={hasError}
               aria-required={required}
               aria-describedby={helperId}
+              className={clsx({
+                [styles.inputWithIcon]: showCustomIcon || showClearIcon,
+              })}
             />
             
             {showCustomIcon && <span className={styles.icon}>{icon}</span>}

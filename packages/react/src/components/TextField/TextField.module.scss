@@ -20,6 +20,20 @@
   align-items: center;
   align-self: stretch;
   width: 100%;
+  height: 44px;
+  border-radius: var(--border-radius-8);
+  border: var(--border-width-1) solid var(--color-neutral-high-dark);
+  background-color: var(--color-neutral-high-default);
+  box-sizing: border-box;
+
+  &:hover {
+    border: var(--border-width-1) solid var(--color-neutral-low-dark);
+  }
+
+  &:focus-within {
+    border: none;
+    outline: var(--border-width-2) solid var(--color-brand-primary-default);
+  }
 
   input {
     min-width: 150px;
@@ -30,7 +44,7 @@
     align-items: center;
     align-self: stretch;
     border-radius: var(--border-radius-8);
-    border: var(--border-width-1) solid var(--color-neutral-high-dark);
+    border: none;
     outline: none;
     color: var(--color-neutral-low-default);
     font-size: var(--font-size-16);
@@ -38,22 +52,24 @@
     text-overflow: ellipsis;
     overflow: hidden;
     box-sizing: border-box;
-    background-color: var(--color-neutral-high-default);
-
-    &:hover {
-      border: var(--border-width-1) solid var(--color-neutral-low-dark);
-    }
-
-    &:focus-visible {
-      border: none;
-      outline: var(--border-width-2) solid var(--color-brand-primary-default);
-    }
+    background-color: transparent;
 
     &::placeholder {
       color: var(--color-neutral-low-medium);
       font-family: var(--font-family-primary);
       font-weight: var(--font-weight-regular);
       font-size: var(--font-size-16);
+    }
+
+    &[type='number'] {
+      appearance: textfield;
+      -moz-appearance: textfield;
+
+      &::-webkit-outer-spin-button,
+      &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
     }
   }
 }
@@ -75,6 +91,10 @@
   }
 }
 
+.inputWithIcon {
+  width: calc(100% - 32px) !important;
+}
+
 .clearButton {
   background: none;
   border: none;
@@ -86,8 +106,6 @@
   font-size: var(--font-size-12);
   color: var(--color-neutral-low-medium);
   font-family: var(--font-family-primary);
-  line-height: 16px;
-  min-height: 16px;
   padding-top: var(--spacing-8);
   max-width: 100%;
   word-wrap: break-word;
@@ -111,10 +129,11 @@
     color: var(--color-feedback-alert-default);
   }
 
-  .inputContainer input {
+  .inputContainer {
     border: var(--border-width-1) solid var(--color-feedback-alert-default);
 
-    &:focus-visible {
+    &:focus-within {
+      border: none;
       outline: var(--border-width-1) solid var(--color-feedback-alert-default);
     }
   }
@@ -123,19 +142,24 @@
 // Estado desabilitado
 .disabled {
   .label,
-  .required,
-  .inputContainer input {
-    border: var(--border-width-1) solid var(--color-neutral-high-dark);
+  .required {
     color: var(--color-neutral-high-dark);
+  }
+
+  .inputContainer {
+    border: var(--border-width-1) solid var(--color-neutral-high-dark);
     background-color: var(--color-neutral-high-default);
 
-    &::placeholder {
-      color: var(--color-neutral-high-dark);
+    &:hover {
+      border: var(--border-width-1) solid var(--color-neutral-high-dark);
     }
 
-    &:hover,
-    &:disabled {
-      border: var(--border-width-1) solid var(--color-neutral-high-dark);
+    input {
+      color: var(--color-neutral-high-dark);
+
+      &::placeholder {
+        color: var(--color-neutral-high-dark);
+      }
     }
   }
 
