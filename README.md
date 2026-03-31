@@ -1,4 +1,8 @@
-# Giro Design System
+<div align="center">
+  <img src="apps/storybook-react/public/images/giro-logo.svg" alt="Giro Design System" width="480" />
+</div>
+
+<br />
 
 Projetado para dar consistência, escala e governança à experiência dos produtos, o sistema organiza fundamentos visuais, tokens, componentes e padrões de implementação em uma arquitetura preparada para múltiplos contextos, tecnologias e marcas.
 
