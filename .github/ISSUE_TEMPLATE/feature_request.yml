@@ -1,45 +1,44 @@
-name: 🌟 Feature Request
+﻿name: " Feature Request"
 description: Sugira uma nova funcionalidade, melhoria visual ou técnica
-labels: \[enhancement]
+labels: ["enhancement"]
 body:
+  - type: markdown
+    attributes:
+      value: |
+        Obrigado por sugerir uma melhoria! Use este formulário para descrever sua ideia de forma clara e objetiva.
 
-* type: markdown
-  attributes:
-  value: |
-  Obrigado por sugerir uma melhoria! Use este formulário para descrever sua ideia de forma clara e objetiva.
+  - type: textarea
+    id: proposta
+    attributes:
+      label: O que você gostaria de propor?
+      description: Descreva a funcionalidade, componente ou melhoria desejada.
+      placeholder: "Adicionar suporte a espaçamento responsivo baseado em tokens..."
+    validations:
+      required: true
 
-* type: textarea
-  id: proposta
-  attributes:
-  label: O que você gostaria de propor?
-  description: Descreva a funcionalidade, componente ou melhoria desejada.
-  placeholder: "Adicionar suporte a espaçamento responsivo baseado em tokens..."
-  validations:
-  required: true
+  - type: textarea
+    id: justificativa
+    attributes:
+      label: Por que isso é importante?
+      description: Qual problema resolve? Quais produtos se beneficiam?
+      placeholder: "Facilita consistência visual entre times e reduz código duplicado..."
+    validations:
+      required: true
 
-* type: textarea
-  id: justificativa
-  attributes:
-  label: Por que isso é importante?
-  description: Qual problema resolve? Quais produtos se beneficiam?
-  placeholder: "Facilita consistência visual entre times e reduz código duplicado..."
-  validations:
-  required: true
+  - type: textarea
+    id: contexto
+    attributes:
+      label: Contexto adicional
+      description: Algum exemplo, benchmark, referência externa ou restrição técnica?
+      placeholder: "Vi algo semelhante em sistemas como Polaris e Spectrum..."
 
-* type: textarea
-  id: contexto
-  attributes:
-  label: Contexto adicional
-  description: Algum exemplo, benchmark, referência externa ou restrição técnica?
-  placeholder: "Vi algo semelhante em sistemas como Polaris e Spectrum..."
-
-* type: checkboxes
-  id: escopo
-  attributes:
-  label: Escopo da proposta
-  options:
-  \- label: Novo componente visual
-  \- label: Ajuste em token ou tema
-  \- label: Melhoria em documentação
-  \- label: Integração com ferramenta externa
-  \- label: Outro
+  - type: checkboxes
+    id: escopo
+    attributes:
+      label: Escopo da proposta
+      options:
+        - label: Novo componente visual
+        - label: Ajuste em token ou tema
+        - label: Melhoria em documentação
+        - label: Integração com ferramenta externa
+        - label: Outro
