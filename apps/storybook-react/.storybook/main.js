@@ -9,16 +9,13 @@ const config = {
   stories: [
     '../src/stories/**/*.mdx',
     '../src/stories/**/*.stories.@(js|jsx|ts|tsx)',
-    '../../../packages/utilities/storybook/**/*.stories.@(js|jsx|ts|tsx|mdx)',
   ],
 
   // Addons recomendados
    addons: [
-    "@chromatic-com/storybook",
     "@storybook/addon-docs",
     "@storybook/addon-onboarding",
     "@storybook/addon-a11y",
-    "@storybook/addon-vitest",
     "storybook-addon-playground",
   ]
 ,

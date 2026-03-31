@@ -61,7 +61,10 @@ $width-directions: (
 // Gera as classes base (ex: .rounded-4, .rounded-t-8)
 @each $dir-abbr, $dir-props in $radius-directions {
   @each $size-key, $size-value in $border-radius {
-    $selector: if($dir-abbr == "", "rounded-#{$size-key}", "rounded-#{$dir-abbr}-#{$size-key}");
+    $selector: "rounded-#{$size-key}";
+    @if $dir-abbr != "" {
+      $selector: "rounded-#{$dir-abbr}-#{$size-key}";
+    }
 
     .#{$selector} {
       @if meta.type-of($dir-props) == "list" {
@@ -79,7 +82,10 @@ $width-directions: (
 @each $bp, $bp-size in $breakpoints {
   @each $dir-abbr, $dir-props in $radius-directions {
     @each $size-key, $size-value in $border-radius {
-      $selector: if($dir-abbr == "", "rounded-#{$size-key}", "rounded-#{$dir-abbr}-#{$size-key}");
+      $selector: "rounded-#{$size-key}";
+      @if $dir-abbr != "" {
+        $selector: "rounded-#{$dir-abbr}-#{$size-key}";
+      }
 
       @include utility($bp, $selector) {
         @if meta.type-of($dir-props) == "list" {
@@ -101,7 +107,10 @@ $width-directions: (
 // Gera as classes base (ex: .border-1, .border-t-2)
 @each $dir-abbr, $dir-props in $width-directions {
   @each $size-key, $size-value in $border-width {
-    $selector: if($dir-abbr == "", "border-#{$size-key}", "border-#{$dir-abbr}-#{$size-key}");
+    $selector: "border-#{$size-key}";
+    @if $dir-abbr != "" {
+      $selector: "border-#{$dir-abbr}-#{$size-key}";
+    }
 
     .#{$selector} {
       @if meta.type-of($dir-props) == "list" {
@@ -119,7 +128,10 @@ $width-directions: (
 @each $bp, $bp-size in $breakpoints {
   @each $dir-abbr, $dir-props in $width-directions {
     @each $size-key, $size-value in $border-width {
-      $selector: if($dir-abbr == "", "border-#{$size-key}", "border-#{$dir-abbr}-#{$size-key}");
+      $selector: "border-#{$size-key}";
+      @if $dir-abbr != "" {
+        $selector: "border-#{$dir-abbr}-#{$size-key}";
+      }
 
       @include utility($bp, $selector) {
         @if meta.type-of($dir-props) == "list" {
