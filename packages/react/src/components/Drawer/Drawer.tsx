@@ -1,18 +1,17 @@
-import React, { useEffect, useState, useCallback, ReactNode, ReactElement } from 'react';
-import clsx from 'clsx';
-import styles from './Drawer.module.scss';
 import { Dismiss16Regular } from '@fluentui/react-icons';
+import clsx from 'clsx';
+import React, { useEffect, useState, useCallback, ReactNode, ReactElement } from 'react';
+import { createPortal } from 'react-dom';
+
+import styles from './Drawer.module.scss';
 import Button from '../Button/Button';
+
 import type { DrawerProps, DrawerExampleProps } from './Drawer.types';
 
-/**
- * Componente Drawer do Zanthus Design System
- * Implementa um painel lateral deslizante com overlay
- * Segue padrões WCAG 2.1 AA para acessibilidade
- */
 const Drawer: React.FC<DrawerProps> = ({
   children,
-  customWidth = '400px', // ✅ Valor padrão útil
+  headerContent,
+  customWidth = '400px',
   onClose,
   title = 'Título',
   isOpen = false,
@@ -31,10 +30,6 @@ const Drawer: React.FC<DrawerProps> = ({
     onClose();
   }, [onClose, disabled]);
 
-  /**
-   * Manipula clique no overlay
-   * Fecha o drawer se closeOnOverlayClick estiver habilitado
-   */
   const handleOverlayClick = useCallback((): void => {
     if (onOverlayClick) {
       onOverlayClick();
@@ -45,17 +40,9 @@ const Drawer: React.FC<DrawerProps> = ({
     }
   }, [onOverlayClick, closeOnOverlayClick, internalClose, disabled]);
 
-  /**
-   * Fecha o drawer ao pressionar ESC
-   * Adiciona e remove event listener baseado no estado isOpen
-   */
   useEffect(() => {
     if (!isOpen || !closeOnEscape) return;
 
-    /**
-     * Manipula teclas pressionadas
-     * @param event - Evento de teclado
-     */
     const handleKeyDown = (event: KeyboardEvent): void => {
       if (event.key === 'Escape') {
         event.preventDefault();
@@ -67,20 +54,13 @@ const Drawer: React.FC<DrawerProps> = ({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, internalClose, closeOnEscape]);
 
-  /**
-   * Gerencia overflow do body baseado no estado isOpen
-   */
   useEffect(() => {
     if (isOpen && !disabled) {
-      // Executa callback de abertura se fornecido
       if (onOpen) {
         onOpen();
       }
-
-      // Previne scroll do body quando drawer está aberto
       document.body.style.overflow = 'hidden';
     } else {
-      // Restaura scroll do body
       document.body.style.overflow = 'unset';
     }
 
@@ -89,49 +69,36 @@ const Drawer: React.FC<DrawerProps> = ({
     };
   }, [isOpen, onOpen, disabled]);
 
-  /**
-   * Previne propagação de eventos no drawer
-   * Evita fechamento acidental ao clicar no conteúdo
-   * @param event - Evento de clique
-   */
   const handleDrawerClick = (event: React.MouseEvent<HTMLDivElement>): void => {
     event.stopPropagation();
   };
 
-  /**
-   * Manipula clique no botão de fechar
-   * @param event - Evento de clique
-   */
   const handleCloseClick = (event: React.MouseEvent<HTMLElement>): void => {
     event.stopPropagation();
     internalClose();
   };
 
-  return (
+  return createPortal(
     <>
-      {/* Overlay/Shadow */}
       <div
-        className={clsx(styles['zds-custom__drawer-shadow'], {
-          [styles['zds-custom__drawer-shadow--visible']]: isOpen,
+        className={clsx(styles['drawerShadow'], {
+          [styles['drawerShadow--visible']]: isOpen,
         })}
         onClick={handleOverlayClick}
         role="presentation"
         aria-hidden="true"
         data-testid="drawer-overlay"
       />
-
-      {/* Drawer Panel */}
       <div
         className={clsx(
-          styles['zds-custom__drawer-sidebar'],
+          styles['drawerSidebar'],
           {
-            [styles['zds-custom__drawer-sidebar--open']]: isOpen,
-            [styles['zds-custom__drawer-sidebar--disabled']]: disabled,
+            [styles['drawerSidebar--open']]: isOpen,
+            [styles['drawerSidebar--disabled']]: disabled,
           },
           className
         )}
         style={{
-          // ✅ APENAS: Width customizável via CSS custom property
           '--drawer-custom-width': customWidth,
         } as React.CSSProperties}
         onClick={handleDrawerClick}
@@ -143,29 +110,35 @@ const Drawer: React.FC<DrawerProps> = ({
         id={id}
       >
      
-        <div className={clsx(styles['zds-drawer__title-close'])}>
+        <div className={styles.drawerTitleClose}>
           <div 
-            className={clsx(styles['zds-drawer__title'])} 
+            className={styles.drawerTitle} 
             id={id ? `${id}-title` : 'drawer-title'}
           >
             {title}
           </div>
+          
+          {headerContent && (
+            <div className={styles.drawerHeaderContent}>{headerContent}</div>
+          )}
+
           <Button 
             onClick={handleCloseClick}
-            variant='text'
+            variant='outlined'
             iconOnly
             icon={<Dismiss16Regular />}
             size='lg'
           />
         </div>
         <div 
-          className={clsx(styles['zds-drawer__children'])} 
+          className={styles.drawerChildren} 
           data-testid="drawer-content"
         >
           {children}
         </div>
       </div>
-    </>
+    </>,
+    document.body
   );
 };
 

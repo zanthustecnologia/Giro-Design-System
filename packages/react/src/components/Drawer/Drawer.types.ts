@@ -34,6 +34,9 @@ import { Variant, BaseProps } from '../../types/common.types';
 export interface DrawerProps extends BaseProps {
   /** Conteúdo a ser exibido dentro do drawer */
   children?: ReactNode;
+
+  /** Conteúdo customizado do cabeçalho */
+  headerContent?: ReactNode;
   
   /** Largura customizada do drawer (ex: '400px', '50%') */
   customWidth?: string;
