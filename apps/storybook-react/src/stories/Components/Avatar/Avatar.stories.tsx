@@ -65,3 +65,20 @@ export const ComImagem: Story = {
     initialLetters: 'GR',
   },
 };
+
+export const ComIniciais: Story = {
+  render: Template,
+  args: {
+    initialLetters: 'GR',
+    size: 'lg',
+  },
+};
+
+export const Sizes: Story = {
+  render: () => (
+    <div style={{ display: 'flex', gap: '24px', alignItems: 'center' }}>
+      <Avatar icon={<Person16Regular />} size="lg" initialLetters="GR" />
+      <Avatar icon={<Person16Regular />} size="sm" initialLetters="GR" />
+    </div>
+  ),
+};

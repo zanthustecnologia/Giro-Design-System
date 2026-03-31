@@ -1,0 +1,183 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as SelectStories from './Select.stories';
+import { Select } from '@giro-ds/react';
+import { Channel16Regular } from '@fluentui/react-icons';
+import { UsageGuidelines } from '../../../internal-components/mdx/UsageGuidelines/UsageGuidelines';
+import { ComponentRules } from '../../../internal-components/mdx/Rules/Rules';
+import { Footer } from '../../../internal-components/mdx/Footer/Footer';
+
+<Meta of={SelectStories} name="Docs" />
+
+# Select
+
+O Select é um campo de seleção que abre uma lista de opções ao ser clicado. O usuário escolhe uma ou mais opções e a lista fecha automaticamente. Suporta busca interna, ícones, subtítulos e agrupamento de itens em categorias expansíveis.
+
+<Canvas of={SelectStories.Default} />
+
+## Importação
+
+```js
+import { Select } from '@giro-ds/react';
+```
+
+<div style={{ marginTop: '48px' }} />
+
+## Propriedades
+
+<Controls />
+
+<div style={{ marginTop: '48px' }} />
+
+## Uso
+
+<UsageGuidelines
+  guidelines={[
+    <>
+      Use o Select quando o usuário precisar escolher uma opção de uma lista. Para listas curtas (até 4 itens), considere usar <a href="?path=/docs/components-radio--docs">Radio buttons</a>, que mantêm todas as opções visíveis.
+    </>,
+    <>
+      Sempre defina um rótulo descritivo para o campo. Campos sem rótulo são inacessíveis e dificultam o preenchimento de formulários.
+    </>,
+    <>
+      Use o texto de orientação (placeholder) para indicar ao usuário o que ele deve selecionar, como "Selecione um estado" ou "Escolha uma categoria".
+    </>,
+    <>
+      Ative a busca interna quando a lista tiver muitos itens. Isso evita que o usuário precise rolar por dezenas de opções para encontrar o que precisa.
+    </>,
+    <>
+      Use a variante com múltipla seleção quando o usuário puder escolher mais de uma opção ao mesmo tempo. Para seleção única, use a variante padrão.
+    </>,
+    <>
+      Use o estado desabilitado quando o campo não está disponível no momento, como quando depende de uma seleção anterior em outro campo.
+    </>,
+  ]}
+/>
+
+<div style={{ marginTop: '48px' }} />
+
+## Variações
+
+### Com busca
+
+Ative a busca interna para permitir que o usuário filtre as opções digitando. Recomendado para listas com mais de 8 itens.
+
+<Canvas of={SelectStories.WithSearch} />
+
+### Com ícones e subtítulo
+
+Itens podem exibir um ícone e um subtítulo para complementar a informação principal.
+
+<Canvas of={SelectStories.WithIcon} />
+
+### Múltipla seleção
+
+Use esta variante quando o usuário puder selecionar mais de uma opção ao mesmo tempo.
+
+<Canvas of={SelectStories.Checkbox} />
+
+### Com itens agrupados
+
+Itens podem ser organizados em categorias expansíveis para facilitar a navegação em listas longas.
+
+<Canvas of={SelectStories.Children} />
+
+### Obrigatório
+
+Quando o campo é obrigatório, uma mensagem de erro é exibida ao tentar avançar sem selecionar uma opção.
+
+<Canvas of={SelectStories.Required} />
+
+### Desabilitado
+
+Use o estado desabilitado quando a seleção não está disponível no momento.
+
+<Canvas of={SelectStories.Disabled} />
+
+<div style={{ marginTop: '48px' }} />
+
+## O que fazer e não fazer
+
+<ComponentRules
+  rules={[
+    {
+      positive: {
+        component: (
+          <div style={{ maxWidth: 300 }}>
+            <Select
+              label="Estado"
+              placeholder="Selecione um estado"
+              items={[
+                { value: 'sp', text: 'São Paulo' },
+                { value: 'rj', text: 'Rio de Janeiro' },
+                { value: 'mg', text: 'Minas Gerais' },
+              ]}
+            />
+          </div>
+        ),
+        description: "Use um rótulo e um texto de orientação que indiquem claramente o que deve ser selecionado."
+      },
+      negative: {
+        component: (
+          <div style={{ maxWidth: 300 }}>
+            <Select
+              placeholder="Selecione"
+              items={[
+                { value: 'sp', text: 'São Paulo' },
+                { value: 'rj', text: 'Rio de Janeiro' },
+                { value: 'mg', text: 'Minas Gerais' },
+              ]}
+            />
+          </div>
+        ),
+        description: "Evite omitir o rótulo e usar textos genéricos como 'Selecione'. O usuário não sabe o que está escolhendo."
+      }
+    },
+    {
+      positive: {
+        component: (
+          <div style={{ maxWidth: 300 }}>
+            <Select
+              label="Categoria"
+              placeholder="Selecione uma categoria"
+              search
+              items={[
+                { value: '1', text: 'Alimentação' },
+                { value: '2', text: 'Transporte' },
+                { value: '3', text: 'Saúde' },
+                { value: '4', text: 'Educação' },
+                { value: '5', text: 'Lazer' },
+                { value: '6', text: 'Habitação' },
+                { value: '7', text: 'Vestuário' },
+                { value: '8', text: 'Serviços' },
+              ]}
+            />
+          </div>
+        ),
+        description: "Ative a busca interna quando a lista for longa. O usuário encontra a opção sem precisar rolar por todos os itens."
+      },
+      negative: {
+        component: (
+          <div style={{ maxWidth: 300 }}>
+            <Select
+              label="Categoria"
+              placeholder="Selecione uma categoria"
+              items={[
+                { value: '1', text: 'Alimentação' },
+                { value: '2', text: 'Transporte' },
+                { value: '3', text: 'Saúde' },
+                { value: '4', text: 'Educação' },
+                { value: '5', text: 'Lazer' },
+                { value: '6', text: 'Habitação' },
+                { value: '7', text: 'Vestuário' },
+                { value: '8', text: 'Serviços' },
+              ]}
+            />
+          </div>
+        ),
+        description: "Evite listas longas sem busca. Rolar por muitas opções é trabalhoso e frustrante para o usuário."
+      }
+    },
+  ]}
+/>
+
+<Footer />

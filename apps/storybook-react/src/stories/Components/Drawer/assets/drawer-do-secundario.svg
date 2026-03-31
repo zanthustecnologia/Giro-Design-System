@@ -1,0 +1,47 @@
+<svg width="280" height="200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Frame -->
+  <rect width="280" height="200" fill="#F4F4F7" rx="10"/>
+  <!-- Top bar -->
+  <rect width="280" height="32" fill="#FFFFFF" rx="10 10 0 0"/>
+  <line x1="0" y1="32" x2="280" y2="32" stroke="#E8E8EC" stroke-width="1"/>
+  <circle cx="16" cy="16" r="4" fill="#CFD0DA"/>
+  <circle cx="30" cy="16" r="4" fill="#CFD0DA"/>
+  <circle cx="44" cy="16" r="4" fill="#CFD0DA"/>
+  <!-- Page content (left) -->
+  <rect x="16" y="44" width="100" height="8" fill="#CFD0DA" rx="4"/>
+  <rect x="16" y="60" width="130" height="7" fill="#E8E8EC" rx="3"/>
+  <rect x="16" y="74" width="110" height="7" fill="#E8E8EC" rx="3"/>
+  <rect x="16" y="88" width="90" height="7" fill="#E8E8EC" rx="3"/>
+  <rect x="16" y="102" width="120" height="7" fill="#E8E8EC" rx="3"/>
+  <rect x="16" y="116" width="70" height="7" fill="#E8E8EC" rx="3"/>
+  <!-- Overlay -->
+  <rect x="0" y="32" width="170" height="168" fill="#111119" opacity="0.22"/>
+  <!-- Drawer shadow -->
+  <rect x="167" y="32" width="5" height="168" fill="#00000010"/>
+  <!-- Drawer panel -->
+  <rect x="170" y="32" width="110" height="168" fill="#FFFFFF"/>
+  <!-- Drawer header -->
+  <line x1="170" y1="60" x2="280" y2="60" stroke="#E8E8EC" stroke-width="1"/>
+  <rect x="182" y="42" width="45" height="8" fill="#111119" rx="4"/>
+  <!-- X button -->
+  <line x1="256" y1="40" x2="266" y2="50" stroke="#505255" stroke-width="1.8" stroke-linecap="round"/>
+  <line x1="266" y1="40" x2="256" y2="50" stroke="#505255" stroke-width="1.8" stroke-linecap="round"/>
+  <!-- Section label -->
+  <rect x="182" y="70" width="35" height="6" fill="#CFD0DA" rx="3"/>
+  <!-- Checkbox 1 unchecked -->
+  <rect x="182" y="82" width="10" height="10" rx="2" fill="none" stroke="#CFD0DA" stroke-width="1.5"/>
+  <rect x="196" y="84" width="50" height="6" fill="#E8E8EC" rx="3"/>
+  <!-- Checkbox 2 checked -->
+  <rect x="182" y="97" width="10" height="10" rx="2" fill="#4A6DFF"/>
+  <line x1="184.5" y1="102" x2="187.5" y2="105" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="187.5" y1="105" x2="191.5" y2="100" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+  <rect x="196" y="99" width="42" height="6" fill="#E8E8EC" rx="3"/>
+  <!-- Checkbox 3 unchecked -->
+  <rect x="182" y="112" width="10" height="10" rx="2" fill="none" stroke="#CFD0DA" stroke-width="1.5"/>
+  <rect x="196" y="114" width="55" height="6" fill="#E8E8EC" rx="3"/>
+  <!-- Divider -->
+  <line x1="170" y1="136" x2="280" y2="136" stroke="#E8E8EC" stroke-width="1"/>
+  <!-- Apply button -->
+  <rect x="182" y="146" width="86" height="28" rx="6" fill="#4A6DFF"/>
+  <rect x="200" y="157" width="50" height="6" fill="#FFFFFF" rx="3"/>
+</svg>

@@ -1,23 +1,23 @@
 import { Meta } from '@storybook/addon-docs/blocks';
 
-import GettingStarted from "../../../assets/getting-started.png";
-import Foundations from "../../../assets/foundations.png";
-import Components from "../../../assets/components.png";
+import GettingStarted from "./assets/getting-started.png";
+import Foundations from "./assets/foundations.png";
+import Components from "./assets/components.png";
 
-import Simplicity from "../../../assets/simplicity.png";
-import Consistency from "../../../assets/consistency.png";
-import Quality from "../../../assets/quality.png";
-import UserCentered from "../../../assets/user-centered.png";
-import Evolution from "../../../assets/evolution.png";
+import Simplicity from "./assets/simplicity.png";
+import Consistency from "./assets/consistency.png";
+import Quality from "./assets/quality.png";
+import UserCentered from "./assets/user-centered.png";
+import Evolution from "./assets/evolution.png";
 import { Footer } from '../../../internal-components/mdx/Footer/Footer';
 import OrbAnimation from './components/OrbAnimation/OrbAnimation';
 
-import FigmaIcon from "../../../assets/figma-mark.svg";
-import GithubIcon from "../../../assets/github-mark.svg";
+import FigmaIcon from "./assets/figma-mark.svg";
+import GithubIcon from "./assets/github-mark.svg";
 
 import styles from './Welcome.module.scss';
 
-<Meta title="Welcome" />
+<Meta title="Boas-vindas" />
 
 <div className={styles.heroOrb}>
   <div className={styles.orbContainer}>
@@ -46,21 +46,21 @@ import styles from './Welcome.module.scss';
     <img src={GettingStarted} alt="Um ícone de uma lâmpada incandescente"/>
     <h4>Primeiros passos</h4>
     <p>Boas-vindas e instruções sobre como utilizar o Zanthus Design System</p>
-    <a href="#" target="_blank">Saiba mais</a>
+    <a href="/?path=/docs/comece-aqui--docs" target="_self">Saiba mais</a>
   </div>
 
   <div className={styles.docsCard}>
     <img src={Foundations} alt="Tudo sobre os design tokens: cor, tipografia, espaçamento e bordas"/>
     <h4>Fundações</h4>
     <p>Tudo sobre os design tokens: cor, tipografia, espaçamento e bordas</p>
-    <a href="#" target="_blank">Saiba mais</a>
+    <a href="/?path=/docs/foundation-borders--docs" target="_self">Saiba mais</a>
   </div>
 
   <div className={styles.docsCard}>
     <img src={Components} alt="A representation of typography and image assets" />
     <h4>Componentes</h4>
     <p>Toda a informação e guias sobre cada componente</p>
-    <a href="#" target="_blank">Saiba mais</a>
+    <a href="/?path=/docs/components-avatar--docs" target="_self">Saiba mais</a>
   </div>
 </div>
 

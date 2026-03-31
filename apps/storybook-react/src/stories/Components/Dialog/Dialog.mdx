@@ -1,0 +1,72 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as DialogStories from './Dialog.stories';
+import { UsageGuidelines } from '../../../internal-components/mdx/UsageGuidelines/UsageGuidelines';
+import { Footer } from '../../../internal-components/mdx/Footer/Footer';
+
+<Meta of={DialogStories} />
+
+# Dialog
+
+O Dialog é uma janela modal que sobrepõe o conteúdo da página para solicitar uma decisão ou confirmação do usuário. O fluxo principal fica bloqueado até que o Dialog seja respondido ou fechado.
+
+<Canvas of={DialogStories.Interativo} />
+
+## Importação
+
+```js
+import { Dialog } from '@giro-ds/react';
+```
+
+<div style={{ marginTop: '48px' }} />
+
+## Propriedades
+
+<Controls />
+
+<div style={{ marginTop: '48px' }} />
+
+## Uso
+
+<UsageGuidelines
+  guidelines={[
+    <>
+      Use o Dialog para ações que exigem confirmação explícita antes de prosseguir, como exclusão de dados ou envio irreversível. Evite usá-lo para exibir informações que o usuário apenas precisa ler.
+    </>,
+    <>
+      Os rótulos dos botões devem descrever a ação que será executada, como "Excluir" e "Cancelar". Evite termos genéricos como "Ok" ou "Sim", que não comunicam a consequência da escolha.
+    </>,
+    <>
+      Mantenha o título curto e direto. O corpo do Dialog pode ter mais detalhes, mas deve ser conciso o suficiente para que o usuário tome a decisão sem precisar ler um texto longo.
+    </>,
+    <>
+      Quando houver duas ações, a ação primária deve ser a confirmação e a secundária o cancelamento. A hierarquia visual já diferencia as duas, não inverta a ordem.
+    </>,
+    <>
+      Não empilhe Dialogs. Se uma ação dentro de um Dialog precisar de confirmação adicional, reavalie o fluxo para consolidar as decisões em uma única etapa.
+    </>,
+  ]}
+/>
+
+<div style={{ marginTop: '48px' }} />
+
+## Variações
+
+### Ação única
+
+Usado para notificações ou confirmações simples onde o usuário apenas precisa reconhecer a mensagem.
+
+<Canvas of={DialogStories.Default} />
+
+### Duas ações
+
+Usado quando o usuário precisa escolher entre confirmar ou cancelar uma ação.
+
+<Canvas of={DialogStories.DuasAcoes} />
+
+### Conteúdo longo
+
+O corpo do Dialog suporta textos mais extensos quando a ação exige contexto adicional para o usuário decidir.
+
+<Canvas of={DialogStories.ConteudoLongo} />
+
+<Footer />

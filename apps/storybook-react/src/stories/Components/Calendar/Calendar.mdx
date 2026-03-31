@@ -1,0 +1,84 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as CalendarStories from './Calendar.stories';
+import { UsageGuidelines } from '../../../internal-components/mdx/UsageGuidelines/UsageGuidelines';
+import { Footer } from '../../../internal-components/mdx/Footer/Footer';
+
+<Meta of={CalendarStories} />
+
+# Calendar
+
+O Calendar é um componente de seleção de datas. Suporta internacionalização, restrição de intervalo, múltiplos meses, dropdown de navegação e dias desabilitados por regras customizadas.
+
+<Canvas of={CalendarStories.Default} />
+
+## Importação
+
+```js
+import { Calendar } from '@giro-ds/react';
+```
+
+<div style={{ marginTop: '48px' }} />
+
+## Propriedades
+
+<Controls />
+
+<div style={{ marginTop: '48px' }} />
+
+## Uso
+
+<UsageGuidelines
+  guidelines={[
+    <>
+      O Calendar pode funcionar de forma <strong>controlada</strong> ou autônoma. Em formulários, controle a data selecionada externamente para integrar com validação e garantir que o valor seja enviado corretamente.
+    </>,
+    <>
+      Para limitar o intervalo de datas disponíveis, defina uma data mínima e uma data máxima. Datas fora do intervalo são desabilitadas automaticamente, sem necessidade de lógica adicional.
+    </>,
+    <>
+      Quando o intervalo de anos for amplo, como em campos de data de nascimento, use o modo de navegação por dropdown. Para seleções próximas ao mês atual, a navegação com setas é mais intuitiva.
+    </>,
+    <>
+      Exibir dois meses lado a lado exige mais espaço horizontal e pode causar overflow em telas estreitas. Reserve essa configuração para contextos que realmente exijam comparação visual entre meses.
+    </>,
+    <>
+      Para desabilitar dias específicos além do intervalo de datas, use a opção de desabilitação customizada. Ela aceita listas de datas, dias da semana, intervalos de período ou uma função de verificação.
+    </>,
+  ]}
+/>
+
+<div style={{ marginTop: '48px' }} />
+
+## Variações
+
+### Com data pré-selecionada
+
+Use o Calendar com uma data já marcada ao exibir um formulário de edição com valor existente.
+
+<Canvas of={CalendarStories.ComDataSelecionada} />
+
+### Dropdown de navegação
+
+O modo dropdown substitui as setas por seletores de mês e ano, facilitando a navegação em intervalos amplos de datas.
+
+<Canvas of={CalendarStories.ComDropdownNavegacao} />
+
+### Restrição de datas
+
+Com uma data mínima e máxima definidas, os dias fora do intervalo ficam desabilitados visualmente e não podem ser selecionados.
+
+<Canvas of={CalendarStories.ComRestricaoDeDatas} />
+
+### Múltiplos meses
+
+A exibição com dois meses lado a lado facilita a comparação de disponibilidade e a seleção de períodos.
+
+<Canvas of={CalendarStories.MultiplosMeses} />
+
+### Locale em inglês
+
+Ao alterar o idioma para inglês, os rótulos de dias da semana, meses e botões de navegação são exibidos no idioma correspondente.
+
+<Canvas of={CalendarStories.EmIngles} />
+
+<Footer />

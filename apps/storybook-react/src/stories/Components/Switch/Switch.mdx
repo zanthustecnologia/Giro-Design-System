@@ -1,0 +1,144 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as SwitchStories from './Switch.stories';
+import { Switch, Radio } from '@giro-ds/react';
+import { UsageGuidelines } from '../../../internal-components/mdx/UsageGuidelines/UsageGuidelines';
+import { ComponentRules } from '../../../internal-components/mdx/Rules/Rules';
+import { Footer } from '../../../internal-components/mdx/Footer/Footer';
+
+<Meta of={SwitchStories} name="Docs" />
+
+# Switch
+
+O Switch é um controle de alternância que representa dois estados: ativado ou desativado. É a versão visual de uma escolha binária imediata: ao ser acionado, o efeito acontece na hora, sem necessidade de confirmação.
+
+<Canvas of={SwitchStories.Default} />
+
+## Importação
+
+```js
+import { Switch } from '@giro-ds/react';
+```
+
+<div style={{ marginTop: '48px' }} />
+
+## Propriedades
+
+<Controls />
+
+<div style={{ marginTop: '48px' }} />
+
+## Uso
+
+<UsageGuidelines
+  guidelines={[
+    <>
+      Use o Switch para ativar ou desativar uma configuração com efeito imediato. Se a ação precisar de confirmação antes de ser aplicada, use um <a href="?path=/docs/components-checkbox--docs">Checkbox</a> com um botão de salvar.
+    </>,
+    <>
+      Sempre associe um rótulo ao Switch. Controles sem texto de identificação são inacessíveis e deixam o usuário sem contexto sobre o que está sendo ativado.
+    </>,
+    <>
+      Use o Switch para configurações do tipo "ligar/desligar", como notificações, modo escuro ou permissões. Evite usá-lo para confirmar termos ou concordar com políticas. Nesse caso, prefira o <a href="?path=/docs/components-checkbox--docs">Checkbox</a>.
+    </>,
+    <>
+      Prefira rótulos no infinitivo ou no estilo nominal, como "Receber notificações" ou "Modo escuro". Evite rótulos que mudam conforme o estado, como "Ativado" / "Desativado".
+    </>,
+    <>
+      Use o estado desabilitado quando a configuração não está disponível no momento. Sempre que possível, explique ao usuário o motivo da indisponibilidade.
+    </>,
+  ]}
+/>
+
+<div style={{ marginTop: '48px' }} />
+
+## Variações
+
+### Ativado
+
+<Canvas of={SwitchStories.Checked} />
+
+### Desabilitado
+
+Exibe os dois estados possíveis do Switch quando ele está bloqueado para interação.
+
+<Canvas of={SwitchStories.Disabled} />
+
+### Modo controlado
+
+Quando o Switch precisa refletir e atualizar um estado externo, conecte-o a uma variável de controle.
+
+<Canvas of={SwitchStories.Controlado} />
+
+<div style={{ marginTop: '48px' }} />
+
+## O que fazer e não fazer
+
+<ComponentRules
+  rules={[
+    {
+      positive: {
+        component: (
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <Switch defaultChecked />
+            <span style={{ fontSize: '16px', color: 'var(--color-neutral-low-default)' }}>Receber notificações por e-mail</span>
+          </div>
+        ),
+        description: "Use o Switch com um rótulo claro que descreva o que será ativado. O usuário sabe exatamente o que a ação vai fazer."
+      },
+      negative: {
+        component: (
+          <Switch defaultChecked />
+        ),
+        description: "Evite usar o Switch sem rótulo. Sem contexto, o usuário não sabe o que está ativando ou desativando."
+      }
+    },
+    {
+      positive: {
+        component: (
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <Switch />
+            <span style={{ fontSize: '16px', color: 'var(--color-neutral-low-default)' }}>Modo escuro</span>
+          </div>
+        ),
+        description: "Use o Switch para configurações com efeito imediato, como preferências de interface ou permissões."
+      },
+      negative: {
+        component: (
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <Switch />
+            <span style={{ fontSize: '16px', color: 'var(--color-neutral-low-default)' }}>Concordo com os termos de uso</span>
+          </div>
+        ),
+        description: "Não use o Switch para confirmações ou aceite de termos. Nesses casos, o Checkbox é o controle adequado, pois representa uma escolha que será confirmada."
+      }
+    },
+    {
+      negative: {
+        component: (
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span style={{ fontSize: '16px', color: 'var(--color-neutral-low-default)' }}>Mensal</span>
+            <Switch />
+            <span style={{ fontSize: '16px', color: 'var(--color-neutral-low-default)' }}>Anual</span>
+          </div>
+        ),
+        description: "Não use o Switch para alternar entre duas opções nomeadas. Nesse padrão, o usuário não sabe qual estado está ativo e o componente perde seu significado de ligar/desligar."
+      },
+      positive: {
+        component: (
+          <Radio
+            defaultValue="mensal"
+            orientation="horizontal"
+            ariaLabel="Período de cobrança"
+            items={[
+              { value: 'mensal', label: 'Mensal' },
+              { value: 'anual', label: 'Anual' },
+            ]}
+          />
+        ),
+        description: "Para alternar entre duas opções nomeadas, use Radio buttons. Cada opção fica visível e o estado ativo é claro para o usuário."
+      }
+    },
+  ]}
+/>
+
+<Footer />

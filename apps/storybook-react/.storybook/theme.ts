@@ -1,5 +1,5 @@
 import { create } from 'storybook/theming';
-import GiroLogo from '../src/assets/giro-logo.svg';
+import GiroLogo from '../src/stories/General/Welcome/assets/giro-logo.svg';
 
 const config = {
   colors: {
@@ -17,8 +17,8 @@ export const ZanthusTheme = create({
   base: 'light',
 
   // Marca
-  brandTitle: 'Zanthus Design System',
-  brandUrl: 'https://www.zanthus.com.br',
+  brandTitle: 'Giro System',
+  brandUrl: 'https://giro.framer.website/',
   brandImage: GiroLogo,
   brandTarget: '_blank',
 

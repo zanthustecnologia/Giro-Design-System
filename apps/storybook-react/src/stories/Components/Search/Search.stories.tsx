@@ -2,87 +2,104 @@ import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Search } from '@giro-ds/react';
 
-type Story = StoryObj<typeof Search>;
-
 const meta: Meta<typeof Search> = {
   title: 'Components/Search',
   component: Search,
   parameters: {
-    controls: {
-      sort: 'alpha',
-    },
+    controls: { sort: 'alpha' },
   },
   argTypes: {
-    placeholder: {
-      control: { type: 'text' },
-      defaultValue: 'Dica do que deve ser buscado',
-    },
-    disabled: {
-      control: { type: 'boolean' },
-      defaultValue: false,
-    },
-    value: {
-      control: { type: 'text' },
-      defaultValue: '',
-    },
-    id: {
-      control: { type: 'text' },
-      defaultValue: '',
-    },
-    onChange: { action: 'changed' },
-    onKeyDown: { action: 'keyDown' },
+    placeholder: { control: { type: 'text' } },
+    disabled: { control: { type: 'boolean' } },
+    value: { control: false },
+    onChange: { control: false },
+    onKeyDown: { control: false },
+    onFocus: { control: false },
+    onBlur: { control: false },
+    onClear: { control: false },
+    onClick: { control: false },
+    onMouseDown: { control: false },
   },
 };
 
 export default meta;
 
-const Template = (args: any) => {
-  const [value, setValue] = useState<string>(args.value);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
-    args.onChange(e);
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      console.log('Search for:', e);
-    }
-    args.onKeyDown(e);
-  };
-
-  return <Search {...args} value={value} onChange={handleChange} onKeyDown={handleKeyDown} />;
-};
+type Story = StoryObj<typeof Search>;
 
 export const Default: Story = {
-  render: Template,
+  render: (args) => <Search {...args} />,
   args: {
-    placeholder: 'Dica do que deve ser buscado',
-    disabled: false,
-    value: '',
-    id: 'sample-element-id',
+    placeholder: 'Buscar produto',
   },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-const [value, setValue] = useState('');
-const handleChange = (e) => setValue(e.target.value);
-const handleKeyDown = (e) => {
-  if (e.key === 'Enter') {
-    console.log('Search for:', e.target.value);
-  }
 };
 
-<Search
-  placeholder="Dica do que deve ser buscado"
-  value={value}
-  onChange={handleChange}
-  onKeyDown={handleKeyDown}
-  disabled={false}
-/>
-        `.trim(),
-      },
-    },
+const produtosList = [
+  'Notebook Gamer',
+  'Mouse sem fio',
+  'Teclado mecânico',
+  'Monitor 4K',
+  'Headset bluetooth',
+  'Webcam Full HD',
+];
+
+export const Controlado: Story = {
+  render: () => {
+    const [query, setQuery] = useState('');
+    const filtered = produtosList.filter((item) =>
+      item.toLowerCase().includes(query.toLowerCase())
+    );
+
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', width: '300px' }}>
+        <Search
+          placeholder="Filtrar produtos"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          onClear={() => setQuery('')}
+        />
+        <ul style={{ margin: 0, padding: '0 0 0 16px', fontSize: '13px', color: 'var(--color-neutral-low-dark)' }}>
+          {filtered.length > 0 ? (
+            filtered.map((item) => <li key={item}>{item}</li>)
+          ) : (
+            <li style={{ listStyle: 'none', color: 'var(--color-neutral-low-medium)' }}>
+              Nenhum resultado encontrado
+            </li>
+          )}
+        </ul>
+      </div>
+    );
+  },
+};
+
+export const Desabilitado: Story = {
+  render: () => <Search placeholder="Busca indisponível no momento" disabled />,
+};
+
+export const ComoGatilho: Story = {
+  render: () => {
+    const [aberto, setAberto] = useState(false);
+
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', width: '300px' }}>
+        <Search
+          placeholder="Buscar na plataforma..."
+          onClick={() => setAberto((prev) => !prev)}
+        />
+        {aberto && (
+          <div
+            style={{
+              padding: '16px',
+              background: 'var(--color-neutral-high-light)',
+              borderRadius: '8px',
+              border: '1px solid var(--color-neutral-high-dark)',
+              fontSize: '13px',
+              color: 'var(--color-neutral-low-dark)',
+            }}
+          >
+            Painel de busca aberto — modal ou flyout apareceria aqui.
+          </div>
+        )}
+      </div>
+    );
   },
 };

@@ -3,92 +3,114 @@ import type { Meta, StoryFn } from '@storybook/react';
 import { Dialog, Button } from '@giro-ds/react';
 import type { DialogProps } from '@giro-ds/react';
 
-/**
- * Meta configuração do Storybook para o componente Dialog
- */
 const meta: Meta<typeof Dialog> = {
-  title: 'Pattern/Dialog',
+  title: 'Components/Dialog',
   component: Dialog,
   parameters: {
     layout: 'centered',
-    docs: {
-      description: {
-        component: 'Dialog é um componente de modal/dialog acessível e customizável.',
-      },
-    },
-    },
+  },
   argTypes: {
     title: {
       control: 'text',
-      description: 'Título do Dialog'
+      description: 'Título do Dialog',
     },
     bodyContent: {
       control: 'text',
-      description: 'Conteúdo do Dialog'
+      description: 'Conteúdo do Dialog',
     },
     textPrimaryAction: {
       control: 'text',
-      description: 'Texto do botão de ação primária'
+      description: 'Texto do botão de ação primária',
     },
     textSecondaryAction: {
       control: 'text',
-      description: 'Texto do botão de ação secundária'
+      description: 'Texto do botão de ação secundária',
     },
-    onPrimaryAction: {
-      control: 'text',
-      description: 'Função executada ao clicar na ação primária'
-    },
-    onSecondaryAction: {
-      control: 'text',
-      description: 'Função executada ao clicar na ação secundária'
-    },
+    onPrimaryAction: { table: { disable: true } },
+    onSecondaryAction: { table: { disable: true } },
   },
 };
 
 export default meta;
 
-interface DialogStoryWrapperArgs extends DialogProps {
-  [key: string]: any;
-}
-
-const DialogStoryWrapper: StoryFn<DialogStoryWrapperArgs> = (args) => {
-
+// Story interativa — abre o Dialog ao clicar no botão
+export const Interativo: StoryFn<DialogProps> = (args) => {
   const [isOpen, setIsOpen] = useState(false);
-
-  const handleOpen = () => setIsOpen(true);
-  const handleClose = () => setIsOpen(false);
-  
   return (
     <>
-      <Button onClick={handleOpen}>Abrir Dialog</Button>
+      <Button onClick={() => setIsOpen(true)}>Abrir Dialog</Button>
       <Dialog
         {...args}
         show={isOpen}
-        bodyContent={args.bodyContent || 'Conteúdo do diálogo'}
-        onPrimaryAction={handleClose}
-        onSecondaryAction={handleClose}
+        onPrimaryAction={() => setIsOpen(false)}
+        onSecondaryAction={() => setIsOpen(false)}
       />
     </>
   );
 };
-
-/**
- * Story: Dialog com ação única (apenas botão OK)
- */
-export const Default = DialogStoryWrapper.bind({});
-Default.args = {
-  title: 'Título do dialogo',
-  bodyContent: 'Mensagem do dialogo',
-  textPrimaryAction: 'Ação',
+Interativo.args = {
+  title: 'Título do dialog',
+  bodyContent: 'Mensagem do dialog',
+  textPrimaryAction: 'Confirmar',
+  textSecondaryAction: 'Cancelar',
 };
 
-/**
- * Story: Dialog com duas ações (OK e Cancelar)
- */
-export const TwoActions = DialogStoryWrapper.bind({});
-TwoActions.args = {
-  title: 'Título do dialogo',
-  bodyContent: 'Mensagem do dialogo',
-  textPrimaryAction: 'Ação',
+// Story com ação única — Dialog sempre aberto
+export const Default: StoryFn<DialogProps> = (args) => {
+  const [isOpen, setIsOpen] = useState(false);
+  return (
+    <>
+      <Button onClick={() => setIsOpen(true)}>Abrir Dialog</Button>
+      <Dialog {...args} show={isOpen} onPrimaryAction={() => setIsOpen(false)} />
+    </>
+  );
+};
+Default.args = {
+  title: 'Título do dialog',
+  bodyContent: 'Mensagem do dialog',
+  textPrimaryAction: 'Ok',
+};
+
+// Story com duas ações — Dialog sempre aberto
+export const DuasAcoes: StoryFn<DialogProps> = (args) => {
+  const [isOpen, setIsOpen] = useState(false);
+  return (
+    <>
+      <Button onClick={() => setIsOpen(true)}>Abrir Dialog</Button>
+      <Dialog
+        {...args}
+        show={isOpen}
+        onPrimaryAction={() => setIsOpen(false)}
+        onSecondaryAction={() => setIsOpen(false)}
+      />
+    </>
+  );
+};
+DuasAcoes.args = {
+  title: 'Confirmar ação',
+  bodyContent: 'Tem certeza que deseja continuar? Esta ação não pode ser desfeita.',
+  textPrimaryAction: 'Confirmar',
   textSecondaryAction: 'Cancelar',
+};
+
+// Story com conteúdo longo — Dialog sempre aberto
+export const ConteudoLongo: StoryFn<DialogProps> = (args) => {
+  const [isOpen, setIsOpen] = useState(false);
+  return (
+    <>
+      <Button onClick={() => setIsOpen(true)}>Abrir Dialog</Button>
+      <Dialog
+        {...args}
+        show={isOpen}
+        onPrimaryAction={() => setIsOpen(false)}
+        onSecondaryAction={() => setIsOpen(false)}
+      />
+    </>
+  );
+};
+ConteudoLongo.args = {
+  title: 'Termos de uso',
+  bodyContent: 'Ao continuar, você concorda com os termos de uso e política de privacidade da plataforma. Leia atentamente antes de prosseguir. O uso indevido das informações pode resultar na suspensão da sua conta.',
+  textPrimaryAction: 'Aceitar',
+  textSecondaryAction: 'Recusar',
 };

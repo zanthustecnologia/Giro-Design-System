@@ -1,0 +1,84 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { Footer } from '../../../internal-components/mdx/Footer/Footer';
+
+<Meta title="Contribua" />
+
+# Contribua
+
+Ficamos muito felizes que você tem interesse em contribuir com o Giro Design System. Antes de enviar sua contribuição, por favor leia as diretrizes abaixo.
+
+## Reporte de problemas
+
+Para **novas funcionalidades**, sugestões ou dúvidas gerais, crie uma discussão antes de abrir um pull request.
+
+Se você encontrou um **bug**, abra uma issue no repositório:
+
+- <a href="https://github.com/zanthustecnologia/design-system-monorepo/issues/new?template=bug_report.yml" target="_blank" rel="noopener noreferrer">Criar issue no GitHub</a>
+- <a href="https://docs.google.com/forms/d/e/1FAIpQLSecghffIsNo6ux2Op5lgTLzJ62ZQyyNpRRg5vYmiH4F5aAjvA/viewform?usp=dialog" target="_blank" rel="noopener noreferrer">Contato e sugestões gerais</a>
+
+## Configuração do ambiente
+
+O Storybook é o ambiente de desenvolvimento do projeto. Use-o para visualizar alterações e testar componentes de forma isolada. Para iniciar localmente, execute no diretório raiz:
+
+```bash
+pnpm install
+pnpm dev:storybook
+```
+
+## Testes
+
+O projeto possui camadas de teste: unitários, de componente, acessibilidade e integração. Toda nova funcionalidade ou correção deve ser coberta por testes.
+
+Execute os testes antes de enviar seu PR:
+
+```bash
+pnpm test
+```
+
+Se testes de snapshot falharem e as mudanças forem intencionais, atualize-os com:
+
+```bash
+pnpm test:update
+```
+
+## Lint e formatação
+
+Usamos **ESLint** e **Prettier** para manter o código consistente. Certifique-se de rodá-los antes de enviar seu PR:
+
+```bash
+pnpm lint
+```
+
+Consulte <a href="https://github.com/zanthustecnologia/Giro-Design-System/blob/main/docs/react/eslint-commands.md" target="_blank" rel="noopener noreferrer">docs/react/eslint-commands.md</a> para mais detalhes.
+
+## Commits
+
+O projeto segue o padrão <a href="https://www.conventionalcommits.org/" target="_blank" rel="noopener noreferrer">Conventional Commits</a> para padronizar mensagens e gerar versões automaticamente via Semantic Versioning.
+
+Exemplos de commits válidos:
+
+```
+feat(button): adiciona prop leftIcon
+fix(drawer): corrige fechamento ao pressionar ESC
+docs(changelog): atualiza entrada da v4.0.0
+```
+
+## Criando um Pull Request
+
+Ao criar um PR, certifique-se de:
+
+- Usar o formato do Conventional Commits no título
+- Descrever as mudanças, motivação e contexto
+- Referenciar issues ou discussões relacionadas
+- Garantir que todos os checks passaram
+
+Após o envio, os mantenedores revisarão e fornecerão feedback. Se tudo estiver em ordem, o PR será mesclado.
+
+Agradecemos sua contribuição! 
+
+---
+
+<Footer
+  title="Canais de contato"
+  description="Tem dúvidas, sugestões ou encontrou um problema?"
+/>

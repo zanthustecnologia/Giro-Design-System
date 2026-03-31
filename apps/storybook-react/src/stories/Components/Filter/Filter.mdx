@@ -1,0 +1,149 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as FilterStories from './Filter.stories';
+import { UsageGuidelines } from '../../../internal-components/mdx/UsageGuidelines/UsageGuidelines';
+import { ComponentRules } from '../../../internal-components/mdx/Rules/Rules';
+import { Filter } from '@giro-ds/react';
+import { Footer } from '../../../internal-components/mdx/Footer/Footer';
+
+<Meta of={FilterStories} />
+
+# Filter
+
+O Filter é um botão que expande um painel de seleção de opções. Permite ao usuário aplicar filtros em listas, tabelas ou qualquer conjunto de dados, com suporte a seleção múltipla, busca e integração com calendário.
+
+<Canvas of={FilterStories.Default} />
+
+## Importação
+
+```js
+import { Filter } from '@giro-ds/react';
+```
+
+<div style={{ marginTop: '48px' }} />
+
+## Propriedades
+
+<Controls />
+
+<div style={{ marginTop: '48px' }} />
+
+## Uso
+
+<UsageGuidelines
+  guidelines={[
+    <>
+      Use o Filter para permitir que o usuário reduza um conjunto de dados por critérios específicos. Prefira labels descritivos que representem o contexto do filtro, como "Status" ou "Categoria", em vez de termos genéricos.
+    </>,
+    <>
+      Quando o conjunto de opções for extenso, ative a busca para facilitar a localização. Reserve a busca para listas com mais de 7 opções.
+    </>,
+    <>
+      Controle os filtros aplicados externamente para sincronizar o estado com a listagem que está sendo filtrada. Isso evita inconsistências entre o que o Filter exibe e o que a lista mostra.
+    </>,
+    <>
+      Use o filtro de calendário quando o critério de filtragem for uma data específica. Para intervalos de datas, avalie o uso de dois filtros independentes ou um componente dedicado.
+    </>,
+    <>
+      Quando vários filtros coexistirem na mesma interface, posicione-os em linha e garanta que cada um tenha um rótulo distinto para evitar ambiguidade.
+    </>,
+  ]}
+/>
+
+<div style={{ marginTop: '48px' }} />
+
+## Variações
+
+### Com busca
+
+Quando a lista de opções for longa, a busca facilita a localização sem rolar pelo painel.
+
+<Canvas of={FilterStories.WithSearch} />
+
+### Posicionamento à direita
+
+O painel de seleção pode ser ancorado à direita do botão para evitar que extrapole os limites do layout.
+
+<Canvas of={FilterStories.RightPosition} />
+
+### Desabilitado
+
+O Filter desabilitado não abre o painel e indica visualmente que a filtragem não está disponível naquele contexto.
+
+<Canvas of={FilterStories.Disabled} />
+
+### Filtro de data
+
+Quando o critério de filtragem for uma data, o painel exibe um calendário para seleção direta.
+
+<Canvas of={FilterStories.CalendarFilter} />
+
+### Múltiplos filtros
+
+Vários filtros podem coexistir na mesma interface para permitir combinações de critérios independentes.
+
+<Canvas of={FilterStories.MultipleFilters} />
+
+<div style={{ marginTop: '48px' }} />
+
+## O que fazer e não fazer
+
+<ComponentRules
+  rules={[
+    {
+      negative: {
+        component: (
+          <Filter
+            items={[
+              { id: 'a', text: 'A' },
+              { id: 'b', text: 'B' },
+              { id: 'c', text: 'C' },
+            ]}
+            buttonText="Filtrar"
+            type="checkbox"
+            variant="outlined"
+          />
+        ),
+        description: 'Evite rótulos genéricos como "Filtrar". O usuário precisa entender o que está sendo filtrado antes de abrir o painel.'
+      },
+      positive: {
+        component: (
+          <Filter
+            items={[
+              { id: 'ativo', text: 'Ativo' },
+              { id: 'inativo', text: 'Inativo' },
+              { id: 'pendente', text: 'Pendente' },
+            ]}
+            buttonText="Status"
+            type="checkbox"
+            variant="outlined"
+          />
+        ),
+        description: 'Use um rótulo que identifique o critério de filtragem, como "Status", "Categoria" ou "Prioridade".'
+      }
+    },
+    {
+      negative: {
+        component: (
+          <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+            <Filter items={[{ id: '1', text: 'Opção 1' }]} buttonText="Filtro 1" type="checkbox" variant="outlined" />
+            <Filter items={[{ id: '2', text: 'Opção 2' }]} buttonText="Filtro 2" type="checkbox" variant="outlined" />
+            <Filter items={[{ id: '3', text: 'Opção 3' }]} buttonText="Filtro 3" type="checkbox" variant="outlined" />
+            <Filter items={[{ id: '4', text: 'Opção 4' }]} buttonText="Filtro 4" type="checkbox" variant="outlined" />
+          </div>
+        ),
+        description: 'Evite acumular muitos filtros em linha. Um excesso de filtros sobrecarrega a interface e dificulta a leitura.'
+      },
+      positive: {
+        component: (
+          <div style={{ display: 'flex', gap: '8px' }}>
+            <Filter items={[{ id: 'ativo', text: 'Ativo' }, { id: 'inativo', text: 'Inativo' }]} buttonText="Status" type="checkbox" variant="outlined" />
+            <Filter items={[{ id: 'alta', text: 'Alta' }, { id: 'baixa', text: 'Baixa' }]} buttonText="Prioridade" type="checkbox" variant="outlined" />
+          </div>
+        ),
+        description: 'Limite o número de filtros visíveis. Agrupe critérios relacionados em um único Filter quando possível.'
+      }
+    }
+  ]}
+/>
+
+<Footer />

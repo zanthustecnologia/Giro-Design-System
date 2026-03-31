@@ -4,26 +4,97 @@ import { Avatar } from '@giro-ds/react';
 import { UsageGuidelines } from '../../../internal-components/mdx/UsageGuidelines/UsageGuidelines';
 import { ComponentRules } from '../../../internal-components/mdx/Rules/Rules';
 import { Footer } from '../../../internal-components/mdx/Footer/Footer';
+import { Person16Regular, Add16Regular } from '@fluentui/react-icons';
 
 <Meta of={AvatarStories} />
 
-# Button
+# Avatar
 
-Botões são utilizados para iniciar ações e servem para usuários tomarem decisões em uma interface com apenas um clique.
+Avatar é um componente que representa um usuário ou entidade na interface. Exibe uma imagem, ícone ou iniciais como identificação visual, com suporte a fallback automático quando a imagem não está disponível.
 
 <Canvas of={AvatarStories.Default} />
 
-## Import
+## Importação
 
 ```js
 import { Avatar } from '@giro-ds/react';
 ```
 
-## Props
+## Propriedades
 
 <Controls />
 
+## Uso
 
+<UsageGuidelines
+  guidelines={[
+    <>
+      Forneça sempre um ícone ou iniciais como alternativa visual, para garantir que o avatar seja exibido corretamente quando a imagem falha ou não é fornecida.
+    </>,
+    <>
+      A ordem de prioridade de exibição é: imagem → ícone → iniciais. Quando a imagem não carrega, o avatar exibe o ícone ou as iniciais automaticamente.
+    </>,
+    <>
+      Use no máximo 2 caracteres para as iniciais, normalmente a primeira letra do nome e do sobrenome.
+    </>,
+    <>
+      Use o tamanho grande (44px) para perfis em destaque, como cabeçalhos e cards de usuário.
+    </>,
+    <>
+      Use o tamanho pequeno (32px) para contextos de leitura densa, como listas, tabelas e menus.
+    </>,
+  ]}
+/>
 
+## Variações
+
+### Com imagem
+
+<Canvas of={AvatarStories.ComImagem} />
+
+### Com iniciais
+
+<Canvas of={AvatarStories.ComIniciais} />
+
+### Tamanhos
+
+<Canvas of={AvatarStories.Sizes} />
+
+## O que fazer e não fazer
+
+<ComponentRules
+  rules={[
+    {
+      negative: {
+        component: <Avatar initialLetters="GRO" size="lg" />,
+        description: "Evite usar mais de 2 caracteres para iniciais. O espaço interno do avatar não comporta textos longos."
+      },
+      positive: {
+        component: <Avatar initialLetters="GR" size="lg" />,
+        description: "Use sempre 1 ou 2 caracteres para as iniciais, representando nome e sobrenome do usuário."
+      }
+    },
+    {
+      negative: {
+        component: <Avatar size="lg" />,
+        description: "Evite usar o avatar sem ícone ou iniciais de apoio. Quando a imagem não carrega, o avatar ficará em branco."
+      },
+      positive: {
+        component: [<Avatar icon={<Person16Regular />} size="lg" />, <Avatar initialLetters="GR" size="lg" />],
+        description: "Sempre forneça um ícone ou iniciais como alternativa para garantir que o avatar seja exibido em caso de falha ou ausência de imagem."
+      }
+    },
+    {
+      negative: {
+        component: [<Avatar icon={<Person16Regular />} size="lg" />, <Avatar icon={<Person16Regular />} size="sm" />, <Avatar icon={<Person16Regular />} size="lg" />],
+        description: "Evite misturar tamanhos de avatar sem um critério claro. Tamanhos alternados aleatoriamente criam inconsistência visual e dificultam a leitura da interface."
+      },
+      positive: {
+        component: [<Avatar icon={<Person16Regular />} size="sm" />, <Avatar icon={<Person16Regular />} size="sm" />, <Avatar icon={<Person16Regular />} size="sm" />],
+        description: "Use tamanhos consistentes dentro de um mesmo contexto, por exemplo, sempre o tamanho pequeno em listas e tabelas, e sempre o tamanho grande em perfis e cabeçalhos."
+      }
+    }
+  ]}
+/>
 
 <Footer />

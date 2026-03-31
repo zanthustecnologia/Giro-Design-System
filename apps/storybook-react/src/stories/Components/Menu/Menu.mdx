@@ -1,0 +1,173 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as MenuStories from './Menu.stories';
+import { Menu, Button } from '@giro-ds/react';
+import { UsageGuidelines } from '../../../internal-components/mdx/UsageGuidelines/UsageGuidelines';
+import { ComponentRules } from '../../../internal-components/mdx/Rules/Rules';
+import { Footer } from '../../../internal-components/mdx/Footer/Footer';
+import {
+  Edit16Regular,
+  Eye16Regular,
+  Copy16Regular,
+  Archive16Regular,
+  Share16Regular,
+  MoreHorizontal16Regular,
+  Flag16Regular,
+} from '@fluentui/react-icons';
+
+<Meta of={MenuStories} />
+
+# Menu
+
+O Menu é um painel flutuante com lista de ações contextuais, vinculado a um gatilho. Ele abre ao clicar no gatilho e fecha ao selecionar um item ou clicar fora. Suporta ícones, subtexto, itens desabilitados, submenus aninhados e busca integrada, tanto local quanto via API.
+
+<Canvas of={MenuStories.Default} />
+
+## Importação
+
+```js
+import { Menu } from '@giro-ds/react';
+```
+
+<div style={{ marginTop: '48px' }} />
+
+## Propriedades
+
+<Controls />
+
+<div style={{ marginTop: '48px' }} />
+
+## Uso
+
+<UsageGuidelines
+  guidelines={[
+    <>
+      Use o Menu para agrupar ações contextuais de um item específico, como editar, arquivar ou excluir. Prefira o Menu ao Popover quando o conteúdo for exclusivamente uma lista de ações.
+    </>,
+    <>
+      Passe qualquer elemento React como gatilho via <code>children</code>. O elemento é renderizado como está e abre o menu ao ser clicado.
+    </>,
+    <>
+      Use <code>subText</code> para adicionar uma descrição secundária a itens que precisam de contexto adicional. Evite subtextos em todos os itens quando a maioria não precisar.
+    </>,
+    <>
+      Use ícones para reforçar visualmente a ação de cada item. Quando usar ícones, aplique em todos os itens para manter consistência visual.
+    </>,
+    <>
+      Desabilite itens que não estão disponíveis no momento em vez de ocultá-los. Itens desabilitados comunicam que a ação existe, mas não pode ser executada naquele contexto.
+    </>,
+    <>
+      Use <code>search</code> para listas longas onde o usuário precisa localizar um item rapidamente. Para listas curtas (até 7 itens), a busca adiciona complexidade desnecessária.
+    </>,
+    <>
+      Submenus são adequados para categorias com agrupamentos claros. Evite mais de dois níveis de aninhamento, pois a navegação se torna difícil em dispositivos com toque.
+    </>,
+  ]}
+/>
+
+<div style={{ marginTop: '48px' }} />
+
+## Variações
+
+### Com subtexto
+
+Use `subText` para adicionar descrições secundárias a itens que precisam de esclarecimento adicional, como o escopo de uma ação ou seu efeito.
+
+<Canvas of={MenuStories.ComSubtexto} />
+
+### Com ícones
+
+Use ícones para tornar a lista mais escaneável visualmente. Quando usar ícones, aplique em todos os itens do menu para manter a consistência.
+
+<Canvas of={MenuStories.ComIcone} />
+
+### Com submenus
+
+Itens com filhos exibem um indicador de seta e expandem um submenu ao passar o cursor. Use para categorias com agrupamentos naturais.
+
+<Canvas of={MenuStories.ComSubmenu} />
+
+### Com busca via API
+
+Quando a lista de itens é extensa e vive no servidor, ative a busca via API. A pesquisa é disparada ao pressionar Enter e os resultados substituem a lista atual.
+
+<Canvas of={MenuStories.BuscaAPI} />
+
+### Com scroll infinito
+
+Para listas muito longas, o scroll infinito carrega novos itens automaticamente conforme o usuário chega ao final da lista.
+
+<Canvas of={MenuStories.ScrollInfinito} />
+
+<div style={{ marginTop: '48px' }} />
+
+## O que fazer e não fazer
+
+<ComponentRules
+  rules={[
+    {
+      positive: {
+        component: (
+          <Menu
+            items={[
+              { id: '1', text: 'Editar', icon: <Edit16Regular />, value: 'editar' },
+              { id: '2', text: 'Visualizar', icon: <Eye16Regular />, value: 'visualizar' },
+              { id: '3', text: 'Duplicar', icon: <Copy16Regular />, value: 'duplicar' },
+              { id: '4', text: 'Arquivar', icon: <Archive16Regular />, value: 'arquivar' },
+              { id: '5', text: 'Excluir', icon: <Flag16Regular />, value: 'excluir', disabled: true },
+            ]}
+          >
+            <Button icon={<MoreHorizontal16Regular />} variant="outlined" iconOnly aria-label="Ações" />
+          </Menu>
+        ),
+        description: "Use ícones em todos os itens quando optar por ícones. A consistência visual facilita a leitura e o reconhecimento rápido das ações."
+      },
+      negative: {
+        component: (
+          <Menu
+            items={[
+              { id: '1', text: 'Editar', icon: <Edit16Regular />, value: 'editar' },
+              { id: '2', text: 'Visualizar', value: 'visualizar' },
+              { id: '3', text: 'Duplicar', icon: <Copy16Regular />, value: 'duplicar' },
+              { id: '4', text: 'Arquivar', value: 'arquivar' },
+              { id: '5', text: 'Excluir', icon: <Flag16Regular />, value: 'excluir' },
+            ]}
+          >
+            <Button icon={<MoreHorizontal16Regular />} variant="outlined" iconOnly aria-label="Ações" />
+          </Menu>
+        ),
+        description: "Evite misturar itens com e sem ícone. A inconsistência visual perturba o alinhamento e dificulta a leitura da lista."
+      }
+    },
+    {
+      positive: {
+        component: (
+          <Menu
+            items={[
+              { id: '1', text: 'Editar', value: 'editar' },
+              { id: '2', text: 'Arquivar', value: 'arquivar' },
+              { id: '3', text: 'Excluir', value: 'excluir', disabled: true },
+            ]}
+          >
+            <Button icon={<MoreHorizontal16Regular />} variant="outlined" iconOnly aria-label="Ações" />
+          </Menu>
+        ),
+        description: "Desabilite itens que não estão disponíveis no contexto atual. O usuário percebe que a ação existe, mas entende que não pode ser executada agora."
+      },
+      negative: {
+        component: (
+          <Menu
+            items={[
+              { id: '1', text: 'Editar', value: 'editar' },
+              { id: '2', text: 'Arquivar', value: 'arquivar' },
+            ]}
+          >
+            <Button icon={<MoreHorizontal16Regular />} variant="outlined" iconOnly aria-label="Ações" />
+          </Menu>
+        ),
+        description: "Evite ocultar ações indisponíveis sem nenhuma indicação. O usuário pode ficar confuso sem saber que a opção existe e está bloqueada."
+      }
+    },
+  ]}
+/>
+
+<Footer />

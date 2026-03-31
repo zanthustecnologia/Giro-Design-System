@@ -313,71 +313,24 @@ export const Children: StoryFn<SelectProps> = (args) => (
   </div>
 );
 
+Children.args = {
+  ...Default.args,
+  label: 'Itens agrupados',
+  placeholder: 'Selecione um item',
+};
+
 export const Position: StoryFn<SelectProps> = (args) => (
-  <div style={{ 
-    height: '100vh', 
-    display: 'flex', 
-    flexDirection: 'column',
-    gap: '20px',
-    padding: '20px',
-    backgroundColor: '#f5f5f5' 
-  }}>
-    <div style={{ 
-      padding: '20px', 
-      backgroundColor: 'white', 
-      borderRadius: '8px',
-      boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
-    }}>
-      <h3 style={{ margin: '0 0 16px 0', color: '#333' }}>Select no topo (abre para baixo)</h3>
-      <div style={{ maxWidth: 300 }}>
-        <Select 
-          {...args}
-          label="Select no topo"
-          placeholder="Clique para testar"
-          onValueChange={(value) => console.log('Top Select:', value)} 
-        />
-      </div>
-    </div>
-
-    <div style={{ flex: 1 }} />
-
-    <div style={{ 
-      padding: '20px', 
-      backgroundColor: 'white', 
-      borderRadius: '8px',
-      boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-      marginBottom: '20px'
-    }}>
-      <h3 style={{ margin: '0 0 16px 0', color: '#333' }}>
-        Select próximo ao footer
-      </h3>
-      <div style={{ maxWidth: 300 }}>
-        <Select 
-          {...args}
-          label="Select no footer"
-          placeholder="Clique para testar"
-          onValueChange={(value) => console.log('Bottom Select:', value)} 
-        />
-      </div>
-      <p style={{ 
-        margin: '16px 0 0 0', 
-        fontSize: '14px', 
-        color: '#666',
-        fontStyle: 'italic' 
-      }}>
-        💡 O Radix UI com avoidCollisions=true detecta automaticamente e abre para cima
-      </p>
-    </div>
-
-    <footer style={{ 
-      padding: '20px', 
-      backgroundColor: '#333', 
-      color: 'white', 
-      textAlign: 'center',
-      borderRadius: '8px' 
-    }}>
-      <p style={{ margin: 0 }}>Footer da página</p>
-    </footer>
+  <div style={{ display: 'flex', flexDirection: 'column', gap: '300px', padding: '20px' }}>
+    <Select
+      {...args}
+      label="Select no topo"
+      placeholder="Clique para testar"
+    />
+    <Select
+      {...args}
+      label="Select próximo ao final"
+      placeholder="Clique para testar"
+    />
   </div>
 );
 
@@ -446,11 +399,7 @@ export const InfiniteScroll: StoryFn<SelectProps> = () => {
         enableInfiniteScroll={hasMore}
         onScrollEnd={handleScrollEnd}
         isLoadingMore={isLoadingMore}
-        onValueChange={(value) => console.log('Selected:', value)}
       />
-      <p style={{ marginTop: '16px', fontSize: '14px', color: '#666' }}>
-        Total de itens: {items.length} | Página: {page} | Tem mais: {hasMore ? 'Sim' : 'Não'}
-      </p>
     </div>
   );
 };
@@ -464,10 +413,8 @@ export const ApiSearch: StoryFn<SelectProps> = () => {
   ]);
   
   const [isSearching, setIsSearching] = React.useState(false);
-  const [lastSearchTerm, setLastSearchTerm] = React.useState('');
 
   const handleApiSearch = React.useCallback((term: string) => {
-    setLastSearchTerm(term);
     setIsSearching(true);
     
     // Simula uma chamada de API
@@ -506,14 +453,7 @@ export const ApiSearch: StoryFn<SelectProps> = () => {
         enableApiSearch={true}
         onApiSearch={handleApiSearch}
         isSearching={isSearching}
-        onValueChange={(value) => console.log('Selected:', value)}
       />
-      <div style={{ marginTop: '16px', fontSize: '14px', color: '#666' }}>
-        <p><strong>Status:</strong> {isSearching ? 'Buscando...' : 'Pronto'}</p>
-        <p><strong>Último termo:</strong> {lastSearchTerm || 'Nenhum'}</p>
-        <p><strong>Total de resultados:</strong> {items.length}</p>
-        <p><strong>Dica:</strong> Digite algo no campo de busca para ver a API em ação!</p>
-      </div>
     </div>
   );
 };

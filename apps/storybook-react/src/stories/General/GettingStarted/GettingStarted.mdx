@@ -42,7 +42,7 @@ yarn add @giro-ds/tokens
 
 ### Utilitários CSS
 
-Para usar os utilitários de layout e espaçamento:
+Para usar utilitários CSS de layout, tipografia, cores, espaçamento e mais:
 
 ```bash
 # npm
@@ -84,10 +84,12 @@ import '@giro-ds/tokens/build/css/tokens.css';
 import '@giro-ds/react/dist/styles.css';
 
 // (Opcional) Utilitários CSS para layout
-import '@giro-ds/utilities/dist/ui.css';
+import '@giro-ds/utilities/dist/css/giro.css';
 ```
 
 ### 2. Configure a fonte Figtree
+
+> **Nota:** ao importar `@giro-ds/tokens/build/css/tokens.css`, a fonte Figtree já é carregada automaticamente via `@import` interno. O trecho abaixo é necessário **apenas se você não estiver usando o arquivo CSS de tokens**.
 
 Adicione a fonte Figtree no `<head>` do seu HTML (em `index.html` ou layout raiz):
 
@@ -107,9 +109,9 @@ import { Button, TextField, Avatar } from '@giro-ds/react';
 function App() {
   return (
     <div>
-      <Button variant="primary">Clique aqui</Button>
+      <Button variant="filled">Clique aqui</Button>
       <TextField label="Nome" placeholder="Digite seu nome" />
-      <Avatar name="João Silva" />
+      <Avatar initialLetters="JS" />
     </div>
   );
 }
@@ -137,12 +139,17 @@ Biblioteca de componentes React prontos para uso:
 
 ### @giro-ds/utilities
 
-Utilitários CSS para layout e espaçamento:
+Utilitários CSS de propósito geral:
 - Grid system responsivo
 - Flexbox helpers
-- Spacing utilities
+- Spacing e Gap utilities
 - Breakpoints padronizados
-- Compilado em `dist/ui.css`
+- Display e Position utilities
+- Color utilities
+- Border utilities
+- Typography utilities
+- Sizing e Opacity utilities
+- Compilado em `dist/css/giro.css`
 
 ## Usando design tokens
 
@@ -178,26 +185,26 @@ Se você preferir SCSS, importe os tokens SCSS:
 Para uso em styled-components, estilos inline ou temas dinâmicos:
 
 ```jsx
-// Importação ESM (recomendado)
-import tokens from '@giro-ds/tokens/build/js/tokens.js';
+// Importação ESM (named exports, nomes em PascalCase)
+import { ColorBrandPrimaryDefault, Spacing16, BorderRadius8, FontFamilyPrimary } from '@giro-ds/tokens/build/js/tokens.js';
 
 // Uso em styled-components
 const MyComponent = styled.div`
-  color: ${tokens.colorBrandPrimaryDefault};
-  padding: ${tokens.spacing16};
-  border-radius: ${tokens.borderRadius8};
+  color: ${ColorBrandPrimaryDefault};
+  padding: ${Spacing16};
+  border-radius: ${BorderRadius8};
 `;
 
 // Uso em estilos inline
 const styles = {
-  color: tokens.colorBrandPrimaryDefault,
-  padding: tokens.spacing16,
+  color: ColorBrandPrimaryDefault,
+  padding: Spacing16,
 };
 ```
 
 ## Tipografia
 
-O Zanthus Design System usa a fonte **Figtree** como tipografia principal. Para garantir que a fonte seja carregada corretamente, adicione ao `<head>` do seu HTML (geralmente em `index.html`):
+O Zanthus Design System usa a fonte **Figtree** como tipografia principal. Ao importar `@giro-ds/tokens/build/css/tokens.css`, a fonte já é carregada automaticamente. Caso não utilize os tokens CSS, adicione manualmente ao `<head>` do seu HTML:
 
 ```html
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -223,7 +230,7 @@ import ReactDOM from 'react-dom/client';
 // 1. Importar estilos do design system
 import '@giro-ds/tokens/build/css/tokens.css';
 import '@giro-ds/react/dist/styles.css';
-import '@giro-ds/utilities/dist/ui.css'; // Opcional
+import '@giro-ds/utilities/dist/css/giro.css'; // Opcional
 
 // 2. Importar componentes
 import { Button, TextField, Avatar, Container } from '@giro-ds/react';
@@ -239,8 +246,8 @@ function App() {
       </h1>
       
       <Avatar 
-        name="Maria Silva" 
-        size="large" 
+        initialLetters="MS" 
+        size="lg" 
       />
       
       <TextField 
@@ -249,7 +256,7 @@ function App() {
         placeholder="seu@email.com"
       />
       
-      <Button variant="primary">
+      <Button variant="filled">
         Entrar
       </Button>
     </Container>
@@ -316,7 +323,7 @@ pnpm --filter @giro-ds/react build
 pnpm --filter @giro-ds/utilities build
 ```
 
-Consulte [docs/instructions-pnpm.md](https://github.com/zanthus/design-system/blob/main/docs/instructions-pnpm.md) para mais comandos.
+Consulte [docs/react/instructions-pnpm.md](https://github.com/zanthus/design-system/blob/main/docs/react/instructions-pnpm.md) para mais comandos.
 
 ## Precisa de ajuda?
 
@@ -324,7 +331,7 @@ Se você encontrar algum problema ou tiver dúvidas:
 
 - Consulte a documentação de cada componente específico
 - Verifique os exemplos de uso em cada página de componente
-- Leia o guia de comandos pnpm em `docs/instructions-pnpm.md`
+- Leia o guia de comandos pnpm em `docs/react/instructions-pnpm.md`
 - Entre em contato com o time de design system
 
 <Footer />
