@@ -7,7 +7,7 @@ import CheckboxSelectItem from './components/CheckboxSelectItem';
 import ExpandableSelectItem from './components/ExpandableSelectItem';
 import SelectItem from './components/SelectItem';
 import { useSelectLogic } from './hooks/useSelectLogic';
-import styles from './index.module.scss';
+import styles from './Select.module.scss';
 import { SelectProps } from './Select.types';
 import LabelComponent from '../../shared/Label';
 import Search from '../Search/Search';

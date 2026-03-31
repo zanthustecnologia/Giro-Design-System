@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import React, { useRef } from 'react';
 
 import Checkbox from '../../Checkbox';
-import styles from '../index.module.scss';
+import styles from '../Select.module.scss';
 import { CheckboxItemProps } from '../Select.types';
 
 const CheckboxSelectItem: React.FC<CheckboxItemProps> = ({

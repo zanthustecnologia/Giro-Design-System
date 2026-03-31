@@ -2,7 +2,7 @@ import { ChevronRight16Regular, ChevronDown16Regular } from '@fluentui/react-ico
 import clsx from 'clsx';
 import React, { useState } from 'react';
 
-import styles from '../index.module.scss';
+import styles from '../Select.module.scss';
 
 import type { SelectItemProps, SelectVariant } from '../Select.types';
 

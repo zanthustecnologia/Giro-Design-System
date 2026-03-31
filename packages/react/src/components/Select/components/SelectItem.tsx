@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import { Select } from 'radix-ui';
 import React from 'react';
 
-import styles from '../index.module.scss';
+import styles from '../Select.module.scss';
 import { SelectItemProps, SelectVariant } from '../Select.types';
 
 interface SelectItemComponentProps extends SelectItemProps {
