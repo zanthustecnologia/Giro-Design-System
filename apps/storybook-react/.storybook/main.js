@@ -9,16 +9,14 @@ const config = {
   stories: [
     '../src/stories/**/*.mdx',
     '../src/stories/**/*.stories.@(js|jsx|ts|tsx)',
-    '../../../packages/utilities/storybook/**/*.stories.@(js|jsx|ts|tsx|mdx)',
   ],
 
   // Addons recomendados
    addons: [
-    "@chromatic-com/storybook",
     "@storybook/addon-docs",
     "@storybook/addon-onboarding",
     "@storybook/addon-a11y",
-    "@storybook/addon-vitest"
+    "storybook-addon-playground",
   ]
 ,
 
@@ -65,6 +63,59 @@ const config = {
     // 4) Em workspaces, manter symlinks resolvidos corretamente
     //    (ajuda o Vite a não duplicar módulos linkados)
     viteConfig.resolve.preserveSymlinks = false;
+
+    // 5) Permite que o Vite acesse arquivos fora da raiz do app (ex: changelogs dos packages)
+    viteConfig.server = viteConfig.server || {};
+    viteConfig.server.fs = viteConfig.server.fs || {};
+    viteConfig.server.fs.allow = [
+      ...(viteConfig.server.fs.allow || []),
+      path.resolve(__dirname, '..'),          // raiz do app (src/, public/, etc.)
+      path.resolve(__dirname, '../../../packages'),
+    ];
+
+    // 6) Virtual module que expõe o conteúdo dos CHANGELOGs em build/dev time
+    const fs = await import('node:fs');
+    const { execSync } = await import('node:child_process');
+
+    const readChangelog = (pkg) =>
+      fs.readFileSync(path.resolve(__dirname, `../../../packages/${pkg}/CHANGELOG.md`), 'utf-8');
+
+    // Lê datas dos git tags (ex: "@giro-ds/react@4.0.0" -> "2026-03-17")
+    const getTagDates = () => {
+      try {
+        const out = execSync(
+          `git tag --format="%(refname:short)|%(creatordate:short)"`,
+          { cwd: path.resolve(__dirname, '../../..'), encoding: 'utf-8' }
+        );
+        const dates = {};
+        for (const line of out.split('\n')) {
+          const [tag, date] = line.split('|');
+          if (tag && date) dates[tag.trim()] = date.trim();
+        }
+        return dates;
+      } catch {
+        return {};
+      }
+    };
+
+    const changelogPlugin = {
+      name: 'virtual-changelogs',
+      resolveId(id) {
+        if (id === 'virtual:changelogs') return '\0virtual:changelogs';
+      },
+      load(id) {
+        if (id === '\0virtual:changelogs') {
+          return [
+            `export const reactChangelog = ${JSON.stringify(readChangelog('react'))};`,
+            `export const tokensChangelog = ${JSON.stringify(readChangelog('tokens'))};`,
+            `export const utilitiesChangelog = ${JSON.stringify(readChangelog('utilities'))};`,
+            `export const tagDates = ${JSON.stringify(getTagDates())};`,
+          ].join('\n');
+        }
+      },
+    };
+
+    viteConfig.plugins = [...(viteConfig.plugins || []), changelogPlugin];
 
     return viteConfig;
   }

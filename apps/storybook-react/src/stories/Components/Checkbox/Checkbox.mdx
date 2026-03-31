@@ -1,0 +1,131 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as CheckboxStories from './Checkbox.stories';
+import { Checkbox } from '@giro-ds/react';
+import { UsageGuidelines } from '../../../internal-components/mdx/UsageGuidelines/UsageGuidelines';
+import { ComponentRules } from '../../../internal-components/mdx/Rules/Rules';
+import { Footer } from '../../../internal-components/mdx/Footer/Footer';
+
+<Meta of={CheckboxStories} />
+
+# Checkbox
+
+Checkbox é um controle de formulário que permite ao usuário selecionar ou desmarcar uma opção de forma independente. Use-o quando o usuário precisar confirmar uma escolha binária ou selecionar múltiplos itens de uma lista.
+
+<Canvas of={CheckboxStories.Default} />
+
+## Importação
+
+```js
+import { Checkbox } from '@giro-ds/react';
+```
+
+## Propriedades
+
+<Controls />
+
+## Uso
+
+<UsageGuidelines
+  guidelines={[
+    <>
+      Use Checkbox para escolhas que o usuário pode ativar ou desativar de forma independente, sem afetar as demais opções.
+    </>,
+    <>
+      Sempre associe um <code>label</code> ao checkbox. Controles sem rótulo são inacessíveis e dificultam a compreensão da opção.
+    </>,
+    <>
+      Use o estado <code>indeterminate</code> apenas para representar que alguns, mas não todos os itens de um grupo estão selecionados. Nunca como estado padrão.
+    </>,
+    <>
+      Prefira checkboxes quando o usuário pode selecionar múltiplos itens de uma lista. Para escolhas exclusivas, use <a href="?path=/docs/components-radio--docs">Radio</a>.
+    </>,
+    <>
+      Evite aninhar grupos de checkboxes com mais de dois níveis de hierarquia. A profundidade excessiva dificulta a leitura e a interação.
+    </>,
+  ]}
+/>
+
+## Variações
+
+### Desmarcado
+
+<Canvas of={CheckboxStories.Unchecked} />
+
+### Marcado
+
+<Canvas of={CheckboxStories.Checked} />
+
+### Indeterminado
+
+<Canvas of={CheckboxStories.Indeterminate} />
+
+### Desabilitado
+
+<Canvas of={CheckboxStories.Disabled} />
+
+### Selecionar todos
+
+<Canvas of={CheckboxStories.SelectAll} />
+
+## O que fazer e não fazer
+
+<ComponentRules
+  rules={[
+    {
+      negative: {
+        component: <Checkbox label="Ok" />,
+        description: "Evite rótulos vagos ou abreviados que não descrevem claramente o que será ativado ao marcar o checkbox."
+      },
+      positive: {
+        component: <Checkbox label="Concordo com os termos de uso" />,
+        description: "Use rótulos claros e descritivos que indiquem exatamente o que o checkbox representa."
+      }
+    },
+    {
+      negative: {
+        component: (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <Checkbox label="Passo 1 concluído" defaultChecked={true} />
+            <Checkbox label="Passo 2 em andamento" indeterminate={true} />
+            <Checkbox label="Passo 3 pendente" />
+          </div>
+        ),
+        description: "Não use o estado indeterminate como marcador de progresso ou estado padrão. Ele representa exclusivamente uma seleção parcial em grupos."
+      },
+      positive: {
+        component: (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <Checkbox label="Selecionar todos" defaultChecked={true} indeterminate={true} />
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', paddingLeft: '24px' }}>
+              <Checkbox label="Opção A" defaultChecked={true} />
+              <Checkbox label="Opção B" />
+            </div>
+          </div>
+        ),
+        description: "Use indeterminate apenas no checkbox pai de um grupo quando parte dos filhos está selecionada."
+      }
+    },
+    {
+      negative: {
+        component: (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <Checkbox label="Plano mensal" defaultChecked={true} />
+            <Checkbox label="Plano anual" />
+          </div>
+        ),
+        description: "Evite usar checkboxes para escolhas mutuamente exclusivas, onde selecionar uma deveria desmarcar a outra."
+      },
+      positive: {
+        component: (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <Checkbox label="Receber notificações por e-mail" defaultChecked={true} />
+            <Checkbox label="Receber notificações por SMS" defaultChecked={true} />
+          </div>
+        ),
+        description: "Use checkboxes quando as opções são independentes e podem coexistir. Para escolhas exclusivas, prefira o Radio."
+      }
+    }
+  ]}
+/>
+
+<Footer />

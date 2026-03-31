@@ -1,16 +1,55 @@
-/* Remove apenas o PRIMEIRO ícone SVG de cada item da sidebar
-   (normalmente o ícone do tipo de story/componente/docs) */
-.sidebar-item svg:first-of-type {
+/* Hide only the component/story/docs type icon (14×14 viewBox, rendered at 12×12)
+   The chevron (8×8) is NOT affected */
+.sidebar-item svg[width="12"][height="12"] {
   display: none !important;
 }
 
-
-/* Opcional: se existir um wrapper de ícone, colapsa o espaço dele */
-.sidebar-item-icon,
-.sidebar-item .icon {
+/* Collapse the flex wrapper that holds the icon so it doesn't leave dead space */
+.sidebar-item svg[width="12"][height="12"] + * ,
+.sidebar-item svg[width="12"][height="12"] {
+  flex: 0 0 0 !important;
   width: 0 !important;
+  overflow: hidden !important;
   margin: 0 !important;
   padding: 0 !important;
+}
+
+/* Fonte dos itens da sidebar */
+.sidebar-item a,
+.sidebar-item button {
+  font-size: 16px !important;
+  font-weight: 500 !important;
+  color: #505255 !important;
+  align-items: center !important;
+}
+
+/* Remove o margin-top do wrapper do chevron para centralizar corretamente */
+.sidebar-item button > div {
+  margin-top: 0 !important;
+}
+
+/* Hover do item */
+.sidebar-item:hover,
+.sidebar-item.sidebar-item:hover {
+  background: #DBF1FF !important;
+}
+
+/* Cor de fundo do item ativo */
+.sidebar-item[data-selected="true"],
+.sidebar-item.sidebar-item[data-selected="true"] {
+  background: #DBF1FF !important;
+}
+
+/* Texto do item ativo */
+.sidebar-item[data-selected="true"] a,
+.sidebar-item.sidebar-item[data-selected="true"] a {
+  color: #1BA5FD !important;
+}
+
+/* SVG do chevron no item ativo mantém a cor padrão */
+.sidebar-item[data-selected="true"] svg,
+.sidebar-item.sidebar-item[data-selected="true"] svg {
+  color: #505255 !important;
 }
 
 /* Tamanho do logo */

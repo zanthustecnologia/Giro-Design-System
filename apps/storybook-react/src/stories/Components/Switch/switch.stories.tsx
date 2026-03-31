@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Switch } from '@giro-ds/react';
 import { SwitchProps } from '@giro-ds/react';
@@ -45,4 +45,34 @@ export const Default: Story = {
   render: (args) => (
     <Switch {...args} />
   ),
+};
+
+export const Checked: Story = {
+  render: (args) => <Switch {...args} />,
+  args: {
+    defaultChecked: true,
+  },
+};
+
+export const Disabled: Story = {
+  render: () => (
+    <div style={{ display: 'flex', gap: '24px', alignItems: 'center' }}>
+      <Switch disabled />
+      <Switch disabled defaultChecked />
+    </div>
+  ),
+};
+
+export const Controlado: Story = {
+  render: () => {
+    const [checked, setChecked] = useState(false);
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'center' }}>
+        <Switch checked={checked} onCheckedChange={setChecked} />
+        <span style={{ fontSize: '13px', color: 'var(--color-neutral-low-medium)' }}>
+          {checked ? 'Ativado' : 'Desativado'}
+        </span>
+      </div>
+    );
+  },
 };

@@ -1,55 +1,93 @@
-name: 🔧 Bug Report
-description: Reporte um comportamento inesperado ou erro
-labels: \[bug]
+name: '🐛 Bug Report'
+description: 'Reporte um comportamento inesperado ou erro'
+title: '[Bug]: '
+labels: ['bug']
 body:
+  - type: markdown
+    attributes:
+      value: |
+        **Antes de começar...**
+        Obrigado por dedicar seu tempo para reportar um bug! Preencha o máximo de detalhes possível para nos ajudar a entender e reproduzir o problema.
 
-* type: markdown
-  attributes:
-  value: |
-  Obrigado por reportar um bug no Zanthus Design System! Preencha as informações abaixo para nos ajudar a reproduzir e resolver o problema.
+  - type: input
+    id: version
+    attributes:
+      label: 'Versão do pacote Giro DS'
+      description: 'Ex: 3.2.0'
+      placeholder: '3.2.0'
+    validations:
+      required: true
 
-* type: textarea
-  id: descricao
-  attributes:
-  label: Descrição
-  description: O que está acontecendo? Inclua contexto, prints ou logs se possível.
-  placeholder: "Ao utilizar o componente X no tema dark, o texto some..."
-  validations:
-  required: true
+  - type: input
+    id: component
+    attributes:
+      label: 'Componente com problema'
+      description: 'Ex: Avatar, Button, Switch...'
+      placeholder: 'Button'
+    validations:
+      required: true
 
-* type: textarea
-  id: reproduzir
-  attributes:
-  label: Passos para reproduzir
-  description: Como podemos simular o erro?
-  placeholder: "1. Ir para...
+  - type: dropdown
+    id: platform
+    attributes:
+      label: 'Plataforma'
+      multiple: true
+      options:
+        - React
+        - Flutter
+        - Compose
+    validations:
+      required: true
 
-2. Clicar em...
-3. Observar que..."
-   validations:
-   required: true
+  - type: textarea
+    id: bug_description
+    attributes:
+      label: '🐞 Descrição do bug'
+      description: 'Uma descrição clara e objetiva do que está acontecendo.'
+    validations:
+      required: true
 
-* type: dropdown
-  id: ambiente
-  attributes:
-  label: Ambiente afetado
-  options:
-  \- Storybook
-  \- Playground
-  \- Produção
-  \- Localhost
-  \- Outro
-  multiple: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: '🎯 Comportamento esperado'
+      description: 'Uma descrição clara do que você esperava que acontecesse.'
+    validations:
+      required: true
 
-* type: input
-  id: versao
-  attributes:
-  label: Versão do Design System (se aplicável)
-  placeholder: "ex: 0.1.0"
+  - type: textarea
+    id: steps
+    attributes:
+      label: '🔄 Passos para reproduzir'
+      description: 'Liste o passo a passo para reproduzir.'
+      placeholder: |
+        1. Ir para '...'
+        2. Clicar em '...'
+        3. Observar que '...'
+    validations:
+      required: true
 
-* type: textarea
-  id: contexto-adicional
-  attributes:
-  label: Contexto adicional
-  description: Algo mais que devamos saber? Dependências, configurações personalizadas, etc.
-  placeholder: "Estou usando o pacote tokens isolado via CDN..."
+  - type: input
+    id: repro_link
+    attributes:
+      label: '🔗 Link de reprodução (opcional)'
+      description: 'StackBlitz, CodeSandbox, repo, etc.'
+      placeholder: 'https://...'
+    validations:
+      required: false
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: '💻 Informações do ambiente'
+      description: 'Sistema Operacional, Navegador, versão do React... (se aplicável, cole o resultado do `npx envinfo`).'
+    validations:
+      required: false
+
+  - type: textarea
+    id: extra
+    attributes:
+      label: '🖼️ Contexto adicional e prints'
+      description: 'Adicione imagens, prints ou vídeos para ilustrar o problema.'
+    validations:
+      required: false

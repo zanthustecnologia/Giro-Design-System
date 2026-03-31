@@ -31,6 +31,41 @@ export const Default: Story = {
 
   }   
 }
+export const Unchecked: Story = {
+  args: {
+    label: 'Opção desmarcada',
+    disabled: false,
+    indeterminate: false,
+  },
+};
+
+export const Checked: Story = {
+  args: {
+    label: 'Opção marcada',
+    defaultChecked: true,
+    disabled: false,
+    indeterminate: false,
+  },
+};
+
+export const Indeterminate: Story = {
+  args: {
+    label: 'Seleção parcial',
+    defaultChecked: true,
+    indeterminate: true,
+    disabled: false,
+  },
+};
+
+export const Disabled: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+      <Checkbox label="Desmarcado e desabilitado" disabled />
+      <Checkbox label="Marcado e desabilitado" defaultChecked disabled />
+    </div>
+  ),
+};
+
 export const SelectAll: Story = {
   render: (args) => {
 

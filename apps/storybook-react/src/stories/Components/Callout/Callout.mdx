@@ -1,0 +1,100 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as CalloutStories from './Callout.stories';
+import { Callout } from '@giro-ds/react';
+import { UsageGuidelines } from '../../../internal-components/mdx/UsageGuidelines/UsageGuidelines';
+import { ComponentRules } from '../../../internal-components/mdx/Rules/Rules';
+import { Footer } from '../../../internal-components/mdx/Footer/Footer';
+import { CheckmarkCircle24Regular, Warning24Regular, Info24Regular } from '@fluentui/react-icons';
+
+<Meta of={CalloutStories} />
+
+# Callout
+
+Callout é um bloco de conteúdo em destaque, projetado para ser visualmente mais proeminente do que o texto ao redor. Use-o para destacar informações relevantes, dicas, avisos, requisitos ou notas, sem interromper o fluxo da página.
+
+<Canvas of={CalloutStories.Default} />
+
+## Importação
+
+```js
+import { Callout } from '@giro-ds/react';
+```
+
+## Propriedades
+
+<Controls />
+
+## Uso
+
+<UsageGuidelines
+  guidelines={[
+    <>
+      Use o Callout para destacar informações que precisam se sobressair em relação ao conteúdo ao redor, dicas, avisos, requisitos ou notas contextuais.
+    </>,
+    <>
+      Escolha o tipo de acordo com a natureza do conteúdo: <code>success</code> para resultados positivos, <code>alert</code> para avisos e situações críticas, <code>neutral</code> ou <code>brand</code> para notas informativas.
+    </>,
+    <>
+      Use título para dar ao bloco um rótulo claro quando o contexto exigir uma identificação explícita do tipo de destaque.
+    </>,
+    <>
+      Use ícones para reforçar visualmente o significado do tipo. Prefira ícones com relação direta ao contexto: check para sucesso, exclamação para alerta, informação para notas neutras.
+    </>,
+    <>
+      Mantenha o conteúdo conciso. O Callout deve complementar o texto ao redor, não substituí-lo ou duplicá-lo.
+    </>,
+  ]}
+/>
+
+## Variações
+
+### Tipos
+
+<Canvas of={CalloutStories.Variants} />
+
+### Com título
+
+<Canvas of={CalloutStories.ComTitulo} />
+
+### Sem ícone
+
+<Canvas of={CalloutStories.SemIcone} />
+
+## O que fazer e não fazer
+
+<ComponentRules
+  rules={[
+    {
+      negative: {
+        component: <Callout type="alert" text="Importante." />,
+        description: "Evite textos genéricos que não comunicam nada além do tipo visual. O destaque perde sentido sem conteúdo informativo."
+      },
+      positive: {
+        component: <Callout type="alert" text="Esta ação é irreversível. Revise os dados antes de continuar." icon={<Warning24Regular />} />,
+        description: "Use textos descritivos que expliquem por que aquela informação merece destaque."
+      }
+    },
+    {
+      negative: {
+        component: <Callout type="neutral" text="Antes de prosseguir, leia atentamente as políticas de uso, os termos de privacidade e os requisitos mínimos de elegibilidade exigidos para a conclusão deste cadastro na plataforma." />,
+        description: "Evite conteúdo extenso dentro do Callout. Ele não é o lugar adequado para textos longos ou explicações completas."
+      },
+      positive: {
+        component: <Callout type="neutral" text="Leia os termos de uso antes de prosseguir." icon={<Info24Regular />} />,
+        description: "Mantenha o conteúdo curto e direto. Para detalhes, use links ou seções dedicadas da página."
+      }
+    },
+    {
+      negative: {
+        component: <Callout type="alert" text="Seus dados foram salvos com sucesso." icon={<Warning24Regular />} />,
+        description: "Evite usar um tipo que contradiz a natureza da mensagem. Ícone e cor de alerta para uma confirmação positiva cria conflito semântico."
+      },
+      positive: {
+        component: <Callout type="success" text="Seus dados foram salvos com sucesso." icon={<CheckmarkCircle24Regular />} />,
+        description: "Alinhe sempre o tipo, o ícone e o conteúdo. A coerência entre eles é o que torna o destaque significativo."
+      }
+    }
+  ]}
+/>
+
+<Footer />

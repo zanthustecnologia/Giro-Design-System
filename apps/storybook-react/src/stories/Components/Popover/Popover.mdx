@@ -1,0 +1,184 @@
+﻿import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as PopoverStories from './Popover.stories';
+import { UsageGuidelines } from '../../../internal-components/mdx/UsageGuidelines/UsageGuidelines';
+import { ComponentRules } from '../../../internal-components/mdx/Rules/Rules';
+import { Footer } from '../../../internal-components/mdx/Footer/Footer';
+import { Popover, Button } from '@giro-ds/react';
+import {
+  Info16Regular,
+  Person16Regular,
+  Mail16Regular,
+  Phone16Regular,
+  Location16Regular,
+  Document16Regular,
+  Settings16Regular,
+  Warning16Regular,
+} from '@fluentui/react-icons';
+
+<Meta of={PopoverStories} />
+
+# Popover
+
+O Popover é um painel flutuante ancorado a um gatilho. Diferente do Tooltip, ele exibe conteúdo interativo: informações estruturadas, ações rápidas ou confirmações simples. É construído sobre o Radix UI Popover, garantindo comportamento acessível e controle de foco por padrão.
+
+<Canvas of={PopoverStories.Default} />
+
+## Importação
+
+```js
+import { Popover } from '@giro-ds/react';
+```
+
+<div style={{ marginTop: '48px' }} />
+
+## Propriedades
+
+<Controls />
+
+<div style={{ marginTop: '48px' }} />
+
+## Uso
+
+<UsageGuidelines
+  guidelines={[
+    <>
+      O gatilho pode ser qualquer elemento: um botão, ícone ou link. O Popover se ancora automaticamente a ele.
+    </>,
+    <>
+      O conteúdo interno é livre: use texto, ícones, ações ou dados complementares conforme a necessidade.
+    </>,
+    <>
+      Você pode controlar de qual lado o painel abre em relação ao gatilho: acima, abaixo, à esquerda ou à direita. O padrão é abaixo, à esquerda, o componente se reposiciona automaticamente se não houver espaço suficiente na tela.
+    </>,
+        <>
+      O Popover fecha automaticamente ao clicar fora do painel ou pressionar Escape. Não é necessário controlar o estado de abertura manualmente.
+    </>,
+    <>
+      Mantenha o conteúdo breve e objetivo.
+    </>,
+  ]}
+/>
+
+<div style={{ marginTop: '48px' }} />
+
+## Variações
+
+### Posicionamento
+
+Use as opções de posicionamento para abrir o Popover acima, abaixo, à direita ou à esquerda do gatilho. O componente se reposiciona automaticamente se houver colisão com a borda da tela.
+
+<Canvas of={PopoverStories.Posicionamento} />
+
+### Com confirmação
+
+O Popover pode conter ações simples como arquivamento ou exclusão, sem exigir um Dialog modal completo.
+
+<Canvas of={PopoverStories.ComConfirmacao} />
+
+<div style={{ marginTop: '48px' }} />
+
+## O que fazer e não fazer
+
+<ComponentRules
+  rules={[
+    {
+      positive: {
+        component: (
+          <Popover
+            side="bottom"
+            align="start"
+            trigger={<Button variant="outlined" icon={<Info16Regular />}>Detalhes</Button>}
+            content={
+              <div style={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: '10px', minWidth: '220px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', color: 'var(--color-neutral-low-dark)' }}>
+                  <Person16Regular /><span>Ana Paula Souza</span>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', color: 'var(--color-neutral-low-dark)' }}>
+                  <Mail16Regular /><span>ana.souza@empresa.com</span>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', color: 'var(--color-neutral-low-dark)' }}>
+                  <Phone16Regular /><span>(11) 98765-4321</span>
+                </div>
+              </div>
+            }
+          />
+        ),
+        description: "Use o Popover para exibir informações estruturadas e complementares ao conteúdo principal, como detalhes de contato ou metadados de um registro."
+      },
+      negative: {
+        component: (
+          <Popover
+            side="bottom"
+            align="start"
+            trigger={<Button variant="outlined">Editar perfil</Button>}
+            content={
+              <div style={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: '10px', width: '260px' }}>
+                <div style={{ fontSize: '11px', fontWeight: 600, color: 'var(--color-neutral-low-medium)', textTransform: 'uppercase' }}>Nome completo</div>
+                <div style={{ height: '32px', background: 'var(--color-neutral-high-light)', borderRadius: '4px', border: '1px solid var(--color-neutral-high-dark)' }} />
+                <div style={{ fontSize: '11px', fontWeight: 600, color: 'var(--color-neutral-low-medium)', textTransform: 'uppercase', marginTop: '4px' }}>Endereço</div>
+                <div style={{ height: '32px', background: 'var(--color-neutral-high-light)', borderRadius: '4px', border: '1px solid var(--color-neutral-high-dark)' }} />
+                <div style={{ fontSize: '11px', fontWeight: 600, color: 'var(--color-neutral-low-medium)', textTransform: 'uppercase', marginTop: '4px' }}>Telefone</div>
+                <div style={{ height: '32px', background: 'var(--color-neutral-high-light)', borderRadius: '4px', border: '1px solid var(--color-neutral-high-dark)' }} />
+                <div style={{ fontSize: '11px', fontWeight: 600, color: 'var(--color-neutral-low-medium)', textTransform: 'uppercase', marginTop: '4px' }}>Cargo</div>
+                <div style={{ height: '32px', background: 'var(--color-neutral-high-light)', borderRadius: '4px', border: '1px solid var(--color-neutral-high-dark)' }} />
+              </div>
+            }
+          />
+        ),
+        description: "Não use o Popover para formulários extensos com vários campos. Para edição de dados, prefira o Dialog, que oferece espaço adequado e controle de foco dedicado."
+      }
+    },
+    {
+      positive: {
+        component: (
+          <Popover
+            side="bottom"
+            align="center"
+            trigger={<Button variant="outlined" icon={<Warning16Regular />}>Excluir</Button>}
+            content={
+              <div style={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: '12px', maxWidth: '220px' }}>
+                <p style={{ margin: 0, fontSize: '13px', color: 'var(--color-neutral-low-dark)' }}>
+                  Tem certeza que deseja excluir este item?
+                </p>
+                <div style={{ display: 'flex', gap: '8px' }}>
+                  <Button size="sm" variant="outlined">Cancelar</Button>
+                  <Button size="sm">Excluir</Button>
+                </div>
+              </div>
+            }
+          />
+        ),
+        description: "Use o Popover para confirmações simples de ações destrutivas de baixo risco. É mais leve que um Dialog e mantém o usuário no contexto atual."
+      },
+      negative: {
+        component: (
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
+            <Popover
+              side="bottom"
+              align="center"
+              trigger={<Button variant="outlined" icon={<Settings16Regular />} iconOnly aria-label="Configurações" />}
+              content={
+                <div style={{ padding: '12px' }}>
+                  <Popover
+                    side="right"
+                    align="start"
+                    trigger={<Button size="sm" variant="outlined">Opções avançadas</Button>}
+                    content={
+                      <div style={{ padding: '12px', fontSize: '13px', color: 'var(--color-neutral-low-dark)' }}>
+                        Nível 2 de aninhamento
+                      </div>
+                    }
+                  />
+                </div>
+              }
+            />
+            <span style={{ fontSize: '11px', color: 'var(--color-neutral-low-medium)' }}>Popover aninhado</span>
+          </div>
+        ),
+        description: "Não aninhe Popovers. Hierarquias de painéis flutuantes desorientam o usuário e complicam o gerenciamento de foco e acessibilidade."
+      }
+    },
+  ]}
+/>
+
+<Footer />

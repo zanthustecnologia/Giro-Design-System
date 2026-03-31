@@ -4,21 +4,14 @@ import { DatePicker } from '@giro-ds/react';
 import type { DatePickerProps } from '@giro-ds/react';
 
 const meta: Meta<typeof DatePicker> = {
-  title: 'Pattern/Date Picker',
+  title: 'Components/Date Picker',
   component: DatePicker,
-  decorators: [
-    (Story) => (
-      <div style={{ height: '50vh' }}>
-        <Story />
-      </div>
-    ),
-  ],
   parameters: {
     controls: {
       sort: 'alpha',
     },
     layout: 'centered',
-    },
+  },
   argTypes: {
     locale: {
       control: { type: 'select' },
@@ -62,34 +55,12 @@ const Template = (args: DatePickerProps) => <DatePicker {...args} />;
 // Template para controlled components
 const ControlledTemplate = (args: DatePickerProps) => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-
   return (
-    <div style={{ padding: '1rem' }}>
-      <DatePicker
-        {...args}
-        value={selectedDate}
-        onChange={setSelectedDate}
-      />
-      
-      <div style={{ marginTop: '1rem', padding: '0.5rem', background: '#f5f5f5', borderRadius: '4px' }}>
-        <strong>Estado Controlado:</strong>
-        <br />
-        Data selecionada: {selectedDate ? selectedDate.toLocaleDateString('pt-BR') : 'Nenhuma'}
-        <br />
-        <button 
-          onClick={() => setSelectedDate(new Date())}
-          style={{ marginTop: '0.5rem', padding: '4px 8px' }}
-        >
-          Definir data atual
-        </button>
-        <button 
-          onClick={() => setSelectedDate(null)}
-          style={{ marginTop: '0.5rem', marginLeft: '0.5rem', padding: '4px 8px' }}
-        >
-          Limpar
-        </button>
-      </div>
-    </div>
+    <DatePicker
+      {...args}
+      value={selectedDate}
+      onChange={setSelectedDate}
+    />
   );
 };
 
@@ -100,16 +71,6 @@ export const Default: Story = {
     calendarPosition: 'left',
     label: 'Data de nascimento',
     helperText: 'Selecione sua data de nascimento',
-  },
-};
-
-export const WithBrazilianLocale: Story = {
-  render: Template,
-  args: {
-    locale: 'pt-br',
-    calendarPosition: 'left',
-    label: 'Data (Brasil)',
-    helperText: 'Formato: DD/MM/AAAA',
   },
 };
 
@@ -139,5 +100,27 @@ export const WithError: Story = {
     calendarPosition: 'left',
     label: 'Data com erro',
     required: true,
+    error: 'Este campo é obrigatório',
+  },
+};
+
+export const Controlado: Story = {
+  render: ControlledTemplate,
+  args: {
+    locale: 'pt-br',
+    calendarPosition: 'left',
+    label: 'Data de início',
+    helperText: 'Selecione a data de início',
+  },
+};
+
+export const ComRestricaoDeDatas: Story = {
+  render: Template,
+  args: {
+    locale: 'pt-br',
+    calendarPosition: 'left',
+    label: 'Data do evento',
+    helperText: 'Selecione uma data futura',
+    minDate: new Date(),
   },
 };

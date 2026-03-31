@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 
 // Mock do Radix UI AlertDialog
@@ -392,6 +392,7 @@ describe('Dialog', () => {
     it('funciona sem bodyContent', () => {
       render(
         <Dialog
+          show={true}
           title="Apenas título"
           textPrimaryAction="Confirmar"
           show={true}

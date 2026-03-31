@@ -1,0 +1,139 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as DatePickerStories from './DatePicker.stories';
+import { DatePicker } from '@giro-ds/react';
+import { UsageGuidelines } from '../../../internal-components/mdx/UsageGuidelines/UsageGuidelines';
+import { ComponentRules } from '../../../internal-components/mdx/Rules/Rules';
+import { Footer } from '../../../internal-components/mdx/Footer/Footer';
+
+<Meta of={DatePickerStories} />
+
+# DatePicker
+
+O DatePicker é um campo de entrada de data que combina um input de texto com um calendário. O usuário pode digitar a data diretamente ou selecioná-la pelo calendário.
+
+<Canvas of={DatePickerStories.Default} />
+
+## Importação
+
+```js
+import { DatePicker } from '@giro-ds/react';
+```
+
+<div style={{ marginTop: '48px' }} />
+
+## Propriedades
+
+<Controls />
+
+<div style={{ marginTop: '48px' }} />
+
+## Uso
+
+<UsageGuidelines
+  guidelines={[
+    <>
+      Use sempre um rótulo descritivo que indique o tipo de data esperado, como "Data de nascimento" ou "Data de início". Campos sem rótulo são inacessíveis e dificultam a compreensão.
+    </>,
+    <>
+      Quando o contexto exigir uma data futura ou passada, utilize as restrições de data mínima e máxima para impedir seleções inválidas diretamente no calendário.
+    </>,
+    <>
+      Em formulários, controle o valor externamente para integrar com validação e garantir que o dado seja enviado corretamente. Para casos simples sem validação, o modo não controlado é suficiente.
+    </>,
+    <>
+      Use o texto de apoio para orientar o formato ou o contexto da data esperada. Ele complementa o rótulo sem poluir o campo.
+    </>,
+    <>
+      O calendário pode ser ancorado à esquerda ou à direita do campo. Escolha a posição que não sobreponha outros elementos do layout, especialmente em campos próximos às bordas da tela.
+    </>,
+  ]}
+/>
+
+<div style={{ marginTop: '48px' }} />
+
+## Variações
+
+### Locale em inglês
+
+Ao alterar o idioma para inglês, o formato da data e os textos do calendário são exibidos no idioma correspondente.
+
+<Canvas of={DatePickerStories.EnglishLocale} />
+
+### Calendário à direita
+
+O calendário pode ser ancorado à direita do campo quando o layout exige que ele não extrapole a borda esquerda da tela.
+
+<Canvas of={DatePickerStories.RightPositioned} />
+
+### Com erro
+
+Quando o campo é obrigatório e não preenchido, uma mensagem de erro é exibida abaixo do campo.
+
+<Canvas of={DatePickerStories.WithError} />
+
+### Modo controlado
+
+Em formulários com validação, o valor pode ser controlado externamente para sincronizar com o estado da aplicação.
+
+<Canvas of={DatePickerStories.Controlado} />
+
+### Com restrição de datas
+
+Datas anteriores à data mínima ficam desabilitadas no calendário, prevenindo seleções inválidas.
+
+<Canvas of={DatePickerStories.ComRestricaoDeDatas} />
+
+<div style={{ marginTop: '48px' }} />
+
+## O que fazer e não fazer
+
+<ComponentRules
+  rules={[
+    {
+      negative: {
+        component: (
+          <DatePicker
+            locale="pt-br"
+            label="Data"
+          />
+        ),
+        description: 'Evite rótulos genéricos. O usuário precisa entender qual data está sendo solicitada antes de interagir com o campo.'
+      },
+      positive: {
+        component: (
+          <DatePicker
+            locale="pt-br"
+            label="Data de nascimento"
+            helperText="Selecione sua data de nascimento"
+          />
+        ),
+        description: 'Use rótulos específicos e texto de apoio para deixar claro o tipo e o contexto da data esperada.'
+      }
+    },
+    {
+      negative: {
+        component: (
+          <DatePicker
+            locale="pt-br"
+            label="Data do evento"
+            helperText="Selecione uma data"
+          />
+        ),
+        description: 'Sem restrição de datas, o usuário pode selecionar qualquer data, incluindo passadas, quando o contexto exige apenas datas futuras.'
+      },
+      positive: {
+        component: (
+          <DatePicker
+            locale="pt-br"
+            label="Data do evento"
+            helperText="Selecione uma data futura"
+            minDate={new Date()}
+          />
+        ),
+        description: 'Configure datas mínima e máxima para restringir a seleção ao intervalo válido para o contexto.'
+      }
+    }
+  ]}
+/>
+
+<Footer />

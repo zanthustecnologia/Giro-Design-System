@@ -1,0 +1,123 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as ChipsStories from './Chips.stories';
+import { Chips } from '@giro-ds/react';
+import { UsageGuidelines } from '../../../internal-components/mdx/UsageGuidelines/UsageGuidelines';
+import { ComponentRules } from '../../../internal-components/mdx/Rules/Rules';
+import { Footer } from '../../../internal-components/mdx/Footer/Footer';
+import { Tag16Regular, DismissCircle16Regular, CheckmarkCircle16Regular, Warning16Regular } from '@fluentui/react-icons';
+
+<Meta of={ChipsStories} />
+
+# Chips
+
+Chips são elementos compactos e em destaque usados para representar atributos, categorias, status ou filtros associados a um conteúdo. Eles comunicam informação de forma concisa e visual, sem a necessidade de ações do usuário.
+
+<Canvas of={ChipsStories.Default} />
+
+## Importação
+
+```js
+import { Chips } from '@giro-ds/react';
+```
+
+## Propriedades
+
+<Controls />
+
+## Uso
+
+<UsageGuidelines
+  guidelines={[
+    <>
+      Use Chips para representar atributos de um item, como categorias, tags, status ou filtros aplicados. Eles não são botões e não devem acionar ações primárias.
+    </>,
+    <>
+      Escolha o <code>type</code> de acordo com a semântica do conteúdo: <code>success</code> para estados ativos ou positivos, <code>alert</code> para situações que requerem atenção, <code>neutral</code> ou <code>brand</code> para classificações e etiquetas informativas.
+    </>,
+    <>
+      Use ícones à esquerda para reforçar visualmente a semântica do tipo. Use ícones à direita, como o de fechar, apenas quando o chip representar um filtro removível.
+    </>,
+    <>
+      Mantenha o texto do chip curto, preferencialmente uma ou duas palavras. Chips longos perdem seu propósito de ser compacto e legível de relance.
+    </>,
+    <>
+      Não use chips para substituir <a href="?path=/docs/components-button--docs">Button</a> em ações do usuário. Para filtros interativos com seleção, considere o componente <a href="?path=/docs/components-filter--docs">Filter</a>.
+    </>,
+  ]}
+/>
+
+## Variações
+
+### Tipos
+
+<Canvas of={ChipsStories.Variants} />
+
+### Com ícone à esquerda
+
+<Canvas of={ChipsStories.ComIconeEsquerdo} />
+
+### Com ícone à direita
+
+<Canvas of={ChipsStories.ComIconeDireito} />
+
+### Com ambos os ícones
+
+<Canvas of={ChipsStories.ComAmbosIcones} />
+
+### Desabilitado
+
+<Canvas of={ChipsStories.Desabilitado} />
+
+## O que fazer e não fazer
+
+<ComponentRules
+  rules={[
+    {
+      negative: {
+        component: <Chips type="neutral" title="Clique aqui para filtrar por categoria de produto" />,
+        description: "Evite textos longos no chip. O componente é projetado para conteúdo conciso e de leitura imediata."
+      },
+      positive: {
+        component: <Chips type="neutral" title="Eletrônicos" leftIcon={<Tag16Regular />} />,
+        description: "Use textos curtos, preferencialmente uma ou duas palavras que identifiquem o atributo de forma direta."
+      }
+    },
+    {
+      negative: {
+        component: (
+          <div style={{ display: 'flex', gap: '8px' }}>
+            <Chips type="success" title="Aprovado" />
+            <Chips type="alert" title="Aprovado" />
+          </div>
+        ),
+        description: "Evite usar tipos que contradizem o conteúdo. Um chip de 'Aprovado' com type alert cria conflito semântico."
+      },
+      positive: {
+        component: (
+          <div style={{ display: 'flex', gap: '8px' }}>
+            <Chips type="success" title="Aprovado" leftIcon={<CheckmarkCircle16Regular />} />
+            <Chips type="alert" title="Pendente" leftIcon={<Warning16Regular />} />
+          </div>
+        ),
+        description: "Alinhe sempre o type e o ícone com o significado do conteúdo. Isso garante coerência semântica e visual."
+      }
+    },
+    {
+      negative: {
+        component: <Chips type="brand" title="Salvar alterações" />,
+        description: "Não use chips para representar ações que o usuário deve executar. Chips comunicam atributos, não ações."
+      },
+      positive: {
+        component: (
+          <div style={{ display: 'flex', gap: '8px' }}>
+            <Chips type="neutral" title="Rascunho" />
+            <Chips type="success" title="Publicado" />
+          </div>
+        ),
+        description: "Use chips para indicar o estado atual de um item. Para ações, utilize o componente Button."
+      }
+    }
+  ]}
+/>
+
+<Footer />

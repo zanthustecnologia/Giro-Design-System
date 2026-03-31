@@ -112,7 +112,7 @@ export default meta;
 
 export const Default: Story = {
   args: {
-    placeholder: 'Placeholder text',
+    placeholder: 'Ex.: João da Silva',
     disabled: false,
     maxLength: 100,
     className: '',
@@ -130,9 +130,9 @@ export const Default: Story = {
   ),
 };
 
-export const WithoutTooltip: Story = {
+export const ComIcone: Story = {
   args: {
-    placeholder: 'Digite seu email',
+    placeholder: 'Ex.: joao@empresa.com',
     label: 'Email',
     tooltip: false,
     helperText: 'Insira um email válido',
@@ -145,10 +145,29 @@ export const WithoutTooltip: Story = {
   ),
 };
 
+export const ComTooltip: Story = {
+  args: {
+    label: 'CPF',
+    placeholder: 'Ex.: 000 000 000-00',
+    tooltip: true,
+    tooltipText: 'O CPF é usado para identificar sua conta. Você pode encontrá-lo no seu documento de identidade.',
+    side: 'bottom',
+    align: 'start',
+    helperText: 'Somente números, sem pontos ou traços',
+    type: 'text',
+    maxLength: 11,
+  },
+  render: (args) => (
+    <div className='storybook__container'>
+      <TextField {...args} />
+    </div>
+  ),
+};
+
 export const Disabled: Story = {
   args: {
-    placeholder: 'Campo desabilitado',
-    label: 'Campo Desabilitado',
+    placeholder: 'Ex.: João da Silva',
+    label: 'Campo desabilitado',
     disabled: true,
     helperText: 'Este campo está desabilitado',
   },
@@ -161,8 +180,8 @@ export const Disabled: Story = {
 
 export const Required: Story = {
   args: {
-    placeholder: 'Campo obrigatório',
-    label: 'Nome ',
+    placeholder: 'Ex.: João da Silva',
+    label: 'Nome',
     required: true,
     helperText: 'Este campo é obrigatório',
   },
@@ -178,17 +197,17 @@ export const WithDifferentIcons: Story = {
     <div className='storybook__container' style={{ display: 'flex', gap: '16px', flexDirection: 'column' }}>
       <TextField 
         label="Email" 
-        placeholder="Digite seu email" 
+        placeholder="Ex.: joao@empresa.com" 
         icon={<Mail16Regular />}
       />
       <TextField 
         label="Horário" 
-        placeholder="Selecione o horário" 
+        placeholder="Ex.: 14:30" 
         icon={<Clock16Regular />}
       />
       <TextField 
-        label="Upload" 
-        placeholder="Envie um arquivo" 
+        label="Arquivo" 
+        placeholder="Ex.: relatorio-2024.pdf" 
         icon={<ArrowUpload16Regular />}
       />
     </div>

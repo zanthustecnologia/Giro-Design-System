@@ -1,0 +1,125 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as TooltipStories from './tooltip.stories';
+import { Tooltip, Button } from '@giro-ds/react';
+import { UsageGuidelines } from '../../../internal-components/mdx/UsageGuidelines/UsageGuidelines';
+import { ComponentRules } from '../../../internal-components/mdx/Rules/Rules';
+import { Footer } from '../../../internal-components/mdx/Footer/Footer';
+
+<Meta of={TooltipStories} />
+
+# Tooltip
+
+O Tooltip exibe uma mensagem de texto ao passar o mouse sobre um elemento. É usado para fornecer informações complementares sem ocupar espaço permanente na interface.
+
+<Canvas of={TooltipStories.Default} />
+
+## Importação
+
+```js
+import { Tooltip } from '@giro-ds/react';
+```
+
+<div style={{ marginTop: '48px' }} />
+
+## Propriedades
+
+<Controls />
+
+<div style={{ marginTop: '48px' }} />
+
+## Uso
+
+<UsageGuidelines
+  guidelines={[
+    <>
+      Use o Tooltip para explicar elementos da interface que não possuem rótulo visível, como botões com apenas ícone. Evite usá-lo para informações críticas que o usuário precisa ler para completar uma ação.
+    </>,
+    <>
+      Mantenha o texto curto e direto. O Tooltip deve complementar o elemento, não substituir um rótulo ou instrução que deveria estar sempre visível.
+    </>,
+    <>
+      Escolha a posição que não sobreponha outros elementos importantes da interface. Por padrão o Tooltip aparece acima do elemento, mas pode ser ajustado para baixo, esquerda ou direita conforme o contexto.
+    </>,
+    <>
+      Não use Tooltip em elementos que já possuem texto visível suficiente. Repetir a mesma informação no Tooltip não agrega valor e pode confundir.
+    </>,
+    <>
+      Elementos interativos como botões e ícones são os gatilhos mais comuns. Evite aplicar Tooltip em blocos de texto ou áreas grandes, pois o comportamento de ativação pode ser imprevisível.
+    </>,
+  ]}
+/>
+
+<div style={{ marginTop: '48px' }} />
+
+## Variações
+
+### Em botão
+
+O Tooltip aplicado a um botão fornece contexto adicional sobre a ação que será executada.
+
+<Canvas of={TooltipStories.WithButton} />
+
+### Abaixo do elemento
+
+Quando o espaço acima for limitado, o Tooltip pode ser posicionado abaixo do elemento.
+
+<Canvas of={TooltipStories.PositionBottom} />
+
+### À esquerda
+
+Útil quando o elemento está próximo à borda direita da tela.
+
+<Canvas of={TooltipStories.PositionLeft} />
+
+### À direita
+
+Útil quando o elemento está próximo à borda esquerda da tela.
+
+<Canvas of={TooltipStories.PositionRight} />
+
+<div style={{ marginTop: '48px' }} />
+
+## O que fazer e não fazer
+
+<ComponentRules
+  rules={[
+    {
+      negative: {
+        component: (
+          <Tooltip text="Botão">
+            <Button>Salvar</Button>
+          </Tooltip>
+        ),
+        description: 'Não use Tooltip para repetir o texto que já está visível no elemento. Isso não adiciona informação e polui a interface.'
+      },
+      positive: {
+        component: (
+          <Tooltip text="Salva as alterações e envia para aprovação">
+            <Button>Salvar</Button>
+          </Tooltip>
+        ),
+        description: 'Use o Tooltip para complementar com informações que não cabem no rótulo, como consequências da ação ou requisitos.'
+      }
+    },
+    {
+      negative: {
+        component: (
+          <Tooltip text="Preencha todos os campos obrigatórios antes de continuar. Verifique nome, e-mail e telefone.">
+            <Button>Continuar</Button>
+          </Tooltip>
+        ),
+        description: 'Evite textos longos no Tooltip. Instruções detalhadas devem estar visíveis na interface, não escondidas em um hover.'
+      },
+      positive: {
+        component: (
+          <Tooltip text="Todos os campos são obrigatórios">
+            <Button>Continuar</Button>
+          </Tooltip>
+        ),
+        description: 'Mantenha o texto breve e objetivo. O Tooltip deve transmitir a informação de forma imediata.'
+      }
+    }
+  ]}
+/>
+
+<Footer />

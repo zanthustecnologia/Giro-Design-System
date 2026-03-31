@@ -1,166 +1,95 @@
-import React, { useState, ReactNode, JSX } from 'react';
-import type { Meta, StoryFn } from '@storybook/react';
+﻿import React, { useState } from 'react';
+import type { Meta, StoryObj } from '@storybook/react';
 import { Drawer, Button } from '@giro-ds/react';
-import type { DrawerProps } from '@giro-ds/react';
 import { Filter16Regular } from '@fluentui/react-icons';
 
-interface DrawerStoryProps extends DrawerProps {
-  children?: ReactNode;
-}
-
-interface DrawerExampleProps {
-  children?: ReactNode;
-  title?: string;
-  customWidth?: string;
-  noPadding?: boolean;
-  className?: string;
-}
 const meta: Meta<typeof Drawer> = {
   title: 'Components/Drawer',
   component: Drawer,
   parameters: {
-    docs: {
-      description: {
-        component: 'Componente Drawer que desliza da lateral direita. Pode conter qualquer conteúdo. A função de abertura deve ser controlada externamente.',
-      },
-    },
+    layout: 'centered',
   },
   argTypes: {
-    title: { 
-      control: 'text',
-      defaultValue: 'Título',
-      table: {
-        type: { summary: 'string' },
-        defaultValue: { summary: 'Título' },
-      },
-    },
-    customWidth: { 
-      control: 'text',
-      defaultValue: '400px',
-      table: {
-        type: { summary: 'string' },
-        defaultValue: { summary: '0px' },
-      },
-    },
-    children: { 
-      control: false,
-      table: {
-        type: { summary: 'ReactNode' },
-      },
-    },
-  
+    title: { control: 'text' },
+    customWidth: { control: 'text' },
+    closeOnOverlayClick: { control: 'boolean' },
+    closeOnEscape: { control: 'boolean' },
+    disabled: { control: 'boolean' },
+    children: { table: { disable: true } },
+    onClose: { table: { disable: true } },
+    onOpen: { table: { disable: true } },
+    onOverlayClick: { table: { disable: true } },
+    className: { table: { disable: true } },
+    id: { table: { disable: true } },
   },
-  decorators: [
-    (Story) => (
-      <div style={{ height: '60vh', position: 'relative', overflow: 'hidden' }}>
-        <Story />
-      </div>
-    ),
-  ],
 };
 
 export default meta;
+type Story = StoryObj<typeof Drawer>;
 
-/**
- * Componente de exemplo que demonstra o uso básico do Drawer
- * Implementa controle externo de abertura e fechamento
- */
-const DrawerExample: React.FC<DrawerExampleProps> = ({ 
-  children, 
-  title = 'Título do Drawer',
+const DrawerDemo = ({
+  title = 'Configuracoes',
   customWidth = '400px',
-  className = '',
-}) => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-
-  const handleOpenDrawer = (): void => {
-    setIsOpen(true);
-  };
-
-  const handleCloseDrawer = (): void => {
-    setIsOpen(false);
-  };
-
+  closeOnOverlayClick = true,
+  closeOnEscape = true,
+  disabled = false,
+  children,
+}: Partial<React.ComponentProps<typeof Drawer>>) => {
+  const [isOpen, setIsOpen] = useState(false);
   return (
     <>
-      <Button 
-        variant="outlined" 
-        onClick={handleOpenDrawer} 
-        icon={<Filter16Regular />}
-        data-testid="drawer-trigger"
-      >
+      <Button variant="outlined" icon={<Filter16Regular />} onClick={() => setIsOpen(true)}>
         Abrir Drawer
       </Button>
-      <Drawer 
-        isOpen={isOpen} 
-        onOpen={handleOpenDrawer} 
-        onClose={handleCloseDrawer} 
+      <Drawer
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
         title={title}
         customWidth={customWidth}
-        className={className}
+        closeOnOverlayClick={closeOnOverlayClick}
+        closeOnEscape={closeOnEscape}
+        disabled={disabled}
       >
-        {children || (
-  
-            <h3>Titulo</h3>
-        )}
+        {children}
       </Drawer>
     </>
   );
 };
 
-/**
- * Story padrão do Drawer
- * Demonstra o uso básico com controle externo
- */
-export const Default: StoryFn<DrawerStoryProps> = (args): JSX.Element => (
-  <DrawerExample {...args} />
-);
-
-Default.parameters = {
-  docs: {
-    description: {
-      story: 'Exemplo básico do Drawer com controle externo de abertura e fechamento. O botão abre o drawer e o usuário pode fechá-lo clicando no X ou fora do drawer.',
-    },
-    source: {
-      code: `
-const [isOpen, setIsOpen] = useState(false);
-
-/**
- * Função para abrir o drawer
- * Esta função é obrigatória e deve ser passada como prop para o Drawer
- */
-const handleOpenDrawer = () => {
-  setIsOpen(true);
-};
-
-/**
- * Função para fechar o drawer
- */
-const handleCloseDrawer = () => {
-  setIsOpen(false);
-};
-
-<Button variant="outlined" onClick={handleOpenDrawer} icon={<Filter16Regular />}>
-  Abrir Drawer
-</Button>
-<Drawer 
-  isOpen={isOpen} 
-  onOpen={handleOpenDrawer} 
-  onClose={handleCloseDrawer} 
-  title="Título do Drawer" 
-  pWidth="400px"
->
-  {/* Conteúdo do drawer */}
-</Drawer>
-      `,
-    },
+export const Default: Story = {
+  render: (args) => (
+    <DrawerDemo
+      title={args.title}
+      customWidth={args.customWidth}
+      closeOnOverlayClick={args.closeOnOverlayClick}
+      closeOnEscape={args.closeOnEscape}
+      disabled={args.disabled}
+    >
+      <p>Conteudo interno do Drawer. Qualquer elemento React pode ser inserido aqui.</p>
+    </DrawerDemo>
+  ),
+  args: {
+    title: 'Configuracoes',
+    customWidth: '400px',
+    closeOnOverlayClick: true,
+    closeOnEscape: true,
+    disabled: false,
   },
 };
 
-// ✅ Args padrão para todas as stories
-Default.args = {
-  title: 'Drawer Interativo',
-  customWidth: '400px',
-  closeOnOverlayClick: true,
-  closeOnEscape: true,
+export const LarguraCustomizada: Story = {
+  render: () => (
+    <DrawerDemo title="Painel expandido" customWidth="600px">
+      <p>Este Drawer utiliza uma largura maior para exibir conteudos que precisam de mais espaco.</p>
+    </DrawerDemo>
+  ),
+};
+
+export const SemFechamentoPorOverlay: Story = {
+  render: () => (
+    <DrawerDemo title="Formulario" closeOnOverlayClick={false} closeOnEscape={false}>
+      <p>Este Drawer so pode ser fechado pelo botao X. Clique fora ou pressione Escape nao tem efeito.</p>
+      <p>Util para formularios onde o usuario pode perder dados acidentalmente.</p>
+    </DrawerDemo>
+  ),
 };

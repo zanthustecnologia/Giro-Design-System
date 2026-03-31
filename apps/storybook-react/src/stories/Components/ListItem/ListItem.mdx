@@ -1,0 +1,158 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as ListItemStories from './ListItem.stories';
+import { ListItem } from '@giro-ds/react';
+import { UsbPlug20Regular, Settings20Regular, Person20Regular, ArrowExit20Regular } from '@fluentui/react-icons';
+import { UsageGuidelines } from '../../../internal-components/mdx/UsageGuidelines/UsageGuidelines';
+import { ComponentRules } from '../../../internal-components/mdx/Rules/Rules';
+import { Footer } from '../../../internal-components/mdx/Footer/Footer';
+
+<Meta of={ListItemStories} />
+
+# ListItem
+
+O ListItem é um item de lista interativo que pode ser usado com texto simples, ícone, checkbox ou radio. Suporta texto descritivo, estado desabilitado e responde a interações de mouse e teclado.
+
+<Canvas of={ListItemStories.Default} />
+
+## Importação
+
+```js
+import { ListItem } from '@giro-ds/react';
+```
+
+<div style={{ marginTop: '48px' }} />
+
+## Propriedades
+
+<Controls />
+
+<div style={{ marginTop: '48px' }} />
+
+## Uso
+
+<UsageGuidelines
+  guidelines={[
+    <>
+      Use o ListItem dentro de um elemento <code>&lt;ul&gt;</code> para manter a semântica correta de lista. O componente já renderiza um <code>&lt;li&gt;</code> internamente.
+    </>,
+    <>
+      Para listas com seleção múltipla, use a variante com checkbox. Para seleção exclusiva dentro de um grupo, use a variante com radio e atribua o mesmo identificador de grupo a todos os itens relacionados.
+    </>,
+    <>
+      O texto descritivo é opcional e deve ser ativado explicitamente. Use-o para fornecer contexto adicional quando o texto principal não for suficiente para descrever o item.
+    </>,
+    <>
+      A variante com ícone reforça visualmente a função ou categoria do item. Prefira ícones reconhecíveis e consistentes com o restante da interface.
+    </>,
+    <>
+      Reserve o estado desabilitado para opções temporariamente indisponíveis. Itens permanentemente inválidos devem ser removidos da lista, não apenas desabilitados.
+    </>,
+  ]}
+/>
+
+<div style={{ marginTop: '48px' }} />
+
+## Variações
+
+### Com checkbox
+
+Usado em listas com seleção múltipla, onde o usuário pode marcar ou desmarcar cada item de forma independente.
+
+<Canvas of={ListItemStories.ComCheckbox} />
+
+### Com radio
+
+Usado em grupos de seleção exclusiva. Todos os itens do grupo devem compartilhar o mesmo identificador de grupo para que apenas um possa estar selecionado por vez.
+
+<Canvas of={ListItemStories.ComRadio} />
+
+### Com ícone
+
+O ícone acompanha o texto para reforçar visualmente a categoria ou a função do item.
+
+<Canvas of={ListItemStories.ComIcone} />
+
+### Com subtexto
+
+O texto descritivo aparece abaixo do texto principal e fornece informação complementar sobre o item.
+
+<Canvas of={ListItemStories.ComSubtexto} />
+
+### Desabilitado
+
+O item desabilitado não responde a cliques ou ao teclado e é exibido com menor destaque visual.
+
+<Canvas of={ListItemStories.Desabilitado} />
+
+<div style={{ marginTop: '48px' }} />
+
+## O que fazer e não fazer
+
+<ComponentRules
+  rules={[
+    {
+      negative: {
+        component: (
+          <ul style={{ margin: 0, padding: 0 }}>
+            <ListItem variant="checkbox" text="Sim" hovered={true} />
+            <ListItem variant="checkbox" text="Não" hovered={true} />
+          </ul>
+        ),
+        description: 'Evite rótulos curtos ou vagos que não descrevem o que será selecionado. O usuário precisa entender a consequência da escolha sem contexto adicional.'
+      },
+      positive: {
+        component: (
+          <ul style={{ margin: 0, padding: 0 }}>
+            <ListItem variant="checkbox" text="Receber e-mails de novidades" hovered={true} />
+            <ListItem variant="checkbox" text="Receber alertas por SMS" hovered={true} />
+          </ul>
+        ),
+        description: 'Use textos descritivos que deixem claro o que cada opção representa, sem depender de contexto externo.'
+      }
+    },
+    {
+      negative: {
+        component: (
+          <ul style={{ margin: 0, padding: 0 }}>
+            <ListItem variant="radio" text="Plano mensal" hovered={true} />
+            <ListItem variant="checkbox" text="Plano anual" hovered={true} />
+          </ul>
+        ),
+        description: 'Não misture variantes de seleção na mesma lista. Combinar radio e checkbox cria inconsistência e confunde o modelo mental do usuário.'
+      },
+      positive: {
+        component: (
+          <ul style={{ margin: 0, padding: 0 }}>
+            <ListItem variant="radio" text="Plano mensal" name="plano" hovered={true} />
+            <ListItem variant="radio" text="Plano anual" name="plano" hovered={true} />
+          </ul>
+        ),
+        description: 'Mantenha a mesma variante em toda a lista. Use radio para seleção exclusiva e checkbox para seleção múltipla.'
+      }
+    },
+    {
+      negative: {
+        component: (
+          <ul style={{ margin: 0, padding: 0 }}>
+            <ListItem variant="icon" text="Config" icon={<Settings20Regular />} hovered={true} />
+            <ListItem variant="text" text="Perfil" hovered={true} />
+            <ListItem variant="icon" text="Sair" icon={<ArrowExit20Regular />} hovered={true} />
+          </ul>
+        ),
+        description: 'Evite alternar entre itens com ícone e sem ícone na mesma lista. A ausência de ícone em alguns itens quebra o alinhamento visual.'
+      },
+      positive: {
+        component: (
+          <ul style={{ margin: 0, padding: 0 }}>
+            <ListItem variant="icon" text="Configurações" icon={<Settings20Regular />} hovered={true} />
+            <ListItem variant="icon" text="Perfil" icon={<Person20Regular />} hovered={true} />
+            <ListItem variant="icon" text="Sair" icon={<ArrowExit20Regular />} hovered={true} />
+          </ul>
+        ),
+        description: 'Quando usar ícones, aplique-os em todos os itens da lista para manter consistência visual e alinhamento.'
+      }
+    }
+  ]}
+/>
+
+<Footer />

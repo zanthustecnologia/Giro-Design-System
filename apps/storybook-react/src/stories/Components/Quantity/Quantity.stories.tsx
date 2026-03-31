@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
-import type { Meta, StoryFn } from '@storybook/react';
+﻿import React, { useState } from 'react';
+import type { Meta, StoryObj } from '@storybook/react';
 import { Quantity } from '@giro-ds/react';
-import type { QuantityProps } from '@giro-ds/react';
 
 const meta: Meta<typeof Quantity> = {
   title: 'Components/Quantity',
@@ -12,81 +11,88 @@ const meta: Meta<typeof Quantity> = {
   argTypes: {
     defaultValue: {
       control: { type: 'number' },
-      defaultValue: 0,
+      description: 'Valor inicial no modo não controlado.',
     },
     value: {
       control: { type: 'number' },
+      description: 'Valor atual no modo controlado. Use junto com onChange.',
+    },
+    onChange: {
+      table: { disable: true },
     },
     disabled: {
       control: { type: 'boolean' },
+      description: 'Desabilita toda a interação com o componente.',
     },
     decimal: {
       control: { type: 'boolean' },
-      defaultValue: false,
+      description: 'Habilita entrada de valores decimais.',
     },
     decimalPlaces: {
       control: { type: 'number' },
+      description: 'Número de casas decimais (1 a 10). Ativo apenas quando decimal=true.',
       if: { arg: 'decimal', eq: true },
     },
     size: {
       control: { type: 'select' },
       options: ['lg', 'sm'],
+      description: 'Tamanho do componente.',
     },
     step: {
       control: { type: 'number' },
-      defaultValue: 1,
+      description: 'Valor de incremento/decremento dos botões.',
     },
-    onChange: {
-      action: 'changed',
-    },
+  },
+  args: {
+    defaultValue: 0,
+    disabled: false,
+    decimal: false,
+    decimalPlaces: 2,
+    size: 'lg',
+    step: 1,
   },
 };
 
 export default meta;
+type Story = StoryObj<typeof Quantity>;
 
-/**
- * Story padrão - componente não controlado
- * Usa defaultValue para definir valor inicial
- */
-export const Default: StoryFn<QuantityProps> = (args) => <Quantity {...args} />;
-Default.args = {
-  defaultValue: 0,
-  disabled: false,
-  decimal: false,
-  decimalPlaces: 2,
-  size: 'lg',
-  step: 1,
+export const Default: Story = {
+  render: (args) => <Quantity {...args} />,
 };
 
-Default.parameters = {
-  docs: {
-    source: {
-      code: `
-/**
- * Exemplo de uso do componente Quantity não controlado.
- * - O valor inicial é definido via defaultValue.
- * - O componente gerencia seu próprio estado interno.
- */
-function Example() {
-  const [value, setValue] = useState<number>(1);
+export const Desabilitado: Story = {
+  render: () => <Quantity defaultValue={3} disabled />,
+};
 
-  // Atualiza o valor da quantidade
-  const handleChange = (newValue: number): void => {
-    setValue(newValue);
-  };
+export const Decimal: Story = {
+  render: () => <Quantity decimal decimalPlaces={2} step={0.5} defaultValue={1} />,
+};
 
-  return (
-    <Quantity
-      defaultValue={value}
-      onChange={handleChange}
-      size="lg"
-      step={1}
-      decimal={false}
-      disabled={false}
-    />
-  );
-}
-      `.trim(),
-    },
+export const Tamanhos: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', alignItems: 'flex-start' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+        <span style={{ fontSize: '13px', color: 'var(--color-neutral-low-medium)', width: '24px' }}>lg</span>
+        <Quantity defaultValue={1} size="lg" />
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+        <span style={{ fontSize: '13px', color: 'var(--color-neutral-low-medium)', width: '24px' }}>sm</span>
+        <Quantity defaultValue={1} size="sm" />
+      </div>
+    </div>
+  ),
+};
+
+export const Controlado: Story = {
+  render: () => {
+    const [qty, setQty] = useState(0);
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px' }}>
+        <Quantity value={qty} onChange={setQty} />
+        <span style={{ fontSize: '13px', color: 'var(--color-neutral-low-medium)' }}>
+          Valor atual: <strong style={{ color: 'var(--color-neutral-low-dark)' }}>{qty}</strong>
+        </span>
+      </div>
+    );
   },
 };
