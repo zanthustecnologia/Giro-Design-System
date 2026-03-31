@@ -7,8 +7,10 @@
   box-sizing: border-box;
   border-radius: var(--border-radius-8);
   box-shadow: 0px 2px 16px 0px rgba(0, 0, 0, 0.20);
-  padding: var(--spacing-16) var(--spacing-24);
+  padding: var(--spacing-24);
   background-color: var(--color-neutral-high-default);
+  min-width: 320px;
+  min-height: 320px;
 }
 
 .root * {
@@ -50,10 +52,10 @@
 }
 
 .caption_label {
-  z-index: 1;
   position: relative;
   display: inline-flex;
   align-items: center;
+  justify-content: end;
   white-space: nowrap;
   border: var(--border-width-none);
 }
@@ -76,6 +78,12 @@
   appearance: none;
   width: 16px;
   height: 16px;
+
+  &:hover,
+  &:focus-visible {
+    background-color: transparent;
+    outline: none;
+  }
 }
 
 .button_previous {
@@ -108,7 +116,6 @@
 }
 
 .dropdown {
-  z-index: 2;
   opacity: 0;
   appearance: none;
   position: absolute;
@@ -135,11 +142,13 @@
 .month_caption {
   display: flex;
   align-content: center;
-  height: 45px;
+  height: 22px;
+  width: 272px;
   line-height: 130%;
   text-transform: capitalize;
-  font-weight: var(--font-weight-bold);
+  font-weight: var(--font-weight-regular);
   font-size: var(--font-size-16);
+  margin-bottom: var(--spacing-8);
 }
 
 .root[data-nav-layout="around"] .month,
@@ -158,7 +167,7 @@
   position: absolute;
   inset-inline-start: var(--spacing-0);
   top: var(--spacing-0);
-  height: 45px;
+  height: 22px;
   display: inline-flex;
 }
 
@@ -166,7 +175,7 @@
   position: absolute;
   inset-inline-end: var(--spacing-0);
   top: var(--spacing-0);
-  height: 45px;
+  height: 22px;
   display: inline-flex;
   justify-content: center;
 }
@@ -181,6 +190,7 @@
 
 .month_grid {
   border-collapse: collapse;
+  width: 272px;
 }
 
 .nav {
@@ -189,7 +199,7 @@
   inset-inline-end: var(--spacing-0);
   display: flex;
   align-items: center;
-  height: 44px;
+  height: 22px;
 }
 
 .weekday {
@@ -374,4 +384,193 @@
 
 .caption_before_exit {
   animation: fade_out 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* ─────────────────────────── SCSS do modo grid do ano e dos meses ─────────────────────────────────────────── */
+
+.calendar_grid_wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.caption_grid_btn {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  background: none;
+  border: var(--border-width-none);
+  padding: var(--spacing-0) var(--border-width-2);
+  margin: var(--spacing-0);
+  cursor: pointer;
+  font: inherit;
+  color: var(--color-neutral-low-default);
+  font-weight: var(--font-weight-regular);
+  font-size: var(--font-size-16);
+  font-family: var(--font-family-primary);
+  border-radius: var(--border-radius-pill);
+  text-transform: capitalize;
+  line-height: 130%;
+
+  &:hover,
+  &:focus-visible {
+    background-color: transparent;
+    outline: none;
+  }
+
+  &[aria-pressed="true"] {
+    color: var(--color-brand-primary-default);
+  }
+}
+
+.caption_year_chevron {
+  display: inline-block;
+  margin-left: var(--spacing-8);
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.caption_grid_label {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: var(--spacing-0) var(--border-width-2);
+  font: inherit;
+  color: var(--color-neutral-low-default);
+  font-weight: var(--font-weight-regular);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-16);
+  text-transform: capitalize;
+  line-height: 130%;
+}
+
+.caption_year_chevron_open {
+  transform: rotate(180deg);
+}
+
+.gridOverlay {
+  position: absolute;
+  inset: 0;
+  background-color: var(--color-neutral-high-default);
+  border-radius: var(--border-radius-4);
+  padding: var(--spacing-16) var(--spacing-0);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-16);
+}
+
+.gridOverlayCaption {
+  position: relative;
+  display: flex;
+  align-content: center;
+  height: 22px;
+  line-height: 130%;
+  text-transform: capitalize;
+  font-weight: var(--font-weight-regular);
+  font-size: var(--font-size-16);
+  flex-shrink: 0;
+  padding: var(--spacing-0) var(--spacing-24);
+}
+
+.gridOverlayCaption .caption_grid_btn {
+  &:hover,
+  &:focus-visible {
+    background-color: transparent;
+    outline: none;
+  }
+}
+
+.gridOverlayYearsNav {
+  position: absolute;
+  inset-block-start: var(--spacing-0);
+  inset-inline-end: var(--spacing-0);
+  display: flex;
+  align-items: center;
+  height: 22px;
+  width: 56px;
+  padding-right: var(--spacing-24);
+  gap: 28px;
+}
+
+.gridCells {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--spacing-8);
+  padding: var(--spacing-4);
+  flex: 1;
+  align-content: start;
+}
+
+.gridCellsYears {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.gridCell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  height: 36px;
+  border-radius: var(--border-radius-pill);
+  border: var(--border-width-2) solid transparent;
+  background: none;
+  cursor: pointer;
+  font: inherit;
+  font-size: var(--font-size-14);
+  text-transform: capitalize;
+  color: var(--color-neutral-low-default);
+  padding: var(--spacing-0);
+  margin: var(--spacing-0);
+
+  &:hover:not(:disabled) {
+    background-color: var(--color-neutral-high-medium);
+    border-color: var(--color-neutral-high-medium);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.gridCellActive {
+  background-color: var(--color-brand-primary-default);
+  color: var(--color-neutral-high-default);
+  border-color: var(--color-brand-primary-default);
+
+  &:hover:not(:disabled) {
+    background-color: var(--color-brand-primary-default);
+    border-color: var(--color-brand-primary-default);
+  }
+}
+
+.gridNavBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: var(--border-width-none);
+  cursor: pointer;
+  font: inherit;
+  color: var(--color-neutral-low-default);
+  padding: var(--spacing-0);
+  flex-shrink: 0;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: revert;
+  }
+}
+
+.chevronNavBtnPrev {
+  width: 14px; 
+  height: 16px;
+  fill: none;
+  transform: rotate(90deg);
+}
+
+.chevronNavBtnNext {
+  width: 14px; 
+  height: 16px;
+  fill: none;
+  transform: rotate(-90deg);
 }
