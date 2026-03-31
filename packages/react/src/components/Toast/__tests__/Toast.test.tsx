@@ -91,7 +91,7 @@ describe('Toast', () => {
       });
 
       await waitFor(() => {
-        const iconSpan = container.querySelector('[class*="IconInfo"]');
+        const iconSpan = container.querySelector('[class*="iconInfo"]');
         expect(iconSpan).toBeInTheDocument();
       });
     });
@@ -116,7 +116,7 @@ describe('Toast', () => {
       });
 
       await waitFor(() => {
-        const iconSpan = container.querySelector('[class*="IconSuccess"]');
+        const iconSpan = container.querySelector('[class*="iconSuccess"]');
         expect(iconSpan).toBeInTheDocument();
       });
     });
@@ -141,7 +141,7 @@ describe('Toast', () => {
       });
 
       await waitFor(() => {
-        const iconSpan = container.querySelector('[class*="IconAlert"]');
+        const iconSpan = container.querySelector('[class*="iconAlert"]');
         expect(iconSpan).toBeInTheDocument();
       });
     });
@@ -190,7 +190,7 @@ describe('Toast', () => {
       });
 
       await waitFor(() => {
-        const closeButton = container.querySelector('[class*="ToastClose"]');
+        const closeButton = container.querySelector('[class*="toastClose"]');
         expect(closeButton).toBeInTheDocument();
       });
     });
@@ -485,7 +485,7 @@ describe('ToastContainer', () => {
         </ToastProvider>
       );
 
-      const viewport = container.querySelector('[class*="ToastViewport"]');
+      const viewport = container.querySelector('[class*="toastViewport"]');
       expect(viewport).toBeInTheDocument();
     });
 
@@ -521,7 +521,7 @@ describe('ToastContainer', () => {
         </ToastProvider>
       );
 
-      const viewport = container.querySelector('[class*="ToastViewport"]');
+      const viewport = container.querySelector('[class*="toastViewport"]');
       expect(viewport).toBeInTheDocument();
     });
   });

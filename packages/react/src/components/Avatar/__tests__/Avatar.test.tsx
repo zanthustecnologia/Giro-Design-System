@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
-import { describe, it, expect } from 'vitest';
 import React from 'react';
+import { describe, it, expect } from 'vitest';
 
 import Avatar from '../Avatar';
 
@@ -46,11 +46,11 @@ describe('Avatar', () => {
       expect(className).toMatch(/AvatarRoot--lg/);
     });
 
-    it('usa "sm" como tamanho padrão quando size não é fornecido', () => {
+    it('usa "lg" como tamanho padrão quando size não é fornecido', () => {
       const { container } = render(<Avatar icon={<MockIcon />} />);
       const avatarRoot = container.querySelector('[class*="AvatarRoot"]');
       const className = avatarRoot?.className || '';
-      expect(className).toMatch(/AvatarRoot--sm/);
+      expect(className).toMatch(/AvatarRoot--lg/);
     });
   });
 

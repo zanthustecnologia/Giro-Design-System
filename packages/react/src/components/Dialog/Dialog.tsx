@@ -7,7 +7,6 @@ import { DialogProps } from "./Dialog.types";
 import Button from '../Button/Button';
 
 const Dialog: React.FC<DialogProps> = ({
-  // children,
 	show = false,
   title,
   bodyContent,
@@ -18,9 +17,6 @@ const Dialog: React.FC<DialogProps> = ({
   ...restProps
 }) => (
 	<AlertDialog.Root open={show} {...restProps}>
-		{/* <AlertDialog.Trigger asChild>
-			{children}
-		</AlertDialog.Trigger> */}
 		<AlertDialog.Portal>
 			<AlertDialog.Overlay className={styles.DialogOverlay} />
 			<AlertDialog.Content className={styles.DialogContent}>
