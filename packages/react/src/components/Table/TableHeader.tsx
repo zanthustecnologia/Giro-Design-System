@@ -4,13 +4,15 @@ import styles from './Table.module.scss';
 import Filter from '../Filter/Filter';
 import Search from '../Search/Search';
 
-import type { DropdownItem } from '../Dropdown/Dropdown.types';
+import type { Side, Align } from '../../types/common.types';
+import type { FilterItem as FilterListItem } from '../Filter';
 
 interface BaseFilterItem {
   id?: string;
   buttonText: string | React.ReactNode;
   icon?: React.ReactElement;
-  position?: 'left' | 'right';
+  side?: Side;
+  align?: Exclude<Align, 'center'>;
   disabled?: boolean;
   onToggle?: (isOpen: boolean) => void;
   tooltip?: string;
@@ -18,7 +20,7 @@ interface BaseFilterItem {
 
 interface CheckboxFilterItem extends BaseFilterItem {
   type: 'checkbox' | 'text' | 'icon';
-  items: DropdownItem[];
+  items: FilterListItem[];
   selectedIds?: string[];
   onSelectionChange?: (selectedIds: string[]) => void;
   placeholder?: string;
@@ -129,10 +131,10 @@ const TableHeader: React.FC<TableHeaderProps> = ({
                 <div className={styles['zds-table-header__filter-items']}>
                   {filterItems && filterItems.map((filterItem, index) => {
                     const commonProps = {
-                      key: filterItem.id || index,
                       buttonText: filterItem.buttonText,
                       icon: filterItem.icon,
-                      position: filterItem.position || 'right',
+                      side: filterItem.side,
+                      align: filterItem.align,
                       disabled: filterItem.disabled,
                       variant: 'outlined' as const,
                       onOpen: () => filterItem.onToggle?.(true),
@@ -141,6 +143,7 @@ const TableHeader: React.FC<TableHeaderProps> = ({
                     if (isCalendarFilter(filterItem)) {
                       return (
                         <Filter
+                          key={filterItem.id || index}
                           {...commonProps}
                           type="calendar"
                           selectedDate={filterItem.selectedDate}
@@ -156,6 +159,7 @@ const TableHeader: React.FC<TableHeaderProps> = ({
                     if (isCheckboxFilter(filterItem)) {
                       return (
                         <Filter
+                          key={filterItem.id || index}
                           {...commonProps}
                           type={filterItem.type}
                           items={filterItem.items}

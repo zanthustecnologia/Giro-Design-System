@@ -31,9 +31,6 @@ export { type DialogProps } from './Dialog/Dialog.types';
 export { default as Drawer } from './Drawer';
 export { type DrawerProps } from './Drawer/Drawer.types';
 
-export { default as Dropdown } from './Dropdown';
-export { type DropdownProps, type DropdownItem, type DropdownType } from './Dropdown/Dropdown.types';
-
 export { default as Filter } from './Filter';
 export { type FilterProps } from './Filter/Filter.types';
 

@@ -1,4 +1,10 @@
 .Content {
+	background-color: var(--color-neutral-high-default);
+	border-radius: var(--border-radius-8);
+	box-shadow: 0 2px 16px 0px rgba(0, 0, 0, 0.20);
+	animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+	will-change: transform, opacity;
+
 	&[data-state="open"][data-side="top"] {
 		animation-name: slideDownAndFade;
 	}

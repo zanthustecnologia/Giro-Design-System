@@ -1,7 +1,16 @@
 import { ReactNode, ReactElement } from 'react';
 
-import { Variant, BaseProps, Locale, Position } from '../../types/common.types';
-import { DropdownItem, DropdownType } from '../Dropdown/Dropdown.types';
+import { Variant, BaseProps, Locale, Side, Align } from '../../types/common.types';
+
+export interface FilterItem {
+  id?: string;
+  text: string;
+  subText?: string;
+  icon?: ReactNode;
+  disabled?: boolean;
+}
+
+export type FilterType = 'text' | 'checkbox' | 'icon' | 'calendar';
 
 /**
  * Props do componente Filter
@@ -29,10 +38,10 @@ import { DropdownItem, DropdownType } from '../Dropdown/Dropdown.types';
  */
 export interface FilterProps extends BaseProps {
   /** Array de itens para filtros do tipo dropdown */
-  items?: DropdownItem[];
+  items?: FilterItem[];
   
   /** Tipo do filtro (dropdown ou calendário) */
-  type?: DropdownType | 'calendar';
+  type?: FilterType;
   
   /** IDs dos itens selecionados */
   selectedIds?: string[];
@@ -61,8 +70,11 @@ export interface FilterProps extends BaseProps {
   /** Callback executado ao fechar o filtro: () => void */
   onClose?: () => void;
   
-  /** Posição do dropdown em relação ao botão */
-  position?: Position;
+  /** Posição do popover em relação ao botão */
+  side?: Side;
+
+  /** Alinhamento do popover em relação ao botão */
+  align?: Exclude<Align, 'center'>;
   
   /** Data selecionada (para tipo calendar) */
   selectedDate?: Date | null;

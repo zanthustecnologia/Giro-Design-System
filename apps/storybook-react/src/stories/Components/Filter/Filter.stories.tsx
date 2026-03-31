@@ -24,22 +24,27 @@ const meta: Meta<typeof Filter> = {
         defaultValue: { summary: 'Filter' },
       },
     },
-    position: {
-      control: {
-        type: 'select',
-        options: ['left', 'right'],
-      },
-      description: 'Posição do dropdown',
+    side: {
+      control: 'select',
+      options: ['top', 'right', 'bottom', 'left'],
+      description: 'Lado de abertura do popover em relação ao botão',
       table: {
-        type: { summary: "'left' | 'right'" },
-        defaultValue: { summary: 'left' },
+        type: { summary: "'top' | 'right' | 'bottom' | 'left'" },
+        defaultValue: { summary: 'bottom' },
+      },
+    },
+    align: {
+      control: 'select',
+      options: ['start', 'end'],
+      description: 'Alinhamento do popover em relação ao botão',
+      table: {
+        type: { summary: "'start' | 'end'" },
+        defaultValue: { summary: 'start' },
       },
     },
     variant: {
-      control: {
-        type: 'select',
-        options: ['filled', 'outlined', 'text'],
-      },
+      control: 'select',
+      options: ['filled', 'outlined', 'text'],
       description: 'Variante do botão',
       table: {
         type: { summary: "'filled' | 'outlined' | 'text'" },
@@ -47,10 +52,8 @@ const meta: Meta<typeof Filter> = {
       },
     },
     type: {
-      control: {
-        type: 'select',
-        options: ['checkbox', 'text', 'icon'],
-      },
+      control: 'select',
+      options: ['checkbox', 'text', 'icon'],
       description: 'Tipo do dropdown',
       table: {
         type: { summary: "'checkbox' | 'text' | 'icon'" },
@@ -114,12 +117,10 @@ const categoryItems = [
   { id: 'moda', text: 'Moda', subText: 'Roupas e acessórios' },
   { id: 'esportes', text: 'Esportes', subText: 'Equipamentos esportivos' },
   { id: 'livros', text: 'Livros', subText: 'Literatura e educação' },
-];
-
-const priorityItems = [
-  { id: 'alta', text: 'Alta' },
-  { id: 'media', text: 'Média' },
-  { id: 'baixa', text: 'Baixa' },
+  { id: 'alimentacao', text: 'Alimentação', subText: 'Produtos alimentícios' },
+  { id: 'beleza', text: 'Beleza', subText: 'Cosméticos e cuidados' },
+  { id: 'eletronicos', text: 'Eletrônicos', subText: 'Gadgets e acessórios' },
+  { id: 'automotivo', text: 'Automotivo', subText: 'Peças e acessórios' },
 ];
 
 // Template básico com Dropdown integrado
@@ -148,7 +149,8 @@ export const Default: Story = {
     items: statusItems,
     buttonText: 'Status',
     type: 'checkbox',
-    position: 'left',
+    side: 'bottom',
+    align: 'start',
     variant: 'outlined',
     disabled: false,
   },
@@ -161,18 +163,8 @@ export const WithSearch: Story = {
     buttonText: 'Categoria',
     type: 'checkbox',
     enableSearch: true,
-    position: 'left',
-    variant: 'outlined',
-  },
-};
-
-export const RightPosition: Story = {
-  render: FilterTemplate,
-  args: {
-    items: priorityItems,
-    buttonText: 'Prioridade',
-    type: 'checkbox',
-    position: 'right',
+    side: 'bottom',
+    align: 'start',
     variant: 'outlined',
   },
 };
@@ -184,7 +176,8 @@ export const Disabled: Story = {
     buttonText: 'Status',
     type: 'checkbox',
     disabled: true,
-    position: 'left',
+    side: 'bottom',
+    align: 'start',
     variant: 'outlined',
   },
 };
