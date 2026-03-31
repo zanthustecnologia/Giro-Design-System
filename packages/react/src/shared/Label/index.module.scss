@@ -1,7 +1,7 @@
 .labelContainer {
   display: flex;
   align-items: center;
-  gap: var(--spacing-0) var(--spacing-4);
+  gap:var(--spacing-4);
 }
 
 .wrapperLabel {
@@ -12,25 +12,43 @@
   font-weight: var(--font-weight-regular);
   display: flex;
   align-items: center;
-  gap: var(--spacing-4);
   flex-direction: row;
-  margin-bottom: var(--spacing-4);
 }
 .requiredLabel {
-  color: var(--color-brand-primary-default);
+  color: var(--color-neutral-low-default);
+  margin-left: var(--spacing-4);
 }
 .infoIcon {
-  color: var(--color-brand-primary-default);
+  display: inline-flex;
+  line-height: 0;
+  color: var(--color-neutral-low-default);
+}
+.errorIcon {
+  display: inline-flex;
+  line-height: 0;
+  color: var(--color-feedback-alert-default);
+}
+.disabledIcon {
+  display: inline-flex;
+  line-height: 0;
+  color: var(--color-neutral-high-dark);
 }
 .errorLabel {
   color: var(--color-feedback-alert-default);
   .requiredLabel {
     color: var(--color-feedback-alert-default);
   }
-  .infoIcon {
-    color: var(--color-feedback-alert-default);
-  }
 }
 .disabledLabel {
   color: var(--color-neutral-high-dark);
+  .requiredLabel {
+    color: var(--color-neutral-high-dark);
+  }
+}
+.disabledContainer {
+  color: var(--color-neutral-high-dark);
+
+  .infoIcon {
+    color: var(--color-neutral-high-dark);
+  }
 }
