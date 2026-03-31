@@ -46,7 +46,7 @@ module.exports = [
       typescript({
         tsconfig: path.resolve(__dirname, 'tsconfig.json'),
         declaration: true,
-        declarationDir: path.resolve(__dirname, 'dist'),
+        declarationDir: path.resolve(__dirname, 'dist/dts-temp'),
         rootDir: 'src',
       }),
     ],
@@ -69,12 +69,19 @@ module.exports = [
     },
   },
   {
-    input: 'dist/index.d.ts',
+    input: 'dist/dts-temp/index.d.ts',
     output: {
       file: path.resolve(__dirname, 'dist/index.d.ts'),
       format: 'esm',
     },
-    plugins: [dts()],
+    plugins: [dts({
+      compilerOptions: {
+        baseUrl: path.resolve(__dirname, 'dist/dts-temp'),
+        paths: {
+          '@/*': ['./*'],
+        },
+      },
+    })],
     external: [/\.s?css$/],
   },
 ];
