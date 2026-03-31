@@ -1,4 +1,4 @@
-import { Locale, BaseProps, Side, Align } from '../../types/common.types';
+import { Locale, BaseProps, Position } from '../../types/common.types';
 
 /**
  * Props do componente DatePicker
@@ -18,7 +18,7 @@ import { Locale, BaseProps, Side, Align } from '../../types/common.types';
  *   required
  *   helperText="Selecione a data de início do projeto"
  *   minDate={new Date()}
- *   calendarSide="right"
+ *   calendarPosition="right"
  *   error={errorMessage}
  * />
  * ```
@@ -28,10 +28,7 @@ export interface DatePickerProps extends BaseProps {
   locale?: Locale;
   
   /** Posição do calendário em relação ao campo */
-  calendarSide?: Side;
-
-  /** Alinhamento do calendário em relação ao campo */
-  calendarAlign?: Exclude<Align, 'center'>;
+  calendarPosition?: Position;
   
   /** Texto de ajuda exibido abaixo do campo */
   helperText?: string;
@@ -62,5 +59,4 @@ export interface DatePickerProps extends BaseProps {
   
   /** ID para testes automatizados */
   'data-testid'?: string;
-
 }

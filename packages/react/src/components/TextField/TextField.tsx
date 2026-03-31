@@ -24,11 +24,13 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
       side = 'bottom',
 	    align = 'start',
       errorMessage,
+      error: externalError,
       id,
       icon,
       onBlur,
       onFocus,
       name,
+      persistIcon = false,
       ...inputProps
     },
     ref
@@ -103,11 +105,12 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
       [onFocus]
     );
 
-    const showCustomIcon = inputValue.trim().length === 0 && icon;
-    const showClearIcon = isFocused && inputValue.trim().length > 0;
-    const hasError = Boolean(inputError);
-    const displayHelperText = inputError || helperText || '\u00A0';
-    const helperId = inputError
+    const showCustomIcon = (inputValue.trim().length === 0 || persistIcon) && icon;
+    const showClearIcon = isFocused && inputValue.trim().length > 0 && !persistIcon;
+    const hasError = Boolean(inputError) || Boolean(externalError);
+    const externalErrorMessage = typeof externalError === 'string' ? externalError : '';
+    const displayHelperText = inputError || externalErrorMessage || helperText || '\u00A0';
+    const helperId = (inputError || externalErrorMessage)
       ? `${componentId}-error`
       : helperText
         ? `${componentId}-helper`
