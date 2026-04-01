@@ -58,6 +58,7 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
     styles[`button-${variant}`],
     styles[`button-${size}`],
     {
+      [styles['disabled']]: disabled,
       [styles['buttonLoading']]: loading,
       [styles['buttonWithIcon']]: resolvedIcon && !iconOnly,
       [styles[`buttonIconPosition-${iconPosition}`]]: resolvedIcon && !iconOnly,
@@ -78,7 +79,7 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
   };
 
   const handleClick = (e: React.MouseEvent<HTMLElement>) => {
-    if (disabled) {
+    if (disabled || loading) {
       e.preventDefault();
       return;
     }
@@ -123,15 +124,19 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
     className: buttonClasses,
     'aria-label': getAriaLabel(),
     'aria-disabled': disabled,
-    tabIndex: disabled ? -1 : 0,
+    'aria-busy': loading || undefined,
+    tabIndex: disabled || loading ? -1 : 0,
     onClick: handleClick,
     ...restProps,
   };
 
   const getNavigationProps = () => {
     if (href) {
+      if (disabled) {
+        return { role: 'link' };
+      }
       return {
-        href: disabled ? '#' : href,
+        href,
         target: external || target === '_blank' ? '_blank' : target,
         rel: external || target === '_blank' ? 'noopener noreferrer' : rel,
       };
@@ -140,11 +145,11 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
     if (to) {
       if (Component !== 'a') {
         return {
-          to: disabled ? '#' : to,
+          to: disabled ? undefined : to,
         };
       }
       return {
-        href: disabled ? '#' : to,
+        href: disabled ? undefined : to,
       };
     }
     if (Component === 'button') {

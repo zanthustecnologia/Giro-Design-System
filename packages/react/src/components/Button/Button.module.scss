@@ -182,7 +182,7 @@
   background: var(--color-brand-primary-medium);
 }
 
-.button.button-filled:focus {
+.button.button-filled:focus-visible {
   outline: var(--border-width-4) solid var(--color-neutral-high-dark);
   outline-offset: var(--border-width-2);
 }
@@ -193,7 +193,8 @@
   outline: none;
 }
 
-.button.button-filled:disabled {
+.button.button-filled:disabled,
+.button.button-filled.disabled {
   background: var(--color-neutral-high-light);
   color: var(--color-neutral-low-light);
   cursor: not-allowed;
@@ -210,14 +211,14 @@
   background-color: var(--color-neutral-high-medium);
 }
 
-.button.button-outlined:focus {
+.button.button-outlined:focus-visible {
   outline: var(--border-width-4) solid var(--color-neutral-high-dark);
   outline-offset: var(--border-width-2);
   color: var(--color-brand-primary-default);
   background-color: var(--color-neutral-high-default);
 }
 
-.button.button-outlined:focus * {
+.button.button-outlined:focus-visible * {
   color: var(--color-brand-primary-default);
 }
 
@@ -253,7 +254,7 @@
   background-color: var(--color-neutral-high-medium);
 }
 
-.button.button-text:focus {
+.button.button-text:focus-visible {
   outline: var(--border-width-4) solid var(--color-neutral-high-dark);
   outline-offset: var(--border-width-2);
   color: var(--color-brand-primary-default);
