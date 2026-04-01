@@ -1,46 +1,147 @@
 import 'package:flutter/material.dart';
+import '../../types/giro_types.dart';
 import 'button_tokens.dart';
 
+enum GiroButtonVariant {
+  filled,
+  outlined,
+  text,
+}
+
 class GiroButton extends StatelessWidget {
-  final String variant; // 'filled' | 'outlined' | 'text'
-  final String size; // 'lg' | 'sm'
-  final String iconPosition; // 'left' | 'right' | 'none'
+  final GiroButtonVariant variant; // 'filled' | 'outlined' | 'text'
+  final GiroSize size; // 'lg' | 'sm'
+  final GiroPosition iconPosition; // 'left' | 'right' | 'none'
 
   final VoidCallback? onPressed;
-  final Widget child;
+  final String text;
   final Widget? icon;
 
   final bool iconOnly;
   final bool fullWidth;
+  final bool disable;
 
+  // Construtor BASE
   const GiroButton({
-    super.key,
-    required this.child,
+    required this.text,
     required this.onPressed,
-    this.variant = 'filled',
-    this.size = 'lg',
-    this.iconPosition = 'left',
+    this.variant = GiroButtonVariant.filled,
+    this.size = GiroSize.lg,
+    this.iconPosition = GiroPosition.left,
     this.icon,
     this.iconOnly = false,
     this.fullWidth = false,
-  });
+    this.disable = false,
+    super.key,
+  })  : assert(
+          iconPosition == GiroPosition.left ||
+              iconPosition == GiroPosition.right ||
+              iconPosition == GiroPosition.none,
+          'GiroButton only supports left, right, or none for iconPosition.',
+        ),
+        assert(
+          size == GiroSize.lg || size == GiroSize.sm,
+          'GiroButton only supports lg or sm for size.',
+        ),
+        assert(
+          variant == GiroButtonVariant.filled ||
+              variant == GiroButtonVariant.outlined ||
+              variant == GiroButtonVariant.text,
+          'GiroButton only supports filled, outlined, or text for variant.',
+        );
 
-  bool get _isLg => size == 'lg';
-  bool get _hasIcon => icon != null && !iconOnly && iconPosition != 'none';
-  bool get _iconRight => iconPosition == 'right';
+  // Construtor FILLED
+  const GiroButton.filled({
+    required String text,
+    required VoidCallback? onPressed,
+    GiroSize size = GiroSize.lg,
+    GiroPosition iconPosition = GiroPosition.left,
+    Widget? icon,
+    bool iconOnly = false,
+    bool fullWidth = false,
+    bool disable = false,
+    Key? key,
+  }) : this(
+          variant: GiroButtonVariant.filled,
+          text: text,
+          onPressed: onPressed,
+          size: size,
+          iconPosition: iconPosition,
+          icon: icon,
+          iconOnly: iconOnly,
+          fullWidth: fullWidth,
+          disable: disable,
+          key: key,
+        );
+
+  // Construtor OUTLINED
+  const GiroButton.outlined({
+    required String text,
+    required VoidCallback? onPressed,
+    GiroSize size = GiroSize.lg,
+    GiroPosition iconPosition = GiroPosition.left,
+    Widget? icon,
+    bool iconOnly = false,
+    bool fullWidth = false,
+    bool disable = false,
+    Key? key,
+  }) : this(
+          variant: GiroButtonVariant.outlined,
+          text: text,
+          onPressed: onPressed,
+          size: size,
+          iconPosition: iconPosition,
+          icon: icon,
+          iconOnly: iconOnly,
+          fullWidth: fullWidth,
+          disable: disable,
+          key: key,
+        );
+
+  // Construtor TEXT
+  const GiroButton.text({
+    required String text,
+    required VoidCallback? onPressed,
+    GiroSize size = GiroSize.lg,
+    GiroPosition iconPosition = GiroPosition.left,
+    Widget? icon,
+    bool iconOnly = false,
+    bool fullWidth = false,
+    bool disable = false,
+    Key? key,
+  }) : this(
+          variant: GiroButtonVariant.text,
+          text: text,
+          onPressed: onPressed,
+          size: size,
+          iconPosition: iconPosition,
+          icon: icon,
+          iconOnly: iconOnly,
+          fullWidth: fullWidth,
+          disable: disable,
+          key: key,
+        );
+
+  bool get _isLg => size == GiroSize.lg;
+  bool get _hasIcon =>
+      icon != null && !iconOnly && iconPosition != GiroPosition.none;
+  bool get _iconRight => iconPosition == GiroPosition.right;
 
   @override
   Widget build(BuildContext context) {
-    final height = _isLg ? GiroButtonTokens.heightLg : GiroButtonTokens.heightSm;
-    final tokenMinWidth = _isLg ? GiroButtonTokens.minWidthLg : GiroButtonTokens.minWidthSm;
+    final height =
+        _isLg ? GiroButtonTokens.heightLg : GiroButtonTokens.heightSm;
+    final tokenMinWidth =
+        _isLg ? GiroButtonTokens.minWidthLg : GiroButtonTokens.minWidthSm;
     final effectiveMinWidth = iconOnly ? height : tokenMinWidth;
 
-    final padX = _getHorizontalPadding(variant: variant, isLg: _isLg, hasIcon: _hasIcon);
+    final padX =
+        _getHorizontalPadding(variant: variant, isLg: _isLg, hasIcon: _hasIcon);
+
     final style = ButtonStyle(
-      // Override Theme's minimumSize (which defaults to 92px width)
       minimumSize: WidgetStateProperty.all(Size(effectiveMinWidth, height)),
-      // Force square shape for iconOnly to be absolutely sure
-      fixedSize: iconOnly ? WidgetStateProperty.all(Size(height, height)) : null,
+      fixedSize:
+          iconOnly ? WidgetStateProperty.all(Size(height, height)) : null,
       padding: WidgetStateProperty.all(
         iconOnly ? EdgeInsets.zero : EdgeInsets.symmetric(horizontal: padX),
       ),
@@ -50,23 +151,35 @@ class GiroButton extends StatelessWidget {
     final composedChild = _buildChild(isLg: _isLg);
 
     Widget button;
+
     switch (variant) {
-      case 'outlined':
-        button = OutlinedButton(onPressed: onPressed, style: style, child: composedChild);
+      case GiroButtonVariant.outlined:
+        button = OutlinedButton(
+          onPressed: disable ? null : onPressed,
+          style: style,
+          child: composedChild,
+        );
         break;
-      case 'text':
-        button = TextButton(onPressed: onPressed, style: style, child: composedChild);
+      case GiroButtonVariant.text:
+        button = TextButton(
+          onPressed: disable ? null : onPressed,
+          style: style,
+          child: composedChild,
+        );
         break;
-      case 'filled':
-      default:
-        button = FilledButton(onPressed: onPressed, style: style, child: composedChild);
+      case GiroButtonVariant.filled:
+        button = FilledButton(
+          onPressed: disable ? null : onPressed,
+          style: style,
+          child: composedChild,
+        );
         break;
     }
 
     if (fullWidth) {
       return SizedBox(width: double.infinity, height: height, child: button);
     }
-    
+
     return ConstrainedBox(
       constraints: BoxConstraints(
         minWidth: effectiveMinWidth,
@@ -78,13 +191,14 @@ class GiroButton extends StatelessWidget {
   }
 
   double _getHorizontalPadding({
-    required String variant,
+    required GiroButtonVariant variant,
     required bool isLg,
     required bool hasIcon,
   }) {
-    // Base padding por variant
-    double base = switch (variant) {
-      'text' => isLg ? GiroButtonTokens.paddingTextXLg : GiroButtonTokens.paddingTextXSm,
+    final double base = switch (variant) {
+      GiroButtonVariant.text => isLg
+          ? GiroButtonTokens.paddingTextXLg
+          : GiroButtonTokens.paddingTextXSm,
       _ => isLg ? GiroButtonTokens.paddingXLg : GiroButtonTokens.paddingXSm,
     };
 
@@ -92,9 +206,9 @@ class GiroButton extends StatelessWidget {
   }
 
   Widget _buildChild({required bool isLg}) {
-    // icon-only (quadrado 44/36)
     if (iconOnly && icon != null) {
-      final box = isLg ? GiroButtonTokens.iconOnlyLg : GiroButtonTokens.iconOnlySm;
+      final box =
+          isLg ? GiroButtonTokens.iconOnlyLg : GiroButtonTokens.iconOnlySm;
       return SizedBox(
         width: box,
         height: box,
@@ -107,10 +221,8 @@ class GiroButton extends StatelessWidget {
       );
     }
 
-    // Sem ícone
-    if (icon == null || iconPosition == 'none') return child;
+    if (icon == null || iconPosition == GiroPosition.none) return Text(text);
 
-    // Com ícone
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -121,7 +233,7 @@ class GiroButton extends StatelessWidget {
           ),
           const SizedBox(width: GiroButtonTokens.iconGap),
         ],
-        child,
+        Text(text),
         if (_iconRight) ...[
           const SizedBox(width: GiroButtonTokens.iconGap),
           IconTheme.merge(
