@@ -1345,25 +1345,23 @@ describe('Select Component', () => {
       fireEvent.click(trigger);
 
       await waitFor(() => {
-        const viewport = document.querySelector('._viewport_8315cf');
+        const viewport = screen.getByTestId('select-viewport');
         expect(viewport).toBeInTheDocument();
       });
 
-      const viewport = document.querySelector('._viewport_8315cf') as HTMLElement;
+      const viewport = screen.getByTestId('select-viewport') as HTMLElement;
       
-      if (viewport) {
-        // Simular scroll até o fim
-        Object.defineProperty(viewport, 'scrollTop', { value: 100, writable: true });
-        Object.defineProperty(viewport, 'scrollHeight', { value: 200, writable: true });
-        Object.defineProperty(viewport, 'clientHeight', { value: 100, writable: true });
+      // Simular scroll até o fim
+      Object.defineProperty(viewport, 'scrollTop', { value: 100, writable: true });
+      Object.defineProperty(viewport, 'scrollHeight', { value: 200, writable: true });
+      Object.defineProperty(viewport, 'clientHeight', { value: 100, writable: true });
 
-        const scrollEvent = new Event('scroll', { bubbles: true });
-        viewport.dispatchEvent(scrollEvent);
+      const scrollEvent = new Event('scroll', { bubbles: true });
+      viewport.dispatchEvent(scrollEvent);
 
-        await waitFor(() => {
-          expect(handleScrollEnd).toHaveBeenCalled();
-        });
-      }
+      await waitFor(() => {
+        expect(handleScrollEnd).toHaveBeenCalled();
+      });
     });
 
     it('não chama onScrollEnd quando isLoadingMore é true', async () => {
@@ -1384,24 +1382,22 @@ describe('Select Component', () => {
       fireEvent.click(trigger);
 
       await waitFor(() => {
-        const viewport = document.querySelector('._viewport_8315cf');
+        const viewport = screen.getByTestId('select-viewport');
         expect(viewport).toBeInTheDocument();
       });
 
-      const viewport = document.querySelector('._viewport_8315cf') as HTMLElement;
+      const viewport = screen.getByTestId('select-viewport') as HTMLElement;
       
-      if (viewport) {
-        Object.defineProperty(viewport, 'scrollTop', { value: 100, writable: true });
-        Object.defineProperty(viewport, 'scrollHeight', { value: 200, writable: true });
-        Object.defineProperty(viewport, 'clientHeight', { value: 100, writable: true });
+      Object.defineProperty(viewport, 'scrollTop', { value: 100, writable: true });
+      Object.defineProperty(viewport, 'scrollHeight', { value: 200, writable: true });
+      Object.defineProperty(viewport, 'clientHeight', { value: 100, writable: true });
 
-        const scrollEvent = new Event('scroll', { bubbles: true });
-        viewport.dispatchEvent(scrollEvent);
+      const scrollEvent = new Event('scroll', { bubbles: true });
+      viewport.dispatchEvent(scrollEvent);
 
-        await waitFor(() => {
-          expect(handleScrollEnd).not.toHaveBeenCalled();
-        });
-      }
+      await waitFor(() => {
+        expect(handleScrollEnd).not.toHaveBeenCalled();
+      });
     });
 
     it('mostra indicador de loading quando isLoadingMore é true', async () => {

@@ -234,7 +234,7 @@ const Select: React.FC<SelectProps> = ({
               </div>
             )}
             
-            <SelectRadix.Viewport ref={viewportRef} className={styles.viewport}>
+            <SelectRadix.Viewport ref={viewportRef} className={styles.viewport} data-testid={testId ? `${testId}-viewport` : undefined}>
               <SelectRadix.Group className={styles.group}>
                 {filteredItems.length === 0 ? (
                   <div className={styles.noResults}>
