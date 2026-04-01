@@ -67,8 +67,8 @@ describe('Drawer', () => {
     });
 
     it('não deve renderizar headerContent quando não fornecido', () => {
-      const { container } = render(<Drawer {...defaultProps} />);
-      const titleClose = container.querySelector('[class*="drawerTitleClose"]');
+      render(<Drawer {...defaultProps} />);
+      const titleClose = document.body.querySelector('[class*="drawerTitleClose"]');
       // sem headerContent, a drawerTitleClose deve ter apenas 2 filhos: title div + button
       expect(titleClose?.childElementCount).toBe(2);
     });
@@ -101,23 +101,23 @@ describe('Drawer', () => {
     });
 
     it('deve aplicar a classe de aberto no painel quando isOpen=true', () => {
-      const { container } = render(<Drawer {...defaultProps} isOpen />);
-      expect(container.querySelector('[class*="drawerSidebar--open"]')).toBeInTheDocument();
+      render(<Drawer {...defaultProps} isOpen />);
+      expect(document.body.querySelector('[class*="drawerSidebar--open"]')).toBeInTheDocument();
     });
 
     it('não deve aplicar a classe de aberto no painel quando isOpen=false', () => {
-      const { container } = render(<Drawer {...defaultProps} isOpen={false} />);
-      expect(container.querySelector('[class*="drawerSidebar--open"]')).toBeNull();
+      render(<Drawer {...defaultProps} isOpen={false} />);
+      expect(document.body.querySelector('[class*="drawerSidebar--open"]')).toBeNull();
     });
 
     it('deve aplicar a classe de visível no overlay quando isOpen=true', () => {
-      const { container } = render(<Drawer {...defaultProps} isOpen />);
-      expect(container.querySelector('[class*="drawerShadow--visible"]')).toBeInTheDocument();
+      render(<Drawer {...defaultProps} isOpen />);
+      expect(document.body.querySelector('[class*="drawerShadow--visible"]')).toBeInTheDocument();
     });
 
     it('não deve aplicar a classe de visível no overlay quando isOpen=false', () => {
-      const { container } = render(<Drawer {...defaultProps} isOpen={false} />);
-      expect(container.querySelector('[class*="drawerShadow--visible"]')).toBeNull();
+      render(<Drawer {...defaultProps} isOpen={false} />);
+      expect(document.body.querySelector('[class*="drawerShadow--visible"]')).toBeNull();
     });
   });
 
@@ -271,8 +271,8 @@ describe('Drawer', () => {
 
   describe('Estado disabled', () => {
     it('deve aplicar a classe disabled ao painel', () => {
-      const { container } = render(<Drawer {...defaultProps} disabled />);
-      expect(container.querySelector('[class*="drawerSidebar--disabled"]')).toBeInTheDocument();
+      render(<Drawer {...defaultProps} disabled />);
+      expect(document.body.querySelector('[class*="drawerSidebar--disabled"]')).toBeInTheDocument();
     });
 
     it('não deve chamar onClose ao clicar no botão de fechar quando disabled', () => {
