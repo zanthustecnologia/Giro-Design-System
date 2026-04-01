@@ -154,8 +154,8 @@
   @include iconOnlySize(36px);
 }
 .button.buttonFullWidth {
-  width: 100% !important;
-  max-width: unset !important;
+  width: 100%;
+  max-width: unset;
 }
 
 .buttonIconLeft {
