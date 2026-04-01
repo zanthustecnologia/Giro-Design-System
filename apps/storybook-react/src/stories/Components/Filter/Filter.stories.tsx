@@ -8,7 +8,6 @@ const meta: Meta<typeof Filter> = {
   title: 'Components/Filter',
   component: Filter,
   parameters: {
-    layout: 'centered',
     docs: {
       description: {
         component: 'Componente de filtro que encapsula o Dropdown com modo filter automático.',
