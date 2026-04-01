@@ -146,7 +146,7 @@ const Select: React.FC<SelectProps> = ({
 
   return (
     <SelectRadix.Root
-      value={variant === 'checkbox' ? '' : (state.selectedValues[0] || '')}
+      value={variant === 'checkbox' || (search && state.isOpen) ? '' : (state.selectedValues[0] || '')}
       onValueChange={variant === 'checkbox' ? undefined : actions.handleSingleSelect}
       required={required}
       open={state.isOpen}
@@ -278,6 +278,7 @@ const Select: React.FC<SelectProps> = ({
                           key={item.id || item.value}
                           {...item}
                           variant={variant}
+                          disableFocusOnHover={search}
                         />
                       );
                     })}
