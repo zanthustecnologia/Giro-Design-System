@@ -6,7 +6,7 @@ import styles from './Chips.module.scss';
 import type { ChipsProps } from './Chips.types';
 
 const Chips: React.FC<ChipsProps> = ({
-  title,
+  children,
   leftIcon,
   rightIcon,
   variant = 'neutral',
@@ -17,11 +17,6 @@ const Chips: React.FC<ChipsProps> = ({
   style,
   ...rest
 }) => {
-
-  if (!title || title.trim() === '') {
-    console.warn('Chips: title prop is required and cannot be empty');
-    return null;
-  }
 
   const chipsClass = clsx(
     styles.chips,
@@ -35,17 +30,20 @@ const Chips: React.FC<ChipsProps> = ({
   );
 
   const colorStyle = {
-    ...(!disabled && backgroundColor && { '--chips-bg': `var(${backgroundColor})` }),
-    ...(!disabled && foregroundColor && { '--chips-fg': `var(${foregroundColor})` }),
+    ...(!disabled && backgroundColor && { '--chips-bg': `var(--${backgroundColor})` }),
+    ...(!disabled && foregroundColor && { '--chips-fg': `var(--${foregroundColor})` }),
     ...style,
   } as React.CSSProperties;
+
+  const isInteractive = typeof rest.onClick === 'function';
 
   return (
     <div
       className={chipsClass}
-      aria-label={`Chip: ${title}`}
       aria-disabled={disabled}
       style={colorStyle}
+      role={isInteractive ? 'button' : undefined}
+      tabIndex={isInteractive ? (disabled ? -1 : 0) : undefined}
       {...rest}
     >
       {leftIcon && (
@@ -53,7 +51,7 @@ const Chips: React.FC<ChipsProps> = ({
           {leftIcon}
         </span>
       )}
-      <span className={styles.title}>{title}</span>
+      <span className={styles.title}>{children}</span>
       {rightIcon && (
         <span className={styles.iconRight}>
           {rightIcon}

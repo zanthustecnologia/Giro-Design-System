@@ -10,9 +10,9 @@ const meta: Meta<typeof Chips> = {
     layout: 'centered'
   },
   argTypes: {
-    title: {
+    children: {
       control: { type: 'text' },
-      description: 'Texto exibido dentro do chip. Obrigatório e não pode ser vazio.',
+      description: 'Conteúdo exibido dentro do chip.',
     },
     disabled: {
       control: { type: 'boolean' },
@@ -25,11 +25,11 @@ const meta: Meta<typeof Chips> = {
     },
     backgroundColor: {
       control: { type: 'text' },
-      description: 'Token CSS para cor de fundo. Ex: --color-brand-secondary-medium',
+      description: 'Token CSS para cor de fundo sem o prefixo --. Ex: color-brand-secondary-medium',
     },
     foregroundColor: {
       control: { type: 'text' },
-      description: 'Token CSS para cor do texto e ícones. Ex: --color-brand-secondary-dark',
+      description: 'Token CSS para cor do texto e ícones sem o prefixo --. Ex: color-brand-secondary-dark',
     },
     leftIcon: {
       control: { type: 'select' },
@@ -58,9 +58,9 @@ export default meta;
 type Story = StoryObj<typeof Chips>;
 
 export const Default: Story = {
-  render: (args) => <Chips {...args} />,
+  render: ({ children, ...args }) => <Chips {...args}>{children}</Chips>,
   args: {
-    title: 'Etiqueta',
+    children: 'Etiqueta',
     variant: 'neutral',
     disabled: false,
   },
@@ -69,10 +69,10 @@ export const Default: Story = {
 export const Variants: Story = {
   render: () => (
     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-      <Chips variant="neutral" title="Neutro" />
-      <Chips variant="brand" title="Destaque" />
-      <Chips variant="success" title="Ativo" />
-      <Chips variant="alert" title="Inativo" />
+      <Chips variant="neutral">Neutro</Chips>
+      <Chips variant="brand">Destaque</Chips>
+      <Chips variant="success">Ativo</Chips>
+      <Chips variant="alert">Inativo</Chips>
     </div>
   ),
 };
@@ -81,27 +81,31 @@ export const CoresCustomizadas: Story = {
   render: () => (
     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
       <Chips
-        backgroundColor="--color-brand-secondary-medium"
-        foregroundColor="--color-brand-secondary-dark"
-        title="Secundária"
-      />
+        backgroundColor="color-brand-secondary-medium"
+        foregroundColor="color-brand-secondary-dark"
+      >
+        Secundária
+      </Chips>
       <Chips
-        backgroundColor="--color-feedback-info-light"
-        foregroundColor="--color-feedback-info-dark"
-        title="Informação"
-      />
+        backgroundColor="color-feedback-info-light"
+        foregroundColor="color-feedback-info-dark"
+      >
+        Informação
+      </Chips>
       <Chips
-        backgroundColor="--color-feedback-success-light"
-        foregroundColor="--color-feedback-success-dark"
-        title="Sucesso custom"
+        backgroundColor="color-feedback-success-light"
+        foregroundColor="color-feedback-success-dark"
         leftIcon={<CheckmarkCircle16Regular />}
-      />
+      >
+        Sucesso custom
+      </Chips>
       <Chips
-        backgroundColor="--color-feedback-alert-light"
-        foregroundColor="--color-feedback-alert-dark"
-        title="Alerta custom"
+        backgroundColor="color-feedback-alert-light"
+        foregroundColor="color-feedback-alert-dark"
         leftIcon={<Warning16Regular />}
-      />
+      >
+        Alerta custom
+      </Chips>
     </div>
   ),
 };
@@ -109,10 +113,10 @@ export const CoresCustomizadas: Story = {
 export const ComIconeEsquerdo: Story = {
   render: () => (
     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-      <Chips variant="neutral" title="Categoria" leftIcon={<Tag16Regular />} />
-      <Chips variant="success" title="Aprovado" leftIcon={<CheckmarkCircle16Regular />} />
-      <Chips variant="alert" title="Pendente" leftIcon={<Warning16Regular />} />
-      <Chips variant="brand" title="Novidade" leftIcon={<Info16Regular />} />
+      <Chips variant="neutral" leftIcon={<Tag16Regular />}>Categoria</Chips>
+      <Chips variant="success" leftIcon={<CheckmarkCircle16Regular />}>Aprovado</Chips>
+      <Chips variant="alert" leftIcon={<Warning16Regular />}>Pendente</Chips>
+      <Chips variant="brand" leftIcon={<Info16Regular />}>Novidade</Chips>
     </div>
   ),
 };
@@ -120,10 +124,10 @@ export const ComIconeEsquerdo: Story = {
 export const ComIconeDireito: Story = {
   render: () => (
     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-      <Chips variant="neutral" title="Categoria" rightIcon={<DismissCircle16Regular />} />
-      <Chips variant="brand" title="Destaque" rightIcon={<DismissCircle16Regular />} />
-      <Chips variant="success" title="Ativo" rightIcon={<DismissCircle16Regular />} />
-      <Chips variant="alert" title="Expirado" rightIcon={<DismissCircle16Regular />} />
+      <Chips variant="neutral" rightIcon={<DismissCircle16Regular />}>Categoria</Chips>
+      <Chips variant="brand" rightIcon={<DismissCircle16Regular />}>Destaque</Chips>
+      <Chips variant="success" rightIcon={<DismissCircle16Regular />}>Ativo</Chips>
+      <Chips variant="alert" rightIcon={<DismissCircle16Regular />}>Expirado</Chips>
     </div>
   ),
 };
@@ -131,9 +135,9 @@ export const ComIconeDireito: Story = {
 export const ComAmbosIcones: Story = {
   render: () => (
     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-      <Chips variant="neutral" title="Filtro ativo" leftIcon={<Tag16Regular />} rightIcon={<DismissCircle16Regular />} />
-      <Chips variant="success" title="Aprovado" leftIcon={<CheckmarkCircle16Regular />} rightIcon={<DismissCircle16Regular />} />
-      <Chips variant="alert" title="Pendente" leftIcon={<Warning16Regular />} rightIcon={<DismissCircle16Regular />} />
+      <Chips variant="neutral" leftIcon={<Tag16Regular />} rightIcon={<DismissCircle16Regular />}>Filtro ativo</Chips>
+      <Chips variant="success" leftIcon={<CheckmarkCircle16Regular />} rightIcon={<DismissCircle16Regular />}>Aprovado</Chips>
+      <Chips variant="alert" leftIcon={<Warning16Regular />} rightIcon={<DismissCircle16Regular />}>Pendente</Chips>
     </div>
   ),
 };
@@ -141,9 +145,38 @@ export const ComAmbosIcones: Story = {
 export const Desabilitado: Story = {
   render: () => (
     <div style={{ display: 'flex', gap: '8px' }}>
-      <Chips variant="neutral" title="Desabilitado" disabled />
-      <Chips variant="brand" title="Desabilitado" disabled />
-      <Chips variant="success" title="Desabilitado" disabled leftIcon={<CheckmarkCircle16Regular />} />
+      <Chips variant="neutral" disabled>Desabilitado</Chips>
+      <Chips variant="brand" disabled>Desabilitado</Chips>
+      <Chips variant="success" disabled leftIcon={<CheckmarkCircle16Regular />}>Desabilitado</Chips>
+    </div>
+  ),
+};
+
+export const Interativo: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+      <Chips
+        variant="neutral"
+        rightIcon={<DismissCircle16Regular />}
+        onClick={() => alert('Chip removido!')}
+      >
+        Removível
+      </Chips>
+      <Chips
+        variant="brand"
+        leftIcon={<Tag16Regular />}
+        onClick={() => alert('Filtro selecionado!')}
+      >
+        Filtro
+      </Chips>
+      <Chips
+        variant="success"
+        disabled
+        rightIcon={<DismissCircle16Regular />}
+        onClick={() => alert('Não deve disparar')}
+      >
+        Desabilitado
+      </Chips>
     </div>
   ),
 };
