@@ -199,6 +199,8 @@ const Menu: React.FC<MenuProps> = ({
     [handleItemSelect, isItemSelected]
   );
 
+  const closedByPointerRef = useRef(false);
+
   const handleOpenChange = (newOpen: boolean) => {
     setOpen(newOpen);
     if (!newOpen) {
@@ -214,6 +216,13 @@ const Menu: React.FC<MenuProps> = ({
           className={clsx(styles.content, className)}
           sideOffset={8}
           align={align}
+          onInteractOutside={() => { closedByPointerRef.current = true; }}
+          onCloseAutoFocus={(e) => {
+            if (closedByPointerRef.current) {
+              e.preventDefault();
+              closedByPointerRef.current = false;
+            }
+          }}
           onKeyDown={(e) => {
             if (search) {
               e.stopPropagation();

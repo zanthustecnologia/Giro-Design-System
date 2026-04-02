@@ -187,7 +187,8 @@
   background: var(--color-brand-primary-medium);
 }
 
-.button.button-filled:focus-visible {
+.button.button-filled:focus-visible,
+.button.button-filled[data-state="open"] {
   outline: var(--border-width-4) solid var(--color-neutral-high-dark);
   outline-offset: var(--border-width-2);
 }
@@ -216,14 +217,16 @@
   background-color: var(--color-neutral-high-medium);
 }
 
-.button.button-outlined:focus-visible {
+.button.button-outlined:focus-visible,
+.button.button-outlined[data-state="open"] {
   outline: var(--border-width-4) solid var(--color-neutral-high-dark);
   outline-offset: var(--border-width-2);
   color: var(--color-brand-primary-default);
   background-color: var(--color-neutral-high-default);
 }
 
-.button.button-outlined:focus-visible * {
+.button.button-outlined:focus-visible *,
+.button.button-outlined[data-state="open"] * {
   color: var(--color-brand-primary-default);
 }
 
@@ -259,7 +262,8 @@
   background-color: var(--color-neutral-high-medium);
 }
 
-.button.button-text:focus-visible {
+.button.button-text:focus-visible,
+.button.button-text[data-state="open"] {
   outline: var(--border-width-4) solid var(--color-neutral-high-dark);
   outline-offset: var(--border-width-2);
   color: var(--color-brand-primary-default);
