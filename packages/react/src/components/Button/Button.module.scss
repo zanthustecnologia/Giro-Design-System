@@ -47,7 +47,12 @@
   box-shadow: none;
   padding: var(--spacing-0) var(--spacing-24);
   text-align: center;
-  transition: all 0.3s ease-in-out;
+  transition:
+    background-color 0.3s ease-in-out,
+    color 0.3s ease-in-out,
+    border-color 0.3s ease-in-out,
+    outline-color 0.3s ease-in-out,
+    opacity 0.3s ease-in-out;
   cursor: pointer;
   box-sizing: border-box;
   
