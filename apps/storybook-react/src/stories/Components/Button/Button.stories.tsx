@@ -66,6 +66,9 @@ export default {
         disable: true,
       },
     },
+    tooltipText: {
+      control: { type: 'text' },
+    },
     
   },
 } as Meta<ButtonProps>;
