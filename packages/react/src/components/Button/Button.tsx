@@ -7,7 +7,7 @@ import styles from './Button.module.scss';
 
 import type { ButtonProps } from './Button.types';
 
-const Button = React.forwardRef<HTMLElement, ButtonProps>(({
+const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(({
   as,
   children,
   variant = 'filled',
