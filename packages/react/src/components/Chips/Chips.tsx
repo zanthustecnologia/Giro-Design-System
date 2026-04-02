@@ -9,9 +9,12 @@ const Chips: React.FC<ChipsProps> = ({
   title,
   leftIcon,
   rightIcon,
-  type = 'neutral',
+  variant = 'neutral',
   disabled = false,
+  backgroundColor,
+  foregroundColor,
   className,
+  style,
   ...rest
 }) => {
 
@@ -19,31 +22,40 @@ const Chips: React.FC<ChipsProps> = ({
     console.warn('Chips: title prop is required and cannot be empty');
     return null;
   }
+
   const chipsClass = clsx(
-    styles['zds-chips'],
-    styles[`zds-chips--${type}`],
+    styles.chips,
+    styles[variant],
     {
-      [styles['zds-chips--disabled']]: disabled,
-      [styles['has-left-icon']]: leftIcon,
-      [styles['has-right-icon']]: rightIcon,
+      [styles.disabled]: disabled,
+      [styles.hasLeftIcon]: leftIcon,
+      [styles.hasRightIcon]: rightIcon,
     },
     className
   );
+
+  const colorStyle = {
+    ...(!disabled && backgroundColor && { '--chips-bg': `var(${backgroundColor})` }),
+    ...(!disabled && foregroundColor && { '--chips-fg': `var(${foregroundColor})` }),
+    ...style,
+  } as React.CSSProperties;
+
   return (
     <div
       className={chipsClass}
       aria-label={`Chip: ${title}`}
       aria-disabled={disabled}
+      style={colorStyle}
       {...rest}
     >
       {leftIcon && (
-        <span className={styles['zds-chips__icon__left']} aria-hidden="true">
+        <span className={styles.iconLeft} aria-hidden="true">
           {leftIcon}
         </span>
       )}
-      <span className={styles['zds-chips__title']}>{title}</span>
+      <span className={styles.title}>{title}</span>
       {rightIcon && (
-        <span className={styles['zds-chips__icon__right']}>
+        <span className={styles.iconRight}>
           {rightIcon}
         </span>
       )}

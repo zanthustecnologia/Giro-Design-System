@@ -17,7 +17,7 @@ export { default as Checkbox } from './Checkbox';
 export { type CheckboxProps } from './Checkbox/Checkbox.types'
 
 export { default as Chips } from './Chips';
-export { type ChipsProps } from './Chips/Chips.types';
+export { type ChipsProps, type ChipsVariant } from './Chips/Chips.types';
 
 export { default as Container } from './Container/Container';
 export { type ContainerProps } from './Container/Container.types';

@@ -32,7 +32,10 @@ import { Chips } from '@giro-ds/react';
       Use Chips para representar atributos de um item, como categorias, tags, status ou filtros aplicados. Eles não são botões e não devem acionar ações primárias.
     </>,
     <>
-      Escolha o <code>type</code> de acordo com a semântica do conteúdo: <code>success</code> para estados ativos ou positivos, <code>alert</code> para situações que requerem atenção, <code>neutral</code> ou <code>brand</code> para classificações e etiquetas informativas.
+      Escolha o <code>variant</code> de acordo com a semântica do conteúdo: <code>success</code> para estados ativos ou positivos, <code>alert</code> para situações que requerem atenção, <code>neutral</code> ou <code>brand</code> para classificações e etiquetas informativas.
+    </>,
+    <>
+      Para cores fora dos presets semânticos, use as props <code>backgroundColor</code> e <code>foregroundColor</code> passando qualquer token CSS do sistema. Ex: <code>backgroundColor="--color-brand-secondary-medium"</code>.
     </>,
     <>
       Use ícones à esquerda para reforçar visualmente a semântica do tipo. Use ícones à direita, como o de fechar, apenas quando o chip representar um filtro removível.
@@ -48,9 +51,15 @@ import { Chips } from '@giro-ds/react';
 
 ## Variações
 
-### Tipos
+### Presets semânticos
 
 <Canvas of={ChipsStories.Variants} />
+
+### Cores customizadas via tokens
+
+Use `backgroundColor` e `foregroundColor` para aplicar qualquer token de cor do sistema, sem precisar de um novo `variant`.
+
+<Canvas of={ChipsStories.CoresCustomizadas} />
 
 ### Com ícone à esquerda
 
@@ -74,11 +83,11 @@ import { Chips } from '@giro-ds/react';
   rules={[
     {
       negative: {
-        component: <Chips type="neutral" title="Clique aqui para filtrar por categoria de produto" />,
+        component: <Chips variant="neutral" title="Clique aqui para filtrar por categoria de produto" />,
         description: "Evite textos longos no chip. O componente é projetado para conteúdo conciso e de leitura imediata."
       },
       positive: {
-        component: <Chips type="neutral" title="Eletrônicos" leftIcon={<Tag16Regular />} />,
+        component: <Chips variant="neutral" title="Eletrônicos" leftIcon={<Tag16Regular />} />,
         description: "Use textos curtos, preferencialmente uma ou duas palavras que identifiquem o atributo de forma direta."
       }
     },
@@ -86,32 +95,32 @@ import { Chips } from '@giro-ds/react';
       negative: {
         component: (
           <div style={{ display: 'flex', gap: '8px' }}>
-            <Chips type="success" title="Aprovado" />
-            <Chips type="alert" title="Aprovado" />
+            <Chips variant="success" title="Aprovado" />
+            <Chips variant="alert" title="Aprovado" />
           </div>
         ),
-        description: "Evite usar tipos que contradizem o conteúdo. Um chip de 'Aprovado' com type alert cria conflito semântico."
+        description: "Evite usar variants que contradizem o conteúdo. Um chip de 'Aprovado' com variant alert cria conflito semântico."
       },
       positive: {
         component: (
           <div style={{ display: 'flex', gap: '8px' }}>
-            <Chips type="success" title="Aprovado" leftIcon={<CheckmarkCircle16Regular />} />
-            <Chips type="alert" title="Pendente" leftIcon={<Warning16Regular />} />
+            <Chips variant="success" title="Aprovado" leftIcon={<CheckmarkCircle16Regular />} />
+            <Chips variant="alert" title="Pendente" leftIcon={<Warning16Regular />} />
           </div>
         ),
-        description: "Alinhe sempre o type e o ícone com o significado do conteúdo. Isso garante coerência semântica e visual."
+        description: "Alinhe sempre o variant e o ícone com o significado do conteúdo. Isso garante coerência semântica e visual."
       }
     },
     {
       negative: {
-        component: <Chips type="brand" title="Salvar alterações" />,
+        component: <Chips variant="brand" title="Salvar alterações" />,
         description: "Não use chips para representar ações que o usuário deve executar. Chips comunicam atributos, não ações."
       },
       positive: {
         component: (
           <div style={{ display: 'flex', gap: '8px' }}>
-            <Chips type="neutral" title="Rascunho" />
-            <Chips type="success" title="Publicado" />
+            <Chips variant="neutral" title="Rascunho" />
+            <Chips variant="success" title="Publicado" />
           </div>
         ),
         description: "Use chips para indicar o estado atual de um item. Para ações, utilize o componente Button."
