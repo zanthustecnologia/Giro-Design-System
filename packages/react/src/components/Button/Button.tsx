@@ -1,4 +1,4 @@
-import { SpinnerIos16Regular, Add16Regular } from '@fluentui/react-icons';
+import { SpinnerIos16Regular } from '@fluentui/react-icons';
 import clsx from 'clsx';
 import React, { useId, useMemo } from 'react';
 
@@ -51,7 +51,13 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPro
     return children && React.Children.count(children) > 0;
   }, [children]);
 
-  const resolvedIcon = iconOnly && !icon ? <Add16Regular /> : icon;
+  if (process.env.NODE_ENV !== 'production' && iconOnly && !icon) {
+    console.error(
+      '[Button] `iconOnly={true}` foi usado sem a prop `icon`. ' +
+      'Forneça um ícone via `icon={<MeuIcone />}`.'
+    );
+  }
+  const resolvedIcon = icon;
 
   const buttonClasses = clsx(
     styles.button,

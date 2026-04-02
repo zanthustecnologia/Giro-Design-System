@@ -3,11 +3,11 @@ import React from 'react';
 import { Size, BaseProps, Variant, Position } from '../../types/common.types';
 
 /**
- * Props próprias do componente Button, independentes do elemento renderizado.
+ * Props base do Button, independentes da variante iconOnly/icon.
  * `target`, `rel`, `type` e `onClick` são declarados aqui para garantir
  * que o destructuring funcione em todos os modos (button | a | custom).
  */
-type ButtonOwnProps = {
+type ButtonOwnPropsBase = {
   /** Elemento customizado a ser renderizado (ex: 'a', Link do React Router) */
   as?: React.ElementType;
 
@@ -16,9 +16,6 @@ type ButtonOwnProps = {
 
   /** Variante visual do botão */
   variant?: Variant;
-
-  /** Define se o botão exibe apenas ícone (sem texto) */
-  iconOnly?: boolean;
 
   /** Posição do ícone em relação ao texto */
   iconPosition?: Position;
@@ -44,9 +41,6 @@ type ButtonOwnProps = {
   /** Tamanho do botão */
   size?: Size;
 
-  /** Ícone a ser exibido no botão */
-  icon?: React.ReactNode;
-
   /** Define se o botão ocupa 100% da largura do container */
   fullWidth?: boolean;
 
@@ -68,6 +62,25 @@ type ButtonOwnProps = {
   /** Handler de clique; tipado em HTMLElement para ser compatível com todos os modos */
   onClick?: React.MouseEventHandler<HTMLElement>;
 } & BaseProps;
+
+/**
+ * Props próprias do componente Button.
+ * Quando `iconOnly: true`, a prop `icon` é **obrigatória**.
+ * Isso evita que botões icon-only sejam renderizados sem ícone definido.
+ */
+type ButtonOwnProps =
+  | (ButtonOwnPropsBase & {
+      /** Exibe apenas o ícone, sem texto. Requer obrigatoriamente a prop `icon`. */
+      iconOnly: true;
+      /** Ícone exibido no botão — obrigatório quando `iconOnly` é true */
+      icon: React.ReactNode;
+    })
+  | (ButtonOwnPropsBase & {
+      /** @default false */
+      iconOnly?: false;
+      /** Ícone a ser exibido no botão */
+      icon?: React.ReactNode;
+    });
 
 /** Button renderizado como `<button>` — recebe atributos HTML precisos de HTMLButtonElement */
 type ButtonAsButton = ButtonOwnProps &

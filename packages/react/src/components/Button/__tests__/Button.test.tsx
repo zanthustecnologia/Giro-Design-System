@@ -213,12 +213,12 @@ describe('Button', () => {
       expect(screen.getByLabelText('Adicionar item')).toBeInTheDocument();
     });
 
-    it('deve renderizar span quando iconOnly sem icon fornecido', () => {
-      const { container } = render(<Button iconOnly ariaLabel="Ação" />);
-      
-      // Verifica que o span é renderizado mesmo sem ícone
-      const iconOnlySpan = container.querySelector('[class*="buttonIconOnly"]');
-      expect(iconOnlySpan).toBeInTheDocument();
+    it('deve emitir console.error quando iconOnly sem icon fornecido', () => {
+      const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+      // @ts-expect-error — testando uso inválido intencionalmente
+      render(<Button iconOnly ariaLabel="Ação" />);
+      expect(errorSpy).toHaveBeenCalledWith(expect.stringContaining('[Button]'));
+      errorSpy.mockRestore();
     });
   });
 
