@@ -1,52 +1,74 @@
 import clsx from 'clsx';
 import React, { useId } from 'react';
+import { Dismiss24Regular } from '@fluentui/react-icons';
 
 import styles from './Callout.module.scss';
 
 import type { CalloutProps } from './Callout.types';
 
 const Callout: React.FC<CalloutProps> = ({
-  type = 'neutral',
+  variant = 'neutral',
   title,
   text,
   icon,
+  onDismiss,
+  dismiss,
+  dismissLabel = 'Fechar',
+  backgroundColor,
+  foregroundColor,
   className,
   id,
+  disabled: _disabled,
+  style,
   ...rest
 }) => {
   const generatedId = useId();
-  const titleId = id || `callout-title-${generatedId}`;
+  const titleId = `callout-title-${id || generatedId}`;
   const componentId = id || generatedId;
 
-  const calloutClass = clsx(
-    styles['zds-callout__container'],
-    styles[`zds-callout__${type}`],
-    {
-      [styles['zds-callout__container__with-title']]: title,
-      [styles['zds-callout__no-icon']]: !icon,
-    },
+  const isAlert = variant === 'alert';
+
+  const containerClass = clsx(
+    styles.container,
+    styles[variant],
+    { [styles.withTitle]: title },
     className
   );
+
+  const customStyle: React.CSSProperties = {
+    ...(backgroundColor && { '--callout-bg': `var(--${backgroundColor})` } as React.CSSProperties),
+    ...(foregroundColor && { '--callout-fg': `var(--${foregroundColor})` } as React.CSSProperties),
+    ...style,
+  };
 
   return (
     <div
       id={componentId}
-      className={calloutClass}
-      aria-live="polite"
-      role="alert"
+      className={containerClass}
+      role={isAlert ? 'alert' : 'status'}
+      aria-live={isAlert ? 'assertive' : 'polite'}
       aria-labelledby={title ? titleId : undefined}
+      style={Object.keys(customStyle).length > 0 ? customStyle : style}
       {...rest}
     >
-      <div className={styles['zds-callout__content']}>
-        {icon && <span className={styles['zds-callout__icon']}>{icon}</span>}
-        <div className={styles['zds-callout__subcontent']}>
+      <div className={styles.content}>
+        {icon && <span className={styles.icon} aria-hidden="true">{icon}</span>}
+        <div className={styles.subcontent}>
           {title && (
-            <span id={titleId} className={styles['zds-callout__title']}>
-              {title}
-            </span>
+            <span id={titleId} className={styles.title}>{title}</span>
           )}
-          {text && <span className={styles['zds-callout__text']}>{text}</span>}
+          {text && <span className={styles.text}>{text}</span>}
         </div>
+        {dismiss && (
+          <button
+            className={styles.dismiss}
+            onClick={onDismiss}
+            aria-label={dismissLabel}
+            type="button"
+          >
+            <Dismiss24Regular aria-hidden="true" />
+          </button>
+        )}
       </div>
     </div>
   );
