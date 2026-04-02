@@ -71,10 +71,17 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPro
 
   const getAriaLabel = () => {
     if (ariaLabel) return ariaLabel;
-    if (iconOnly && !ariaLabel) {
-      return 'Botão de ação';
+    if (iconOnly) {
+      if (tooltipText) return tooltipText;
+      if (process.env.NODE_ENV !== 'production') {
+        console.warn(
+          '[Button] Botões icon-only precisam de uma prop `ariaLabel` descritiva. ' +
+          'O fallback genérico foi removido pois não comunica intenção. ' +
+          'Forneça `ariaLabel` ou `tooltipText` para nomear o botão.'
+        );
+      }
+      return undefined;
     }
-    if (typeof children === 'string') return children;
     return undefined;
   };
 

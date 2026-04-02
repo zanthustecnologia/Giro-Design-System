@@ -197,10 +197,20 @@ describe('Button', () => {
       expect(screen.getByLabelText('Deletar')).toBeInTheDocument();
     });
 
-    it('deve usar ariaLabel padrão quando iconOnly sem ariaLabel fornecida', () => {
+    it('deve emitir aviso quando iconOnly sem ariaLabel ou tooltipText fornecido', () => {
       const TestIcon = () => <svg data-testid="test-icon" />;
+      const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
       render(<Button iconOnly icon={<TestIcon />} />);
-      expect(screen.getByLabelText('Botão de ação')).toBeInTheDocument();
+      expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('[Button]'));
+      const button = screen.getByRole('button');
+      expect(button.getAttribute('aria-label')).toBeNull();
+      warnSpy.mockRestore();
+    });
+
+    it('deve usar tooltipText como aria-label quando iconOnly sem ariaLabel', () => {
+      const TestIcon = () => <svg data-testid="test-icon" />;
+      render(<Button iconOnly icon={<TestIcon />} tooltipText="Adicionar item" />);
+      expect(screen.getByLabelText('Adicionar item')).toBeInTheDocument();
     });
 
     it('deve renderizar span quando iconOnly sem icon fornecido', () => {
@@ -337,9 +347,9 @@ describe('Button', () => {
       expect(screen.getByLabelText('Custom label')).toBeInTheDocument();
     });
 
-    it('deve usar texto do children como aria-label quando children é string', () => {
+    it('não deve definir aria-label quando children é string (texto visível já é o nome acessível)', () => {
       render(<Button>Texto do botão</Button>);
-      expect(screen.getByRole('button')).toHaveAttribute('aria-label', 'Texto do botão');
+      expect(screen.getByRole('button').getAttribute('aria-label')).toBeNull();
     });
 
     it('não deve ter aria-label quando children não é string e sem ariaLabel', () => {
