@@ -102,33 +102,33 @@ const TableHeader: React.FC<TableHeaderProps> = ({
   const hasFilters = filters || (filterItems && filterItems.length > 0);
 
   return (
-    <div className={`${styles['zds-table-header']} ${className}`.trim()} {...rest}>
+    <div className={`${styles.tableHeader} ${className}`.trim()} {...rest}>
       {showSearch && (onSearchChange || onSearch) && (
-        <div className={styles['zds-table-header__search-container']}>
+        <div className={styles.tableHeaderSearchContainer}>
           <Search
             value={internalSearchValue}
             onChange={handleInputChange}
             onKeyDown={handleKeyDown}
             placeholder={searchPlaceholder}
-            className={styles['zds-table-header__search']}
+            className={styles.tableHeaderSearch}
           />
         </div>
       )}
       
       {showFilters && (
-        <div className={styles['zds-table-header__filters']}>
+        <div className={styles.tableHeaderFilters}>
           {hasFilters ? (
-            <div className={styles['zds-table-header__filters-content']}>
+            <div className={styles.tableHeaderFiltersContent}>
               {filters && (
-                <div className={styles['zds-table-header__custom-filters']}>
+                <div className={styles.tableHeaderCustomFilters}>
                   {filters}
                 </div>
               )}
 
-              <div className={styles['zds-table-header__filters-wrapper']}>
-                <span className={styles['zds-table-header__filter-label']}>Filtros</span>
+              <div className={styles.tableHeaderFiltersWrapper}>
+                <span className={styles.tableHeaderFilterLabel}>Filtros</span>
                 
-                <div className={styles['zds-table-header__filter-items']}>
+                <div className={styles.tableHeaderFilterItems}>
                   {filterItems && filterItems.map((filterItem, index) => {
                     const commonProps = {
                       buttonText: filterItem.buttonText,
@@ -178,7 +178,7 @@ const TableHeader: React.FC<TableHeaderProps> = ({
               </div>
             </div>
           ) : (
-            <div className={styles['zds-table-header__filters-placeholder']}>
+            <div className={styles.tableHeaderFiltersPlaceholder}>
               <span>Nenhum filtro disponível</span>
             </div>
           )}
