@@ -25,6 +25,26 @@ const config = {
     autodocs: 'tag'
   },
 
+  // Usa react-docgen-typescript para extrair JSDoc e tipos corretamente.
+  // EXPERIMENTAL_useProjectService: o TypeScript Project Service encontra o tsconfig.json
+  // correto para cada arquivo individualmente (ex: packages/react/tsconfig.json para componentes),
+  // o que é necessário em monorepos onde os arquivos-fonte estão fora do tsconfig do Storybook.
+  typescript: {
+    reactDocgen: 'react-docgen-typescript',
+    reactDocgenTypescriptOptions: {
+      shouldExtractLiteralValuesFromEnum: true,
+      shouldRemoveUndefinedFromOptional: true,
+      EXPERIMENTAL_useProjectService: true,
+      propFilter: (prop) => {
+        if (prop.parent) {
+          return !prop.parent.fileName.includes('node_modules');
+        }
+        return true;
+      },
+    },
+  },
+
+
   // Configuração de arquivos estáticos (favicon, imagens, etc)
   staticDirs: ['../public'],
 
@@ -54,10 +74,12 @@ const config = {
     ];
 
     // 3) Configura alias @ para apontar para packages/react/src
+    //    e redireciona @giro-ds/react para o fonte (permite docgen extrair JSDoc)
     viteConfig.resolve.alias = {
       ...(viteConfig.resolve.alias || {}),
       '@': path.resolve(__dirname, '../../../packages/react/src'),
       '@components': path.resolve(__dirname, '../../../packages/react/src/components'),
+      '@giro-ds/react': path.resolve(__dirname, '../../../packages/react/src/index.ts'),
     };
 
     // 4) Em workspaces, manter symlinks resolvidos corretamente
