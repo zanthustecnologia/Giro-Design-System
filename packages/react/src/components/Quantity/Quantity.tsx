@@ -18,7 +18,7 @@ const Quantity: React.FC<QuantityProps> = ({
   id,
   step,
   className,
-  inputSize = 4,
+  inputSize = 6,
   inputSizeControl = true,
   minNumber = 0,
   maxNumber = 9999,
@@ -37,7 +37,8 @@ const Quantity: React.FC<QuantityProps> = ({
   const stepValue = step !== undefined ? step : decimal ? Math.pow(10, -decimalPlaces) : 1;
 
   const computedValue = useMemo(() => (isControlled ? controlledValue! : value), [isControlled, controlledValue, value]);
-  const isMinValue = useMemo(() => computedValue === 0, [computedValue]);
+  const isMinValue = useMemo(() => computedValue <= minNumber, [computedValue, minNumber]);
+  const isMaxValue = useMemo(() => computedValue >= maxNumber, [computedValue, maxNumber]);
 
   const validateProps = (decimalPlaces?: number, step?: number) => {
     if (decimalPlaces !== undefined && (decimalPlaces < 1 || decimalPlaces > 10)) {
@@ -62,7 +63,7 @@ const Quantity: React.FC<QuantityProps> = ({
   const increment = useCallback(() => {
     if (disabled) return;
 
-    const newValue = computedValue + stepValue;
+    const newValue = Math.min(maxNumber, computedValue + stepValue);
 
     if (!isControlled) {
       setValue(newValue);
@@ -70,12 +71,12 @@ const Quantity: React.FC<QuantityProps> = ({
     }
 
     onChange?.(newValue);
-  }, [disabled, computedValue, stepValue, decimal, decimalPlaces, isControlled, onChange]);
+  }, [disabled, computedValue, stepValue, decimal, decimalPlaces, isControlled, onChange, maxNumber]);
 
   const decrement = useCallback(() => {
     if (disabled) return;
 
-    const newValue = Math.max(0, computedValue - stepValue);
+    const newValue = Math.max(minNumber, computedValue - stepValue);
 
     if (!isControlled) {
       setValue(newValue);
@@ -83,7 +84,7 @@ const Quantity: React.FC<QuantityProps> = ({
     }
 
     onChange?.(newValue);
-  }, [disabled, computedValue, stepValue, decimal, decimalPlaces, isControlled, onChange]);
+  }, [disabled, computedValue, stepValue, decimal, decimalPlaces, isControlled, onChange, minNumber]);
 
   const filterInput = useCallback((inputValue: string): string => {
     if (decimal) {
@@ -141,14 +142,14 @@ const Quantity: React.FC<QuantityProps> = ({
     } else {
       const parsedValue = parseInt(filteredValue, 10);
       if (!isNaN(parsedValue)) {
-        const validValue = Math.min(parsedValue, 9999);
+        const validValue = Math.min(Math.max(parsedValue, minNumber), maxNumber);
         if (!isControlled) {
           setValue(validValue);
         }
         onChange?.(validValue);
       }
     }
-  }, [disabled, decimal, isControlled, onChange]);
+  }, [disabled, decimal, filterInput, isControlled, onChange, minNumber, maxNumber]);
 
 
   const handleBlur = useCallback(() => {
@@ -179,7 +180,7 @@ const Quantity: React.FC<QuantityProps> = ({
 
       const parsedValue = parseFloat(currentValue);
       if (!isNaN(parsedValue)) {
-        const normalizedValue = Math.max(0, parsedValue);
+        const normalizedValue = Math.min(Math.max(parsedValue, minNumber), maxNumber);
         const formattedValue = normalizedValue.toFixed(decimalPlaces);
         setInputValue(formattedValue);
 
@@ -202,7 +203,7 @@ const Quantity: React.FC<QuantityProps> = ({
       if (isNaN(parsedValue)) {
         setInputValue(String(computedValue));
       } else {
-        const normalizedValue = Math.max(0, Math.min(parsedValue, 9999));
+        const normalizedValue = Math.min(Math.max(parsedValue, minNumber), maxNumber);
         setInputValue(String(normalizedValue));
         if (!isControlled) {
           setValue(normalizedValue);
@@ -210,7 +211,7 @@ const Quantity: React.FC<QuantityProps> = ({
         onChange?.(normalizedValue);
       }
     }
-  }, [disabled, decimal, inputValue, decimalPlaces, computedValue, isControlled, onChange]);
+  }, [disabled, decimal, inputValue, decimalPlaces, computedValue, isControlled, onChange, minNumber, maxNumber]);
 
 
   const handleInputKeyDown = useCallback(
@@ -245,7 +246,7 @@ const Quantity: React.FC<QuantityProps> = ({
 
         case 'Home':
           e.preventDefault();
-          const minValue = 0;
+          const minValue = minNumber;
           if (!isControlled) {
             setValue(minValue);
             setInputValue(decimal ? minValue.toFixed(decimalPlaces) : String(minValue));
@@ -256,7 +257,7 @@ const Quantity: React.FC<QuantityProps> = ({
         case 'End':
           if (!decimal) {
             e.preventDefault();
-            const maxValue = 9999;
+            const maxValue = maxNumber;
             if (!isControlled) {
               setValue(maxValue);
               setInputValue(String(maxValue));
@@ -266,7 +267,7 @@ const Quantity: React.FC<QuantityProps> = ({
           break;
       }
     },
-    [disabled, increment, decrement, decimal, decimalPlaces, isControlled, onChange, computedValue]
+    [disabled, increment, decrement, decimal, decimalPlaces, isControlled, onChange, computedValue, minNumber, maxNumber]
   );
 
   const inputSizeValue = inputSizeControl ? inputSize  : Math.max(1, inputValue.length);
@@ -285,6 +286,7 @@ const Quantity: React.FC<QuantityProps> = ({
         onClick={decrement}
         disabled={disabled || isMinValue}
         aria-label='Diminuir quantidade'
+
       />
 
       <input
@@ -301,8 +303,8 @@ const Quantity: React.FC<QuantityProps> = ({
         aria-label='Quantidade'
         role='spinbutton'
         aria-valuenow={computedValue}
-        aria-valuemin={0}
-        aria-valuemax={decimal ? undefined : 9999}
+        aria-valuemin={minNumber}
+        aria-valuemax={maxNumber}
         disabled={disabled}
         inputMode={decimal ? 'decimal' : 'numeric'}
         size={inputSizeValue}
@@ -313,7 +315,7 @@ const Quantity: React.FC<QuantityProps> = ({
         type='button'
         iconOnly
         onClick={increment}
-        disabled={disabled}
+        disabled={disabled || isMaxValue}
         aria-label='Aumentar quantidade'
         icon={<Add16Regular />}
 
