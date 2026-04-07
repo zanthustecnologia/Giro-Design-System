@@ -395,7 +395,6 @@ describe('Dialog', () => {
           show={true}
           title="Apenas título"
           textPrimaryAction="Confirmar"
-          show={true}
         />
       );
 
