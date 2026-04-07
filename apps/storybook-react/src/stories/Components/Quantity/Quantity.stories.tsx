@@ -42,6 +42,23 @@ const meta: Meta<typeof Quantity> = {
       control: { type: 'number' },
       description: 'Valor de incremento/decremento dos botões.',
     },
+    inputSize: {
+      control: { type: 'number' },
+      description: 'Controla o tamanho do input baseado no número de caracteres. Ignorado se inputSizeControl=true.',
+    },
+    inputSizeControl: {
+      control: { type: 'boolean' },
+      description: 'Habilita controle automático do tamanho do input baseado no número de caracteres.',
+    },
+    minNumber: {
+      control: { type: 'number' },
+      description: 'Valor mínimo permitido. Padrão 0.',
+    },
+    maxNumber: {
+      control: { type: 'number' },
+      description: 'Valor máximo permitido. Padrão 9999.',
+    },
+
   },
   args: {
     defaultValue: 0,

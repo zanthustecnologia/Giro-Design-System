@@ -18,6 +18,10 @@ const Quantity: React.FC<QuantityProps> = ({
   id,
   step,
   className,
+  inputSize = 4,
+  inputSizeControl = true,
+  minNumber = 0,
+  maxNumber = 9999,
   ...rest
 }) => {
   const isControlled = controlledValue !== undefined;
@@ -265,11 +269,13 @@ const Quantity: React.FC<QuantityProps> = ({
     [disabled, increment, decrement, decimal, decimalPlaces, isControlled, onChange, computedValue]
   );
 
+  const inputSizeValue = inputSizeControl ? inputSize  : Math.max(1, inputValue.length);
+
   const uniqueId = useId();
   const inputId = id || uniqueId;
 
   return (
-    <div className={clsx(styles['zds-quantity'], { disabled }, className)} {...rest}>
+    <div className={clsx(styles.quantity, { disabled }, className)} {...rest}>
       <Button
         variant='outlined'
         size={size}
@@ -283,7 +289,7 @@ const Quantity: React.FC<QuantityProps> = ({
 
       <input
         ref={inputRef}
-        className={clsx(styles['zds-quantity__input'], { disabled })}
+        className={clsx(styles.quantityInput, { disabled })}
         type='text'
         value={inputValue}
         onChange={handleInputChange}
@@ -299,7 +305,7 @@ const Quantity: React.FC<QuantityProps> = ({
         aria-valuemax={decimal ? undefined : 9999}
         disabled={disabled}
         inputMode={decimal ? 'decimal' : 'numeric'}
-
+        size={inputSizeValue}
       />
       <Button
         variant='outlined'
