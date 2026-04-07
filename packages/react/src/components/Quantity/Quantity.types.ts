@@ -51,8 +51,8 @@ export interface QuantityProps extends BaseProps {
   inputSizeControl?: boolean;
 
   /** Valor mínimo permitido */
-  minNumber?: number;
+  minValue?: number;
 
   /** Valor máximo permitido */
-  maxNumber?: number;
+  maxValue?: number;
 }

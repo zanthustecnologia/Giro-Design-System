@@ -50,11 +50,11 @@ const meta: Meta<typeof Quantity> = {
       control: { type: 'boolean' },
       description: 'Habilita controle automático do tamanho do input baseado no número de caracteres.',
     },
-    minNumber: {
+    minValue: {
       control: { type: 'number' },
       description: 'Valor mínimo permitido. Padrão 0.',
     },
-    maxNumber: {
+    maxValue: {
       control: { type: 'number' },
       description: 'Valor máximo permitido. Padrão 9999.',
     },
