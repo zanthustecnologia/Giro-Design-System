@@ -229,9 +229,11 @@ describe('Button', () => {
       expect(loadingSpan).toBeInTheDocument();
     });
 
-    it('deve ocultar conteúdo quando loading', () => {
-      render(<Button loading>Clique aqui</Button>);
-      expect(screen.queryByText('Clique aqui')).not.toBeInTheDocument();
+    it('deve ocultar conteúdo visualmente quando loading', () => {
+      const { container } = render(<Button loading>Clique aqui</Button>);
+      const hiddenContent = container.querySelector('[class*="buttonContentHidden"]');
+      expect(hiddenContent).toBeInTheDocument();
+      expect(hiddenContent).toHaveAttribute('aria-hidden', 'true');
     });
 
     it('deve ter spinner dentro de span de loading', () => {
