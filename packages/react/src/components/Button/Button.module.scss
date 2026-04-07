@@ -297,9 +297,7 @@
 }
 
 .buttonLoading {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  pointer-events: none;
 }
 
 .button.button-lg.buttonLoading {
@@ -328,15 +326,30 @@
   }
 }
 
-.buttonLoading span {
-  width: 16px;
-  height: 16px;
+.buttonContentHidden {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-8);
+  opacity: 0;
+  pointer-events: none;
+
+  @include iconSize(16px);
 }
 
-.buttonLoading {
+.buttonLoadingSpinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   @include iconSize(16px);
-  
+
   svg {
+    transform-box: fill-box;
+    transform-origin: center;
     animation: spin 1s linear infinite;
   }
 }

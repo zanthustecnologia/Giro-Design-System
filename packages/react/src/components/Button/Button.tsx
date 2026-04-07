@@ -109,9 +109,22 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPro
     }
     if (loading) {
       return (
-        <span className={styles.buttonLoading} aria-hidden="true">
-          <SpinnerIos16Regular aria-hidden="true" />
-        </span>
+        <>
+          {!iconOnly && (
+            <span className={styles.buttonContentHidden} aria-hidden="true">
+              {resolvedIcon && (iconPosition === 'left' || iconPosition === 'both') && (
+                <span className={styles.buttonIconLeft}>{resolvedIcon}</span>
+              )}
+              {children}
+              {resolvedIcon && (iconPosition === 'right' || iconPosition === 'both') && (
+                <span className={styles.buttonIconRight}>{resolvedIcon}</span>
+              )}
+            </span>
+          )}
+          <span className={styles.buttonLoadingSpinner} aria-hidden="true">
+            <SpinnerIos16Regular aria-hidden="true" />
+          </span>
+        </>
       );
     }
     return (
@@ -145,7 +158,7 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPro
 
   const getNavigationProps = () => {
     if (href) {
-      if (disabled) {
+      if (disabled || loading) {
         return { role: 'link', href: '#' };
       }
       return {
