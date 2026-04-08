@@ -40,8 +40,17 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPro
   const getComponent = (): React.ElementType => {
     if (as) return as;
 
-    if (href) return 'a';   
-    if (to) return 'a'; 
+    if (href) return 'a';
+    if (to) {
+      if (process.env.NODE_ENV !== 'production' && !as) {
+        console.warn(
+          '[Button] A prop `to` foi usada sem `as`. ' +
+          'Para navegação via roteador (React Router, Next.js, etc.), passe `as={Link}`. ' +
+          'Por ora, `to` será tratado como `href` em um <a> nativo.'
+        );
+      }
+      return 'a';
+    }
     return 'button';
   };
 
