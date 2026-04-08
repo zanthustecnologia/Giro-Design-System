@@ -322,11 +322,11 @@ describe('Quantity', () => {
       expect(screen.getByRole('spinbutton')).toHaveValue('1.00');
     });
 
-    it('incrementa com passo decimal padrão (0.01 para 2 casas)', async () => {
+    it('incrementa por 1 no modo decimal quando step não é especificado', async () => {
       const user = userEvent.setup();
       render(<Quantity decimal decimalPlaces={2} defaultValue={1} />);
       await user.click(screen.getByLabelText('Increase quantity'));
-      expect(screen.getByRole('spinbutton')).toHaveValue('1.01');
+      expect(screen.getByRole('spinbutton')).toHaveValue('2.00');
     });
 
     it('formata o valor no blur respeitando decimalPlaces', async () => {

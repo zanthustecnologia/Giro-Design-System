@@ -16,7 +16,7 @@ const Quantity: React.FC<QuantityProps> = ({
   decimalPlaces = 2,
   size = 'lg',
   id,
-  step,
+  step = 1,
   className,
   inputSize = 6,
   inputSizeControl = true,
