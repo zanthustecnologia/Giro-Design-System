@@ -297,7 +297,6 @@ const Quantity: React.FC<QuantityProps> = ({
         onBlur={handleBlur}
         onKeyDown={handleInputKeyDown}
         id={inputId}
-        min='0'
         step={stepValue}
         aria-label='Quantidade'
         role='spinbutton'

@@ -47,7 +47,7 @@ export interface QuantityProps extends BaseProps {
   inputSize?: number;
 
 
-  /** Habilita controle automático do tamanho do input baseado no número de caracteres */
+  /** Habilita controle do tamanho do input baseado no número de caracteres */
   inputSizeControl?: boolean;
 
   /** Valor mínimo permitido */
