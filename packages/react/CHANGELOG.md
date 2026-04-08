@@ -1,5 +1,15 @@
 # @giro-ds/react
 
+## 5.0.1
+
+### Patch Changes
+
+- 3d0ad2f: **DatePicker**: Corrige lógica de validação e exibição de mensagens de erro
+  - Ajusta comportamento de helperText para exibir corretamente mensagens customizadas quando há erro de validação
+  - Melhora clareza da prop error para refletir sempre o estado de validação
+
+  **Build**: Adiciona limpeza automática do diretório temporário dts-temp após compilação
+
 ## 5.0.0
 
 ### Major Changes
@@ -98,7 +108,6 @@
 - **Breaking Changes**: Mudanças significativas na API e novos recursos
 
   **Breaking Changes:**
-
   - **DropdownMenu**: Removidas props `enableIcon` e `enableSubText`
     - **Por quê**: API simplificada - ícones e subtextos agora são renderizados automaticamente quando fornecidos nos items
     - **Como migrar**: Remova essas props do seu código. Ícones/subtextos serão renderizados automaticamente se presentes nos dados do item
@@ -112,7 +121,6 @@
     - **Como migrar**: Renomeie a prop e ajuste o handler para receber o valor diretamente ao invés do evento
 
   **Novos Recursos:**
-
   - **Switch**: Props `defaultChecked` e `disabled` agora são opcionais (anteriormente obrigatórias), melhorando DX ao permitir valores padrão sensatos
   - **Table**: Adicionado estado indeterminado ao checkbox "Selecionar Todos", nova prop opcional `disableSelectAll` em `rowSelection`, suporte a tipos genéricos `<Table<T>>` para type-safety completa, documentação TypeScript aprimorada com JSDoc
 
