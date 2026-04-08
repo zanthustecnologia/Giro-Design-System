@@ -4,18 +4,18 @@
 
 ### Patch Changes
 
-- docs: add READMEs to packages
+- **Documentação**: Adiciona arquivos README aos pacotes
 
 ## 1.0.0
 
 ### Major Changes
 
-- 🎉 Release inicial do pacote `@giro-ds/tokens`
-- Migração de `@zanthus/tokens` para `@giro-ds/tokens`
-- Design tokens completos do Zanthus Design System
-- Tokens disponíveis: cores (brand, feedback, neutral), espaçamentos, tipografia, bordas
-- Formatos: CSS, SCSS, JavaScript
-- Geração via Style Dictionary
+- **Release Inicial**: Lançamento do pacote `@giro-ds/tokens`
+  - Migração de `@zanthus/tokens` para `@giro-ds/tokens`
+  - Design tokens completos do Zanthus Design System
+  - Tokens disponíveis: cores (brand, feedback, neutral), espaçamentos, tipografia, bordas
+  - Formatos: CSS, SCSS, JavaScript
+  - Geração via Style Dictionary
 
 ---
 
