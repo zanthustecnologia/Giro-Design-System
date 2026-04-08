@@ -22,6 +22,9 @@ const Quantity: React.FC<QuantityProps> = ({
   inputSizeControl = true,
   minValue = 0,
   maxValue = 9999,
+  decrementAriaLabel = 'Decrease quantity',
+  incrementAriaLabel = 'Increase quantity',
+  inputAriaLabel = 'Quantity',
   ...rest
 }) => {
   const isControlled = controlledValue !== undefined;
@@ -275,7 +278,7 @@ const Quantity: React.FC<QuantityProps> = ({
   const inputId = id || uniqueId;
 
   return (
-    <div className={clsx(styles.quantity, { disabled }, className)} {...rest}>
+    <div className={clsx(styles.quantity, { [styles.disabled]: disabled }, className)} {...rest}>
       <Button
         variant='outlined'
         size={size}
@@ -284,13 +287,13 @@ const Quantity: React.FC<QuantityProps> = ({
         icon={<Subtract16Regular />}
         onClick={decrement}
         disabled={disabled || isMinValue}
-        aria-label='Diminuir quantidade'
+        aria-label={decrementAriaLabel}
 
       />
 
       <input
         ref={inputRef}
-        className={clsx(styles.quantityInput, { disabled })}
+        className={clsx(styles.quantityInput, { [styles.disabled]: disabled })}
         type='text'
         value={inputValue}
         onChange={handleInputChange}
@@ -298,7 +301,7 @@ const Quantity: React.FC<QuantityProps> = ({
         onKeyDown={handleInputKeyDown}
         id={inputId}
         step={stepValue}
-        aria-label='Quantidade'
+        aria-label={inputAriaLabel}
         role='spinbutton'
         aria-valuenow={computedValue}
         aria-valuemin={minValue}
@@ -314,7 +317,7 @@ const Quantity: React.FC<QuantityProps> = ({
         iconOnly
         onClick={increment}
         disabled={disabled || isMaxValue}
-        aria-label='Aumentar quantidade'
+        aria-label={incrementAriaLabel}
         icon={<Add16Regular />}
 
       />

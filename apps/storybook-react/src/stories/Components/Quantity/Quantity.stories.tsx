@@ -58,7 +58,18 @@ const meta: Meta<typeof Quantity> = {
       control: { type: 'number' },
       description: 'Valor máximo permitido. Padrão 9999.',
     },
-
+    decrementAriaLabel: {
+      control: { type: 'text' },
+      description: 'Aria label do botão de decrementar. Padrão: "Decrease quantity".',
+    },
+    incrementAriaLabel: {
+      control: { type: 'text' },
+      description: 'Aria label do botão de incrementar. Padrão: "Increase quantity".',
+    },
+    inputAriaLabel: {
+      control: { type: 'text' },
+      description: 'Aria label do input de quantidade. Padrão: "Quantity".',
+    },
   },
   args: {
     defaultValue: 0,
