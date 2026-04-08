@@ -26,7 +26,6 @@
   min-height: $size;
   max-height: $size;
   flex-shrink: 0;
-  color: var(--color-neutral-high-default);
 }
 
 @mixin iconSize($size: 16px) {
@@ -148,17 +147,6 @@
   flex-shrink: 0;
 }
 
-.button.button-filled.button-lg.buttonIconOnly,
-.button.button-outlined.button-lg.buttonIconOnly,
-.button.button-text.button-lg.buttonIconOnly {
-  @include iconOnlySize(44px);
-}
-
-.button.button-filled.button-sm.buttonIconOnly,
-.button.button-outlined.button-sm.buttonIconOnly,
-.button.button-text.button-sm.buttonIconOnly {
-  @include iconOnlySize(36px);
-}
 .button.buttonFullWidth {
   width: 100%;
   max-width: unset;
