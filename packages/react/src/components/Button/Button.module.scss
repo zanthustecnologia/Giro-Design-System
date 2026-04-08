@@ -52,7 +52,6 @@
     background-color 0.3s ease-in-out,
     color 0.3s ease-in-out,
     border-color 0.3s ease-in-out,
-    outline-color 0.3s ease-in-out,
     opacity 0.3s ease-in-out;
   cursor: pointer;
   box-sizing: border-box;
@@ -177,8 +176,7 @@
   margin: var(--spacing-0);
 }
 
-.button:hover,
-.button:hover * {
+.button:hover {
   text-decoration: none;
 }
 
@@ -207,7 +205,7 @@
   outline: none;
 }
 
-.button.button-outlined * {
+.button.button-outlined {
   color: var(--color-brand-primary-default);
 }
 
@@ -224,19 +222,10 @@
   background-color: var(--color-neutral-high-default);
 }
 
-.button.button-outlined:focus-visible *,
-.button.button-outlined[data-state="open"] * {
-  color: var(--color-brand-primary-default);
-}
-
 .button.button-outlined:active {
   outline: none;
   color: var(--color-brand-primary-default);
   background-color: var(--color-neutral-high-dark);
-}
-
-.button.button-outlined:active * {
-  color: var(--color-brand-primary-default);
 }
 
 .button.button-outlined:disabled,
@@ -247,12 +236,7 @@
   background-color: var(--color-neutral-high-default);
 }
 
-.button.button-outlined:disabled *,
-.button.button-outlined.disabled * {
-  color: var(--color-neutral-high-dark);
-}
-
-.button.button-text * {
+.button.button-text {
   color: var(--color-brand-primary-default);
 }
 
@@ -284,11 +268,6 @@
   &:hover {
     background-color: transparent;
   }
-}
-
-.button.button-text:disabled *,
-.button.button-text.disabled * {
-  color: var(--color-neutral-high-dark);
 }
 
 @keyframes spin {
