@@ -168,7 +168,7 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPro
   const getNavigationProps = () => {
     if (href) {
       if (disabled || loading) {
-        return { role: 'link', href: '#' };
+        return { role: 'link' };
       }
       return {
         href,
@@ -184,7 +184,7 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPro
         };
       }
       return {
-        href: disabled ? '#' : to,
+        href: disabled ? undefined : to,
       };
     }
     if (Component === 'button') {
