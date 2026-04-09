@@ -97,6 +97,7 @@ const Search = React.forwardRef<HTMLInputElement, SearchProps>(
 
         <input
           ref={ref}
+          className={clsx({ [styles.inputWithClearIcon]: currentValue && currentValue.length > 0 })}
           id={inputId}
           type="text"
           placeholder={placeholder}
