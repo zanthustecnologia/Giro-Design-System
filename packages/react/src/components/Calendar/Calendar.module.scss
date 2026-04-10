@@ -488,7 +488,7 @@
   height: 22px;
   width: 56px;
   padding-right: var(--spacing-24);
-  gap: 28px;
+  gap: var(--spacing-24);
 }
 
 .gridCells {
@@ -562,14 +562,14 @@
 }
 
 .chevronNavBtnPrev {
-  width: 14px; 
+  width: 16px;
   height: 16px;
   fill: none;
   transform: rotate(90deg);
 }
 
 .chevronNavBtnNext {
-  width: 14px; 
+  width: 16px;
   height: 16px;
   fill: none;
   transform: rotate(-90deg);

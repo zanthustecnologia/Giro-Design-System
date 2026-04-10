@@ -7,6 +7,38 @@ import styles from "./Calendar.module.scss";
 import type { CalendarProps } from "./Calendar.types";
 import type { MonthCaptionProps } from "react-day-picker";
 
+type ChevronOrientation = "up" | "down" | "left" | "right";
+
+const CHEVRON_ROTATION: Record<ChevronOrientation, number> = {
+  down: 0,
+  up: 180,
+  left: 90,
+  right: -90,
+};
+
+const CustomChevron = ({
+  orientation = "left",
+  size = 16,
+  className,
+}: {
+  className?: string;
+  size?: number;
+  disabled?: boolean;
+  orientation?: ChevronOrientation;
+}) => (
+  <svg
+    className={className}
+    width={size}
+    height={size}
+    viewBox="0 0 12 12"
+    fill="none"
+    aria-hidden="true"
+    style={{ transform: `rotate(${CHEVRON_ROTATION[orientation]}deg)` }}
+  >
+    <path d="M2 4L6 8L10 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ fill: "none" }} />
+  </svg>
+);
+
 type GridView = "days" | "months" | "years";
 
 interface GridPickerContext {
@@ -185,7 +217,7 @@ const Calendar = ({
           captionLayout="label"
           month={resolvedDisplayMonth}
           onMonthChange={handleMonthChange}
-          components={{ MonthCaption: GridMonthCaption }}
+          components={{ MonthCaption: GridMonthCaption, Chevron: CustomChevron }}
         />
         {gridView !== "days" && (
           <div
