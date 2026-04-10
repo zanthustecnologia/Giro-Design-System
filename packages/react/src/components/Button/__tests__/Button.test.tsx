@@ -278,9 +278,10 @@ describe('Button', () => {
       expect(screen.getByRole('link')).toHaveAttribute('rel', 'noreferrer');
     });
 
-    it('deve ter href="#" quando desabilitado', () => {
+    it('n\u00e3o deve ter href quando desabilitado', () => {
       render(<Button href="/home" disabled>Link</Button>);
-      expect(screen.getByRole('link')).toHaveAttribute('href', '#');
+      const link = screen.getByRole('link');
+      expect(link).not.toHaveAttribute('href');
     });
 
     it('deve prevenir navegação quando link disabled é clicado', async () => {
@@ -304,9 +305,11 @@ describe('Button', () => {
       expect(link).toHaveAttribute('href', '/about');
     });
 
-    it('deve ter href="#" quando to e disabled', () => {
+    it('n\u00e3o deve ter href quando to e disabled', () => {
       render(<Button to="/about" disabled>Link</Button>);
-      expect(screen.getByRole('link')).toHaveAttribute('href', '#');
+      const anchor = screen.getByText('Link');
+      expect(anchor.tagName).toBe('A');
+      expect(anchor).not.toHaveAttribute('href');
     });
   });
 
