@@ -99,12 +99,6 @@
   border-top: var(--border-width-1) solid var(--color-neutral-high-dark);
   color: var(--color-neutral-low-default);
   height: 44px;
-
-  &:has(.zds-menu__container),
-  &.has-dropdown {
-    position: relative;
-    overflow: visible;
-  }
 }
 
 .tableEmpty {
@@ -167,15 +161,6 @@
 .tableRow:hover,
 .tableRowHover {
   background-color: var(--color-neutral-high-light);
-}
-
-.tableRow:has(.zds-menu__container),
-.tableRow.has-dropdown {
-  position: relative;
-}
-
-.tableTd .zds-menu__container {
-  position: relative;
 }
 
 .tableHeaderSearch {
