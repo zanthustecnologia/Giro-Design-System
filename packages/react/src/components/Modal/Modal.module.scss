@@ -68,6 +68,14 @@
   font-size: var(--font-size-16);
   line-height: 1.3;
 }
+.ModalFooter {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--spacing-8);
+  padding: var(--spacing-16);
+  flex-shrink: 0;
+}
 
 @keyframes overlayShow {
   from {

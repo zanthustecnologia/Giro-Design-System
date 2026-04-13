@@ -44,4 +44,7 @@ export interface ModalProps extends BaseProps {
 
   /** Define se o modal fecha ao clicar no overlay (padrão: true) */
   closeOnOverlayClick?: boolean;
+
+  /** Conteúdo do rodapé do modal */
+  footer?: ReactNode;
 }

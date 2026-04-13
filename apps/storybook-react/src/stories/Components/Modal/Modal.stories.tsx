@@ -13,6 +13,7 @@ const meta: Meta<typeof Modal> = {
     closeOnOverlayClick: { control: 'boolean' },
     children: { table: { disable: true } },
     headerContent: { table: { disable: true } },
+    footer: { table: { disable: true } },
     onClose: { table: { disable: true } },
     className: { table: { disable: true } },
     id: { table: { disable: true } },
@@ -27,6 +28,7 @@ const ModalDemo = ({
   closeOnOverlayClick = true,
   children,
   headerContent,
+  footer,
 }: Partial<React.ComponentProps<typeof Modal>>) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
@@ -40,6 +42,7 @@ const ModalDemo = ({
         title={title}
         closeOnOverlayClick={closeOnOverlayClick}
         headerContent={headerContent}
+        footer={footer}
       >
         {children}
       </Modal>
@@ -112,6 +115,36 @@ export const SemTitulo: Story = {
         </Button>
         <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
           <p>Modal sem título definido. O cabeçalho exibe apenas o botão de fechar.</p>
+        </Modal>
+      </>
+    );
+  },
+};
+
+export const ComFooter: Story = {
+  render: () => {
+    const [isOpen, setIsOpen] = useState(false);
+    return (
+      <>
+        <Button variant="outlined" onClick={() => setIsOpen(true)}>
+          Abrir Modal
+        </Button>
+        <Modal
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+          title="Confirmar ação"
+          footer={
+            <>
+              <Button variant="outlined" onClick={() => setIsOpen(false)}>
+                Cancelar
+              </Button>
+              <Button variant="filled" onClick={() => setIsOpen(false)}>
+                Confirmar
+              </Button>
+            </>
+          }
+        >
+          <p>Tem certeza que deseja realizar esta ação? Esta operação não pode ser desfeita.</p>
         </Modal>
       </>
     );

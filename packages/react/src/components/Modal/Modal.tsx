@@ -17,6 +17,7 @@ const Modal: React.FC<ModalProps> = ({
   closeOnOverlayClick = true,
   className,
   id,
+  footer,
 }) => {
   const handleOpenChange = (open: boolean): void => {
     if (!open) {
@@ -58,6 +59,9 @@ const Modal: React.FC<ModalProps> = ({
           <div className={styles.ModalBody}>
             {children}
           </div>
+          {footer && (
+            <div className={styles.ModalFooter}>{footer}</div>
+          )}
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>
