@@ -1,3 +1,13 @@
+import { fileURLToPath } from 'url';
+import nodePath from 'path';
+
+// Diretório deste arquivo (.storybook/)
+const _dir = nodePath.dirname(fileURLToPath(import.meta.url));
+// Raiz do pacote react (packages/react/)
+const REACT_PKG = nodePath.resolve(_dir, '../../../packages/react');
+// Src do pacote react — em forward slashes para fast-glob funcionar no Windows
+const REACT_SRC = nodePath.resolve(REACT_PKG, 'src').split(nodePath.sep).join('/');
+
 /** @type {import('@storybook/react-vite').StorybookConfig} */
 const config = {
   framework: {
@@ -26,15 +36,21 @@ const config = {
   },
 
   // Usa react-docgen-typescript para extrair JSDoc e tipos corretamente.
-  // EXPERIMENTAL_useProjectService: o TypeScript Project Service encontra o tsconfig.json
-  // correto para cada arquivo individualmente (ex: packages/react/tsconfig.json para componentes),
-  // o que é necessário em monorepos onde os arquivos-fonte estão fora do tsconfig do Storybook.
+  // tsconfigPath aponta para packages/react/tsconfig.json para que o TypeScript
+  // program inclua os source files com os aliases certos (@/, @components/, etc.).
+  // include usa {ts,tsx} pois os arquivos de tipos são .ts e os componentes .tsx;
+  // sem incluir .ts, o TypeScript Program não encontra as interfaces e perde o JSDoc.
   typescript: {
     reactDocgen: 'react-docgen-typescript',
     reactDocgenTypescriptOptions: {
+      tsconfigPath: nodePath.join(REACT_PKG, 'tsconfig.json'),
+      include: [
+        `${REACT_SRC}/**/*.tsx`,
+        `${REACT_SRC}/**/*.ts`,
+      ],
+      exclude: [`${REACT_SRC}/**/*.stories.{ts,tsx}`],
       shouldExtractLiteralValuesFromEnum: true,
       shouldRemoveUndefinedFromOptional: true,
-      EXPERIMENTAL_useProjectService: true,
       propFilter: (prop) => {
         if (prop.parent) {
           return !prop.parent.fileName.includes('node_modules');
