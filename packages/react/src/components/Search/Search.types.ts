@@ -27,7 +27,7 @@ import { BaseProps } from '../../types/common.types';
 
 type NativeInputProps = Omit<
   ComponentPropsWithoutRef<'input'>,
-  'value' | 'defaultValue' | 'onChange' | 'onClick' | 'onMouseDown' | 'className'
+  'value' | 'defaultValue' | 'onChange' | 'onClick' | 'onMouseDown' 
 >;
 
 export interface SearchProps extends BaseProps, NativeInputProps {
