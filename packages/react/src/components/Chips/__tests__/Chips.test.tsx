@@ -118,12 +118,12 @@ describe('Chips', () => {
       );
     });
 
-    it('aplica --chips-fg via foregroundColor', () => {
+    it('aplica --chips-text via textColor', () => {
       const { container } = render(
-        <Chips foregroundColor="color-brand-secondary-dark">Custom</Chips>
+        <Chips textColor="color-brand-secondary-dark">Custom</Chips>
       );
       const el = container.firstChild as HTMLElement;
-      expect(el.style.getPropertyValue('--chips-fg')).toBe(
+      expect(el.style.getPropertyValue('--chips-text')).toBe(
         'var(--color-brand-secondary-dark)'
       );
     });
@@ -136,12 +136,12 @@ describe('Chips', () => {
       expect(el.style.getPropertyValue('--chips-bg')).toBe('');
     });
 
-    it('não aplica foregroundColor quando disabled=true', () => {
+    it('não aplica textColor quando disabled=true', () => {
       const { container } = render(
-        <Chips disabled foregroundColor="color-brand-secondary-dark">Custom</Chips>
+        <Chips disabled textColor="color-brand-secondary-dark">Custom</Chips>
       );
       const el = container.firstChild as HTMLElement;
-      expect(el.style.getPropertyValue('--chips-fg')).toBe('');
+      expect(el.style.getPropertyValue('--chips-text')).toBe('');
     });
   });
 
