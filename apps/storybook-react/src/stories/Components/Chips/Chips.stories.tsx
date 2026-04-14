@@ -27,7 +27,7 @@ const meta: Meta<typeof Chips> = {
       control: { type: 'text' },
       description: 'Token CSS para cor de fundo sem o prefixo --. Ex: color-brand-secondary-medium',
     },
-    foregroundColor: {
+    textColor: {
       control: { type: 'text' },
       description: 'Token CSS para cor do texto e ícones sem o prefixo --. Ex: color-brand-secondary-dark',
     },
@@ -82,26 +82,26 @@ export const CoresCustomizadas: Story = {
     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
       <Chips
         backgroundColor="color-brand-secondary-medium"
-        foregroundColor="color-brand-secondary-dark"
+        textColor="color-brand-secondary-dark"
       >
         Secundária
       </Chips>
       <Chips
         backgroundColor="color-feedback-info-light"
-        foregroundColor="color-feedback-info-dark"
+        textColor="color-feedback-info-dark"
       >
         Informação
       </Chips>
       <Chips
         backgroundColor="color-feedback-success-light"
-        foregroundColor="color-feedback-success-dark"
+        textColor="color-feedback-success-dark"
         leftIcon={<CheckmarkCircle16Regular />}
       >
         Sucesso custom
       </Chips>
       <Chips
         backgroundColor="color-feedback-alert-light"
-        foregroundColor="color-feedback-alert-dark"
+        textColor="color-feedback-alert-dark"
         leftIcon={<Warning16Regular />}
       >
         Alerta custom
