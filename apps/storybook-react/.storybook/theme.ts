@@ -17,9 +17,9 @@ export const ZanthusTheme = create({
 
   // Marca
   brandTitle: 'Giro System',
-  brandUrl: 'https://giro.framer.website/',
+  brandUrl: undefined,
   brandImage: '/images/giro-logo.svg',
-  brandTarget: '_blank',
+
 
   // Paleta principal (estilo Vibe)
   colorPrimary: config.colors.primary,
