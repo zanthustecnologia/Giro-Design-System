@@ -2,6 +2,17 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Quantity } from '@giro-ds/react';
 
+const ControlledWrapper = (args: React.ComponentProps<typeof Quantity>) => {
+  const [value, setValue] = useState<number>(args.value ?? 0);
+  return (
+    <Quantity
+      {...args}
+      value={value}
+      onChange={(v) => { setValue(v); args.onChange?.(v); }}
+    />
+  );
+};
+
 const meta: Meta<typeof Quantity> = {
   title: 'Components/Quantity',
   component: Quantity,
@@ -9,13 +20,9 @@ const meta: Meta<typeof Quantity> = {
     layout: 'centered',
   },
   argTypes: {
-    defaultValue: {
-      control: { type: 'number' },
-      description: 'Valor inicial no modo não controlado.',
-    },
     value: {
       control: { type: 'number' },
-      description: 'Valor atual no modo controlado. Use junto com onChange.',
+      description: 'Valor do componente.',
     },
     onChange: {
       table: { disable: true },
@@ -72,7 +79,7 @@ const meta: Meta<typeof Quantity> = {
     },
   },
   args: {
-    defaultValue: 0,
+    value: 0,
     disabled: false,
     decimal: false,
     decimalPlaces: 2,
@@ -85,15 +92,18 @@ export default meta;
 type Story = StoryObj<typeof Quantity>;
 
 export const Default: Story = {
-  render: (args) => <Quantity {...args} />,
+  render: (args) => <ControlledWrapper {...args} />,
 };
 
 export const Desabilitado: Story = {
-  render: () => <Quantity defaultValue={3} disabled />,
+  render: () => <Quantity value={3} disabled />,
 };
 
 export const Decimal: Story = {
-  render: () => <Quantity decimal decimalPlaces={2} step={0.5} defaultValue={1} />,
+  render: () => {
+    const [value, setValue] = useState(1);
+    return <Quantity decimal decimalPlaces={2} step={0.5} value={value} onChange={setValue} />;
+  },
 };
 
 export const Tamanhos: Story = {
@@ -101,11 +111,11 @@ export const Tamanhos: Story = {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', alignItems: 'flex-start' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
         <span style={{ fontSize: '13px', color: 'var(--color-neutral-low-medium)', width: '24px' }}>lg</span>
-        <Quantity defaultValue={1} size="lg" />
+        <ControlledWrapper value={1} size="lg" />
       </div>
       <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
         <span style={{ fontSize: '13px', color: 'var(--color-neutral-low-medium)', width: '24px' }}>sm</span>
-        <Quantity defaultValue={1} size="sm" />
+        <ControlledWrapper value={1} size="sm" />
       </div>
     </div>
   ),

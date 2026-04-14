@@ -26,9 +26,10 @@ const Quantity: React.FC<QuantityProps> = ({
   inputAriaLabel = 'Quantity',
   ...rest
 }) => {
-  const [internalValue, setInternalValue] = useState<number>(value);
+  const initialValue = Math.min(Math.max(value, minValue), maxValue);
+  const [internalValue, setInternalValue] = useState<number>(initialValue);
   const [inputValue, setInputValue] = useState<string>(
-    decimal ? value.toFixed(decimalPlaces) : String(value)
+    decimal ? initialValue.toFixed(decimalPlaces) : String(initialValue)
   );
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -51,9 +52,10 @@ const Quantity: React.FC<QuantityProps> = ({
   }, []);
 
   useEffect(() => {
-    setInternalValue(value);
-    setInputValue(decimal ? value.toFixed(decimalPlaces) : String(value));
-  }, [value, decimal, decimalPlaces]);
+    const clamped = Math.min(Math.max(value, minValue), maxValue);
+    setInternalValue(clamped);
+    setInputValue(decimal ? clamped.toFixed(decimalPlaces) : String(clamped));
+  }, [value, minValue, maxValue, decimal, decimalPlaces]);
 
   const increment = useCallback(() => {
     if (disabled) return;
