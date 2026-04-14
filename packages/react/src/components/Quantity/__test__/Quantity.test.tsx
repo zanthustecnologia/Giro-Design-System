@@ -116,14 +116,14 @@ describe('Quantity', () => {
 
     it('respeita a prop step no incremento', async () => {
       const user = userEvent.setup();
-      render(<ControlledQuantity initialValue={0} step={5} />);
+      render(<ControlledQuantity initialValue={0} valueIncrement={5} />);
       await user.click(screen.getByLabelText('Increase quantity'));
       expect(screen.getByRole('spinbutton')).toHaveValue('5');
     });
 
     it('respeita a prop step no decremento', async () => {
       const user = userEvent.setup();
-      render(<ControlledQuantity initialValue={10} step={3} />);
+      render(<ControlledQuantity initialValue={10} valueIncrement={3} />);
       await user.click(screen.getByLabelText('Decrease quantity'));
       expect(screen.getByRole('spinbutton')).toHaveValue('7');
     });
@@ -366,7 +366,7 @@ describe('Quantity', () => {
 
     it('respeita step customizado no modo decimal', async () => {
       const user = userEvent.setup();
-      render(<ControlledQuantity decimal decimalPlaces={1} step={0.5} initialValue={1} />);
+      render(<ControlledQuantity decimal decimalPlaces={1} valueIncrement={0.5} initialValue={1} />);
       await user.click(screen.getByLabelText('Increase quantity'));
       expect(screen.getByRole('spinbutton')).toHaveValue('1.5');
     });

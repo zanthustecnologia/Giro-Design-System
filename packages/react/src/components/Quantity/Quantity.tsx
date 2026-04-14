@@ -15,7 +15,7 @@ const Quantity: React.FC<QuantityProps> = ({
   decimalPlaces = 2,
   size = 'lg',
   id,
-  step = 1,
+  valueIncrement = 1,
   className,
   inputSize = 6,
   inputSizeControl = true,
@@ -33,22 +33,22 @@ const Quantity: React.FC<QuantityProps> = ({
   );
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const stepValue = step !== undefined ? step : decimal ? Math.pow(10, -decimalPlaces) : 1;
+  const stepValue = valueIncrement !== undefined ? valueIncrement : decimal ? Math.pow(10, -decimalPlaces) : 1;
 
   const isMinValue = useMemo(() => internalValue <= minValue, [internalValue, minValue]);
   const isMaxValue = useMemo(() => internalValue >= maxValue, [internalValue, maxValue]);
 
-  const validateProps = (decimalPlaces?: number, step?: number) => {
+  const validateProps = (decimalPlaces?: number, valueIncrement?: number) => {
     if (decimalPlaces !== undefined && (decimalPlaces < 1 || decimalPlaces > 10)) {
       console.warn('decimalPlaces deve estar entre 1 e 10');
     }
-    if (step !== undefined && step <= 0) {
-      console.warn('step deve ser maior que 0');
+    if (valueIncrement !== undefined && valueIncrement <= 0) {
+      console.warn('valueIncrement deve ser maior que 0');
     }
   };
 
   useEffect(() => {
-    validateProps(decimalPlaces, step);
+    validateProps(decimalPlaces, valueIncrement);
   }, []);
 
   useEffect(() => {

@@ -38,7 +38,7 @@ export interface QuantityProps extends BaseProps {
   decimalPlaces?: number;
   
   /** Incremento/decremento ao clicar nos botões */
-  step?: number;
+  valueIncrement?: number;
 
   /** Controla o tamanho do input baseado no número de caracteres */
   inputSize?: number;

@@ -45,7 +45,7 @@ const meta: Meta<typeof Quantity> = {
       options: ['lg', 'sm'],
       description: 'Tamanho do componente.',
     },
-    step: {
+    valueIncrement: {
       control: { type: 'number' },
       description: 'Valor de incremento/decremento dos botões.',
     },
@@ -66,16 +66,13 @@ const meta: Meta<typeof Quantity> = {
       description: 'Valor máximo permitido. Padrão 9999.',
     },
     decrementAriaLabel: {
-      control: { type: 'text' },
-      description: 'Aria label do botão de decrementar. Padrão: "Decrease quantity".',
+      table: { disable: true },
     },
     incrementAriaLabel: {
-      control: { type: 'text' },
-      description: 'Aria label do botão de incrementar. Padrão: "Increase quantity".',
+      table: { disable: true },
     },
     inputAriaLabel: {
-      control: { type: 'text' },
-      description: 'Aria label do input de quantidade. Padrão: "Quantity".',
+      table: { disable: true },
     },
   },
   args: {
@@ -84,7 +81,7 @@ const meta: Meta<typeof Quantity> = {
     decimal: false,
     decimalPlaces: 2,
     size: 'lg',
-    step: 1,
+    valueIncrement: 1,
   },
 };
 
@@ -102,7 +99,7 @@ export const Desabilitado: Story = {
 export const Decimal: Story = {
   render: () => {
     const [value, setValue] = useState(1);
-    return <Quantity decimal decimalPlaces={2} step={0.5} value={value} onChange={setValue} />;
+    return <Quantity decimal decimalPlaces={2} valueIncrement={0.5} value={value} onChange={setValue} />;
   },
 };
 
