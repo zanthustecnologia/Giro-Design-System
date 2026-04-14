@@ -2,8 +2,6 @@ import * as React from 'react';
 
 import { BaseProps, TextVariant } from '../../types/common.types';
 
-export type ChipsVariant = Exclude<TextVariant, 'color'>;
-
 /**
  * Props do componente Chips
  * @example
@@ -24,7 +22,7 @@ export type ChipsVariant = Exclude<TextVariant, 'color'>;
  */
 export interface ChipsProps extends BaseProps, Omit<React.HTMLAttributes<HTMLDivElement>, 'color'> {
   /** Variante semântica do chip. Define o preset de cor de fundo. */
-  variant?: ChipsVariant;
+  variant?: Exclude<TextVariant, 'color'>;
 
   /** Token CSS para a cor de fundo. Ex: 'color-brand-secondary-medium'. Sobrescreve o variant. */
   backgroundColor?: string;
