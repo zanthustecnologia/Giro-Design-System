@@ -18,6 +18,8 @@ const Modal: React.FC<ModalProps> = ({
   className,
   id,
   footer,
+  customWidth,
+  fullscreen = false,
 }) => {
   const handleOpenChange = (open: boolean): void => {
     if (!open) {
@@ -30,8 +32,11 @@ const Modal: React.FC<ModalProps> = ({
       <Dialog.Portal>
         <Dialog.Overlay className={styles.ModalOverlay} />
         <Dialog.Content
-          className={clsx(styles.ModalContent, className)}
+          className={clsx(styles.ModalContent, fullscreen && styles['ModalContent--fullscreen'], className)}
           id={id}
+          style={{
+            '--modal-custom-width': customWidth,
+          } as React.CSSProperties}
           onInteractOutside={!closeOnOverlayClick ? (e) => e.preventDefault() : undefined}
           aria-labelledby={id ? `${id}-title` : 'modal-title'}
         >

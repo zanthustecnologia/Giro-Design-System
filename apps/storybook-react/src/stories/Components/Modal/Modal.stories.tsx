@@ -11,6 +11,14 @@ const meta: Meta<typeof Modal> = {
   argTypes: {
     title: { control: 'text' },
     closeOnOverlayClick: { control: 'boolean' },
+    customWidth: {
+      control: 'text',
+      description: 'Largura customizada do modal (ex: \'500px\', \'80%\')',
+    },
+    fullscreen: {
+      control: 'boolean',
+      description: 'Ocupa toda a tela. Tem prioridade sobre customWidth',
+    },
     children: { table: { disable: true } },
     headerContent: { table: { disable: true } },
     footer: { table: { disable: true } },
@@ -26,6 +34,8 @@ type Story = StoryObj<typeof Modal>;
 const ModalDemo = ({
   title = 'Título do Modal',
   closeOnOverlayClick = true,
+  customWidth,
+  fullscreen,
   children,
   headerContent,
   footer,
@@ -41,6 +51,8 @@ const ModalDemo = ({
         onClose={() => setIsOpen(false)}
         title={title}
         closeOnOverlayClick={closeOnOverlayClick}
+        customWidth={customWidth}
+        fullscreen={fullscreen}
         headerContent={headerContent}
         footer={footer}
       >
@@ -55,6 +67,8 @@ export const Default: Story = {
     <ModalDemo
       title={args.title}
       closeOnOverlayClick={args.closeOnOverlayClick}
+      customWidth={args.customWidth}
+      fullscreen={args.fullscreen}
     >
       <p>Conteúdo interno do Modal. Qualquer elemento React pode ser inserido aqui.</p>
     </ModalDemo>
@@ -62,6 +76,7 @@ export const Default: Story = {
   args: {
     title: 'Título do Modal',
     closeOnOverlayClick: true,
+    fullscreen: false,
   },
 };
 
@@ -145,6 +160,37 @@ export const ComFooter: Story = {
           }
         >
           <p>Tem certeza que deseja realizar esta ação? Esta operação não pode ser desfeita.</p>
+        </Modal>
+      </>
+    );
+  },
+};
+
+export const Fullscreen: Story = {
+  render: () => {
+    const [isOpen, setIsOpen] = useState(false);
+    return (
+      <>
+        <Button variant="outlined" onClick={() => setIsOpen(true)}>
+          Abrir Modal Fullscreen
+        </Button>
+        <Modal
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+          title="Modal em tela cheia"
+          fullscreen
+          footer={
+            <>
+              <Button variant="outlined" onClick={() => setIsOpen(false)}>
+                Cancelar
+              </Button>
+              <Button variant="filled" onClick={() => setIsOpen(false)}>
+                Confirmar
+              </Button>
+            </>
+          }
+        >
+          <p>Este modal ocupa toda a tela. Útil para fluxos complexos ou visualização de conteúdo extenso.</p>
         </Modal>
       </>
     );

@@ -12,7 +12,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 560px;
+  width: var(--modal-custom-width, 800px);
   max-height: 85vh;
   display: flex;
   flex-direction: column;
@@ -26,6 +26,21 @@
 
   @media (max-width: 768px) {
     width: calc(100% - var(--spacing-32));
+  }
+
+  &--fullscreen {
+    width: 100vw;
+    height: 100vh;
+    max-height: 100vh;
+    top: 0;
+    left: 0;
+    transform: none;
+    border-radius: 0;
+    border: none;
+
+    @media (max-width: 768px) {
+      width: 100vw;
+    }
   }
 }
 

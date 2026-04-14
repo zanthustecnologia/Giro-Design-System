@@ -38,6 +38,7 @@ vi.mock('radix-ui', () => {
     children,
     className,
     id,
+    style,
     onInteractOutside,
     'aria-labelledby': ariaLabelledBy,
     ...props
@@ -49,6 +50,7 @@ vi.mock('radix-ui', () => {
         'data-testid': 'dialog-content',
         className,
         id,
+        style,
         'aria-labelledby': ariaLabelledBy,
       },
       // Botão auxiliar para simular interação fora do content (testa closeOnOverlayClick)
@@ -320,6 +322,38 @@ describe('Modal', () => {
       render(<Modal isOpen onClose={onClose} closeOnOverlayClick={false} />);
       await user.click(screen.getByTestId('simulate-outside-click'));
       expect(onClose).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('customWidth', () => {
+    it('aplica --modal-custom-width no style quando customWidth é fornecido', () => {
+      render(<Modal {...defaultProps} isOpen customWidth="500px" />);
+      const content = screen.getByTestId('dialog-content');
+      expect(content).toHaveStyle({ '--modal-custom-width': '500px' });
+    });
+
+    it('não define --modal-custom-width quando customWidth não é fornecido', () => {
+      render(<Modal {...defaultProps} isOpen />);
+      const content = screen.getByTestId('dialog-content');
+      expect(content).toHaveStyle({ '--modal-custom-width': '' });
+    });
+  });
+
+  describe('fullscreen', () => {
+    it('aplica a classe ModalContent--fullscreen quando fullscreen=true', () => {
+      render(<Modal {...defaultProps} isOpen fullscreen />);
+      expect(screen.getByTestId('dialog-content').className).toMatch(/ModalContent--fullscreen/);
+    });
+
+    it('não aplica a classe ModalContent--fullscreen quando fullscreen=false (padrão)', () => {
+      render(<Modal {...defaultProps} isOpen />);
+      expect(screen.getByTestId('dialog-content').className).not.toMatch(/ModalContent--fullscreen/);
+    });
+
+    it('fullscreen tem prioridade: aplica a classe fullscreen mesmo com customWidth definido', () => {
+      render(<Modal {...defaultProps} isOpen fullscreen customWidth="500px" />);
+      const content = screen.getByTestId('dialog-content');
+      expect(content.className).toMatch(/ModalContent--fullscreen/);
     });
   });
 });

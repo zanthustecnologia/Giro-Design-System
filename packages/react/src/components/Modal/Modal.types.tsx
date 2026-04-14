@@ -47,4 +47,10 @@ export interface ModalProps extends BaseProps {
 
   /** Conteúdo do rodapé do modal */
   footer?: ReactNode;
+
+  /** Largura customizada do modal (ex: '500px', '80%') */
+  customWidth?: string;
+
+  /** Define se o modal ocupa toda a tela. Tem prioridade sobre customWidth */
+  fullscreen?: boolean;
 }
