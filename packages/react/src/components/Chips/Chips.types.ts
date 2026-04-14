@@ -22,7 +22,7 @@ export type ChipsVariant = Exclude<TextVariant, 'color'>;
  * </Chips>
  * ```
  */
-export interface ChipsProps extends BaseProps {
+export interface ChipsProps extends BaseProps, Omit<React.HTMLAttributes<HTMLDivElement>, 'color'> {
   /** Variante semântica do chip. Define o preset de cor de fundo. */
   variant?: ChipsVariant;
 
@@ -43,7 +43,4 @@ export interface ChipsProps extends BaseProps {
 
   /** Estilos inline adicionais */
   style?: React.CSSProperties;
-
-  /** Props adicionais para o elemento div */
-  [key: string]: any;
 }
