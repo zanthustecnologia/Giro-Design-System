@@ -396,6 +396,7 @@
 .caption_grid_btn {
   display: flex;
   align-items: center;
+  gap: var(--spacing-8);
   height: 100%;
   background: none;
   border: var(--border-width-none);
@@ -424,9 +425,7 @@
 
 .caption_year_chevron {
   display: inline-block;
-  margin-left: var(--spacing-8);
   flex-shrink: 0;
-  transition: transform 0.2s ease;
 }
 
 .caption_grid_label {
@@ -441,10 +440,6 @@
   font-size: var(--font-size-16);
   text-transform: capitalize;
   line-height: 130%;
-}
-
-.caption_year_chevron_open {
-  transform: rotate(180deg);
 }
 
 .gridOverlay {
@@ -564,13 +559,9 @@
 .chevronNavBtnPrev {
   width: 16px;
   height: 16px;
-  fill: none;
-  transform: rotate(90deg);
 }
 
 .chevronNavBtnNext {
   width: 16px;
   height: 16px;
-  fill: none;
-  transform: rotate(-90deg);
 }
