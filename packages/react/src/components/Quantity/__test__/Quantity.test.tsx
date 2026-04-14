@@ -1,7 +1,22 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import React, { useState } from 'react';
 import { describe, it, expect, vi } from 'vitest';
+
 import Quantity from '../Quantity';
+
+import type { QuantityProps } from '../Quantity.types';
+
+const ControlledQuantity = ({ initialValue = 0, onChange, ...props }: { initialValue?: number; onChange?: QuantityProps['onChange'] } & Omit<QuantityProps, 'value' | 'onChange'>) => {
+  const [value, setValue] = useState<number>(initialValue);
+  return (
+    <Quantity
+      value={value}
+      onChange={(v) => { setValue(v); onChange?.(v); }}
+      {...props}
+    />
+  );
+};
 
 describe('Quantity', () => {
   describe('Renderização básica', () => {
@@ -12,12 +27,12 @@ describe('Quantity', () => {
       expect(screen.getByLabelText('Increase quantity')).toBeInTheDocument();
     });
 
-    it('exibe o defaultValue no input', () => {
-      render(<Quantity defaultValue={5} />);
+    it('exibe o value no input', () => {
+      render(<Quantity value={5} />);
       expect(screen.getByRole('spinbutton')).toHaveValue('5');
     });
 
-    it('exibe 0 quando nenhum defaultValue é passado', () => {
+    it('exibe 0 quando nenhum value é passado', () => {
       render(<Quantity />);
       expect(screen.getByRole('spinbutton')).toHaveValue('0');
     });
@@ -60,7 +75,7 @@ describe('Quantity', () => {
     });
 
     it('input tem aria-valuenow, aria-valuemin e aria-valuemax corretos', () => {
-      render(<Quantity defaultValue={3} minValue={1} maxValue={10} />);
+      render(<Quantity value={3} minValue={1} maxValue={10} />);
       const input = screen.getByRole('spinbutton');
       expect(input).toHaveAttribute('aria-valuenow', '3');
       expect(input).toHaveAttribute('aria-valuemin', '1');
@@ -68,17 +83,17 @@ describe('Quantity', () => {
     });
   });
 
-  describe('Modo não controlado — botões', () => {
+  describe('Interação com botões', () => {
     it('incrementa o valor ao clicar no botão de aumentar', async () => {
       const user = userEvent.setup();
-      render(<Quantity defaultValue={1} />);
+      render(<ControlledQuantity initialValue={1} />);
       await user.click(screen.getByLabelText('Increase quantity'));
       expect(screen.getByRole('spinbutton')).toHaveValue('2');
     });
 
     it('decrementa o valor ao clicar no botão de diminuir', async () => {
       const user = userEvent.setup();
-      render(<Quantity defaultValue={5} />);
+      render(<ControlledQuantity initialValue={5} />);
       await user.click(screen.getByLabelText('Decrease quantity'));
       expect(screen.getByRole('spinbutton')).toHaveValue('4');
     });
@@ -86,7 +101,7 @@ describe('Quantity', () => {
     it('chama onChange ao incrementar', async () => {
       const user = userEvent.setup();
       const onChange = vi.fn();
-      render(<Quantity defaultValue={2} onChange={onChange} />);
+      render(<Quantity value={2} onChange={onChange} />);
       await user.click(screen.getByLabelText('Increase quantity'));
       expect(onChange).toHaveBeenCalledWith(3);
     });
@@ -94,21 +109,21 @@ describe('Quantity', () => {
     it('chama onChange ao decrementar', async () => {
       const user = userEvent.setup();
       const onChange = vi.fn();
-      render(<Quantity defaultValue={5} onChange={onChange} />);
+      render(<Quantity value={5} onChange={onChange} />);
       await user.click(screen.getByLabelText('Decrease quantity'));
       expect(onChange).toHaveBeenCalledWith(4);
     });
 
     it('respeita a prop step no incremento', async () => {
       const user = userEvent.setup();
-      render(<Quantity defaultValue={0} step={5} />);
+      render(<ControlledQuantity initialValue={0} step={5} />);
       await user.click(screen.getByLabelText('Increase quantity'));
       expect(screen.getByRole('spinbutton')).toHaveValue('5');
     });
 
     it('respeita a prop step no decremento', async () => {
       const user = userEvent.setup();
-      render(<Quantity defaultValue={10} step={3} />);
+      render(<ControlledQuantity initialValue={10} step={3} />);
       await user.click(screen.getByLabelText('Decrease quantity'));
       expect(screen.getByRole('spinbutton')).toHaveValue('7');
     });
@@ -116,32 +131,32 @@ describe('Quantity', () => {
 
   describe('Limites min/max', () => {
     it('botão de decrementar é desabilitado quando valor está no mínimo', () => {
-      render(<Quantity defaultValue={0} minValue={0} />);
+      render(<Quantity value={0} minValue={0} />);
       expect(screen.getByLabelText('Decrease quantity')).toBeDisabled();
     });
 
     it('botão de incrementar é desabilitado quando valor está no máximo', () => {
-      render(<Quantity defaultValue={9999} maxValue={9999} />);
+      render(<Quantity value={9999} maxValue={9999} />);
       expect(screen.getByLabelText('Increase quantity')).toBeDisabled();
     });
 
     it('não decrementa abaixo do minValue', async () => {
       const user = userEvent.setup();
-      render(<Quantity defaultValue={1} minValue={1} />);
+      render(<ControlledQuantity initialValue={1} minValue={1} />);
       await user.click(screen.getByLabelText('Decrease quantity'));
       expect(screen.getByRole('spinbutton')).toHaveValue('1');
     });
 
     it('não incrementa acima do maxValue', async () => {
       const user = userEvent.setup();
-      render(<Quantity defaultValue={10} maxValue={10} />);
+      render(<ControlledQuantity initialValue={10} maxValue={10} />);
       await user.click(screen.getByLabelText('Increase quantity'));
       expect(screen.getByRole('spinbutton')).toHaveValue('10');
     });
 
     it('clampeia valor digitado acima do maxValue no blur', async () => {
       const user = userEvent.setup();
-      render(<Quantity defaultValue={0} maxValue={10} />);
+      render(<ControlledQuantity initialValue={0} maxValue={10} />);
       const input = screen.getByRole('spinbutton');
       await user.clear(input);
       await user.type(input, '50');
@@ -151,7 +166,7 @@ describe('Quantity', () => {
 
     it('clampeia valor digitado abaixo do minValue no blur', async () => {
       const user = userEvent.setup();
-      render(<Quantity defaultValue={5} minValue={5} />);
+      render(<ControlledQuantity initialValue={5} minValue={5} />);
       const input = screen.getByRole('spinbutton');
       await user.clear(input);
       await user.type(input, '2');
@@ -167,7 +182,7 @@ describe('Quantity', () => {
     });
 
     it('botão de decrementar é desabilitado', () => {
-      render(<Quantity disabled defaultValue={5} />);
+      render(<Quantity disabled value={5} />);
       expect(screen.getByLabelText('Decrease quantity')).toBeDisabled();
     });
 
@@ -181,7 +196,7 @@ describe('Quantity', () => {
       // então desabilitamos a verificação de pointer-events para testar o guard interno.
       const user = userEvent.setup({ pointerEventsCheck: 0 });
       const onChange = vi.fn();
-      render(<Quantity disabled defaultValue={5} onChange={onChange} />);
+      render(<Quantity disabled value={5} onChange={onChange} />);
       await user.click(screen.getByLabelText('Increase quantity'));
       expect(onChange).not.toHaveBeenCalled();
     });
@@ -220,7 +235,7 @@ describe('Quantity', () => {
   describe('Digitação no input', () => {
     it('permite digitar um valor numérico', async () => {
       const user = userEvent.setup();
-      render(<Quantity defaultValue={0} />);
+      render(<ControlledQuantity initialValue={0} />);
       const input = screen.getByRole('spinbutton');
       await user.clear(input);
       await user.type(input, '42');
@@ -229,7 +244,7 @@ describe('Quantity', () => {
 
     it('filtra caracteres não numéricos', async () => {
       const user = userEvent.setup();
-      render(<Quantity defaultValue={0} />);
+      render(<ControlledQuantity initialValue={0} />);
       const input = screen.getByRole('spinbutton');
       await user.clear(input);
       await user.type(input, 'abc12def');
@@ -239,7 +254,7 @@ describe('Quantity', () => {
     it('chama onChange ao digitar', async () => {
       const user = userEvent.setup();
       const onChange = vi.fn();
-      render(<Quantity defaultValue={0} onChange={onChange} />);
+      render(<Quantity value={0} onChange={onChange} />);
       const input = screen.getByRole('spinbutton');
       await user.clear(input);
       await user.type(input, '7');
@@ -250,7 +265,7 @@ describe('Quantity', () => {
       // filterInput retorna '0' para string vazia no modo inteiro,
       // portanto o valor resultante é '0', não o valor anterior.
       const user = userEvent.setup();
-      render(<Quantity defaultValue={5} />);
+      render(<ControlledQuantity initialValue={5} />);
       const input = screen.getByRole('spinbutton');
       await user.clear(input);
       await user.tab();
@@ -261,7 +276,7 @@ describe('Quantity', () => {
   describe('Teclado', () => {
     it('incrementa com ArrowUp', async () => {
       const user = userEvent.setup();
-      render(<Quantity defaultValue={3} />);
+      render(<ControlledQuantity initialValue={3} />);
       const input = screen.getByRole('spinbutton');
       await user.click(input);
       await user.keyboard('{ArrowUp}');
@@ -270,7 +285,7 @@ describe('Quantity', () => {
 
     it('decrementa com ArrowDown', async () => {
       const user = userEvent.setup();
-      render(<Quantity defaultValue={3} />);
+      render(<ControlledQuantity initialValue={3} />);
       const input = screen.getByRole('spinbutton');
       await user.click(input);
       await user.keyboard('{ArrowDown}');
@@ -279,7 +294,7 @@ describe('Quantity', () => {
 
     it('vai para minValue com Home', async () => {
       const user = userEvent.setup();
-      render(<Quantity defaultValue={10} minValue={2} />);
+      render(<ControlledQuantity initialValue={10} minValue={2} />);
       const input = screen.getByRole('spinbutton');
       await user.click(input);
       await user.keyboard('{Home}');
@@ -288,7 +303,7 @@ describe('Quantity', () => {
 
     it('vai para maxValue com End', async () => {
       const user = userEvent.setup();
-      render(<Quantity defaultValue={0} maxValue={50} />);
+      render(<ControlledQuantity initialValue={0} maxValue={50} />);
       const input = screen.getByRole('spinbutton');
       await user.click(input);
       await user.keyboard('{End}');
@@ -296,8 +311,8 @@ describe('Quantity', () => {
     });
 
     it('descarta a edição e restaura o valor com Escape', async () => {
-      // Em modo decimal controlado, clear deixa inputValue=''. O handler do Escape
-      // e o do blur ambos restauram computedValue quando encontram a string vazia.
+      // Em modo decimal, clear deixa inputValue=''. O handler do Escape
+      // e o do blur ambos restauram o value quando encontram a string vazia.
       const user = userEvent.setup();
       const onChange = vi.fn();
       render(<Quantity value={5} onChange={onChange} decimal decimalPlaces={2} />);
@@ -309,7 +324,7 @@ describe('Quantity', () => {
 
     it('não reage ao teclado quando desabilitado', async () => {
       const user = userEvent.setup();
-      render(<Quantity defaultValue={5} disabled />);
+      render(<Quantity value={5} disabled />);
       const input = screen.getByRole('spinbutton');
       await user.keyboard('{ArrowUp}');
       expect(input).toHaveValue('5');
@@ -317,21 +332,21 @@ describe('Quantity', () => {
   });
 
   describe('Modo decimal', () => {
-    it('exibe o valor com casas decimais no defaultValue', () => {
-      render(<Quantity decimal decimalPlaces={2} defaultValue={1} />);
+    it('exibe o valor com casas decimais via value', () => {
+      render(<Quantity decimal decimalPlaces={2} value={1} />);
       expect(screen.getByRole('spinbutton')).toHaveValue('1.00');
     });
 
     it('incrementa por 1 no modo decimal quando step não é especificado', async () => {
       const user = userEvent.setup();
-      render(<Quantity decimal decimalPlaces={2} defaultValue={1} />);
+      render(<ControlledQuantity decimal decimalPlaces={2} initialValue={1} />);
       await user.click(screen.getByLabelText('Increase quantity'));
       expect(screen.getByRole('spinbutton')).toHaveValue('2.00');
     });
 
     it('formata o valor no blur respeitando decimalPlaces', async () => {
       const user = userEvent.setup();
-      render(<Quantity decimal decimalPlaces={2} defaultValue={0} />);
+      render(<Quantity decimal decimalPlaces={2} value={0} onChange={vi.fn()} />);
       const input = screen.getByRole('spinbutton');
       await user.clear(input);
       await user.type(input, '3.5');
@@ -351,7 +366,7 @@ describe('Quantity', () => {
 
     it('respeita step customizado no modo decimal', async () => {
       const user = userEvent.setup();
-      render(<Quantity decimal decimalPlaces={1} step={0.5} defaultValue={1} />);
+      render(<ControlledQuantity decimal decimalPlaces={1} step={0.5} initialValue={1} />);
       await user.click(screen.getByLabelText('Increase quantity'));
       expect(screen.getByRole('spinbutton')).toHaveValue('1.5');
     });

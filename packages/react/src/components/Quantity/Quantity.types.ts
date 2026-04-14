@@ -13,7 +13,7 @@ import { Size, BaseProps } from '../../types/common.types';
  * @example
  * ```tsx
  * <Quantity 
- *   defaultValue={1}
+ *   value={1}
  *   decimal={true}
  *   decimalPlaces={2}
  *   step={0.5}
@@ -22,10 +22,7 @@ import { Size, BaseProps } from '../../types/common.types';
  * ```
  */
 export interface QuantityProps extends BaseProps {
-  /** Valor inicial (modo não controlado) */
-  defaultValue?: number;
-  
-  /** Valor atual (modo controlado) */
+  /** Valor do componente */
   value?: number;
   
   /** Callback executado quando o valor muda: (value) => void */
