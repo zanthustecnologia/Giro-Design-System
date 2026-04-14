@@ -1,90 +1,100 @@
 # @giro-ds/react
 
+## 5.0.1
+
+### Patch Changes
+
+- 3d0ad2f: **DatePicker**: Corrige lógica de validação e exibição de mensagens de erro
+  - Ajusta comportamento de helperText para exibir corretamente mensagens customizadas quando há erro de validação
+  - Melhora clareza da prop error para refletir sempre o estado de validação
+
+  **Build**: Adiciona limpeza automática do diretório temporário dts-temp após compilação
+
 ## 5.0.0
 
 ### Major Changes
 
-- a9876e6: BREAKING CHANGE: Calendar migrated to react-day-picker; Dropdown deprecated and removed from exports; Filter API refactored
-  - **Calendar**: Replaced custom implementation with react-day-picker v9, removed internal type exports (DayItem, EmptyItem, CalendarItem, YearItem), renamed `selectedDate` to `selected`, `currentDate` now optional
-  - **Dropdown**: Component deprecated and moved to .deprecated/, removed from public exports
-  - **Filter**: Replaced Dropdown with Popover internally, changed `position` prop to `side` + `align`, replaced `DropdownItem[]` with `FilterItem[]`
-  - **Drawer**: Added new optional `headerContent` prop
-  - **DatePicker**: Updated to use new Calendar API with `selected` prop
-  - **TextArea**: New component with full form support (label, validation, character counter, resize control)
-  - **TextField**: Added new `error` prop for external validation control
-  - **Tests**: Fixed Avatar, Dialog, and Toast test suites after v4.0.0 breaking changes
+- **Breaking Changes**: Calendar migrado para react-day-picker; Dropdown depreciado e removido das exportações; API do Filter refatorada
+  - **Calendar**: Substituída implementação customizada por react-day-picker v9, removidos exports de tipos internos (DayItem, EmptyItem, CalendarItem, YearItem), renomeada prop `selectedDate` para `selected`, prop `currentDate` agora é opcional
+  - **Dropdown**: Componente depreciado e movido para .deprecated/, removido das exportações públicas
+  - **Filter**: Substituído Dropdown por Popover internamente, alterada prop `position` para `side` + `align`, substituído `DropdownItem[]` por `FilterItem[]`
+  - **Drawer**: Adicionada nova prop opcional `headerContent`
+  - **DatePicker**: Atualizado para usar nova API do Calendar com prop `selected`
+  - **TextArea**: Novo componente com suporte completo a formulários (label, validação, contador de caracteres, controle de redimensionamento)
+  - **TextField**: Adicionada nova prop `error` para controle externo de validação
+  - **Testes**: Corrigidos testes de Avatar, Dialog e Toast após breaking changes da v4.0.0
 
 ## 4.0.0
 
 ### Major Changes
 
-- de4c785: **BREAKING CHANGES:**
-  - **Avatar**: Size values changed from 'small'/'large' to 'sm'/'lg' for Radix UI alignment
-  - **Dialog**: Complete migration to Radix UI - removed props: show, onClose; renamed: fnConfirm→onConfirm, fnCancel→onCancel
-  - **Toast**: Complete API rewrite - now requires ToastProvider/ToastContainer setup and uses object-based API: showToast({ title, iconType, ... })
+- **Breaking Changes**: Migração para Radix UI e refatorações de API
+  - **Avatar**: Valores de tamanho alterados de 'small'/'large' para 'sm'/'lg' para alinhamento com Radix UI
+  - **Dialog**: Migração completa para Radix UI - removidas props: show, onClose; renomeadas: fnConfirm→onConfirm, fnCancel→onCancel
+  - **Toast**: Reescrita completa da API - agora requer configuração ToastProvider/ToastContainer e usa API baseada em objetos: showToast({ title, iconType, ... })
 
-  **New Features:**
-  - **Button**: Added automatic tooltip for iconOnly mode with new props: tooltipText, tooltipSide, tooltipAlign
-  - **Popover**: New component based on Radix UI with trigger/content pattern
+  **Novos Recursos:**
+  - **Button**: Adicionado tooltip automático para modo iconOnly com novas props: tooltipText, tooltipSide, tooltipAlign
+  - **Popover**: Novo componente baseado em Radix UI com padrão trigger/content
 
-  **Improvements:**
-  - **Container**: Internal refactoring with design tokens and comprehensive tests
-  - **Search**: Fixed useId() bug and improved accessibility with keyboard navigation
+  **Melhorias:**
+  - **Container**: Refatoração interna com design tokens e testes abrangentes
+  - **Search**: Corrigido bug do useId() e melhorada acessibilidade com navegação por teclado
 
 ## 3.0.7
 
 ### Patch Changes
 
-- fix(Label): corrige alinhamento do componente Label adicionando margin-bottom e removendo margin-top do Select trigger
-- fix(Select, Menu): remove coloração azul aplicada ao texto dos itens selecionados nos componentes Menu e Select
-- fix(Table): corrige comportamento do "selecionar todos" para respeitar checkboxes desabilitados via getCheckboxProps
+- **Label**: Corrige alinhamento do componente adicionando margin-bottom e removendo margin-top do Select trigger
+- **Select, Menu**: Remove coloração azul aplicada ao texto dos itens selecionados
+- **Table**: Corrige comportamento do "selecionar todos" para respeitar checkboxes desabilitados via getCheckboxProps
 
 ## 3.0.6
 
 ### Patch Changes
 
-- refactor(react): internal improvements and build optimizations
-  - Add interface inheritance to reduce code duplication (Avatar, Badge, Button, Calendar, Callout, Checkbox, Chips, DatePicker, Drawer, Dropdown, Filter, ListItem, Menu, Radio, Search, Select, Switch, Table, TextField, Toast, Tooltip, VerificationCode)
-  - Apply spread props pattern across multiple components for better prop forwarding
-  - Exclude deprecated files from build process (vite.config.ts, tsconfig.json)
-  - Fix CSS application issues in Dialog component
-  - Fix Tooltip component bugs
-  - Update Rollup configuration for modern Sass API
-  - Enhance component props handling and default values (TextField, Avatar, Filter, ListItem, Search, Table)
+- **Melhorias Internas**: Otimizações de build e refatorações
+  - Adiciona herança de interfaces para reduzir duplicação de código (Avatar, Badge, Button, Calendar, Callout, Checkbox, Chips, DatePicker, Drawer, Dropdown, Filter, ListItem, Menu, Radio, Search, Select, Switch, Table, TextField, Toast, Tooltip, VerificationCode)
+  - Aplica padrão de spread props em múltiplos componentes para melhor encaminhamento de props
+  - Exclui arquivos depreciados do processo de build (vite.config.ts, tsconfig.json)
+  - Corrige problemas de aplicação de CSS no componente Dialog
+  - Corrige bugs do componente Tooltip
+  - Atualiza configuração do Rollup para API moderna do Sass
+  - Melhora tratamento de props e valores padrão dos componentes (TextField, Avatar, Filter, ListItem, Search, Table)
 
 ## 3.0.5
 
 ### Patch Changes
 
-- 670abc4: fix: update TextField and Label components
+- **TextField, Label**: Atualiza componentes TextField e Label
 
 ## 3.0.4
 
 ### Patch Changes
 
-- 1d1cae3: fix: correct Select component prop type (onChange to onValueChange)
+- **Select**: Corrige tipo da prop do componente (onChange para onValueChange)
 
 ## 3.0.3
 
 ### Patch Changes
 
-- 5adc12c: fix: resolve Select and TextField bugs including API search, keyboard navigation, input value handling, and layout spacing adjustments
+- **Select, TextField**: Resolve bugs incluindo busca em API, navegação por teclado, tratamento de valores de input e ajustes de espaçamento de layout
 
 ## 3.0.2
 
 ### Patch Changes
 
-- 628c4e9: fix(TextField): normalize value handling to support string | number type
-  - Add normalizeValue() helper to convert string | number → string internally
-  - Fix .trim() error on numeric values (lines 90-91)
-  - Add background-color to input for better visibility
-  - Maintain backward compatibility with existing string values
+- **TextField**: Normaliza tratamento de valores para suportar tipo string | number
+  - Adiciona helper normalizeValue() para converter string | number → string internamente
+  - Corrige erro .trim() em valores numéricos
+  - Adiciona background-color ao input para melhor visibilidade
+  - Mantém compatibilidade retroativa com valores string existentes
 
 ## 3.0.1
 
 ### Patch Changes
 
-- 7d81357: fix(DatePicker): corrige digitação manual e seleção via calendário
+- **DatePicker**: Corrige digitação manual e seleção via calendário
   - Corrige TextField para sincronizar estado interno com prop value externa
   - Remove DIV wrapper que interceptava eventos do TextField
   - Adiciona props disabled, id, className, data-testid ao TextField interno
@@ -95,53 +105,40 @@
 
 ### Major Changes
 
-- 4afde4d: # Breaking Changes & New Features v3.0.0
+- **Breaking Changes**: Mudanças significativas na API e novos recursos
 
-  ## 💥 Breaking Changes
+  **Breaking Changes:**
+  - **DropdownMenu**: Removidas props `enableIcon` e `enableSubText`
+    - **Por quê**: API simplificada - ícones e subtextos agora são renderizados automaticamente quando fornecidos nos items
+    - **Como migrar**: Remova essas props do seu código. Ícones/subtextos serão renderizados automaticamente se presentes nos dados do item
 
-  ### DropdownMenu
-  - **REMOVED** props: `enableIcon` and `enableSubText`
-  - **WHY**: Simplified API - icons and subtexts are now automatically rendered when provided in items
-  - **HOW TO MIGRATE**: Remove these props from your code. Icons/subtexts will render automatically if present in item data
+  - **Button**: Alterado enum `iconPosition`: removido `'none'`, adicionado `'both'`
+    - **Por quê**: `'none'` era redundante (basta omitir a prop). `'both'` habilita ícones em ambos os lados
+    - **Como migrar**: Substitua `iconPosition="none"` removendo a prop inteiramente
 
-  ### Button
-  - **CHANGED** `iconPosition` enum: removed `'none'`, added `'both'`
-  - **WHY**: `'none'` was redundant (just omit the prop). `'both'` enables icons on both sides
-  - **HOW TO MIGRATE**: Replace `iconPosition="none"` by omitting the prop entirely
+  - **Select**: Alterada prop `onChange` → `onValueChange` e assinatura `(e: ChangeEvent) => void` → `(value: string) => void`
+    - **Por quê**: Alinhamento com padrões do Radix UI, API mais simples (não precisa extrair e.target.value)
+    - **Como migrar**: Renomeie a prop e ajuste o handler para receber o valor diretamente ao invés do evento
 
-  ### Select
-  - **CHANGED** prop: `onChange` → `onValueChange`
-  - **CHANGED** signature: `(e: ChangeEvent) => void` → `(value: string) => void`
-  - **WHY**: Alignment with Radix UI patterns, simpler API (no need to extract e.target.value)
-  - **HOW TO MIGRATE**: Rename prop and adjust handler to receive value directly instead of event
+  **Novos Recursos:**
+  - **Switch**: Props `defaultChecked` e `disabled` agora são opcionais (anteriormente obrigatórias), melhorando DX ao permitir valores padrão sensatos
+  - **Table**: Adicionado estado indeterminado ao checkbox "Selecionar Todos", nova prop opcional `disableSelectAll` em `rowSelection`, suporte a tipos genéricos `<Table<T>>` para type-safety completa, documentação TypeScript aprimorada com JSDoc
 
-  ## ✨ New Features
+  **Guia de Migração:**
 
-  ### Switch
-  - Props `defaultChecked` and `disabled` are now **optional** (previously required)
-  - Improves DX by allowing sensible defaults
-
-  ### Table
-  - Added indeterminate state to "Select All" checkbox
-  - New optional prop `disableSelectAll` in `rowSelection`
-  - Generic type support: `<Table<T>>` for full type-safety
-  - Enhanced TypeScript documentation with JSDoc
-
-  ## 📖 Migration Guide
-
-  See detailed migration guide at: `docs/react/migration-guide-v2-to-v3.md`
+  Veja o guia detalhado de migração em: `docs/react/migration-guide-v2-to-v3.md`
 
 ## 2.0.0
 
 ### Major Changes
 
-- BREAKING CHANGES:
-  - **Checkbox**: `onChange` replaced with `onCheckedChange`, removed `name`, `value`, and `ariaDescribedby` props
-  - **Radio**: Complete API redesign to `RadioGroup` with `items` array pattern
-  - **Tooltip**: `position` prop replaced with `side` + `align` props
-  - **feat**: Add new Switch component
-  - **refactor**: Migrate Checkbox, Radio, and Tooltip to Radix UI
-  - **refactor**: Move old implementations to `.deprecated` folder
+- **Breaking Changes**: Migração para Radix UI e redesign de APIs
+  - **Checkbox**: Prop `onChange` substituída por `onCheckedChange`, removidas props `name`, `value` e `ariaDescribedby`
+  - **Radio**: Redesign completo da API para `RadioGroup` com padrão de array `items`
+  - **Tooltip**: Prop `position` substituída por props `side` + `align`
+  - **Switch**: Adicionado novo componente Switch
+  - **Migração**: Checkbox, Radio e Tooltip migrados para Radix UI
+  - **Refatoração**: Implementações antigas movidas para pasta `.deprecated`
 
   ### Migration Guide:
 
@@ -201,40 +198,40 @@
 
 ### Patch Changes
 
-- 06f4cc5: refactor: convert CSS to SCSS variables in SelectRadix and clean up TextField code
+- **SelectRadix, TextField**: Converte CSS para variáveis SCSS no SelectRadix e limpa código do TextField
 
 ## 1.0.4
 
 ### Patch Changes
 
-- bdce1f5: fix: enhance TextField icon interaction with accessibility improvements
+- **TextField**: Melhora interação do ícone com aprimoramentos de acessibilidade
 
 ## 1.0.3
 
 ### Patch Changes
 
-- f2a65cb: fix: TextField now correctly accepts external errorMessage validation
+- **TextField**: Agora aceita corretamente validação externa via errorMessage
 
 ## 1.0.2
 
 ### Patch Changes
 
-- 08752e1: fix: TableHeader and Calendar onClear
+- **TableHeader, Calendar**: Corrige funcionalidade onClear
 
 ## 1.0.1
 
 ### Patch Changes
 
-- docs: add READMEs to packages
+- **Documentação**: Adiciona arquivos README aos pacotes
 
 ## 1.0.0
 
 ### Major Changes
 
-- 🎉 Release inicial do pacote `@giro-ds/react`
-- Migração de `@zanthus/components-react` para `@giro-ds/react`
-- Biblioteca completa de componentes React do Zanthus Design System
-- Componentes disponíveis: Avatar, Badge, Button, Calendar, Callout, Checkbox, CheckboxRadix, Chips, Container, DatePicker, Dialog, Drawer, Dropdown, Filter, ListItem, Menu, MenuRadix, Quantity, Radio, RadioRadix, Search, Select, SelectField, SelectRadix, Table, TextField, Toast, Tooltip, VerificationCode
+- **Release Inicial**: Lançamento do pacote `@giro-ds/react`
+  - Migração de `@zanthus/components-react` para `@giro-ds/react`
+  - Biblioteca completa de componentes React do Zanthus Design System
+  - Componentes disponíveis: Avatar, Badge, Button, Calendar, Callout, Checkbox, CheckboxRadix, Chips, Container, DatePicker, Dialog, Drawer, Dropdown, Filter, ListItem, Menu, MenuRadix, Quantity, Radio, RadioRadix, Search, Select, SelectField, SelectRadix, Table, TextField, Toast, Tooltip, VerificationCode
 
 ---
 

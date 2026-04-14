@@ -198,8 +198,8 @@ const DatePicker: React.FC<DatePickerProps> = ({
               persistIcon
               autoComplete="off"
               value={displayValue}
-              helperText={hasValidationError ? combinedHelperText : (!externalError ? helperText || undefined : undefined)}
-              error={hasValidationError || undefined}
+              helperText={hasValidationError && externalError ? combinedHelperText : (helperText || undefined)}
+              error={hasValidationError}
               maxLength={10}
               required={required}
               label={label}
