@@ -16,7 +16,7 @@ export type ChipsVariant = 'neutral' | 'brand' | 'success' | 'alert';
  * ```tsx
  * <Chips
  *   backgroundColor="color-brand-secondary-medium"
- *   foregroundColor="color-brand-secondary-dark"
+ *   textColor="color-brand-secondary-dark"
  * >
  *   Alerta
  * </Chips>
@@ -30,7 +30,7 @@ export interface ChipsProps extends BaseProps {
   backgroundColor?: string;
 
   /** Token CSS para a cor do texto e ícones. Ex: 'color-brand-secondary-dark'. Sobrescreve o variant. */
-  foregroundColor?: string;
+  textColor?: string;
 
   /** Conteúdo exibido dentro do chip */
   children: React.ReactNode;

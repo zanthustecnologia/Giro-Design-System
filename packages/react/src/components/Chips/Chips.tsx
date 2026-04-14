@@ -12,7 +12,7 @@ const Chips: React.FC<ChipsProps> = ({
   variant = 'neutral',
   disabled = false,
   backgroundColor,
-  foregroundColor,
+  textColor,
   className,
   style,
   ...rest
@@ -31,7 +31,7 @@ const Chips: React.FC<ChipsProps> = ({
 
   const colorStyle = {
     ...(!disabled && backgroundColor && { '--chips-bg': `var(--${backgroundColor})` }),
-    ...(!disabled && foregroundColor && { '--chips-fg': `var(--${foregroundColor})` }),
+    ...(!disabled && textColor && { '--chips-text': `var(--${textColor})` }),
     ...style,
   } as React.CSSProperties;
 
