@@ -1,8 +1,8 @@
 import * as React from 'react';
 
-import { BaseProps } from '../../types/common.types';
+import { BaseProps, TextVariant } from '../../types/common.types';
 
-export type ChipsVariant = 'neutral' | 'brand' | 'success' | 'alert';
+export type ChipsVariant = Exclude<TextVariant, 'color'>;
 
 /**
  * Props do componente Chips
