@@ -40,12 +40,13 @@ export interface QuantityProps extends BaseProps {
   /** Incremento/decremento ao clicar nos botões */
   valueIncrement?: number;
 
-  /** Controla o tamanho do input baseado no número de caracteres */
+  /**
+   * Tamanho fixo do input, medido em caracteres (unidade CSS `ch`).
+   * O valor define quantos caracteres cabem visivelmente no campo sem necessidade de rolar.
+   * Exemplo: `inputSize={4}` reserva espaço para 4 caracteres ("9999").
+   * Se omitido, o tamanho é ajustado automaticamente conforme o conteúdo digitado.
+   */
   inputSize?: number;
-
-
-  /** Habilita controle do tamanho do input baseado no número de caracteres */
-  inputSizeControl?: boolean;
 
   /** Valor mínimo permitido */
   minValue?: number;

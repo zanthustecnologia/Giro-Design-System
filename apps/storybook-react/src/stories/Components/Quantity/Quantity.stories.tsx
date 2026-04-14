@@ -51,11 +51,7 @@ const meta: Meta<typeof Quantity> = {
     },
     inputSize: {
       control: { type: 'number' },
-      description: 'Controla o tamanho do input baseado no número de caracteres. Ignorado se inputSizeControl=true.',
-    },
-    inputSizeControl: {
-      control: { type: 'boolean' },
-      description: 'Habilita controle automático do tamanho do input baseado no número de caracteres.',
+      description: 'Tamanho fixo do input em caracteres. Se omitido, o tamanho é calculado automaticamente.',
     },
     minValue: {
       control: { type: 'number' },

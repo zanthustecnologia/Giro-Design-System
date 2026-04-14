@@ -17,8 +17,7 @@ const Quantity: React.FC<QuantityProps> = ({
   id,
   valueIncrement = 1,
   className,
-  inputSize = 6,
-  inputSizeControl = true,
+  inputSize,
   minValue = 0,
   maxValue = 9999,
   decrementAriaLabel = 'Decrease quantity',
@@ -236,7 +235,7 @@ const Quantity: React.FC<QuantityProps> = ({
     [disabled, increment, decrement, decimal, decimalPlaces, onChange, internalValue, minValue, maxValue]
   );
 
-  const inputSizeValue = inputSizeControl ? inputSize  : Math.max(1, inputValue.length);
+  const inputSizeValue = inputSize !== undefined ? inputSize : Math.max(1, inputValue.length);
 
   const uniqueId = useId();
   const inputId = id || uniqueId;
