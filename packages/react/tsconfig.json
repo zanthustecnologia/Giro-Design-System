@@ -13,11 +13,13 @@
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
     "types": ["node", "vitest/globals", "@testing-library/jest-dom"],
+    "ignoreDeprecations": "6.0",
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"],
-      "@components/*": ["./src/components/*"],
-      "@utils/*": ["./utils/*"],
-      "@types/*": ["./types/*"]
+      "@/*": ["src/*"],
+      "@components/*": ["src/components/*"],
+      "@utils/*": ["utils/*"],
+      "@types/*": ["types/*"]
     }
   },
   "include": ["src/**/*"],
