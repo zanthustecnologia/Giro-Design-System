@@ -115,7 +115,7 @@ export const Controlado: Story = {
   render: ControlledTemplate,
   args: {
     locale: 'pt-br',
-    calendarPosition: 'left',
+    calendarSide: 'left',
     label: 'Data de início',
     helperText: 'Selecione a data de início',
   },
@@ -125,9 +125,20 @@ export const ComRestricaoDeDatas: Story = {
   render: Template,
   args: {
     locale: 'pt-br',
-    calendarPosition: 'left',
+    calendarSide: 'left',
     label: 'Data do evento',
     helperText: 'Selecione uma data futura',
     minDate: new Date(),
+  },
+};
+
+export const RightPositioned: Story = {
+  render: Template,
+  args: {
+    locale: 'pt-br',
+    calendarSide: 'bottom',
+    calendarAlign: 'end',
+    label: 'Data de nascimento',
+    helperText: 'Calendário ancorado à direita',
   },
 };

@@ -1,0 +1,17 @@
+<script>
+  function updateTitle() {
+    const isHome = location.search.toLowerCase().includes('boas-vindas');
+    const desired = isHome
+      ? 'Giro Design System'
+      : document.title.replace(/·?\s*Storybook/g, '- Giro Design System').trim();
+
+    if (document.title !== desired) {
+      observer.disconnect();
+      document.title = desired;
+      observer.observe(document.querySelector('title') || document.head, { subtree: true, characterData: true, childList: true });
+    }
+  }
+
+  const observer = new MutationObserver(updateTitle);
+  observer.observe(document.querySelector('title') || document.head, { subtree: true, characterData: true, childList: true });
+</script>

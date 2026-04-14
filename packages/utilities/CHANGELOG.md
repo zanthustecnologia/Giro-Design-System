@@ -4,26 +4,26 @@
 
 ### Minor Changes
 
-- 1e1c064: feat: add comprehensive utility class system with responsive support
+- **Sistema de Classes Utilitárias**: Adiciona sistema abrangente de classes utilitárias com suporte responsivo
 
 ## 1.0.1
 
 ### Patch Changes
 
-- docs: add READMEs to packages
+- **Documentação**: Adiciona arquivos README aos pacotes
 
 ## 1.0.0
 
 ### Major Changes
 
-- 🎉 Release inicial do pacote `@giro-ds/utilities`
-- Migração de `@zanthus/ui` para `@giro-ds/utilities`
-- Utilitários CSS/SCSS do Zanthus Design System
-- Sistema de breakpoints responsivos (sm, md, lg, xl, 2xl)
-- Classes utilitárias de espaçamento (margin/padding)
-- Utilitários de Flexbox e Grid
-- Sistema de gaps
-- Integração com design tokens
+- **Release Inicial**: Lançamento do pacote `@giro-ds/utilities`
+  - Migração de `@zanthus/ui` para `@giro-ds/utilities`
+  - Utilitários CSS/SCSS do Zanthus Design System
+  - Sistema de breakpoints responsivos (sm, md, lg, xl, 2xl)
+  - Classes utilitárias de espaçamento (margin/padding)
+  - Utilitários de Flexbox e Grid
+  - Sistema de gaps
+  - Integração com design tokens
 
 ---
 
