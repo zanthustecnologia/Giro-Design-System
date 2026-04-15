@@ -1,0 +1,74 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as ModalStories from './Modal.stories';
+import { UsageGuidelines } from '../../../internal-components/mdx/UsageGuidelines/UsageGuidelines';
+import { Footer } from '../../../internal-components/mdx/Footer/Footer';
+
+<Meta of={ModalStories} />
+
+# Modal
+
+O Modal é uma janela sobreposta ao conteúdo da página que exibe informações ou formulários sem remover o usuário do contexto atual. Diferente do Dialog, o Modal aceita qualquer conteúdo livre no corpo e pode ser fechado pelo botão X, pela tecla Escape ou clicando no overlay.
+
+<Canvas of={ModalStories.Default} />
+
+## Importação
+
+```js
+import { Modal } from '@giro-ds/react';
+```
+
+<div style={{ marginTop: '48px' }} />
+
+## Propriedades
+
+<Controls />
+
+<div style={{ marginTop: '48px' }} />
+
+## Uso
+
+<UsageGuidelines
+  guidelines={[
+    <>
+      O Modal é um componente <strong>controlado</strong>: o estado de abertura deve ser gerenciado externamente via <code>isOpen</code> e <code>onClose</code>. Sempre forneça ambas as props.
+    </>,
+    <>
+      Use o Modal para exibir formulários, detalhes de itens, visualizações de conteúdo ou qualquer fluxo que precise de atenção imediata sem navegar para outra página.
+    </>,
+    <>
+      Prefira o <strong>Dialog</strong> quando precisar de uma confirmação simples com ações fixas (botões de aceitar/cancelar). Use o Modal quando o conteúdo for mais complexo ou livre.
+    </>,
+    <>
+      Desative o fechamento por overlay (<code>closeOnOverlayClick={'{false}'}</code>) apenas quando o conteúdo exigir ação explícita do usuário, como o preenchimento de um formulário obrigatório.
+    </>,
+    <>
+      Defina um <code>title</code> claro e objetivo que descreva o propósito do Modal. Títulos vagos como "Detalhes" ou "Informações" reduzem a clareza para o usuário.
+    </>,
+  ]}
+/>
+
+<div style={{ marginTop: '48px' }} />
+
+## Variações
+
+### Conteúdo longo
+
+O corpo do Modal tem scroll automático quando o conteúdo ultrapassa a altura máxima disponível.
+
+<Canvas of={ModalStories.ConteudoLongo} />
+
+### Sem fechamento por overlay
+
+Com `closeOnOverlayClick={false}`, o Modal só pode ser fechado pelo botão X ou pela tecla Escape. Útil para formulários onde o fechamento acidental causaria perda de dados.
+
+<Canvas of={ModalStories.SemFechamentoPorOverlay} />
+
+### Sem título
+
+O Modal pode ser utilizado sem título quando o contexto já é suficientemente claro pelo conteúdo exibido.
+
+<Canvas of={ModalStories.SemTitulo} />
+
+<div style={{ marginTop: '48px' }} />
+
+<Footer />
