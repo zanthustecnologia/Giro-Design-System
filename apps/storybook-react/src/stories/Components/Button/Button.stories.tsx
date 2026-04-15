@@ -38,6 +38,7 @@ export default {
     },
     iconOnly: {
       control: { type: 'boolean' },
+      description: 'Exibe apenas o ícone, sem texto. **Requer obrigatoriamente a prop `icon`.**',
     },
     fullWidth: {
       control: { type: 'boolean' },
@@ -65,6 +66,9 @@ export default {
       table: {
         disable: true,
       },
+    },
+    tooltipText: {
+      control: { type: 'text' },
     },
     
   },

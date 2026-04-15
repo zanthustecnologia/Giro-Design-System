@@ -1,4 +1,4 @@
-import { SpinnerIos16Regular, Add16Regular } from '@fluentui/react-icons';
+import { SpinnerIos16Regular } from '@fluentui/react-icons';
 import clsx from 'clsx';
 import React, { useId, useMemo } from 'react';
 
@@ -7,7 +7,7 @@ import styles from './Button.module.scss';
 
 import type { ButtonProps } from './Button.types';
 
-const Button = React.forwardRef<HTMLElement, ButtonProps>(({
+const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(({
   as,
   children,
   variant = 'filled',
@@ -40,8 +40,17 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
   const getComponent = (): React.ElementType => {
     if (as) return as;
 
-    if (href) return 'a';   
-    if (to) return 'a'; 
+    if (href) return 'a';
+    if (to) {
+      if (process.env.NODE_ENV !== 'production' && !as) {
+        console.warn(
+          '[Button] A prop `to` foi usada sem `as`. ' +
+          'Para navegação via roteador (React Router, Next.js, etc.), passe `as={Link}`. ' +
+          'Por ora, `to` será tratado como `href` em um <a> nativo.'
+        );
+      }
+      return 'a';
+    }
     return 'button';
   };
 
@@ -51,13 +60,20 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
     return children && React.Children.count(children) > 0;
   }, [children]);
 
-  const resolvedIcon = iconOnly && !icon ? <Add16Regular /> : icon;
+  if (process.env.NODE_ENV !== 'production' && iconOnly && !icon) {
+    console.error(
+      '[Button] `iconOnly={true}` foi usado sem a prop `icon`. ' +
+      'Forneça um ícone via `icon={<MeuIcone />}`.'
+    );
+  }
+  const resolvedIcon = icon;
 
   const buttonClasses = clsx(
     styles.button,
     styles[`button-${variant}`],
     styles[`button-${size}`],
     {
+      [styles['disabled']]: disabled,
       [styles['buttonLoading']]: loading,
       [styles['buttonWithIcon']]: resolvedIcon && !iconOnly,
       [styles[`buttonIconPosition-${iconPosition}`]]: resolvedIcon && !iconOnly,
@@ -70,15 +86,22 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
 
   const getAriaLabel = () => {
     if (ariaLabel) return ariaLabel;
-    if (iconOnly && !ariaLabel) {
-      return 'Botão de ação';
+    if (iconOnly) {
+      if (tooltipText) return tooltipText;
+      if (process.env.NODE_ENV !== 'production') {
+        console.warn(
+          '[Button] Botões icon-only precisam de uma prop `ariaLabel` descritiva. ' +
+          'O fallback genérico foi removido pois não comunica intenção. ' +
+          'Forneça `ariaLabel` ou `tooltipText` para nomear o botão.'
+        );
+      }
+      return undefined;
     }
-    if (typeof children === 'string') return children;
     return undefined;
   };
 
   const handleClick = (e: React.MouseEvent<HTMLElement>) => {
-    if (disabled) {
+    if (disabled || loading) {
       e.preventDefault();
       return;
     }
@@ -95,9 +118,22 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
     }
     if (loading) {
       return (
-        <span className={styles.buttonLoading} aria-hidden="true">
-          <SpinnerIos16Regular aria-hidden="true" />
-        </span>
+        <>
+          {!iconOnly && (
+            <span className={styles.buttonContentHidden} aria-hidden="true">
+              {resolvedIcon && (iconPosition === 'left' || iconPosition === 'both') && (
+                <span className={styles.buttonIconLeft}>{resolvedIcon}</span>
+              )}
+              {children}
+              {resolvedIcon && (iconPosition === 'right' || iconPosition === 'both') && (
+                <span className={styles.buttonIconRight}>{resolvedIcon}</span>
+              )}
+            </span>
+          )}
+          <span className={styles.buttonLoadingSpinner} aria-hidden="true">
+            <SpinnerIos16Regular aria-hidden="true" />
+          </span>
+        </>
       );
     }
     return (
@@ -123,15 +159,19 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
     className: buttonClasses,
     'aria-label': getAriaLabel(),
     'aria-disabled': disabled,
-    tabIndex: disabled ? -1 : 0,
+    'aria-busy': loading || undefined,
+    tabIndex: disabled || loading ? -1 : 0,
     onClick: handleClick,
     ...restProps,
   };
 
   const getNavigationProps = () => {
     if (href) {
+      if (disabled || loading) {
+        return { role: 'link' };
+      }
       return {
-        href: disabled ? '#' : href,
+        href,
         target: external || target === '_blank' ? '_blank' : target,
         rel: external || target === '_blank' ? 'noopener noreferrer' : rel,
       };
@@ -140,11 +180,11 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
     if (to) {
       if (Component !== 'a') {
         return {
-          to: disabled ? '#' : to,
+          to: disabled ? undefined : to,
         };
       }
       return {
-        href: disabled ? '#' : to,
+        href: disabled ? undefined : to,
       };
     }
     if (Component === 'button') {
@@ -157,7 +197,7 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
     return {};
   };
 
-  if (iconOnly && !loading) {
+  if (iconOnly && tooltipText && !loading) {
     return (
       <Tooltip text={tooltipText} side={tooltipSide} align={tooltipAlign}>
         <Component
