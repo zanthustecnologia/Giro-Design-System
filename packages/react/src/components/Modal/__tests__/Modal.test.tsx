@@ -342,18 +342,18 @@ describe('Modal', () => {
   describe('fullscreen', () => {
     it('aplica a classe ModalContent--fullscreen quando fullscreen=true', () => {
       render(<Modal {...defaultProps} isOpen fullscreen />);
-      expect(screen.getByTestId('dialog-content').className).toMatch(/ModalContent--fullscreen/);
+      expect(screen.getByTestId('dialog-content').className).toMatch(/modalContent--fullscreen/);
     });
 
     it('não aplica a classe ModalContent--fullscreen quando fullscreen=false (padrão)', () => {
       render(<Modal {...defaultProps} isOpen />);
-      expect(screen.getByTestId('dialog-content').className).not.toMatch(/ModalContent--fullscreen/);
+      expect(screen.getByTestId('dialog-content').className).not.toMatch(/modalContent--fullscreen/);
     });
 
     it('fullscreen tem prioridade: aplica a classe fullscreen mesmo com customWidth definido', () => {
       render(<Modal {...defaultProps} isOpen fullscreen customWidth="500px" />);
       const content = screen.getByTestId('dialog-content');
-      expect(content.className).toMatch(/ModalContent--fullscreen/);
+      expect(content.className).toMatch(/modalContent--fullscreen/);
     });
   });
 });
