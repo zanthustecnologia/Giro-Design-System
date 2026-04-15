@@ -149,14 +149,14 @@ export const ComFooter: Story = {
           onClose={() => setIsOpen(false)}
           title="Confirmar ação"
           footer={
-            <>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '8px', flexShrink: 0, padding: '24px', paddingTop: '0' }}>
               <Button variant="outlined" onClick={() => setIsOpen(false)}>
                 Cancelar
               </Button>
               <Button variant="filled" onClick={() => setIsOpen(false)}>
                 Confirmar
               </Button>
-            </>
+            </div>
           }
         >
           <p>Tem certeza que deseja realizar esta ação? Esta operação não pode ser desfeita.</p>
@@ -180,14 +180,14 @@ export const Fullscreen: Story = {
           title="Modal em tela cheia"
           fullscreen
           footer={
-            <>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '8px' }}>
               <Button variant="outlined" onClick={() => setIsOpen(false)}>
                 Cancelar
               </Button>
               <Button variant="filled" onClick={() => setIsOpen(false)}>
                 Confirmar
               </Button>
-            </>
+            </div>
           }
         >
           <p>Este modal ocupa toda a tela. Útil para fluxos complexos ou visualização de conteúdo extenso.</p>

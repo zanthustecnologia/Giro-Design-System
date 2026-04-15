@@ -50,7 +50,7 @@ const Modal: React.FC<ModalProps> = ({
               </Dialog.Title>
             )}
             {headerContent && (
-              <div className={styles.modalHeaderContent}>{headerContent}</div>
+              <div>{headerContent}</div>
             )}
             <Dialog.Close asChild>
               <Button
@@ -58,6 +58,7 @@ const Modal: React.FC<ModalProps> = ({
                 iconOnly
                 icon={<Dismiss16Regular />}
                 size="lg"
+                tooltipText='Fechar'
               />
             </Dialog.Close>
           </div>
