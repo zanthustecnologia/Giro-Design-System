@@ -1,5 +1,53 @@
 # @giro-ds/react
 
+## 6.0.0
+
+### Major Changes
+
+- **BREAKING CHANGE**: Refatoração da API do Chips e múltiplas melhorias
+  - **Chips**: Refatoração completa da API
+    - **Removido**: Prop `title`, variante `type="color"`
+    - **Alterado**: `type` → `variant` (valores: 'neutral' | 'brand' | 'success' | 'alert')
+    - **Alterado**: `title` → `children` (agora aceita ReactNode)
+    - **Adicionado**: Props `backgroundColor` e `foregroundColor` para cores customizadas
+    - **Como migrar**:
+
+      ```tsx
+      // Antes
+      <Chips type="success" title="Ativo" />
+      <Chips type="color" title="Cor" />
+
+      // Depois
+      <Chips variant="success">Ativo</Chips>
+      <Chips backgroundColor="color-brand-secondary-medium">Cor customizada</Chips>
+      ```
+
+  **Novidades:**
+  - **Modal**: Novo componente baseado em Radix UI Dialog com suporte a título, header customizado, footer, largura customizada e modo fullscreen
+  - **Quantity**: Adicionadas props de controle de limites e acessibilidade
+    - Props `minValue` e `maxValue` para limites configuráveis
+    - Props de acessibilidade: `decrementAriaLabel`, `incrementAriaLabel`, `inputAriaLabel`
+    - Props `inputSize` e `inputSizeControl` para controle de tamanho
+    - Botão de incremento agora desabilita corretamente ao atingir `maxValue`
+    - Testes unitários completos adicionados
+
+  **Melhorias:**
+  - **Button**: Múltiplas correções de acessibilidade e comportamento
+    - Substituição de `:focus` por `:focus-visible` para melhor experiência com mouse
+    - `aria-busy` adicionado durante estado de loading
+    - Tooltip em `iconOnly` agora requer `tooltipText` explícito
+    - Clique bloqueado durante `loading`
+    - Tipagem refatorada como union discriminada
+  - **Search**: Corrige sobreposição do texto digitado com o ícone de limpar (X) via padding dinâmico
+  - **Select**: Corrige perda de foco ao digitar na busca e remove margem lateral desnecessária dos itens
+  - **Table**: Refatoração de classes CSS de BEM para CSS Modules (camelCase) e adoção de design tokens
+  - **Switch**: Correções de bugs visuais no CSS (dimensões do thumb, display flex, transforms)
+  - **Calendar**: Ajustes de padding (spacing-16 → spacing-24) e border-radius (4 → 8) no overlay
+  - **DatePicker**: Correção no tratamento de erros (separação de props `error` e `errorMessage`)
+  - **Filter**: Ajustes de padding no search, list e actions
+  - **Drawer**: Correção nos testes para uso de `document.body.querySelector` (necessário por `createPortal`)
+  - **Dialog** e **Popover**: Remoção de testes duplicados/redundantes
+
 ## 5.0.1
 
 ### Patch Changes
