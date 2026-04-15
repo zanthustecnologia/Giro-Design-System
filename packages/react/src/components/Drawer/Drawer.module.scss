@@ -1,7 +1,6 @@
 
 .drawerShadow {
   position: fixed;
-  z-index: 1000;
   background-color: var(--color-neutral-low-default);
   left: 0;
   right: 0;
@@ -28,7 +27,6 @@
   overflow: auto;
   display: flex;
   flex-direction: column;
-  z-index: 1001;
   font-family: var(--font-family-primary);
   width: 0;
   opacity: 0;
