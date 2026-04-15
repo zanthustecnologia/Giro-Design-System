@@ -7,7 +7,7 @@ import CheckboxSelectItem from './components/CheckboxSelectItem';
 import ExpandableSelectItem from './components/ExpandableSelectItem';
 import SelectItem from './components/SelectItem';
 import { useSelectLogic } from './hooks/useSelectLogic';
-import styles from './index.module.scss';
+import styles from './Select.module.scss';
 import { SelectProps } from './Select.types';
 import LabelComponent from '../../shared/Label';
 import Search from '../Search/Search';
@@ -146,7 +146,7 @@ const Select: React.FC<SelectProps> = ({
 
   return (
     <SelectRadix.Root
-      value={variant === 'checkbox' ? '' : (state.selectedValues[0] || '')}
+      value={variant === 'checkbox' || (search && state.isOpen) ? '' : (state.selectedValues[0] || '')}
       onValueChange={variant === 'checkbox' ? undefined : actions.handleSingleSelect}
       required={required}
       open={state.isOpen}
@@ -234,7 +234,7 @@ const Select: React.FC<SelectProps> = ({
               </div>
             )}
             
-            <SelectRadix.Viewport ref={viewportRef} className={styles.viewport}>
+            <SelectRadix.Viewport ref={viewportRef} className={styles.viewport} data-testid={testId ? `${testId}-viewport` : undefined}>
               <SelectRadix.Group className={styles.group}>
                 {filteredItems.length === 0 ? (
                   <div className={styles.noResults}>
@@ -278,6 +278,7 @@ const Select: React.FC<SelectProps> = ({
                           key={item.id || item.value}
                           {...item}
                           variant={variant}
+                          disableFocusOnHover={search}
                         />
                       );
                     })}
