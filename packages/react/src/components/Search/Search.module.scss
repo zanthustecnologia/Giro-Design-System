@@ -43,6 +43,10 @@
       color: var(--color-neutral-high-medium);
       cursor: not-allowed;
     }
+
+    &.inputWithClearIcon {
+      padding-right: var(--spacing-32);
+    }
     
     &::placeholder {
       color: var(--color-neutral-low-medium);

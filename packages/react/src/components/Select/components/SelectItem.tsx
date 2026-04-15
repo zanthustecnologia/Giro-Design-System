@@ -2,15 +2,16 @@ import clsx from 'clsx';
 import { Select } from 'radix-ui';
 import React from 'react';
 
-import styles from '../index.module.scss';
+import styles from '../Select.module.scss';
 import { SelectItemProps, SelectVariant } from '../Select.types';
 
 interface SelectItemComponentProps extends SelectItemProps {
   variant?: SelectVariant;
+  disableFocusOnHover?: boolean;
 }
 
 const SelectItem = React.forwardRef<HTMLDivElement, SelectItemComponentProps>(
-  ({ text, subTitle, icon, disabled, value, variant, ...restProps }, ref) => {
+  ({ text, subTitle, icon, disabled, value, variant, disableFocusOnHover, ...restProps }, ref) => {
     return (
       <div
         className={clsx(styles.itemWrapper, {
@@ -30,6 +31,7 @@ const SelectItem = React.forwardRef<HTMLDivElement, SelectItemComponentProps>(
           })}
           value={value}
           disabled={disabled}
+          onPointerMove={disableFocusOnHover ? (e) => e.preventDefault() : undefined}
           {...restProps}
         >
           <Select.ItemText className={styles.title}>{text}</Select.ItemText>
