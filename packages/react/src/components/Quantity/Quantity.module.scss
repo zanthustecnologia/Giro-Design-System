@@ -1,14 +1,11 @@
-.zds-quantity {
+.quantity {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: var(--spacing-8);
 
-  .zds-quantity__input {
+  .quantityInput {
     border: none;
-    width: 6ch; 
-    min-width: 3ch; 
-    max-width: 10ch;
     text-align: center;
     color: var(--color-neutral-low-default);
     font-family: var(--font-family-primary);
@@ -32,7 +29,7 @@
   input::-webkit-outer-spin-button,
   input::-webkit-inner-spin-button {
     -webkit-appearance: none;
-    margin: 0;
+    margin: var(--spacing-0);
   }
 
   input[type='text'] {
@@ -51,11 +48,11 @@
 }
 
 // Variações de tamanho
-.zds-quantity--sm {
+.quantity--sm {
   gap: var(--spacing-4);
 
-  .zds-quantity__input {
-    max-width: 24px;
+  .quantityInput {
+
     font-size: var(--font-size-14);
 
     &::placeholder {
@@ -64,11 +61,11 @@
   }
 }
 
-.zds-quantity--lg {
+.quantity--lg {
   gap: var(--spacing-8);
 
-  .zds-quantity__input {
-    max-width: 30px;
+  .quantityInput {
+
     font-size: var(--font-size-16);
 
     &::placeholder {
@@ -78,18 +75,18 @@
 }
 
 // Estado desabilitado para o container
-.zds-quantity.disabled {
+.quantity.disabled {
   pointer-events: none;
   opacity: 0.6;
 
-  .zds-quantity__input {
+  .quantityInput {
     color: var(--color-neutral-low-light);
     cursor: not-allowed;
   }
 }
 
 // Estados de foco melhorados
-.zds-quantity__input {
+.quantityInput {
   &:focus {
     outline: var(--border-width-2) solid var(--color-brand-primary-default);
     outline-offset: var(--spacing-4);

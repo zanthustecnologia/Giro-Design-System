@@ -13,7 +13,7 @@ import { Size, BaseProps } from '../../types/common.types';
  * @example
  * ```tsx
  * <Quantity 
- *   defaultValue={1}
+ *   value={1}
  *   decimal={true}
  *   decimalPlaces={2}
  *   step={0.5}
@@ -22,10 +22,7 @@ import { Size, BaseProps } from '../../types/common.types';
  * ```
  */
 export interface QuantityProps extends BaseProps {
-  /** Valor inicial (modo não controlado) */
-  defaultValue?: number;
-  
-  /** Valor atual (modo controlado) */
+  /** Valor do componente */
   value?: number;
   
   /** Callback executado quando o valor muda: (value) => void */
@@ -41,5 +38,28 @@ export interface QuantityProps extends BaseProps {
   decimalPlaces?: number;
   
   /** Incremento/decremento ao clicar nos botões */
-  step?: number;
+  valueIncrement?: number;
+
+  /**
+   * Tamanho fixo do input, medido em caracteres (unidade CSS `ch`).
+   * O valor define quantos caracteres cabem visivelmente no campo sem necessidade de rolar.
+   * Exemplo: `inputSize={4}` reserva espaço para 4 caracteres ("9999").
+   * Se omitido, o tamanho é ajustado automaticamente conforme o conteúdo digitado.
+   */
+  inputSize?: number;
+
+  /** Valor mínimo permitido */
+  minValue?: number;
+
+  /** Valor máximo permitido */
+  maxValue?: number;
+
+  /** Aria label for the decrement button. Default: 'Decrease quantity' */
+  decrementAriaLabel?: string;
+
+  /** Aria label for the increment button. Default: 'Increase quantity' */
+  incrementAriaLabel?: string;
+
+  /** Aria label for the quantity input. Default: 'Quantity' */
+  inputAriaLabel?: string;
 }
