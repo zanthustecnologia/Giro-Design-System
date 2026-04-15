@@ -30,9 +30,9 @@ const Modal: React.FC<ModalProps> = ({
   return (
     <Dialog.Root open={isOpen} onOpenChange={handleOpenChange}>
       <Dialog.Portal>
-        <Dialog.Overlay className={styles.ModalOverlay} />
+        <Dialog.Overlay className={styles.modalOverlay} />
         <Dialog.Content
-          className={clsx(styles.ModalContent, fullscreen && styles['ModalContent--fullscreen'], className)}
+          className={clsx(styles.modalContent, fullscreen && styles['modalContent--fullscreen'], className)}
           id={id}
           style={{
             '--modal-custom-width': customWidth,
@@ -40,17 +40,17 @@ const Modal: React.FC<ModalProps> = ({
           onInteractOutside={!closeOnOverlayClick ? (e) => e.preventDefault() : undefined}
           aria-labelledby={id ? `${id}-title` : 'modal-title'}
         >
-          <div className={styles.ModalHeader}>
+          <div className={styles.modalHeader}>
             {title && (
               <Dialog.Title
-                className={styles.ModalTitle}
+                className={styles.modalTitle}
                 id={id ? `${id}-title` : 'modal-title'}
               >
                 {title}
               </Dialog.Title>
             )}
             {headerContent && (
-              <div className={styles.ModalHeaderContent}>{headerContent}</div>
+              <div className={styles.modalHeaderContent}>{headerContent}</div>
             )}
             <Dialog.Close asChild>
               <Button
@@ -61,11 +61,11 @@ const Modal: React.FC<ModalProps> = ({
               />
             </Dialog.Close>
           </div>
-          <div className={styles.ModalBody}>
+          <div className={styles.modalBody}>
             {children}
           </div>
           {footer && (
-            <div className={styles.ModalFooter}>{footer}</div>
+            <div className={styles.modalFooter}>{footer}</div>
           )}
         </Dialog.Content>
       </Dialog.Portal>

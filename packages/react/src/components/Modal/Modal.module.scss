@@ -1,4 +1,4 @@
-.ModalOverlay {
+.modalOverlay {
   opacity: 0.3;
   background-color: var(--color-neutral-low-default);
   position: fixed;
@@ -6,7 +6,7 @@
   animation: overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.ModalContent {
+.modalContent {
   background: var(--color-neutral-high-default);
   position: fixed;
   top: 50%;
@@ -44,7 +44,7 @@
   }
 }
 
-.ModalHeader {
+.modalHeader {
   display: flex;
   align-items: center;
   gap: var(--spacing-8);
@@ -53,7 +53,7 @@
   flex-shrink: var(--spacing-0);
 }
 
-.ModalTitle {
+.modalTitle {
   flex: 1;
   min-width: 0;
   color: var(--color-neutral-low-default);
@@ -66,13 +66,13 @@
   margin: var(--spacing-0);
 }
 
-.ModalHeaderContent {
+.modalHeaderContent {
   display: flex;
   align-items: center;
   flex-shrink: var(--spacing-0);
 }
 
-.ModalBody {
+.modalBody {
   flex: 1;
   overflow-y: auto;
   padding: var(--spacing-24);
@@ -84,7 +84,7 @@
   font-size: var(--font-size-16);
   line-height: 1.3;
 }
-.ModalFooter {
+.modalFooter {
   display: flex;
   align-items: center;
   justify-content: flex-end;
