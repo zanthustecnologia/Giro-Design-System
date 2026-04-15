@@ -64,7 +64,7 @@ const colunas = [
         ]}
         onItemSelect={(item: any) => console.log(item.text, row.nome)}
       >
-        <Button variant="text" iconOnly icon={<MoreVertical16Regular />} />
+        <Button variant="text" iconOnly icon={<MoreVertical16Regular />} tooltipText="Mais ações" />
       </Menu>
     ),
   },
@@ -88,7 +88,7 @@ const colunasComData = [
         items={[{ id: 'edit', text: 'Editar' }, { id: 'delete', text: 'Excluir' }]}
         onItemSelect={(item: any) => console.log(item.text, row.nome)}
       >
-        <Button variant="text" iconOnly icon={<MoreVertical16Regular />} />
+        <Button variant="text" iconOnly icon={<MoreVertical16Regular />} tooltipText="Mais ações" />
       </Menu>
     ),
   },
@@ -134,7 +134,7 @@ const colunasCompletas = [
         ]}
         onItemSelect={(item: any) => console.log(item.text, row.nome)}
       >
-        <Button variant="text" iconOnly icon={<MoreVertical16Regular />} />
+        <Button variant="text" iconOnly icon={<MoreVertical16Regular />} tooltipText="Mais ações" />
       </Menu>
     ),
   },

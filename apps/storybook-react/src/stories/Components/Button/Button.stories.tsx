@@ -144,4 +144,5 @@ IconOnly.args = {
   iconOnly: true,
   icon: <Add16Regular />,
   ariaLabel: 'Add item',
+  tooltipText: 'Adicionar item',
 };
