@@ -203,7 +203,6 @@ describe('Popover', () => {
       expect(() =>
         render(
           <Popover
-            showArrow
             trigger={<button>Trigger</button>}
             content={<div>Conteúdo</div>}
           />
