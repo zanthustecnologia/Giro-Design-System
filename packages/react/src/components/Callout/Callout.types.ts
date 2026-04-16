@@ -58,7 +58,7 @@ export interface CalloutProps
 
   /**
    * Nome do token de cor do texto e ícone (sem `--`). Sobrescreve a cor padrão.
-   * @example foregroundColor="color-neutral-low-default"
+   * @example textColor="color-neutral-low-default"
    */
-  foregroundColor?: string;
+  textColor?: string;
 }

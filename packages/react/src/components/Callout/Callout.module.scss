@@ -1,7 +1,7 @@
 
 .container {
   --callout-bg: var(--color-neutral-high-medium);
-  --callout-fg: var(--color-neutral-low-default);
+  --callout-text: var(--color-neutral-low-default);
 
   border-radius: var(--border-radius-8);
   word-break: break-word;
@@ -10,7 +10,7 @@
   min-height: var(--spacing-48);
   width: 100%;
   background-color: var(--callout-bg);
-  color: var(--callout-fg);
+  color: var(--callout-text);
 
   &.withTitle {
     min-height: var(--spacing-80);
@@ -58,14 +58,14 @@
 }
 
 .title {
-  color: var(--callout-fg);
+  color: var(--callout-text);
   font-family: var(--font-family-primary);
   font-size: var(--font-size-18);
   font-weight: var(--font-weight-bold);
 }
 
 .text {
-  color: var(--callout-fg);
+  color: var(--callout-text);
   font-size: var(--font-size-16);
   font-weight: var(--font-weight-regular);
 }
@@ -80,7 +80,7 @@
   background: none;
   border: none;
   cursor: pointer;
-  color: var(--callout-fg);
+  color: var(--callout-text);
   border-radius: var(--border-radius-4);
 
   &:focus-visible {

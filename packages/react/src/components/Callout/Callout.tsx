@@ -15,7 +15,7 @@ const Callout: React.FC<CalloutProps> = ({
   dismiss,
   dismissLabel = 'Fechar',
   backgroundColor,
-  foregroundColor,
+  textColor,
   className,
   id,
   disabled: _disabled,
@@ -37,7 +37,7 @@ const Callout: React.FC<CalloutProps> = ({
 
   const customStyle: React.CSSProperties = {
     ...(backgroundColor && { '--callout-bg': `var(--${backgroundColor})` } as React.CSSProperties),
-    ...(foregroundColor && { '--callout-fg': `var(--${foregroundColor})` } as React.CSSProperties),
+    ...(textColor && { '--callout-text': `var(--${textColor})` } as React.CSSProperties),
     ...style,
   };
 
