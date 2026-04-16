@@ -199,17 +199,6 @@ describe('Popover', () => {
       });
     });
 
-    it('aceita showArrow sem erros', () => {
-      expect(() =>
-        render(
-          <Popover
-            trigger={<button>Trigger</button>}
-            content={<div>Conteúdo</div>}
-          />
-        )
-      ).not.toThrow();
-    });
-
     it('aceita onOpenAutoFocus e onCloseAutoFocus sem erros', () => {
       const onOpenAutoFocus = (e: Event) => e.preventDefault();
       const onCloseAutoFocus = (e: Event) => e.preventDefault();

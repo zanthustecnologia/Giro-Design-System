@@ -15,6 +15,7 @@ const Popover: React.FC<PopoverProps> = ({
   asAnchor = false,
   onOpenAutoFocus,
   onCloseAutoFocus,
+  showArrow = false,
 }) => {
   return (
     <PopoverRadix.Root open={open} onOpenChange={onOpenChange}>
@@ -38,6 +39,7 @@ const Popover: React.FC<PopoverProps> = ({
           onInteractOutside={asAnchor ? (e) => e.preventDefault() : undefined}
         >
           {content}
+          {showArrow && <PopoverRadix.Arrow />}
         </PopoverRadix.Content>
       </PopoverRadix.Portal>
     </PopoverRadix.Root>

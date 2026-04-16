@@ -8,78 +8,73 @@ import Button from '../Button/Button';
 import type { QuantityProps } from './Quantity.types';
 
 const Quantity: React.FC<QuantityProps> = ({
-  defaultValue = 0,
-  value: controlledValue,
+  value = 0,
   onChange,
   disabled = false,
   decimal = false,
   decimalPlaces = 2,
   size = 'lg',
   id,
-  step,
+  valueIncrement = 1,
   className,
+  inputSize,
+  minValue = 0,
+  maxValue = 9999,
+  decrementAriaLabel = 'Decrease quantity',
+  incrementAriaLabel = 'Increase quantity',
+  inputAriaLabel = 'Quantity',
   ...rest
 }) => {
-  const isControlled = controlledValue !== undefined;
-
-  const [value, setValue] = useState<number>(isControlled ? controlledValue : defaultValue);
+  const initialValue = Math.min(Math.max(value, minValue), maxValue);
+  const [internalValue, setInternalValue] = useState<number>(initialValue);
   const [inputValue, setInputValue] = useState<string>(
-    decimal
-      ? (isControlled ? controlledValue : defaultValue).toFixed(decimalPlaces)
-      : String(isControlled ? controlledValue : defaultValue)
+    decimal ? initialValue.toFixed(decimalPlaces) : String(initialValue)
   );
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const stepValue = step !== undefined ? step : decimal ? Math.pow(10, -decimalPlaces) : 1;
+  const stepValue = valueIncrement !== undefined ? valueIncrement : decimal ? Math.pow(10, -decimalPlaces) : 1;
 
-  const computedValue = useMemo(() => (isControlled ? controlledValue! : value), [isControlled, controlledValue, value]);
-  const isMinValue = useMemo(() => computedValue === 0, [computedValue]);
+  const isMinValue = useMemo(() => internalValue <= minValue, [internalValue, minValue]);
+  const isMaxValue = useMemo(() => internalValue >= maxValue, [internalValue, maxValue]);
 
-  const validateProps = (decimalPlaces?: number, step?: number) => {
+  const validateProps = (decimalPlaces?: number, valueIncrement?: number) => {
     if (decimalPlaces !== undefined && (decimalPlaces < 1 || decimalPlaces > 10)) {
       console.warn('decimalPlaces deve estar entre 1 e 10');
     }
-    if (step !== undefined && step <= 0) {
-      console.warn('step deve ser maior que 0');
+    if (valueIncrement !== undefined && valueIncrement <= 0) {
+      console.warn('valueIncrement deve ser maior que 0');
     }
   };
 
   useEffect(() => {
-    validateProps(decimalPlaces, step);
+    validateProps(decimalPlaces, valueIncrement);
   }, []);
 
   useEffect(() => {
-    if (isControlled && controlledValue !== undefined) {
-      setValue(controlledValue);
-      setInputValue(decimal ? controlledValue.toFixed(decimalPlaces) : String(controlledValue));
-    }
-  }, [controlledValue, decimal, decimalPlaces, isControlled]);
+    const clamped = Math.min(Math.max(value, minValue), maxValue);
+    setInternalValue(clamped);
+    setInputValue(decimal ? clamped.toFixed(decimalPlaces) : String(clamped));
+  }, [value, minValue, maxValue, decimal, decimalPlaces]);
 
   const increment = useCallback(() => {
     if (disabled) return;
 
-    const newValue = computedValue + stepValue;
+    const newValue = Math.min(maxValue, internalValue + stepValue);
 
-    if (!isControlled) {
-      setValue(newValue);
-      setInputValue(decimal ? newValue.toFixed(decimalPlaces) : String(newValue));
-    }
-
+    setInternalValue(newValue);
+    setInputValue(decimal ? newValue.toFixed(decimalPlaces) : String(newValue));
     onChange?.(newValue);
-  }, [disabled, computedValue, stepValue, decimal, decimalPlaces, isControlled, onChange]);
+  }, [disabled, internalValue, stepValue, decimal, decimalPlaces, onChange, maxValue]);
 
   const decrement = useCallback(() => {
     if (disabled) return;
 
-    const newValue = Math.max(0, computedValue - stepValue);
+    const newValue = Math.max(minValue, internalValue - stepValue);
 
-    if (!isControlled) {
-      setValue(newValue);
-      setInputValue(decimal ? newValue.toFixed(decimalPlaces) : String(newValue));
-    }
-
+    setInternalValue(newValue);
+    setInputValue(decimal ? newValue.toFixed(decimalPlaces) : String(newValue));
     onChange?.(newValue);
-  }, [disabled, computedValue, stepValue, decimal, decimalPlaces, isControlled, onChange]);
+  }, [disabled, internalValue, stepValue, decimal, decimalPlaces, onChange, minValue]);
 
   const filterInput = useCallback((inputValue: string): string => {
     if (decimal) {
@@ -115,9 +110,6 @@ const Quantity: React.FC<QuantityProps> = ({
     setInputValue(filteredValue);
 
     if (filteredValue === '' || filteredValue === '.') {
-      if (!isControlled) {
-        setValue(0);
-      }
       onChange?.(0);
       return;
     }
@@ -129,22 +121,16 @@ const Quantity: React.FC<QuantityProps> = ({
 
       const parsedValue = parseFloat(filteredValue);
       if (!isNaN(parsedValue)) {
-        if (!isControlled) {
-          setValue(parsedValue);
-        }
         onChange?.(parsedValue);
       }
     } else {
       const parsedValue = parseInt(filteredValue, 10);
       if (!isNaN(parsedValue)) {
-        const validValue = Math.min(parsedValue, 9999);
-        if (!isControlled) {
-          setValue(validValue);
-        }
+        const validValue = Math.min(Math.max(parsedValue, minValue), maxValue);
         onChange?.(validValue);
       }
     }
-  }, [disabled, decimal, isControlled, onChange]);
+  }, [disabled, decimal, filterInput, onChange, minValue, maxValue]);
 
 
   const handleBlur = useCallback(() => {
@@ -154,8 +140,7 @@ const Quantity: React.FC<QuantityProps> = ({
 
     if (decimal) {
       if (currentValue === '' || currentValue === '.') {
-        const resetValue = computedValue;
-        setInputValue(resetValue.toFixed(decimalPlaces));
+        setInputValue(internalValue.toFixed(decimalPlaces));
         return;
       }
 
@@ -164,10 +149,7 @@ const Quantity: React.FC<QuantityProps> = ({
         if (!isNaN(baseValue)) {
           const formattedValue = baseValue.toFixed(decimalPlaces);
           setInputValue(formattedValue);
-
-          if (!isControlled) {
-            setValue(baseValue);
-          }
+          setInternalValue(baseValue);
           onChange?.(baseValue);
         }
         return;
@@ -175,38 +157,32 @@ const Quantity: React.FC<QuantityProps> = ({
 
       const parsedValue = parseFloat(currentValue);
       if (!isNaN(parsedValue)) {
-        const normalizedValue = Math.max(0, parsedValue);
+        const normalizedValue = Math.min(Math.max(parsedValue, minValue), maxValue);
         const formattedValue = normalizedValue.toFixed(decimalPlaces);
         setInputValue(formattedValue);
-
-        if (!isControlled) {
-          setValue(normalizedValue);
-        }
+        setInternalValue(normalizedValue);
         onChange?.(normalizedValue);
       } else {
-
-        setInputValue(computedValue.toFixed(decimalPlaces));
+        setInputValue(internalValue.toFixed(decimalPlaces));
       }
     } else {
 
       if (currentValue === '') {
-        setInputValue(String(computedValue));
+        setInputValue(String(internalValue));
         return;
       }
 
       const parsedValue = parseInt(currentValue, 10);
       if (isNaN(parsedValue)) {
-        setInputValue(String(computedValue));
+        setInputValue(String(internalValue));
       } else {
-        const normalizedValue = Math.max(0, Math.min(parsedValue, 9999));
+        const normalizedValue = Math.min(Math.max(parsedValue, minValue), maxValue);
         setInputValue(String(normalizedValue));
-        if (!isControlled) {
-          setValue(normalizedValue);
-        }
+        setInternalValue(normalizedValue);
         onChange?.(normalizedValue);
       }
     }
-  }, [disabled, decimal, inputValue, decimalPlaces, computedValue, isControlled, onChange]);
+  }, [disabled, decimal, inputValue, decimalPlaces, internalValue, onChange, minValue, maxValue]);
 
 
   const handleInputKeyDown = useCallback(
@@ -234,42 +210,38 @@ const Quantity: React.FC<QuantityProps> = ({
         case 'Escape':
           e.preventDefault();
           if (inputRef.current) {
-            setInputValue(decimal ? computedValue.toFixed(decimalPlaces) : String(computedValue));
+            setInputValue(decimal ? internalValue.toFixed(decimalPlaces) : String(internalValue));
             inputRef.current.blur();
           }
           break;
 
         case 'Home':
           e.preventDefault();
-          const minValue = 0;
-          if (!isControlled) {
-            setValue(minValue);
-            setInputValue(decimal ? minValue.toFixed(decimalPlaces) : String(minValue));
-          }
+          setInternalValue(minValue);
+          setInputValue(decimal ? minValue.toFixed(decimalPlaces) : String(minValue));
           onChange?.(minValue);
           break;
 
         case 'End':
           if (!decimal) {
             e.preventDefault();
-            const maxValue = 9999;
-            if (!isControlled) {
-              setValue(maxValue);
-              setInputValue(String(maxValue));
-            }
+            setInternalValue(maxValue);
+            setInputValue(String(maxValue));
             onChange?.(maxValue);
           }
           break;
       }
     },
-    [disabled, increment, decrement, decimal, decimalPlaces, isControlled, onChange, computedValue]
+    [disabled, increment, decrement, decimal, decimalPlaces, onChange, internalValue, minValue, maxValue]
   );
+
+  const inputSizeValue = inputSize !== undefined ? inputSize : Math.max(1, inputValue.length);
 
   const uniqueId = useId();
   const inputId = id || uniqueId;
 
   return (
-    <div className={clsx(styles['zds-quantity'], { disabled }, className)} {...rest}>
+    <div className={clsx(styles.quantity, { [styles.disabled]: disabled }, className)} {...rest}>
       <Button
         variant='outlined'
         size={size}
@@ -278,28 +250,28 @@ const Quantity: React.FC<QuantityProps> = ({
         icon={<Subtract16Regular />}
         onClick={decrement}
         disabled={disabled || isMinValue}
-        aria-label='Diminuir quantidade'
+        aria-label={decrementAriaLabel}
+        tooltipText='Diminuir'
       />
 
       <input
         ref={inputRef}
-        className={clsx(styles['zds-quantity__input'], { disabled })}
+        className={clsx(styles.quantityInput, { [styles.disabled]: disabled })}
         type='text'
         value={inputValue}
         onChange={handleInputChange}
         onBlur={handleBlur}
         onKeyDown={handleInputKeyDown}
         id={inputId}
-        min='0'
         step={stepValue}
-        aria-label='Quantidade'
+        aria-label={inputAriaLabel}
         role='spinbutton'
-        aria-valuenow={computedValue}
-        aria-valuemin={0}
-        aria-valuemax={decimal ? undefined : 9999}
+        aria-valuenow={internalValue}
+        aria-valuemin={minValue}
+        aria-valuemax={maxValue}
         disabled={disabled}
         inputMode={decimal ? 'decimal' : 'numeric'}
-
+        size={inputSizeValue}
       />
       <Button
         variant='outlined'
@@ -307,10 +279,10 @@ const Quantity: React.FC<QuantityProps> = ({
         type='button'
         iconOnly
         onClick={increment}
-        disabled={disabled}
-        aria-label='Aumentar quantidade'
+        disabled={disabled || isMaxValue}
+        aria-label={incrementAriaLabel}
         icon={<Add16Regular />}
-
+        tooltipText='Aumentar'
       />
 
     </div>

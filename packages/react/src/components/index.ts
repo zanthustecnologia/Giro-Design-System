@@ -17,7 +17,7 @@ export { default as Checkbox } from './Checkbox';
 export { type CheckboxProps } from './Checkbox/Checkbox.types'
 
 export { default as Chips } from './Chips';
-export { type ChipsProps, type ChipsVariant } from './Chips/Chips.types';
+export { type ChipsProps } from './Chips/Chips.types';
 
 export { default as Container } from './Container/Container';
 export { type ContainerProps } from './Container/Container.types';
@@ -39,6 +39,8 @@ export { type ListItemProps } from './ListItem/ListItem.types';
 
 export {default as Menu } from './Menu';
 export { type MenuProps } from './Menu/Menu.types';
+export { default as Modal } from './Modal';
+export { type ModalProps } from './Modal/Modal.types';
 
 export { default as Popover } from './Popover';
 export { type PopoverProps } from './Popover/Popover.types';

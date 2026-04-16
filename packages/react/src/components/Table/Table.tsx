@@ -138,8 +138,8 @@ const Table = <T extends TableRowData = TableRowData>({
   );
   if (loading) {
     return (
-      <div className={clsx(styles['zds-table__container'], className)}>
-        <div className={styles['zds-table__loader']}>
+      <div className={clsx(styles.tableContainer, className)}>
+        <div className={styles.tableLoader}>
           <LoaderList />
         </div>
       </div>
@@ -147,55 +147,55 @@ const Table = <T extends TableRowData = TableRowData>({
   }
 
   const emptyText = locale?.emptyText || (
-    <div className={styles['zds-table__empty']}>
-      <div className={styles['zds-table__empty__content']}>
+    <div className={styles.tableEmpty}>
+      <div className={styles.tableEmptyContent}>
         <EmptyRows150Color />
       </div>
-      <div className={styles['zds-table__empty__text']}>
-        <h3 className={styles['zds-table__empty__title']}>Nenhum dado encontrado</h3>
-        <p className={styles['zds-table__empty__caption']}>Nenhum registro encontrado</p>
+      <div className={styles.tableEmptyText}>
+        <h3 className={styles.tableEmptyTitle}>Nenhum dado encontrado</h3>
+        <p className={styles.tableEmptyCaption}>Nenhum registro encontrado</p>
       </div>
     </div>
   );
 
   return (
-    <div className={clsx(styles['zds-table__container'], className)} {...rest}>
-      <div className={styles['zds-table__scroll-wrapper']}>
+    <div className={clsx(styles.tableContainer, className)} {...rest}>
+      <div className={styles.tableScrollWrapper}>
         <table 
-          className={styles['zds-table']}
+          className={styles.table}
           role="table"
           aria-label="Tabela de dados"
           aria-describedby={loading ? `${tableId}-loading` : undefined}
           aria-rowcount={dataSource.length + 1}
         >
-          <thead className={styles['zds-table__head']}>
+          <thead className={styles.tableHead}>
             <tr>
               {finalColumns.map((column) => (
                 <th
                   key={column.key}
-                  className={clsx(styles['zds-table__th'], column.align && `text-${column.align}`)}
+                  className={clsx(styles.tableTh, column.align && `text-${column.align}`)}
                   style={column.style}
                 >
-                  <div className={styles['zds-table__th-content']}>{column.label}</div>
+                  <div className={styles.tableThContent}>{column.label}</div>
                 </th>
               ))}
             </tr>
           </thead>
-          <tbody className={styles['zds-table__body']}>
+          <tbody className={styles.tableBody}>
             {dataSource.length > 0 ? (
               dataSource.map((row, index) => {
                 const rowProps = onRow?.(row, index) || {};
                 return (
                   <tr
                     key={index}
-                    className={clsx(styles['zds-table__row'], rowProps.className)}
+                    className={clsx(styles.tableRow, rowProps.className)}
                     onClick={rowProps.onClick}
                     onDoubleClick={rowProps.onDoubleClick}
                   >
                     {finalColumns.map((column) => (
                       <td
                         key={column.key}
-                        className={clsx(styles['zds-table__td'], column.align && `text-${column.align}`)}
+                        className={clsx(styles.tableTd, column.align && `text-${column.align}`)}
                       >
                         {renderCell(column, row, index)}
                       </td>
@@ -205,7 +205,7 @@ const Table = <T extends TableRowData = TableRowData>({
               })
             ) : (
               <tr>
-                <td colSpan={finalColumns.length} className={styles['zds-table__empty-cell']}>
+                <td colSpan={finalColumns.length} className={styles.tableEmptyCell}>
                   {emptyText}
                 </td>
               </tr>

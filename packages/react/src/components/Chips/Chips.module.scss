@@ -1,7 +1,7 @@
 
 .chips {
   --chips-bg: var(--color-neutral-high-medium);
-  --chips-fg: var(--color-neutral-low-default);
+  --chips-text: var(--color-neutral-low-default);
 
   display: inline-flex;
   align-items: center;
@@ -12,7 +12,7 @@
   font-size: var(--font-size-14);
   font-weight: var(--font-weight-medium);
   background-color: var(--chips-bg);
-  color: var(--chips-fg);
+  color: var(--chips-text);
 }
 
 .title {
@@ -32,19 +32,19 @@
   align-items: center;
   justify-content: center;
   color: inherit;
-  padding: 0 var(--spacing-8);
+  padding: var(--spacing-0) var(--spacing-8);
 }
 
 .hasLeftIcon {
-  padding: var(--spacing-8) var(--spacing-16) var(--spacing-8) 0 !important;
+  padding: var(--spacing-8) var(--spacing-16) var(--spacing-8) var(--spacing-0);
 }
 
 .hasRightIcon {
-  padding: var(--spacing-8) 0 var(--spacing-8) var(--spacing-16) !important;
+  padding: var(--spacing-8) var(--spacing-0) var(--spacing-8) var(--spacing-16);
 }
 
 .hasLeftIcon.hasRightIcon {
-  padding: var(--spacing-8) 0 !important;
+  padding: var(--spacing-8) var(--spacing-0);
 }
 
 .brand {
@@ -61,7 +61,7 @@
 
 .disabled {
   --chips-bg: var(--color-neutral-high-light);
-  --chips-fg: var(--color-neutral-low-light);
+  --chips-text: var(--color-neutral-low-light);
   cursor: not-allowed;
   pointer-events: none;
 }

@@ -1,8 +1,6 @@
 import * as React from 'react';
 
-import { BaseProps } from '../../types/common.types';
-
-export type ChipsVariant = 'neutral' | 'brand' | 'success' | 'alert';
+import { BaseProps, TextVariant } from '../../types/common.types';
 
 /**
  * Props do componente Chips
@@ -16,21 +14,21 @@ export type ChipsVariant = 'neutral' | 'brand' | 'success' | 'alert';
  * ```tsx
  * <Chips
  *   backgroundColor="color-brand-secondary-medium"
- *   foregroundColor="color-brand-secondary-dark"
+ *   textColor="color-brand-secondary-dark"
  * >
  *   Alerta
  * </Chips>
  * ```
  */
-export interface ChipsProps extends BaseProps {
+export interface ChipsProps extends BaseProps, Omit<React.HTMLAttributes<HTMLDivElement>, 'color'> {
   /** Variante semântica do chip. Define o preset de cor de fundo. */
-  variant?: ChipsVariant;
+  variant?: Exclude<TextVariant, 'color'>;
 
   /** Token CSS para a cor de fundo. Ex: 'color-brand-secondary-medium'. Sobrescreve o variant. */
   backgroundColor?: string;
 
   /** Token CSS para a cor do texto e ícones. Ex: 'color-brand-secondary-dark'. Sobrescreve o variant. */
-  foregroundColor?: string;
+  textColor?: string;
 
   /** Conteúdo exibido dentro do chip */
   children: React.ReactNode;
@@ -43,7 +41,4 @@ export interface ChipsProps extends BaseProps {
 
   /** Estilos inline adicionais */
   style?: React.CSSProperties;
-
-  /** Props adicionais para o elemento div */
-  [key: string]: any;
 }

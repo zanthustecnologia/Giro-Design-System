@@ -12,10 +12,10 @@ const Chips: React.FC<ChipsProps> = ({
   variant = 'neutral',
   disabled = false,
   backgroundColor,
-  foregroundColor,
+  textColor,
   className,
   style,
-  ...rest
+  ...restProps
 }) => {
 
   const chipsClass = clsx(
@@ -31,11 +31,11 @@ const Chips: React.FC<ChipsProps> = ({
 
   const colorStyle = {
     ...(!disabled && backgroundColor && { '--chips-bg': `var(--${backgroundColor})` }),
-    ...(!disabled && foregroundColor && { '--chips-fg': `var(--${foregroundColor})` }),
+    ...(!disabled && textColor && { '--chips-text': `var(--${textColor})` }),
     ...style,
   } as React.CSSProperties;
 
-  const isInteractive = typeof rest.onClick === 'function';
+  const isInteractive = typeof restProps.onClick === 'function';
 
   return (
     <div
@@ -44,7 +44,7 @@ const Chips: React.FC<ChipsProps> = ({
       style={colorStyle}
       role={isInteractive ? 'button' : undefined}
       tabIndex={isInteractive ? (disabled ? -1 : 0) : undefined}
-      {...rest}
+      {...restProps}
     >
       {leftIcon && (
         <span className={styles.iconLeft} aria-hidden="true">
