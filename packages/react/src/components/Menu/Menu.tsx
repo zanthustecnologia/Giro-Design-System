@@ -216,6 +216,7 @@ const Menu: React.FC<MenuProps> = ({
           className={clsx(styles.content, className)}
           sideOffset={8}
           align={align}
+          onPointerDown={() => { closedByPointerRef.current = true; }}
           onInteractOutside={() => { closedByPointerRef.current = true; }}
           onCloseAutoFocus={(e) => {
             if (closedByPointerRef.current) {
