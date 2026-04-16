@@ -46,7 +46,6 @@ const config = {
       tsconfigPath: nodePath.join(REACT_PKG, 'tsconfig.json'),
       include: [
         `${REACT_SRC}/**/*.tsx`,
-        `${REACT_SRC}/**/*.ts`,
       ],
       exclude: [`${REACT_SRC}/**/*.stories.{ts,tsx}`],
       shouldExtractLiteralValuesFromEnum: true,
@@ -113,20 +112,22 @@ const config = {
 
     // 6) Virtual module que expõe o conteúdo dos CHANGELOGs em build/dev time
     const fs = await import('node:fs');
-    const { execSync } = await import('node:child_process');
+    const { exec } = await import('node:child_process');
+    const { promisify } = await import('node:util');
+    const execAsync = promisify(exec);
 
     const readChangelog = (pkg) =>
       fs.readFileSync(path.resolve(__dirname, `../../../packages/${pkg}/CHANGELOG.md`), 'utf-8');
 
     // Lê datas dos git tags (ex: "@giro-ds/react@4.0.0" -> "2026-03-17")
-    const getTagDates = () => {
+    const getTagDates = async () => {
       try {
-        const out = execSync(
+        const { stdout } = await execAsync(
           `git tag --format="%(refname:short)|%(creatordate:short)"`,
-          { cwd: path.resolve(__dirname, '../../..'), encoding: 'utf-8' }
+          { cwd: path.resolve(__dirname, '../../..') }
         );
         const dates = {};
-        for (const line of out.split('\n')) {
+        for (const line of stdout.split('\n')) {
           const [tag, date] = line.split('|');
           if (tag && date) dates[tag.trim()] = date.trim();
         }
@@ -135,6 +136,8 @@ const config = {
         return {};
       }
     };
+
+    const tagDatesData = await getTagDates();
 
     const changelogPlugin = {
       name: 'virtual-changelogs',
@@ -147,7 +150,7 @@ const config = {
             `export const reactChangelog = ${JSON.stringify(readChangelog('react'))};`,
             `export const tokensChangelog = ${JSON.stringify(readChangelog('tokens'))};`,
             `export const utilitiesChangelog = ${JSON.stringify(readChangelog('utilities'))};`,
-            `export const tagDates = ${JSON.stringify(getTagDates())};`,
+            `export const tagDates = ${JSON.stringify(tagDatesData)};`,
           ].join('\n');
         }
       },
