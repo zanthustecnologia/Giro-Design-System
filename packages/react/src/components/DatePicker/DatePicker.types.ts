@@ -24,7 +24,7 @@ import { Locale, BaseProps, Side, Align } from '../../types/common.types';
  * ```
  */
 export interface DatePickerProps extends BaseProps {
-  /** Locale para formatação da data */
+  /** Idioma para formatação da data */
   locale?: Locale;
   
   /** Posição do calendário em relação ao campo */
