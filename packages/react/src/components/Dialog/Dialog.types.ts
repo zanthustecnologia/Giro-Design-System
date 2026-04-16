@@ -14,8 +14,8 @@ import { BaseProps } from '../../types/common.types';
  */
 export interface DialogProps extends BaseProps, React.HTMLAttributes<HTMLDivElement> {
 
+  /** Controla a visibilidade do diálogo */
   show?: boolean;
-
   /** Título exibido no cabeçalho do diálogo */
   title?: string;
   /** Texto ou conteúdo do corpo do diálogo */
