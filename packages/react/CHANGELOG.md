@@ -1,5 +1,13 @@
 # @giro-ds/react
 
+## 6.0.1
+
+### Patch Changes
+
+- 74f5e25: **Calendar**: Corrige largura fixa do botão de dia para melhor responsividade no layout
+
+  **Menu**: Corrige comportamento indevido de foco ao fechar o menu com clique, adicionando handler `onPointerDown`
+
 ## 6.0.0
 
 ### Major Changes
