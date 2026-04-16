@@ -4,14 +4,14 @@
   --c-success: #22c55e;
   --c-error: #ef4444;
 }
-h1 {
-  font-size: var(--font-size-32) !important;
-  font-weight: var(--font-weight-bold) !important;
+.heading-1 {
+  font-size: var(--font-size-32);
+  font-weight: var(--font-weight-bold) ;
 }
-h2 {
+.heading-2 {
   margin-top: var(--spacing-64);
 }
-h3 {
+.heading-3 {
   margin-top: var(--spacing-64);
 }
 
