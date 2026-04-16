@@ -118,7 +118,7 @@ const mockProdutos = [
 export const Default: Story = {
   render: (args) => (
     <Menu {...args} items={acoesItens}>
-      <Button icon={<MoreHorizontal16Regular />} variant="text" iconOnly aria-label="Acoes" />
+      <Button icon={<MoreHorizontal16Regular />} variant="text" iconOnly aria-label="Acoes" tooltipText="Mais ações" />
     </Menu>
   ),
   args: {
@@ -130,7 +130,7 @@ export const Default: Story = {
 export const ComSubtexto: Story = {
   render: () => (
     <Menu items={acoesComSubtexto} search={true}>
-      <Button icon={<MoreHorizontal16Regular />} variant="text" iconOnly aria-label="Acoes" />
+      <Button icon={<MoreHorizontal16Regular />} variant="text" iconOnly aria-label="Acoes" tooltipText="Mais ações" />
     </Menu>
   ),
 };
@@ -138,7 +138,7 @@ export const ComSubtexto: Story = {
 export const ComIcone: Story = {
   render: () => (
     <Menu items={acoesComIcone} search={false}>
-      <Button icon={<MoreHorizontal16Regular />} variant="text" iconOnly aria-label="Acoes" />
+      <Button icon={<MoreHorizontal16Regular />} variant="text" iconOnly aria-label="Acoes" tooltipText="Mais ações" />
     </Menu>
   ),
 };

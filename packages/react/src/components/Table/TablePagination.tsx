@@ -50,10 +50,10 @@ const TablePagination: React.FC<TablePaginationProps> = ({
   };
 
   return (
-    <div className={`${styles['zds-table__pagination']} ${className}`.trim()} {...rest}>
+    <div className={`${styles.tablePagination} ${className}`.trim()} {...rest}>
 
-      <div className={styles['zds-table__pagination-select']}>
-        <label htmlFor="items-per-page" className={styles['zds-table__pagination-label']}>
+      <div className={styles.tablePaginationSelect}>
+        <label htmlFor="items-per-page" className={styles.tablePaginationLabel}>
           Itens por página
         </label>
         <select
@@ -61,7 +61,7 @@ const TablePagination: React.FC<TablePaginationProps> = ({
           value={itemsPerPage}
           onChange={handleItemsPerPageChange}
           disabled={disabled}
-          className={styles['zds-table__pagination-select-input']}
+          className={styles.tablePaginationSelectInput}
         >
           {pageSizeOptions.map((option) => (
             <option key={option} value={option}>
@@ -71,7 +71,7 @@ const TablePagination: React.FC<TablePaginationProps> = ({
         </select>
       </div>
       
-      <div className={styles['zds-table__pagination-info']}>
+      <div className={styles.tablePaginationInfo}>
         <span>
           {totalItems > 0 
             ? `${startItem}–${endItem} de ${totalItems}`
@@ -80,9 +80,9 @@ const TablePagination: React.FC<TablePaginationProps> = ({
         </span>
       </div>
       
-      <div className={styles['zds-table__pagination-controls']}>
+      <div className={styles.tablePaginationControls}>
         <button
-          className={styles['zds-table__pagination-button']}
+          className={styles.tablePaginationButton}
           onClick={handlePrevious}
           disabled={!canGoPrev}
           aria-label="Página anterior"
@@ -91,7 +91,7 @@ const TablePagination: React.FC<TablePaginationProps> = ({
         </button>
         
         <button
-          className={styles['zds-table__pagination-button']}
+          className={styles.tablePaginationButton}
           onClick={handleNext}
           disabled={!canGoNext}
           aria-label="Próxima página"

@@ -1,4 +1,5 @@
 const path = require('path');
+const fs = require('fs');
 const typescript = require('@rollup/plugin-typescript');
 const commonjs = require('@rollup/plugin-commonjs');
 const resolve = require('@rollup/plugin-node-resolve').nodeResolve;
@@ -74,14 +75,26 @@ module.exports = [
       file: path.resolve(__dirname, 'dist/index.d.ts'),
       format: 'esm',
     },
-    plugins: [dts({
-      compilerOptions: {
-        baseUrl: path.resolve(__dirname, 'dist/dts-temp'),
-        paths: {
-          '@/*': ['./*'],
+    plugins: [
+      dts({
+        compilerOptions: {
+          baseUrl: path.resolve(__dirname, 'dist/dts-temp'),
+          paths: {
+            '@/*': ['./*'],
+          },
         },
-      },
-    })],
+      }),
+      {
+        name: 'cleanup-dts-temp',
+        closeBundle() {
+          const dtsTemp = path.resolve(__dirname, 'dist/dts-temp');
+          if (fs.existsSync(dtsTemp)) {
+            fs.rmSync(dtsTemp, { recursive: true, force: true });
+            console.log('✔ Cleaned up dts-temp directory');
+          }
+        }
+      }
+    ],
     external: [/\.s?css$/],
   },
 ];

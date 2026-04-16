@@ -128,6 +128,7 @@ const Drawer: React.FC<DrawerProps> = ({
             iconOnly
             icon={<Dismiss16Regular />}
             size='lg'
+            tooltipText='Fechar'
           />
         </div>
         <div 

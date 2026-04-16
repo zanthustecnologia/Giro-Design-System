@@ -197,18 +197,28 @@ describe('Button', () => {
       expect(screen.getByLabelText('Deletar')).toBeInTheDocument();
     });
 
-    it('deve usar ariaLabel padrão quando iconOnly sem ariaLabel fornecida', () => {
+    it('deve emitir aviso quando iconOnly sem ariaLabel ou tooltipText fornecido', () => {
       const TestIcon = () => <svg data-testid="test-icon" />;
+      const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
       render(<Button iconOnly icon={<TestIcon />} />);
-      expect(screen.getByLabelText('Botão de ação')).toBeInTheDocument();
+      expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('[Button]'));
+      const button = screen.getByRole('button');
+      expect(button.getAttribute('aria-label')).toBeNull();
+      warnSpy.mockRestore();
     });
 
-    it('deve renderizar span quando iconOnly sem icon fornecido', () => {
-      const { container } = render(<Button iconOnly ariaLabel="Ação" />);
-      
-      // Verifica que o span é renderizado mesmo sem ícone
-      const iconOnlySpan = container.querySelector('[class*="buttonIconOnly"]');
-      expect(iconOnlySpan).toBeInTheDocument();
+    it('deve usar tooltipText como aria-label quando iconOnly sem ariaLabel', () => {
+      const TestIcon = () => <svg data-testid="test-icon" />;
+      render(<Button iconOnly icon={<TestIcon />} tooltipText="Adicionar item" />);
+      expect(screen.getByLabelText('Adicionar item')).toBeInTheDocument();
+    });
+
+    it('deve emitir console.error quando iconOnly sem icon fornecido', () => {
+      const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+      // @ts-expect-error — testando uso inválido intencionalmente
+      render(<Button iconOnly ariaLabel="Ação" />);
+      expect(errorSpy).toHaveBeenCalledWith(expect.stringContaining('[Button]'));
+      errorSpy.mockRestore();
     });
   });
 
@@ -219,9 +229,11 @@ describe('Button', () => {
       expect(loadingSpan).toBeInTheDocument();
     });
 
-    it('deve ocultar conteúdo quando loading', () => {
-      render(<Button loading>Clique aqui</Button>);
-      expect(screen.queryByText('Clique aqui')).not.toBeInTheDocument();
+    it('deve ocultar conteúdo visualmente quando loading', () => {
+      const { container } = render(<Button loading>Clique aqui</Button>);
+      const hiddenContent = container.querySelector('[class*="buttonContentHidden"]');
+      expect(hiddenContent).toBeInTheDocument();
+      expect(hiddenContent).toHaveAttribute('aria-hidden', 'true');
     });
 
     it('deve ter spinner dentro de span de loading', () => {
@@ -266,9 +278,10 @@ describe('Button', () => {
       expect(screen.getByRole('link')).toHaveAttribute('rel', 'noreferrer');
     });
 
-    it('deve ter href="#" quando desabilitado', () => {
+    it('n\u00e3o deve ter href quando desabilitado', () => {
       render(<Button href="/home" disabled>Link</Button>);
-      expect(screen.getByRole('link')).toHaveAttribute('href', '#');
+      const link = screen.getByRole('link');
+      expect(link).not.toHaveAttribute('href');
     });
 
     it('deve prevenir navegação quando link disabled é clicado', async () => {
@@ -292,9 +305,11 @@ describe('Button', () => {
       expect(link).toHaveAttribute('href', '/about');
     });
 
-    it('deve ter href="#" quando to e disabled', () => {
+    it('n\u00e3o deve ter href quando to e disabled', () => {
       render(<Button to="/about" disabled>Link</Button>);
-      expect(screen.getByRole('link')).toHaveAttribute('href', '#');
+      const anchor = screen.getByText('Link');
+      expect(anchor.tagName).toBe('A');
+      expect(anchor).not.toHaveAttribute('href');
     });
   });
 
@@ -337,9 +352,9 @@ describe('Button', () => {
       expect(screen.getByLabelText('Custom label')).toBeInTheDocument();
     });
 
-    it('deve usar texto do children como aria-label quando children é string', () => {
+    it('não deve definir aria-label quando children é string (texto visível já é o nome acessível)', () => {
       render(<Button>Texto do botão</Button>);
-      expect(screen.getByRole('button')).toHaveAttribute('aria-label', 'Texto do botão');
+      expect(screen.getByRole('button').getAttribute('aria-label')).toBeNull();
     });
 
     it('não deve ter aria-label quando children não é string e sem ariaLabel', () => {

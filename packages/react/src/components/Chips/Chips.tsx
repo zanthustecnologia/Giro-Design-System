@@ -6,44 +6,54 @@ import styles from './Chips.module.scss';
 import type { ChipsProps } from './Chips.types';
 
 const Chips: React.FC<ChipsProps> = ({
-  title,
+  children,
   leftIcon,
   rightIcon,
-  type = 'neutral',
+  variant = 'neutral',
   disabled = false,
+  backgroundColor,
+  textColor,
   className,
-  ...rest
+  style,
+  ...restProps
 }) => {
 
-  if (!title || title.trim() === '') {
-    console.warn('Chips: title prop is required and cannot be empty');
-    return null;
-  }
   const chipsClass = clsx(
-    styles['zds-chips'],
-    styles[`zds-chips--${type}`],
+    styles.chips,
+    styles[variant],
     {
-      [styles['zds-chips--disabled']]: disabled,
-      [styles['has-left-icon']]: leftIcon,
-      [styles['has-right-icon']]: rightIcon,
+      [styles.disabled]: disabled,
+      [styles.hasLeftIcon]: leftIcon,
+      [styles.hasRightIcon]: rightIcon,
     },
     className
   );
+
+  const colorStyle = {
+    ...(!disabled && backgroundColor && { '--chips-bg': `var(--${backgroundColor})` }),
+    ...(!disabled && textColor && { '--chips-text': `var(--${textColor})` }),
+    ...style,
+  } as React.CSSProperties;
+
+  const isInteractive = typeof restProps.onClick === 'function';
+
   return (
     <div
       className={chipsClass}
-      aria-label={`Chip: ${title}`}
       aria-disabled={disabled}
-      {...rest}
+      style={colorStyle}
+      role={isInteractive ? 'button' : undefined}
+      tabIndex={isInteractive ? (disabled ? -1 : 0) : undefined}
+      {...restProps}
     >
       {leftIcon && (
-        <span className={styles['zds-chips__icon__left']} aria-hidden="true">
+        <span className={styles.iconLeft} aria-hidden="true">
           {leftIcon}
         </span>
       )}
-      <span className={styles['zds-chips__title']}>{title}</span>
+      <span className={styles.title}>{children}</span>
       {rightIcon && (
-        <span className={styles['zds-chips__icon__right']}>
+        <span className={styles.iconRight}>
           {rightIcon}
         </span>
       )}
