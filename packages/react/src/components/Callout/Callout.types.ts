@@ -2,8 +2,6 @@ import * as React from 'react';
 
 import { BaseProps, TextVariant } from '../../types/common.types';
 
-export type CalloutVariant = Omit<TextVariant, 'color'>;
-
 /**
  * Props do componente Callout
  * @example
@@ -30,7 +28,7 @@ export interface CalloutProps
   extends Omit<BaseProps, 'disabled'>,
     Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
   /** Variante semântica do callout */
-  variant?: CalloutVariant;
+  variant?: Exclude<TextVariant, 'color'>;
 
   /** Título principal do callout */
   title?: React.ReactNode;
@@ -46,9 +44,6 @@ export interface CalloutProps
 
   /** Exibe o botão de fechar. Requer onDismiss. */
   dismiss?: boolean;
-
-  /** Label acessível do botão de fechar. @default "Fechar" */
-  dismissLabel?: string;
 
   /**
    * Nome do token de cor de fundo (sem `--`). Sobrescreve a cor da variante.

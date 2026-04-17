@@ -13,7 +13,6 @@ const Callout: React.FC<CalloutProps> = ({
   icon,
   onDismiss,
   dismiss,
-  dismissLabel = 'Fechar',
   backgroundColor,
   textColor,
   className,
@@ -21,6 +20,10 @@ const Callout: React.FC<CalloutProps> = ({
   style,
   ...rest
 }) => {
+  if (process.env.NODE_ENV !== 'production' && (text === '' || (typeof text === 'string' && !text.trim()))) {
+    console.warn('[Callout] A prop `text` não pode ser uma string vazia.');
+  }
+
   const generatedId = useId();
   const titleId = `callout-title-${id || generatedId}`;
   const componentId = id || generatedId;
@@ -62,8 +65,8 @@ const Callout: React.FC<CalloutProps> = ({
           <button
             className={styles.dismiss}
             onClick={onDismiss}
-            aria-label={dismissLabel}
             type="button"
+            aria-label="Fechar"
           >
             <Dismiss24Regular aria-hidden="true" />
           </button>
