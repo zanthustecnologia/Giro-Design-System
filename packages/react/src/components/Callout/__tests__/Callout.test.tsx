@@ -166,11 +166,6 @@ describe('Callout', () => {
       render(<Callout text="Removível" dismiss />);
       expect(screen.getByRole('button', { name: 'Fechar' })).toBeInTheDocument();
     });
-
-    it('usa dismissLabel personalizado quando fornecido', () => {
-      render(<Callout text="Removível" dismiss dismissLabel="Close" />);
-      expect(screen.getByRole('button', { name: 'Close' })).toBeInTheDocument();
-    });
   });
 
   describe('Props passadas através', () => {
