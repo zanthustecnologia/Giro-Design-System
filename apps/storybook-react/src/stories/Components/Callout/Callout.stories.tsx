@@ -36,10 +36,11 @@ const meta: Meta<typeof Callout> = {
     title: {
       control: { type: 'text' },
       description: 'Título principal do callout',
+      table: { type: { summary: 'ReactNode' } },
     },
     text: {
       control: { type: 'text' },
-      description: 'Conteúdo descritivo do callout',
+      description: 'Conteúdo descritivo do callout. **Obrigatório.**',
       table: { type: { summary: 'ReactNode' } },
     },
     icon: {
@@ -56,22 +57,16 @@ const meta: Meta<typeof Callout> = {
       description: 'Exibe o botão de fechar com o ícone X. Requer onDismiss para capturar o evento.',
       table: { defaultValue: { summary: 'false' } },
     },
-    dismissLabel: {
-      control: { type: 'text' },
-      description: 'Label acessível do botão de fechar. Útil para internacionalização.',
-      table: { defaultValue: { summary: '"Fechar"' } },
-    },
     backgroundColor: {
       control: { type: 'text' },
       description: 'Nome do token de cor de fundo sem `--`. Sobrescreve a cor da variante.',
       table: { type: { summary: 'string' } },
     },
-    foregroundColor: {
+    textColor: {
       control: { type: 'text' },
       description: 'Nome do token de cor do texto e ícone sem `--`. Sobrescreve a cor padrão.',
       table: { type: { summary: 'string' } },
     },
-    disabled: { table: { disable: true } },
     className: { table: { disable: true } },
     id: { table: { disable: true } },
   },
@@ -100,12 +95,11 @@ export const Default: Story = {
 };
 
 export const Removivel_DismissLabel: Story = {
-  name: 'Dismiss Label Customizado',
+  name: 'Dismiss',
   args: {
     variant: 'neutral',
-    text: 'This notification can be dismissed.',
+    text: 'Esta notificação pode ser dispensada.',
     dismiss: true,
-    dismissLabel: 'Close',
     onDismiss: () => {},
   },
 };
@@ -123,7 +117,7 @@ export const CoresCustomizadas: StoryFn = () => (
       text="Fundo e texto com tokens customizados."
       icon={<Info24Regular />}
       backgroundColor="color-brand-primary-light"
-      foregroundColor="color-brand-primary-dark"
+      textColor="color-brand-primary-dark"
     />
   </div>
 );
