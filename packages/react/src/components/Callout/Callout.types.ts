@@ -27,7 +27,7 @@ export type CalloutVariant = 'neutral' | 'brand' | 'success' | 'alert';
  * ```
  */
 export interface CalloutProps
-  extends BaseProps,
+  extends Omit<BaseProps, 'disabled'>,
     Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
   /** Variante semântica do callout */
   variant?: CalloutVariant;

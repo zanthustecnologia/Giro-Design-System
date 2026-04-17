@@ -189,10 +189,7 @@ describe('Callout', () => {
       expect(container.firstChild).toHaveAttribute('data-testid', 'extra-attr');
     });
 
-    it('não vaza disabled para o elemento div', () => {
-      const { container } = render(<Callout text="Texto" disabled />);
-      expect(container.firstChild).not.toHaveAttribute('disabled');
-    });
+
   });
 
   describe('Cores customizadas', () => {
@@ -204,19 +201,19 @@ describe('Callout', () => {
       expect(el.style.getPropertyValue('--callout-bg')).toBe('var(--color-brand-secondary-light)');
     });
 
-    it('aplica foregroundColor via CSS custom property', () => {
+    it('aplica textColor via CSS custom property', () => {
       const { container } = render(
-        <Callout text="Texto" foregroundColor="color-brand-primary-dark" />
+        <Callout text="Texto" textColor="color-brand-primary-dark" />
       );
       const el = container.firstChild as HTMLElement;
-      expect(el.style.getPropertyValue('--callout-fg')).toBe('var(--color-brand-primary-dark)');
+      expect(el.style.getPropertyValue('--callout-text')).toBe('var(--color-brand-primary-dark)');
     });
 
-    it('não define style inline quando backgroundColor/foregroundColor não são fornecidos', () => {
+    it('não define style inline quando backgroundColor/textColor não são fornecidos', () => {
       const { container } = render(<Callout text="Texto" />);
       const el = container.firstChild as HTMLElement;
       expect(el.style.getPropertyValue('--callout-bg')).toBe('');
-      expect(el.style.getPropertyValue('--callout-fg')).toBe('');
+      expect(el.style.getPropertyValue('--callout-text')).toBe('');
     });
 
     it('mescla style externo com cores customizadas', () => {

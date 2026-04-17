@@ -1,6 +1,6 @@
+import { Dismiss24Regular } from '@fluentui/react-icons';
 import clsx from 'clsx';
 import React, { useId } from 'react';
-import { Dismiss24Regular } from '@fluentui/react-icons';
 
 import styles from './Callout.module.scss';
 
@@ -18,7 +18,6 @@ const Callout: React.FC<CalloutProps> = ({
   textColor,
   className,
   id,
-  disabled: _disabled,
   style,
   ...rest
 }) => {
