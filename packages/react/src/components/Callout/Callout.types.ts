@@ -1,8 +1,8 @@
 import * as React from 'react';
 
-import { BaseProps } from '../../types/common.types';
+import { BaseProps, TextVariant } from '../../types/common.types';
 
-export type CalloutVariant = 'neutral' | 'brand' | 'success' | 'alert';
+export type CalloutVariant = Omit<TextVariant, 'color'>;
 
 /**
  * Props do componente Callout
