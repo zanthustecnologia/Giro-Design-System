@@ -3,6 +3,7 @@ import clsx from 'clsx';
 import React, { useId } from 'react';
 
 import styles from './Callout.module.scss';
+import Button from '../Button/Button';
 
 import type { CalloutProps } from './Callout.types';
 
@@ -62,14 +63,16 @@ const Callout: React.FC<CalloutProps> = ({
           {text && <span className={styles.text}>{text}</span>}
         </div>
         {dismiss && (
-          <button
+          <Button
             className={styles.dismiss}
             onClick={onDismiss}
             type="button"
             aria-label="Fechar"
-          >
-            <Dismiss24Regular aria-hidden="true" />
-          </button>
+            variant='text'
+            icon={<Dismiss24Regular aria-hidden="true" />}
+            iconOnly
+            tooltipText='Fechar'
+          />
         )}
       </div>
     </div>

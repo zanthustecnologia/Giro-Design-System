@@ -15,6 +15,16 @@
   &.withTitle {
     min-height: var(--spacing-80);
   }
+
+  .dismiss {
+    &:focus-visible {
+      outline: var(--border-width-2) solid var(--color-brand-primary-default);
+      outline-offset: -2px;
+    }
+    &:hover {
+      background-color: var(--callout-bg);
+    }
+  }
 }
 
 .brand {
@@ -82,9 +92,4 @@
   cursor: pointer;
   color: var(--callout-text);
   border-radius: var(--border-radius-4);
-
-  &:focus-visible {
-    outline: var(--border-width-2) solid var(--color-brand-primary-default);
-    outline-offset: -2px;
-  }
 }

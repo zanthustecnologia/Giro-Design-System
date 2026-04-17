@@ -8,7 +8,6 @@ import {
 import React, { useState } from 'react';
 import type { Meta, StoryFn, StoryObj } from '@storybook/react';
 import { Callout } from '@giro-ds/react';
-import type { CalloutVariant } from '@giro-ds/react';
 
 const ICON_OPTIONS: Record<string, React.ReactNode> = {
   none: undefined,
@@ -31,7 +30,7 @@ const meta: Meta<typeof Callout> = {
   argTypes: {
     variant: {
       control: { type: 'select' },
-      options: ['neutral', 'brand', 'success', 'alert'] satisfies CalloutVariant[],
+      options: ['neutral', 'brand', 'success', 'alert'],
       description: 'Variante semântica do callout',
     },
     title: {
@@ -164,9 +163,9 @@ export const SemIcone: StoryFn = () => (
 
 export const Removivel: StoryFn = () => {
   const [items, setItems] = useState([
-    { id: 1, variant: 'neutral' as CalloutVariant, text: 'Novidade disponível: confira as últimas atualizações do produto.' },
-    { id: 2, variant: 'success' as CalloutVariant, text: 'Configurações salvas com sucesso.' },
-    { id: 3, variant: 'alert' as CalloutVariant, text: 'Atenção: sua sessão expira em 10 minutos.' },
+    { id: 1, variant: 'neutral', text: 'Novidade disponível: confira as últimas atualizações do produto.' },
+    { id: 2, variant: 'success', text: 'Configurações salvas com sucesso.' },
+    { id: 3, variant: 'alert', text: 'Atenção: sua sessão expira em 10 minutos.' },
   ]);
 
   return (
