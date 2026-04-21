@@ -1,0 +1,96 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as BadgeStories from './Badge.stories';
+import { Badge } from '@giro-ds/react';
+import { UsageGuidelines } from '../../../internal-components/mdx/UsageGuidelines/UsageGuidelines';
+import { ComponentRules } from '../../../internal-components/mdx/Rules/Rules';
+import { Footer } from '../../../internal-components/mdx/Footer/Footer';
+
+<Meta of={BadgeStories} />
+
+# Badge
+
+Badge é um indicador visual sobreposto a um elemento para comunicar notificações, contagens ou estados.
+
+<Canvas of={BadgeStories.Default} />
+
+## Importação
+
+```js
+import { Badge } from '@giro-ds/react';
+```
+
+## Propriedades
+
+<Controls />
+
+## Uso
+
+<UsageGuidelines
+  guidelines={[
+    <>
+      Use <code>type="notification"</code> para exibir contagens, como mensagens não lidas ou alertas.
+    </>,
+    <>
+      Use <code>type="status"</code> para indicar um estado do elemento, como "novo" ou "ativo".
+    </>,
+    <>
+      Quando <code>badgeValue</code> for <code>null</code> ou <code>0</code>, o badge é exibido sem valor (apenas o ponto indicador).
+    </>,
+    <>
+      Valores numéricos acima de 99 são automaticamente exibidos como <code>99+</code>.
+    </>,
+  ]}
+/>
+
+## Variações
+
+### Notificação
+
+<Canvas of={BadgeStories.Notification} />
+
+### Status
+
+<Canvas of={BadgeStories.Status} />
+
+## O que fazer e não fazer
+
+<ComponentRules
+  rules={[
+    {
+      positive: {
+        component: (
+          <Badge type="notification" badgeValue={5}>
+            <div style={{ width: 40, height: 40, borderRadius: 8, backgroundColor: '#e0e0e0' }} />
+          </Badge>
+        ),
+        description: 'Use o Badge sobre um elemento interativo para indicar quantidade de itens pendentes.',
+      },
+      negative: {
+        component: (
+          <Badge type="notification" badgeValue={5} />
+        ),
+        description: 'Evite usar o Badge sem um elemento filho. Ele deve sempre estar associado a um componente.',
+      },
+    },
+    {
+      positive: {
+        component: (
+          <Badge type="notification" badgeValue={99}>
+            <div style={{ width: 40, height: 40, borderRadius: 8, backgroundColor: '#e0e0e0' }} />
+          </Badge>
+        ),
+        description: 'Valores até 99 são exibidos diretamente.',
+      },
+      negative: {
+        component: (
+          <Badge type="notification" badgeValue={9999}>
+            <div style={{ width: 40, height: 40, borderRadius: 8, backgroundColor: '#e0e0e0' }} />
+          </Badge>
+        ),
+        description: 'Não exiba valores muito grandes. Valores acima de 99 são truncados para "99+".',
+      },
+    },
+  ]}
+/>
+
+<Footer />
