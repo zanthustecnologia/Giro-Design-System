@@ -37,9 +37,6 @@ export interface BadgeProps extends BaseProps {
   /** Valor a ser exibido no badge (número, texto ou null) */
   badgeValue?: BadgeValue;
   
-  /** Valor máximo a ser exibido (ex: 99+ quando badgeValue > maxValue) */
-  maxValue?: number;
-  
   /** Label acessível para leitores de tela */
   'aria-label'?: string;
 }
