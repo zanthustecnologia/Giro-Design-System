@@ -35,19 +35,18 @@ const Badge: React.FC<BadgeProps> = ({
   if (type === 'notification') {
     return (
       <div
-        className={clsx(styles['zds-badge__container'])}
+        className={styles.badgeContainer}
       >
         <div
           id={componentId}
-          className={clsx(styles['zds-badge'], {
-            [styles['zds-badge__small']]: Number(badgeValue) <= 10,
-            [styles['zds-badge__large']]: Number(badgeValue) > 10,
+          className={clsx(styles.badge, {
+            [styles['badge__small']]: Number(badgeValue) <= 10,
+            [styles['badge__large']]: Number(badgeValue) > 10,
           }, className)}
           data-testid="badge-notification"
         >
           {!isEmpty && (
             <span
-              className={styles['zds-badge__value']}
               aria-hidden={ariaLabel ? 'true' : 'false'}
             >
               {displayValue}
@@ -55,7 +54,7 @@ const Badge: React.FC<BadgeProps> = ({
           )}
         </div>
         {children && (
-          <div className={styles['zds-badge__content']} data-testid="badge-content">
+          <div data-testid="badge-content">
             {children}
           </div>
         )}
@@ -65,17 +64,16 @@ const Badge: React.FC<BadgeProps> = ({
 
   return (
     <div
-      className={clsx(styles['zds-badge__container'])}
+      className={styles.badgeContainer}
     >
       <div
-        className={clsx(styles['zds-badge__status'], {
-          [styles['zds-badge__status__empty']]: isEmpty,
+        className={clsx(styles['badge__status'], {
+          [styles['badge__status__empty']]: isEmpty,
         }, className)}
         data-testid="badge-status"
       >
         {!isEmpty && (
           <span
-            className={styles['zds-badge__status-value']}
             aria-hidden={ariaLabel ? 'true' : 'false'}
           >
             {displayValue}

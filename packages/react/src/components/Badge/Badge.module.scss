@@ -1,8 +1,8 @@
-.zds-badge__container {
+.badgeContainer {
   position: relative;
 }
 
-.zds-badge {
+.badge {
   font-weight: var(--font-weight-bold);
   font-size: var(--font-size-12);
   position: absolute;
@@ -33,6 +33,16 @@
     span {
       color: var(--color-neutral-high-default) !important;
     }
+
+    &__empty {
+      width: 8px;
+      height: 8px;
+      background-color: var(--color-feedback-alert-default);
+      border-radius: var(--border-radius-pill);
+      padding: 0px;
+      top: -2px;
+      right: -2px;
+    }
   }
 
   &__small {
@@ -42,16 +52,4 @@
   &__large {
     padding: 0 var(--spacing-4);
   }
-}
-
-
-
-.zds-badge__status__empty {
-  width: 8px;
-  height: 8px;
-  background-color: var(--color-feedback-alert-default);
-  border-radius: var(--border-radius-pill);
-  padding: 0px;
-  top: -2px;
-  right: -2px;
 }
