@@ -2,12 +2,6 @@ import { ReactNode } from 'react';
 
 import {BaseProps} from '../../types';
 
-/** Tipos de badge suportados */
-export type BadgeType = 'notification' | 'status';
-
-/** Valores possíveis para exibição no badge */
-export type BadgeValue = number | string | null;
-
 /**
  * Props do componente Badge
  * @example
@@ -28,14 +22,14 @@ export type BadgeValue = number | string | null;
  * ```
  */
 export interface BadgeProps extends BaseProps {
-  /** Tipo de badge (notificação ou status) */
-  type: BadgeType;
+  /** Tipos de badge suportados */
+  type: 'notification' | 'status';
   
   /** Conteúdo a ser envolvido pelo badge */
   children?: ReactNode;
   
   /** Valor a ser exibido no badge (número, texto ou null) */
-  badgeValue?: BadgeValue;
+  badgeValue?: number | string | null;
   
   /** Label acessível para leitores de tela */
   'aria-label'?: string;
