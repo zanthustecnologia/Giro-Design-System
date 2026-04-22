@@ -18,7 +18,6 @@ const Callout: React.FC<CalloutProps> = ({
   textColor,
   className,
   id,
-  style,
   ...rest
 }) => {
   if (process.env.NODE_ENV !== 'production' && (text === '' || (typeof text === 'string' && !text.trim()))) {
@@ -41,7 +40,6 @@ const Callout: React.FC<CalloutProps> = ({
   const customStyle: React.CSSProperties = {
     ...(backgroundColor && { '--callout-bg': `var(--${backgroundColor})` } as React.CSSProperties),
     ...(textColor && { '--callout-text': `var(--${textColor})` } as React.CSSProperties),
-    ...style,
   };
 
   return (
@@ -51,7 +49,7 @@ const Callout: React.FC<CalloutProps> = ({
       role={isAlert ? 'alert' : 'status'}
       aria-live={isAlert ? 'assertive' : 'polite'}
       aria-labelledby={title ? titleId : undefined}
-      style={Object.keys(customStyle).length > 0 ? customStyle : style}
+      style={customStyle}
       {...rest}
     >
       <div className={styles.content}>
