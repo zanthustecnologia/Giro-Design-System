@@ -94,6 +94,16 @@ export const Default: Story = {
   } as any,
 };
 
+export const Removivel_DismissLabel: Story = {
+  name: 'Dismiss',
+  args: {
+    variant: 'neutral',
+    text: 'Esta notificação pode ser dispensada.',
+    dismiss: true,
+    onDismiss: () => {},
+  },
+};
+
 export const CoresCustomizadas: StoryFn = () => (
   <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
     <Callout
