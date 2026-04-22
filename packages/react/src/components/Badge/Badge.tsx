@@ -33,8 +33,8 @@ const Badge: React.FC<BadgeProps> = ({
         <div
           id={componentId}
           className={clsx(styles.badge, {
-            [styles['badge__small']]: displayValue.length <= 1,
-            [styles['badge__large']]: displayValue.length > 1,
+            [styles['badge__small']]: displayValue.length <= 2,
+            [styles['badge__large']]: displayValue.length > 2,
           }, className)}
           data-testid="badge-notification"
         >
