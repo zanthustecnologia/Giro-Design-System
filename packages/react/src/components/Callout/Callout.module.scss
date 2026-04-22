@@ -17,6 +17,19 @@
   }
 
   .dismiss {
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: stretch;
+    margin-left: auto;
+    flex-shrink: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--callout-text);
+    border-radius: var(--border-radius-4);
+
     &:focus-visible {
       outline: var(--border-width-2) solid var(--color-brand-primary-default);
       outline-offset: -2px;
@@ -78,18 +91,4 @@
   color: var(--callout-text);
   font-size: var(--font-size-16);
   font-weight: var(--font-weight-regular);
-}
-
-.dismiss {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  align-self: stretch;
-  margin-left: auto;
-  flex-shrink: 0;
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: var(--callout-text);
-  border-radius: var(--border-radius-4);
 }
