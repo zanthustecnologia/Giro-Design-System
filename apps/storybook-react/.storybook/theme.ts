@@ -18,7 +18,7 @@ export const ZanthusTheme = create({
 
   // Marca
   brandTitle: formatGiroVersion(),
-  brandUrl: 'https://giro.framer.website/',
+  brandUrl: undefined,
   brandImage: '/images/giro-logo.svg',
 
 
