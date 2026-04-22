@@ -30,18 +30,18 @@ const Badge: React.FC<BadgeProps> = ({
   if (type === 'notification') {
     return (
       <div className={styles.badgeContainer}>
-        <div
-          id={componentId}
-          className={clsx(styles.badge, {
-            [styles['badge__small']]: displayValue.length <= 2,
-            [styles['badge__large']]: displayValue.length > 2,
-          }, className)}
-          data-testid="badge-notification"
-        >
-          {!isEmpty && (
+        {!isEmpty && (
+          <div
+            id={componentId}
+            className={clsx(styles.badge, {
+              [styles['badge__small']]: displayValue.length <= 2,
+              [styles['badge__large']]: displayValue.length > 2,
+            }, className)}
+            data-testid="badge-notification"
+          >
             <span aria-hidden={!!ariaLabel}>{displayValue}</span>
-          )}
-        </div>
+          </div>
+        )}
         {children && (
           <div data-testid="badge-content">{children}</div>
         )}
