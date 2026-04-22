@@ -1,3 +1,9 @@
+import {
+  ChevronDown16Regular,
+  ChevronLeft16Regular,
+  ChevronRight16Regular,
+  ChevronUp16Regular,
+} from "@fluentui/react-icons";
 import { createContext, useContext, useState } from "react";
 import { DayPicker } from "react-day-picker";
 import { enUS, ptBR } from "react-day-picker/locale";
@@ -6,6 +12,28 @@ import styles from "./Calendar.module.scss";
 
 import type { CalendarProps } from "./Calendar.types";
 import type { MonthCaptionProps } from "react-day-picker";
+
+type ChevronOrientation = "up" | "down" | "left" | "right";
+
+const FLUENT_CHEVRON_MAP: Record<ChevronOrientation, React.ComponentType<{ className?: string; "aria-hidden"?: boolean }>> = {
+  down: ChevronDown16Regular,
+  up: ChevronUp16Regular,
+  left: ChevronLeft16Regular,
+  right: ChevronRight16Regular,
+};
+
+const CustomChevron = ({
+  orientation = "left",
+  className,
+}: {
+  className?: string;
+  size?: number;
+  disabled?: boolean;
+  orientation?: ChevronOrientation;
+}) => {
+  const Icon = FLUENT_CHEVRON_MAP[orientation];
+  return <Icon className={className} aria-hidden />;
+};
 
 type GridView = "days" | "months" | "years";
 
@@ -36,16 +64,11 @@ const GridMonthCaption = ({ calendarMonth, displayIndex: _displayIndex, ...divPr
         onClick={onYearLabelClick}
       >
         {yearLabel}
-        <svg
-          className={`${styles.caption_year_chevron}${view === "years" ? ` ${styles.caption_year_chevron_open}` : ""}`}
-          width="12"
-          height="12"
-          viewBox="0 0 12 12"
-          fill="none"
-          aria-hidden="true"
-        >
-          <path d="M2 4L6 8L10 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
+        {view !== "days" ? (
+          <ChevronUp16Regular className={styles.caption_year_chevron} aria-hidden />
+        ) : (
+          <ChevronDown16Regular className={styles.caption_year_chevron} aria-hidden />
+        )}
       </button>
     </div>
   );
@@ -185,7 +208,7 @@ const Calendar = ({
           captionLayout="label"
           month={resolvedDisplayMonth}
           onMonthChange={handleMonthChange}
-          components={{ MonthCaption: GridMonthCaption }}
+          components={{ MonthCaption: GridMonthCaption, Chevron: CustomChevron }}
         />
         {gridView !== "days" && (
           <div
@@ -207,16 +230,10 @@ const Calendar = ({
                     aria-label="Fechar seleção de mês"
                   >
                     {displayedYear}
-                    <svg
-                      className={`${styles.caption_year_chevron} ${styles.caption_year_chevron_open}`}
-                      width="12"
-                      height="12"
-                      viewBox="0 0 12 12"
-                      fill="none"
-                      aria-hidden="true"
-                    >
-                      <path d="M2 4L6 8L10 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
+                    <ChevronUp16Regular
+                      className={styles.caption_year_chevron}
+                      aria-hidden
+                    />
                   </button>
                 </div>
                 <div className={styles.gridCells}>
@@ -247,16 +264,10 @@ const Calendar = ({
                     aria-label="Fechar seleção de ano"
                   >
                     {displayedYear}
-                    <svg
-                      className={`${styles.caption_year_chevron} ${styles.caption_year_chevron_open}`}
-                      width="12"
-                      height="12"
-                      viewBox="0 0 12 12"
-                      fill="none"
-                      aria-hidden="true"
-                    >
-                      <path d="M2 4L6 8L10 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
+                    <ChevronUp16Regular
+                      className={styles.caption_year_chevron}
+                      aria-hidden
+                    />
                   </button>
                   <div className={styles.gridOverlayYearsNav}>
                     <button
@@ -266,9 +277,7 @@ const Calendar = ({
                       onClick={() => setYearPageStart((s) => s - YEARS_PER_PAGE)}
                       aria-label="Anos anteriores"
                     >
-                      <svg viewBox="0 0 12 12" aria-hidden="true" className={styles.chevronNavBtnPrev}>
-                        <path d="M2 4L6 8L10 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
+                      <ChevronLeft16Regular className={styles.chevronNavBtnPrev} aria-hidden />
                     </button>
                     <button
                       type="button"
@@ -277,9 +286,7 @@ const Calendar = ({
                       onClick={() => setYearPageStart((s) => s + YEARS_PER_PAGE)}
                       aria-label="Próximos anos"
                     >
-                      <svg viewBox="0 0 12 12" aria-hidden="true" className={styles.chevronNavBtnNext}>
-                        <path d="M2 4L6 8L10 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
+                      <ChevronRight16Regular className={styles.chevronNavBtnNext} aria-hidden />
                     </button>
                   </div>
                 </div>

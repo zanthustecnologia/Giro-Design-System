@@ -42,4 +42,8 @@ export interface PopoverProps {
 
  onCloseAutoFocus?: (event: Event) => void;
 
+ /** Quando `true`, exibe uma seta apontando para o trigger */
+
+ showArrow?: boolean;
+
 }

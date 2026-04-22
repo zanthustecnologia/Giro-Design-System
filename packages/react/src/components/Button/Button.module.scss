@@ -26,7 +26,6 @@
   min-height: $size;
   max-height: $size;
   flex-shrink: 0;
-  color: var(--color-neutral-high-default);
 }
 
 @mixin iconSize($size: 16px) {
@@ -43,11 +42,16 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  gap: var(--spacing-8);
   border-radius: var(--border-radius-8);
   box-shadow: none;
   padding: var(--spacing-0) var(--spacing-24);
   text-align: center;
-  transition: all 0.3s ease-in-out;
+  transition:
+    background-color 0.3s ease-in-out,
+    color 0.3s ease-in-out,
+    border-color 0.3s ease-in-out,
+    opacity 0.3s ease-in-out;
   cursor: pointer;
   box-sizing: border-box;
   
@@ -137,35 +141,22 @@
 }
 
 .button svg {
-  width: 16px !important;
-  height: 16px !important;
+  width: 16px;
+  height: 16px;
   flex-shrink: 0;
 }
 
-.button.button-filled.button-lg.buttonIconOnly,
-.button.button-outlined.button-lg.buttonIconOnly,
-.button.button-text.button-lg.buttonIconOnly {
-  @include iconOnlySize(44px);
-}
-
-.button.button-filled.button-sm.buttonIconOnly,
-.button.button-outlined.button-sm.buttonIconOnly,
-.button.button-text.button-sm.buttonIconOnly {
-  @include iconOnlySize(36px);
-}
 .button.buttonFullWidth {
-  width: 100% !important;
-  max-width: unset !important;
+  width: 100%;
+  max-width: unset;
 }
 
 .buttonIconLeft {
   display: flex;
-  margin-right: var(--spacing-8);
 }
 
 .buttonIconRight {
   display: flex;
-  margin-left: var(--spacing-8);
 }
 
 .button.buttonNoContent .buttonIconLeft,
@@ -173,8 +164,7 @@
   margin: var(--spacing-0);
 }
 
-.button:hover,
-.button:hover * {
+.button:hover {
   text-decoration: none;
 }
 
@@ -182,7 +172,8 @@
   background: var(--color-brand-primary-medium);
 }
 
-.button.button-filled:focus {
+.button.button-filled:focus-visible,
+.button.button-filled[data-state="open"] {
   outline: var(--border-width-4) solid var(--color-neutral-high-dark);
   outline-offset: var(--border-width-2);
 }
@@ -193,7 +184,8 @@
   outline: none;
 }
 
-.button.button-filled:disabled {
+.button.button-filled:disabled,
+.button.button-filled.disabled {
   background: var(--color-neutral-high-light);
   color: var(--color-neutral-low-light);
   cursor: not-allowed;
@@ -201,7 +193,7 @@
   outline: none;
 }
 
-.button.button-outlined * {
+.button.button-outlined {
   color: var(--color-brand-primary-default);
 }
 
@@ -210,25 +202,18 @@
   background-color: var(--color-neutral-high-medium);
 }
 
-.button.button-outlined:focus {
+.button.button-outlined:focus-visible,
+.button.button-outlined[data-state="open"] {
   outline: var(--border-width-4) solid var(--color-neutral-high-dark);
   outline-offset: var(--border-width-2);
   color: var(--color-brand-primary-default);
   background-color: var(--color-neutral-high-default);
 }
 
-.button.button-outlined:focus * {
-  color: var(--color-brand-primary-default);
-}
-
 .button.button-outlined:active {
   outline: none;
   color: var(--color-brand-primary-default);
   background-color: var(--color-neutral-high-dark);
-}
-
-.button.button-outlined:active * {
-  color: var(--color-brand-primary-default);
 }
 
 .button.button-outlined:disabled,
@@ -239,12 +224,7 @@
   background-color: var(--color-neutral-high-default);
 }
 
-.button.button-outlined:disabled *,
-.button.button-outlined.disabled * {
-  color: var(--color-neutral-high-dark);
-}
-
-.button.button-text * {
+.button.button-text {
   color: var(--color-brand-primary-default);
 }
 
@@ -253,7 +233,8 @@
   background-color: var(--color-neutral-high-medium);
 }
 
-.button.button-text:focus {
+.button.button-text:focus-visible,
+.button.button-text[data-state="open"] {
   outline: var(--border-width-4) solid var(--color-neutral-high-dark);
   outline-offset: var(--border-width-2);
   color: var(--color-brand-primary-default);
@@ -277,20 +258,13 @@
   }
 }
 
-.button.button-text:disabled *,
-.button.button-text.disabled * {
-  color: var(--color-neutral-high-dark);
-}
-
 @keyframes spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
 
 .buttonLoading {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  pointer-events: none;
 }
 
 .button.button-lg.buttonLoading {
@@ -319,15 +293,28 @@
   }
 }
 
-.buttonLoading span {
-  width: 16px;
-  height: 16px;
+.buttonContentHidden {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-8);
+  opacity: 0;
+  pointer-events: none;
+
+  @include iconSize(16px);
 }
 
-.buttonLoading {
+.buttonLoadingSpinner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   @include iconSize(16px);
-  
+
   svg {
+    transform-box: fill-box;
+    transform-origin: center;
     animation: spin 1s linear infinite;
   }
 }
