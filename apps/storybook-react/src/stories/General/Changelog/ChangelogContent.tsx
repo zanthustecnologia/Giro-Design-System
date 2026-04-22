@@ -6,8 +6,7 @@ import styles from './Changelog.module.scss';
 type Section = {
   type: 'major' | 'minor' | 'patch';
   label: string;
-  items: string[];
-  migrationUrl?: string;
+  rawContent: string;
 };
 
 type VersionEntry = {
@@ -16,10 +15,10 @@ type VersionEntry = {
   sections: Section[];
 };
 
-const SECTION_MAP: Record<string, { type: Section['type']; label: string }> = {
-  'Major Changes': { type: 'major', label: 'Breaking Changes' },
-  'Minor Changes': { type: 'minor', label: 'New Features' },
-  'Patch Changes': { type: 'patch', label: 'Fixes & Improvements' },
+const SECTION_TYPES: Record<string, Section['type']> = {
+  'Major Changes': 'major',
+  'Minor Changes': 'minor',
+  'Patch Changes': 'patch',
 };
 
 function parseChangelog(raw: string, packageName: string): VersionEntry[] {
@@ -42,41 +41,12 @@ function parseChangelog(raw: string, packageName: string): VersionEntry[] {
       const sectionMatch = sLines[0].match(/^### (.+)/);
       if (!sectionMatch) continue;
 
-      const rawType = sectionMatch[1].trim();
-      const meta = SECTION_MAP[rawType];
-      if (!meta) continue;
+      const label = sectionMatch[1].trim();
+      const type = SECTION_TYPES[label] ?? 'patch';
+      const rawContent = sLines.slice(1).join('\n').trim().replace(/^- [a-f0-9]{7,}: /gm, '- ');
 
-      const items: string[] = [];
-      let current = '';
-      let migrationUrl: string | undefined;
-
-      for (const line of sLines.slice(1)) {
-        if (line.match(/^- /)) {
-          if (current) items.push(current.trim());
-          const text = line.replace(/^- /, '').replace(/^[a-f0-9]{7,}: /, '').trim();
-          const isHeader = /^\*\*[^*]+\*\*:?\s*$/.test(text) || text.startsWith('#');
-          current = isHeader ? '' : text;
-        } else if (line.match(/^  - /)) {
-          if (current) items.push(current.trim());
-          current = line.replace(/^  - /, '').trim();
-        } else if (line.match(/^\s+\*\*[^*]+\*\*:?\s*$/)) {
-          // Indented bold sub-header (e.g. "  **New Features:**") — flush and skip
-          if (current) { items.push(current.trim()); current = ''; }
-        } else if (line.match(/^\s+/) && current) {
-          current += ' ' + line.trim();
-        } else if (!line.trim()) {
-          if (current) { items.push(current.trim()); current = ''; }
-        }
-      }
-      if (current) items.push(current.trim());
-
-      // Detect migration guide link
-      const allText = items.join(' ');
-      const migMatch = allText.match(/docs\/[^\s,)]+migration-guide[^\s,)]+\.md/);
-      if (migMatch) migrationUrl = migMatch[0];
-
-      if (items.length > 0) {
-        sections.push({ type: meta.type, label: meta.label, items, migrationUrl });
+      if (rawContent) {
+        sections.push({ type, label, rawContent });
       }
     }
 
@@ -86,6 +56,67 @@ function parseChangelog(raw: string, packageName: string): VersionEntry[] {
   }
 
   return entries;
+}
+
+function renderInline(text: string): string {
+  return text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/`([^`]+)`/g, '<code>$1</code>');
+}
+
+function RawContent({ content }: { content: string }) {
+  const lines = content.split('\n');
+  const elements: React.ReactNode[] = [];
+  let i = 0;
+
+  while (i < lines.length) {
+    const line = lines[i];
+
+    if (!line.trim()) { i++; continue; }
+
+    // Code fence
+    if (line.trimStart().startsWith('```')) {
+      const codeLines: string[] = [];
+      i++;
+      while (i < lines.length && !lines[i].trimStart().startsWith('```')) {
+        codeLines.push(lines[i]);
+        i++;
+      }
+      i++;
+      elements.push(
+        <pre key={i} className={styles.codeBlock}><code>{codeLines.join('\n')}</code></pre>
+      );
+      continue;
+    }
+
+    // Bullet at any indent level
+    const bulletMatch = line.match(/^(\s*)- (.*)/);
+    if (bulletMatch) {
+      const indent = bulletMatch[1].length;
+      const text = bulletMatch[2].replace(/^[a-f0-9]{7,}: /, '');
+      elements.push(
+        <div key={i} className={styles.bulletItem} style={{ paddingLeft: `${indent * 10}px` }}>
+          <span dangerouslySetInnerHTML={{ __html: renderInline(text) }} />
+        </div>
+      );
+      i++;
+      continue;
+    }
+
+    // Plain / indented text
+    const indent = line.match(/^(\s*)/)?.[1].length ?? 0;
+    elements.push(
+      <p key={i} className={styles.paragraph} style={{ paddingLeft: `${indent * 10}px` }}
+        dangerouslySetInnerHTML={{ __html: renderInline(line.trim()) }}
+      />
+    );
+    i++;
+  }
+
+  return <div className={styles.rawContent}>{elements}</div>;
 }
 
 function semverToNum(v: string) {
@@ -100,9 +131,9 @@ function formatDate(iso: string): string {
   return `${parseInt(day)} de ${months[parseInt(month) - 1]} de ${year}`;
 }
 
-const PACKAGE_CHIP_TYPE: Record<string, 'brand' | 'color' | 'neutral'> = {
+const PACKAGE_CHIP_TYPE: Record<string, 'brand' | 'success' | 'neutral'> = {
   '@giro-ds/react': 'brand',
-  '@giro-ds/tokens': 'color',
+  '@giro-ds/tokens': 'success',
   '@giro-ds/utilities': 'neutral',
 };
 
@@ -141,7 +172,7 @@ export function ChangelogContent() {
         // Change counts
         const counts = { major: 0, minor: 0, patch: 0 };
         entries.forEach((e) =>
-          e.sections.forEach((s) => { counts[s.type] += s.items.length; })
+          e.sections.forEach((s) => { counts[s.type]++; })
         );
 
         return (
@@ -178,37 +209,13 @@ export function ChangelogContent() {
                       <div key={section.type} className={`${styles.section} ${styles[section.type]}`}>
                         <div className={styles.sectionHeader}>
                           <span className={styles.sectionLabel}>{section.label}</span>
-                          <div className={styles.sectionHeaderRight}>
-                          {section.migrationUrl && (
-                            <a
-                              href={`https://github.com/zanthustecnologia/Giro-Design-System/blob/main/${section.migrationUrl}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className={styles.migrationLink}
-                            >
-                              Ver Migration Guide →
-                            </a>
-                          )}
                           {sectionIndex === 0 && (
-                            <Chips
-                              type={PACKAGE_CHIP_TYPE[entry.packageName]}
-                              title={entry.packageName}
-                            />
+                            <Chips variant={PACKAGE_CHIP_TYPE[entry.packageName]}>
+                              {entry.packageName}
+                            </Chips>
                           )}
-                          </div>
                         </div>
-                        <ul className={styles.list}>
-                          {section.items.map((item, i) => (
-                            <li
-                              key={i}
-                              dangerouslySetInnerHTML={{
-                                __html: item
-                                  .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-                                  .replace(/`(.+?)`/g, '<code>$1</code>'),
-                              }}
-                            />
-                          ))}
-                        </ul>
+                        <RawContent content={section.rawContent} />
                       </div>
                     ))}
                   </div>
