@@ -57,7 +57,7 @@ const preview = {
         Clicado {timesClicked} {timesClicked === 1 ? 'vez' : 'vezes'}
       </Button>
       <div style={{ marginTop: '14px', fontSize: '14px', color: 'var(--color-neutral-low-medium, #3f3f3f)' }}>
-        Não está vendo o editor? Pressione 'D' no teclado.
+        Não está vendo o editor? Pressione 'Alt + D' no teclado.
       </div>\n    </div>
   );
 }`,
