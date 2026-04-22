@@ -6,12 +6,8 @@ import styles from './Badge.module.scss';
 import type { BadgeProps} from './Badge.types';
 
 const getDisplayValue = (value: BadgeProps['badgeValue']): string => {
-  if (value === null || value === undefined || value === '') return '';
-  if (typeof value === 'number') {
-    if (value <= 0 || !isFinite(value)) return '';
-    return value > 99 ? '99+' : String(value);
-  }
-  return String(value).trim();
+  if (!value || !isFinite(value) || value <= 0) return '';
+  return value > 99 ? '99+' : String(value);
 };
 
 const Badge: React.FC<BadgeProps> = ({

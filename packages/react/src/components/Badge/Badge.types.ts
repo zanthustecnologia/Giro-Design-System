@@ -14,8 +14,8 @@ import {BaseProps} from '../../types';
  * ```tsx
  * <Badge 
  *   type="status" 
- *   badgeValue="novo"
- *   aria-label="Novo item disponível"
+ *   badgeValue={3}
+ *   aria-label="3 novos itens"
  * >
  *   <Avatar icon={<UserIcon />} />
  * </Badge>
@@ -28,8 +28,8 @@ export interface BadgeProps extends BaseProps {
   /** Conteúdo a ser envolvido pelo badge */
   children?: ReactNode;
   
-  /** Valor a ser exibido no badge (número, texto ou null) */
-  badgeValue?: number | string | null;
+  /** Valor a ser exibido no badge */
+  badgeValue?: number | null;
   
   /** Label acessível para leitores de tela */
   'aria-label'?: string;
