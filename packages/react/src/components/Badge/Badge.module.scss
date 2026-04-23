@@ -6,46 +6,48 @@
   font-weight: var(--font-weight-bold);
   font-size: var(--font-size-12);
   position: absolute;
-  top: 0;
-  right: 0;
+  top: var(--spacing-0);
+  right: var(--spacing-0);
   transform: translate(30%, -30%);
   transform-origin: 100% 0%;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid var(--color-neutral-high-light);
+  border: var(--border-width-2) solid var(--color-neutral-high-light);
   border-radius: var(--border-radius-pill);
   color: var(--color-neutral-high-light);
   background-color: var(--color-feedback-alert-default);
   font-family: var(--font-family-primary);
 
   &__status {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-left: var(--spacing-8);
-    height: 20px;
-    width: 20px;
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-12);
+    font-family: var(--font-family-primary);
     color: var(--color-neutral-high-light);
     background-color: var(--color-feedback-alert-default);
     border-radius: var(--border-radius-pill);
     border: var(--border-width-2) solid var(--color-neutral-high-default);
-    font-family: var(--font-family-primary);
+    margin-left: var(--spacing-8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 20px;
+    width: 20px;
 
     span {
-      color: var(--color-neutral-high-default) !important;
+      color: var(--color-neutral-high-default);
     }
 
     &__empty {
       width: 8px;
       height: 8px;
       border-radius: var(--border-radius-pill);
-      padding: 0px;
+      padding: var(--spacing-0);
     }
 
     &__large {
       height: 20px;
-      padding: 0px var(--spacing-4);
+      padding: var(--spacing-0) var(--spacing-4);
     }
 
     &__filterBadge {
@@ -60,6 +62,6 @@
 
   &__large {
     height: 16px;
-    padding: 0px var(--spacing-4);
+    padding: var(--spacing-0) var(--spacing-4);
   }
 }
