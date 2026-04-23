@@ -83,9 +83,6 @@ export const Notification: StoryFn<BadgeProps> = () => (
 
 export const Status: StoryFn<BadgeProps> = () => (
   <div style={{ display: 'flex', gap: '40px', alignItems: 'center' }}>
-    <Badge type="status" badgeValue="novo">
-      <Anchor />
-    </Badge>
     <Badge type="status" badgeValue={3}>
       <Anchor />
     </Badge>

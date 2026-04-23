@@ -2,6 +2,14 @@ import { ReactNode } from 'react';
 
 import {BaseProps} from '../../types';
 
+interface BadgeBaseProps extends BaseProps {
+  /** Conteúdo a ser envolvido pelo badge */
+  children?: ReactNode;
+
+  /** Label acessível para leitores de tela */
+  'aria-label'?: string;
+}
+
 /**
  * Props do componente Badge
  * @example
@@ -14,23 +22,21 @@ import {BaseProps} from '../../types';
  * ```tsx
  * <Badge 
  *   type="status" 
- *   badgeValue={3}
+ *   badgeValue="+3"
  *   aria-label="3 novos itens"
- * >
- *   <Avatar icon={<UserIcon />} />
- * </Badge>
+ * />
  * ```
  */
-export interface BadgeProps extends BaseProps {
-  /** Tipos de badge suportados */
-  type: 'notification' | 'status';
-  
-  /** Conteúdo a ser envolvido pelo badge */
-  children?: ReactNode;
-  
-  /** Valor a ser exibido no badge */
-  badgeValue?: number | null;
-  
-  /** Label acessível para leitores de tela */
-  'aria-label'?: string;
-}
+export type BadgeProps =
+  | (BadgeBaseProps & {
+      /** Tipo notification: exibe contador numérico */
+      type: 'notification';
+      /** Valor numérico exibido no badge */
+      badgeValue?: number | null;
+    })
+  | (BadgeBaseProps & {
+      /** Tipo status: aceita número ou string (ex: "+3") */
+      type: 'status';
+      /** Valor exibido no badge — aceita número ou string formatada */
+      badgeValue?: number | string | null;
+    });

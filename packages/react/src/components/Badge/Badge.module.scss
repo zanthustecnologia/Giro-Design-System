@@ -38,9 +38,14 @@
     &__empty {
       width: 8px;
       height: 8px;
-      background-color: var(--color-feedback-alert-default);
+      background-color: var(--color-brand-primary-default);
       border-radius: var(--border-radius-pill);
       padding: 0px;
+    }
+
+    &__large {
+      height: 20px;
+      padding: 0px var(--spacing-4);
     }
   }
 

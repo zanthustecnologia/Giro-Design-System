@@ -6,7 +6,9 @@ import styles from './Badge.module.scss';
 import type { BadgeProps} from './Badge.types';
 
 const getDisplayValue = (value: BadgeProps['badgeValue']): string => {
-  if (!value || !isFinite(value) || value <= 0) return '';
+  if (value === null || value === undefined) return '';
+  if (typeof value === 'string') return value;
+  if (!isFinite(value) || value <= 0) return '';
   return value > 99 ? '99+' : String(value);
 };
 
@@ -50,6 +52,7 @@ const Badge: React.FC<BadgeProps> = ({
       <div
         className={clsx(styles['badge__status'], {
           [styles['badge__status__empty']]: isEmpty,
+          [styles['badge__status__large']]: displayValue.length > 2,
         }, className)}
         data-testid="badge-status"
       >
