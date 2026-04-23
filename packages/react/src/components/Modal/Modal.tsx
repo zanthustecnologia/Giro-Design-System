@@ -21,10 +21,17 @@ const Modal: React.FC<ModalProps> = ({
   customWidth,
   fullscreen = false,
 }) => {
+  const contentRef = React.useRef<HTMLDivElement>(null);
+
   const handleOpenChange = (open: boolean): void => {
     if (!open) {
       onClose();
     }
+  };
+
+  const handleOpenAutoFocus = (e: Event): void => {
+    e.preventDefault();
+    contentRef.current?.focus();
   };
 
   return (
@@ -32,13 +39,16 @@ const Modal: React.FC<ModalProps> = ({
       <Dialog.Portal>
         <Dialog.Overlay className={styles.modalOverlay} />
         <Dialog.Content
+          ref={contentRef}
           className={clsx(styles.modalContent, fullscreen && styles['modalContent--fullscreen'], className)}
           id={id}
           style={{
             '--modal-custom-width': customWidth,
           } as React.CSSProperties}
           onInteractOutside={!closeOnOverlayClick ? (e) => e.preventDefault() : undefined}
+          onOpenAutoFocus={handleOpenAutoFocus}
           aria-labelledby={id ? `${id}-title` : 'modal-title'}
+          tabIndex={-1}
         >
           <div className={styles.modalHeader}>
             {title && (
