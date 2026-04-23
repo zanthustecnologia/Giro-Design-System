@@ -9,7 +9,7 @@ interface BadgeBaseProps extends BaseProps {
   /** Label acessível para leitores de tela */
   'aria-label'?: string;
   /** Prop que sinalisa se o Badge sera usado no FIlter ou não, pois no FIlter ele tem uma cor diferente */
-  tooFilter?: boolean;
+  filterVariant?: boolean;
 }
 
 /**

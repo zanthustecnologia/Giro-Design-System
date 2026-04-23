@@ -194,13 +194,13 @@ describe('Badge', () => {
         expect(badge.className).not.toMatch(/badge__status__large/);
       });
 
-      it('aplica badge__status__filterBadge quando tooFilter é true', () => {
-        render(<Badge type="status" tooFilter={true} />);
+      it('aplica badge__status__filterBadge quando filterVariant é true', () => {
+        render(<Badge type="status" filterVariant={true} />);
         const badge = screen.getByTestId('badge-status');
         expect(badge.className).toMatch(/badge__status__filterBadge/);
       });
 
-      it('não aplica badge__status__filterBadge quando tooFilter é false (padrão)', () => {
+      it('não aplica badge__status__filterBadge quando filterVariant é false (padrão)', () => {
         render(<Badge type="status" />);
         const badge = screen.getByTestId('badge-status');
         expect(badge.className).not.toMatch(/badge__status__filterBadge/);

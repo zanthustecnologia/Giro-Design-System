@@ -18,7 +18,7 @@ const Badge: React.FC<BadgeProps> = ({
   type = 'notification',
   className,
   id,
-  tooFilter = false,
+  filterVariant = false,
 
   'aria-label': ariaLabel,
 }) => {
@@ -55,7 +55,7 @@ const Badge: React.FC<BadgeProps> = ({
         className={clsx(styles['badge__status'], {
           [styles['badge__status__empty']]: isEmpty,
           [styles['badge__status__large']]: displayValue.length > 2,
-          [styles['badge__status__filterBadge']]: tooFilter,
+          [styles['badge__status__filterBadge']]: filterVariant,
         }, className)}
         data-testid="badge-status"
       >
