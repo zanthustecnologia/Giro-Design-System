@@ -30,6 +30,9 @@ const Badge: React.FC<BadgeProps> = ({
   if (type === 'notification') {
     return (
       <div className={styles.badgeContainer}>
+        {children && (
+          <div data-testid="badge-content">{children}</div>
+        )}
         {!isEmpty && (
           <div
             id={componentId}
@@ -41,9 +44,6 @@ const Badge: React.FC<BadgeProps> = ({
           >
             <span aria-hidden={!!ariaLabel}>{displayValue}</span>
           </div>
-        )}
-        {children && (
-          <div data-testid="badge-content">{children}</div>
         )}
       </div>
     );
