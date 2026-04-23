@@ -26,8 +26,9 @@
     margin-left: var(--spacing-8);
     height: 20px;
     width: 20px;
+    color: var(--color-neutral-high-light);
+    background-color: var(--color-feedback-alert-default);
     border-radius: var(--border-radius-pill);
-    background-color: var(--color-brand-primary-default);
     border: var(--border-width-2) solid var(--color-neutral-high-default);
     font-family: var(--font-family-primary);
 
@@ -38,7 +39,6 @@
     &__empty {
       width: 8px;
       height: 8px;
-      background-color: var(--color-brand-primary-default);
       border-radius: var(--border-radius-pill);
       padding: 0px;
     }
@@ -46,6 +46,10 @@
     &__large {
       height: 20px;
       padding: 0px var(--spacing-4);
+    }
+
+    &__filterBadge {
+      background-color: var(--color-brand-primary-default);
     }
   }
 

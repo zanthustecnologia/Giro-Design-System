@@ -8,6 +8,8 @@ interface BadgeBaseProps extends BaseProps {
 
   /** Label acessível para leitores de tela */
   'aria-label'?: string;
+  /** Prop que sinalisa se o Badge sera usado no FIlter ou não, pois no FIlter ele tem uma cor diferente */
+  tooFilter?: boolean;
 }
 
 /**
@@ -39,4 +41,6 @@ export type BadgeProps =
       type: 'status';
       /** Valor exibido no badge — aceita número ou string formatada */
       badgeValue?: number | string | null;
+
+      
     });
