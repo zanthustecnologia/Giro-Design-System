@@ -180,7 +180,7 @@ export function ChangelogContent() {
             <div className={styles.versionHeadingBtn}>
               <div className={styles.versionLeft}>
                 <span className={styles.versionNumber}>v{version}</span>
-                {isLatest && <span className={styles.latestBadge}>Latest</span>}
+                {isLatest && <span className={styles.latestBadge}>Mais recente</span>}
                 {date && <span className={styles.versionDate}>{formatDate(date)}</span>}
               </div>
               <div className={styles.versionRight}>
