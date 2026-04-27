@@ -28,29 +28,32 @@ import { Badge } from '@giro-ds/react';
 <UsageGuidelines
   guidelines={[
     <>
-      Use <code>type="notification"</code> para exibir contagens, como mensagens não lidas ou alertas.
+      Passe <code>children</code> para o Badge quando quiser sobrepor o indicador a outro elemento (modo overlay).
     </>,
     <>
-      Use <code>type="status"</code> para indicar um estado do elemento, como "novo" ou "ativo".
+      Use o Badge sem <code>children</code> quando precisar de um indicador standalone ao lado de outros elementos (modo inline).
     </>,
     <>
-      Quando <code>badgeValue</code> for <code>null</code> ou <code>0</code>, o badge é exibido sem valor (apenas o ponto indicador).
+      Quando <code>badgeValue</code> for <code>null</code>, <code>0</code> ou negativo no modo overlay, o badge não é exibido. No modo inline, é exibido como ponto.
     </>,
     <>
       Valores numéricos acima de 99 são automaticamente exibidos como <code>99+</code>.
+    </>,
+    <>
+      Use <code>filterVariant</code> no modo inline para aplicar a cor da marca (usado em filtros).
     </>,
   ]}
 />
 
 ## Variações
 
-### Notificação
+### Overlay (com children)
 
-<Canvas of={BadgeStories.Notification} />
+<Canvas of={BadgeStories.Overlay} />
 
-### Status
+### Inline (sem children)
 
-<Canvas of={BadgeStories.Status} />
+<Canvas of={BadgeStories.Inline} />
 
 ## O que fazer e não fazer
 
@@ -59,7 +62,7 @@ import { Badge } from '@giro-ds/react';
     {
       positive: {
         component: (
-          <Badge type="notification" badgeValue={5}>
+          <Badge badgeValue={5}>
             <div style={{ width: 40, height: 40, borderRadius: 8, backgroundColor: '#e0e0e0' }} />
           </Badge>
         ),
@@ -67,15 +70,15 @@ import { Badge } from '@giro-ds/react';
       },
       negative: {
         component: (
-          <Badge type="notification" badgeValue={5} />
+          <Badge badgeValue={5} />
         ),
-        description: 'Evite usar o Badge sem um elemento filho. Ele deve sempre estar associado a um componente.',
+        description: 'Evite usar o Badge sem children quando a intenção é sobrepor um elemento. Use children para o modo overlay.',
       },
     },
     {
       positive: {
         component: (
-          <Badge type="notification" badgeValue={99}>
+          <Badge badgeValue={99}>
             <div style={{ width: 40, height: 40, borderRadius: 8, backgroundColor: '#e0e0e0' }} />
           </Badge>
         ),
@@ -83,7 +86,7 @@ import { Badge } from '@giro-ds/react';
       },
       negative: {
         component: (
-          <Badge type="notification" badgeValue={9999}>
+          <Badge badgeValue={9999}>
             <div style={{ width: 40, height: 40, borderRadius: 8, backgroundColor: '#e0e0e0' }} />
           </Badge>
         ),

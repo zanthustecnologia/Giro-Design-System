@@ -13,12 +13,11 @@ export default {
     layout: 'centered',
   },
   argTypes: {
-    type: {
-      control: { type: 'select' },
-      options: ['notification', 'status'],
-    },
     badgeValue: {
       control: { type: 'text' },
+    },
+    filterVariant: {
+      control: { type: 'boolean' },
     },
     'aria-label': {
       control: { type: 'text' },
@@ -54,40 +53,39 @@ const Template: StoryFn<BadgeProps> = (args) => (
 
 export const Default = Template.bind({});
 Default.args = {
-  type: 'notification',
   badgeValue: 5,
 };
 
-export const Notification: StoryFn<BadgeProps> = () => (
+export const Overlay: StoryFn<BadgeProps> = () => (
   <div style={{ display: 'flex', gap: '40px', alignItems: 'center' }}>
-    <Badge type="notification" badgeValue={1}>
+    <Badge badgeValue={1}>
       <Anchor />
     </Badge>
-    <Badge type="notification" badgeValue={9}>
+    <Badge badgeValue={9}>
       <Anchor />
     </Badge>
-    <Badge type="notification" badgeValue={10}>
+    <Badge badgeValue={10}>
       <Anchor />
     </Badge>
-    <Badge type="notification" badgeValue={99}>
+    <Badge badgeValue={99}>
       <Anchor />
     </Badge>
-    <Badge type="notification" badgeValue={100}>
+    <Badge badgeValue={100}>
       <Anchor />
     </Badge>
-    <Badge type="notification" badgeValue={null}>
+    <Badge badgeValue={null}>
       <Anchor />
     </Badge>
   </div>
 );
+Overlay.storyName = 'Overlay (com children)';
 
-export const Status: StoryFn<BadgeProps> = () => (
+export const Inline: StoryFn<BadgeProps> = () => (
   <div style={{ display: 'flex', gap: '40px', alignItems: 'center' }}>
-    <Badge type="status" badgeValue={3}>
-      <Anchor />
-    </Badge>
-    <Badge type="status" badgeValue={null}>
-      <Anchor />
-    </Badge>
+    <Badge badgeValue={3} />
+    <Badge badgeValue="+5" />
+    <Badge badgeValue={null} />
+    <Badge badgeValue={3} filterVariant />
   </div>
 );
+Inline.storyName = 'Inline (sem children)';

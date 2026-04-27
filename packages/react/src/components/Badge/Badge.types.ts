@@ -1,46 +1,29 @@
 import { ReactNode } from 'react';
 
-import {BaseProps} from '../../types';
-
-interface BadgeBaseProps extends BaseProps {
-  /** Conteúdo a ser envolvido pelo badge */
-  children?: ReactNode;
-
-  /** Label acessível para leitores de tela */
-  'aria-label'?: string;
-  /** Prop que sinalisa se o Badge sera usado no FIlter ou não, pois no FIlter ele tem uma cor diferente */
-  filterVariant?: boolean;
-}
+import { BaseProps } from '../../types';
 
 /**
  * Props do componente Badge
  * @example
  * ```tsx
- * <Badge type="notification" badgeValue={5}>
+ * // Modo overlay: badge flutua sobre o children
+ * <Badge badgeValue={5}>
  *   <IconButton icon={<BellIcon />} />
  * </Badge>
  * ```
  * @example
  * ```tsx
- * <Badge 
- *   type="status" 
- *   badgeValue="+3"
- *   aria-label="3 novos itens"
- * />
+ * // Modo inline: badge standalone ao lado de outros elementos
+ * <Badge badgeValue="+3" aria-label="3 novos itens" />
  * ```
  */
-export type BadgeProps =
-  | (BadgeBaseProps & {
-      /** Tipo notification: exibe contador numérico */
-      type: 'notification';
-      /** Valor numérico exibido no badge */
-      badgeValue?: number | null;
-    })
-  | (BadgeBaseProps & {
-      /** Tipo status: aceita número ou string (ex: "+3") */
-      type: 'status';
-      /** Valor exibido no badge — aceita número ou string formatada */
-      badgeValue?: number | string | null;
-
-      
-    });
+export interface BadgeProps extends BaseProps {
+  /** Conteúdo a ser envolvido pelo badge. Quando presente, o badge é posicionado sobre o children (modo overlay). */
+  children?: ReactNode;
+  /** Valor exibido no badge — aceita número ou string formatada (ex: "+3") */
+  badgeValue?: number | string | null;
+  /** Label acessível para leitores de tela */
+  'aria-label'?: string;
+  /** Prop que sinaliza se o Badge será usado no Filter ou não, pois no Filter ele tem uma cor diferente */
+  filterVariant?: boolean;
+}

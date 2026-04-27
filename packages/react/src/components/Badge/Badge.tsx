@@ -3,7 +3,7 @@ import React, { useId } from 'react';
 
 import styles from './Badge.module.scss';
 
-import type { BadgeProps} from './Badge.types';
+import type { BadgeProps } from './Badge.types';
 
 const getDisplayValue = (value: BadgeProps['badgeValue']): string => {
   if (value === null || value === undefined) return '';
@@ -15,7 +15,6 @@ const getDisplayValue = (value: BadgeProps['badgeValue']): string => {
 const Badge: React.FC<BadgeProps> = ({
   children,
   badgeValue = null,
-  type = 'notification',
   className,
   id,
   filterVariant = false,
@@ -27,24 +26,21 @@ const Badge: React.FC<BadgeProps> = ({
   const displayValue = getDisplayValue(badgeValue);
   const isEmpty = displayValue === '';
 
-  if (type === 'notification') {
+  if (children) {
     return (
       <div className={styles.badgeContainer}>
-        {children && (
-          <div data-testid="badge-content">{children}</div>
-        )}
-        {!isEmpty && (
-          <div
-            id={componentId}
-            className={clsx(styles.badge, {
-              [styles['badge__small']]: displayValue.length <= 1,
-              [styles['badge__large']]: displayValue.length >= 2,
-            }, className)}
-            data-testid="badge-notification"
-          >
-            <span aria-hidden={!!ariaLabel}>{displayValue}</span>
-          </div>
-        )}
+        <div data-testid="badge-content">{children}</div>
+        <div
+          id={componentId}
+          className={clsx(styles.badge, {
+            [styles['badge__empty']]: isEmpty,
+            [styles['badge__small']]: !isEmpty && displayValue.length <= 1,
+            [styles['badge__large']]: !isEmpty && displayValue.length >= 2,
+          }, className)}
+          data-testid="badge"
+        >
+          {!isEmpty && <span aria-hidden={!!ariaLabel}>{displayValue}</span>}
+        </div>
       </div>
     );
   }
@@ -57,7 +53,7 @@ const Badge: React.FC<BadgeProps> = ({
           [styles['badge__status__large']]: displayValue.length >= 2,
           [styles['badge__status__filterBadge']]: filterVariant,
         }, className)}
-        data-testid="badge-status"
+        data-testid="badge"
       >
         {!isEmpty && (
           <span aria-hidden={!!ariaLabel}>{displayValue}</span>
