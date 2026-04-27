@@ -34,8 +34,7 @@ const Badge: React.FC<BadgeProps> = ({
           id={componentId}
           className={clsx(styles.badge, {
             [styles['badge__empty']]: isEmpty,
-            [styles['badge__small']]: !isEmpty && displayValue.length <= 1,
-            [styles['badge__large']]: !isEmpty && displayValue.length >= 2,
+            [styles['badge__flex']]: displayValue.length >= 2,
           }, className)}
           data-testid="badge"
         >
@@ -50,7 +49,7 @@ const Badge: React.FC<BadgeProps> = ({
       <div
         className={clsx(styles['badge__status'], {
           [styles['badge__status__empty']]: isEmpty,
-          [styles['badge__status__large']]: displayValue.length >= 2,
+          [styles['badge__status__flex']]: displayValue.length >= 2,
           [styles['badge__status__filterBadge']]: filterVariant,
         }, className)}
         data-testid="badge"

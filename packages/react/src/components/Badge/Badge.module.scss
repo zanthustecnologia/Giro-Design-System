@@ -24,6 +24,8 @@
   right: var(--spacing-0);
   transform: translate(30%, -30%);
   transform-origin: 100% 0%;
+  width: 20px;
+  height: 20px;
 
   &__empty {
     width: 8px;
@@ -31,13 +33,8 @@
     padding: var(--spacing-0);
   }
 
-  &__small {
-    width: 20px;
-    height: 20px;
-  }
-
-  &__large {
-    height: 20px;
+  &__flex {
+    width: auto;
     padding: var(--spacing-0) var(--spacing-4);
   }
 }
@@ -55,7 +52,7 @@
     padding: var(--spacing-0);
   }
 
-  &__large {
+  &__flex {
     width: auto;
     padding: var(--spacing-0) var(--spacing-4);
   }
