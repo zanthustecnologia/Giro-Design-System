@@ -101,10 +101,8 @@ describe('Avatar', () => {
   describe('Estrutura do componente', () => {
     it('renderiza com a estrutura DOM correta', () => {
       const { container } = render(<Avatar icon={<MockIcon />} />);
-      const wrapper = container.firstChild;
-      const avatarRoot = wrapper?.firstChild as HTMLElement;
-      
-      expect(wrapper?.nodeName).toBe('DIV');
+      const avatarRoot = container.firstChild as HTMLElement;
+
       const className = avatarRoot?.className || '';
       expect(className).toMatch(/AvatarRoot/);
     });

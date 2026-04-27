@@ -25,7 +25,6 @@ const Avatar: React.FC<AvatarProps> = ({
   );
 
   return (
-    <div>
       <AvatarRadix.Root className={AvatarClass} {...rest}>
         {src && (
             <AvatarRadix.Image
@@ -38,7 +37,6 @@ const Avatar: React.FC<AvatarProps> = ({
           {icon || initialLetters}
         </AvatarRadix.Fallback>
       </AvatarRadix.Root>
-    </div>
   );
 };
 
