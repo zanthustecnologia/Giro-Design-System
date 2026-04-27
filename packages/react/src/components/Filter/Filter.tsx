@@ -176,7 +176,7 @@ const Filter: React.FC<FilterProps> = ({
         <span className={styles.buttonText}>{buttonDisplayText}</span>
         <span className={clsx(styles.buttonArrow, { [styles.buttonArrowOpen]: isOpen })}>
           {getBadgeValue() && (
-            <Badge badgeValue={`+${getBadgeValue()}`} type="status" filterVariant />
+            <Badge badgeValue={`+${getBadgeValue()}`} filterVariant />
           )}
         </span>
       </div>
