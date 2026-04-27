@@ -7,7 +7,13 @@ import type { BadgeProps } from './Badge.types';
 
 const getDisplayValue = (value: BadgeProps['badgeValue']): string => {
   if (value === null || value === undefined) return '';
-  if (typeof value === 'string') return value;
+  if (typeof value === 'string') {
+    const parsed = Number(value);
+    if (isFinite(parsed) && parsed > 0 && String(parsed) === value) {
+      return parsed > 99 ? '99+' : value;
+    }
+    return value;
+  }
   if (!isFinite(value) || value <= 0) return '';
   return value > 99 ? '99+' : String(value);
 };
