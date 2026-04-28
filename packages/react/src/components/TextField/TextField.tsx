@@ -33,7 +33,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
       onFocus,
       name,
       persistIcon = false,
-      ...inputProps
+      ...rest
     },
     ref
   ) => {
@@ -143,7 +143,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
         <div className={styles.inputWrapper}>
           <div className={styles.inputContainer}>
             <input
-              {...inputProps}
+              {...rest}
               ref={ref}
               id={componentId}
               name={name}
