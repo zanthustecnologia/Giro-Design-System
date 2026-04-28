@@ -10,6 +10,7 @@ const Switch: React.FC<SwitchProps> = ({
 	defaultChecked = false,
 	checked,
 	onCheckedChange,
+	className,
 	...rest
 }) => (
 		<div className={clsx(styles.container)}>
