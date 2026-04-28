@@ -46,4 +46,7 @@ export interface PopoverProps {
 
  showArrow?: boolean;
 
+ /** Classe CSS opcional */
+  className?: string;
+
 }

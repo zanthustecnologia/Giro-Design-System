@@ -16,9 +16,11 @@ const Popover: React.FC<PopoverProps> = ({
   onOpenAutoFocus,
   onCloseAutoFocus,
   showArrow = false,
+  className,
+  ...rest
 }) => {
   return (
-    <PopoverRadix.Root open={open} onOpenChange={onOpenChange}>
+    <PopoverRadix.Root open={open} onOpenChange={onOpenChange} {...rest}>
       {asAnchor ? (
         <PopoverRadix.Anchor asChild>
           {trigger}
