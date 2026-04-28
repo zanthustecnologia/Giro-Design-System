@@ -20,6 +20,7 @@ const Modal: React.FC<ModalProps> = ({
   footer,
   customWidth,
   fullscreen = false,
+  ...rest
 }) => {
   const contentRef = React.useRef<HTMLDivElement>(null);
 
@@ -35,7 +36,7 @@ const Modal: React.FC<ModalProps> = ({
   };
 
   return (
-    <Dialog.Root open={isOpen} onOpenChange={handleOpenChange}>
+    <Dialog.Root open={isOpen} onOpenChange={handleOpenChange} {...rest}>
       <Dialog.Portal>
         <Dialog.Overlay className={styles.modalOverlay} />
         <Dialog.Content
