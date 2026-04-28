@@ -91,6 +91,7 @@ const Calendar = ({
   format: _format,
   locale = "pt-br",
   autoFocus,
+  className,
   id,
   "aria-label": ariaLabel,
   ...rest
