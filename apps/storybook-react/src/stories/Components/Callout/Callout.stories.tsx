@@ -16,8 +16,6 @@ interface CalloutStoryArgs {
   text: string;
   title: string;
   icon: boolean;
-  showText: boolean;
-  showTitle: boolean;
 }
 
 const meta: Meta<typeof Callout> = {
@@ -34,19 +32,11 @@ const meta: Meta<typeof Callout> = {
       control: { type: 'select' },
       options: ['neutral', 'brand', 'color', 'alert', 'success'],
     },
-    showText: {
-      control: { type: 'boolean' },
-    },
-    showTitle: {
-      control: { type: 'boolean' },
-    },
     title: {
       control: { type: 'text' },
-      if: { arg: 'showTitle', truthy: true },
     },
     text: {
       control: { type: 'text' },
-      if: { arg: 'showText', truthy: true },
     },
     icon: {
       control: { type: 'boolean' },
@@ -71,8 +61,6 @@ export const Default: Story = {
     text: 'Este recurso estará disponível a partir da próxima versão.',
     title: 'Em breve',
     icon: false,
-    showText: true,
-    showTitle: false,
   },
 };
 
