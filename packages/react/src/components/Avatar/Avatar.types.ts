@@ -22,4 +22,6 @@ export interface AvatarProps extends BaseProps {
   src?: string;
   /** Texto alternativo da imagem do avatar, usado como as iniciais do nome */
   initialLetters?: string;
+/** Classe CSS opcional */
+  className?: string;
 }
