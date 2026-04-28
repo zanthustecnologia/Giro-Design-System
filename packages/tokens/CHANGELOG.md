@@ -17,7 +17,6 @@
   - Formatos: CSS, SCSS, JavaScript
   - Geração via Style Dictionary
 
----
 
 ## Histórico anterior (@zanthus/tokens)
 

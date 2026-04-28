@@ -4,111 +4,67 @@
 
 Execute: `pnpm changeset`
 
-Ao escrever a mensagem do changeset, siga o template abaixo.
+---
+
+## Regras
+
+- Idioma: português
+- Um changeset = um componente ou escopo
+- Sem emojis, sem prefixos de commit (`feat:`, `fix:`), sem hashes
+- Destaque o componente em negrito: `**NomeComponente**:`
+- Sub-listas: no máximo 2 níveis de indentação
 
 ---
 
-## 📝 Regras de Escrita
-
-- ✅ **Idioma:** Sempre em português
-- ❌ **Sem emojis:** Nunca use emojis (🎉, 💥, ✨, etc)
-- ❌ **Sem hashes:** Nunca inclua códigos de commit
-- ❌ **Sem UPPERCASE excessivo:** Use capitalização normal
-- ❌ **Sem prefixos de commit:** Nunca use "feat:", "fix:", "refactor:", "docs:"
-- ✅ **Use negrito:** Para destacar componentes/features: `**NomeComponente**:`
-- ✅ **Use listas:** Organize mudanças com `-` e sub-listas quando necessário
-
----
-
-## 📋 Templates por Tipo de Mudança
-
-### **Patch Changes** (bug fixes, pequenas melhorias)
+## Patch — bug fix ou melhoria pequena
 
 ```markdown
 **NomeComponente**: Corrige [problema específico]
 ```
 
-**Exemplos:**
+Para múltiplas correções no mesmo escopo:
+
 ```markdown
-**TextField**: Corrige erro ao digitar valores numéricos
-**Select**: Resolve problema de navegação por teclado
-**Table**: Ajusta comportamento do "selecionar todos" para respeitar checkboxes desabilitados
+**NomeComponente**: Corrige [problema A] e [problema B]
+- Detalhe adicional se necessário
+- Outro detalhe
 ```
 
 ---
 
-### **Minor Changes** (novas features, não-breaking)
+## Minor — nova feature, sem breaking change
 
 ```markdown
-**NomeFeature**: Adiciona [nova funcionalidade] com suporte a [detalhe]
-```
-
-**Exemplos:**
-```markdown
-**Button**: Adiciona tooltip automático para modo iconOnly com novas props
-**Sistema de Classes Utilitárias**: Adiciona sistema abrangente de classes utilitárias com suporte responsivo
-**TextArea**: Novo componente com suporte completo a formulários (label, validação, contador de caracteres)
+**NomeComponente**: Adiciona [funcionalidade]
+- Detalhe 1
+- Detalhe 2
 ```
 
 ---
 
-### **Major Changes** (breaking changes)
+## Major — breaking change
 
 ```markdown
-**NomeComponente**: [Descrição da mudança quebrada]
-- **Removido**: Props/features removidas
-- **Alterado**: O que foi modificado (prop antiga → nova)
-- **Por quê**: Justificativa técnica/UX
-- **Como migrar**: Instruções com exemplos de código
-```
-
-**Exemplo:**
-```markdown
-**Calendar**: Migrado para react-day-picker v9
-- **Removido**: Exports de tipos internos (DayItem, EmptyItem, CalendarItem, YearItem)
-- **Alterado**: Prop `selectedDate` → `selected`, prop `currentDate` agora é opcional
-- **Por quê**: Alinhamento com biblioteca padrão da comunidade e melhor manutenibilidade
+**NomeComponente**: [Descrição objetiva da mudança]
+- **Removido**: [o que foi removido]
+- **Alterado**: [antes] → [depois]
 - **Como migrar**:
   ```tsx
   // Antes
-  <Calendar selectedDate={date} currentDate={new Date()} />
-  
+  <Componente propAntiga={value} />
+
   // Depois
-  <Calendar selected={date} />
+  <Componente propNova={value} />
   ```
 ```
 
----
-
-## 🎯 Estrutura Completa para Major Changes
-
-Quando houver múltiplas breaking changes, agrupe por componente:
-
-```markdown
-**BREAKING CHANGE**: [Título resumido da release]
-- **Componente1**: Mudança específica
-  - **Removido**: Lista de remoções
-  - **Alterado**: Lista de alterações
-  - **Como migrar**: Exemplo de código
-- **Componente2**: Outra mudança
-  - Detalhes...
-- **Novidades**: (se aplicável)
-  - **ComponenteNovo**: Descrição do novo componente
-```
+> Para múltiplos componentes quebrando na mesma versão, crie um changeset separado por componente.
 
 ---
 
-## ✅ Checklist Antes de Commitar
+## Checklist
 
-- [ ] Escrevi em português?
-- [ ] Removi todos os emojis?
-- [ ] Removi prefixos como "feat:", "fix:"?
-- [ ] Destaquei componentes com **negrito**?
-- [ ] Adicionei exemplos de código para breaking changes?
-- [ ] A descrição está clara e objetiva?
-
----
-
-## 📚 Referência
-
-Veja o CHANGELOG.md do pacote @giro-ds/react versão 5.0.0 como exemplo de boa formatação.
+- [ ] Um único componente ou escopo por changeset?
+- [ ] Escrito em português?
+- [ ] Sem emojis e sem prefixos de commit?
+- [ ] Breaking change com exemplo de migração?
