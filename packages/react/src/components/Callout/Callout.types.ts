@@ -34,6 +34,9 @@ export interface CalloutProps extends BaseProps {
   
   /** Ícone a ser exibido no callout */
   icon?: React.ReactNode;
+
+  /** Classe CSS opcional */
+  className?: string;
   
   /** Props adicionais para o elemento div */
   [key: string]: any;
