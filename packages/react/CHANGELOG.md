@@ -1,5 +1,14 @@
 # @giro-ds/react
 
+## 6.0.2
+
+### Patch Changes
+
+- **Tipos**: Adiciona JSDoc em tipos compartilhados e corrige extensões de arquivo
+  - JSDoc adicionado em `common.types.ts`, `Avatar.types.ts`, `Tooltip.types.ts`, `Dialog.types.ts`, `Calendar.types.ts`, `DatePicker.types.ts` e `Filter.types.ts`
+  - Descrição da prop `locale` corrigida para "Idioma" em Calendar, DatePicker e Filter
+  - Extensão corrigida de `.tsx` para `.ts` nos arquivos de tipos de Menu, Modal, Popover e TextArea
+
 ## 6.0.1
 
 ### Patch Changes
@@ -17,6 +26,7 @@
   - **Alterado**: `title` → `children` (agora aceita ReactNode)
   - **Adicionado**: Props `backgroundColor` e `foregroundColor` para cores customizadas
   - **Como migrar**:
+
     ```tsx
     // Antes
     <Chips type="success" title="Ativo" />
@@ -26,6 +36,7 @@
     <Chips variant="success">Ativo</Chips>
     <Chips backgroundColor="color-brand-secondary-medium">Cor customizada</Chips>
     ```
+
 - **Modal**: Novo componente baseado em Radix UI Dialog com suporte a título, header customizado, footer, largura customizada e modo fullscreen
 - **Quantity**: Adicionadas props de controle de limites e acessibilidade
   - Props `minValue` e `maxValue` para limites configuráveis
@@ -176,6 +187,7 @@
   - **Removido**: Props `name`, `value`, `ariaDescribedby`
   - **Alterado**: `onChange` → `onCheckedChange`
   - **Como migrar**:
+
     ```tsx
     // Antes
     <Checkbox onChange={(e) => setValue(e.target.checked)} name="myCheckbox" value="myValue" />
@@ -183,8 +195,10 @@
     // Depois
     <Checkbox onCheckedChange={(checked) => setValue(checked)} />
     ```
+
 - **Radio**: Redesign completo da API para `RadioGroup` com padrão de array `items`
   - **Como migrar**:
+
     ```tsx
     // Antes
     <Radio checked={value === 'option1'} onChange={(val) => setValue(val)} value="option1" label="Option 1" />
@@ -192,9 +206,11 @@
     // Depois
     <Radio items={[{ value: 'option1', label: 'Option 1' }]} onValueChange={(val) => setValue(val)} defaultValue="option1" />
     ```
+
 - **Tooltip**: Migrado para Radix UI
   - **Alterado**: Prop `position` → `side` + `align`
   - **Como migrar**:
+
     ```tsx
     // Antes
     <Tooltip position="top-right" text="Info"><Button /></Tooltip>
@@ -202,6 +218,7 @@
     // Depois
     <Tooltip side="top" align="start" text="Info"><Button /></Tooltip>
     ```
+
 - **Switch**: Novo componente adicionado
 - **Implementações antigas**: Movidas para pasta `.deprecated`
 
@@ -243,7 +260,6 @@
   - Migração de `@zanthus/components-react` para `@giro-ds/react`
   - Biblioteca completa de componentes React do Zanthus Design System
   - Componentes disponíveis: Avatar, Badge, Button, Calendar, Callout, Checkbox, CheckboxRadix, Chips, Container, DatePicker, Dialog, Drawer, Dropdown, Filter, ListItem, Menu, MenuRadix, Quantity, Radio, RadioRadix, Search, Select, SelectField, SelectRadix, Table, TextField, Toast, Tooltip, VerificationCode
-
 
 ## Histórico anterior (@zanthus/components-react)
 
