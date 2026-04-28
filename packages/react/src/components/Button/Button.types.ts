@@ -59,6 +59,11 @@ type ButtonOwnPropsBase = {
   /** Alinhamento do tooltip */
   tooltipAlign?: 'start' | 'center' | 'end';
 
+  /**
+   * Classe CSS adicional para customização. Use com moderação e prefira as variantes e estilos pré-definidos do design system.
+   */
+  className?: string;
+
   /** Handler de clique; tipado em HTMLElement para ser compatível com todos os modos */
   onClick?: React.MouseEventHandler<HTMLElement>;
 } & BaseProps;

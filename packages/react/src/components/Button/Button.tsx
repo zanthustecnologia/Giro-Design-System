@@ -31,7 +31,7 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPro
   tooltipText,
   tooltipSide = 'top',
   tooltipAlign = 'center',
-  ...restProps
+  ...rest
 }, ref) => {
 
   const generatedId = useId();
@@ -162,7 +162,7 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPro
     'aria-busy': loading || undefined,
     tabIndex: disabled || loading ? -1 : 0,
     onClick: handleClick,
-    ...restProps,
+    ...rest,
   };
 
   const getNavigationProps = () => {
