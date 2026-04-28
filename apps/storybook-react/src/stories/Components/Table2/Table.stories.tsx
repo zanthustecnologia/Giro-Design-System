@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import type { Meta, StoryFn } from '@storybook/react';
-import { createColumnHelper } from '@tanstack/react-table';
-import { Table2, Chips } from '@giro-ds/react';
+import { Table2, Chips, Button, Menu } from '@giro-ds/react';
+import type { FilterItem } from '@giro-ds/react';
 import { MoreVertical16Regular } from '@fluentui/react-icons';
-import { Button, Menu } from '@giro-ds/react';
+import { createColumnHelper } from '@tanstack/react-table';
 
 const meta: Meta = {
   title: 'Components/Table2',
@@ -57,21 +57,17 @@ const colunasPadrao = [
   columnHelper.accessor('tipo', {
     header: 'Tipo',
     cell: (info) => (
-      <Chips
-        label={info.getValue()}
-        title={info.getValue()}
-        type={tipoColor[info.getValue()] ?? 'neutral'}
-      />
+      <Chips variant={tipoColor[info.getValue()] ?? 'neutral'}>
+        {info.getValue()}
+      </Chips>
     ),
   }),
   columnHelper.accessor('status', {
     header: 'Status',
     cell: (info) => (
-      <Chips
-        label={info.getValue()}
-        title={info.getValue()}
-        type={statusColor[info.getValue()] ?? 'neutral'}
-      />
+      <Chips variant={statusColor[info.getValue()] ?? 'neutral'}>
+        {info.getValue()}
+      </Chips>
     ),
   }),
   columnHelper.display({
@@ -84,7 +80,7 @@ const colunasPadrao = [
           { id: 'pause', text: row.original.status === 'Ativa' ? 'Pausar' : 'Ativar' },
           { id: 'delete', text: 'Excluir' },
         ]}
-        onItemSelect={(item) => console.log(item.text, row.original.nome)}
+        onItemSelect={(item) => console.warn(item.text, row.original.nome)}
       >
         <Button variant="text" iconOnly icon={<MoreVertical16Regular />} tooltipText="Mais ações" />
       </Menu>
@@ -108,11 +104,9 @@ const colunasComDescricao = [
   columnHelper.accessor('status', {
     header: 'Status',
     cell: (info) => (
-      <Chips
-        label={info.getValue()}
-        title={info.getValue()}
-        type={statusColor[info.getValue()] ?? 'neutral'}
-      />
+      <Chips variant={statusColor[info.getValue()] ?? 'neutral'}>
+        {info.getValue()}
+      </Chips>
     ),
   }),
 ];
@@ -122,14 +116,14 @@ const colunasComDescricao = [
 // Padrão — tabela básica com chips e ações
 export const Padrao: StoryFn = () => (
   <div style={{ width: 700 }}>
-    <Table2 columns={colunasPadrao} data={promocoes} />
+    <Table2 columns={colunasPadrao} data={promocoes} enableFilters />
   </div>
 );
 
 // Com descrição — colunas extras de texto
 export const ComDescricao: StoryFn = () => (
   <div style={{ width: 800 }}>
-    <Table2 columns={colunasComDescricao} data={promocoes} />
+    <Table2 columns={colunasComDescricao} data={promocoes} enableFilters />
   </div>
 );
 
@@ -144,7 +138,75 @@ export const ColunaUnica: StoryFn = () => {
 
   return (
     <div style={{ width: 400 }}>
-      <Table2 columns={cols} data={promocoes} />
+      <Table2 columns={cols} data={promocoes} enableFilters />
+    </div>
+  );
+};
+
+// ComHeader — busca global + filtros de Status e Data de início
+export const ComHeader: StoryFn = () => {
+  const [selectedStatus, setSelectedStatus] = useState<string[]>([]);
+  const [dataInicio, setDataInicio] = useState<Date | null>(null);
+
+  const dadosFiltrados = useMemo(() => {
+    let result = promocoes;
+    if (selectedStatus.length > 0) {
+      result = result.filter((p) =>
+        selectedStatus.includes(p.status.toLowerCase()),
+      );
+    }
+    if (dataInicio) {
+      result = result.filter(
+        (p) =>
+          new Date(
+            p.inicio.split('/').reverse().join('-'),
+          ) >= dataInicio,
+      );
+    }
+    return result;
+  }, [selectedStatus, dataInicio]);
+
+  const filterItems: FilterItem[] = [
+    {
+      id: 'status',
+      buttonText:
+        selectedStatus.length > 0
+          ? `Status (${selectedStatus.length})`
+          : 'Status',
+      type: 'checkbox',
+      items: [
+        { id: 'ativa', text: 'Ativa' },
+        { id: 'inativa', text: 'Inativa' },
+        { id: 'agendada', text: 'Agendada' },
+        { id: 'expirada', text: 'Expirada' },
+      ],
+      selectedIds: selectedStatus,
+      onSelectionChange: setSelectedStatus,
+    },
+    {
+      id: 'inicio',
+      buttonText: dataInicio
+        ? `A partir de ${dataInicio.toLocaleDateString('pt-BR')}`
+        : 'Data de início',
+      type: 'calendar',
+      selectedDate: dataInicio,
+      onDateSelect: setDataInicio,
+      onClear: () => setDataInicio(null),
+      minDate: new Date(2024, 0, 1),
+      maxDate: new Date(2024, 11, 31),
+    },
+  ];
+
+  return (
+    <div style={{ width: 800 }}>
+      <Table2
+        columns={colunasPadrao}
+        data={dadosFiltrados}
+        header={{
+          searchPlaceholder: 'Buscar promoções...',
+          filterItems,
+        }}
+      />
     </div>
   );
 };
