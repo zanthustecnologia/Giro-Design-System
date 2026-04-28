@@ -93,4 +93,7 @@ export interface FilterProps extends BaseProps {
   
   /** Locale do calendário */
   locale?: Locale;
+
+  /** Classe CSS opcional */
+  className?: string;
 }
