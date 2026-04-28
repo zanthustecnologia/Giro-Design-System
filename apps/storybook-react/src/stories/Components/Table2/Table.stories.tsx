@@ -1,9 +1,10 @@
-import React, { useState, useMemo } from 'react';
-import type { Meta, StoryFn } from '@storybook/react';
-import { Table2, Chips, Button, Menu } from '@giro-ds/react';
-import type { FilterItem } from '@giro-ds/react';
 import { MoreVertical16Regular } from '@fluentui/react-icons';
+import { Table2, Chips, Button, Menu } from '@giro-ds/react';
 import { createColumnHelper } from '@tanstack/react-table';
+import React, { useState, useMemo } from 'react';
+
+import type { FilterItem } from '@giro-ds/react';
+import type { Meta, StoryFn } from '@storybook/react';
 
 const meta: Meta = {
   title: 'Components/Table2',
