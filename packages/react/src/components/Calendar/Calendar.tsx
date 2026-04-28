@@ -93,6 +93,7 @@ const Calendar = ({
   autoFocus,
   id,
   "aria-label": ariaLabel,
+  ...rest
 }: CalendarProps) => {
   const animate = true;
 
@@ -205,6 +206,7 @@ const Calendar = ({
         <DayPicker
           id={id}
           {...sharedDayPickerProps}
+          {...rest}
           captionLayout="label"
           month={resolvedDisplayMonth}
           onMonthChange={handleMonthChange}
