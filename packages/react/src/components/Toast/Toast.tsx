@@ -42,7 +42,8 @@ const Toast: React.FC<ToastProps & { id: string }> = ({
   iconClosed = <Dismiss16Filled />,
   automaticClose = true,
   iconType = "Info",
-  ...restProps
+  className,
+  ...rest
 }) => {
   const [open, setOpen] = React.useState(false);
   const { dismissToast } = useToastContext();
@@ -77,7 +78,7 @@ const Toast: React.FC<ToastProps & { id: string }> = ({
       open={open} 
       onOpenChange={handleOpenChange} 
       duration={effectiveDuration}
-      {...restProps}
+      {...rest}
     >
       <span className={`${styles.Icon} ${iconType ? styles[`icon${iconType}`] : ''}`} aria-hidden="true">
         {displayIcon}
