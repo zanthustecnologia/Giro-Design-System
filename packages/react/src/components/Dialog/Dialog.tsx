@@ -14,9 +14,10 @@ const Dialog: React.FC<DialogProps> = ({
   textSecondaryAction,
 	onPrimaryAction,
 	onSecondaryAction,
-  ...restProps
+	className,
+  ...rest
 }) => (
-	<AlertDialog.Root open={show} {...restProps}>
+	<AlertDialog.Root open={show} {...rest}>
 		<AlertDialog.Portal>
 			<AlertDialog.Overlay className={styles.DialogOverlay} />
 			<AlertDialog.Content className={styles.DialogContent}>
