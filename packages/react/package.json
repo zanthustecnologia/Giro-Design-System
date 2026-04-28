@@ -65,6 +65,7 @@
     "@radix-ui/react-label": "^2.1.0",
     "@radix-ui/react-radio-group": "^1.2.1",
     "@radix-ui/react-select": "^2.1.2",
+    "@tanstack/react-table": "^8.21.3",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
     "i18next": "^25.3.6",

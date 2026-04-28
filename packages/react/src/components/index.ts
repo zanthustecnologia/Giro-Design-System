@@ -64,6 +64,9 @@ export { type TableProps } from './Table/Table.types';
 export { type TablePaginationProps } from './Table/TablePagination';
 export { type TableHeaderProps, type FilterItem } from './Table/TableHeader';
 
+export { Table2 } from './Table2';
+export { type Table2Props } from './Table2/Table.types';
+
 export { default as TextArea } from './TextArea';
 export { type TextAreaProps } from './TextArea/TextArea.types';
 
