@@ -5,7 +5,6 @@ import '../src/styles/globals.scss';
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import * as GiroComponents from '@giro-ds/react';
-import * as FluentIcons from '@fluentui/react-icons';
 
 /** @type { import('@storybook/react-vite').Preview } */
 const preview = {
@@ -24,7 +23,6 @@ const preview = {
       storyId: 'playground--playground',
       components: {
         ...GiroComponents,
-        ...FluentIcons,
         React,
       },
       introCode: {

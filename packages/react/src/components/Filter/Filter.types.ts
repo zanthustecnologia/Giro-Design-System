@@ -91,6 +91,6 @@ export interface FilterProps extends BaseProps {
   /** Data máxima selecionável (para tipo calendar) */
   maxDate?: Date;
   
-  /** Locale do calendário */
+  /** Idioma do calendário */
   locale?: Locale;
 }

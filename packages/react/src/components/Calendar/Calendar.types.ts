@@ -72,7 +72,7 @@ interface CalendarBaseProps extends Omit<BaseProps, 'disabled'> {
   format?: DateFormat;
 
   /**
-   * Locale da interface — aceita os códigos internos do design system.
+   * Idioma da interface — aceita os códigos internos do design system.
    * @default 'pt-br'
    */
   locale?: Locale;
