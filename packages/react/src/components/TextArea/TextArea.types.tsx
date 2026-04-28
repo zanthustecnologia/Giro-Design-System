@@ -69,5 +69,9 @@ export interface TextAreaProps extends Omit<
   /** Exibe contador de caracteres (requer maxLength) */
   showCharCount?: boolean;
 
+  /** Altura do textarea em pixels */
   height?: number;
+
+  /** Classe CSS opcional */
+  className?: string;
 }

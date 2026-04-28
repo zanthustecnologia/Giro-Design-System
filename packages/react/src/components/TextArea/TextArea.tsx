@@ -31,7 +31,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
       resize = 'vertical',
       showCharCount = false,
       height,
-      ...textareaProps
+      ...rest
     },
     ref
   ) => {
@@ -114,7 +114,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
         <div className={styles.inputWrapper}>
           <div className={styles.inputContainer}>
             <textarea
-              {...textareaProps}
+              {...rest}
               ref={ref}
               id={componentId}
               name={name}
