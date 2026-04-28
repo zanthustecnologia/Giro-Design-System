@@ -63,4 +63,6 @@ export interface DatePickerProps extends BaseProps {
   /** ID para testes automatizados */
   'data-testid'?: string;
 
+  /** Classe CSS opcional */
+  className?: string;
 }
