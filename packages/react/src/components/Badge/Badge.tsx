@@ -24,8 +24,8 @@ const Badge: React.FC<BadgeProps> = ({
   className,
   id,
   filterVariant = false,
-
   'aria-label': ariaLabel,
+  ...rest
 }) => {
   const generatedId = useId();
   const componentId = id || generatedId;
@@ -34,7 +34,7 @@ const Badge: React.FC<BadgeProps> = ({
 
   if (children) {
     return (
-      <div className={styles.badgeContainer}>
+      <div className={styles.badgeContainer} {...rest}>
         <div data-testid="badge-content">{children}</div>
         <div
           id={componentId}
