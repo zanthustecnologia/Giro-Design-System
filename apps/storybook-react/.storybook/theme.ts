@@ -1,4 +1,5 @@
 import { create } from 'storybook/theming';
+import { formatGiroVersion } from '@giro-ds/version';
 
 const config = {
   colors: {
@@ -16,7 +17,7 @@ export const ZanthusTheme = create({
   base: 'light',
 
   // Marca
-  brandTitle: 'Giro Design System',
+  brandTitle: formatGiroVersion(),
   brandUrl: undefined,
   brandImage: '/images/giro-logo.svg',
 
