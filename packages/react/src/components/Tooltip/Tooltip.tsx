@@ -12,6 +12,7 @@ const Tooltip: React.FC<TooltipProps> = ({
 	align = 'start',
 	maxWidth,
 	sideOffset = 10,
+	className,
 	...rest
 }) => {
 	return (
