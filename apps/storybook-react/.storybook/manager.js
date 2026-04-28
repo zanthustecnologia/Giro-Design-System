@@ -31,21 +31,7 @@ addons.setConfig({
         isNew &&
           createElement(
             'span',
-            {
-              style: {
-                fontSize: '12px',
-                fontWeight: '700',
-                lineHeight: 1,
-                padding: '2px 6px',
-                borderRadius: '4px',
-                background: 'transparent',
-                border: '1.5px solid #0ab16b',
-                color: '#0ab16b',
-                letterSpacing: '0.04em',
-                textTransform: 'uppercase',
-                flexShrink: 0,
-              },
-            },
+            { className: 'sidebar-new-badge' },
             'Novo'
           )
       );

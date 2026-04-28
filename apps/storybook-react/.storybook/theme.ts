@@ -16,7 +16,7 @@ export const ZanthusTheme = create({
   base: 'light',
 
   // Marca
-  brandTitle: 'Giro System',
+  brandTitle: 'Giro Design System',
   brandUrl: undefined,
   brandImage: '/images/giro-logo.svg',
 

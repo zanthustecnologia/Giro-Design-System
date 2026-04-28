@@ -52,6 +52,24 @@
   color: #505255 !important;
 }
 
+/* Badge "Novo" na sidebar */
+.sidebar-new-badge {
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  padding: 0 6px;
+  height: 18px;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 4px;
+  background: transparent;
+  border: 1.5px solid #0ab16b;
+  color: #0ab16b;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
 /* Tamanho do logo */
 .sidebar-header img {
   max-width: 100%;
