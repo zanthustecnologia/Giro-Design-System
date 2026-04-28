@@ -13,6 +13,7 @@ const Radio: React.FC<RadioGroupProps> = ({
   id,
   ariaLabel,
   orientation = 'vertical',
+  className,
   ...rest
 }) => {
   const componentId = id || useId();
