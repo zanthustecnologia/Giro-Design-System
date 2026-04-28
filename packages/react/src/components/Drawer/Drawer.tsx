@@ -109,6 +109,7 @@ const Drawer: React.FC<DrawerProps> = ({
         aria-hidden={!isOpen}
         data-testid="drawer-panel"
         id={id}
+        {...rest}
       >
      
         <div className={styles.drawerTitleClose}>
