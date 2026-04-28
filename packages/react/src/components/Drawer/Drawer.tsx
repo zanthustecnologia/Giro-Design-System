@@ -22,6 +22,7 @@ const Drawer: React.FC<DrawerProps> = ({
   onOverlayClick,
   closeOnOverlayClick = true,
   closeOnEscape = true,
+  ...rest
 }) => {
 
   const internalClose = useCallback((): void => {
