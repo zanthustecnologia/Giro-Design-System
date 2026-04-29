@@ -1,0 +1,238 @@
+.wrapper {
+  font-family: var(--font-family-primary);
+}
+
+
+/* Parte responsável pelas bordas e background da tabela */
+.tableContainer {
+  background-color: var(--color-neutral-high-default);
+  overflow: hidden;
+  border-radius: var(--spacing-8);
+  border: var(--border-width-1) solid var(--color-neutral-high-dark);
+}
+
+.tableHeader + .tableContainer {
+  border-radius: var(--border-radius-none) var(--border-radius-none)
+    var(--spacing-8) var(--spacing-8);
+  border-top: var(--border-width-none);
+}
+
+.tableContainer:has(+ .tablePagination) {
+  border-radius: var(--spacing-8) var(--spacing-8) var(--border-radius-none)
+    var(--border-radius-none);
+  border-bottom: var(--border-width-none);
+}
+
+.tableHeader + .tableContainer:has(+ .tablePagination) {
+  border-radius: var(--border-radius-none);
+  border-top: var(--border-width-none);
+  border-bottom: var(--border-width-none);
+}
+
+.tableHeader:has(+ .tableContainer) {
+  border-top: var(--border-width-1) solid var(--color-neutral-high-dark);
+  border-left: var(--border-width-1) solid var(--color-neutral-high-dark);
+  border-right: var(--border-width-1) solid var(--color-neutral-high-dark);
+}
+
+.tableContainer + .tablePagination {
+  border-left: var(--border-width-1) solid var(--color-neutral-high-dark);
+  border-right: var(--border-width-1) solid var(--color-neutral-high-dark);
+}
+/* Fim da parte responsável pelas bordas e background da tabela */
+
+
+.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: var(--spacing-0);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-16);
+}
+
+.tableHead {
+  background-color: var(--color-neutral-high-light);
+  text-align: left;
+  height: 44px;
+}
+
+.tableTh {
+  padding: var(--spacing-0);
+  vertical-align: middle;
+}
+
+.tableThContent {
+  font-weight: var(--font-weight-bold);
+  color: var(--color-neutral-low-default);
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-0) var(--spacing-16);
+}
+
+.tableBody .tableTd {
+  padding: var(--spacing-8) var(--spacing-16);
+  border-top: var(--border-width-1) solid var(--color-neutral-high-dark);
+  color: var(--color-neutral-low-default);
+  height: 64px;
+  vertical-align: middle;
+}
+
+.tableBody .tableRow:hover {
+  background-color: var(--color-neutral-high-light);
+}
+
+.checkboxCell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  padding: 0 var(--spacing-16);
+}
+
+.tablePagination {
+  background: var(--color-neutral-high-light);
+  border-top: var(--border-width-1) solid var(--color-neutral-high-dark);
+  font-family: var(--font-family-primary);
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  font-size: var(--font-size-12);
+  color: var(--color-neutral-low-default);
+  border-radius: 0 0 var(--border-radius-8) var(--border-radius-8);
+  border-bottom: var(--border-width-1) solid var(--color-neutral-high-dark);
+  gap: var(--spacing-8);
+  height: 44px;
+}
+
+.tableHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--color-neutral-high-light);
+  padding: var(--spacing-12) var(--spacing-24);
+  border-radius: var(--border-radius-8) var(--border-radius-8)
+    var(--border-radius-none) var(--border-radius-none);
+  border-bottom: var(--border-width-1) solid var(--color-neutral-high-dark);
+  flex-wrap: wrap;
+  gap: var(--spacing-16);
+  position: relative;
+  overflow: visible;
+}
+
+.tableHeaderSearchContainer {
+  display: flex;
+  align-items: center;
+  flex: 1 1 300px;
+  min-width: 200px;
+  max-width: 100%;
+}
+
+.tableHeaderSearch {
+  width: 360px;
+  max-width: 360px;
+}
+
+.tableHeaderFilters {
+  display: flex;
+  align-items: center;
+  flex: 0 1 auto;
+  min-width: 0;
+  position: relative;
+}
+
+.tableHeaderFiltersContent {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-16);
+  flex-wrap: wrap;
+}
+
+.tableHeaderFiltersWrapper {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-16);
+  flex-wrap: wrap;
+  min-width: 0;
+}
+
+.tableHeaderFilterLabel {
+  font-weight: var(--font-weight-medium);
+  color: var(--color-neutral-low-default);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-16);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.tableHeaderFilterItems {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-16);
+  align-items: center;
+  min-width: 0;
+}
+
+.tablePaginationSelect {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-8);
+  letter-spacing: 0.24px;
+}
+
+.tablePaginationLabel {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-12);
+  color: var(--color-neutral-low-default);
+}
+
+.tablePaginationSelectInput {
+  padding: var(--spacing-4) var(--spacing-8);
+  border-radius: var(--border-radius-8);
+  border: var(--border-width-1) solid var(--color-neutral-high-dark);
+  background-color: var(--color-neutral-high-light);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-12);
+}
+
+.tablePaginationInfo {
+  display: flex;
+  gap: var(--spacing-8);
+  text-align: center;
+  margin-left: var(--spacing-24);
+  margin-right: var(--spacing-8);
+  font-family: var(--font-family-primary);
+
+  span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.tablePaginationControls {
+  display: flex;
+  gap: var(--spacing-16);
+  padding-right: var(--spacing-16);
+}
+
+.tablePaginationButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-0);
+  border-radius: var(--border-radius-4);
+
+  &:hover:not(:disabled) {
+    background-color: var(--color-neutral-high-medium);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    color: var(--color-neutral-high-dark);
+  }
+}

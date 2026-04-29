@@ -12,6 +12,7 @@ export interface TablePaginationProps extends React.HTMLAttributes<HTMLDivElemen
   pageSizeOptions?: number[];
   disabled?: boolean;
   className?: string;
+
 }
 
 const TablePagination: React.FC<TablePaginationProps> = ({
@@ -74,7 +75,7 @@ const TablePagination: React.FC<TablePaginationProps> = ({
       <div className={styles.tablePaginationInfo}>
         <span>
           {totalItems > 0 
-            ? `${startItem}–${endItem} de ${totalItems}`
+            ? `${startItem}\u2013${endItem} de ${totalItems}`
             : '0 itens'
           }
         </span>

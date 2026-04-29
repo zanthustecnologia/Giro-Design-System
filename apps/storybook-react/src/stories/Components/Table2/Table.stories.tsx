@@ -4,17 +4,9 @@ import { createColumnHelper } from '@tanstack/react-table';
 import React, { useState, useMemo } from 'react';
 
 import type { FilterItem } from '@giro-ds/react';
-import type { Meta, StoryFn } from '@storybook/react';
+import type { Meta, StoryFn } from '@storybook/react-vite';
 
-const meta: Meta = {
-  title: 'Components/Table2',
-  component: Table2,
-  parameters: { layout: 'centered' },
-};
-
-export default meta;
-
-// --- Tipos ---
+// ─── Tipos ────────────────────────────────────────────────────────────────────
 type Promocao = {
   id: number;
   nome: string;
@@ -24,7 +16,7 @@ type Promocao = {
   inicio: string;
 };
 
-// --- Dataset ---
+// ─── Dataset ──────────────────────────────────────────────────────────────────
 const promocoes: Promocao[] = [
   { id: 1, nome: 'Black Friday', descricao: 'Desconto progressivo de 20%', tipo: 'Desconto', status: 'Ativa', inicio: '24/11/2024' },
   { id: 2, nome: 'Frete Grátis Natal', descricao: 'Frete grátis acima de R$ 100', tipo: 'Frete Grátis', status: 'Agendada', inicio: '01/12/2024' },
@@ -47,15 +39,15 @@ const tipoColor: Record<string, 'success' | 'alert' | 'brand' | 'neutral'> = {
   Cashback: 'neutral',
 };
 
-// --- Column Helpers ---
-const columnHelper = createColumnHelper<Promocao>();
+// ─── Colunas ──────────────────────────────────────────────────────────────────
+const col = createColumnHelper<Promocao>();
 
 const colunasPadrao = [
-  columnHelper.accessor('nome', {
+  col.accessor('nome', {
     header: 'Nome',
     cell: (info) => info.getValue(),
   }),
-  columnHelper.accessor('tipo', {
+  col.accessor('tipo', {
     header: 'Tipo',
     cell: (info) => (
       <Chips variant={tipoColor[info.getValue()] ?? 'neutral'}>
@@ -63,7 +55,7 @@ const colunasPadrao = [
       </Chips>
     ),
   }),
-  columnHelper.accessor('status', {
+  col.accessor('status', {
     header: 'Status',
     cell: (info) => (
       <Chips variant={statusColor[info.getValue()] ?? 'neutral'}>
@@ -71,7 +63,7 @@ const colunasPadrao = [
       </Chips>
     ),
   }),
-  columnHelper.display({
+  col.display({
     id: 'actions',
     header: '',
     cell: ({ row }) => (
@@ -89,62 +81,78 @@ const colunasPadrao = [
   }),
 ];
 
-const colunasComDescricao = [
-  columnHelper.accessor('nome', {
-    header: 'Nome',
-    cell: (info) => info.getValue(),
-  }),
-  columnHelper.accessor('descricao', {
-    header: 'Descrição',
-    cell: (info) => info.getValue(),
-  }),
-  columnHelper.accessor('inicio', {
-    header: 'Início',
-    cell: (info) => info.getValue(),
-  }),
-  columnHelper.accessor('status', {
-    header: 'Status',
-    cell: (info) => (
-      <Chips variant={statusColor[info.getValue()] ?? 'neutral'}>
-        {info.getValue()}
-      </Chips>
-    ),
-  }),
-];
+// ─── Meta ─────────────────────────────────────────────────────────────────────
+const meta: Meta = {
+  title: 'Components/Table2',
+  component: Table2,
+  parameters: { layout: 'centered' },
+  argTypes: {
+    enableRowSelection: {
+      name: 'Checkbox de seleção',
+      description: 'Exibe checkboxes para seleção de linhas',
+      control: 'boolean',
+      table: { defaultValue: { summary: 'false' } },
+    },
+    enableFilters: {
+      name: 'Filtros por coluna',
+      description: 'Exibe inputs de filtro em cada coluna do cabeçalho',
+      control: 'boolean',
+      table: { defaultValue: { summary: 'false' } },
+    },
+  },
+};
 
-// --- Stories ---
+export default meta;
 
-// Padrão — tabela básica com chips e ações
-export const Padrao: StoryFn = () => (
+// ─── Padrão (com controles) ───────────────────────────────────────────────────
+export const Padrao: StoryFn<{
+  enableRowSelection: boolean;
+  enableFilters: boolean;
+}> = ({ enableRowSelection, enableFilters }) => (
   <div style={{ width: 700 }}>
-    <Table2 columns={colunasPadrao} data={promocoes} enableFilters />
+    <Table2
+      columns={colunasPadrao}
+      data={promocoes}
+      enableRowSelection={enableRowSelection}
+      enableFilters={enableFilters}
+      onRowSelectionChange={(rows) =>
+        console.warn('Selecionados:', rows.map((r) => r.nome))
+      }
+    />
   </div>
 );
 
-// Com descrição — colunas extras de texto
-export const ComDescricao: StoryFn = () => (
-  <div style={{ width: 800 }}>
-    <Table2 columns={colunasComDescricao} data={promocoes} enableFilters />
-  </div>
-);
+Padrao.args = {
+  enableRowSelection: false,
+  enableFilters: false,
+};
 
-// Somente uma coluna
-export const ColunaUnica: StoryFn = () => {
-  const cols = [
-    columnHelper.accessor('nome', {
-      header: 'Nome da Promoção',
-      cell: (info) => info.getValue(),
-    }),
-  ];
+Padrao.storyName = 'Padrão';
+
+// ─── Com Checkbox ─────────────────────────────────────────────────────────────
+export const ComCheckbox: StoryFn = () => {
+  const [selecionados, setSelecionados] = useState<Promocao[]>([]);
 
   return (
-    <div style={{ width: 400 }}>
-      <Table2 columns={cols} data={promocoes} enableFilters />
+    <div style={{ width: 700 }}>
+      <Table2
+        columns={colunasPadrao}
+        data={promocoes}
+        enableRowSelection
+        onRowSelectionChange={setSelecionados}
+      />
+      {selecionados.length > 0 && (
+        <p style={{ marginTop: 12, fontSize: 14, color: '#555' }}>
+          Selecionados: {selecionados.map((r) => r.nome).join(', ')}
+        </p>
+      )}
     </div>
   );
 };
 
-// ComHeader — busca global + filtros de Status e Data de início
+
+
+// ─── Com Header ───────────────────────────────────────────────────────────────
 export const ComHeader: StoryFn = () => {
   const [selectedStatus, setSelectedStatus] = useState<string[]>([]);
   const [dataInicio, setDataInicio] = useState<Date | null>(null);
@@ -158,10 +166,7 @@ export const ComHeader: StoryFn = () => {
     }
     if (dataInicio) {
       result = result.filter(
-        (p) =>
-          new Date(
-            p.inicio.split('/').reverse().join('-'),
-          ) >= dataInicio,
+        (p) => new Date(p.inicio.split('/').reverse().join('-')) >= dataInicio,
       );
     }
     return result;
@@ -170,10 +175,9 @@ export const ComHeader: StoryFn = () => {
   const filterItems: FilterItem[] = [
     {
       id: 'status',
-      buttonText:
-        selectedStatus.length > 0
-          ? `Status (${selectedStatus.length})`
-          : 'Status',
+      buttonText: selectedStatus.length > 0
+        ? `Status (${selectedStatus.length})`
+        : 'Status',
       type: 'checkbox',
       items: [
         { id: 'ativa', text: 'Ativa' },
@@ -212,9 +216,89 @@ export const ComHeader: StoryFn = () => {
   );
 };
 
-// Sem dados
+
+
+// ─── Com Footer ───────────────────────────────────────────────────────────────
+export const ComFooter: StoryFn = () => (
+  <div style={{ width: 700 }}>
+    <Table2
+      columns={colunasPadrao}
+      data={promocoes}
+      footer={{
+        totalItems: promocoes.length,
+        defaultPageSize: 3,
+        pageSizeOptions: [3, 5, 10],
+      }}
+    />
+  </div>
+);
+
+
+
+// ─── Completo ─────────────────────────────────────────────────────────────────
+export const Completo: StoryFn = () => {
+  const [selectedStatus, setSelectedStatus] = useState<string[]>([]);
+  const [selecionados, setSelecionados] = useState<Promocao[]>([]);
+
+  const dadosFiltrados = useMemo(() => {
+    if (selectedStatus.length === 0) return promocoes;
+    return promocoes.filter((p) =>
+      selectedStatus.includes(p.status.toLowerCase()),
+    );
+  }, [selectedStatus]);
+
+  const filterItems: FilterItem[] = [
+    {
+      id: 'status',
+      buttonText: selectedStatus.length > 0
+        ? `Status (${selectedStatus.length})`
+        : 'Status',
+      type: 'checkbox',
+      items: [
+        { id: 'ativa', text: 'Ativa' },
+        { id: 'inativa', text: 'Inativa' },
+        { id: 'agendada', text: 'Agendada' },
+        { id: 'expirada', text: 'Expirada' },
+      ],
+      selectedIds: selectedStatus,
+      onSelectionChange: setSelectedStatus,
+    },
+  ];
+
+  return (
+    <div style={{ width: 900 }}>
+      <Table2
+        columns={colunasPadrao}
+        data={dadosFiltrados}
+        enableRowSelection
+        onRowSelectionChange={setSelecionados}
+        header={{
+          searchPlaceholder: 'Buscar promoções...',
+          filterItems,
+        }}
+        footer={{
+          totalItems: dadosFiltrados.length,
+          defaultPageSize: 3,
+          pageSizeOptions: [3, 5, 10],
+        }}
+      />
+      {selecionados.length > 0 && (
+        <p style={{ marginTop: 12, fontSize: 14, color: '#555' }}>
+          {selecionados.length} selecionado(s):{' '}
+          {selecionados.map((r) => r.nome).join(', ')}
+        </p>
+      )}
+    </div>
+  );
+};
+
+Completo.storyName = 'Completo (Header + Checkbox + Footer)';
+
+// ─── Vazia ────────────────────────────────────────────────────────────────────
 export const Vazia: StoryFn = () => (
   <div style={{ width: 700 }}>
     <Table2 columns={colunasPadrao} data={[]} />
   </div>
 );
+
+
