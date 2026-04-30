@@ -55,17 +55,29 @@ Tabela com chips de tipo e status e coluna de ações.
 
 <Canvas of={TableStories.Padrao} />
 
-### Com descrição
+### Com checkbox
 
-Inclui coluna de texto longo com descrição e data de início.
+Exibe checkboxes para seleção de linhas. O callback `onRowSelectionChange` retorna o array de objetos selecionados.
 
-<Canvas of={TableStories.ComDescricao} />
+<Canvas of={TableStories.ComCheckbox} />
 
-### Coluna única
+### Com header
 
-Tabela com apenas uma coluna de texto.
+Header com busca global e filtros de dropdown e calendário.
 
-<Canvas of={TableStories.ColunaUnica} />
+<Canvas of={TableStories.ComHeader} />
+
+### Com footer
+
+Paginação integrada com seletor de itens por página.
+
+<Canvas of={TableStories.ComFooter} />
+
+### Completo
+
+Header com busca e filtros, seleção de linhas e paginação combinados.
+
+<Canvas of={TableStories.Completo} />
 
 ### Sem dados
 
