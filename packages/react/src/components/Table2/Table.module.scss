@@ -140,21 +140,8 @@
   flex: 0 1 auto;
   min-width: 0;
   position: relative;
-}
-
-.tableHeaderFiltersContent {
-  display: flex;
-  align-items: center;
   gap: var(--spacing-16);
   flex-wrap: wrap;
-}
-
-.tableHeaderFiltersWrapper {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-16);
-  flex-wrap: wrap;
-  min-width: 0;
 }
 
 .tableHeaderFilterLabel {
@@ -238,7 +225,7 @@
 }
 
 .tableScrollWrapper {
-  overflow-x: visible;
+  overflow-x: auto;
 
   @media (max-width: 768px) {
     overflow-x: scroll;

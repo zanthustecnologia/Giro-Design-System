@@ -35,12 +35,13 @@ function Table2<T>({
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
   const [globalFilter, setGlobalFilter] = React.useState('');
   const [rowSelection, setRowSelection] = React.useState<RowSelectionState>({});
-  const [pageIndex, setPageIndex] = React.useState(0);
-  const [pageSize, setPageSize] = React.useState(
-    footer?.defaultPageSize ?? 10,
-  );
+  const [pagination, setPagination] = React.useState({
+    pageIndex: 0,
+    pageSize: footer?.defaultPageSize ?? 10,
+  });
+  const { pageIndex, pageSize } = pagination;
 
-  const selectionColumn: ColumnDef<T, unknown> = {
+  const selectionColumn = React.useMemo<ColumnDef<T, unknown>>(() => ({
     id: '__select__',
     size: 48,
     enableSorting: false,
@@ -64,7 +65,7 @@ function Table2<T>({
         />
       </div>
     ),
-  };
+  }), []);
 
   const resolvedColumns = enableRowSelection
     ? [selectionColumn, ...columns]
@@ -102,16 +103,7 @@ function Table2<T>({
         }
       : undefined,
     enableRowSelection,
-    onPaginationChange: hasPagination
-      ? (updater) => {
-          const next =
-            typeof updater === 'function'
-              ? updater({ pageIndex, pageSize })
-              : updater;
-          setPageIndex(next.pageIndex);
-          setPageSize(next.pageSize);
-        }
-      : undefined,
+    onPaginationChange: hasPagination ? setPagination : undefined,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel:
       enableFilters || showSearch ? getFilteredRowModel() : undefined,
@@ -125,16 +117,9 @@ function Table2<T>({
 
   const handlePageSizeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const size = Number(e.target.value);
-    setPageSize(size);
-    setPageIndex(0);
+    setPagination({ pageIndex: 0, pageSize: size });
     footer?.onPageSizeChange?.(size);
   };
-
-  const emptyContent = locale?.emptyText ?? (
-    <div className={styles.tableEmpty}>
-      <p className={styles.tableEmptyCaption}>Nenhum registro encontrado</p>
-    </div>
-  );
 
   if (loading) {
     return (
@@ -147,6 +132,12 @@ function Table2<T>({
       </div>
     );
   }
+
+  const emptyContent = locale?.emptyText ?? (
+    <div className={styles.tableEmpty}>
+      <p className={styles.tableEmptyCaption}>Nenhum registro encontrado</p>
+    </div>
+  );
 
   return (
     <div className={clsx(styles.wrapper, className)}>
@@ -164,51 +155,47 @@ function Table2<T>({
           )}
           {!!header.filterItems?.length && (
             <div className={styles.tableHeaderFilters}>
-              <div className={styles.tableHeaderFiltersContent}>
-                <div className={styles.tableHeaderFiltersWrapper}>
-                  <span className={styles.tableHeaderFilterLabel}>Filtros</span>
-                  <div className={styles.tableHeaderFilterItems}>
-                    {header.filterItems.map((filterItem, index) => {
-                      const commonProps = {
-                        buttonText: filterItem.buttonText,
-                        icon: filterItem.icon,
-                        side: filterItem.side,
-                        align: filterItem.align,
-                        disabled: filterItem.disabled,
-                        variant: 'outlined' as const,
-                        onOpen: () => filterItem.onToggle?.(true),
-                        onClose: () => filterItem.onToggle?.(false),
-                      };
-                      if (filterItem.type === 'calendar') {
-                        return (
-                          <Filter
-                            key={filterItem.id ?? index}
-                            {...commonProps}
-                            type="calendar"
-                            selectedDate={filterItem.selectedDate}
-                            onDateSelect={filterItem.onDateSelect}
-                            onClearDate={filterItem.onClear}
-                            minDate={filterItem.minDate}
-                            maxDate={filterItem.maxDate}
-                            placeholder={filterItem.placeholder}
-                          />
-                        );
-                      }
-                      return (
-                        <Filter
-                          key={filterItem.id ?? index}
-                          {...commonProps}
-                          type={filterItem.type}
-                          items={filterItem.items}
-                          selectedIds={filterItem.selectedIds}
-                          onApplyFilter={filterItem.onSelectionChange}
-                          placeholder={filterItem.placeholder}
-                          enableSearch={filterItem.enableSearch}
-                        />
-                      );
-                    })}
-                  </div>
-                </div>
+              <span className={styles.tableHeaderFilterLabel}>Filtros</span>
+              <div className={styles.tableHeaderFilterItems}>
+                {header.filterItems.map((filterItem, index) => {
+                  const commonProps = {
+                    buttonText: filterItem.buttonText,
+                    icon: filterItem.icon,
+                    side: filterItem.side,
+                    align: filterItem.align,
+                    disabled: filterItem.disabled,
+                    variant: 'outlined' as const,
+                    onOpen: () => filterItem.onToggle?.(true),
+                    onClose: () => filterItem.onToggle?.(false),
+                  };
+                  if (filterItem.type === 'calendar') {
+                    return (
+                      <Filter
+                        key={filterItem.id ?? index}
+                        {...commonProps}
+                        type="calendar"
+                        selectedDate={filterItem.selectedDate}
+                        onDateSelect={filterItem.onDateSelect}
+                        onClearDate={filterItem.onClear}
+                        minDate={filterItem.minDate}
+                        maxDate={filterItem.maxDate}
+                        placeholder={filterItem.placeholder}
+                      />
+                    );
+                  }
+                  return (
+                    <Filter
+                      key={filterItem.id ?? index}
+                      {...commonProps}
+                      type={filterItem.type}
+                      items={filterItem.items}
+                      selectedIds={filterItem.selectedIds}
+                      onApplyFilter={filterItem.onSelectionChange}
+                      placeholder={filterItem.placeholder}
+                      enableSearch={filterItem.enableSearch}
+                    />
+                  );
+                })}
               </div>
             </div>
           )}
@@ -323,11 +310,9 @@ function Table2<T>({
             <button
               className={styles.tablePaginationButton}
               onClick={() => {
-                if (canGoPrev) {
-                  const newPage = pageIndex - 1;
-                  setPageIndex(newPage);
-                  footer?.onPageChange?.(newPage + 1);
-                }
+                const newPage = pageIndex - 1;
+                setPagination((prev) => ({ ...prev, pageIndex: newPage }));
+                footer?.onPageChange?.(newPage + 1);
               }}
               disabled={!canGoPrev}
               aria-label="Página anterior"
@@ -337,11 +322,9 @@ function Table2<T>({
             <button
               className={styles.tablePaginationButton}
               onClick={() => {
-                if (canGoNext) {
-                  const newPage = pageIndex + 1;
-                  setPageIndex(newPage);
-                  footer?.onPageChange?.(newPage + 1);
-                }
+                const newPage = pageIndex + 1;
+                setPagination((prev) => ({ ...prev, pageIndex: newPage }));
+                footer?.onPageChange?.(newPage + 1);
               }}
               disabled={!canGoNext}
               aria-label="Próxima página"
