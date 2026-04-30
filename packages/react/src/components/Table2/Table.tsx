@@ -9,6 +9,7 @@ import {
   getPaginationRowModel,
   useReactTable,
 } from '@tanstack/react-table';
+import clsx from 'clsx';
 import * as React from 'react';
 
 import styles from './Table.module.scss';
@@ -18,7 +19,7 @@ import Search from '../Search/Search';
 
 import type { Table2Props } from './Table.types';
 
-function Table2<T>({  
+function Table2<T>({
   columns,
   data,
   enableFilters = false,
@@ -26,6 +27,10 @@ function Table2<T>({
   onRowSelectionChange,
   header,
   footer,
+  loading = false,
+  locale,
+  onRow,
+  className,
 }: Table2Props<T>) {
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
   const [globalFilter, setGlobalFilter] = React.useState('');
@@ -125,8 +130,26 @@ function Table2<T>({
     footer?.onPageSizeChange?.(size);
   };
 
+  const emptyContent = locale?.emptyText ?? (
+    <div className={styles.tableEmpty}>
+      <p className={styles.tableEmptyCaption}>Nenhum registro encontrado</p>
+    </div>
+  );
+
+  if (loading) {
+    return (
+      <div className={clsx(styles.wrapper, className)}>
+        <div className={styles.tableContainer}>
+          <div className={styles.tableLoader}>
+            <p className={styles.tableEmptyCaption}>Carregando...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className={styles.wrapper}>
+    <div className={clsx(styles.wrapper, className)}>
       {hasHeader && (
         <div className={styles.tableHeader}>
           {showSearch && (
@@ -192,46 +215,80 @@ function Table2<T>({
         </div>
       )}
       <div className={styles.tableContainer}>
-        <table className={styles.table}>
-          <thead className={styles.tableHead}>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <tr key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
-                  <th key={header.id} className={styles.tableTh}>
-                    <div className={styles.tableThContent}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext(),
-                          )}
-                    </div>
-                    {enableFilters && header.column.getCanFilter() && (
-                      <input
-                        value={(header.column.getFilterValue() as string) ?? ''}
-                        onChange={(e) =>
-                          header.column.setFilterValue(e.target.value)
-                        }
-                        placeholder="Filtrar..."
-                      />
-                    )}
-                  </th>
-                ))}
-              </tr>
-            ))}
-          </thead>
-          <tbody className={styles.tableBody}>
-            {table.getRowModel().rows.map((row) => (
-              <tr key={row.id} className={styles.tableRow}>
-                {row.getVisibleCells().map((cell) => (
-                  <td key={cell.id} className={styles.tableTd}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+        <div className={styles.tableScrollWrapper}>
+          <table
+            className={styles.table}
+            role="table"
+            aria-label="Tabela de dados"
+            aria-rowcount={data.length + 1}
+          >
+            <thead className={styles.tableHead}>
+              {table.getHeaderGroups().map((headerGroup) => (
+                <tr key={headerGroup.id}>
+                  {headerGroup.headers.map((col) => (
+                    <th
+                      key={col.id}
+                      className={styles.tableTh}
+                      style={{ textAlign: col.column.columnDef.meta?.align }}
+                    >
+                      <div className={styles.tableThContent}>
+                        {col.isPlaceholder
+                          ? null
+                          : flexRender(
+                              col.column.columnDef.header,
+                              col.getContext(),
+                            )}
+                      </div>
+                      {enableFilters && col.column.getCanFilter() && (
+                        <input
+                          value={(col.column.getFilterValue() as string) ?? ''}
+                          onChange={(e) =>
+                            col.column.setFilterValue(e.target.value)
+                          }
+                          placeholder="Filtrar..."
+                        />
+                      )}
+                    </th>
+                  ))}
+                </tr>
+              ))}
+            </thead>
+            <tbody className={styles.tableBody}>
+              {table.getRowModel().rows.length > 0 ? (
+                table.getRowModel().rows.map((row, index) => {
+                  const rowProps = onRow?.(row.original, index) ?? {};
+                  return (
+                    <tr
+                      key={row.id}
+                      className={clsx(styles.tableRow, rowProps.className)}
+                      onClick={rowProps.onClick}
+                      onDoubleClick={rowProps.onDoubleClick}
+                    >
+                      {row.getVisibleCells().map((cell) => (
+                        <td
+                          key={cell.id}
+                          className={styles.tableTd}
+                          style={{ textAlign: cell.column.columnDef.meta?.align }}
+                        >
+                          {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                        </td>
+                      ))}
+                    </tr>
+                  );
+                })
+              ) : (
+                <tr>
+                  <td
+                    colSpan={table.getVisibleLeafColumns().length}
+                    className={styles.tableEmptyCell}
+                  >
+                    {emptyContent}
                   </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
       {hasPagination && (
         <div className={styles.tablePagination}>

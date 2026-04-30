@@ -1,7 +1,14 @@
 import type { Side, Align } from '../../types/common.types';
 import type { FilterItem as FilterDropdownItem } from '../Filter';
-import type { ColumnDef } from '@tanstack/react-table';
+import type { ColumnDef, RowData } from '@tanstack/react-table';
 import type { ReactNode, ReactElement } from 'react';
+
+declare module '@tanstack/react-table' {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  interface ColumnMeta<TData extends RowData, TValue> {
+    align?: 'left' | 'center' | 'right';
+  }
+}
 
 interface BaseFilterItem {
   id?: string;
@@ -73,5 +80,18 @@ export interface Table2Props<T = Record<string, unknown>> {
   footer?: Table2FooterProps;
   /** Classe CSS personalizada para o componente */
   className?: string;
+  /** Estado de carregamento — exibe skeleton animado no lugar da tabela */
+  loading?: boolean;
+  /** Configurações de localização */
+  locale?: {
+    /** Componente/texto exibido quando não há dados */
+    emptyText?: ReactNode;
+  };
+  /** Eventos e classe aplicados por linha */
+  onRow?: (row: T, index: number) => {
+    onClick?: () => void;
+    onDoubleClick?: () => void;
+    className?: string;
+  };
 }
 

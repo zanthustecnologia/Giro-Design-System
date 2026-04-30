@@ -236,3 +236,44 @@
     color: var(--color-neutral-high-dark);
   }
 }
+
+.tableScrollWrapper {
+  overflow-x: visible;
+
+  @media (max-width: 768px) {
+    overflow-x: scroll;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+.table {
+  @media (max-width: 768px) {
+    min-width: 600px;
+  }
+}
+
+.tableLoader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-32);
+}
+
+.tableEmptyCell {
+  height: 500px;
+}
+
+.tableEmpty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-32);
+}
+
+.tableEmptyCaption {
+  font-size: var(--font-size-16);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-neutral-low-medium);
+  font-family: var(--font-family-primary);
+}
