@@ -9,7 +9,7 @@ import { Footer } from '../../../internal-components/mdx/Footer/Footer';
 
 O Table2 é a nova implementação da tabela, construída com [TanStack Table](https://tanstack.com/table/latest). Oferece uma API declarativa baseada em `createColumnHelper`, com suporte a tipagem genérica, renderização customizada por célula e extensibilidade nativa da biblioteca.
 
-<Canvas of={TableStories.Padrao} />
+<Canvas of={TableStories.ComBuscaEFiltros} />
 
 ## Importação
 
@@ -49,41 +49,13 @@ import { createColumnHelper } from '@tanstack/react-table';
 
 ## Variações
 
-### Padrão
+### Com busca e filtros
 
-Tabela com chips de tipo e status e coluna de ações.
+O header combina busca por texto, filtro por categoria e filtro por data de início. A seleção de linhas permite ações em lote.
 
-<Canvas of={TableStories.Padrao} />
+<Canvas of={TableStories.ComBuscaEFiltros} />
 
-### Com checkbox
-
-Exibe checkboxes para seleção de linhas. O callback `onRowSelectionChange` retorna o array de objetos selecionados.
-
-<Canvas of={TableStories.ComCheckbox} />
-
-### Com header
-
-Header com busca global e filtros de dropdown e calendário.
-
-<Canvas of={TableStories.ComHeader} />
-
-### Com footer
-
-Paginação integrada com seletor de itens por página.
-
-<Canvas of={TableStories.ComFooter} />
-
-### Completo
-
-Header com busca e filtros, seleção de linhas e paginação combinados.
-
-<Canvas of={TableStories.Completo} />
-
-### Sem dados
-
-Estado exibido quando o array `data` está vazio.
-
-<Canvas of={TableStories.Vazia} />
+As demais variações — somente busca, sem cabeçalho, filtro de calendário e carregando — estão disponíveis na sidebar do Storybook.
 
 <Footer />
 
