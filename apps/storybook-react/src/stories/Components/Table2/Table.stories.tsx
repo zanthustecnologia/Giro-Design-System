@@ -1,9 +1,8 @@
 import { MoreVertical16Regular } from '@fluentui/react-icons';
-import { Table2, Chips, Button, Menu, Avatar } from '@giro-ds/react';
+import { Table2, Chips, Button, Menu, Avatar, DatePicker } from '@giro-ds/react';
 import { createColumnHelper } from '@tanstack/react-table';
 import React, { useState, useMemo } from 'react';
 
-import type { FilterItem } from '@giro-ds/react';
 import type { Meta, StoryFn } from '@storybook/react-vite';
 
 // ─── Tipos ────────────────────────────────────────────────────────────────────
@@ -234,11 +233,11 @@ export const ComBuscaEFiltros: StoryFn = () => {
     return result;
   }, [selectedStatus, dataInicio]);
 
-  const filterItems: FilterItem[] = [
+  const filterItems = [
     {
       id: 'status',
       buttonText: selectedStatus.length > 0 ? `Status (${selectedStatus.length})` : 'Status',
-      type: 'checkbox',
+      type: 'checkbox' as const,
       items: [
         { id: 'ativa', text: 'Ativa' },
         { id: 'inativa', text: 'Inativa' },
@@ -251,7 +250,7 @@ export const ComBuscaEFiltros: StoryFn = () => {
     {
       id: 'inicio',
       buttonText: dataInicio ? `A partir de ${dataInicio.toLocaleDateString('pt-BR')}` : 'Data de início',
-      type: 'calendar',
+      type: 'calendar' as const,
       selectedDate: dataInicio,
       onDateSelect: (date: Date) => setDataInicio(date),
       onClear: () => setDataInicio(null),
@@ -295,11 +294,11 @@ export const ComFiltroCalendario: StoryFn = () => {
     return promocoes.filter((p) => p.inicioObj >= dataInicio);
   }, [dataInicio]);
 
-  const filterItems: FilterItem[] = [
+  const filterItems = [
     {
       id: 'inicio',
       buttonText: dataInicio ? `A partir de ${dataInicio.toLocaleDateString('pt-BR')}` : 'Data de início',
-      type: 'calendar',
+      type: 'calendar' as const,
       selectedDate: dataInicio,
       onDateSelect: (date: Date) => setDataInicio(date),
       onClear: () => setDataInicio(null),
@@ -365,4 +364,66 @@ export const Carregando: StoryFn = () => (
   </div>
 );
 
+// ─── Filtro Custom com DatePicker ─────────────────────────────────────────────
+export const FiltroCustomComDatePicker: StoryFn = () => {
+  const [dataInicio, setDataInicio] = useState<Date | null>(null);
+  const [dataFim, setDataFim] = useState<Date | null>(null);
+
+  const dadosFiltrados = useMemo(() => {
+    return promocoes.filter((p) => {
+      if (dataInicio && p.inicioObj < dataInicio) return false;
+      if (dataFim && p.inicioObj > dataFim) return false;
+      return true;
+    });
+  }, [dataInicio, dataFim]);
+
+  return (
+    <div style={{ width: 900 }}>
+      <Table2
+        columns={colunasComData}
+        data={dadosFiltrados}
+        header={{
+          searchPlaceholder: 'Buscar promoções...',
+          filterItems: [
+            {
+              type: 'custom' as const,
+              id: 'date-inicio',
+              content: (
+                <DatePicker
+                  label="Início a partir de"
+                  value={dataInicio}
+                  onChange={setDataInicio}
+                  minDate={new Date(2024, 0, 1)}
+                  maxDate={dataFim ?? new Date(2024, 11, 31)}
+                  locale="pt-br"
+                />
+              ),
+            },
+            {
+              type: 'custom' as const,
+              id: 'date-fim',
+              content: (
+                <DatePicker
+                  label="Início até"
+                  value={dataFim}
+                  onChange={setDataFim}
+                  minDate={dataInicio ?? new Date(2024, 0, 1)}
+                  maxDate={new Date(2024, 11, 31)}
+                  locale="pt-br"
+                />
+              ),
+            },
+          ],
+        }}
+        footer={{
+          totalItems: dadosFiltrados.length,
+          defaultPageSize: 5,
+          pageSizeOptions: [5, 10],
+        }}
+      />
+    </div>
+  );
+};
+
+FiltroCustomComDatePicker.storyName = 'Filtro Custom com DatePicker';
 

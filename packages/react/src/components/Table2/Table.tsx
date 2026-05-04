@@ -158,6 +158,13 @@ function Table2<T>({
               <span className={styles.tableHeaderFilterLabel}>Filtros</span>
               <div className={styles.tableHeaderFilterItems}>
                 {header.filterItems.map((filterItem, index) => {
+                  if (filterItem.type === 'custom') {
+                    return (
+                      <React.Fragment key={filterItem.id ?? index}>
+                        {filterItem.content}
+                      </React.Fragment>
+                    );
+                  }
                   const commonProps = {
                     buttonText: filterItem.buttonText,
                     icon: filterItem.icon,
