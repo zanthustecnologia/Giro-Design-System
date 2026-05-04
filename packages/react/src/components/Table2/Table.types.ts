@@ -40,15 +40,7 @@ interface CalendarFilterItem extends BaseFilterItem {
   placeholder?: string;
 }
 
-interface CustomFilterItem {
-  type: 'custom';
-  /** Identificador único do item (usado como key) */
-  id?: string;
-  /** Conteúdo customizado renderizado diretamente na área de filtros */
-  content: ReactNode;
-}
-
-export type FilterItem = CheckboxFilterItem | CalendarFilterItem | CustomFilterItem;
+export type FilterItem = CheckboxFilterItem | CalendarFilterItem;
 
 export interface Table2HeaderProps {
   /** Placeholder do campo de busca global */

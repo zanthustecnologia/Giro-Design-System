@@ -252,48 +252,6 @@ describe('Table2', () => {
       expect(screen.getByTestId('filter-checkbox')).toBeInTheDocument();
       expect(screen.getByTestId('filter-calendar')).toBeInTheDocument();
     });
-
-    it('deve renderizar filtro do tipo custom com conteúdo arbitrário', () => {
-      render(
-        <Table2
-          columns={columns}
-          data={data}
-          header={{
-            showSearch: false,
-            filterItems: [
-              {
-                type: 'custom',
-                content: <button data-testid="custom-filter-btn">Filtro especial</button>,
-              },
-            ],
-          }}
-        />
-      );
-      expect(screen.getByTestId('custom-filter-btn')).toBeInTheDocument();
-      expect(screen.getByText('Filtro especial')).toBeInTheDocument();
-    });
-
-    it('deve renderizar filtro custom junto com filtros nativos', () => {
-      render(
-        <Table2
-          columns={columns}
-          data={data}
-          header={{
-            showSearch: false,
-            filterItems: [
-              { type: 'checkbox', buttonText: 'Status', items: [] },
-              {
-                type: 'custom',
-                id: 'meu-custom',
-                content: <span data-testid="custom-inline">Extra</span>,
-              },
-            ],
-          }}
-        />
-      );
-      expect(screen.getByTestId('filter-checkbox')).toBeInTheDocument();
-      expect(screen.getByTestId('custom-inline')).toBeInTheDocument();
-    });
   });
 
   describe('Seleção de linhas', () => {
