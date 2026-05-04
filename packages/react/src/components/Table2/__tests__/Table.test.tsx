@@ -1,8 +1,10 @@
-import React from 'react';
 import { render, screen, fireEvent, within } from '@testing-library/react';
+import React from 'react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import type { ColumnDef } from '@tanstack/react-table';
+
 import Table2 from '../Table';
+
+import type { ColumnDef } from '@tanstack/react-table';
 
 // ─── Mocks de sub-componentes ───────────────────────────────────────────────
 
@@ -17,7 +19,7 @@ vi.mock('../../Checkbox/Checkbox', () => ({
       type="checkbox"
       data-testid="row-checkbox"
       checked={!!checked}
-      aria-checked={indeterminate ? 'mixed' : String(!!checked)}
+      aria-checked={indeterminate ? 'mixed' : (checked ? 'true' : 'false')}
       onChange={(e) => onCheckedChange?.(e.target.checked)}
     />
   ),
@@ -203,7 +205,7 @@ describe('Table2', () => {
               {
                 type: 'checkbox',
                 buttonText: 'Status',
-                items: [{ id: '1', label: 'Ativo' }],
+                items: [{ id: '1', text: 'Ativo' }],
               },
             ],
           }}
