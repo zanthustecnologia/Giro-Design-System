@@ -364,3 +364,10 @@ export const Carregando: StoryFn = () => (
   </div>
 );
 
+// ─── Vazia ────────────────────────────────────────────────────────────────────
+export const Vazia: StoryFn = () => (
+  <div style={{ width: 800 }}>
+    <Table2 columns={colunasCompletas} data={[]} />
+  </div>
+);
+

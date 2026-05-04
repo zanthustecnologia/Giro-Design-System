@@ -124,8 +124,9 @@ describe('Table2', () => {
   });
 
   describe('Estado vazio', () => {
-    it('deve exibir texto padrão quando não há dados', () => {
+    it('deve exibir título e caption padrão quando não há dados', () => {
       render(<Table2 columns={columns} data={emptyData} />);
+      expect(screen.getByText('Nenhum dado encontrado')).toBeInTheDocument();
       expect(screen.getByText('Nenhum registro encontrado')).toBeInTheDocument();
     });
 
@@ -138,6 +139,7 @@ describe('Table2', () => {
         />
       );
       expect(screen.getByText('Nada a exibir por aqui')).toBeInTheDocument();
+      expect(screen.queryByText('Nenhum dado encontrado')).not.toBeInTheDocument();
       expect(screen.queryByText('Nenhum registro encontrado')).not.toBeInTheDocument();
     });
 
@@ -154,7 +156,7 @@ describe('Table2', () => {
 
     it('deve renderizar célula vazia ocupando todas as colunas', () => {
       render(<Table2 columns={columns} data={emptyData} />);
-      const emptyCell = screen.getByText('Nenhum registro encontrado').closest('td');
+      const emptyCell = screen.getByText('Nenhum dado encontrado').closest('td');
       expect(emptyCell).toHaveAttribute('colspan', String(columns.length));
     });
   });
