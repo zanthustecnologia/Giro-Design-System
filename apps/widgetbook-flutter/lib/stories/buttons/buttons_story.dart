@@ -39,10 +39,18 @@ WidgetbookComponent buttonsStory() {
             child: Padding(
               padding: const EdgeInsets.all(24.0),
               child: GiroButton(
-                variant: variant,
-                size: size,
+                variant: switch (variant) {
+                  'outlined' => GiroButtonVariant.outlined,
+                  'text'     => GiroButtonVariant.text,
+                  _          => GiroButtonVariant.filled,
+                },
+                size: size == 'sm' ? GiroButtonSize.sm : GiroButtonSize.lg,
+                iconPosition: switch (iconPosition) {
+                  'right' => GiroButtonIconPosition.right,
+                  'left'  => GiroButtonIconPosition.left,
+                  _       => GiroButtonIconPosition.none,
+                },
                 fullWidth: fullWidth,
-                iconPosition: iconPosition,
                 iconOnly: iconOnly,
                 icon: icon,
                 onPressed: disabled ? null : () {},

@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 import 'button_tokens.dart';
 
+enum GiroButtonVariant { filled, outlined, text }
+
+enum GiroButtonSize { lg, sm }
+
+enum GiroButtonIconPosition { left, right, none }
+
 class GiroButton extends StatelessWidget {
-  final String variant; // 'filled' | 'outlined' | 'text'
-  final String size; // 'lg' | 'sm'
-  final String iconPosition; // 'left' | 'right' | 'none'
+  final GiroButtonVariant variant;
+  final GiroButtonSize size;
+  final GiroButtonIconPosition iconPosition;
 
   final VoidCallback? onPressed;
   final Widget child;
@@ -17,17 +23,17 @@ class GiroButton extends StatelessWidget {
     super.key,
     required this.child,
     required this.onPressed,
-    this.variant = 'filled',
-    this.size = 'lg',
-    this.iconPosition = 'left',
+    this.variant = GiroButtonVariant.filled,
+    this.size = GiroButtonSize.lg,
+    this.iconPosition = GiroButtonIconPosition.left,
     this.icon,
     this.iconOnly = false,
     this.fullWidth = false,
   });
 
-  bool get _isLg => size == 'lg';
-  bool get _hasIcon => icon != null && !iconOnly && iconPosition != 'none';
-  bool get _iconRight => iconPosition == 'right';
+  bool get _isLg => size == GiroButtonSize.lg;
+  bool get _hasIcon => icon != null && !iconOnly && iconPosition != GiroButtonIconPosition.none;
+  bool get _iconRight => iconPosition == GiroButtonIconPosition.right;
 
   @override
   Widget build(BuildContext context) {
@@ -49,24 +55,16 @@ class GiroButton extends StatelessWidget {
 
     final composedChild = _buildChild(isLg: _isLg);
 
-    Widget button;
-    switch (variant) {
-      case 'outlined':
-        button = OutlinedButton(onPressed: onPressed, style: style, child: composedChild);
-        break;
-      case 'text':
-        button = TextButton(onPressed: onPressed, style: style, child: composedChild);
-        break;
-      case 'filled':
-      default:
-        button = FilledButton(onPressed: onPressed, style: style, child: composedChild);
-        break;
-    }
+    final Widget button = switch (variant) {
+      GiroButtonVariant.outlined => OutlinedButton(onPressed: onPressed, style: style, child: composedChild),
+      GiroButtonVariant.text     => TextButton(onPressed: onPressed, style: style, child: composedChild),
+      GiroButtonVariant.filled   => FilledButton(onPressed: onPressed, style: style, child: composedChild),
+    };
 
     if (fullWidth) {
       return SizedBox(width: double.infinity, height: height, child: button);
     }
-    
+
     return ConstrainedBox(
       constraints: BoxConstraints(
         minWidth: effectiveMinWidth,
@@ -78,17 +76,14 @@ class GiroButton extends StatelessWidget {
   }
 
   double _getHorizontalPadding({
-    required String variant,
+    required GiroButtonVariant variant,
     required bool isLg,
     required bool hasIcon,
   }) {
-    // Base padding por variant
-    double base = switch (variant) {
-      'text' => isLg ? GiroButtonTokens.paddingTextXLg : GiroButtonTokens.paddingTextXSm,
-      _ => isLg ? GiroButtonTokens.paddingXLg : GiroButtonTokens.paddingXSm,
+    return switch (variant) {
+      GiroButtonVariant.text => isLg ? GiroButtonTokens.paddingTextXLg : GiroButtonTokens.paddingTextXSm,
+      _                      => isLg ? GiroButtonTokens.paddingXLg : GiroButtonTokens.paddingXSm,
     };
-
-    return base;
   }
 
   Widget _buildChild({required bool isLg}) {
@@ -108,7 +103,7 @@ class GiroButton extends StatelessWidget {
     }
 
     // Sem ícone
-    if (icon == null || iconPosition == 'none') return child;
+    if (icon == null || iconPosition == GiroButtonIconPosition.none) return child;
 
     // Com ícone
     return Row(

@@ -70,8 +70,8 @@ StyleDictionary.registerFormat({
         // Se virou número, converte
         if (!isNaN(parseFloat(cleaned)) && cleaned.trim() !== '') {
           const numValue = parseFloat(cleaned);
-          // Spacing, borderRadius e fontSize precisam ser double
-          if (name.includes('spacing') || name.includes('borderRadius') || name.includes('fontSize')) {
+          // Spacing, borderRadius, fontSize e borderWidth precisam ser double
+          if (name.includes('spacing') || name.includes('borderRadius') || name.includes('fontSize') || name.includes('borderWidth')) {
             value = Number.isInteger(numValue) ? `${numValue}.0` : numValue;
           } else {
             value = numValue;

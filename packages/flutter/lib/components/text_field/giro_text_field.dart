@@ -15,7 +15,12 @@ class GiroTextField extends StatefulWidget {
   final TextInputType? keyboardType;
   final bool obscureText;
   final bool enabled;
+  final bool readOnly;
+  final Widget? prefixIcon;
   final Widget? suffixIcon;
+  final int? maxLines;
+  final int? minLines;
+  final VoidCallback? onTap;
 
   const GiroTextField({
     super.key,
@@ -29,7 +34,12 @@ class GiroTextField extends StatefulWidget {
     this.keyboardType,
     this.obscureText = false,
     this.enabled = true,
+    this.readOnly = false,
+    this.prefixIcon,
     this.suffixIcon,
+    this.maxLines = 1,
+    this.minLines,
+    this.onTap,
   });
 
   @override
@@ -41,13 +51,16 @@ class _GiroTextFieldState extends State<GiroTextField> {
   late FocusNode _focusNode;
   bool _hasFocus = false;
   bool _hasText = false;
+  bool _clearPending = false;
+
+  bool get _isMultiline => widget.maxLines != 1;
 
   @override
   void initState() {
     super.initState();
     _controller = widget.controller ?? TextEditingController();
     _focusNode = FocusNode();
-    
+
     _hasText = _controller.text.isNotEmpty;
 
     _focusNode.addListener(_handleFocusChange);
@@ -60,9 +73,9 @@ class _GiroTextFieldState extends State<GiroTextField> {
     if (widget.controller != oldWidget.controller) {
       _controller.removeListener(_handleTextChange);
       if (oldWidget.controller == null) {
-        _controller.dispose(); // Dispose local controller if we are switching to external
+        _controller.dispose();
       }
-      
+
       _controller = widget.controller ?? TextEditingController();
       _controller.addListener(_handleTextChange);
       _hasText = _controller.text.isNotEmpty;
@@ -81,6 +94,9 @@ class _GiroTextFieldState extends State<GiroTextField> {
   }
 
   void _handleFocusChange() {
+    // Ignore focus loss triggered by tapping the clear button to avoid
+    // the button disappearing before the tap is processed (race condition).
+    if (_clearPending) return;
     setState(() {
       _hasFocus = _focusNode.hasFocus;
     });
@@ -93,6 +109,7 @@ class _GiroTextFieldState extends State<GiroTextField> {
   }
 
   void _clearText() {
+    _clearPending = false;
     _controller.clear();
     widget.onChanged?.call('');
   }
@@ -108,17 +125,22 @@ class _GiroTextFieldState extends State<GiroTextField> {
       ),
     );
 
-    final showClearButton = _hasFocus && _hasText;
+    final showClearButton = _hasFocus && _hasText && !widget.readOnly;
 
     Widget? effectiveSuffixIcon;
     if (showClearButton) {
-      effectiveSuffixIcon = IconButton(
-        icon: const Icon(FluentIcons.dismiss_16_regular, size: 16),
-        onPressed: _clearText,
-        padding: EdgeInsets.zero,
-        constraints: const BoxConstraints(),
-        style: IconButton.styleFrom(
-          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      effectiveSuffixIcon = Listener(
+        onPointerDown: (_) => _clearPending = true,
+        onPointerUp: (_) => _clearPending = false,
+        onPointerCancel: (_) => _clearPending = false,
+        child: IconButton(
+          icon: const Icon(FluentIcons.dismiss_16_regular, size: 16),
+          onPressed: _clearText,
+          padding: EdgeInsets.zero,
+          constraints: const BoxConstraints(),
+          style: IconButton.styleFrom(
+            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          ),
         ),
       );
     } else if (widget.suffixIcon != null) {
@@ -127,6 +149,50 @@ class _GiroTextFieldState extends State<GiroTextField> {
         child: widget.suffixIcon!,
       );
     }
+
+    final textField = TextField(
+      controller: _controller,
+      focusNode: _focusNode,
+      onChanged: widget.onChanged,
+      keyboardType: widget.keyboardType,
+      obscureText: widget.obscureText,
+      enabled: widget.enabled,
+      readOnly: widget.readOnly,
+      maxLines: widget.obscureText ? 1 : widget.maxLines,
+      minLines: widget.minLines,
+      onTap: widget.onTap,
+      style: GoogleFonts.getFont(
+        GiroTextFieldTokens.fontFamily,
+        fontSize: GiroTextFieldTokens.inputFontSize,
+        color: widget.enabled
+            ? GiroTextFieldTokens.inputColor
+            : GiroTokens.colorNeutralLowLight,
+      ),
+      decoration: InputDecoration(
+        hintText: widget.hintText,
+        filled: true,
+        fillColor: widget.enabled
+            ? GiroTextFieldTokens.backgroundColor
+            : GiroTokens.colorNeutralHighLight,
+        prefixIcon: widget.prefixIcon != null
+            ? IconTheme(
+                data: const IconThemeData(size: 16),
+                child: widget.prefixIcon!,
+              )
+            : null,
+        suffixIcon: effectiveSuffixIcon,
+        enabledBorder: isError ? errorBorder : null,
+        focusedBorder: isError ? errorBorder : null,
+        focusedErrorBorder: errorBorder,
+        disabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(GiroTextFieldTokens.borderRadius),
+          borderSide: const BorderSide(
+            color: GiroTokens.colorNeutralHighDark,
+            width: GiroTextFieldTokens.borderWidth,
+          ),
+        ),
+      ),
+    );
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -140,8 +206,8 @@ class _GiroTextFieldState extends State<GiroTextField> {
                 GiroTextFieldTokens.fontFamily,
                 fontSize: GiroTextFieldTokens.labelFontSize,
                 fontWeight: GiroTextFieldTokens.labelFontWeight,
-                color: widget.enabled 
-                    ? GiroTextFieldTokens.labelColor 
+                color: widget.enabled
+                    ? GiroTextFieldTokens.labelColor
                     : GiroTokens.colorNeutralLowLight,
               ),
               children: [
@@ -150,8 +216,8 @@ class _GiroTextFieldState extends State<GiroTextField> {
                     text: ' *',
                     style: GoogleFonts.getFont(
                       GiroTextFieldTokens.fontFamily,
-                      color: isError 
-                          ? GiroTextFieldTokens.borderColorError 
+                      color: isError
+                          ? GiroTextFieldTokens.borderColorError
                           : GiroTextFieldTokens.requiredAsteriskColor,
                       fontSize: GiroTextFieldTokens.labelFontSize,
                     ),
@@ -161,56 +227,23 @@ class _GiroTextFieldState extends State<GiroTextField> {
           ),
           const SizedBox(height: GiroTextFieldTokens.labelGap),
         ],
-        SizedBox(
-          height: GiroTextFieldTokens.height, // Força 44px de altura
-          child: TextField(
-            controller: _controller,
-            focusNode: _focusNode,
-            onChanged: widget.onChanged,
-            keyboardType: widget.keyboardType,
-            obscureText: widget.obscureText,
-            enabled: widget.enabled,
+        // Single-line: fixed 44px height. Multiline: natural height.
+        if (!_isMultiline)
+          SizedBox(height: GiroTextFieldTokens.height, child: textField)
+        else
+          textField,
+        if (widget.errorText != null || widget.helperText != null) ...[
+          const SizedBox(height: 4),
+          Text(
+            widget.errorText ?? widget.helperText!,
             style: GoogleFonts.getFont(
               GiroTextFieldTokens.fontFamily,
-              fontSize: GiroTextFieldTokens.inputFontSize,
-              color: widget.enabled 
-                  ? GiroTextFieldTokens.inputColor 
-                  : GiroTokens.colorNeutralLowLight,
-            ),
-            decoration: InputDecoration(
-              hintText: widget.hintText,
-              filled: true,
-              fillColor: widget.enabled 
-                  ? GiroTextFieldTokens.backgroundColor 
-                  : GiroTokens.colorNeutralHighLight,
-              // Não passamos errorText aqui para evitar que o layout nativo mude a altura
-              suffixIcon: effectiveSuffixIcon,
-              // Sobrescrevemos as bordas manualmente se houver erro
-              enabledBorder: isError ? errorBorder : null,
-              focusedBorder: isError ? errorBorder : null,
-              disabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(GiroTextFieldTokens.borderRadius),
-                borderSide: const BorderSide(
-                  color: GiroTokens.colorNeutralHighDark,
-                  width: GiroTextFieldTokens.borderWidth,
-                ),
-              ),
+              color: widget.errorText != null
+                  ? GiroTextFieldTokens.borderColorError
+                  : GiroTextFieldTokens.helperTextColor,
+              fontSize: 12,
             ),
           ),
-        ),
-        // Mensagem de erro ou helper text renderizados externamente
-        if (widget.errorText != null || widget.helperText != null) ...[
-           const SizedBox(height: 4),
-           Text(
-             widget.errorText ?? widget.helperText!,
-             style: GoogleFonts.getFont(
-               GiroTextFieldTokens.fontFamily,
-               color: widget.errorText != null 
-                   ? GiroTextFieldTokens.borderColorError 
-                   : GiroTextFieldTokens.helperTextColor,
-               fontSize: 12,
-             ),
-           ),
         ]
       ],
     );

@@ -7,7 +7,7 @@ class GiroTextFieldTokens {
   // Dimensions
   static const double height = 44.0;
   static const double borderRadius = GiroTokens.borderRadius8;
-  static const double borderWidth = 1.0; // GiroTokens.borderWidth1 is int
+  static const double borderWidth = GiroTokens.borderWidth1;
   
   // Spacing
   static const double paddingHorizontal = GiroTokens.spacing16;

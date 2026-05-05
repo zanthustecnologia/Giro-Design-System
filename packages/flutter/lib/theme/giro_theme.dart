@@ -42,8 +42,8 @@ ButtonStyle _baseStyle({
     }),
 
     overlayColor: WidgetStateProperty.resolveWith((states) {
-      if (states.contains(WidgetState.hovered)) return hoverBg.withOpacity(0.12);
-      if (states.contains(WidgetState.pressed)) return pressedBg.withOpacity(0.16);
+      if (states.contains(WidgetState.hovered)) return hoverBg.withValues(alpha: 0.12);
+      if (states.contains(WidgetState.pressed)) return pressedBg.withValues(alpha: 0.16);
       return null;
     }),
 
@@ -150,5 +150,7 @@ ThemeData applyGiroTheme(ThemeData base) {
         fontSize: GiroTextFieldTokens.inputFontSize,
       ),
     ),
+
+    textTheme: GoogleFonts.figtreeTextTheme(base.textTheme),
   );
 }
