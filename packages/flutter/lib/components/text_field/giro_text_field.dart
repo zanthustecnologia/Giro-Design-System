@@ -141,9 +141,11 @@ class _GiroTextFieldState extends State<GiroTextField> {
                 GiroTextFieldTokens.fontFamily,
                 fontSize: GiroTextFieldTokens.labelFontSize,
                 fontWeight: GiroTextFieldTokens.labelFontWeight,
-                color: widget.enabled 
-                    ? GiroTextFieldTokens.labelColor 
-                    : GiroTokens.colorNeutralLowLight,
+                color: !widget.enabled
+                    ? GiroTokens.colorNeutralLowLight
+                    : isError
+                        ? GiroTextFieldTokens.borderColorError
+                        : GiroTextFieldTokens.labelColor,
               ),
               children: [
                 if (widget.required)
@@ -205,15 +207,17 @@ class _GiroTextFieldState extends State<GiroTextField> {
         ),
         // Mensagem de erro ou helper text renderizados externamente
         if (widget.errorText != null || widget.helperText != null) ...[
-           const SizedBox(height: 4),
+           SizedBox(height: widget.errorText != null ? 4 : 8),
            Text(
              widget.errorText ?? widget.helperText!,
              style: GoogleFonts.getFont(
                GiroTextFieldTokens.fontFamily,
-               color: widget.errorText != null 
-                   ? GiroTextFieldTokens.borderColorError 
-                   : GiroTextFieldTokens.helperTextColor,
-               fontSize: 12,
+               color: widget.errorText != null
+                   ? GiroTextFieldTokens.borderColorError
+                   : !widget.enabled
+                       ? GiroTokens.colorNeutralLowLight
+                       : GiroTextFieldTokens.helperTextColor,
+               fontSize: 14,
              ),
            ),
         ]
