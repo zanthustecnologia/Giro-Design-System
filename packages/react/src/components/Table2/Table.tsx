@@ -1,4 +1,4 @@
-import { ChevronLeft16Regular, ChevronRight16Regular, SearchInfo20Regular } from '@fluentui/react-icons';
+import { ChevronLeft16Regular, ChevronRight16Regular } from '@fluentui/react-icons';
 import {
   type ColumnDef,
   type ColumnFiltersState,
@@ -16,6 +16,7 @@ import 'react-loading-skeleton/dist/skeleton.css';
 
 import styles from './Table.module.scss';
 import Checkbox from '../Checkbox/Checkbox';
+import EmptyState from './components/EmptyState';
 import Filter from '../Filter/Filter';
 import Search from '../Search/Search';
 
@@ -122,24 +123,6 @@ const Table2 = <T,>({
     setPagination({ pageIndex: 0, pageSize: size });
     footer?.onPageSizeChange?.(size);
   };
-
-  const emptyContent = (
-    <div className={styles.tableEmpty}>
-      <div className={styles.tableEmptyContent}>
-        {emptyIcon ?? <SearchInfo20Regular />}
-      </div>
-      <div className={styles.tableEmptyText}>
-          <>
-            {emptyTitle ?? (
-              <h3 className={styles.tableEmptyTitle}>Nenhum dado encontrado</h3>
-            )}
-            {emptyText ?? (
-              <p className={styles.tableEmptyCaption}>Nenhum registro encontrado</p>
-            )}
-          </>     
-      </div>
-    </div>
-  );
 
   return (
     <div className={clsx(styles.wrapper, className)}>
@@ -281,7 +264,7 @@ const Table2 = <T,>({
                     colSpan={table.getVisibleLeafColumns().length}
                     className={styles.tableEmptyCell}
                   >
-                    {emptyContent}
+                    <EmptyState emptyIcon={emptyIcon} emptyTitle={emptyTitle} emptyText={emptyText} />
                   </td>
                 </tr>
               )}

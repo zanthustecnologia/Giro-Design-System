@@ -64,7 +64,13 @@ export interface Table2FooterProps {
   onPageSizeChange?: (pageSize: number) => void;
 }
 
-export interface Table2Props<T = Record<string, unknown>> {
+export interface EmptyStateProps {
+  emptyIcon?: ReactNode;
+  emptyTitle?: ReactNode;
+  emptyText?: ReactNode;
+}
+
+export interface Table2Props<T = Record<string, unknown>> extends EmptyStateProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   columns: ColumnDef<T, any>[];
   data: T[];
@@ -82,12 +88,6 @@ export interface Table2Props<T = Record<string, unknown>> {
   className?: string;
   /** Estado de carregamento — exibe skeleton animado no lugar da tabela */
   loading?: boolean;
-  /** Ícone exibido no estado vazio (substitui o ícone padrão) */
-  emptyIcon?: ReactNode;
-  /** Título exibido no estado vazio (substitui o título padrão) */
-  emptyTitle?: ReactNode;
-  /** Conteúdo exibido no estado vazio (substitui o texto padrão) */
-  emptyText?: ReactNode;
   /** Eventos e classe aplicados por linha */
   onRow?: (row: T, index: number) => {
     onClick?: () => void;
