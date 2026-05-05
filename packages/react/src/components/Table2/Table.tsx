@@ -19,7 +19,7 @@ import Search from '../Search/Search';
 
 import type { Table2Props } from './Table.types';
 
-function Table2<T>({
+const Table2 = <T,>({
   columns,
   data,
   enableFilters = false,
@@ -31,7 +31,7 @@ function Table2<T>({
   locale,
   onRow,
   className,
-}: Table2Props<T>) {
+}: Table2Props<T>) => {
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
   const [globalFilter, setGlobalFilter] = React.useState('');
   const [rowSelection, setRowSelection] = React.useState<RowSelectionState>({});
@@ -342,6 +342,6 @@ function Table2<T>({
       )}
     </div>
   );
-}
+};
 
 export default Table2;
