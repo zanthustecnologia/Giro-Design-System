@@ -10,7 +10,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import clsx from 'clsx';
-import * as React from 'react';
+import React, { useState, useMemo } from 'react';
 
 import styles from './Table.module.scss';
 import Checkbox from '../Checkbox/Checkbox';
@@ -32,16 +32,16 @@ const Table2 = <T,>({
   onRow,
   className,
 }: Table2Props<T>) => {
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
-  const [globalFilter, setGlobalFilter] = React.useState('');
-  const [rowSelection, setRowSelection] = React.useState<RowSelectionState>({});
-  const [pagination, setPagination] = React.useState({
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [globalFilter, setGlobalFilter] = useState('');
+  const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
+  const [pagination, setPagination] = useState({
     pageIndex: 0,
     pageSize: footer?.defaultPageSize ?? 10,
   });
   const { pageIndex, pageSize } = pagination;
 
-  const selectionColumn = React.useMemo<ColumnDef<T, unknown>>(() => ({
+  const selectionColumn = useMemo<ColumnDef<T, unknown>>(() => ({
     id: '__select__',
     size: 48,
     enableSorting: false,
