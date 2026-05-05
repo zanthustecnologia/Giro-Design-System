@@ -82,11 +82,12 @@ export interface Table2Props<T = Record<string, unknown>> {
   className?: string;
   /** Estado de carregamento — exibe skeleton animado no lugar da tabela */
   loading?: boolean;
-  /** Configurações de localização */
-  locale?: {
-    /** Componente/texto exibido quando não há dados */
-    emptyText?: ReactNode;
-  };
+  /** Ícone exibido no estado vazio (substitui o ícone padrão) */
+  emptyIcon?: ReactNode;
+  /** Título exibido no estado vazio (substitui o título padrão) */
+  emptyTitle?: ReactNode;
+  /** Conteúdo exibido no estado vazio (substitui o texto padrão) */
+  emptyText?: ReactNode;
   /** Eventos e classe aplicados por linha */
   onRow?: (row: T, index: number) => {
     onClick?: () => void;

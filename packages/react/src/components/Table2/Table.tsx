@@ -30,7 +30,9 @@ const Table2 = <T,>({
   header,
   footer,
   loading = false,
-  locale,
+  emptyIcon,
+  emptyTitle,
+  emptyText,
   onRow,
   className,
 }: Table2Props<T>) => {
@@ -121,14 +123,20 @@ const Table2 = <T,>({
     footer?.onPageSizeChange?.(size);
   };
 
-  const emptyContent = locale?.emptyText ?? (
+  const emptyContent = (
     <div className={styles.tableEmpty}>
       <div className={styles.tableEmptyContent}>
-        <SearchInfo20Regular />
+        {emptyIcon ?? <SearchInfo20Regular />}
       </div>
       <div className={styles.tableEmptyText}>
-        <h3 className={styles.tableEmptyTitle}>Nenhum dado encontrado</h3>
-        <p className={styles.tableEmptyCaption}>Nenhum registro encontrado</p>
+          <>
+            {emptyTitle ?? (
+              <h3 className={styles.tableEmptyTitle}>Nenhum dado encontrado</h3>
+            )}
+            {emptyText ?? (
+              <p className={styles.tableEmptyCaption}>Nenhum registro encontrado</p>
+            )}
+          </>     
       </div>
     </div>
   );
