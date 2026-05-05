@@ -132,7 +132,7 @@ const colunasCompletas = [
     id: 'detalhes',
     header: 'Detalhes',
     cell: ({ row }) => (
-      <div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-8)' }}>
         <div>{row.original.nome}</div>
         <div style={{ fontSize: '12px', color: 'var(--color-neutral-low-medium)' }}>
           {row.original.descricao}
