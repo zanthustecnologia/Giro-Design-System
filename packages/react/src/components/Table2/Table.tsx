@@ -71,9 +71,7 @@ const Table2 = <T,>({
     ? [selectionColumn, ...columns]
     : columns;
 
-  const hasHeader = !!header;
-  const showSearch = hasHeader && (header.showSearch ?? true);
-  const hasPagination = !!footer;
+  const showSearch = !!(header && (header.showSearch ?? true));
 
   const table = useReactTable({
     data,
@@ -81,7 +79,7 @@ const Table2 = <T,>({
     state: {
       ...(enableFilters ? { columnFilters } : {}),
       ...(showSearch ? { globalFilter } : {}),
-      ...(hasPagination ? { pagination: { pageIndex, pageSize } } : {}),
+      ...(footer ? { pagination: { pageIndex, pageSize } } : {}),
       ...(enableRowSelection ? { rowSelection } : {}),
     },
     onColumnFiltersChange: enableFilters ? setColumnFilters : undefined,
@@ -103,17 +101,17 @@ const Table2 = <T,>({
         }
       : undefined,
     enableRowSelection,
-    onPaginationChange: hasPagination ? setPagination : undefined,
+    onPaginationChange: footer ? setPagination : undefined,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel:
       enableFilters || showSearch ? getFilteredRowModel() : undefined,
-    getPaginationRowModel: hasPagination ? getPaginationRowModel() : undefined,
+    getPaginationRowModel: footer ? getPaginationRowModel() : undefined,
     manualPagination: false,
   });
 
-  const totalPages = hasPagination ? Math.ceil(footer.totalItems / pageSize) : 0;
+  const totalPages = footer ? Math.ceil(footer.totalItems / pageSize) : 0;
   const canGoPrev = pageIndex > 0;
-  const canGoNext = hasPagination && pageIndex + 1 < totalPages;
+  const canGoNext = !!footer && pageIndex + 1 < totalPages;
 
   const handlePageSizeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const size = Number(e.target.value);
@@ -147,7 +145,7 @@ const Table2 = <T,>({
 
   return (
     <div className={clsx(styles.wrapper, className)}>
-      {hasHeader && (
+      {header && (
         <div className={styles.tableHeader}>
           {showSearch && (
             <div className={styles.tableHeaderSearchContainer}>
@@ -283,7 +281,7 @@ const Table2 = <T,>({
           </table>
         </div>
       </div>
-      {hasPagination && (
+      {footer && (
         <div className={styles.tablePagination}>
           <div className={styles.tablePaginationSelect}>
             <label
