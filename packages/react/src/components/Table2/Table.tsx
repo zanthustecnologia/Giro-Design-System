@@ -11,6 +11,8 @@ import {
 } from '@tanstack/react-table';
 import clsx from 'clsx';
 import React, { useState, useMemo } from 'react';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 import styles from './Table.module.scss';
 import Checkbox from '../Checkbox/Checkbox';
@@ -118,18 +120,6 @@ const Table2 = <T,>({
     setPagination({ pageIndex: 0, pageSize: size });
     footer?.onPageSizeChange?.(size);
   };
-
-  if (loading) {
-    return (
-      <div className={clsx(styles.wrapper, className)}>
-        <div className={styles.tableContainer}>
-          <div className={styles.tableLoader}>
-            <p className={styles.tableEmptyCaption}>Carregando...</p>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   const emptyContent = locale?.emptyText ?? (
     <div className={styles.tableEmpty}>
@@ -245,7 +235,17 @@ const Table2 = <T,>({
               ))}
             </thead>
             <tbody className={styles.tableBody}>
-              {table.getRowModel().rows.length > 0 ? (
+              {loading ? (
+                Array.from({ length: pageSize }).map((_, rowIdx) => (
+                  <tr key={`skeleton-row-${rowIdx}`} className={styles.tableRow}>
+                    {table.getVisibleLeafColumns().map((col) => (
+                      <td key={col.id} className={styles.tableTd}>
+                        <Skeleton />
+                      </td>
+                    ))}
+                  </tr>
+                ))
+              ) : table.getRowModel().rows.length > 0 ? (
                 table.getRowModel().rows.map((row, index) => {
                   const rowProps = onRow?.(row.original, index) ?? {};
                   return (

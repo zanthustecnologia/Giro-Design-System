@@ -72,6 +72,7 @@
     "radix-ui": "^1.4.3",
     "react-day-picker": "^9.14.0",
     "react-i18next": "^15.6.1",
+    "react-loading-skeleton": "^3.5.0",
     "react-router-dom": "^7.8.1"
   }
 }
