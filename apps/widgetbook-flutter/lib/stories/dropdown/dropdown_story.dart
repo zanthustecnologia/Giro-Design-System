@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_giro/flutter_giro.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:widgetbook/widgetbook.dart';
 
 WidgetbookComponent dropdownStory() {
@@ -6,39 +8,22 @@ WidgetbookComponent dropdownStory() {
     name: 'Dropdown',
     useCases: [
       WidgetbookUseCase(
-        name: 'DropdownButton',
+        name: 'DropdownMenu',
         builder: (context) {
           return Center(
-            child: DropdownButton<String>(
-              value: 'one',
-              items: const [
-                DropdownMenuItem(value: 'one', child: Text('Option One')),
-                DropdownMenuItem(value: 'two', child: Text('Option Two')),
-                DropdownMenuItem(value: 'three', child: Text('Option Three')),
-              ],
-              onChanged: (value) {},
-            ),
-          );
-        },
-      ),
-      WidgetbookUseCase(
-        name: 'DropdownButtonFormField',
-        builder: (context) {
-          return Center(
-            child: SizedBox(
-              width: 300,
-              child: DropdownButtonFormField<String>(
-                decoration: const InputDecoration(
-                  labelText: 'Select Option',
-                  border: OutlineInputBorder(),
-                ),
-                value: 'one',
-                items: const [
-                  DropdownMenuItem(value: 'one', child: Text('Option One')),
-                  DropdownMenuItem(value: 'two', child: Text('Option Two')),
-                  DropdownMenuItem(value: 'three', child: Text('Option Three')),
+            child: Padding(
+              padding: const EdgeInsets.all(24),
+              child: DropdownMenu<String>(
+                width: 320,
+                hintText: 'Selecione uma opção',
+                trailingIcon: const Icon(FluentIcons.chevron_down_16_regular, size: 16),
+                selectedTrailingIcon: const Icon(FluentIcons.chevron_up_16_regular, size: 16),
+                dropdownMenuEntries: const [
+                  DropdownMenuEntry(value: 'one', label: 'Option One'),
+                  DropdownMenuEntry(value: 'two', label: 'Option Two'),
+                  DropdownMenuEntry(value: 'three', label: 'Option Three'),
                 ],
-                onChanged: (value) {},
+                onSelected: (value) {},
               ),
             ),
           );

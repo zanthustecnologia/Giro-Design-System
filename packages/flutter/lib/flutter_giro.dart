@@ -26,6 +26,8 @@ export 'components/dialogs/dialogs.dart';
 export 'components/dividers/dividers.dart';
 export 'components/drawer/drawer.dart';
 export 'components/dropdown_button/dropdown_button.dart';
+export 'components/select/select_tokens.dart';
+export 'components/select/giro_select.dart';
 export 'components/expansion/expansion.dart';
 export 'components/fab/fab.dart';
 export 'components/form/form.dart';

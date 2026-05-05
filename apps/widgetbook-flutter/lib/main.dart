@@ -16,6 +16,7 @@ import 'stories/dialogs/dialogs_story.dart';
 import 'stories/dividers/dividers_story.dart';
 import 'stories/drawer/drawer_story.dart';
 import 'stories/dropdown/dropdown_story.dart';
+import 'stories/select/select_story.dart';
 import 'stories/fab/fab_story.dart';
 import 'stories/icon_buttons/icon_buttons_story.dart';
 import 'stories/list_tile/list_tile_story.dart';
@@ -109,6 +110,7 @@ class WidgetbookApp extends StatelessWidget {
               name: 'Input',
               children: [
                 textFieldStory(),
+                selectStory(),
               ],
             ),
 

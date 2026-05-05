@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../tokens/generated_tokens.dart';
 import '../components/buttons/button_tokens.dart';
 import '../components/text_field/text_field_tokens.dart';
+import '../components/select/select_tokens.dart';
 
 ButtonStyle _baseStyle({
   required Color fg,
@@ -148,6 +149,71 @@ ThemeData applyGiroTheme(ThemeData base) {
         GiroTokens.fontFamilyPrimary,
         color: GiroTextFieldTokens.placeholderColor,
         fontSize: GiroTextFieldTokens.inputFontSize,
+      ),
+    ),
+
+    dropdownMenuTheme: DropdownMenuThemeData(
+      textStyle: GoogleFonts.getFont(
+        GiroSelectTokens.fontFamily,
+        fontSize: GiroSelectTokens.fontSize,
+        color: GiroSelectTokens.textColor,
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: GiroSelectTokens.backgroundColor,
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: GiroSelectTokens.paddingHorizontal,
+          vertical: 0,
+        ),
+        constraints: const BoxConstraints(minHeight: GiroSelectTokens.height),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(GiroSelectTokens.borderRadius),
+          borderSide: const BorderSide(
+            color: GiroSelectTokens.borderColorDefault,
+            width: GiroSelectTokens.borderWidth,
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(GiroSelectTokens.borderRadius),
+          borderSide: const BorderSide(
+            color: GiroSelectTokens.borderColorFocus,
+            width: GiroSelectTokens.borderWidth,
+          ),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(GiroSelectTokens.borderRadius),
+          borderSide: const BorderSide(
+            color: GiroSelectTokens.borderColorError,
+            width: GiroSelectTokens.borderWidth,
+          ),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(GiroSelectTokens.borderRadius),
+          borderSide: const BorderSide(
+            color: GiroSelectTokens.borderColorError,
+            width: GiroSelectTokens.borderWidth,
+          ),
+        ),
+        hintStyle: GoogleFonts.getFont(
+          GiroSelectTokens.fontFamily,
+          color: GiroSelectTokens.placeholderColor,
+          fontSize: GiroSelectTokens.fontSize,
+        ),
+      ),
+      menuStyle: MenuStyle(
+        backgroundColor: WidgetStateProperty.all(GiroSelectTokens.menuBackgroundColor),
+        elevation: WidgetStateProperty.all(GiroSelectTokens.menuElevation),
+        shape: WidgetStateProperty.all(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(GiroSelectTokens.menuBorderRadius),
+          ),
+        ),
+        maximumSize: WidgetStateProperty.all(
+          const Size(double.infinity, GiroSelectTokens.menuMaxHeight),
+        ),
+        padding: WidgetStateProperty.all(
+          const EdgeInsets.symmetric(vertical: 4),
+        ),
       ),
     ),
   );
