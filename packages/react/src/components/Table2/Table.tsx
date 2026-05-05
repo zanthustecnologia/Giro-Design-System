@@ -1,4 +1,4 @@
-import { ChevronLeft16Regular, ChevronRight16Regular } from '@fluentui/react-icons';
+import { ChevronLeft16Regular, ChevronRight16Regular, SearchInfo20Regular } from '@fluentui/react-icons';
 import {
   type ColumnDef,
   type ColumnFiltersState,
@@ -14,7 +14,6 @@ import * as React from 'react';
 
 import styles from './Table.module.scss';
 import Checkbox from '../Checkbox/Checkbox';
-import Empty from './components/Empty';
 import Filter from '../Filter/Filter';
 import Search from '../Search/Search';
 
@@ -137,7 +136,7 @@ function Table2<T>({
   const emptyContent = locale?.emptyText ?? (
     <div className={styles.tableEmpty}>
       <div className={styles.tableEmptyContent}>
-        <Empty />
+        <SearchInfo20Regular />
       </div>
       <div className={styles.tableEmptyText}>
         <h3 className={styles.tableEmptyTitle}>Nenhum dado encontrado</h3>
