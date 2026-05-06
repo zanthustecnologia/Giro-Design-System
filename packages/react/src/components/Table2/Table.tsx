@@ -1,12 +1,14 @@
-import { ChevronLeft16Regular, ChevronRight16Regular } from '@fluentui/react-icons';
+import { ChevronLeft16Regular, ChevronRight16Regular, ArrowSort16Regular, ArrowSortUp16Regular, ArrowSortDown16Regular } from '@fluentui/react-icons';
 import {
   type ColumnDef,
   type ColumnFiltersState,
   type RowSelectionState,
+  type SortingState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
+  getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
 import clsx from 'clsx';
@@ -27,6 +29,7 @@ const Table2 = <T,>({
   data,
   enableFilters = false,
   enableRowSelection = false,
+  enableSorting = true,
   onRowSelectionChange,
   header,
   footer,
@@ -40,6 +43,7 @@ const Table2 = <T,>({
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [globalFilter, setGlobalFilter] = useState('');
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
+  const [sorting, setSorting] = useState<SortingState>([]);
   const [pagination, setPagination] = useState({
     pageIndex: 0,
     pageSize: footer?.defaultPageSize ?? 10,
@@ -86,9 +90,12 @@ const Table2 = <T,>({
       ...(showSearch ? { globalFilter } : {}),
       ...(footer ? { pagination: { pageIndex, pageSize } } : {}),
       ...(enableRowSelection ? { rowSelection } : {}),
+      ...(enableSorting ? { sorting } : {}),
     },
     onColumnFiltersChange: enableFilters ? setColumnFilters : undefined,
     onGlobalFilterChange: showSearch ? setGlobalFilter : undefined,
+    onSortingChange: enableSorting ? setSorting : undefined,
+    enableSorting,
     onRowSelectionChange: enableRowSelection
       ? (updater) => {
           setRowSelection((prev) => {
@@ -111,6 +118,7 @@ const Table2 = <T,>({
     getFilteredRowModel:
       enableFilters || showSearch ? getFilteredRowModel() : undefined,
     getPaginationRowModel: footer ? getPaginationRowModel() : undefined,
+    getSortedRowModel: enableSorting ? getSortedRowModel() : undefined,
     manualPagination: false,
   });
 
@@ -204,12 +212,25 @@ const Table2 = <T,>({
                       style={{ textAlign: col.column.columnDef.meta?.align }}
                     >
                       <div className={styles.tableThContent}>
-                        {col.isPlaceholder
-                          ? null
-                          : flexRender(
-                              col.column.columnDef.header,
-                              col.getContext(),
+                        {col.isPlaceholder ? null : col.column.getCanSort() ? (
+                          <button
+                            type="button"
+                            className={styles.tableSortButton}
+                            onClick={col.column.getToggleSortingHandler()}
+                            aria-label={`Ordenar por ${typeof col.column.columnDef.header === 'string' ? col.column.columnDef.header : col.id}`}
+                          >
+                            {flexRender(col.column.columnDef.header, col.getContext())}
+                            {col.column.getIsSorted() === 'asc' ? (
+                              <ArrowSortUp16Regular className={styles.tableSortIcon} />
+                            ) : col.column.getIsSorted() === 'desc' ? (
+                              <ArrowSortDown16Regular className={styles.tableSortIcon} />
+                            ) : (
+                              <ArrowSort16Regular className={clsx(styles.tableSortIcon, styles.tableSortIconNeutral)} />
                             )}
+                          </button>
+                        ) : (
+                          flexRender(col.column.columnDef.header, col.getContext())
+                        )}
                       </div>
                       {enableFilters && col.column.getCanFilter() && (
                         <input

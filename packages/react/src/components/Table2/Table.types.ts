@@ -78,6 +78,8 @@ export interface Table2Props<T = Record<string, unknown>> extends EmptyStateProp
   enableFilters?: boolean;
   /** Habilita seleção de linhas via checkbox */
   enableRowSelection?: boolean;
+  /** Habilita ordenação de colunas ao clicar no cabeçalho */
+  enableSorting?: boolean;
   /** Callback chamado quando a seleção de linhas muda */
   onRowSelectionChange?: (selectedRows: T[]) => void;
   /** Header acima da tabela com busca + filtros */

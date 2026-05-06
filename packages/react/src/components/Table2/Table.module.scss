@@ -68,6 +68,10 @@
   display: flex;
   align-items: center;
   padding: var(--spacing-0) var(--spacing-16);
+
+  &:has(.tableSortButton) {
+    padding: var(--spacing-0);
+  }
 }
 
 .tableBody .tableTd {
@@ -88,6 +92,40 @@
   justify-content: center;
   width: 48px;
   padding: var(--spacing-0) var(--spacing-16);
+}
+
+.tableSortButton {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-4);
+  background: none;
+  border: none;
+  padding: var(--spacing-0) var(--spacing-16);
+  cursor: pointer;
+  font-family: var(--font-family-primary);
+  font-size: inherit;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-neutral-low-default);
+  text-align: inherit;
+  width: 100%;
+  min-height: 44px;
+
+  &:hover {
+    color: var(--color-brand-default);
+
+    .tableSortIconNeutral {
+      opacity: 1;
+    }
+  }
+}
+
+.tableSortIcon {
+  flex-shrink: 0;
+}
+
+.tableSortIconNeutral {
+  opacity: 0.4;
+  transition: opacity 0.2s;
 }
 
 .tablePagination {
