@@ -20,7 +20,7 @@ export const Footer: React.FC<FooterProps> = ({
     <div className={styles.docsFooter}>
       <div className={styles.docsFooterContent}>
         <div className={styles.docsFooterTitles}>
-          <h2>{title}</h2>
+          <h2 className="heading-2">{title}</h2>
           <p>{description}</p>
         </div>
         <div className={styles.docsFooterCards}>
