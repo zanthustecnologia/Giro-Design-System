@@ -96,6 +96,7 @@
   font-family: var(--font-family-primary);
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   justify-content: flex-end;
   align-items: center;
   font-size: var(--font-size-12);
@@ -104,6 +105,12 @@
   border-bottom: var(--border-width-1) solid var(--color-neutral-high-dark);
   gap: var(--spacing-8);
   height: 44px;
+  padding: var(--spacing-0) var(--spacing-8);
+
+  @media (max-width: 768px) {
+    height: auto;
+    padding: var(--spacing-8);
+  }
 }
 
 .tableHeader {
@@ -130,7 +137,7 @@
 }
 
 .tableHeaderSearch {
-  width: 360px;
+  width: 100%;
   max-width: 360px;
 }
 

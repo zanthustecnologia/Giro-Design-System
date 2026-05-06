@@ -371,3 +371,85 @@ export const Vazia: StoryFn = () => (
   </div>
 );
 
+// ─── Scroll Horizontal ────────────────────────────────────────────────────────
+const colunasLargas = [
+  col.accessor('nome', {
+    header: 'Nome',
+    size: 200,
+    cell: (info) => info.getValue(),
+  }),
+  col.accessor('descricao', {
+    header: 'Descrição',
+    size: 300,
+    cell: (info) => info.getValue(),
+  }),
+  col.accessor('tipo', {
+    header: 'Tipo',
+    size: 150,
+    cell: (info) => (
+      <Chips variant={tipoColor[info.getValue()] ?? 'neutral'}>
+        {info.getValue()}
+      </Chips>
+    ),
+  }),
+  col.accessor('status', {
+    header: 'Status',
+    size: 150,
+    cell: (info) => (
+      <Chips variant={statusColor[info.getValue()] ?? 'neutral'}>
+        {info.getValue()}
+      </Chips>
+    ),
+  }),
+  col.accessor('inicio', {
+    header: 'Data de Início',
+    size: 150,
+    cell: (info) => info.getValue(),
+  }),
+  col.display({
+    id: 'extra1',
+    header: 'Coluna Extra 1',
+    size: 200,
+    cell: () => 'Dado extra A',
+  }),
+  col.display({
+    id: 'extra2',
+    header: 'Coluna Extra 2',
+    size: 200,
+    cell: () => 'Dado extra B',
+  }),
+  col.display({
+    id: 'actions',
+    header: '',
+    size: 60,
+    cell: ({ row }) => (
+      <Menu
+        items={[
+          { id: 'edit', text: 'Editar' },
+          { id: 'delete', text: 'Excluir' },
+        ]}
+        onItemSelect={(item) => console.warn(item.text, row.original.nome)}
+      >
+        <Button variant="text" iconOnly icon={<MoreVertical16Regular />} tooltipText="Mais ações" />
+      </Menu>
+    ),
+  }),
+];
+
+export const ScrollHorizontal: StoryFn = () => (
+  <div style={{ width: 500 }}>
+    <Table2
+      columns={colunasLargas}
+      data={promocoes}
+      header={{ searchPlaceholder: 'Buscar...' }}
+      footer={{
+        totalItems: promocoes.length,
+        defaultPageSize: 5,
+        pageSizeOptions: [5, 10],
+      }}
+    />
+  </div>
+);
+
+ScrollHorizontal.storyName = 'Scroll Horizontal';
+
