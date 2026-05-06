@@ -1,0 +1,20 @@
+{
+  "name": "hub",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "tinacms dev -c \"astro dev --port 4321 --open\"",
+    "dev:astro": "astro dev --port 4321",
+    "build": "tinacms build && astro build",
+    "preview": "astro preview",
+    "lint": "eslint .",
+    "new-post": "node scripts/new-post.mjs"
+  },
+  "dependencies": {
+    "@giro-ds/tokens": "workspace:*",
+    "@tinacms/cli": "^2.2.5",
+    "astro": "^5.7.10",
+    "tinacms": "^3.7.5"
+  }
+}

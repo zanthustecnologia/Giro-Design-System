@@ -1,0 +1,212 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+function formatDate(date: Date) {
+  return date.toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' });
+}
+---
+
+<Layout title={`${post.data.title} — Giro DS Blog`} description={post.data.description}>
+  <main>
+    <article class="section">
+      <div class="container">
+        <a href="/blog" class="back-link">← Voltar para o blog</a>
+
+        <header class="post-header">
+          <div class="post-header__meta">
+            <time datetime={post.data.pubDate.toISOString()}>
+              {formatDate(post.data.pubDate)}
+            </time>
+            <span class="post-header__author">{post.data.author}</span>
+          </div>
+          <h1 class="post-header__title">{post.data.title}</h1>
+          <p class="post-header__desc">{post.data.description}</p>
+          <div class="post-header__tags">
+            {post.data.tags.map((tag) => (
+              <span class="post-header__tag">{tag}</span>
+            ))}
+          </div>
+        </header>
+
+        <div class="prose">
+          <Content />
+        </div>
+      </div>
+    </article>
+  </main>
+</Layout>
+
+<style>
+  .section {
+    padding: calc(70px + 16px + 32px) 0 var(--spacing-80);
+  }
+
+  .container {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-32);
+  }
+
+  .back-link {
+    display: inline-block;
+    font-size: var(--font-size-14);
+    color: var(--color-neutral-low-medium);
+    text-decoration: none;
+    margin-bottom: var(--spacing-40);
+    transition: color 0.15s ease;
+  }
+
+  .back-link:hover {
+    color: var(--color-brand-primary-default);
+  }
+
+  .post-header {
+    margin-bottom: var(--spacing-48);
+    padding-bottom: var(--spacing-40);
+    border-bottom: var(--border-width-1) solid var(--color-neutral-high-medium);
+  }
+
+  .post-header__meta {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-12);
+    margin-bottom: var(--spacing-16);
+    font-size: var(--font-size-12);
+    color: var(--color-neutral-low-medium);
+  }
+
+  .post-header__author::before {
+    content: '·';
+    margin-right: var(--spacing-12);
+  }
+
+  .post-header__title {
+    font-size: var(--font-size-36);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-neutral-low-default);
+    line-height: 1.2;
+    margin-bottom: var(--spacing-12);
+  }
+
+  .post-header__desc {
+    font-size: var(--font-size-16);
+    color: var(--color-neutral-low-medium);
+    line-height: 1.6;
+    margin-bottom: var(--spacing-16);
+  }
+
+  .post-header__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-8);
+  }
+
+  .post-header__tag {
+    font-size: var(--font-size-12);
+    font-weight: var(--font-weight-medium);
+    background: var(--color-brand-primary-light);
+    color: var(--color-brand-primary-default);
+    padding: 2px 8px;
+    border-radius: var(--border-radius-pill);
+  }
+
+  /* ===== PROSE ===== */
+  .prose {
+    font-size: var(--font-size-16);
+    line-height: 1.75;
+    color: var(--color-neutral-low-default);
+  }
+
+  .prose :global(h2) {
+    font-size: var(--font-size-24);
+    font-weight: var(--font-weight-bold);
+    margin-top: var(--spacing-48);
+    margin-bottom: var(--spacing-16);
+  }
+
+  .prose :global(h3) {
+    font-size: var(--font-size-18);
+    font-weight: var(--font-weight-bold);
+    margin-top: var(--spacing-32);
+    margin-bottom: var(--spacing-12);
+  }
+
+  .prose :global(p) {
+    margin-bottom: var(--spacing-16);
+  }
+
+  .prose :global(ul),
+  .prose :global(ol) {
+    padding-left: var(--spacing-24);
+    margin-bottom: var(--spacing-16);
+  }
+
+  .prose :global(li) {
+    margin-bottom: var(--spacing-8);
+  }
+
+  .prose :global(strong) {
+    font-weight: var(--font-weight-bold);
+    color: var(--color-neutral-low-default);
+  }
+
+  .prose :global(a) {
+    color: var(--color-brand-primary-default);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .prose :global(code) {
+    font-size: 0.875em;
+    background: var(--color-neutral-high-light);
+    border: var(--border-width-1) solid var(--color-neutral-high-medium);
+    border-radius: var(--border-radius-4);
+    padding: 2px 6px;
+  }
+
+  .prose :global(pre) {
+    background: var(--color-neutral-low-default);
+    border-radius: var(--border-radius-8);
+    padding: var(--spacing-24);
+    overflow-x: auto;
+    margin-bottom: var(--spacing-24);
+  }
+
+  .prose :global(pre code) {
+    background: none;
+    border: none;
+    padding: 0;
+    color: var(--color-neutral-high-default);
+    font-size: var(--font-size-14);
+  }
+
+  .prose :global(blockquote) {
+    border-left: 3px solid var(--color-brand-primary-default);
+    padding-left: var(--spacing-16);
+    margin: var(--spacing-24) 0;
+    color: var(--color-neutral-low-medium);
+    font-style: italic;
+  }
+
+  @media (max-width: 640px) {
+    .container {
+      padding: 0 var(--spacing-16);
+    }
+
+    .post-header__title {
+      font-size: var(--font-size-28);
+    }
+  }
+</style>

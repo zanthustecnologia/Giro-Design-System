@@ -1,0 +1,550 @@
+﻿---
+import Layout from '../layouts/Layout.astro';
+import FoundationCard from '../components/FoundationCard.astro';
+---
+
+<Layout title="Giro Design System" description="O design system AI-Driven da Zanthus e da Neos">
+
+  <main>
+
+    <!-- ===== BENTO GRID ===== -->
+    <section class="section">
+      <div class="container">
+        <div class="bento">
+
+          <!-- Card grande: React / Storybook (2 cols Ã— 2 rows) -->
+          <a href="/storybook" class="bento-card bento-card--react">
+            <div class="bento-card__text">
+              <p class="bento-card__eyebrow">Web</p>
+              <h3 class="bento-card__title">Construa interfaces com os componentes <strong>React</strong></h3>
+              <span class="bento-card__cta">Acessar Storybook â†’</span>
+            </div>
+            <div class="bento-card__visual">
+              <div class="mock-browser">
+                <div class="mock-browser__bar">
+                  <span></span><span></span><span></span>
+                </div>
+                <div class="mock-browser__canvas">
+                  <div class="mock-row">
+                    <div class="mock-btn">Button</div>
+                    <div class="mock-btn mock-btn--outline">Outline</div>
+                  </div>
+                  <div class="mock-input"></div>
+                  <div class="mock-card">
+                    <div class="mock-card__avatar"></div>
+                    <div class="mock-card__lines">
+                      <div class="mock-line"></div>
+                      <div class="mock-line mock-line--short"></div>
+                    </div>
+                  </div>
+                  <div class="mock-row mock-row--tags">
+                    <div class="mock-tag mock-tag--blue">primary</div>
+                    <div class="mock-tag mock-tag--green">success</div>
+                    <div class="mock-tag mock-tag--red">alert</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+
+          <!-- Card pequeno: Flutter / Widgetbook (col 3, row 1) -->
+          <a href="/widgetbook" class="bento-card bento-card--flutter">
+            <div class="bento-card__visual bento-card__visual--icons">
+              <div class="flutter-widgets">
+                <div class="flutter-widget flutter-widget--1"></div>
+                <div class="flutter-widget flutter-widget--2"></div>
+                <div class="flutter-widget flutter-widget--3"></div>
+                <div class="flutter-widget flutter-widget--4"></div>
+              </div>
+            </div>
+            <div class="bento-card__text bento-card__text--bottom">
+              <p class="bento-card__eyebrow">Mobile & Desktop</p>
+              <h3 class="bento-card__title">Widgets para <strong>Flutter</strong></h3>
+              <span class="bento-card__cta">Acessar Widgetbook â†’</span>
+            </div>
+          </a>
+
+          <!-- Card pequeno: Figma (col 3, row 2) -->
+          <a href="https://www.figma.com/design/uurFrMGj7AqFDHkm6RBtI7" target="_blank" rel="noopener noreferrer" class="bento-card bento-card--figma">
+            <div class="bento-card__visual bento-card__visual--icons">
+              <div class="figma-bubbles">
+                <div class="figma-bubble figma-bubble--tl"></div>
+                <div class="figma-bubble figma-bubble--tr"></div>
+                <div class="figma-bubble figma-bubble--bl"></div>
+                <div class="figma-bubble figma-bubble--br"></div>
+              </div>
+            </div>
+            <div class="bento-card__text bento-card__text--bottom">
+              <p class="bento-card__eyebrow">Design</p>
+              <h3 class="bento-card__title">Biblioteca no <strong>Figma</strong></h3>
+              <span class="bento-card__cta">Abrir no Figma â†’</span>
+            </div>
+          </a>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== FUNDAÃ‡Ã•ES ===== -->
+    <section class="section">
+      <div class="container">
+        <h2 class="section__title">FundaÃ§Ãµes compartilhadas</h2>
+        <div class="foundations-grid">
+
+          <FoundationCard
+            icon="ðŸŽ¨"
+            title="Tokens de design"
+            description="Cores, tipografia, espaÃ§amento e bordas â€” a base de toda consistÃªncia visual."
+            href="/storybook/?path=/docs/foundation-borders--docs"
+            linkLabel="Ver tokens"
+          />
+
+          <FoundationCard
+            icon="â™¿"
+            title="Acessibilidade"
+            description="Diretrizes e boas prÃ¡ticas para construir interfaces acessÃ­veis para todos."
+            href="/storybook/?path=/docs/comece-aqui--docs"
+            linkLabel="Ver guia"
+          />
+
+          <FoundationCard
+            icon="ðŸ“¦"
+            title="Componentes"
+            description="CatÃ¡logo completo de componentes com documentaÃ§Ã£o e exemplos interativos."
+            href="/storybook/?path=/docs/components-avatar--docs"
+            linkLabel="Ver componentes"
+          />
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== LINKS ÃšTEIS ===== -->
+    <section class="section">
+      <div class="container">
+        <h2 class="section__title">Links Ãºteis</h2>
+        <div class="links-grid">
+
+          <a href="https://github.com/zanthustecnologia/Giro-Design-System" target="_blank" rel="noopener noreferrer" class="link-card">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
+            </svg>
+            <div>
+              <strong>GitHub</strong>
+              <span>CÃ³digo-fonte, issues e contribuiÃ§Ãµes</span>
+            </div>
+          </a>
+
+          <a href="https://www.figma.com/design/uurFrMGj7AqFDHkm6RBtI7" target="_blank" rel="noopener noreferrer" class="link-card">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M15.332 8.668a3.333 3.333 0 0 0 0-6.663H8.668a3.333 3.333 0 0 0 0 6.663 3.333 3.333 0 0 0 0 6.665 3.333 3.333 0 1 0 3.333 3.333V8.668h3.331zm-6.664 0a1.333 1.333 0 1 1 0-2.663 1.333 1.333 0 0 1 0 2.663zm0 6.665a1.333 1.333 0 1 1 0-2.665 1.333 1.333 0 0 1 0 2.665zm0 4.666a1.333 1.333 0 1 1 0-2.666 1.333 1.333 0 0 1 0 2.666zm6.664-10.664a1.333 1.333 0 1 1 0-2.665 1.333 1.333 0 0 1 0 2.665z"/>
+            </svg>
+            <div>
+              <strong>Figma</strong>
+              <span>Biblioteca de design e protÃ³tipos</span>
+            </div>
+          </a>
+
+          <a href="https://www.npmjs.com/package/@giro-ds/react" target="_blank" rel="noopener noreferrer" class="link-card">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M1.763 0C.786 0 0 .786 0 1.763v20.474C0 23.214.786 24 1.763 24h20.474c.977 0 1.763-.786 1.763-1.763V1.763C24 .786 23.214 0 22.237 0zM5.13 5.323l13.837.019-.009 13.836h-3.464l.01-10.382h-3.456L12.04 19.17H5.113z"/>
+            </svg>
+            <div>
+              <strong>npm</strong>
+              <span>Pacotes publicados do Giro DS</span>
+            </div>
+          </a>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <span class="footer__brand">Giro Design System</span>
+      <span class="footer__copy">Â© {new Date().getFullYear()} Zanthus Tecnologia. Todos os direitos reservados.</span>
+    </div>
+  </footer>
+
+</Layout>
+
+<style>
+  /* ===== SECTIONS ===== */
+  .section {
+    padding: calc(70px + 16px + 16px) 0 var(--spacing-48);
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-32);
+  }
+
+  .section__title {
+    font-size: var(--font-size-24);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-neutral-low-default);
+    margin-bottom: var(--spacing-24);
+  }
+
+  /* ===== BENTO GRID ===== */
+  .bento {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 290px 290px;
+    gap: var(--spacing-16);
+  }
+
+  .bento-card {
+    border-radius: var(--border-radius-16);
+    border: var(--border-width-1) solid var(--color-neutral-high-medium);
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
+    position: relative;
+  }
+
+  .bento-card:hover {
+    box-shadow: 0 8px 40px rgba(59, 69, 242, 0.1);
+    border-color: var(--color-brand-primary-light);
+  }
+
+  .bento-card--react {
+    grid-column: 1 / 3;
+    grid-row: 1 / 3;
+    background: linear-gradient(145deg, #eef1ff 0%, #f5f7ff 30%, var(--color-neutral-high-default) 100%);
+    display: grid;
+    grid-template-rows: auto 1fr;
+    padding: var(--spacing-40);
+    gap: var(--spacing-32);
+  }
+
+  .bento-card--flutter {
+    grid-column: 3 / 4;
+    grid-row: 1 / 2;
+    background: linear-gradient(145deg, #eeffd8 0%, #f5fff0 50%, var(--color-neutral-high-default) 100%);
+  }
+
+  .bento-card--figma {
+    grid-column: 3 / 4;
+    grid-row: 2 / 3;
+    background: linear-gradient(145deg, #f0ecff 0%, #f8f5ff 50%, var(--color-neutral-high-default) 100%);
+  }
+
+  .bento-card__text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-8);
+  }
+
+  .bento-card__text--bottom {
+    padding: var(--spacing-24);
+    padding-top: 0;
+  }
+
+  .bento-card__eyebrow {
+    font-size: var(--font-size-12);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-neutral-low-medium);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .bento-card__title {
+    font-size: var(--font-size-20);
+    font-weight: var(--font-weight-regular);
+    color: var(--color-neutral-low-default);
+    line-height: 1.3;
+  }
+
+  .bento-card__title strong {
+    font-weight: var(--font-weight-bold);
+  }
+
+  .bento-card__cta {
+    font-size: var(--font-size-14);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-brand-primary-default);
+    margin-top: var(--spacing-4);
+  }
+
+  .bento-card__visual {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .bento-card__visual--icons {
+    flex: 1;
+    padding: var(--spacing-24);
+    padding-bottom: var(--spacing-12);
+  }
+
+  .mock-browser {
+    width: 100%;
+    max-width: 360px;
+    background: var(--color-neutral-high-default);
+    border-radius: var(--border-radius-8);
+    border: var(--border-width-1) solid var(--color-neutral-high-dark);
+    box-shadow: 0 4px 32px rgba(0, 0, 0, 0.07);
+    overflow: hidden;
+  }
+
+  .mock-browser__bar {
+    background: var(--color-neutral-high-light);
+    border-bottom: var(--border-width-1) solid var(--color-neutral-high-medium);
+    padding: 10px 14px;
+    display: flex;
+    gap: 6px;
+    align-items: center;
+  }
+
+  .mock-browser__bar span {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--color-neutral-high-dark);
+  }
+
+  .mock-browser__canvas {
+    padding: var(--spacing-16);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-12);
+  }
+
+  .mock-row {
+    display: flex;
+    gap: var(--spacing-8);
+    align-items: center;
+  }
+
+  .mock-btn {
+    background: var(--color-brand-primary-default);
+    color: var(--color-neutral-high-default);
+    font-size: 12px;
+    font-weight: 500;
+    padding: 6px 14px;
+    border-radius: var(--border-radius-pill);
+    font-family: var(--font-family-primary);
+  }
+
+  .mock-btn--outline {
+    background: transparent;
+    color: var(--color-brand-primary-default);
+    border: 1.5px solid var(--color-brand-primary-default);
+  }
+
+  .mock-input {
+    height: 34px;
+    border: var(--border-width-1) solid var(--color-neutral-high-dark);
+    border-radius: var(--border-radius-8);
+  }
+
+  .mock-card {
+    border: var(--border-width-1) solid var(--color-neutral-high-medium);
+    border-radius: var(--border-radius-8);
+    padding: 10px 12px;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-12);
+  }
+
+  .mock-card__avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--color-brand-primary-light);
+    flex-shrink: 0;
+  }
+
+  .mock-card__lines {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .mock-line {
+    height: 9px;
+    background: var(--color-neutral-high-medium);
+    border-radius: var(--border-radius-4);
+  }
+
+  .mock-line--short { width: 55%; }
+
+  .mock-tag {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: var(--border-radius-pill);
+    font-family: var(--font-family-primary);
+  }
+
+  .mock-tag--blue  { background: var(--color-brand-primary-light);   color: var(--color-brand-primary-default); }
+  .mock-tag--green { background: var(--color-brand-secondary-medium); color: var(--color-brand-secondary-dark); }
+  .mock-tag--red   { background: #ffc7d8; color: #b4052f; }
+
+  .flutter-widgets {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-8);
+    height: 100%;
+  }
+
+  .flutter-widget { border-radius: 40% 60% 55% 45% / 55% 45% 60% 40%; }
+  .flutter-widget--1 { background: linear-gradient(135deg, #54d68a, #0aed9b); }
+  .flutter-widget--2 { background: linear-gradient(135deg, #6cf4c3, #0ab16b); border-radius: 60% 40% 45% 55% / 40% 60% 40% 60%; }
+  .flutter-widget--3 { background: linear-gradient(135deg, #d3ff9a, #8cd92a); border-radius: 50% 50% 60% 40% / 60% 40% 60% 40%; }
+  .flutter-widget--4 { background: linear-gradient(135deg, #cadaff, #3b45f2); border-radius: 45% 55% 40% 60% / 45% 55% 45% 55%; }
+
+  .figma-bubbles {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-8);
+    height: 100%;
+  }
+
+  .figma-bubble { border-radius: 50%; }
+  .figma-bubble--tl { background: linear-gradient(135deg, #cadaff, #3b45f2); }
+  .figma-bubble--tr { background: linear-gradient(135deg, #d2b4de, #8e44ad); border-radius: 40% 60% 60% 40% / 50% 50% 50% 50%; }
+  .figma-bubble--bl { background: linear-gradient(135deg, #ffc7d8, #e81e42); border-radius: 60% 40% 40% 60% / 50% 50% 50% 50%; }
+  .figma-bubble--br { background: linear-gradient(135deg, #c1fae6, #0aed9b); }
+
+  .bento-card--flutter,
+  .bento-card--figma {
+    padding: var(--spacing-24);
+    gap: var(--spacing-12);
+  }
+
+  /* ===== FOUNDATIONS GRID ===== */
+  .foundations-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-12);
+  }
+
+  /* ===== LINKS GRID ===== */
+  .links-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-12);
+  }
+
+  .link-card {
+    background: var(--color-neutral-high-default);
+    border: var(--border-width-1) solid var(--color-neutral-high-medium);
+    border-radius: var(--border-radius-16);
+    padding: var(--spacing-24) var(--spacing-28);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-16);
+    color: var(--color-neutral-low-default);
+    text-decoration: none;
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+
+  .link-card:hover {
+    border-color: var(--color-brand-primary-light);
+    box-shadow: 0 4px 24px rgba(59, 69, 242, 0.08);
+  }
+
+  .link-card svg {
+    flex-shrink: 0;
+    color: var(--color-neutral-low-medium);
+  }
+
+  .link-card div {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-4);
+  }
+
+  .link-card strong {
+    font-size: var(--font-size-14);
+    font-weight: var(--font-weight-bold);
+  }
+
+  .link-card span {
+    font-size: var(--font-size-12);
+    color: var(--color-neutral-low-medium);
+  }
+
+  /* ===== FOOTER ===== */
+  .footer {
+    margin-top: var(--spacing-80);
+    border-top: var(--border-width-1) solid var(--color-neutral-high-medium);
+    padding: var(--spacing-32) 0;
+  }
+
+  .footer__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer__brand {
+    font-size: var(--font-size-14);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-neutral-low-default);
+  }
+
+  .footer__copy {
+    font-size: var(--font-size-12);
+    color: var(--color-neutral-low-medium);
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 960px) {
+    .bento {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 280px 200px 200px;
+    }
+
+    .bento-card--react   { grid-column: 1 / 3; grid-row: 1 / 2; }
+    .bento-card--flutter { grid-column: 1 / 2; grid-row: 2 / 3; }
+    .bento-card--figma   { grid-column: 2 / 3; grid-row: 2 / 3; }
+
+    .foundations-grid,
+    .links-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .container {
+      padding: 0 var(--spacing-16);
+    }
+
+    .bento {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto;
+    }
+
+    .bento-card--react,
+    .bento-card--flutter,
+    .bento-card--figma {
+      grid-column: 1;
+      grid-row: auto;
+      min-height: 280px;
+    }
+
+    .foundations-grid,
+    .links-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .footer__inner {
+      flex-direction: column;
+      gap: var(--spacing-8);
+      text-align: center;
+    }
+  }
+</style>
