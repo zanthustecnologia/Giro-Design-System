@@ -1,0 +1,10 @@
+{
+  "font": {
+    "family": {
+      "primary": {
+        "value": "\"Figtree\", sans-serif",
+        "type": "fontFamily"
+      }
+    }
+  }
+}
