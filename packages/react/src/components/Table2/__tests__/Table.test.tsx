@@ -11,6 +11,11 @@ import type { ColumnDef } from '@tanstack/react-table';
 vi.mock('@fluentui/react-icons', () => ({
   ChevronLeft16Regular: () => <span data-testid="chevron-left" />,
   ChevronRight16Regular: () => <span data-testid="chevron-right" />,
+  SearchInfo20Regular: () => <span data-testid="search-info-icon" />,
+}));
+
+vi.mock('react-loading-skeleton', () => ({
+  default: () => <span data-testid="skeleton" />,
 }));
 
 vi.mock('../../Checkbox/Checkbox', () => ({
@@ -106,20 +111,32 @@ describe('Table2', () => {
   });
 
   describe('Estado de carregamento', () => {
-    it('deve exibir "Carregando..." quando loading=true', () => {
+    it('deve renderizar a tabela quando loading=true', () => {
       render(<Table2 columns={columns} data={data} loading />);
-      expect(screen.getByText('Carregando...')).toBeInTheDocument();
+      expect(screen.getByRole('table')).toBeInTheDocument();
     });
 
-    it('não deve renderizar a tabela quando loading=true', () => {
-      render(<Table2 columns={columns} data={data} loading />);
-      expect(screen.queryByRole('table')).not.toBeInTheDocument();
+    it('deve exibir células skeleton quando loading=true', () => {
+      render(
+        <Table2
+          columns={columns}
+          data={data}
+          loading
+          footer={{ totalItems: 3, defaultPageSize: 3 }}
+        />,
+      );
+      expect(screen.getAllByTestId('skeleton').length).toBeGreaterThan(0);
     });
 
-    it('deve renderizar a tabela normalmente quando loading=false', () => {
+    it('não deve exibir os dados reais quando loading=true', () => {
+      render(<Table2 columns={columns} data={data} loading />);
+      expect(screen.queryByText('Alice')).not.toBeInTheDocument();
+    });
+
+    it('deve renderizar os dados normalmente quando loading=false', () => {
       render(<Table2 columns={columns} data={data} loading={false} />);
       expect(screen.getByRole('table')).toBeInTheDocument();
-      expect(screen.queryByText('Carregando...')).not.toBeInTheDocument();
+      expect(screen.getByText('Alice')).toBeInTheDocument();
     });
   });
 
@@ -130,17 +147,28 @@ describe('Table2', () => {
       expect(screen.getByText('Nenhum registro encontrado')).toBeInTheDocument();
     });
 
-    it('deve exibir texto customizado via locale.emptyText', () => {
+    it('deve exibir texto customizado via emptyText', () => {
       render(
         <Table2
           columns={columns}
           data={emptyData}
-          locale={{ emptyText: 'Nada a exibir por aqui' }}
+          emptyText="Nada a exibir por aqui"
         />
       );
       expect(screen.getByText('Nada a exibir por aqui')).toBeInTheDocument();
-      expect(screen.queryByText('Nenhum dado encontrado')).not.toBeInTheDocument();
       expect(screen.queryByText('Nenhum registro encontrado')).not.toBeInTheDocument();
+    });
+
+    it('deve exibir título customizado via emptyTitle', () => {
+      render(
+        <Table2
+          columns={columns}
+          data={emptyData}
+          emptyTitle="Título customizado"
+        />
+      );
+      expect(screen.getByText('Título customizado')).toBeInTheDocument();
+      expect(screen.queryByText('Nenhum dado encontrado')).not.toBeInTheDocument();
     });
 
     it('deve exibir emptyText como ReactNode', () => {
@@ -148,7 +176,7 @@ describe('Table2', () => {
         <Table2
           columns={columns}
           data={emptyData}
-          locale={{ emptyText: <span data-testid="empty-node">Sem resultados</span> }}
+          emptyText={<span data-testid="empty-node">Sem resultados</span>}
         />
       );
       expect(screen.getByTestId('empty-node')).toBeInTheDocument();
