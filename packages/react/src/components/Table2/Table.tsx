@@ -209,7 +209,12 @@ const Table2 = <T,>({
                     <th
                       key={col.id}
                       className={styles.tableTh}
-                      style={{ textAlign: col.column.columnDef.meta?.align }}
+                      style={{
+                        textAlign: col.column.columnDef.meta?.align,
+                        width: col.column.columnDef.size,
+                        minWidth: col.column.columnDef.minSize,
+                        maxWidth: col.column.columnDef.maxSize,
+                      }}
                     >
                       <div className={styles.tableThContent}>
                         {col.isPlaceholder ? null : col.column.getCanSort() ? (
@@ -271,9 +276,20 @@ const Table2 = <T,>({
                         <td
                           key={cell.id}
                           className={styles.tableTd}
-                          style={{ textAlign: cell.column.columnDef.meta?.align }}
+                          style={{
+                            textAlign: cell.column.columnDef.meta?.align,
+                            width: cell.column.columnDef.size,
+                            minWidth: cell.column.columnDef.minSize,
+                            maxWidth: cell.column.columnDef.maxSize,
+                          }}
                         >
-                          {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                          {cell.column.columnDef.meta?.maxHeight ? (
+                            <div style={{ maxHeight: cell.column.columnDef.meta.maxHeight, overflow: 'hidden' }}>
+                              {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                            </div>
+                          ) : (
+                            flexRender(cell.column.columnDef.cell, cell.getContext())
+                          )}
                         </td>
                       ))}
                     </tr>

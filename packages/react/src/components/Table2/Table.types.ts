@@ -7,6 +7,8 @@ declare module '@tanstack/react-table' {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   interface ColumnMeta<TData extends RowData, TValue> {
     align?: 'left' | 'center' | 'right';
+    /** Altura máxima do conteúdo da célula (ex: 48, '3rem'). Aplica overflow: hidden */
+    maxHeight?: number | string;
   }
 }
 

@@ -381,6 +381,7 @@ const colunasLargas = [
   col.accessor('descricao', {
     header: 'Descrição',
     size: 300,
+    meta: { maxHeight: 120 },
     cell: (info) => info.getValue(),
   }),
   col.accessor('tipo', {

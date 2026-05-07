@@ -242,12 +242,21 @@
     align-items: center;
     justify-content: center;
   }
+
+  @media (max-width: 480px) {
+    margin-left: var(--spacing-8);
+    margin-right: 0;
+  }
 }
 
 .tablePaginationControls {
   display: flex;
   gap: var(--spacing-16);
   padding-right: var(--spacing-16);
+
+  @media (max-width: 480px) {
+    padding-right: 0;
+  }
 }
 
 .tablePaginationButton {
