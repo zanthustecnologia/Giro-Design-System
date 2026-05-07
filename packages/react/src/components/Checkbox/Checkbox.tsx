@@ -31,7 +31,7 @@ const Checkbox: React.FC<CheckboxProps> = ({
       >
         <CheckboxRadix.Root
           className={styles.root}
-          checked={checked}
+          checked={indeterminate ? 'indeterminate' : checked}
           id={componentId}
           onCheckedChange={onCheckedChange}
           disabled={disabled}
