@@ -1,5 +1,5 @@
 import { MoreVertical16Regular } from '@fluentui/react-icons';
-import { Table2, Chips, Button, Menu, Avatar } from '@giro-ds/react';
+import { TableV2, Chips, Button, Menu, Avatar } from '@giro-ds/react';
 import { createColumnHelper } from '@tanstack/react-table';
 import React, { useState, useMemo } from 'react';
 
@@ -182,8 +182,8 @@ const colunasCompletas = [
 
 // ─── Meta ─────────────────────────────────────────────────────────────────────
 const meta: Meta = {
-  title: 'Components/Table2',
-  component: Table2,
+  title: 'Components/TableV2',
+  component: TableV2,
   parameters: { layout: 'centered' },
   argTypes: {
     enableRowSelection: {
@@ -209,7 +209,7 @@ export const Padrao: StoryFn<{
   enableFilters: boolean;
 }> = ({ enableRowSelection, enableFilters }) => (
   <div style={{ width: 700 }}>
-    <Table2
+    <TableV2
       columns={colunasPadrao}
       data={promocoes}
       enableRowSelection={enableRowSelection}
@@ -275,7 +275,7 @@ export const ComBuscaEFiltros: StoryFn = () => {
 
   return (
     <div style={{ width: 900, display: 'flex', flexDirection: 'column', gap: 16 }}>
-      <Table2
+      <TableV2
         columns={colunasCompletas}
         data={dadosFiltrados}
         enableRowSelection
@@ -346,7 +346,7 @@ export const ComFiltroCalendario: StoryFn = () => {
 
   return (
     <div style={{ width: 700 }}>
-      <Table2
+      <TableV2
         columns={colunasComData}
         data={dadosFiltrados}
         header={{
@@ -366,7 +366,7 @@ export const ComFiltroCalendario: StoryFn = () => {
 // ─── Somente Busca ────────────────────────────────────────────────────────────
 export const SomenteBusca: StoryFn = () => (
   <div style={{ width: 800 }}>
-    <Table2
+    <TableV2
       columns={colunasCompletas}
       data={promocoes}
       header={{ searchPlaceholder: 'Buscar promoções...' }}
@@ -382,7 +382,7 @@ export const SomenteBusca: StoryFn = () => (
 // ─── Sem Header ───────────────────────────────────────────────────────────────
 export const SemHeader: StoryFn = () => (
   <div style={{ width: 800 }}>
-    <Table2
+    <TableV2
       columns={colunasCompletas}
       data={promocoes}
       footer={{
@@ -397,14 +397,14 @@ export const SemHeader: StoryFn = () => (
 // ─── Carregando ───────────────────────────────────────────────────────────────
 export const Carregando: StoryFn = () => (
   <div style={{ width: 800 }}>
-    <Table2 columns={colunasCompletas} data={[]} loading />
+    <TableV2 columns={colunasCompletas} data={[]} loading />
   </div>
 );
 
 // ─── Vazia ────────────────────────────────────────────────────────────────────
 export const Vazia: StoryFn = () => (
   <div style={{ width: 800 }}>
-    <Table2 columns={colunasCompletas} data={[]}  />
+    <TableV2 columns={colunasCompletas} data={[]}  />
   </div>
 );
 
@@ -476,7 +476,7 @@ const colunasLargas = [
 
 export const ScrollHorizontal: StoryFn = () => (
   <div style={{ width: 500 }}>
-    <Table2
+    <TableV2
       columns={colunasLargas}
       data={promocoes}
       header={{ searchPlaceholder: 'Buscar...' }}

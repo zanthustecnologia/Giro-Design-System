@@ -44,7 +44,7 @@ interface CalendarFilterItem extends BaseFilterItem {
 
 export type FilterItem = CheckboxFilterItem | CalendarFilterItem;
 
-export interface Table2HeaderProps {
+export interface TableV2HeaderProps {
   /** Placeholder do campo de busca global */
   searchPlaceholder?: string;
   /** Exibe o campo de busca (padrão: true) */
@@ -53,7 +53,7 @@ export interface Table2HeaderProps {
   filterItems?: FilterItem[];
 }
 
-export interface Table2FooterProps {
+export interface TableV2FooterProps {
   /** Total de itens (para calcular número de páginas) */
   totalItems: number;
   /** Itens por página inicial (padrão: 10) */
@@ -72,7 +72,7 @@ export interface EmptyStateProps {
   emptyText?: ReactNode;
 }
 
-export interface Table2Props<T = Record<string, unknown>> extends EmptyStateProps {
+export interface TableV2Props<T = Record<string, unknown>> extends EmptyStateProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   columns: ColumnDef<T, any>[];
   data: T[];
@@ -85,9 +85,9 @@ export interface Table2Props<T = Record<string, unknown>> extends EmptyStateProp
   /** Callback chamado quando a seleção de linhas muda */
   onRowSelectionChange?: (selectedRows: T[]) => void;
   /** Header acima da tabela com busca + filtros */
-  header?: Table2HeaderProps;
+  header?: TableV2HeaderProps;
   /** Footer com paginação */
-  footer?: Table2FooterProps;
+  footer?: TableV2FooterProps;
   /** Classe CSS personalizada para o componente */
   className?: string;
   /** Estado de carregamento — exibe skeleton animado no lugar da tabela */

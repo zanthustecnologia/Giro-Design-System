@@ -22,9 +22,9 @@ import EmptyState from './components/EmptyState';
 import Filter from '../Filter/Filter';
 import Search from '../Search/Search';
 
-import type { Table2Props } from './Table.types';
+import type { TableV2Props } from './Table.types';
 
-const Table2 = <T,>({
+const TableV2 = <T,>({
   columns,
   data,
   enableFilters = false,
@@ -39,7 +39,7 @@ const Table2 = <T,>({
   emptyText,
   onRow,
   className,
-}: Table2Props<T>) => {
+}: TableV2Props<T>) => {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [globalFilter, setGlobalFilter] = useState('');
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
@@ -313,13 +313,13 @@ const Table2 = <T,>({
         <div className={styles.tablePagination}>
           <div className={styles.tablePaginationSelect}>
             <label
-              htmlFor="table2-page-size"
+              htmlFor="tablev2-page-size"
               className={styles.tablePaginationLabel}
             >
               Itens por página
             </label>
             <select
-              id="table2-page-size"
+              id="tablev2-page-size"
               value={pageSize}
               onChange={handlePageSizeChange}
               className={styles.tablePaginationSelectInput}
@@ -370,4 +370,4 @@ const Table2 = <T,>({
   );
 };
 
-export default Table2;
+export default TableV2;

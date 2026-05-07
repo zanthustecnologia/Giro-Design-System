@@ -2,7 +2,7 @@ import { render, screen, fireEvent, within } from '@testing-library/react';
 import React from 'react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
-import Table2 from '../Table';
+import TableV2 from '../Table';
 
 import type { ColumnDef } from '@tanstack/react-table';
 
@@ -73,52 +73,52 @@ const manyData: Person[] = Array.from({ length: 15 }, (_, i) => ({
 
 // ─── Testes ───────────────────────────────────────────────────────────────────
 
-describe('Table2', () => {
+describe('TableV2', () => {
   describe('Renderização básica', () => {
     it('deve renderizar o elemento table', () => {
-      render(<Table2 columns={columns} data={data} />);
+      render(<TableV2 columns={columns} data={data} />);
       expect(screen.getByRole('table')).toBeInTheDocument();
     });
 
     it('deve ter aria-label na tabela', () => {
-      render(<Table2 columns={columns} data={data} />);
+      render(<TableV2 columns={columns} data={data} />);
       expect(screen.getByRole('table')).toHaveAttribute('aria-label', 'Tabela de dados');
     });
 
     it('deve renderizar os cabeçalhos das colunas', () => {
-      render(<Table2 columns={columns} data={data} />);
+      render(<TableV2 columns={columns} data={data} />);
       expect(screen.getByRole('columnheader', { name: 'Nome' })).toBeInTheDocument();
       expect(screen.getByRole('columnheader', { name: 'Idade' })).toBeInTheDocument();
     });
 
     it('deve renderizar as linhas de dados', () => {
-      render(<Table2 columns={columns} data={data} />);
+      render(<TableV2 columns={columns} data={data} />);
       expect(screen.getByText('Alice')).toBeInTheDocument();
       expect(screen.getByText('Bob')).toBeInTheDocument();
       expect(screen.getByText('Carol')).toBeInTheDocument();
     });
 
     it('deve renderizar o número correto de linhas', () => {
-      render(<Table2 columns={columns} data={data} />);
+      render(<TableV2 columns={columns} data={data} />);
       // 3 linhas de dados + 1 linha de cabeçalho
       expect(screen.getAllByRole('row')).toHaveLength(data.length + 1);
     });
 
     it('deve aplicar className customizado no wrapper', () => {
-      const { container } = render(<Table2 columns={columns} data={data} className="my-custom-class" />);
+      const { container } = render(<TableV2 columns={columns} data={data} className="my-custom-class" />);
       expect(container.firstChild).toHaveClass('my-custom-class');
     });
   });
 
   describe('Estado de carregamento', () => {
     it('deve renderizar a tabela quando loading=true', () => {
-      render(<Table2 columns={columns} data={data} loading />);
+      render(<TableV2 columns={columns} data={data} loading />);
       expect(screen.getByRole('table')).toBeInTheDocument();
     });
 
     it('deve exibir células skeleton quando loading=true', () => {
       render(
-        <Table2
+        <TableV2
           columns={columns}
           data={data}
           loading
@@ -129,12 +129,12 @@ describe('Table2', () => {
     });
 
     it('não deve exibir os dados reais quando loading=true', () => {
-      render(<Table2 columns={columns} data={data} loading />);
+      render(<TableV2 columns={columns} data={data} loading />);
       expect(screen.queryByText('Alice')).not.toBeInTheDocument();
     });
 
     it('deve renderizar os dados normalmente quando loading=false', () => {
-      render(<Table2 columns={columns} data={data} loading={false} />);
+      render(<TableV2 columns={columns} data={data} loading={false} />);
       expect(screen.getByRole('table')).toBeInTheDocument();
       expect(screen.getByText('Alice')).toBeInTheDocument();
     });
@@ -142,14 +142,14 @@ describe('Table2', () => {
 
   describe('Estado vazio', () => {
     it('deve exibir título e caption padrão quando não há dados', () => {
-      render(<Table2 columns={columns} data={emptyData} />);
+      render(<TableV2 columns={columns} data={emptyData} />);
       expect(screen.getByText('Nenhum dado encontrado')).toBeInTheDocument();
       expect(screen.getByText('Nenhum registro encontrado')).toBeInTheDocument();
     });
 
     it('deve exibir texto customizado via emptyText', () => {
       render(
-        <Table2
+        <TableV2
           columns={columns}
           data={emptyData}
           emptyText="Nada a exibir por aqui"
@@ -161,7 +161,7 @@ describe('Table2', () => {
 
     it('deve exibir título customizado via emptyTitle', () => {
       render(
-        <Table2
+        <TableV2
           columns={columns}
           data={emptyData}
           emptyTitle="Título customizado"
@@ -173,7 +173,7 @@ describe('Table2', () => {
 
     it('deve exibir emptyText como ReactNode', () => {
       render(
-        <Table2
+        <TableV2
           columns={columns}
           data={emptyData}
           emptyText={<span data-testid="empty-node">Sem resultados</span>}
@@ -183,7 +183,7 @@ describe('Table2', () => {
     });
 
     it('deve renderizar célula vazia ocupando todas as colunas', () => {
-      render(<Table2 columns={columns} data={emptyData} />);
+      render(<TableV2 columns={columns} data={emptyData} />);
       const emptyCell = screen.getByText('Nenhum dado encontrado').closest('td');
       expect(emptyCell).toHaveAttribute('colspan', String(columns.length));
     });
@@ -191,34 +191,34 @@ describe('Table2', () => {
 
   describe('Header (busca e filtros)', () => {
     it('deve renderizar campo de busca quando header é fornecido', () => {
-      render(<Table2 columns={columns} data={data} header={{}} />);
+      render(<TableV2 columns={columns} data={data} header={{}} />);
       expect(screen.getByTestId('search-input')).toBeInTheDocument();
     });
 
     it('deve usar placeholder padrão no campo de busca', () => {
-      render(<Table2 columns={columns} data={data} header={{}} />);
+      render(<TableV2 columns={columns} data={data} header={{}} />);
       expect(screen.getByTestId('search-input')).toHaveAttribute('placeholder', 'Pesquisar...');
     });
 
     it('deve usar placeholder customizado no campo de busca', () => {
       render(
-        <Table2 columns={columns} data={data} header={{ searchPlaceholder: 'Buscar usuário...' }} />
+        <TableV2 columns={columns} data={data} header={{ searchPlaceholder: 'Buscar usuário...' }} />
       );
       expect(screen.getByTestId('search-input')).toHaveAttribute('placeholder', 'Buscar usuário...');
     });
 
     it('não deve renderizar campo de busca quando showSearch=false', () => {
-      render(<Table2 columns={columns} data={data} header={{ showSearch: false }} />);
+      render(<TableV2 columns={columns} data={data} header={{ showSearch: false }} />);
       expect(screen.queryByTestId('search-input')).not.toBeInTheDocument();
     });
 
     it('não deve renderizar header quando a prop não é fornecida', () => {
-      render(<Table2 columns={columns} data={data} />);
+      render(<TableV2 columns={columns} data={data} />);
       expect(screen.queryByTestId('search-input')).not.toBeInTheDocument();
     });
 
     it('deve filtrar linhas ao digitar no campo de busca', () => {
-      render(<Table2 columns={columns} data={data} header={{}} />);
+      render(<TableV2 columns={columns} data={data} header={{}} />);
       fireEvent.change(screen.getByTestId('search-input'), { target: { value: 'Alice' } });
       expect(screen.getByText('Alice')).toBeInTheDocument();
       expect(screen.queryByText('Bob')).not.toBeInTheDocument();
@@ -226,7 +226,7 @@ describe('Table2', () => {
 
     it('deve renderizar filtros do tipo checkbox', () => {
       render(
-        <Table2
+        <TableV2
           columns={columns}
           data={data}
           header={{
@@ -247,7 +247,7 @@ describe('Table2', () => {
 
     it('deve renderizar filtros do tipo calendar', () => {
       render(
-        <Table2
+        <TableV2
           columns={columns}
           data={data}
           header={{
@@ -267,7 +267,7 @@ describe('Table2', () => {
 
     it('deve renderizar múltiplos filtros', () => {
       render(
-        <Table2
+        <TableV2
           columns={columns}
           data={data}
           header={{
@@ -286,17 +286,17 @@ describe('Table2', () => {
 
   describe('Seleção de linhas', () => {
     it('deve adicionar coluna de checkbox quando enableRowSelection=true', () => {
-      render(<Table2 columns={columns} data={data} enableRowSelection />);
+      render(<TableV2 columns={columns} data={data} enableRowSelection />);
       expect(screen.getAllByTestId('row-checkbox').length).toBeGreaterThan(0);
     });
 
     it('não deve adicionar coluna de checkbox quando enableRowSelection=false', () => {
-      render(<Table2 columns={columns} data={data} enableRowSelection={false} />);
+      render(<TableV2 columns={columns} data={data} enableRowSelection={false} />);
       expect(screen.queryAllByTestId('row-checkbox')).toHaveLength(0);
     });
 
     it('deve renderizar um checkbox por linha mais o do cabeçalho', () => {
-      render(<Table2 columns={columns} data={data} enableRowSelection />);
+      render(<TableV2 columns={columns} data={data} enableRowSelection />);
       // 1 checkbox no cabeçalho + 1 por linha de dado
       expect(screen.getAllByTestId('row-checkbox')).toHaveLength(data.length + 1);
     });
@@ -304,7 +304,7 @@ describe('Table2', () => {
     it('deve chamar onRowSelectionChange ao selecionar uma linha', () => {
       const onRowSelectionChange = vi.fn();
       render(
-        <Table2
+        <TableV2
           columns={columns}
           data={data}
           enableRowSelection
@@ -318,7 +318,7 @@ describe('Table2', () => {
     });
 
     it('checkbox do cabeçalho deve estar com indeterminate quando parte das linhas está selecionada', () => {
-      render(<Table2 columns={columns} data={data} enableRowSelection />);
+      render(<TableV2 columns={columns} data={data} enableRowSelection />);
       const checkboxes = screen.getAllByTestId('row-checkbox');
       // Seleciona apenas a primeira linha
       fireEvent.click(checkboxes[1]);
@@ -329,18 +329,18 @@ describe('Table2', () => {
 
   describe('Filtros por coluna', () => {
     it('deve renderizar inputs de filtro nos cabeçalhos quando enableFilters=true', () => {
-      render(<Table2 columns={columns} data={data} enableFilters />);
+      render(<TableV2 columns={columns} data={data} enableFilters />);
       const filterInputs = screen.getAllByPlaceholderText('Filtrar...');
       expect(filterInputs.length).toBeGreaterThan(0);
     });
 
     it('não deve renderizar inputs de filtro quando enableFilters=false', () => {
-      render(<Table2 columns={columns} data={data} enableFilters={false} />);
+      render(<TableV2 columns={columns} data={data} enableFilters={false} />);
       expect(screen.queryByPlaceholderText('Filtrar...')).not.toBeInTheDocument();
     });
 
     it('deve filtrar dados ao digitar no input de filtro por coluna', () => {
-      render(<Table2 columns={columns} data={data} enableFilters />);
+      render(<TableV2 columns={columns} data={data} enableFilters />);
       const [nameFilter] = screen.getAllByPlaceholderText('Filtrar...');
       fireEvent.change(nameFilter, { target: { value: 'Alice' } });
       expect(screen.getByText('Alice')).toBeInTheDocument();
@@ -355,34 +355,34 @@ describe('Table2', () => {
     };
 
     it('deve renderizar controles de paginação quando footer é fornecido', () => {
-      render(<Table2 columns={columns} data={manyData} footer={footerProps} />);
+      render(<TableV2 columns={columns} data={manyData} footer={footerProps} />);
       expect(screen.getByRole('button', { name: 'Página anterior' })).toBeInTheDocument();
       expect(screen.getByRole('button', { name: 'Próxima página' })).toBeInTheDocument();
     });
 
     it('não deve renderizar paginação quando footer não é fornecido', () => {
-      render(<Table2 columns={columns} data={data} />);
+      render(<TableV2 columns={columns} data={data} />);
       expect(screen.queryByRole('button', { name: 'Página anterior' })).not.toBeInTheDocument();
       expect(screen.queryByRole('button', { name: 'Próxima página' })).not.toBeInTheDocument();
     });
 
     it('deve exibir "1 de 2" na primeira página com 2 páginas', () => {
-      render(<Table2 columns={columns} data={manyData} footer={footerProps} />);
+      render(<TableV2 columns={columns} data={manyData} footer={footerProps} />);
       expect(screen.getByText('1 de 2')).toBeInTheDocument();
     });
 
     it('botão de página anterior deve estar desabilitado na primeira página', () => {
-      render(<Table2 columns={columns} data={manyData} footer={footerProps} />);
+      render(<TableV2 columns={columns} data={manyData} footer={footerProps} />);
       expect(screen.getByRole('button', { name: 'Página anterior' })).toBeDisabled();
     });
 
     it('botão de próxima página deve estar habilitado na primeira página', () => {
-      render(<Table2 columns={columns} data={manyData} footer={footerProps} />);
+      render(<TableV2 columns={columns} data={manyData} footer={footerProps} />);
       expect(screen.getByRole('button', { name: 'Próxima página' })).toBeEnabled();
     });
 
     it('deve navegar para a próxima página e exibir "2 de 2"', () => {
-      render(<Table2 columns={columns} data={manyData} footer={footerProps} />);
+      render(<TableV2 columns={columns} data={manyData} footer={footerProps} />);
       fireEvent.click(screen.getByRole('button', { name: 'Próxima página' }));
       expect(screen.getByText('2 de 2')).toBeInTheDocument();
     });
@@ -390,7 +390,7 @@ describe('Table2', () => {
     it('deve chamar onPageChange ao navegar para a próxima página', () => {
       const onPageChange = vi.fn();
       render(
-        <Table2
+        <TableV2
           columns={columns}
           data={manyData}
           footer={{ ...footerProps, onPageChange }}
@@ -403,7 +403,7 @@ describe('Table2', () => {
     it('deve navegar para a página anterior e chamar onPageChange', () => {
       const onPageChange = vi.fn();
       render(
-        <Table2
+        <TableV2
           columns={columns}
           data={manyData}
           footer={{ ...footerProps, onPageChange }}
@@ -415,12 +415,12 @@ describe('Table2', () => {
     });
 
     it('deve renderizar seletor de itens por página', () => {
-      render(<Table2 columns={columns} data={manyData} footer={footerProps} />);
+      render(<TableV2 columns={columns} data={manyData} footer={footerProps} />);
       expect(screen.getByRole('combobox')).toBeInTheDocument();
     });
 
     it('deve usar opções padrão de itens por página [10, 25, 50, 100]', () => {
-      render(<Table2 columns={columns} data={manyData} footer={footerProps} />);
+      render(<TableV2 columns={columns} data={manyData} footer={footerProps} />);
       const select = screen.getByRole('combobox');
       const options = within(select).getAllByRole('option');
       expect(options.map((o) => o.textContent)).toEqual(['10', '25', '50', '100']);
@@ -428,7 +428,7 @@ describe('Table2', () => {
 
     it('deve usar pageSizeOptions customizados', () => {
       render(
-        <Table2
+        <TableV2
           columns={columns}
           data={manyData}
           footer={{ ...footerProps, pageSizeOptions: [5, 10, 20] }}
@@ -442,7 +442,7 @@ describe('Table2', () => {
     it('deve chamar onPageSizeChange ao alterar itens por página', () => {
       const onPageSizeChange = vi.fn();
       render(
-        <Table2
+        <TableV2
           columns={columns}
           data={manyData}
           footer={{ ...footerProps, onPageSizeChange, pageSizeOptions: [10, 25] }}
@@ -454,7 +454,7 @@ describe('Table2', () => {
 
     it('deve exibir "0 páginas" quando totalItems é 0', () => {
       render(
-        <Table2
+        <TableV2
           columns={columns}
           data={emptyData}
           footer={{ totalItems: 0 }}
@@ -468,7 +468,7 @@ describe('Table2', () => {
     it('deve chamar onClick ao clicar em uma linha', () => {
       const onClick = vi.fn();
       render(
-        <Table2
+        <TableV2
           columns={columns}
           data={data}
           onRow={() => ({ onClick })}
@@ -483,7 +483,7 @@ describe('Table2', () => {
     it('deve chamar onDoubleClick ao dar dois cliques em uma linha', () => {
       const onDoubleClick = vi.fn();
       render(
-        <Table2
+        <TableV2
           columns={columns}
           data={data}
           onRow={() => ({ onDoubleClick })}
@@ -496,7 +496,7 @@ describe('Table2', () => {
 
     it('deve aplicar className customizado na linha via onRow', () => {
       render(
-        <Table2
+        <TableV2
           columns={columns}
           data={data}
           onRow={() => ({ className: 'linha-especial' })}
@@ -508,7 +508,7 @@ describe('Table2', () => {
 
     it('deve passar os dados corretos da linha para o callback onRow', () => {
       const onRow = vi.fn().mockReturnValue({});
-      render(<Table2 columns={columns} data={data} onRow={onRow} />);
+      render(<TableV2 columns={columns} data={data} onRow={onRow} />);
       expect(onRow).toHaveBeenCalledWith(data[0], 0);
       expect(onRow).toHaveBeenCalledWith(data[1], 1);
       expect(onRow).toHaveBeenCalledWith(data[2], 2);
@@ -521,7 +521,7 @@ describe('Table2', () => {
         { accessorKey: 'name', header: 'Nome', meta: { align: 'center' } },
         { accessorKey: 'age', header: 'Idade' },
       ];
-      render(<Table2 columns={columnsWithAlign} data={data} />);
+      render(<TableV2 columns={columnsWithAlign} data={data} />);
       const firstCell = screen.getAllByRole('cell')[0];
       expect(firstCell).toHaveStyle({ textAlign: 'center' });
     });
@@ -531,7 +531,7 @@ describe('Table2', () => {
         { accessorKey: 'name', header: 'Nome' },
         { accessorKey: 'age', header: 'Idade', meta: { align: 'right' } },
       ];
-      render(<Table2 columns={columnsWithAlign} data={data} />);
+      render(<TableV2 columns={columnsWithAlign} data={data} />);
       const secondCell = screen.getAllByRole('cell')[1];
       expect(secondCell).toHaveStyle({ textAlign: 'right' });
     });
