@@ -1,0 +1,38 @@
+{
+  "color": {
+    "background": {
+      "default": {
+        "value": "{color.neutral.0}",
+        "type": "color"
+      },
+      "inverse": {
+        "value": "{color.neutral.900}",
+        "type": "color"
+      },
+      "brand": {
+        "value": "{color.brand.primary.500}",
+        "type": "color"
+      },
+      "brandSubtle": {
+        "value": "{color.brand.primary.100}",
+        "type": "color"
+      },
+      "success": {
+        "value": "{color.feedback.success.500}",
+        "type": "color"
+      },
+      "successSubtle": {
+        "value": "{color.feedback.success.100}",
+        "type": "color"
+      },
+      "alert": {
+        "value": "{color.feedback.alert.500}",
+        "type": "color"
+      },
+      "alertSubtle": {
+        "value": "{color.feedback.alert.100}",
+        "type": "color"
+      }
+    }
+  }
+}
