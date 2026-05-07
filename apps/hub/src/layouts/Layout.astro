@@ -1,6 +1,8 @@
 ---
 import '@giro-ds/tokens/build/css/tokens.css';
+import '@giro-ds/react/dist/styles.css';
 import '../styles/global.css';
+import { Button } from '@giro-ds/react';
 
 interface Props {
   title?: string;
@@ -36,7 +38,7 @@ const {
           <a href="/blog" class="header__nav-link">Blog</a>
           <a href="https://github.com/zanthustecnologia/Giro-Design-System" target="_blank" rel="noopener noreferrer" class="header__nav-link">GitHub</a>
           <a href="https://www.figma.com/design/uurFrMGj7AqFDHkm6RBtI7" target="_blank" rel="noopener noreferrer" class="header__nav-link">Figma</a>
-          <a href="#" class="header__nav-link header__nav-link--cta">Feedback</a>
+          <Button href="#" variant="filled" size="sm">Feedback</Button>
         </nav>
       </div>
     </header>
@@ -66,12 +68,11 @@ const {
     width: calc(100% - 64px);
     max-width: 1136px;
     z-index: 100;
-    background: transparent;
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: var(--border-width-1) solid var(--color-neutral-high-dark);
+    background: color-mix(in oklab, var(--color-neutral-high-default) 15%, transparent);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: var(--border-width-1) solid var(--color-neutral-high-medium);
     border-radius: var(--border-radius-8);
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
     transition: width 0.3s ease, max-width 0.3s ease;
   }
 
@@ -109,19 +110,6 @@ const {
 
   .header__nav-link:hover {
     color: var(--color-neutral-low-default);
-  }
-
-  .header__nav-link--cta {
-    background: var(--color-brand-primary-default);
-    color: var(--color-neutral-high-default);
-    padding: var(--spacing-8) var(--spacing-16);
-    border-radius: var(--border-radius-pill);
-    font-weight: var(--font-weight-medium);
-  }
-
-  .header__nav-link--cta:hover {
-    color: var(--color-neutral-high-default);
-    background: var(--color-brand-primary-dark);
   }
 
   @media (max-width: 640px) {

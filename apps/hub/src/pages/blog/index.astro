@@ -22,7 +22,7 @@ function formatDate(date: Date) {
         <ul class="post-list">
           {posts.map((post) => (
             <li>
-              <a href={`/blog/${post.slug}`} class="post-card">
+              <a href={`/blog/${post.id}`} class="post-card">
                 <div class="post-card__cover-wrap">
                   {post.data.cover
                     ? <img src={post.data.cover} alt={post.data.coverAlt ?? post.data.title} class="post-card__cover-img" loading="lazy" />
