@@ -103,7 +103,7 @@ const Table2 = <T,>({
               typeof updater === 'function' ? updater(prev) : updater;
             if (onRowSelectionChange) {
               const selectedRows = table
-                .getRowModel()
+                .getCoreRowModel()
                 .rows.filter((r) => next[r.id])
                 .map((r) => r.original);
               onRowSelectionChange(selectedRows);
