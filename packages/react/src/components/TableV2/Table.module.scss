@@ -1,14 +1,21 @@
 .wrapper {
   font-family: var(--font-family-primary);
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
 }
 
 
 /* Parte responsável pelas bordas e background da tabela */
 .tableContainer {
+  width: 100%;
+  min-width: 0;
   background-color: var(--color-neutral-high-default);
   overflow: hidden;
   border-radius: var(--spacing-8);
   border: var(--border-width-1) solid var(--color-neutral-high-dark);
+  box-sizing: border-box;
 }
 
 .tableHeader + .tableContainer {
@@ -327,18 +334,13 @@
 }
 
 .tableScrollWrapper {
+  width: 100%;
   overflow-x: auto;
-
-  @media (max-width: 768px) {
-    overflow-x: scroll;
-    -webkit-overflow-scrolling: touch;
-  }
+  -webkit-overflow-scrolling: touch;
 }
 
 .table {
-  @media (max-width: 768px) {
-    min-width: 600px;
-  }
+  min-width: max-content;
 }
 
 .tableLoader {
