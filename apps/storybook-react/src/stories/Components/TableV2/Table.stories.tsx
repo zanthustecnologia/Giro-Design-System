@@ -204,7 +204,7 @@ const meta: Meta = {
 export default meta;
 
 // ─── Padrão (com controles) ───────────────────────────────────────────────────
-export const Padrao: StoryFn<{
+export const Default: StoryFn<{
   enableRowSelection: boolean;
   enableFilters: boolean;
 }> = ({ enableRowSelection, enableFilters }) => (
@@ -221,12 +221,12 @@ export const Padrao: StoryFn<{
   </div>
 );
 
-Padrao.args = {
+Default.args = {
   enableRowSelection: false,
   enableFilters: false,
 };
 
-Padrao.storyName = 'Padrão';
+Default.storyName = 'Default';
 
 // ─── Com Busca e Filtros ──────────────────────────────────────────────────────
 export const ComBuscaEFiltros: StoryFn = () => {
@@ -322,47 +322,6 @@ export const ComBuscaEFiltros: StoryFn = () => {
   );
 };
 
-// ─── Com Filtro de Calendário ─────────────────────────────────────────────────
-export const ComFiltroCalendario: StoryFn = () => {
-  const [dataInicio, setDataInicio] = useState<Date | null>(null);
-
-  const dadosFiltrados = useMemo(() => {
-    if (!dataInicio) return promocoes;
-    return promocoes.filter((p) => p.inicioObj >= dataInicio);
-  }, [dataInicio]);
-
-  const filterItems = [
-    {
-      id: 'inicio',
-      buttonText: dataInicio ? `A partir de ${dataInicio.toLocaleDateString('pt-BR')}` : 'Data de início',
-      type: 'calendar' as const,
-      selectedDate: dataInicio,
-      onDateSelect: (date: Date) => setDataInicio(date),
-      onClear: () => setDataInicio(null),
-      minDate: new Date(2024, 0, 1),
-      maxDate: new Date(2024, 11, 31),
-    },
-  ];
-
-  return (
-    <div style={{ width: 700 }}>
-      <TableV2
-        columns={colunasComData}
-        data={dadosFiltrados}
-        header={{
-          showSearch: false,
-          filterItems,
-        }}
-        footer={{
-          totalItems: dadosFiltrados.length,
-          defaultPageSize: 5,
-          pageSizeOptions: [5, 10],
-        }}
-      />
-    </div>
-  );
-};
-
 // ─── Somente Busca ────────────────────────────────────────────────────────────
 export const SomenteBusca: StoryFn = () => (
   <div style={{ width: 800 }}>
@@ -408,7 +367,7 @@ export const Vazia: StoryFn = () => (
   </div>
 );
 
-// ─── Scroll Horizontal ────────────────────────────────────────────────────────
+// ─── Tabela Responsiva ────────────────────────────────────────────────────────
 const colunasLargas = [
   col.accessor('nome', {
     header: 'Nome',
@@ -474,7 +433,7 @@ const colunasLargas = [
   }),
 ];
 
-export const ScrollHorizontal: StoryFn = () => (
+export const TabelaResponsiva: StoryFn = () => (
   <div style={{ width: 500 }}>
     <TableV2
       columns={colunasLargas}
@@ -489,7 +448,7 @@ export const ScrollHorizontal: StoryFn = () => (
   </div>
 );
 
-ScrollHorizontal.storyName = 'Scroll Horizontal';
+TabelaResponsiva.storyName = 'Tabela Responsiva';
 
 // ─── Ações em Massa ──────────────────────────────────────────────────────────
 export const AcoesEmMassa: StoryFn = () => {
