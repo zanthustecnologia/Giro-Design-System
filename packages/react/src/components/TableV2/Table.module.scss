@@ -17,6 +17,53 @@
   border-top: var(--border-width-none);
 }
 
+.bulkActionsBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-12) var(--spacing-0);
+  gap: var(--spacing-16);
+  flex-wrap: wrap;
+  margin-bottom: var(--spacing-24);
+}
+
+.bulkActionsInfo {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-12);
+}
+
+.bulkActionsClearButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--spacing-4);
+  color: var(--color-feedback-negative-default);
+  transition: background-color 0.15s;
+
+  &:hover {
+    background-color: var(--color-feedback-negative-light);
+  }
+}
+
+.bulkActionsLabel {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-16);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-neutral-low-default);
+}
+
+.bulkActionsButtons {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-8);
+  flex-wrap: wrap;
+}
+/* ─────────────────────────────────────────────────────────── */
+
 .tableContainer:has(+ .tablePagination) {
   border-radius: var(--spacing-8) var(--spacing-8) var(--border-radius-none)
     var(--border-radius-none);

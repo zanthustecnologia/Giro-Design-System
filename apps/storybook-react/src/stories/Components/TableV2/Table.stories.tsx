@@ -491,3 +491,61 @@ export const ScrollHorizontal: StoryFn = () => (
 
 ScrollHorizontal.storyName = 'Scroll Horizontal';
 
+// ─── Ações em Massa ──────────────────────────────────────────────────────────
+export const AcoesEmMassa: StoryFn = () => {
+  const [selecionados, setSelecionados] = useState<Promocao[]>([]);
+
+  return (
+    <div style={{ width: 900 }}>
+      <TableV2
+        columns={colunasPadrao}
+        data={promocoes}
+        enableRowSelection
+        onRowSelectionChange={setSelecionados}
+        bulkActions={{
+          label: (count) =>
+            `${count} ${count === 1 ? 'promoção selecionada' : 'promoções selecionadas'}`,
+          onClear: () => setSelecionados([]),
+          actions: [
+            {
+              label: 'Ativar',
+              variant: 'filled',
+              onClick: () =>
+                console.warn(
+                  'Ativar:',
+                  selecionados.map((r) => r.nome),
+                ),
+            },
+            {
+              label: 'Pausar',
+              variant: 'outlined',
+              onClick: () =>
+                console.warn(
+                  'Pausar:',
+                  selecionados.map((r) => r.nome),
+                ),
+            },
+            {
+              label: 'Excluir',
+              variant: 'outlined',
+              onClick: () =>
+                console.warn(
+                  'Excluir:',
+                  selecionados.map((r) => r.nome),
+                ),
+            },
+          ],
+        }}
+        header={{ searchPlaceholder: 'Buscar promoções...' }}
+        footer={{
+          totalItems: promocoes.length,
+          defaultPageSize: 10,
+          pageSizeOptions: [5, 10, 25],
+        }}
+      />
+    </div>
+  );
+};
+
+AcoesEmMassa.storyName = 'Ações em Massa';
+

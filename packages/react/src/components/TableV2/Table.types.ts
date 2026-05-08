@@ -72,6 +72,28 @@ export interface EmptyStateProps {
   emptyText?: ReactNode;
 }
 
+export interface BulkAction {
+  /** Label do botão de ação */
+  label: ReactNode;
+  /** Callback ao clicar no botão */
+  onClick: () => void;
+  /** Desabilita o botão */
+  disabled?: boolean;
+  /** Variante visual do botão (padrão: 'outlined') */
+  variant?: 'filled' | 'outlined' | 'text';
+}
+
+export interface TableV2BulkActionsProps<T = Record<string, unknown>> {
+  /** Função que retorna o label da barra de ações em massa.
+   * Recebe a contagem de itens selecionados e os itens originais.
+   * Se não fornecido, exibe "{count} itens selecionados". */
+  label?: (count: number, selectedRows: T[]) => ReactNode;
+  /** Lista de ações disponíveis quando há itens selecionados */
+  actions: BulkAction[];
+  /** Callback chamado ao clicar no botão de limpar seleção (X) */
+  onClear?: () => void;
+}
+
 export interface TableV2Props<T = Record<string, unknown>> extends EmptyStateProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   columns: ColumnDef<T, any>[];
@@ -84,6 +106,8 @@ export interface TableV2Props<T = Record<string, unknown>> extends EmptyStatePro
   enableSorting?: boolean;
   /** Callback chamado quando a seleção de linhas muda */
   onRowSelectionChange?: (selectedRows: T[]) => void;
+  /** Configuração das ações em massa exibidas quando há linhas selecionadas */
+  bulkActions?: TableV2BulkActionsProps<T>;
   /** Header acima da tabela com busca + filtros */
   header?: TableV2HeaderProps;
   /** Footer com paginação */

@@ -1,4 +1,4 @@
-import { ChevronLeft16Regular, ChevronRight16Regular, ArrowSort16Regular, ArrowSortUp16Regular, ArrowSortDown16Regular } from '@fluentui/react-icons';
+import { ChevronLeft16Regular, ChevronRight16Regular, ArrowSort16Regular, ArrowSortUp16Regular, ArrowSortDown16Regular, Dismiss16Regular } from '@fluentui/react-icons';
 import {
   type ColumnDef,
   type ColumnFiltersState,
@@ -17,6 +17,7 @@ import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 
 import styles from './Table.module.scss';
+import Button from '../Button/Button';
 import Checkbox from '../Checkbox/Checkbox';
 import EmptyState from './components/EmptyState';
 import Filter from '../Filter/Filter';
@@ -31,6 +32,7 @@ const TableV2 = <T,>({
   enableRowSelection = false,
   enableSorting = true,
   onRowSelectionChange,
+  bulkActions,
   header,
   footer,
   loading = false,
@@ -126,6 +128,22 @@ const TableV2 = <T,>({
   const canGoPrev = pageIndex > 0;
   const canGoNext = !!footer && pageIndex + 1 < totalPages;
 
+  const selectedRows = useMemo(
+    () =>
+      table
+        .getCoreRowModel()
+        .rows.filter((r) => rowSelection[r.id])
+        .map((r) => r.original),
+    [rowSelection, table]
+  );
+  const selectedCount = selectedRows.length;
+  const showBulkActions = enableRowSelection && !!bulkActions && selectedCount > 0;
+
+  const handleClearSelection = () => {
+    table.resetRowSelection();
+    bulkActions?.onClear?.();
+  };
+
   const handlePageSizeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const size = Number(e.target.value);
     setPagination({ pageIndex: 0, pageSize: size });
@@ -134,6 +152,39 @@ const TableV2 = <T,>({
 
   return (
     <div className={clsx(styles.wrapper, className)}>
+      {showBulkActions && (
+        <div className={styles.bulkActionsBar}>
+          <div className={styles.bulkActionsInfo}>
+            <Button
+              variant="text"
+              iconOnly
+              icon={<Dismiss16Regular />}
+              ariaLabel="Limpar seleção"
+              onClick={handleClearSelection}
+              className={styles.bulkActionsClearButton}
+            />
+            <span className={styles.bulkActionsLabel}>
+              {bulkActions.label
+                ? bulkActions.label(selectedCount, selectedRows)
+                : `${selectedCount} ${selectedCount === 1 ? 'item selecionado' : 'itens selecionados'}`}
+            </span>
+          </div>
+          <div className={styles.bulkActionsButtons}>
+            {bulkActions.actions.map((action, index) => (
+              <Button
+                key={index}
+                variant={action.variant ?? 'outlined'}
+                type="button"
+                disabled={action.disabled}
+                onClick={action.onClick}
+                size="sm"
+              >
+                {action.label}
+              </Button>
+            ))}
+          </div>
+        </div>
+      )}
       {header && (
         <div className={styles.tableHeader}>
           {showSearch && (
