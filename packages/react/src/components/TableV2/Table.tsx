@@ -132,6 +132,8 @@ const TableV2 = <T,>({
   const canGoPrev = pageIndex > 0;
   const canGoNext = !!footer && pageIndex + 1 < totalPages;
 
+  const skeletonRowCount = footer ? pageSize : (data.length > 0 ? data.length : pageSize);
+
   const selectedRows = useMemo(
     () =>
       table
@@ -311,7 +313,7 @@ const TableV2 = <T,>({
             </thead>
             <tbody className={styles.tableBody}>
               {loading ? (
-                Array.from({ length: pageSize }).map((_, rowIdx) => (
+                Array.from({ length: skeletonRowCount }).map((_, rowIdx) => (
                   <tr key={`skeleton-row-${rowIdx}`} className={styles.tableRow}>
                     {table.getVisibleLeafColumns().map((col) => (
                       <td key={col.id} className={styles.tableTd}>
