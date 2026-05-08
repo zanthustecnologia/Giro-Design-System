@@ -124,7 +124,11 @@ const TableV2 = <T,>({
     manualPagination: false,
   });
 
-  const totalPages = footer ? Math.ceil(footer.totalItems / pageSize) : 0;
+  const filteredRowCount = table.getFilteredRowModel().rows.length;
+  const effectiveTotalItems = footer
+    ? (enableFilters || showSearch) ? filteredRowCount : footer.totalItems
+    : 0;
+  const totalPages = footer ? Math.ceil(effectiveTotalItems / pageSize) : 0;
   const canGoPrev = pageIndex > 0;
   const canGoNext = !!footer && pageIndex + 1 < totalPages;
 
@@ -191,7 +195,10 @@ const TableV2 = <T,>({
             <div className={styles.tableHeaderSearchContainer}>
               <Search
                 value={globalFilter}
-                onChange={(e) => setGlobalFilter(e.target.value)}
+                onChange={(e) => {
+                  setGlobalFilter(e.target.value);
+                  if (footer) setPagination((prev) => ({ ...prev, pageIndex: 0 }));
+                }}
                 placeholder={header.searchPlaceholder ?? 'Pesquisar...'}
                 className={styles.tableHeaderSearch}
               />
