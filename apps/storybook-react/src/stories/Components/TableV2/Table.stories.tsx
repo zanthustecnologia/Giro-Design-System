@@ -71,6 +71,7 @@ const colunasPadrao = [
   }),
   col.accessor('status', {
     header: 'Status',
+    size: 100,
     cell: (info) => (
       <Chips variant={statusColor[info.getValue()] ?? 'neutral'}>
         {info.getValue()}
@@ -80,6 +81,8 @@ const colunasPadrao = [
   col.display({
     id: 'actions',
     header: '',
+    size: 40,
+    meta: { align: 'center' },
     cell: ({ row }) => (
       <Menu
         items={[
@@ -99,6 +102,8 @@ const colunasCompletas = [
   col.display({
     id: 'avatar',
     header: 'Avatar',
+    size: 60,
+    // meta: { align: 'center' },
     cell: ({ row }) => {
       const initials = row.original.nome.split(' ').map((w) => w[0]).slice(0, 2).join('');
       return <Avatar initialLetters={initials} size="sm" />;
@@ -122,6 +127,7 @@ const colunasCompletas = [
   }),
   col.accessor('status', {
     header: 'Status',
+    size: 100,
     cell: (info) => (
       <Chips variant={statusColor[info.getValue()] ?? 'neutral'}>
         {info.getValue()}
@@ -131,6 +137,8 @@ const colunasCompletas = [
   col.display({
     id: 'actions',
     header: '',
+    size: 40,
+    meta: { align: 'center' },
     cell: ({ row }) => (
       <Menu
         items={[
@@ -240,7 +248,7 @@ export const ComBuscaEFiltros: StoryFn = () => {
   ];
 
   return (
-    <div style={{ width: 900, display: 'flex', flexDirection: 'column', gap: 16 }}>
+    <div style={{ width: 800, display: 'flex', flexDirection: 'column', gap: 16 }}>
       <TableV2
         columns={colunasCompletas}
         data={dadosFiltrados}
@@ -348,7 +356,6 @@ const colunasLargas = [
   }),
   col.accessor('tipo', {
     header: 'Tipo',
-    size: 150,
     cell: (info) => (
       <Chips variant={tipoColor[info.getValue()] ?? 'neutral'}>
         {info.getValue()}
@@ -357,7 +364,6 @@ const colunasLargas = [
   }),
   col.accessor('status', {
     header: 'Status',
-    size: 150,
     cell: (info) => (
       <Chips variant={statusColor[info.getValue()] ?? 'neutral'}>
         {info.getValue()}
@@ -366,25 +372,23 @@ const colunasLargas = [
   }),
   col.accessor('inicio', {
     header: 'Data de Início',
-    size: 150,
     cell: (info) => info.getValue(),
   }),
   col.display({
     id: 'extra1',
     header: 'Coluna Extra 1',
-    size: 200,
     cell: () => 'Dado extra A',
   }),
   col.display({
     id: 'extra2',
     header: 'Coluna Extra 2',
-    size: 200,
     cell: () => 'Dado extra B',
   }),
   col.display({
     id: 'actions',
     header: '',
-    size: 60,
+    size: 40,
+    meta: { align: 'center' },
     cell: ({ row }) => (
       <Menu
         items={[
@@ -421,7 +425,7 @@ export const AcoesEmMassa: StoryFn = () => {
   const [selecionados, setSelecionados] = useState<Promocao[]>([]);
 
   return (
-    <div style={{ width: 900 }}>
+    <div style={{ width: 800 }}>
       <TableV2
         columns={colunasPadrao}
         data={promocoes}
