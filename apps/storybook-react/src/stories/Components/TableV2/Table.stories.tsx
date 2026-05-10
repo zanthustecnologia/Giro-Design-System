@@ -95,40 +95,6 @@ const colunasPadrao = [
   }),
 ];
 
-const colunasComData = [
-  col.accessor('nome', {
-    header: 'Nome',
-    cell: (info) => info.getValue(),
-  }),
-  col.accessor('inicio', {
-    header: 'Início',
-    cell: (info) => info.getValue(),
-  }),
-  col.accessor('status', {
-    header: 'Status',
-    cell: (info) => (
-      <Chips variant={statusColor[info.getValue()] ?? 'neutral'}>
-        {info.getValue()}
-      </Chips>
-    ),
-  }),
-  col.display({
-    id: 'actions',
-    header: '',
-    cell: ({ row }) => (
-      <Menu
-        items={[
-          { id: 'edit', text: 'Editar' },
-          { id: 'delete', text: 'Excluir' },
-        ]}
-        onItemSelect={(item) => console.warn(item.text, row.original.nome)}
-      >
-        <Button variant="text" iconOnly icon={<MoreVertical16Regular />} tooltipText="Mais ações" />
-      </Menu>
-    ),
-  }),
-];
-
 const colunasCompletas = [
   col.display({
     id: 'avatar',
