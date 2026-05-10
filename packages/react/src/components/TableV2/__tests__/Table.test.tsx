@@ -11,6 +11,10 @@ import type { ColumnDef } from '@tanstack/react-table';
 vi.mock('@fluentui/react-icons', () => ({
   ChevronLeft16Regular: () => <span data-testid="chevron-left" />,
   ChevronRight16Regular: () => <span data-testid="chevron-right" />,
+  ArrowSort16Regular: () => <span data-testid="arrow-sort" />,
+  ArrowSortUp16Regular: () => <span data-testid="arrow-sort-up" />,
+  ArrowSortDown16Regular: () => <span data-testid="arrow-sort-down" />,
+  Dismiss16Regular: () => <span data-testid="dismiss" />,
   SearchInfo20Regular: () => <span data-testid="search-info-icon" />,
 }));
 
