@@ -102,7 +102,7 @@ const colunasCompletas = [
   col.display({
     id: 'avatar',
     header: 'Avatar',
-    size: 60,
+    
     // meta: { align: 'center' },
     cell: ({ row }) => {
       const initials = row.original.nome.split(' ').map((w) => w[0]).slice(0, 2).join('');
@@ -127,7 +127,6 @@ const colunasCompletas = [
   }),
   col.accessor('status', {
     header: 'Status',
-    size: 100,
     cell: (info) => (
       <Chips variant={statusColor[info.getValue()] ?? 'neutral'}>
         {info.getValue()}
@@ -137,7 +136,6 @@ const colunasCompletas = [
   col.display({
     id: 'actions',
     header: '',
-    size: 40,
     meta: { align: 'center' },
     cell: ({ row }) => (
       <Menu
@@ -256,7 +254,7 @@ export const ComBuscaEFiltros: StoryFn = () => {
         onRowSelectionChange={setSelecionados}
         header={{
           searchPlaceholder: 'Buscar promoções...',
-          filterItems,
+          filterItems
         }}
         footer={{
           totalItems: dadosFiltrados.length,
@@ -264,17 +262,22 @@ export const ComBuscaEFiltros: StoryFn = () => {
           pageSizeOptions: [5, 10],
         }}
       />
-      <div
-        style={{
-          padding: '12px 16px',
-          border: '1px solid var(--color-neutral-high-dark)',
-          borderRadius: 'var(--border-radius-8)',
-          minHeight: 56,
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 8,
-        }}
-      >
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+        <span style={{ fontSize: 11, color: 'var(--color-neutral-low-light)', fontStyle: 'italic' }}>
+          ↳ Valor retornado pelo callback <code>onRowSelectionChange</code> (externo à tabela)
+        </span>
+        <div
+          style={{
+            padding: '12px 16px',
+            border: '2px dashed var(--color-neutral-high-dark)',
+            borderRadius: 'var(--border-radius-8)',
+            background: 'var(--color-neutral-high-pure, #f5f5f5)',
+            minHeight: 56,
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 8,
+          }}
+        >
         <span style={{ fontSize: 12, color: 'var(--color-neutral-low-medium)', fontWeight: 600 }}>
           ITENS SELECIONADOS ({selecionados.length})
         </span>
@@ -291,6 +294,7 @@ export const ComBuscaEFiltros: StoryFn = () => {
             ))}
           </div>
         )}
+        </div>
       </div>
     </div>
   );
@@ -432,8 +436,6 @@ export const AcoesEmMassa: StoryFn = () => {
         enableRowSelection
         onRowSelectionChange={setSelecionados}
         bulkActions={{
-          label: (count) =>
-            `${count} ${count === 1 ? 'promoção selecionada' : 'promoções selecionadas'}`,
           onClear: () => setSelecionados([]),
           actions: [
             {

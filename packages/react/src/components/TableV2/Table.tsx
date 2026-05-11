@@ -12,7 +12,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import clsx from 'clsx';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef, useEffect } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 
@@ -78,15 +78,17 @@ const TableV2 = <T,>({
     ),
   }), []);
 
-  const resolvedColumns = enableRowSelection
-    ? [selectionColumn, ...columns]
-    : columns;
+  const resolvedColumns = useMemo(
+    () => (enableRowSelection ? [selectionColumn, ...columns] : columns),
+    [enableRowSelection, selectionColumn, columns]
+  );
 
   const showSearch = !!(header && (header.showSearch ?? true));
 
   const table = useReactTable({
     data,
     columns: resolvedColumns,
+    defaultColumn: { minSize: 44, size: 0 },
     state: {
       ...(enableFilters ? { columnFilters } : {}),
       ...(showSearch ? { globalFilter } : {}),
@@ -144,6 +146,28 @@ const TableV2 = <T,>({
   const selectedCount = selectedRows.length;
   const showBulkActions = enableRowSelection && !!bulkActions && selectedCount > 0;
 
+  const measureRef = useRef<HTMLTableElement>(null);
+  const [colWidths, setColWidths] = useState<number[]>([]);
+
+  const allDataRows = enableSorting
+    ? table.getSortedRowModel().rows
+    : (enableFilters || showSearch)
+      ? table.getFilteredRowModel().rows
+      : table.getCoreRowModel().rows;
+
+  useEffect(() => {
+    const el = measureRef.current;
+    if (!el || loading) return;
+    const ths = el.querySelectorAll<HTMLElement>(':scope > thead > tr > th');
+    if (!ths.length) return;
+    const newWidths = Array.from(ths).map((th) => th.offsetWidth);
+    setColWidths((prev) =>
+      prev.length === newWidths.length && prev.every((w, i) => w === newWidths[i])
+        ? prev
+        : newWidths
+    );
+  }, [data, resolvedColumns, columnFilters, globalFilter, sorting, loading]);
+
   const handleClearSelection = () => {
     table.resetRowSelection();
     bulkActions?.onClear?.();
@@ -157,6 +181,57 @@ const TableV2 = <T,>({
 
   return (
     <div className={clsx(styles.wrapper, className)}>
+      {/* Tabela oculta para medir larguras naturais de todas as linhas (sem paginação) */}
+      <div
+        aria-hidden="true"
+        style={{ position: 'absolute', visibility: 'hidden', pointerEvents: 'none' }}
+      >
+        <table
+          ref={measureRef}
+          className={styles.table}
+          style={{ tableLayout: 'auto', width: 'max-content' }}
+        >
+          <thead className={styles.tableHead}>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <tr key={headerGroup.id}>
+                {headerGroup.headers.map((col) => (
+                  <th
+                    key={col.id}
+                    className={styles.tableTh}
+                    style={{ minWidth: col.column.columnDef.minSize }}
+                  >
+                    <div className={styles.tableThContent}>
+                      {col.isPlaceholder ? null : col.column.getCanSort() ? (
+                        <button type="button" className={styles.tableSortButton} tabIndex={-1}>
+                          {flexRender(col.column.columnDef.header, col.getContext())}
+                          <ArrowSort16Regular className={styles.tableSortIcon} />
+                        </button>
+                      ) : (
+                        flexRender(col.column.columnDef.header, col.getContext())
+                      )}
+                    </div>
+                  </th>
+                ))}
+              </tr>
+            ))}
+          </thead>
+          <tbody className={styles.tableBody}>
+            {!loading && allDataRows.map((row) => (
+              <tr key={row.id} className={styles.tableRow}>
+                {row.getVisibleCells().map((cell) => (
+                  <td
+                    key={cell.id}
+                    className={styles.tableTd}
+                    style={{ minWidth: cell.column.columnDef.minSize }}
+                  >
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
       {showBulkActions && (
         <div className={styles.bulkActionsBar}>
           <div className={styles.bulkActionsInfo}>
@@ -264,15 +339,17 @@ const TableV2 = <T,>({
             <thead className={styles.tableHead}>
               {table.getHeaderGroups().map((headerGroup) => (
                 <tr key={headerGroup.id}>
-                  {headerGroup.headers.map((col) => (
+                  {headerGroup.headers.map((col, colIndex) => (
                     <th
                       key={col.id}
                       className={styles.tableTh}
                       style={{
                         textAlign: col.column.columnDef.meta?.align,
-                        width: col.column.columnDef.size,
-                        minWidth: col.column.columnDef.minSize,
-                        maxWidth: col.column.columnDef.maxSize,
+                        width: col.column.columnDef.size || undefined,
+                        minWidth: colWidths[colIndex] ?? col.column.columnDef.minSize,
+                        maxWidth: col.column.columnDef.maxSize !== Number.MAX_SAFE_INTEGER
+                          ? col.column.columnDef.maxSize
+                          : undefined,
                       }}
                     >
                       <div className={styles.tableThContent}>
@@ -331,15 +408,17 @@ const TableV2 = <T,>({
                       onClick={rowProps.onClick}
                       onDoubleClick={rowProps.onDoubleClick}
                     >
-                      {row.getVisibleCells().map((cell) => (
+                      {row.getVisibleCells().map((cell, cellIndex) => (
                         <td
                           key={cell.id}
                           className={styles.tableTd}
                           style={{
                             textAlign: cell.column.columnDef.meta?.align,
-                            width: cell.column.columnDef.size,
-                            minWidth: cell.column.columnDef.minSize,
-                            maxWidth: cell.column.columnDef.maxSize,
+                            width: cell.column.columnDef.size || undefined,
+                            minWidth: colWidths[cellIndex] ?? cell.column.columnDef.minSize,
+                            maxWidth: cell.column.columnDef.maxSize !== Number.MAX_SAFE_INTEGER
+                              ? cell.column.columnDef.maxSize
+                              : undefined,
                           }}
                         >
                           {cell.column.columnDef.meta?.maxHeight ? (
