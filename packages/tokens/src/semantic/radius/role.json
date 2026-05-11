@@ -1,0 +1,32 @@
+{
+  "radius": {
+    "xs": {
+      "value": "{radius.4}",
+      "type": "borderRadius"
+    },
+    "sm": {
+      "value": "{radius.8}",
+      "type": "borderRadius"
+    },
+    "md": {
+      "value": "{radius.12}",
+      "type": "borderRadius"
+    },
+    "lg": {
+      "value": "{radius.16}",
+      "type": "borderRadius"
+    },
+    "xl": {
+      "value": "{radius.24}",
+      "type": "borderRadius"
+    },
+    "full": {
+      "value": "{radius.pill}",
+      "type": "borderRadius"
+    },
+    "circular": {
+      "value": "{radius.circular}",
+      "type": "borderRadius"
+    }
+  }
+}

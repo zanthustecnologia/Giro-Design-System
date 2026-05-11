@@ -36,6 +36,24 @@
           "value": "{color.neutral.300}",
           "type": "color"
         }
+      },
+      "alert": {
+        "default": {
+          "value": "{color.feedback.alert.500}",
+          "type": "color"
+        },
+        "hover": {
+          "value": "{color.feedback.alert.300}",
+          "type": "color"
+        },
+        "pressed": {
+          "value": "{color.feedback.alert.700}",
+          "type": "color"
+        },
+        "disabled": {
+          "value": "{color.neutral.300}",
+          "type": "color"
+        }
       }
     }
   }

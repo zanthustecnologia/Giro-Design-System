@@ -29,12 +29,16 @@
         "value": "{color.neutral.0}",
         "type": "color"
       },
+      "onSecondary": {
+        "value": "{color.neutral.900}",
+        "type": "color"
+      },
       "success": {
         "value": "{color.feedback.success.700}",
         "type": "color"
       },
       "onSuccess": {
-        "value": "{color.neutral.900}",
+        "value": "{color.neutral.0}",
         "type": "color"
       },
       "alert": {
