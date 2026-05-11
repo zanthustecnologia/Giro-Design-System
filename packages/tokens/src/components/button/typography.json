@@ -1,9 +1,0 @@
-{
-  "button": {
-    "typography": {
-      "fontFamily": { "value": "{font.family.body}",       "type": "fontFamily" },
-      "fontSize":   { "value": "{font.size.label.md}",     "type": "fontSize" },
-      "fontWeight": { "value": "{font.weight.label}",      "type": "fontWeight" }
-    }
-  }
-}
