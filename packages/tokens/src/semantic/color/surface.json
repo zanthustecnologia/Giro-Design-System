@@ -13,6 +13,10 @@
         "value": "{color.neutral.200}",
         "type": "color"
       },
+      "pressed": {
+        "value": "{color.neutral.300}",
+        "type": "color"
+      },
       "inverse": {
         "value": "{color.neutral.900}",
         "type": "color"

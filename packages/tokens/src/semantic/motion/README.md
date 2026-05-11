@@ -21,7 +21,6 @@ Tokens que mapeiam durações e curvas de animação do core em papéis de inter
 
 | Token | Alias | Descrição |
 | --- | --- | --- |
-| `easing.standard` | `motion.easing.standard` | Movimentos neutros e genéricos |
 | `easing.enter` | `motion.easing.decelerate` | Elementos entrando na tela (desaceleram) |
 | `easing.exit` | `motion.easing.accelerate` | Elementos saindo da tela (aceleram) |
 

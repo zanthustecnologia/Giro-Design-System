@@ -24,7 +24,7 @@
       "value": "{radius.pill}",
       "type": "borderRadius"
     },
-    "circular": {
+    "round": {
       "value": "{radius.circular}",
       "type": "borderRadius"
     }
