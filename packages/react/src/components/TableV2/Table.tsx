@@ -121,7 +121,6 @@ const TableV2 = <T,>({
       enableFilters || showSearch ? getFilteredRowModel() : undefined,
     getPaginationRowModel: footer ? getPaginationRowModel() : undefined,
     getSortedRowModel: enableSorting ? getSortedRowModel() : undefined,
-    manualPagination: false,
   });
 
   const filteredRowCount = table.getFilteredRowModel().rows.length;
@@ -130,7 +129,7 @@ const TableV2 = <T,>({
     : 0;
   const totalPages = footer ? Math.ceil(effectiveTotalItems / pageSize) : 0;
   const canGoPrev = pageIndex > 0;
-  const canGoNext = !!footer && pageIndex + 1 < totalPages;
+  const canGoNext = pageIndex + 1 < totalPages;
 
   const skeletonRowCount = footer ? pageSize : (data.length > 0 ? data.length : pageSize);
 
@@ -232,6 +231,7 @@ const TableV2 = <T,>({
                         onClearDate={filterItem.onClear}
                         minDate={filterItem.minDate}
                         maxDate={filterItem.maxDate}
+                        locale={filterItem.locale}
                         placeholder={filterItem.placeholder}
                       />
                     );
@@ -258,9 +258,8 @@ const TableV2 = <T,>({
         <div className={styles.tableScrollWrapper}>
           <table
             className={styles.table}
-            role="table"
             aria-label="Tabela de dados"
-            aria-rowcount={data.length + 1}
+            aria-rowcount={filteredRowCount + 1}
           >
             <thead className={styles.tableHead}>
               {table.getHeaderGroups().map((headerGroup) => (

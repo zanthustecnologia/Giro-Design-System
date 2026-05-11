@@ -1,4 +1,4 @@
-import type { Side, Align } from '../../types/common.types';
+import type { Side, Align, Locale } from '../../types/common.types';
 import type { FilterItem as FilterDropdownItem } from '../Filter';
 import type { ColumnDef, RowData } from '@tanstack/react-table';
 import type { ReactNode, ReactElement } from 'react';
@@ -38,7 +38,7 @@ interface CalendarFilterItem extends BaseFilterItem {
   onClear?: () => void;
   minDate?: Date;
   maxDate?: Date;
-  locale?: string;
+  locale?: Locale;
   placeholder?: string;
 }
 
