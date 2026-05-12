@@ -45,6 +45,9 @@ const TableV2 = <T,>({
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [globalFilter, setGlobalFilter] = useState('');
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
+  const rowSelectionRef = useRef<RowSelectionState>({});
+  rowSelectionRef.current = rowSelection;
+  const lastEmittedSelectionKey = useRef('{}');
   const [sorting, setSorting] = useState<SortingState>([]);
   const [pagination, setPagination] = useState({
     pageIndex: 0,
@@ -102,18 +105,20 @@ const TableV2 = <T,>({
     enableSorting,
     onRowSelectionChange: enableRowSelection
       ? (updater) => {
-          setRowSelection((prev) => {
-            const next =
-              typeof updater === 'function' ? updater(prev) : updater;
-            if (onRowSelectionChange) {
-              const selectedRows = table
-                .getCoreRowModel()
-                .rows.filter((r) => next[r.id])
-                .map((r) => r.original);
-              onRowSelectionChange(selectedRows);
-            }
-            return next;
-          });
+          const prev = rowSelectionRef.current;
+          const next = typeof updater === 'function' ? updater(prev) : updater;
+          const selectionKey = JSON.stringify(next, Object.keys(next).sort());
+          if (selectionKey === lastEmittedSelectionKey.current) return;
+          lastEmittedSelectionKey.current = selectionKey;
+          rowSelectionRef.current = next;
+          setRowSelection(next);
+          if (onRowSelectionChange) {
+            const selectedRows = table
+              .getCoreRowModel()
+              .rows.filter((r) => next[r.id])
+              .map((r) => r.original);
+            onRowSelectionChange(selectedRows);
+          }
         }
       : undefined,
     enableRowSelection,
@@ -208,7 +213,7 @@ const TableV2 = <T,>({
                     style={{ minWidth: col.column.columnDef.minSize }}
                   >
                     <div className={styles.tableThContent}>
-                      {col.isPlaceholder ? null : col.column.getCanSort() ? (
+                      {col.isPlaceholder || col.id === '__select__' ? null : col.column.getCanSort() ? (
                         <button type="button" className={styles.tableSortButton} tabIndex={-1}>
                           {flexRender(col.column.columnDef.header, col.getContext())}
                           <ArrowSort16Regular className={styles.tableSortIcon} />
@@ -222,21 +227,6 @@ const TableV2 = <T,>({
               </tr>
             ))}
           </thead>
-          <tbody className={styles.tableBody}>
-            {!loading && allDataRows.map((row) => (
-              <tr key={row.id} className={styles.tableRow}>
-                {row.getVisibleCells().map((cell) => (
-                  <td
-                    key={cell.id}
-                    className={styles.tableTd}
-                    style={{ minWidth: cell.column.columnDef.minSize }}
-                  >
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
         </table>
       </div>
       {showBulkActions && (
