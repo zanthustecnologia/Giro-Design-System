@@ -146,6 +146,13 @@ const TableV2 = <T,>({
   const selectedCount = selectedRows.length;
   const showBulkActions = enableRowSelection && !!bulkActions && selectedCount > 0;
 
+  useEffect(() => {
+    if (enableRowSelection) {
+      table.resetRowSelection();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pageIndex]);
+
   const measureRef = useRef<HTMLTableElement>(null);
   const [colWidths, setColWidths] = useState<number[]>([]);
 
