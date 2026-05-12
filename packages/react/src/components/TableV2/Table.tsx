@@ -158,28 +158,6 @@ const TableV2 = <T,>({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageIndex]);
 
-  const measureRef = useRef<HTMLTableElement>(null);
-  const [colWidths, setColWidths] = useState<number[]>([]);
-
-  const allDataRows = enableSorting
-    ? table.getSortedRowModel().rows
-    : (enableFilters || showSearch)
-      ? table.getFilteredRowModel().rows
-      : table.getCoreRowModel().rows;
-
-  useEffect(() => {
-    const el = measureRef.current;
-    if (!el || loading) return;
-    const ths = el.querySelectorAll<HTMLElement>(':scope > thead > tr > th');
-    if (!ths.length) return;
-    const newWidths = Array.from(ths).map((th) => th.offsetWidth);
-    setColWidths((prev) =>
-      prev.length === newWidths.length && prev.every((w, i) => w === newWidths[i])
-        ? prev
-        : newWidths
-    );
-  }, [data, resolvedColumns, columnFilters, globalFilter, sorting, loading]);
-
   const handleClearSelection = () => {
     table.resetRowSelection();
     bulkActions?.onClear?.();
@@ -193,53 +171,6 @@ const TableV2 = <T,>({
 
   return (
     <div className={clsx(styles.wrapper, className)}>
-      {/* Tabela oculta para medir larguras naturais de todas as linhas (sem paginação) */}
-      <div
-        aria-hidden="true"
-        style={{ position: 'absolute', visibility: 'hidden', pointerEvents: 'none', width: 'max-content' }}
-      >
-        <table
-          ref={measureRef}
-          className={styles.table}
-          style={{ tableLayout: 'auto', width: 'max-content' }}
-        >
-          <thead className={styles.tableHead}>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <tr key={headerGroup.id}>
-                {headerGroup.headers.map((col) => (
-                  <th
-                    key={col.id}
-                    className={styles.tableTh}
-                    style={{ minWidth: col.column.columnDef.minSize }}
-                  >
-                    <div className={styles.tableThContent}>
-                      {col.isPlaceholder || col.id === '__select__' ? null : col.column.getCanSort() ? (
-                        <button type="button" className={styles.tableSortButton} tabIndex={-1}>
-                          {flexRender(col.column.columnDef.header, col.getContext())}
-                          <ArrowSort16Regular className={styles.tableSortIcon} />
-                        </button>
-                      ) : (
-                        flexRender(col.column.columnDef.header, col.getContext())
-                      )}
-                    </div>
-                  </th>
-                ))}
-              </tr>
-            ))}
-          </thead>
-          <tbody className={styles.tableBody}>
-            {allDataRows.map((row) => (
-              <tr key={row.id}>
-                {row.getVisibleCells().map((cell) => (
-                  <td key={cell.id} className={styles.tableTd}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
       {showBulkActions && (
         <div className={styles.bulkActionsBar}>
           <div className={styles.bulkActionsInfo}>
@@ -347,16 +278,14 @@ const TableV2 = <T,>({
             <thead className={styles.tableHead}>
               {table.getHeaderGroups().map((headerGroup) => (
                 <tr key={headerGroup.id}>
-                  {headerGroup.headers.map((col, colIndex) => (
+                  {headerGroup.headers.map((col) => (
                     <th
                       key={col.id}
                       className={styles.tableTh}
                       style={{
                         textAlign: col.column.columnDef.meta?.align,
                         width: col.column.columnDef.size || undefined,
-                        minWidth: col.column.columnDef.size
-                          ? col.column.columnDef.size
-                          : (colWidths[colIndex] ?? col.column.columnDef.minSize),
+                        minWidth: col.column.columnDef.minSize,
                         maxWidth: col.column.columnDef.maxSize !== Number.MAX_SAFE_INTEGER
                           ? col.column.columnDef.maxSize
                           : undefined,
@@ -418,16 +347,14 @@ const TableV2 = <T,>({
                       onClick={rowProps.onClick}
                       onDoubleClick={rowProps.onDoubleClick}
                     >
-                      {row.getVisibleCells().map((cell, cellIndex) => (
+                      {row.getVisibleCells().map((cell) => (
                         <td
                           key={cell.id}
                           className={styles.tableTd}
                           style={{
                             textAlign: cell.column.columnDef.meta?.align,
                             width: cell.column.columnDef.size || undefined,
-                            minWidth: cell.column.columnDef.size
-                              ? cell.column.columnDef.size
-                              : (colWidths[cellIndex] ?? cell.column.columnDef.minSize),
+                            minWidth: cell.column.columnDef.minSize,
                             maxWidth: cell.column.columnDef.maxSize !== Number.MAX_SAFE_INTEGER
                               ? cell.column.columnDef.maxSize
                               : undefined,
