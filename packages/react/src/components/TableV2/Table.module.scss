@@ -407,3 +407,7 @@
   color: var(--color-neutral-low-default);
   margin: var(--spacing-0);
 }
+
+.tableCellMaxHeight {
+  overflow: hidden;
+}

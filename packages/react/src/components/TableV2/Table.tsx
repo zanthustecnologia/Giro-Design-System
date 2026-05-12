@@ -361,7 +361,9 @@ const TableV2 = <T,>({
                           }}
                         >
                           {cell.column.columnDef.meta?.maxHeight ? (
-                            <div style={{ maxHeight: cell.column.columnDef.meta.maxHeight, overflow: 'hidden' }}>
+                            <div 
+                            className={styles.tableCellMaxHeight}
+                            style={{ maxHeight: cell.column.columnDef.meta.maxHeight}}>
                               {flexRender(cell.column.columnDef.cell, cell.getContext())}
                             </div>
                           ) : (
