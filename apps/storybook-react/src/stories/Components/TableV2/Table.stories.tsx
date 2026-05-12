@@ -71,7 +71,6 @@ const colunasPadrao = [
   }),
   col.accessor('status', {
     header: 'Status',
-    size: 100,
     cell: (info) => (
       <Chips variant={statusColor[info.getValue()] ?? 'neutral'}>
         {info.getValue()}
@@ -81,7 +80,6 @@ const colunasPadrao = [
   col.display({
     id: 'actions',
     header: '',
-    size: 40,
     meta: { align: 'center' },
     cell: ({ row }) => (
       <Menu
@@ -102,8 +100,6 @@ const colunasCompletas = [
   col.display({
     id: 'avatar',
     header: 'Avatar',
-    
-    // meta: { align: 'center' },
     cell: ({ row }) => {
       const initials = row.original.nome.split(' ').map((w) => w[0]).slice(0, 2).join('');
       return <Avatar initialLetters={initials} size="sm" />;
