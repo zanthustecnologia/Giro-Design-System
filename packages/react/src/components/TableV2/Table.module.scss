@@ -4,6 +4,7 @@
   max-width: 100%;
   min-width: 0;
   box-sizing: border-box;
+  position: relative;
 }
 
 
@@ -131,7 +132,7 @@
   padding: var(--spacing-8) var(--spacing-16);
   border-top: var(--border-width-1) solid var(--color-neutral-high-dark);
   color: var(--color-neutral-low-default);
-  height: 48px;
+  height: 44px;
   vertical-align: middle;
 }
 
@@ -143,8 +144,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 48px;
-  padding: var(--spacing-0) var(--spacing-16);
+  width: 44px;
+  padding: var(--spacing-0);
+
+  > * {
+    gap: 0;
+  }
 }
 
 .tableSortButton {
@@ -339,7 +344,7 @@
 }
 
 .table {
-  min-width: max-content;
+  width: 100%;
 }
 
 .tableLoader {
