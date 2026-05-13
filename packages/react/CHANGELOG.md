@@ -1,5 +1,62 @@
 # @giro-ds/react
 
+## 7.0.0
+
+### Major Changes
+
+- **Badge**: Unificação dos modos notification e status em API única sem prop `type`
+  - **Removido**: prop `type` (`'notification' | 'status'`)
+  - **Alterado**: modo discriminado pela presença de `children` — com `children` o badge flutua (overlay); sem `children` exibe inline
+  - **Alterado**: `badgeValue` unificado para `number | string | null`
+  - **Alterado**: `data-testid` unificado para `"badge"` (era `"badge-notification"` / `"badge-status"`)
+  - **Como migrar**:
+
+    ```tsx
+    // Antes
+    <Badge type="notification" badgeValue={5}><Icon /></Badge>
+    <Badge type="status" badgeValue={5} />
+
+    // Depois
+    <Badge badgeValue={5}><Icon /></Badge>
+    <Badge badgeValue={5} />
+    ```
+
+- **Callout**: Refatoração da API com breaking changes
+  - **Removido**: prop `disabled` (sem utilidade funcional)
+  - **Removido**: export do tipo `CalloutVariant` — usar `TextVariant` diretamente
+  - **Alterado**: prop `type` → `variant` (`Exclude<TextVariant, 'color'>`)
+  - **Alterado**: prop `foregroundColor` → `textColor`
+  - **Alterado**: prop `text` agora é obrigatória e aceita `React.ReactNode`
+  - **Alterado**: prop `title` agora aceita `React.ReactNode` em vez de `string | null`
+  - **Adicionado**: props `dismiss` e `onDismiss` para botão de fechar
+  - **Adicionado**: prop `backgroundColor` para customização via tokens CSS
+  - **Como migrar**:
+
+    ```tsx
+    // Antes
+    <Callout type="alert" foregroundColor="#fff" text="mensagem" disabled />
+
+    // Depois
+    <Callout variant="alert" textColor="#fff" text="mensagem" />
+    ```
+
+### Minor Changes
+
+- **TableV2**: Novo componente construído com TanStack Table
+  - Paginação com seleção automática de itens por página
+  - Seleção de linhas com checkboxes e estado `indeterminate`
+  - Ações em massa via prop `bulkActions`
+  - Busca global e filtros no header (checkbox, calendário) via `header.filterItems`
+  - Filtros inline por coluna via `enableFilters`, ordenação nativa e scroll horizontal automático
+  - Estado de carregamento com skeleton e estado vazio customizável
+  - Tipos exportados: `TableV2Props`, `TableV2HeaderProps`, `TableV2FooterProps`
+
+### Patch Changes
+
+- **Avatar**: Remove `<div>` wrapper desnecessário ao redor do `AvatarRadix.Root`
+- **Modal**: Corrige autofocus indesejado no botão de fechar ao abrir o dialog
+- **Componentes**: Adiciona prop `className` e padroniza spread props para `...rest` em todos os componentes
+
 ## 6.0.2
 
 ### Patch Changes
