@@ -61,6 +61,9 @@ export interface DrawerProps extends BaseProps {
   
   /** Define se o drawer fecha ao pressionar ESC */
   closeOnEscape?: boolean;
+
+  /** Classe CSS opcional */
+  className?: string;
 }
 
 /**

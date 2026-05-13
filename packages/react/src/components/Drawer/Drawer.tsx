@@ -22,6 +22,7 @@ const Drawer: React.FC<DrawerProps> = ({
   onOverlayClick,
   closeOnOverlayClick = true,
   closeOnEscape = true,
+  ...rest
 }) => {
 
   const internalClose = useCallback((): void => {
@@ -108,6 +109,7 @@ const Drawer: React.FC<DrawerProps> = ({
         aria-hidden={!isOpen}
         data-testid="drawer-panel"
         id={id}
+        {...rest}
       >
      
         <div className={styles.drawerTitleClose}>

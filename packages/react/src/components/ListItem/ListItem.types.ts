@@ -64,4 +64,7 @@ export interface ListItemProps extends BaseProps {
   
   /** Estado de hover */
   hovered?: boolean;
+
+  /** Classe CSS opcional */
+  className?: string;
 }

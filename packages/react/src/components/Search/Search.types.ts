@@ -60,4 +60,7 @@ export interface SearchProps extends BaseProps, NativeInputProps {
   
   /** ID para testes automatizados */
   'data-testid'?: string;
+
+  /** Classe CSS opcional */
+  className?: string;
 }

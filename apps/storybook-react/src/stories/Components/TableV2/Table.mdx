@@ -1,0 +1,61 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as TableStories from './Table.stories';
+import { UsageGuidelines } from '../../../internal-components/mdx/UsageGuidelines/UsageGuidelines';
+import { Footer } from '../../../internal-components/mdx/Footer/Footer';
+
+<Meta of={TableStories} name="Docs" />
+
+# TableV2
+
+O TableV2 é a nova implementação da tabela, construída com [TanStack Table](https://tanstack.com/table/latest). Oferece uma API declarativa baseada em `createColumnHelper`, com suporte a tipagem genérica, renderização customizada por célula e extensibilidade nativa da biblioteca.
+
+<Canvas of={TableStories.Default} />
+
+## Importação
+
+```js
+import { TableV2 } from '@giro-ds/react';
+import { createColumnHelper } from '@tanstack/react-table';
+```
+
+<div style={{ marginTop: '48px' }} />
+
+## Propriedades
+
+<Controls />
+
+<div style={{ marginTop: '48px' }} />
+
+## Uso
+
+<UsageGuidelines
+  guidelines={[
+    <>
+      Use <code>createColumnHelper&lt;T&gt;()</code> para definir as colunas com tipagem automática. O helper garante autocompletar e segurança de tipos nas células.
+    </>,
+    <>
+      Use <code>columnHelper.accessor('campo', {'{'} header, cell {'}'} )</code> para colunas que leem diretamente de uma propriedade do dado.
+    </>,
+    <>
+      Use <code>columnHelper.display({'{'} id, cell {'}'} )</code> para colunas que não mapeiam uma propriedade do dado, como ações ou colunas compostas.
+    </>,
+    <>
+      Acesse o dado original da linha com <code>row.original</code> dentro do render da célula para montar componentes como Chips e Menu.
+    </>,
+  ]}
+/>
+
+<div style={{ marginTop: '48px' }} />
+
+## Variações
+
+### Com busca e filtros
+
+O header combina busca por texto, filtro por categoria e filtro por data de início. A seleção de linhas permite ações em lote.
+
+<Canvas of={TableStories.ComBuscaEFiltros} />
+
+As demais variações — somente busca, sem cabeçalho, filtro de calendário e carregando — estão disponíveis na sidebar do Storybook.
+
+<Footer />
+

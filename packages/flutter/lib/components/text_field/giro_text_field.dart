@@ -112,19 +112,20 @@ class _GiroTextFieldState extends State<GiroTextField> {
 
     Widget? effectiveSuffixIcon;
     if (showClearButton) {
-      effectiveSuffixIcon = IconButton(
-        icon: const Icon(FluentIcons.dismiss_16_regular, size: 16),
-        onPressed: _clearText,
-        padding: EdgeInsets.zero,
-        constraints: const BoxConstraints(),
-        style: IconButton.styleFrom(
-          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      effectiveSuffixIcon = Padding(
+        padding: const EdgeInsets.only(right: 8),
+        child: IconButton(
+          icon: const Icon(FluentIcons.dismiss_16_regular, size: 16),
+          onPressed: _clearText,
         ),
       );
     } else if (widget.suffixIcon != null) {
-      effectiveSuffixIcon = IconTheme(
-        data: const IconThemeData(size: 16),
-        child: widget.suffixIcon!,
+      effectiveSuffixIcon = Padding(
+        padding: const EdgeInsets.only(right: 16),
+        child: IconTheme(
+          data: const IconThemeData(size: 16),
+          child: widget.suffixIcon!,
+        ),
       );
     }
 
@@ -140,9 +141,11 @@ class _GiroTextFieldState extends State<GiroTextField> {
                 GiroTextFieldTokens.fontFamily,
                 fontSize: GiroTextFieldTokens.labelFontSize,
                 fontWeight: GiroTextFieldTokens.labelFontWeight,
-                color: widget.enabled 
-                    ? GiroTextFieldTokens.labelColor 
-                    : GiroTokens.colorNeutralLowLight,
+                color: !widget.enabled
+                    ? GiroTokens.colorNeutralLowLight
+                    : isError
+                        ? GiroTextFieldTokens.borderColorError
+                        : GiroTextFieldTokens.labelColor,
               ),
               children: [
                 if (widget.required)
@@ -180,9 +183,13 @@ class _GiroTextFieldState extends State<GiroTextField> {
             decoration: InputDecoration(
               hintText: widget.hintText,
               filled: true,
-              fillColor: widget.enabled 
-                  ? GiroTextFieldTokens.backgroundColor 
+              fillColor: widget.enabled
+                  ? GiroTextFieldTokens.backgroundColor
                   : GiroTokens.colorNeutralHighLight,
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: GiroTextFieldTokens.paddingHorizontal,
+                vertical: 0,
+              ),
               // Não passamos errorText aqui para evitar que o layout nativo mude a altura
               suffixIcon: effectiveSuffixIcon,
               // Sobrescrevemos as bordas manualmente se houver erro
@@ -200,15 +207,17 @@ class _GiroTextFieldState extends State<GiroTextField> {
         ),
         // Mensagem de erro ou helper text renderizados externamente
         if (widget.errorText != null || widget.helperText != null) ...[
-           const SizedBox(height: 4),
+           SizedBox(height: widget.errorText != null ? 4 : 8),
            Text(
              widget.errorText ?? widget.helperText!,
              style: GoogleFonts.getFont(
                GiroTextFieldTokens.fontFamily,
-               color: widget.errorText != null 
-                   ? GiroTextFieldTokens.borderColorError 
-                   : GiroTextFieldTokens.helperTextColor,
-               fontSize: 12,
+               color: widget.errorText != null
+                   ? GiroTextFieldTokens.borderColorError
+                   : !widget.enabled
+                       ? GiroTokens.colorNeutralLowLight
+                       : GiroTextFieldTokens.helperTextColor,
+               fontSize: 14,
              ),
            ),
         ]

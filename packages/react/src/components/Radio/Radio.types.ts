@@ -15,6 +15,9 @@ export interface RadioProps {
   
   /** Estado desabilitado do item */
   disabled?: boolean;
+
+  /** Classe CSS opcional */
+  className?: string;
 }
 
 /**

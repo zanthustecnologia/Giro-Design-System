@@ -38,4 +38,7 @@ export interface CheckboxProps extends BaseProps {
   
   /** Estado indeterminado (usado em selecionar todos com seleção parcial) */
   indeterminate?: boolean;
+
+  /** Classe CSS opcional */
+  className?: string;
 }

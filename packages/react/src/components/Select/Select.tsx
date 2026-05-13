@@ -40,7 +40,7 @@ const Select: React.FC<SelectProps> = ({
   enableApiSearch = false,
   onApiSearch,
   isSearching = false,
-  ...restProps
+  ...rest
 }) => {
   const componentId = useId();
   const selectId = `select-${componentId}`;
@@ -152,7 +152,7 @@ const Select: React.FC<SelectProps> = ({
       open={state.isOpen}
       onOpenChange={actions.setOpen}
       disabled={disabled}
-      {...restProps}
+      {...rest}
     >
       <div
         className={clsx(styles.container, className)}

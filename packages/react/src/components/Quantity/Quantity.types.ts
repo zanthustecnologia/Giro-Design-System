@@ -54,12 +54,15 @@ export interface QuantityProps extends BaseProps {
   /** Valor máximo permitido */
   maxValue?: number;
 
-  /** Aria label for the decrement button. Default: 'Decrease quantity' */
+  /** Aria label para o botão de decremento. Padrão: 'Diminuir quantidade' */
   decrementAriaLabel?: string;
 
-  /** Aria label for the increment button. Default: 'Increase quantity' */
+  /** Aria label para o botão de incremento. Padrão: 'Aumentar quantidade' */
   incrementAriaLabel?: string;
 
-  /** Aria label for the quantity input. Default: 'Quantity' */
+  /** Aria label para a entrada de quantidade. Padrão: 'Quantidade' */
   inputAriaLabel?: string;
+
+  /** Classe CSS opcional */
+  className?: string;
 }
