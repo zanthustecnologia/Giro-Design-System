@@ -19,8 +19,6 @@ import { TextVariant, BaseProps } from '../../types/common.types';
  *   type="alert"
  *   title="Atenção"
  *   text="Verifique os campos obrigatórios"
- * 
- * 
  * />
  * ```
  */
