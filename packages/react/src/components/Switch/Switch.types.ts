@@ -34,4 +34,7 @@ export interface SwitchProps extends BaseProps {
   
   /** Estado atual (modo controlado) */
   checked?: boolean;
+
+  /** Classe CSS opcional */
+  className?: string;
 }

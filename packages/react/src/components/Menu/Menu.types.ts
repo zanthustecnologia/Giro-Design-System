@@ -112,4 +112,7 @@ export interface MenuProps extends BaseProps {
   
   /** Callback executado quando o menu abre/fecha: (open) => void */
   onOpenChange?: (open: boolean) => void;
+
+  /** Classe CSS opcional */
+  className?: string;
 }

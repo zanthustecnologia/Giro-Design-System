@@ -4,6 +4,7 @@ import {
   ChevronRight16Regular,
   ChevronUp16Regular,
 } from "@fluentui/react-icons";
+import clsx from "clsx";
 import { createContext, useContext, useState } from "react";
 import { DayPicker } from "react-day-picker";
 import { enUS, ptBR } from "react-day-picker/locale";
@@ -91,8 +92,10 @@ const Calendar = ({
   format: _format,
   locale = "pt-br",
   autoFocus,
+  className,
   id,
   "aria-label": ariaLabel,
+  ...rest
 }: CalendarProps) => {
   const animate = true;
 
@@ -201,10 +204,11 @@ const Calendar = ({
 
   return (
     <GridCtx.Provider value={gridCtxValue}>
-      <div className={styles.calendar_grid_wrapper}>
+      <div className={clsx(styles.calendar_grid_wrapper, className)}>
         <DayPicker
           id={id}
           {...sharedDayPickerProps}
+          {...rest}
           captionLayout="label"
           month={resolvedDisplayMonth}
           onMonthChange={handleMonthChange}

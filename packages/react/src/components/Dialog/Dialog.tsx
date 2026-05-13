@@ -1,4 +1,5 @@
 import { AlertDialog } from "radix-ui";
+import clsx from "clsx";
 import * as React from "react";
 
 
@@ -14,12 +15,13 @@ const Dialog: React.FC<DialogProps> = ({
   textSecondaryAction,
 	onPrimaryAction,
 	onSecondaryAction,
-  ...restProps
+	className,
+  ...rest
 }) => (
-	<AlertDialog.Root open={show} {...restProps}>
+	<AlertDialog.Root open={show} {...rest}>
 		<AlertDialog.Portal>
 			<AlertDialog.Overlay className={styles.DialogOverlay} />
-			<AlertDialog.Content className={styles.DialogContent}>
+			<AlertDialog.Content className={clsx(styles.DialogContent, className)}>
 				<AlertDialog.Title className={styles.DialogTitle}>
 					{title}
 				</AlertDialog.Title>

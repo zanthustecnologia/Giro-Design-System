@@ -143,6 +143,9 @@ export interface SelectProps extends BaseProps {
   
   /** Estado de busca em andamento */
   isSearching?: boolean;
+
+  /** Classe CSS opcional */
+  className?: string;
 }
 
 /**

@@ -13,13 +13,14 @@ const Radio: React.FC<RadioGroupProps> = ({
   id,
   ariaLabel,
   orientation = 'vertical',
+  className,
   ...rest
 }) => {
   const componentId = id || useId();
   return (
     <RadioGroup.Root
       id={componentId}
-      className={styles.root}
+      className={clsx(styles.root, className)}
       defaultValue={defaultValue}
       onValueChange={onValueChange}
       name={name}

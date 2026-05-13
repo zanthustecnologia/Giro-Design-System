@@ -56,4 +56,10 @@ export interface CalloutProps
    * @example textColor="color-neutral-low-default"
    */
   textColor?: string;
+
+  /** Classe CSS opcional */
+  className?: string;
+  
+  /** Props adicionais para o elemento div */
+  [key: string]: any;
 }
