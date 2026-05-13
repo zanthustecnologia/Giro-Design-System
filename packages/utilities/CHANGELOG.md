@@ -25,8 +25,6 @@
   - Sistema de gaps
   - Integração com design tokens
 
----
-
 ## Histórico anterior (@zanthus/ui)
 
 O pacote foi migrado de `@zanthus/ui` para `@giro-ds/utilities@1.0.0`.

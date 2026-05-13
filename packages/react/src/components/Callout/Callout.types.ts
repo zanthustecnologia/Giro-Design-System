@@ -1,13 +1,13 @@
 import * as React from 'react';
 
-import { TextVariant, BaseProps } from '../../types/common.types';
+import { BaseProps, TextVariant } from '../../types/common.types';
 
 /**
  * Props do componente Callout
  * @example
  * ```tsx
- * <Callout 
- *   type="success" 
+ * <Callout
+ *   variant="success"
  *   title="Sucesso!"
  *   text="Operação realizada com sucesso"
  *   icon={<CheckIcon />}
@@ -15,23 +15,27 @@ import { TextVariant, BaseProps } from '../../types/common.types';
  * ```
  * @example
  * ```tsx
- * <Callout 
- *   type="alert"
+ * <Callout
+ *   variant="alert"
  *   title="Atenção"
  *   text="Verifique os campos obrigatórios"
+ *   dismiss
+ *   onDismiss={() => setVisible(false)}
  * />
  * ```
  */
-export interface CalloutProps extends BaseProps {
-  /** Tipo visual do callout */
-  type?: TextVariant;
-  
-  /** Título principal do callout (texto em destaque) */
-  title?: string | null;
-  
-  /** Texto descritivo do callout */
-  text?: string;
-  
+export interface CalloutProps
+  extends Omit<BaseProps, 'disabled'>,
+    Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
+  /** Variante semântica do callout */
+  variant?: Exclude<TextVariant, 'color'>;
+
+  /** Título principal do callout */
+  title?: React.ReactNode;
+
+  /** Conteúdo descritivo do callout */
+  text: React.ReactNode;
+
   /** Ícone a ser exibido no callout */
   icon?: React.ReactNode;
 

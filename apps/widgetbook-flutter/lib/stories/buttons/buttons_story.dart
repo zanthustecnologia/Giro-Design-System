@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_giro/flutter_giro.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+import 'package:flutter_giro/types/giro_types.dart';
 import 'package:widgetbook/widgetbook.dart';
 
 WidgetbookComponent buttonsStory() {
@@ -10,28 +10,42 @@ WidgetbookComponent buttonsStory() {
       WidgetbookUseCase(
         name: 'Button',
         builder: (context) {
-          final text = context.knobs.string(label: 'Text', initialValue: 'Button');
-          final variant = context.knobs.list(
+          final text =
+              context.knobs.string(label: 'Text', initialValue: 'Button');
+
+          final variant = context.knobs.list<GiroButtonVariant>(
             label: 'Variant',
-            options: ['filled', 'outlined', 'text'],
-            initialOption: 'filled',
+            options: GiroButtonVariant.values,
+            initialOption: GiroButtonVariant.filled,
+            labelBuilder: (value) =>
+                value.name, // Retorna apenas 'filled' | 'outlined' | 'text'
           );
-          final size = context.knobs.list(
+
+          final size = context.knobs.list<GiroSize>(
             label: 'Size',
-            options: ['lg', 'sm'],
-            initialOption: 'lg',
+            options: [GiroSize.lg, GiroSize.sm],
+            initialOption: GiroSize.lg,
+            labelBuilder: (value) => value.name, // Retorna apenas 'lg' ou 'sm'
           );
-          final fullWidth = context.knobs.boolean(label: 'Full Width', initialValue: false);
-          final disabled = context.knobs.boolean(label: 'Disabled', initialValue: false);
-          final iconPosition = context.knobs.list(
+
+          final fullWidth =
+              context.knobs.boolean(label: 'Full Width', initialValue: false);
+          final disabled =
+              context.knobs.boolean(label: 'Disabled', initialValue: false);
+
+          final iconPosition = context.knobs.list<GiroPosition>(
             label: 'Icon Position',
-            options: ['none', 'left', 'right'],
-            initialOption: 'none',
+            options: [GiroPosition.none, GiroPosition.left, GiroPosition.right],
+            initialOption: GiroPosition.none,
+            labelBuilder: (value) =>
+                value.name, // Retorna apenas 'none', 'left' ou 'right'
           );
-          final iconOnly = context.knobs.boolean(label: 'Icon Only', initialValue: false);
+
+          final iconOnly =
+              context.knobs.boolean(label: 'Icon Only', initialValue: false);
 
           Icon? icon;
-          if (iconPosition != 'none' || iconOnly) {
+          if (iconPosition != GiroPosition.none || iconOnly) {
             icon = const Icon(FluentIcons.add_16_regular);
           }
 
@@ -45,8 +59,9 @@ WidgetbookComponent buttonsStory() {
                 iconPosition: iconPosition,
                 iconOnly: iconOnly,
                 icon: icon,
-                onPressed: disabled ? null : () {},
-                child: Text(text),
+                onPressed: () {},
+                disable: disabled,
+                text: text,
               ),
             ),
           );

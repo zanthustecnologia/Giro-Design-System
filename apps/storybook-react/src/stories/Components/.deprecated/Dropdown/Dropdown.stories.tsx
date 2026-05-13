@@ -231,7 +231,7 @@ export const DropdownPositionComparison: StoryFn<TemplateArgs> = (args) => {
       {/* Espaçamento */}
       <div style={{ height: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <div style={{ textAlign: 'center', color: '#666' }}>
-          <h3>📏 Área de Rolagem</h3>
+          <h3 className="heading-3">📏 Área de Rolagem</h3>
           <p>Role para baixo para testar o Dropdown do final</p>
           <div style={{ fontSize: '24px' }}>⬇️</div>
         </div>
@@ -311,7 +311,7 @@ export const DropdownPositioned: StoryFn<DropdownProps> = () => {
   return (
     <div style={{ padding: '20px', display: 'flex', flexDirection: 'column', gap: '300px' }}>
       <div>
-        <h3>Dropdown forçado para baixo (position="bottom")</h3>
+        <h3 className="heading-3">Dropdown forçado para baixo (position="bottom")</h3>
         <div style={{ position: 'relative', display: 'inline-block' }}>
           <button style={{ padding: '10px 20px', background: '#007ACC', color: 'white', border: 'none', borderRadius: '4px' }}>
             Clique para ver Dropdown
@@ -329,7 +329,7 @@ export const DropdownPositioned: StoryFn<DropdownProps> = () => {
       </div>
       
       <div>
-        <h3>Dropdown forçado para cima (position="top")</h3>
+        <h3 className="heading-3">Dropdown forçado para cima (position="top")</h3>
         <div style={{ position: 'relative', display: 'inline-block' }}>
           <button style={{ padding: '10px 20px', background: '#007ACC', color: 'white', border: 'none', borderRadius: '4px' }}>
             Clique para ver Dropdown
@@ -347,7 +347,7 @@ export const DropdownPositioned: StoryFn<DropdownProps> = () => {
       </div>
       
       <div>
-        <h3>Dropdown automático (sem prop position)</h3>
+        <h3 className="heading-3">Dropdown automático (sem prop position)</h3>
         <div style={{ position: 'relative', display: 'inline-block' }}>
           <button style={{ padding: '10px 20px', background: '#007ACC', color: 'white', border: 'none', borderRadius: '4px' }}>
             Clique para ver Dropdown

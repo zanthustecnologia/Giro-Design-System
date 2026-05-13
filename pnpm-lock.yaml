@@ -93,6 +93,9 @@ importers:
       '@giro-ds/utilities':
         specifier: workspace:*
         version: link:../../packages/utilities
+      '@giro-ds/version':
+        specifier: workspace:*
+        version: link:../../packages/version
       react-router-dom:
         specifier: ^7.8.1
         version: 7.10.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -279,6 +282,15 @@ importers:
       sass:
         specifier: ^1.77.0
         version: 1.97.0
+
+  packages/version:
+    devDependencies:
+      tsx:
+        specifier: ^4.21.0
+        version: 4.21.0
+      typescript:
+        specifier: ^5.7.3
+        version: 5.9.3
 
 packages:
 
@@ -2321,7 +2333,6 @@ packages:
 
   '@rollup/rollup-win32-x64-msvc@4.53.5':
     resolution: {integrity: sha512-JRpZUhCfhZ4keB5v0fe02gQJy05GqboPOaxvjugW04RLSYYoB/9t2lx2u/tMs/Na/1NXfY8QYjgRljRpN+MjTQ==}
-    cpu: [x64]
     os: [win32]
 
   '@rtsao/scc@1.1.0':

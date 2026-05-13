@@ -53,4 +53,7 @@ export interface ModalProps extends BaseProps {
 
   /** Define se o modal ocupa toda a tela. Tem prioridade sobre customWidth */
   fullscreen?: boolean;
+
+  /** Classe CSS opcional */
+  className?: string;
 }

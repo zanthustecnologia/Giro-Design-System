@@ -1,3 +1,4 @@
+import * as FluentIcons from '@fluentui/react-icons';
 import { withPlayground } from 'storybook-addon-playground';
 
 export default {
@@ -8,5 +9,10 @@ export default {
 export const Playground = {
   parameters: {
     chromatic: { disable: true },
+    playground: {
+      components: {
+        ...FluentIcons,
+      },
+    },
   },
 };
