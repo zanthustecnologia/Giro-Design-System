@@ -9,7 +9,7 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev --parallel",
-    "dev:storybook": "turbo run dev --parallel --filter=@giro-ds/react --filter=storybook-react",
+    "dev:storybook": "turbo run dev --filter=storybook-react",
     "lint": "turbo run lint",
     "lint:fix": "turbo run lint:fix",
     "typecheck": "turbo run typecheck",

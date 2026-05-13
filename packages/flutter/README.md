@@ -16,24 +16,28 @@ Flutter component library for Zanthus Design System - Material 3 Pure Components
 Todos os componentes Material 3 puros do Flutter, organizados por categoria:
 
 ### Actions (4 componentes)
+
 - **Buttons** - ElevatedButton, FilledButton, OutlinedButton, TextButton
 - **FloatingActionButton** - FAB em variantes small, regular, large, extended
 - **IconButton** - Standard, filled, filledTonal, outlined variants
 - **SegmentedButton** - Single or multiple selection
 
 ### Communication (4 componentes)
+
 - **Dialogs** - AlertDialog, SimpleDialog, AboutDialog
 - **SnackBar** - Brief messages with optional actions
 - **Banner** - MaterialBanner for persistent messages
 - **Progress** - CircularProgressIndicator, LinearProgressIndicator
 
 ### Containment (4 componentes)
+
 - **Cards** - Card, Card.filled, Card.outlined
 - **BottomSheet** - Modal and persistent bottom sheets
 - **Drawer** - Drawer and NavigationDrawer
 - **Dividers** - Horizontal and vertical dividers
 
 ### Navigation (6 componentes)
+
 - **AppBar** - Top app bar with actions
 - **BottomNavigationBar** - Legacy bottom navigation
 - **NavigationBar** - Material 3 bottom navigation
@@ -42,6 +46,7 @@ Todos os componentes Material 3 puros do Flutter, organizados por categoria:
 - **SearchBar** - SearchBar and SearchAnchor
 
 ### Selection (8 componentes)
+
 - **SelectionControls** - Checkbox, Switch, Radio
 - **Chips** - Chip, InputChip, ChoiceChip, FilterChip, ActionChip
 - **Slider** - Slider and RangeSlider
@@ -53,10 +58,12 @@ Todos os componentes Material 3 puros do Flutter, organizados por categoria:
 - **Autocomplete** - RawAutocomplete widget
 
 ### Input (2 componentes)
+
 - **TextField** - TextField and TextFormField with InputDecoration
 - **Form** - Form and FormField for validation
 
 ### Data Display (7 componentes)
+
 - **ListTile** - ListTile, CheckboxListTile, RadioListTile, SwitchListTile
 - **DataTable** - DataTable and DataColumn
 - **Stepper** - Stepper for step-by-step UI
@@ -66,6 +73,7 @@ Todos os componentes Material 3 puros do Flutter, organizados por categoria:
 - **Tooltip** - Tooltip widget
 
 ### Layout & Feedback (2 componentes)
+
 - **Scaffold** - Basic page structure
 - **ButtonBar** - ButtonBar and OverflowBar
 - **RefreshIndicator** - Pull-to-refresh
@@ -85,21 +93,28 @@ dependencies:
 ## Usage
 
 ### Custom Components (with tokens)
+
 ```dart
-import 'package:zanthus_flutter/zanthus_flutter.dart';
+import 'package:flutter_giro/components/buttons/giro_button.dart';
 
 // Use components
-ZanthusButton(
+GiroButton(
   text: 'Click me',
+  variant: GiroButtonVariant.filled,
+  size: GiroSize.sm,
+  fullWidth: false,
+  iconPosition: GiroPosition.none,
+  iconOnly: false,
+  icon: Icon(FluentIcons.add_16_regular),
   onPressed: () {},
-  variant: ZanthusButtonVariant.primary,
-  size: ZanthusButtonSize.medium,
-)
+  disable: false,
+),
 ```
 
 ### Material 3 Pure Components
+
 ```dart
-import 'package:zanthus_flutter/zanthus_flutter.dart';
+import 'package:flutter_giro/flutter_giro.dart';
 
 // FloatingActionButton
 FloatingActionButton(
