@@ -13,7 +13,7 @@ const Switch: React.FC<SwitchProps> = ({
 	className,
 	...rest
 }) => (
-		<div className={clsx(styles.container)}>
+		<div className={clsx(styles.container, className)}>
 			<SwitchRadix.Root  
 				className={styles.switchRoot} 
 				disabled={disabled} 

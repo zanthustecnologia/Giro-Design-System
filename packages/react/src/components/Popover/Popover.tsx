@@ -1,4 +1,5 @@
 import { Popover as PopoverRadix } from "radix-ui";
+import clsx from "clsx";
 import * as React from "react";
 
 import styles from "./Popover.module.scss";
@@ -32,7 +33,7 @@ const Popover: React.FC<PopoverProps> = ({
       )}
       <PopoverRadix.Portal>
         <PopoverRadix.Content
-          className={styles.Content}
+          className={clsx(styles.Content, className)}
           sideOffset={sideOffset}
           side={side}
           align={align}

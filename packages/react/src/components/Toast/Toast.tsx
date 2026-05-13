@@ -1,4 +1,5 @@
 import { Info20Filled, CheckmarkCircle20Filled, Warning20Filled, Dismiss16Filled} from '@fluentui/react-icons';
+import clsx from 'clsx';
 import { Toast as ToastRadix } from 'radix-ui';
 import * as React from "react";
 
@@ -74,7 +75,7 @@ const Toast: React.FC<ToastProps & { id: string }> = ({
 
   return (
     <ToastRadix.Root 
-      className={styles.toastRoot} 
+      className={clsx(styles.toastRoot, className)} 
       open={open} 
       onOpenChange={handleOpenChange} 
       duration={effectiveDuration}
