@@ -19,7 +19,8 @@
   font-weight: var(--font-weight-regular);
   font-family: var(--font-family-primary);
 
-  &[data-state='checked'] {
+  &[data-state='checked'],
+  &[data-state='indeterminate'] {
     background-color: var(--color-brand-primary-default);
     border: var(--border-width-2) solid var(--color-brand-primary-default);
   }

@@ -1,0 +1,413 @@
+.wrapper {
+  font-family: var(--font-family-primary);
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  position: relative;
+}
+
+
+/* Parte responsável pelas bordas e background da tabela */
+.tableContainer {
+  width: 100%;
+  min-width: 0;
+  background-color: var(--color-neutral-high-default);
+  overflow: hidden;
+  border-radius: var(--spacing-8);
+  border: var(--border-width-1) solid var(--color-neutral-high-dark);
+  box-sizing: border-box;
+}
+
+.tableHeader + .tableContainer {
+  border-radius: var(--border-radius-none) var(--border-radius-none)
+    var(--spacing-8) var(--spacing-8);
+  border-top: var(--border-width-none);
+}
+
+.bulkActionsBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-12) var(--spacing-0);
+  gap: var(--spacing-16);
+  flex-wrap: wrap;
+  margin-bottom: var(--spacing-24);
+}
+
+.bulkActionsInfo {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-12);
+}
+
+.bulkActionsClearButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--spacing-4);
+  color: var(--color-feedback-negative-default);
+  transition: background-color 0.15s;
+
+  &:hover {
+    background-color: var(--color-feedback-negative-light);
+  }
+}
+
+.bulkActionsLabel {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-16);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-neutral-low-default);
+}
+
+.bulkActionsButtons {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-8);
+  flex-wrap: wrap;
+}
+/* ─────────────────────────────────────────────────────────── */
+
+.tableContainer:has(+ .tablePagination) {
+  border-radius: var(--spacing-8) var(--spacing-8) var(--border-radius-none)
+    var(--border-radius-none);
+  border-bottom: var(--border-width-none);
+}
+
+.tableHeader + .tableContainer:has(+ .tablePagination) {
+  border-radius: var(--border-radius-none);
+  border-top: var(--border-width-none);
+  border-bottom: var(--border-width-none);
+}
+
+.tableHeader:has(+ .tableContainer) {
+  border-top: var(--border-width-1) solid var(--color-neutral-high-dark);
+  border-left: var(--border-width-1) solid var(--color-neutral-high-dark);
+  border-right: var(--border-width-1) solid var(--color-neutral-high-dark);
+}
+
+.tableContainer + .tablePagination {
+  border-left: var(--border-width-1) solid var(--color-neutral-high-dark);
+  border-right: var(--border-width-1) solid var(--color-neutral-high-dark);
+}
+/* Fim da parte responsável pelas bordas e background da tabela */
+
+
+.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: var(--spacing-0);
+  font-size: var(--font-size-16);
+}
+
+.tableHead {
+  background-color: var(--color-neutral-high-light);
+  text-align: left;
+  height: 44px;
+}
+
+.tableTh {
+  padding: var(--spacing-0);
+  vertical-align: middle;
+}
+
+.tableThContent {
+  font-weight: var(--font-weight-bold);
+  color: var(--color-neutral-low-default);
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-0) var(--spacing-16);
+
+  &:has(.tableSortButton) {
+    padding: var(--spacing-0);
+  }
+}
+
+.tableBody .tableTd {
+  padding: var(--spacing-8) var(--spacing-16);
+  border-top: var(--border-width-1) solid var(--color-neutral-high-dark);
+  color: var(--color-neutral-low-default);
+  height: 44px;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.tableBody .tableRow:hover {
+  background-color: var(--color-neutral-high-light);
+}
+
+.checkboxCell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  padding: var(--spacing-0);
+
+  > * {
+    gap: 0;
+  }
+}
+
+.tableSortButton {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-4);
+  background: none;
+  border: none;
+  padding: var(--spacing-0) var(--spacing-16);
+  cursor: pointer;
+  font-family: var(--font-family-primary);
+  font-size: inherit;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-neutral-low-default);
+  text-align: inherit;
+  width: 100%;
+  min-height: 44px;
+
+  &:hover {
+    color: var(--color-brand-default);
+
+    .tableSortIconNeutral {
+      opacity: 1;
+    }
+  }
+}
+
+.tableSortIcon {
+  flex-shrink: 0;
+}
+
+.tableSortIconNeutral {
+  opacity: 0.4;
+  transition: opacity 0.2s;
+}
+
+.tablePagination {
+  background: var(--color-neutral-high-light);
+  border-top: var(--border-width-1) solid var(--color-neutral-high-dark);
+  font-family: var(--font-family-primary);
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  font-size: var(--font-size-12);
+  color: var(--color-neutral-low-default);
+  border-radius: 0 0 var(--border-radius-8) var(--border-radius-8);
+  border-bottom: var(--border-width-1) solid var(--color-neutral-high-dark);
+  gap: var(--spacing-8);
+  height: 44px;
+  padding: var(--spacing-0) var(--spacing-8);
+
+  @media (max-width: 768px) {
+    height: auto;
+    padding: var(--spacing-8);
+  }
+}
+
+.tableHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--color-neutral-high-light);
+  padding: var(--spacing-12) var(--spacing-24);
+  border-radius: var(--border-radius-8) var(--border-radius-8)
+    var(--border-radius-none) var(--border-radius-none);
+  border-bottom: var(--border-width-1) solid var(--color-neutral-high-dark);
+  flex-wrap: wrap;
+  gap: var(--spacing-16);
+  position: relative;
+  overflow: visible;
+}
+
+.tableHeaderSearchContainer {
+  display: flex;
+  align-items: center;
+  flex: 1 1 300px;
+  min-width: 200px;
+  max-width: 100%;
+}
+
+.tableHeaderSearch {
+  width: 100%;
+  max-width: 360px;
+}
+
+.tableHeaderFilters {
+  display: flex;
+  align-items: center;
+  flex: 0 1 auto;
+  min-width: 0;
+  position: relative;
+  gap: var(--spacing-16);
+  flex-wrap: wrap;
+  margin-left: auto;
+}
+
+.tableHeaderFilterLabel {
+  font-weight: var(--font-weight-medium);
+  color: var(--color-neutral-low-default);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-16);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.tableHeaderFilterItems {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-16);
+  align-items: center;
+  min-width: 0;
+}
+
+.tablePaginationSelect {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-8);
+  letter-spacing: 0.24px;
+}
+
+.tablePaginationLabel {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-12);
+  color: var(--color-neutral-low-default);
+}
+
+.tablePaginationSelectInput {
+  padding: var(--spacing-4) var(--spacing-8);
+  border-radius: var(--border-radius-8);
+  border: var(--border-width-1) solid var(--color-neutral-high-dark);
+  background-color: var(--color-neutral-high-light);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-12);
+}
+
+.tablePaginationInfo {
+  display: flex;
+  gap: var(--spacing-8);
+  text-align: center;
+  margin-left: var(--spacing-24);
+  margin-right: var(--spacing-8);
+  font-family: var(--font-family-primary);
+
+  span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  @media (max-width: 480px) {
+    margin-left: var(--spacing-8);
+    margin-right: 0;
+  }
+}
+
+.tablePaginationControls {
+  display: flex;
+  gap: var(--spacing-16);
+  padding-right: var(--spacing-16);
+
+  @media (max-width: 480px) {
+    padding-right: 0;
+  }
+}
+
+.tablePaginationButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-0);
+  border-radius: var(--border-radius-4);
+
+  &:hover:not(:disabled) {
+    background-color: var(--color-neutral-high-medium);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    color: var(--color-neutral-high-dark);
+  }
+}
+
+.tableScrollWrapper {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.table {
+  width: 100%;
+}
+
+.tableLoader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-32);
+}
+
+.tableEmptyCell {
+  height: 500px;
+}
+
+.tableEmpty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-32);
+}
+
+.tableEmptyContent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-brand-primary-light);
+  border-radius: var(--border-radius-circular);
+  width: 120px;
+  height: 120px;
+}
+
+.tableEmpty svg {
+  width: 49px;
+  height: 49px;
+}
+
+.tableEmpty path {
+  fill: var(--color-brand-primary-default);
+}
+
+.tableEmptyText {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-8);
+  text-align: center;
+}
+
+.tableEmptyTitle {
+  margin: var(--spacing-32) var(--spacing-0) var(--spacing-0) var(--spacing-0);
+  font-size: var(--font-size-24);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-neutral-low-default);
+}
+
+.tableEmptyCaption {
+  font-size: var(--font-size-20);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-neutral-low-default);
+  margin: var(--spacing-0);
+}
+
+.tableCellMaxHeight {
+  overflow: hidden;
+}
