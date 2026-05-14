@@ -96,4 +96,11 @@ export interface FilterProps extends BaseProps {
 
   /** Classe CSS opcional */
   className?: string;
+
+  /**
+   * Modo de exibição do filtro
+   * - `'simple'`: filtro simples com popover (padrão)
+   * - `'combined'`: filtro combinado com painel lateral para múltiplos critérios
+   */
+  mode?: 'simple' | 'combined';
 }
