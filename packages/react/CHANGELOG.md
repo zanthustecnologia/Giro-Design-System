@@ -1,5 +1,33 @@
 # @giro-ds/react
 
+## 8.0.0
+
+### Major Changes
+
+- 8adb857: **TableV2**: Renomeia exports do TanStack para evitar conflito de nomes
+  - **Alterado**: `createColumnHelper` → `createTableColumnHelper`
+  - **Alterado**: `ColumnDef` → `TableColumnDefinition`
+  - **Como migrar**:
+
+    ```tsx
+    // Antes
+    import { createColumnHelper, ColumnDef } from '@giro-ds/react';
+
+    // Depois
+    import {
+      createTableColumnHelper,
+      TableColumnDefinition,
+    } from '@giro-ds/react';
+    ```
+
+### Patch Changes
+
+- 8adb857: **TableV2**: Exporta `createColumnHelper` e `ColumnDef` diretamente de `@giro-ds/react`
+  - Elimina a necessidade de instalar `@tanstack/react-table` separadamente para usar o `TableV2`
+  - Atualiza story e documentação MDX no Storybook
+- 8adb857: **Callout**: Corrige prop `style` externa sendo ignorada pelo estilo interno
+  - Garante mesclagem do `style` passado externamente com as CSS custom properties internas (`backgroundColor` e `textColor`)
+
 ## 7.0.0
 
 ### Major Changes

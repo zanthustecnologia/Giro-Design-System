@@ -1,5 +1,14 @@
 # storybook-react
 
+## 1.0.23
+
+### Patch Changes
+
+- Updated dependencies [8adb857]
+- Updated dependencies [8adb857]
+- Updated dependencies [8adb857]
+  - @giro-ds/react@8.0.0
+
 ## 1.0.22
 
 ### Patch Changes
