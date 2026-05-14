@@ -32,6 +32,7 @@ import { createColumnHelper } from '@tanstack/react-table';
   guidelines={[
     <>
       Use <code>createColumnHelper&lt;T&gt;()</code> para definir as colunas com tipagem automática. O helper garante autocompletar e segurança de tipos nas células.
+      Para usar o createColumnHelper é necessario importar ela do @giro-ds/react.
     </>,
     <>
       Use <code>columnHelper.accessor('campo', {'{'} header, cell {'}'} )</code> para colunas que leem diretamente de uma propriedade do dado.
