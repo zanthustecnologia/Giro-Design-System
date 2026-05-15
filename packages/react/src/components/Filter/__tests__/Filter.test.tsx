@@ -212,7 +212,7 @@ describe('Filter', () => {
 
     it('renderiza checkboxes para cada item no tipo checkbox', async () => {
       const user = userEvent.setup();
-      render(<Filter items={mockItems} type="checkbox" />);
+      render(<Filter items={mockItems} type="multiple" />);
 
       await user.click(screen.getByTestId('popover-trigger'));
       expect(screen.getAllByRole('checkbox')).toHaveLength(3);
@@ -220,7 +220,7 @@ describe('Filter', () => {
 
     it('não renderiza checkboxes no tipo text', async () => {
       const user = userEvent.setup();
-      render(<Filter items={mockItems} type="text" />);
+      render(<Filter items={mockItems} type="single" />);
 
       await user.click(screen.getByTestId('popover-trigger'));
       expect(screen.queryAllByRole('checkbox')).toHaveLength(0);
@@ -272,7 +272,7 @@ describe('Filter', () => {
       const onApplyFilter = vi.fn();
       const user = userEvent.setup();
       render(
-        <Filter items={mockItems} type="checkbox" onApplyFilter={onApplyFilter} />
+        <Filter items={mockItems} type="multiple" onApplyFilter={onApplyFilter} />
       );
 
       await user.click(screen.getByTestId('popover-trigger'));
@@ -286,7 +286,7 @@ describe('Filter', () => {
       const onApplyFilter = vi.fn();
       const user = userEvent.setup();
       render(
-        <Filter items={mockItems} type="checkbox" onApplyFilter={onApplyFilter} />
+        <Filter items={mockItems} type="multiple" onApplyFilter={onApplyFilter} />
       );
 
       await user.click(screen.getByTestId('popover-trigger'));
@@ -301,7 +301,7 @@ describe('Filter', () => {
       const onApplyFilter = vi.fn();
       const user = userEvent.setup();
       render(
-        <Filter items={mockItems} type="checkbox" onApplyFilter={onApplyFilter} />
+        <Filter items={mockItems} type="multiple" onApplyFilter={onApplyFilter} />
       );
 
       await user.click(screen.getByTestId('popover-trigger'));
@@ -316,7 +316,7 @@ describe('Filter', () => {
       const onApplyFilter = vi.fn();
       const user = userEvent.setup();
       render(
-        <Filter items={mockItems} type="text" onApplyFilter={onApplyFilter} />
+        <Filter items={mockItems} type="single" onApplyFilter={onApplyFilter} />
       );
 
       await user.click(screen.getByTestId('popover-trigger'));
@@ -331,7 +331,7 @@ describe('Filter', () => {
       const onApplyFilter = vi.fn();
       const user = userEvent.setup();
       render(
-        <Filter items={mockItems} type="checkbox" onApplyFilter={onApplyFilter} />
+        <Filter items={mockItems} type="multiple" onApplyFilter={onApplyFilter} />
       );
 
       await user.click(screen.getByTestId('popover-trigger'));
@@ -348,7 +348,7 @@ describe('Filter', () => {
       render(
         <Filter
           items={mockItems}
-          type="checkbox"
+          type="multiple"
           selectedIds={['item-1', 'item-2']}
         />
       );
@@ -364,7 +364,7 @@ describe('Filter', () => {
       const onApplyFilter = vi.fn();
       const user = userEvent.setup();
       render(
-        <Filter items={mockItems} type="checkbox" onApplyFilter={onApplyFilter} />
+        <Filter items={mockItems} type="multiple" onApplyFilter={onApplyFilter} />
       );
 
       await user.click(screen.getByTestId('popover-trigger'));
@@ -504,7 +504,7 @@ describe('Filter', () => {
       render(
         <Filter
           items={mockItems}
-          type="checkbox"
+          type="multiple"
           selectedIds={['item-1', 'item-2', 'item-3']}
         />
       );
@@ -513,7 +513,7 @@ describe('Filter', () => {
 
     it('não exibe badge quando apenas um item está selecionado', () => {
       render(
-        <Filter items={mockItems} type="checkbox" selectedIds={['item-1']} />
+        <Filter items={mockItems} type="multiple" selectedIds={['item-1']} />
       );
       expect(screen.queryByTestId('badge')).not.toBeInTheDocument();
     });
@@ -522,7 +522,7 @@ describe('Filter', () => {
       render(
         <Filter
           items={mockItems}
-          type="checkbox"
+          type="multiple"
           selectedIds={['item-1', 'item-2']}
         />
       );

@@ -10,7 +10,7 @@ export interface FilterItem {
   disabled?: boolean;
 }
 
-export type FilterType = 'text' | 'checkbox' | 'icon' | 'calendar';
+export type FilterType = 'single' | 'multiple' | 'icon' | 'calendar';
 
 /**
  * Props do componente Filter
@@ -18,7 +18,7 @@ export type FilterType = 'text' | 'checkbox' | 'icon' | 'calendar';
  * ```tsx
  * <Filter 
  *   items={filterItems}
- *   type="checkbox"
+ *   type="multiple"
  *   placeholder="Filtrar por categoria"
  *   onApplyFilter={(ids) => handleFilter(ids)}
  *   buttonText="Filtros"

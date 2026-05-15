@@ -21,7 +21,7 @@ type SelectionState = Record<string, boolean>;
 
 const Simple: React.FC<FilterProps> = ({
   items,
-  type = 'checkbox',
+  type = 'multiple',
   selectedIds,
   onApplyFilter,
   placeholder = 'Selecionar...',
@@ -98,7 +98,7 @@ const Simple: React.FC<FilterProps> = ({
     (itemId: string, item: FilterItem) => {
       if (item.disabled) return;
       setTempSelectedItems((prev) => {
-        if (type === 'checkbox') {
+        if (type === 'multiple') {
           return { ...prev, [itemId]: !prev[itemId] };
         }
         return prev[itemId] ? {} : { [itemId]: true };
@@ -212,7 +212,7 @@ const Simple: React.FC<FilterProps> = ({
         <ul
           className={styles.list}
           role="listbox"
-          aria-multiselectable={type === 'checkbox'}
+          aria-multiselectable={type === 'multiple'}
         >
           {filteredItems.length > 0 ? (
             filteredItems.map((item, index) => {
@@ -237,7 +237,7 @@ const Simple: React.FC<FilterProps> = ({
                     }
                   }}
                 >
-                  {type === 'checkbox' && (
+                  {type === 'multiple' && (
                     <Checkbox
                       checked={isSelected}
                       disabled={item.disabled}

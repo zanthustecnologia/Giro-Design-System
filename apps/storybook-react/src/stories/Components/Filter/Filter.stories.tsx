@@ -52,11 +52,11 @@ const meta: Meta<typeof Filter> = {
     },
     type: {
       control: 'select',
-      options: ['checkbox', 'text', 'icon'],
+      options: ['multiple', 'single', 'icon'],
       description: 'Tipo do dropdown',
       table: {
-        type: { summary: "'checkbox' | 'text' | 'icon'" },
-        defaultValue: { summary: 'checkbox' },
+        type: { summary: "'multiple' | 'single' | 'icon'" },
+        defaultValue: { summary: 'multiple' },
       },
     },
     disabled: {
@@ -147,7 +147,7 @@ export const Default: Story = {
   args: {
     items: statusItems,
     buttonText: 'Status',
-    type: 'checkbox',
+    type: 'multiple',
     side: 'bottom',
     align: 'start',
     variant: 'outlined',
@@ -160,7 +160,7 @@ export const WithSearch: Story = {
   args: {
     items: categoryItems,
     buttonText: 'Categoria',
-    type: 'checkbox',
+    type: 'multiple',
     enableSearch: true,
     side: 'bottom',
     align: 'start',
@@ -173,7 +173,7 @@ export const Disabled: Story = {
   args: {
     items: statusItems,
     buttonText: 'Status',
-    type: 'checkbox',
+    type: 'multiple',
     disabled: true,
     side: 'bottom',
     align: 'start',
@@ -225,7 +225,7 @@ export const MultipleFilters: Story = {
             buttonText='Status'
             selectedIds={statusFilters}
             onApplyFilter={setStatusFilters}
-            type="checkbox"
+            type="multiple"
             variant="outlined"
           />
           <Filter
@@ -233,7 +233,7 @@ export const MultipleFilters: Story = {
             buttonText='Categoria'
             selectedIds={categoryFilters}
             onApplyFilter={setCategoryFilters}
-            type="checkbox"
+            type="multiple"
             variant="outlined"
             enableSearch={true}
           />
@@ -453,7 +453,7 @@ export const RightPosition: Story = {
   args: {
     items: categoryItems,
     buttonText: 'Categoria',
-    type: 'checkbox',
+    type: 'multiple',
     side: 'bottom',
     align: 'end',
     variant: 'outlined',
