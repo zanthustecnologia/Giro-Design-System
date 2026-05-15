@@ -16,6 +16,7 @@ const meta: Meta<typeof Drawer> = {
     closeOnEscape: { control: 'boolean' },
     disabled: { control: 'boolean' },
     children: { table: { disable: true } },
+    footer: { table: { disable: true } },
     onClose: { table: { disable: true } },
     onOpen: { table: { disable: true } },
     onOverlayClick: { table: { disable: true } },
@@ -34,6 +35,7 @@ const DrawerDemo = ({
   closeOnEscape = true,
   disabled = false,
   children,
+  footer,
 }: Partial<React.ComponentProps<typeof Drawer>>) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
@@ -49,6 +51,7 @@ const DrawerDemo = ({
         closeOnOverlayClick={closeOnOverlayClick}
         closeOnEscape={closeOnEscape}
         disabled={disabled}
+        footer={footer}
       >
         {children}
       </Drawer>
@@ -92,4 +95,44 @@ export const SemFechamentoPorOverlay: Story = {
       <p>Util para formularios onde o usuario pode perder dados acidentalmente.</p>
     </DrawerDemo>
   ),
+};
+
+export const ComFooter: Story = {
+  render: () => {
+    const [isOpen, setIsOpen] = useState(false);
+
+    return (
+      <>
+        <Button variant="outlined" icon={<Filter16Regular />} onClick={() => setIsOpen(true)}>
+          Abrir Drawer
+        </Button>
+        <Drawer
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+          title="Com footer fixo"
+          customWidth="400px"
+          footer={
+            <div style={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              gap: '12px',
+              padding: '16px 24px',
+              borderTop: '1px solid var(--color-neutral-high-dark)',
+              background: 'var(--color-neutral-high-default)',
+            }}>
+              <Button variant="outlined" onClick={() => setIsOpen(false)}>Cancelar</Button>
+              <Button onClick={() => setIsOpen(false)}>Confirmar</Button>
+            </div>
+          }
+        >
+          <p>Role o conteudo abaixo para ver o footer sempre visivel na base do Drawer.</p>
+          {Array.from({ length: 20 }, (_, i) => (
+            <p key={i} style={{ margin: '8px 0', color: 'var(--color-neutral-low-medium)' }}>
+              Item de conteudo {i + 1}
+            </p>
+          ))}
+        </Drawer>
+      </>
+    );
+  },
 };
