@@ -1,9 +1,8 @@
-// CombinedFilter.tsx
 import { FilterRegular } from '@fluentui/react-icons';
 import clsx from 'clsx';
 import React, { useState, useCallback } from 'react';
 
-import styles from './CombinedFilter.module.scss';
+import styles from '../Filter.module.scss';
 import Badge from '../../Badge';
 import Button from '../../Button';
 import DatePicker from '../../DatePicker';
@@ -193,7 +192,7 @@ const CombinedFilter: React.FC<FilterProps> = ({
           </div>
         </div>
 
-        <div className={styles.footer}>
+        <div className={styles.combinedFooter}>
           <Button fullWidth variant="outlined" onClick={handleClear}>
             Limpar
           </Button>
