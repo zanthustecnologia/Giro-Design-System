@@ -2,46 +2,6 @@ import { ReactNode, ReactElement } from 'react';
 
 import { Variant, BaseProps, Locale, Side, Align } from '../../types/common.types';
 
-// ─── Combined Filter ──────────────────────────────────────────────────────────
-
-/** Tipos de campo disponíveis no filtro combinado */
-export type CombinedFilterFieldType = 'date' | 'select' | 'chips';
-
-/** Opção de um campo select ou chips no filtro combinado */
-export interface CombinedFilterOption {
-  /** Identificador único da opção */
-  id: string;
-  /** Texto exibido para o usuário */
-  text: string;
-}
-
-/** Definição de um campo do filtro combinado */
-export interface CombinedFilterField {
-  /** Identificador único do campo */
-  id: string;
-  /** Label exibida acima do campo */
-  label: string;
-  /** Tipo do campo */
-  type: CombinedFilterFieldType;
-  /** Opções disponíveis (para campos select e chips) */
-  options?: CombinedFilterOption[];
-  /** Placeholder do campo (para date e select) */
-  placeholder?: string;
-  /** Ocupação na grade: 'half' = metade da linha, 'full' = linha completa */
-  layout?: 'half' | 'full';
-  /** Permite seleção múltipla nos chips (padrão: true) */
-  multiSelect?: boolean;
-  /** Data mínima selecionável (para tipo date) */
-  minDate?: Date;
-  /** Data máxima selecionável (para tipo date) */
-  maxDate?: Date;
-  /** Idioma do campo de data (padrão: 'pt-br') */
-  locale?: Locale;
-}
-
-/** Mapa de valores dos campos do filtro combinado */
-export type CombinedFilterValues = Record<string, Date | null | string | string[]>;
-
 export interface FilterItem {
   id?: string;
   text: string;
@@ -140,23 +100,26 @@ export interface FilterProps extends BaseProps {
   /**
    * Modo de exibição do filtro
    * - `'simple'`: filtro simples com popover (padrão)
-   * - `'combined'`: filtro combinado com painel lateral para múltiplos critérios
+   * - `'combined'`: filtro combinado com painel lateral onde o conteúdo é composto via children
    */
   mode?: 'simple' | 'combined';
 
   // ─── Props exclusivas do modo combined ─────────────────────────────────────
 
+  /** Largura do painel lateral no modo combined (ex: '400px', '50vw'). Quando omitido, usa o tamanho padrão do Drawer */
+  drawerWidth?: string;
+
   /** Título do painel lateral (padrão: 'Filtrar') */
   title?: string;
 
-  /** Campos do filtro combinado */
-  fields?: CombinedFilterField[];
+  /** Número de filtros ativos exibido como badge no botão */
+  activeCount?: number;
 
-  /** Valores controlados dos campos no modo combined */
-  values?: CombinedFilterValues;
+  /** Conteúdo do painel lateral no modo combined */
+  children?: ReactNode;
 
-  /** Callback ao aplicar no modo combined: (values) => void */
-  onApply?: (values: CombinedFilterValues) => void;
+  /** Callback ao aplicar no modo combined: () => void */
+  onApply?: () => void;
 
   /** Callback ao limpar no modo combined: () => void */
   onClear?: () => void;

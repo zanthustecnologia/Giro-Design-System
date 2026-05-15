@@ -85,7 +85,7 @@ Vários filtros podem coexistir na mesma interface para permitir combinações d
 
 ### Filtro combinado
 
-O modo combinado agrupa múltiplos critérios de filtragem — chips, selects e datas — em um único painel lateral. Use-o quando houver mais de dois critérios relacionados para evitar sobrecarga de botões na interface.
+O modo combinado abre um painel lateral (drawer) onde qualquer componente pode ser composto como filho. Use-o quando houver múltiplos critérios de filtragem que não se encaixam bem em um único popover. O número de filtros ativos é controlado externamente via `activeCount`. Os callbacks `onApply` e `onClear` são chamados quando o usuário clica nos botões do rodapé.
 
 <Canvas of={FilterStories.CombinedFilter} />
 

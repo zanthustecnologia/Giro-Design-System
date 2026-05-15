@@ -1,7 +1,7 @@
 // Filter.stories.tsx
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
-import { Filter } from '@giro-ds/react';
+import { DatePicker, Filter, Select } from '@giro-ds/react';
 import type { FilterProps } from '@giro-ds/react';
 
 const meta: Meta<typeof Filter> = {
@@ -243,64 +243,206 @@ export const MultipleFilters: Story = {
   },
 };
 
-// ✅ Filtro combinado — múltiplos critérios em painel lateral
+// ✅ Filtro combinado — painel lateral com componentes compostos via children
 export const CombinedFilter: Story = {
   render: () => {
-    type CombinedValues = Record<string, Date | null | string | string[]>;
-    const [values, setValues] = useState<CombinedValues>({});
+    const [dataInicio, setDataInicio] = useState<Date | null>(null);
+    const [dataFim, setDataFim] = useState<Date | null>(null);
+    const [pdv, setPdv] = useState<string>('');
+    const [tipoMovimento, setTipoMovimento] = useState<string>('');
+    const [funcionario, setFuncionario] = useState<string>('');
+    const [finalizadora, setFinalizadora] = useState<string>('');
+    const [conferencia, setConferencia] = useState<string[]>([]);
+    const [diferenca, setDiferenca] = useState<string[]>([]);
+
+    const [applied, setApplied] = useState({
+      dataInicio: null as Date | null,
+      dataFim: null as Date | null,
+      pdv: '',
+      tipoMovimento: '',
+      funcionario: '',
+      finalizadora: '',
+      conferencia: [] as string[],
+      diferenca: [] as string[],
+    });
+
+    const activeCount = [
+      applied.dataInicio !== null,
+      applied.dataFim !== null,
+      applied.pdv !== '',
+      applied.tipoMovimento !== '',
+      applied.funcionario !== '',
+      applied.finalizadora !== '',
+      applied.conferencia.length > 0,
+      applied.diferenca.length > 0,
+    ].filter(Boolean).length;
+
+    const handleApply = () => {
+      setApplied({ dataInicio, dataFim, pdv, tipoMovimento, funcionario, finalizadora, conferencia, diferenca });
+    };
+
+    const handleClear = () => {
+      setDataInicio(null); setDataFim(null);
+      setPdv(''); setTipoMovimento('');
+      setFuncionario(''); setFinalizadora('');
+      setConferencia([]); setDiferenca([]);
+      setApplied({ dataInicio: null, dataFim: null, pdv: '', tipoMovimento: '', funcionario: '', finalizadora: '', conferencia: [], diferenca: [] });
+    };
+
+    const toggleChip = (
+      selected: string[],
+      setter: (v: string[]) => void,
+      id: string,
+    ) => {
+      setter(selected.includes(id) ? selected.filter((v) => v !== id) : [...selected, id]);
+    };
+
+    const chipStyle = (active: boolean): React.CSSProperties => ({
+      display: 'inline-flex',
+      alignItems: 'center',
+      padding: '6px 16px',
+      borderRadius: '24px',
+      border: `1px solid ${active ? 'var(--color-brand-primary-default, #1a6ce8)' : 'var(--color-neutral-high-dark, #d0d0d0)'}`,
+      background: active ? 'var(--color-brand-primary-light, #e8f0fd)' : 'transparent',
+      color: active ? 'var(--color-brand-primary-default, #1a6ce8)' : 'inherit',
+      font: 'inherit',
+      fontSize: '14px',
+      cursor: 'pointer',
+    });
+
+    const ChipGroup = ({
+      label,
+      options,
+      selected,
+      onToggle,
+    }: {
+      label: string;
+      options: { id: string; text: string }[];
+      selected: string[];
+      onToggle: (id: string) => void;
+    }) => (
+      <div>
+        <p style={{ margin: '0 0 8px', fontSize: '14px', fontWeight: 500 }}>{label}</p>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+          {options.map((opt) => (
+            <button
+              key={opt.id}
+              type="button"
+              aria-pressed={selected.includes(opt.id)}
+              style={chipStyle(selected.includes(opt.id))}
+              onClick={() => onToggle(opt.id)}
+            >
+              {opt.text}
+            </button>
+          ))}
+        </div>
+      </div>
+    );
 
     return (
       <div style={{ padding: '2rem' }}>
         <Filter
           mode="combined"
           buttonText="Filtrar"
-          title="Filtros"
+          title="Filtrar"
           variant="outlined"
-          values={values}
-          onApply={(newValues: CombinedValues) => setValues(newValues)}
-          onClear={() => setValues({})}
-          fields={[
-            {
-              id: 'status',
-              label: 'Status',
-              type: 'chips',
-              layout: 'full',
-              options: [
-                { id: 'ativo', text: 'Ativo' },
-                { id: 'inativo', text: 'Inativo' },
-                { id: 'pendente', text: 'Pendente' },
-                { id: 'bloqueado', text: 'Bloqueado' },
-              ],
-            },
-            {
-              id: 'categoria',
-              label: 'Categoria',
-              type: 'select',
-              layout: 'half',
-              placeholder: 'Selecione',
-              options: [
-                { id: 'tecnologia', text: 'Tecnologia' },
-                { id: 'casa', text: 'Casa e Jardim' },
-                { id: 'moda', text: 'Moda' },
-                { id: 'esportes', text: 'Esportes' },
-              ],
-            },
-            {
-              id: 'dataInicio',
-              label: 'Data início',
-              type: 'date',
-              layout: 'half',
-              locale: 'pt-br',
-            },
-            {
-              id: 'dataFim',
-              label: 'Data fim',
-              type: 'date',
-              layout: 'half',
-              locale: 'pt-br',
-            },
-          ]}
-        />
+          activeCount={activeCount}
+          onApply={handleApply}
+          onClear={handleClear}
+        >
+          {/* Datas — 2 colunas */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+            <DatePicker
+              label="Data inicial"
+              value={dataInicio}
+              onChange={setDataInicio}
+              locale="pt-br"
+              calendarSide="bottom"
+            />
+            <DatePicker
+              label="Data final"
+              value={dataFim}
+              onChange={setDataFim}
+              locale="pt-br"
+              calendarSide="bottom"
+              minDate={dataInicio ?? undefined}
+            />
+          </div>
+
+          {/* Selects — 2 colunas */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+            <Select
+              label="PDV"
+              items={[
+                { value: 'pdv1', text: 'PDV 01' },
+                { value: 'pdv2', text: 'PDV 02' },
+                { value: 'pdv3', text: 'PDV 03' },
+              ]}
+              variant="text"
+              placeholder="Selecione"
+              value={pdv}
+              onValueChange={(val) => setPdv(val as string)}
+            />
+            <Select
+              label="Tipo de movimento"
+              items={[
+                { value: 'entrada', text: 'Entrada' },
+                { value: 'saida', text: 'Saída' },
+                { value: 'transferencia', text: 'Transferência' },
+              ]}
+              variant="text"
+              placeholder="Selecione"
+              value={tipoMovimento}
+              onValueChange={(val) => setTipoMovimento(val as string)}
+            />
+            <Select
+              label="Funcionário"
+              items={[
+                { value: 'ana', text: 'Ana Lima' },
+                { value: 'carlos', text: 'Carlos Souza' },
+                { value: 'julia', text: 'Júlia Mendes' },
+              ]}
+              variant="text"
+              placeholder="Selecione"
+              value={funcionario}
+              onValueChange={(val) => setFuncionario(val as string)}
+            />
+            <Select
+              label="Finalizadora"
+              items={[
+                { value: 'dinheiro', text: 'Dinheiro' },
+                { value: 'cartao', text: 'Cartão' },
+                { value: 'pix', text: 'Pix' },
+              ]}
+              variant="text"
+              placeholder="Selecione"
+              value={finalizadora}
+              onValueChange={(val) => setFinalizadora(val as string)}
+            />
+          </div>
+
+          {/* Chips de seleção */}
+          <ChipGroup
+            label="Conferência"
+            options={[
+              { id: 'pendente', text: 'Pendente' },
+              { id: 'conferido', text: 'Conferido' },
+              { id: 'revalidar', text: 'Revalidar' },
+            ]}
+            selected={conferencia}
+            onToggle={(id) => toggleChip(conferencia, setConferencia, id)}
+          />
+          <ChipGroup
+            label="Diferença"
+            options={[
+              { id: 'exata', text: 'Exata' },
+              { id: 'sobra', text: 'Sobra' },
+              { id: 'falta', text: 'Falta' },
+            ]}
+            selected={diferenca}
+            onToggle={(id) => toggleChip(diferenca, setDiferenca, id)}
+          />
+        </Filter>
       </div>
     );
   },
