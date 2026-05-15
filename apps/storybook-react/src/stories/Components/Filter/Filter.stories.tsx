@@ -243,6 +243,69 @@ export const MultipleFilters: Story = {
   },
 };
 
+// ✅ Filtro combinado — múltiplos critérios em painel lateral
+export const CombinedFilter: Story = {
+  render: () => {
+    type CombinedValues = Record<string, Date | null | string | string[]>;
+    const [values, setValues] = useState<CombinedValues>({});
+
+    return (
+      <div style={{ padding: '2rem' }}>
+        <Filter
+          mode="combined"
+          buttonText="Filtrar"
+          title="Filtros"
+          variant="outlined"
+          values={values}
+          onApply={(newValues: CombinedValues) => setValues(newValues)}
+          onClear={() => setValues({})}
+          fields={[
+            {
+              id: 'status',
+              label: 'Status',
+              type: 'chips',
+              layout: 'full',
+              options: [
+                { id: 'ativo', text: 'Ativo' },
+                { id: 'inativo', text: 'Inativo' },
+                { id: 'pendente', text: 'Pendente' },
+                { id: 'bloqueado', text: 'Bloqueado' },
+              ],
+            },
+            {
+              id: 'categoria',
+              label: 'Categoria',
+              type: 'select',
+              layout: 'half',
+              placeholder: 'Selecione',
+              options: [
+                { id: 'tecnologia', text: 'Tecnologia' },
+                { id: 'casa', text: 'Casa e Jardim' },
+                { id: 'moda', text: 'Moda' },
+                { id: 'esportes', text: 'Esportes' },
+              ],
+            },
+            {
+              id: 'dataInicio',
+              label: 'Data início',
+              type: 'date',
+              layout: 'half',
+              locale: 'pt-br',
+            },
+            {
+              id: 'dataFim',
+              label: 'Data fim',
+              type: 'date',
+              layout: 'half',
+              locale: 'pt-br',
+            },
+          ]}
+        />
+      </div>
+    );
+  },
+};
+
 export const RightPosition: Story = {
   render: FilterTemplate,
   args: {
