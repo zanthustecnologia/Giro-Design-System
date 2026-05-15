@@ -1,4 +1,3 @@
-// SimpleFilter.tsx
 import { ChevronDownRegular, Calendar16Regular } from '@fluentui/react-icons';
 import clsx from 'clsx';
 import React, {
