@@ -131,7 +131,7 @@ describe('Filter', () => {
       expect(container.firstChild).toHaveAttribute('id', 'filtro-principal');
     });
 
-    it('renderiza ícone chevron por padrão (tipo checkbox)', () => {
+    it('renderiza ícone chevron por padrão (tipo multiple)', () => {
       render(<Filter />);
       expect(screen.getByTestId('chevron-down-icon')).toBeInTheDocument();
     });
@@ -210,7 +210,7 @@ describe('Filter', () => {
       expect(screen.getByText('Opção 3')).toBeInTheDocument();
     });
 
-    it('renderiza checkboxes para cada item no tipo checkbox', async () => {
+    it('renderiza checkboxes para cada item no tipo multiple', async () => {
       const user = userEvent.setup();
       render(<Filter items={mockItems} type="multiple" />);
 
@@ -218,7 +218,7 @@ describe('Filter', () => {
       expect(screen.getAllByRole('checkbox')).toHaveLength(3);
     });
 
-    it('não renderiza checkboxes no tipo text', async () => {
+    it('não renderiza checkboxes no tipo single', async () => {
       const user = userEvent.setup();
       render(<Filter items={mockItems} type="single" />);
 
@@ -297,7 +297,7 @@ describe('Filter', () => {
       expect(onApplyFilter).toHaveBeenCalledWith([]);
     });
 
-    it('seleciona múltiplos itens no tipo checkbox', async () => {
+    it('seleciona múltiplos itens no tipo multiple', async () => {
       const onApplyFilter = vi.fn();
       const user = userEvent.setup();
       render(
@@ -312,7 +312,7 @@ describe('Filter', () => {
       expect(onApplyFilter).toHaveBeenCalledWith(['item-1', 'item-2']);
     });
 
-    it('tipo text seleciona apenas um item por vez', async () => {
+    it('tipo single seleciona apenas um item por vez', async () => {
       const onApplyFilter = vi.fn();
       const user = userEvent.setup();
       render(

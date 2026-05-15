@@ -34,12 +34,12 @@ interface BaseFilterItem {
 }
 
 /**
- * Props de filtro do tipo checkbox, texto ou ícone.
+ * Props de filtro do tipo multiple, single ou ícone.
  * Renderiza uma lista de opções selecionáveis.
  */
 interface CheckboxFilterItem extends BaseFilterItem {
   /** Tipo do filtro */
-  type: 'checkbox' | 'text' | 'icon';
+  type: 'multiple' | 'single' | 'icon';
   /** Lista de itens disponíveis para seleção */
   items: FilterDropdownItem[];
   /** IDs dos itens atualmente selecionados */
@@ -77,7 +77,7 @@ interface CalendarFilterItem extends BaseFilterItem {
 
 /**
  * Union type representando um item de filtro da tabela.
- * Pode ser do tipo checkbox/texto/ícone ou calendário.
+ * Pode ser do tipo multiple/single/ícone ou calendário.
  */
 export type FilterItem = CheckboxFilterItem | CalendarFilterItem;
 

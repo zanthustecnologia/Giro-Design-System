@@ -53,7 +53,7 @@ const meta: Meta<typeof Filter> = {
     type: {
       control: 'select',
       options: ['multiple', 'single', 'icon'],
-      description: 'Tipo do dropdown',
+      description: 'Tipo do filtro',
       table: {
         type: { summary: "'multiple' | 'single' | 'icon'" },
         defaultValue: { summary: 'multiple' },
