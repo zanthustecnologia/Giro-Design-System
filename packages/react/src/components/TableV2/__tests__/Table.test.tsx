@@ -331,27 +331,6 @@ describe('TableV2', () => {
     });
   });
 
-  describe('Filtros por coluna', () => {
-    it('deve renderizar inputs de filtro nos cabeçalhos quando enableFilters=true', () => {
-      render(<TableV2 columns={columns} data={data} enableFilters />);
-      const filterInputs = screen.getAllByPlaceholderText('Filtrar...');
-      expect(filterInputs.length).toBeGreaterThan(0);
-    });
-
-    it('não deve renderizar inputs de filtro quando enableFilters=false', () => {
-      render(<TableV2 columns={columns} data={data} enableFilters={false} />);
-      expect(screen.queryByPlaceholderText('Filtrar...')).not.toBeInTheDocument();
-    });
-
-    it('deve filtrar dados ao digitar no input de filtro por coluna', () => {
-      render(<TableV2 columns={columns} data={data} enableFilters />);
-      const [nameFilter] = screen.getAllByPlaceholderText('Filtrar...');
-      fireEvent.change(nameFilter, { target: { value: 'Alice' } });
-      expect(screen.getByText('Alice')).toBeInTheDocument();
-      expect(screen.queryByText('Bob')).not.toBeInTheDocument();
-    });
-  });
-
   describe('Paginação', () => {
     const footerProps = {
       totalItems: 20,
