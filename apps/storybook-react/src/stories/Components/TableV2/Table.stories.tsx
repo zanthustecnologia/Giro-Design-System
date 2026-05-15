@@ -147,21 +147,49 @@ const colunasCompletas = [
   }),
 ];
 
+// ─── Tipo dos args controláveis ──────────────────────────────────────────────
+type DefaultArgs = {
+  enableRowSelection: boolean;
+  enableSorting: boolean;
+  loading: boolean;
+  header: boolean;
+  footer: boolean;
+  bulkActions: boolean;
+};
+
 // ─── Meta ─────────────────────────────────────────────────────────────────────
-const meta: Meta = {
+const meta: Meta<DefaultArgs> = {
   title: 'Components/TableV2',
-  component: TableV2,
+  component: TableV2 as unknown as React.ComponentType<DefaultArgs>,
   parameters: { layout: 'centered' },
   argTypes: {
     enableRowSelection: {
-      name: 'Checkbox de seleção',
-      description: 'Exibe checkboxes para seleção de linhas',
+      description: 'Habilita checkboxes para seleção de linhas',
       control: 'boolean',
       table: { defaultValue: { summary: 'false' } },
     },
-    enableFilters: {
-      name: 'Filtros por coluna',
-      description: 'Exibe inputs de filtro em cada coluna do cabeçalho',
+    enableSorting: {
+      description: 'Habilita ordenação ao clicar no cabeçalho das colunas',
+      control: 'boolean',
+      table: { defaultValue: { summary: 'false' } },
+    },
+    loading: {
+      description: 'Exibe skeleton animado no lugar dos dados da tabela',
+      control: 'boolean',
+      table: { defaultValue: { summary: 'false' } },
+    },
+    header: {
+      description: 'Exibe o cabeçalho com campo de busca global acima da tabela',
+      control: 'boolean',
+      table: { defaultValue: { summary: 'false' } },
+    },
+    footer: {
+      description: 'Exibe o rodapé com controles de paginação abaixo da tabela',
+      control: 'boolean',
+      table: { defaultValue: { summary: 'false' } },
+    },
+    bulkActions: {
+      description: 'Exibe barra de ações em massa ao selecionar linhas (requer enableRowSelection)',
       control: 'boolean',
       table: { defaultValue: { summary: 'false' } },
     },
@@ -171,26 +199,109 @@ const meta: Meta = {
 export default meta;
 
 // ─── Padrão (com controles) ───────────────────────────────────────────────────
-export const Default: StoryFn<{
-  enableRowSelection: boolean;
-  enableFilters: boolean;
-}> = ({ enableRowSelection, enableFilters }) => (
-  <div style={{ width: 700 }}>
-    <TableV2
-      columns={colunasPadrao}
-      data={promocoes}
-      enableRowSelection={enableRowSelection}
-      enableFilters={enableFilters}
-      onRowSelectionChange={(rows) =>
-        console.warn('Selecionados:', rows.map((r) => r.nome))
-      }
-    />
-  </div>
-);
+export const Default: StoryFn<DefaultArgs> = ({
+  enableRowSelection,
+  enableSorting,
+  loading,
+  header: showHeader,
+  footer: showFooter,
+  bulkActions: showBulkActions,
+}) => {
+  const [selecionados, setSelecionados] = React.useState<Promocao[]>([]);
+  const [selectedStatus, setSelectedStatus] = React.useState<string[]>([]);
+  const [dataInicio, setDataInicio] = React.useState<Date | null>(null);
+
+  const dadosFiltrados = useMemo(() => {
+    let result = promocoes;
+    if (selectedStatus.length > 0) {
+      result = result.filter((p) =>
+        selectedStatus.includes(p.status.toLowerCase().replace(' ', '-')),
+      );
+    }
+    if (dataInicio) {
+      result = result.filter((p) => p.inicioObj >= dataInicio);
+    }
+    return result;
+  }, [selectedStatus, dataInicio]);
+
+  const filterItems = [
+    {
+      id: 'status',
+      buttonText: selectedStatus.length > 0 ? `Status (${selectedStatus.length})` : 'Status',
+      type: 'checkbox' as const,
+      items: [
+        { id: 'ativa', text: 'Ativa' },
+        { id: 'inativa', text: 'Inativa' },
+        { id: 'agendada', text: 'Agendada' },
+        { id: 'expirada', text: 'Expirada' },
+      ],
+      selectedIds: selectedStatus,
+      onSelectionChange: setSelectedStatus,
+    },
+    {
+      id: 'inicio',
+      buttonText: dataInicio
+        ? `A partir de ${dataInicio.toLocaleDateString('pt-BR')}`
+        : 'Data de início',
+      type: 'calendar' as const,
+      selectedDate: dataInicio,
+      onDateSelect: (date: Date) => setDataInicio(date),
+      onClear: () => setDataInicio(null),
+      minDate: new Date(2024, 0, 1),
+      maxDate: new Date(2024, 11, 31),
+    },
+  ];
+
+  return (
+    <div style={{ width: 800 }}>
+      <TableV2
+        columns={colunasPadrao}
+        data={dadosFiltrados}
+        enableRowSelection={enableRowSelection}
+        enableSorting={enableSorting}
+        loading={loading}
+        onRowSelectionChange={setSelecionados}
+        header={showHeader ? { searchPlaceholder: 'Buscar promoções...', filterItems } : undefined}
+        footer={
+          showFooter
+            ? { totalItems: dadosFiltrados.length, defaultPageSize: 5, pageSizeOptions: [5, 10] }
+            : undefined
+        }
+        bulkActions={
+          showBulkActions
+            ? {
+                actions: [
+                  {
+                    label: 'Ativar',
+                    variant: 'filled',
+                    onClick: () => console.warn('Ativar:', selecionados.map((r) => r.nome)),
+                  },
+                  {
+                    label: 'Pausar',
+                    variant: 'outlined',
+                    onClick: () => console.warn('Pausar:', selecionados.map((r) => r.nome)),
+                  },
+                  {
+                    label: 'Excluir',
+                    variant: 'outlined',
+                    onClick: () => console.warn('Excluir:', selecionados.map((r) => r.nome)),
+                  },
+                ],
+              }
+            : undefined
+        }
+      />
+    </div>
+  );
+};
 
 Default.args = {
   enableRowSelection: false,
-  enableFilters: false,
+  enableSorting: false,
+  loading: false,
+  header: false,
+  footer: false,
+  bulkActions: false,
 };
 
 Default.storyName = 'Default';
