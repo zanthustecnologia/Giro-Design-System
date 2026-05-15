@@ -20,7 +20,7 @@ import type { FilterItem, FilterProps } from '../Filter.types';
 
 type SelectionState = Record<string, boolean>;
 
-const SimpleFilter: React.FC<FilterProps> = ({
+const Simple: React.FC<FilterProps> = ({
   items,
   type = 'checkbox',
   selectedIds,
@@ -284,4 +284,4 @@ const SimpleFilter: React.FC<FilterProps> = ({
   );
 };
 
-export default SimpleFilter;
+export default Simple;

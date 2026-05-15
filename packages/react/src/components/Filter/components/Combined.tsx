@@ -9,7 +9,7 @@ import styles from '../Filter.module.scss';
 
 import type { FilterProps } from '../Filter.types';
 
-const CombinedFilter: React.FC<FilterProps> = ({
+const Combined: React.FC<FilterProps> = ({
   buttonText = 'Filtrar',
   icon,
   variant = 'outlined',
@@ -91,4 +91,4 @@ const CombinedFilter: React.FC<FilterProps> = ({
   );
 };
 
-export default CombinedFilter;
+export default Combined;

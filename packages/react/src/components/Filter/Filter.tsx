@@ -1,8 +1,8 @@
 // Filter.tsx
 import React from 'react';
 
-import CombinedFilter from './components/CombinedFilter';
-import SimpleFilter from './components/SimpleFilter';
+import Combined from './components/Combined';
+import Simple from './components/Simple';
 
 import type { FilterProps } from './Filter.types';
 
@@ -11,10 +11,10 @@ const Filter: React.FC<FilterProps> = ({
   ...props
 }) => {
   if (mode === 'combined') {
-    return <CombinedFilter {...props} />;
+    return <Combined {...props} />;
   }
 
-  return <SimpleFilter {...props} />;
+  return <Simple {...props} />;
 };
 
 export default Filter;
