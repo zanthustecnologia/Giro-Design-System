@@ -1,6 +1,5 @@
 import { MoreVertical16Regular } from '@fluentui/react-icons';
-import { TableV2, Chips, Button, Menu, Avatar } from '@giro-ds/react';
-import { createColumnHelper } from '@tanstack/react-table';
+import { TableV2, Chips, Button, Menu, Avatar, createTableColumnHelper } from '@giro-ds/react';
 import React, { useState, useMemo } from 'react';
 
 import type { Meta, StoryFn } from '@storybook/react-vite';
@@ -54,7 +53,7 @@ const tipoColor: Record<string, 'success' | 'alert' | 'brand' | 'neutral'> = {
 };
 
 // ─── Colunas ──────────────────────────────────────────────────────────────────
-const col = createColumnHelper<Promocao>();
+const col = createTableColumnHelper<Promocao>();
 
 const colunasPadrao = [
   col.accessor('nome', {

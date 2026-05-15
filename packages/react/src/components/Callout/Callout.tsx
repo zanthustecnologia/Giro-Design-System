@@ -17,6 +17,7 @@ const Callout: React.FC<CalloutProps> = ({
   textColor,
   className,
   id,
+  style,
   ...rest
 }) => {
   if (process.env.NODE_ENV !== 'production' && (text === '' || (typeof text === 'string' && !text.trim()))) {
@@ -37,6 +38,7 @@ const Callout: React.FC<CalloutProps> = ({
   );
 
   const customStyle: React.CSSProperties = {
+    ...style,
     ...(backgroundColor && { '--callout-bg': `var(--${backgroundColor})` } as React.CSSProperties),
     ...(textColor && { '--callout-text': `var(--${textColor})` } as React.CSSProperties),
   };

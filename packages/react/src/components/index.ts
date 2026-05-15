@@ -66,6 +66,8 @@ export { type TableHeaderProps, type FilterItem } from './Table/TableHeader';
 
 export { TableV2 } from './TableV2';
 export { type TableV2Props, type TableV2HeaderProps, type TableV2FooterProps } from './TableV2/Table.types';
+export { createColumnHelper as createTableColumnHelper } from '@tanstack/react-table';
+export type { ColumnDef as TableColumnDefinition } from '@tanstack/react-table';
 
 export { default as TextArea } from './TextArea';
 export { type TextAreaProps } from './TextArea/TextArea.types';
