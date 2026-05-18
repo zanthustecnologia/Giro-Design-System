@@ -115,6 +115,9 @@ export interface FilterProps extends BaseProps {
   /** Número de filtros ativos exibido como badge no botão */
   activeCount?: number;
 
+  /** Conteúdo customizado no cabeçalho do Drawer */
+  drawerHeaderContent?: ReactNode;
+
   /** Conteúdo do painel lateral no modo combined */
   children?: ReactNode;
 

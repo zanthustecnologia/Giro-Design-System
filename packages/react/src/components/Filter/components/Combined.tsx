@@ -18,6 +18,7 @@ const Combined: React.FC<FilterProps> = ({
   title = 'Filtrar',
   drawerWidth = "fit-content",
   activeCount = 0,
+  drawerHeaderContent,
   children,
   onApply,
   onClear,
@@ -72,6 +73,7 @@ const Combined: React.FC<FilterProps> = ({
         customWidth={drawerWidth}
         closeOnOverlayClick
         closeOnEscape
+        headerContent = {drawerHeaderContent}
         footer={
           <div className={styles.combinedFooter}>
             <Button variant="outlined" onClick={handleClear}>
