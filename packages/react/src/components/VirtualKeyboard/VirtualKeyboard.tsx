@@ -4,7 +4,7 @@ import Keyboard from 'react-simple-keyboard';
 import 'react-simple-keyboard/build/css/index.css';
 import SimpleKeyboardLayouts from 'simple-keyboard-layouts';
 
-import { NATIVE_LAYOUTS, NATIVE_LAYOUT_KEYS, SHIFT_TOGGLES } from './components/Layouts';
+import { NATIVE_LAYOUTS, NATIVE_LAYOUT_KEYS, SHIFT_TOGGLES, LAYOUT_THEMES, LAYOUT_DISPLAY } from './components/Layouts';
 import styles from './VirtualKeyboard.module.scss';
 
 import type { VirtualKeyboardProps } from './VirtualKeyboard.type';
@@ -27,7 +27,7 @@ const keyboardLayouts = new SimpleKeyboardLayouts();
  * ```
  */
 const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
-  layout = 'default',
+  layout = 'brazilian',
   value = '',
   onChange,
   onKeyPress,
@@ -56,17 +56,22 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
     (button: string) => {
       if (disabled) return;
 
-      if (button === '{shift}' || button === '{lock}') {
+      if (
+        button === '{shift}' || button === '{lock}' ||
+        button === '{shiftleft}' || button === '{shiftright}' ||
+        button === '{capslock}' || button === '{shiftactivated}'
+      ) {
         setLayoutName((prev) => SHIFT_TOGGLES[prev] ?? 'default');
         return;
       }
       if (button === '{numbers}') { setLayoutName('numbers'); return; }
       if (button === '{abc}')     { setLayoutName('default'); return; }
-      if (button === '{alt}')     { setLayoutName((prev) => (prev === 'alt' ? 'default' : 'alt')); return; }
+      if (button === '{alt}' || button === '{altright}') { setLayoutName((prev) => (prev === 'alt' ? 'default' : 'alt')); return; }
+      if (button === '{smileys}') { setLayoutName((prev) => (prev === 'smileys' ? 'default' : 'smileys')); return; }
       if (button === '{symbols}') { setLayoutName((prev) => (prev === 'symbols' ? 'alt' : 'symbols')); return; }
-      if (button === '{default}') { setLayoutName('default'); return; }
+      if (button === '{default}' || button === '{back}' || button === '{downkeyboard}') { setLayoutName('default'); return; }
 
-      if (layoutName === 'shift' && button !== '{backspace}' && button !== '{enter}') {
+      if (layoutName === 'shift' && button !== '{backspace}' && button !== '{bksp}' && button !== '{enter}') {
         setLayoutName('default');
       }
 
@@ -97,7 +102,8 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
         <Keyboard
           layoutName={layoutName}
           layout={activeLayout}
-          theme="hg-theme-default"
+          theme={LAYOUT_THEMES[layout] ?? 'hg-theme-default'}
+          display={LAYOUT_DISPLAY[layout]}
           onChange={handleChange}
           onKeyPress={handleKeyPress}
           input={value}
