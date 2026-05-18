@@ -3,7 +3,7 @@ import { ReactNode, ReactElement } from 'react';
 import { Variant, BaseProps, Locale, Side, Align } from '../../types/common.types';
 
 export interface FilterItem {
-  id?: string;
+  id?: BaseProps['id'];
   text: string;
   subText?: string;
   icon?: ReactNode;
