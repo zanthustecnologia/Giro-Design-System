@@ -97,6 +97,56 @@ export const SemFechamentoPorOverlay: Story = {
   ),
 };
 
+export const ComHeaderCustomizado: Story = {
+  render: () => {
+    const [isOpen, setIsOpen] = useState(false);
+
+    const headerContent = (
+      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <span
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            padding: '2px 10px',
+            borderRadius: '12px',
+            background: 'var(--color-brand-primary-light, #e8f0fd)',
+            color: 'var(--color-brand-primary-default, #1a6ce8)',
+            fontSize: '12px',
+            fontWeight: 500,
+          }}
+        >
+          Avançado
+        </span>
+        <Button variant="text" size="lg" onClick={() => alert('Exportar clicado')}>
+          Exportar
+        </Button>
+      </div>
+    );
+
+    return (
+      <>
+        <Button variant="outlined" icon={<Filter16Regular />} onClick={() => setIsOpen(true)}>
+          Abrir Drawer
+        </Button>
+        <Drawer
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+          title="Configurações"
+          customWidth="fit-content"
+          headerContent={headerContent}
+        >
+          <div style={{width: "500px"}}>
+            <p>
+              Este Drawer exibe conteúdo adicional no cabeçalho, entre o título e o botão de fechar. Use{' '}
+              <code>headerContent</code> para incluir tags, badges ou ações rápidas.
+            </p>
+          </div>
+        </Drawer>
+      </>
+    );
+  },
+};
+
 export const ComFooter: Story = {
   render: () => {
     const [isOpen, setIsOpen] = useState(false);

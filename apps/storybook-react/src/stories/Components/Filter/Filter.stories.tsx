@@ -1,7 +1,7 @@
 // Filter.stories.tsx
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
-import { DatePicker, Filter, Select } from '@giro-ds/react';
+import { Chips, DatePicker, Filter, Select } from '@giro-ds/react';
 import type { FilterProps } from '@giro-ds/react';
 
 const meta: Meta<typeof Filter> = {
@@ -297,48 +297,6 @@ export const CombinedFilter: Story = {
       setter(selected.includes(id) ? selected.filter((v) => v !== id) : [...selected, id]);
     };
 
-    const chipStyle = (active: boolean): React.CSSProperties => ({
-      display: 'inline-flex',
-      alignItems: 'center',
-      padding: '6px 16px',
-      borderRadius: '24px',
-      border: `1px solid ${active ? 'var(--color-brand-primary-default, #1a6ce8)' : 'var(--color-neutral-high-dark, #d0d0d0)'}`,
-      background: active ? 'var(--color-brand-primary-light, #e8f0fd)' : 'transparent',
-      color: active ? 'var(--color-brand-primary-default, #1a6ce8)' : 'inherit',
-      font: 'inherit',
-      fontSize: '14px',
-      cursor: 'pointer',
-    });
-
-    const ChipGroup = ({
-      label,
-      options,
-      selected,
-      onToggle,
-    }: {
-      label: string;
-      options: { id: string; text: string }[];
-      selected: string[];
-      onToggle: (id: string) => void;
-    }) => (
-      <div>
-        <p style={{ margin: '0 0 8px', fontSize: '14px', fontWeight: 500 }}>{label}</p>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-          {options.map((opt) => (
-            <button
-              key={opt.id}
-              type="button"
-              aria-pressed={selected.includes(opt.id)}
-              style={chipStyle(selected.includes(opt.id))}
-              onClick={() => onToggle(opt.id)}
-            >
-              {opt.text}
-            </button>
-          ))}
-        </div>
-      </div>
-    );
-
     return (
       <div style={{ padding: '2rem' }}>
         <Filter
@@ -349,6 +307,11 @@ export const CombinedFilter: Story = {
           activeCount={activeCount}
           onApply={handleApply}
           onClear={handleClear}
+          drawerHeaderContent={
+            <Chips variant="brand">
+              Avançado
+            </Chips>
+          }
         >
           {/* Datas — 2 colunas */}
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
@@ -422,26 +385,48 @@ export const CombinedFilter: Story = {
           </div>
 
           {/* Chips de seleção */}
-          <ChipGroup
-            label="Conferência"
-            options={[
-              { id: 'pendente', text: 'Pendente' },
-              { id: 'conferido', text: 'Conferido' },
-              { id: 'revalidar', text: 'Revalidar' },
-            ]}
-            selected={conferencia}
-            onToggle={(id) => toggleChip(conferencia, setConferencia, id)}
-          />
-          <ChipGroup
-            label="Diferença"
-            options={[
-              { id: 'exata', text: 'Exata' },
-              { id: 'sobra', text: 'Sobra' },
-              { id: 'falta', text: 'Falta' },
-            ]}
-            selected={diferenca}
-            onToggle={(id) => toggleChip(diferenca, setDiferenca, id)}
-          />
+          <div>
+            <p style={{ margin: '0 0 8px', fontSize: '14px', fontWeight: 500 }}>Conferência</p>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+              {[
+                { id: 'pendente', text: 'Pendente' },
+                { id: 'conferido', text: 'Conferido' },
+                { id: 'revalidar', text: 'Revalidar' },
+              ].map((opt) => (
+                <Chips
+                  key={opt.id}
+                  variant={conferencia.includes(opt.id) ? 'brand' : 'neutral'}
+                  onClick={() => toggleChip(conferencia, setConferencia, opt.id)}
+                  style={{ cursor: 'pointer' }}
+                  role="checkbox"
+                  aria-checked={conferencia.includes(opt.id)}
+                >
+                  {opt.text}
+                </Chips>
+              ))}
+            </div>
+          </div>
+          <div>
+            <p style={{ margin: '0 0 8px', fontSize: '14px', fontWeight: 500 }}>Diferença</p>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+              {[
+                { id: 'exata', text: 'Exata' },
+                { id: 'sobra', text: 'Sobra' },
+                { id: 'falta', text: 'Falta' },
+              ].map((opt) => (
+                <Chips
+                  key={opt.id}
+                  variant={diferenca.includes(opt.id) ? 'brand' : 'neutral'}
+                  onClick={() => toggleChip(diferenca, setDiferenca, opt.id)}
+                  style={{ cursor: 'pointer' }}
+                  role="checkbox"
+                  aria-checked={diferenca.includes(opt.id)}
+                >
+                  {opt.text}
+                </Chips>
+              ))}
+            </div>
+          </div>
         </Filter>
       </div>
     );
