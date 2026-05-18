@@ -1,0 +1,20 @@
+.container {
+  font-family: var(--font-family-primary);
+  width: 100%;
+
+  // Aplica a fonte do DS ao teclado mantendo o visual padrão da biblioteca
+  :global(.hg-theme-default) {
+    font-family: var(--font-family-primary);
+
+    :global(.hg-button) {
+      font-family: var(--font-family-primary);
+    }
+  }
+
+  // Estado desabilitado
+  &.disabled {
+    pointer-events: none;
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+}
