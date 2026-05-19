@@ -76,23 +76,6 @@ const colunasPadrao = [
       </Chips>
     ),
   }),
-  col.display({
-    id: 'actions',
-    header: '',
-    meta: { align: 'center' },
-    cell: ({ row }) => (
-      <Menu
-        items={[
-          { id: 'edit', text: 'Editar' },
-          { id: 'pause', text: row.original.status === 'Ativa' ? 'Pausar' : 'Ativar' },
-          { id: 'delete', text: 'Excluir' },
-        ]}
-        onItemSelect={(item) => console.warn(item.text, row.original.nome)}
-      >
-        <Button variant="text" iconOnly icon={<MoreVertical16Regular />} tooltipText="Mais ações" />
-      </Menu>
-    ),
-  }),
 ];
 
 const colunasCompletas = [
@@ -104,20 +87,24 @@ const colunasCompletas = [
       return <Avatar initialLetters={initials} size="sm" />;
     },
   }),
+  col.accessor('id', {
+    header: 'ID',
+    cell: (info) => info.getValue(),
+  }),
   col.accessor('nome', {
     header: 'Nome',
     cell: (info) => info.getValue(),
   }),
-  col.display({
-    id: 'detalhes',
-    header: 'Detalhes',
-    cell: ({ row }) => (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-8)' }}>
-        <div>{row.original.nome}</div>
-        <div style={{ fontSize: '12px', color: 'var(--color-neutral-low-medium)' }}>
-          {row.original.descricao}
-        </div>
-      </div>
+  col.accessor('descricao', {
+    header: 'Descrição',
+    cell: (info) => info.getValue(),
+  }),
+  col.accessor('tipo', {
+    header: 'Tipo',
+    cell: (info) => (
+      <Chips variant={tipoColor[info.getValue()] ?? 'neutral'}>
+        {info.getValue()}
+      </Chips>
     ),
   }),
   col.accessor('status', {
@@ -127,6 +114,10 @@ const colunasCompletas = [
         {info.getValue()}
       </Chips>
     ),
+  }),
+  col.accessor('inicio', {
+    header: 'Data de Início',
+    cell: (info) => info.getValue(),
   }),
   col.display({
     id: 'actions',
@@ -275,7 +266,7 @@ export const Default: StoryFn<DefaultArgs> = ({
   const hasFilters = !!resolvedFilterItems?.length;
 
   return (
-    <div style={{ width: 800 }}>
+    <div style={{ width: 600 }}>
       <TableV2
         columns={colunasPadrao}
         data={dadosFiltrados}
@@ -485,7 +476,7 @@ export const SomenteFiltros: StoryFn = () => {
   return (
     <div style={{ width: 800 }}>
       <TableV2
-        columns={colunasPadrao}
+        columns={colunasCompletas}
         data={dadosFiltrados}
         header={{ showSearch: false, filterItems }}
         footer={{
