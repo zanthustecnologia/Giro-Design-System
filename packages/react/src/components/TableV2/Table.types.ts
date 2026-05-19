@@ -39,7 +39,7 @@ interface BaseFilterItem {
  */
 interface CheckboxFilterItem extends BaseFilterItem {
   /** Tipo do filtro */
-  type: 'multiple' | 'single' | 'icon';
+  type: 'multiple' | 'single';
   /** Lista de itens disponíveis para seleção */
   items: FilterDropdownItem[];
   /** IDs dos itens atualmente selecionados */

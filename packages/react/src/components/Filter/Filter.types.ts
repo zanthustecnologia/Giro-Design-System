@@ -10,7 +10,7 @@ export interface FilterItem {
   disabled?: boolean;
 }
 
-export type FilterType = 'single' | 'multiple' | 'icon' | 'calendar';
+export type FilterType = 'single' | 'multiple' | 'calendar';
 
 /**
  * Props do componente Filter

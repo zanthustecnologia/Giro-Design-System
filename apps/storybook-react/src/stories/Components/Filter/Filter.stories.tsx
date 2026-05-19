@@ -1,5 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
+import {
+  CheckmarkCircleRegular,
+  DismissCircleRegular,
+  ClockRegular,
+  LockClosedRegular,
+} from '@fluentui/react-icons';
 import { Chips, DatePicker, Filter, Select } from '@giro-ds/react';
 import type { FilterProps } from '@giro-ds/react';
 
@@ -51,10 +57,10 @@ const meta: Meta<typeof Filter> = {
     },
     type: {
       control: 'select',
-      options: ['multiple', 'single', 'icon'],
+      options: ['multiple', 'single', 'calendar'],
       description: 'Tipo do filtro',
       table: {
-        type: { summary: "'multiple' | 'single' | 'icon'" },
+        type: { summary: "'multiple' | 'single' | 'calendar'" },
         defaultValue: { summary: 'multiple' },
       },
     },
@@ -106,6 +112,13 @@ const statusItems = [
   { id: 'inativo', text: 'Inativo' },
   { id: 'pendente', text: 'Pendente' },
   { id: 'bloqueado', text: 'Bloqueado' },
+];
+
+const statusItemsWithIcons = [
+  { id: 'ativo', text: 'Ativo', icon: <CheckmarkCircleRegular /> },
+  { id: 'inativo', text: 'Inativo', icon: <DismissCircleRegular /> },
+  { id: 'pendente', text: 'Pendente', icon: <ClockRegular /> },
+  { id: 'bloqueado', text: 'Bloqueado', icon: <LockClosedRegular /> },
 ];
 
 const categoryItems = [
@@ -160,6 +173,29 @@ export const WithSearch: Story = {
     side: 'bottom',
     align: 'start',
     variant: 'outlined',
+  },
+};
+
+export const WithIcons: Story = {
+  render: (args) => {
+    const [appliedFilters, setAppliedFilters] = useState<string[]>([]);
+
+    return (
+      <Filter
+        {...args}
+        items={statusItemsWithIcons}
+        selectedIds={appliedFilters}
+        onApplyFilter={setAppliedFilters}
+      />
+    );
+  },
+  args: {
+    buttonText: 'Status',
+    type: 'single',
+    side: 'bottom',
+    align: 'start',
+    variant: 'outlined',
+    disabled: false,
   },
 };
 

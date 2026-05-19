@@ -244,7 +244,7 @@ const Simple: React.FC<FilterProps> = ({
                       label=""
                     />
                   )}
-                  {type === 'icon' && item.icon && (
+                  {item.icon && (
                     <span className={styles.itemIcon}>{item.icon}</span>
                   )}
                   <span className={styles.itemText}>{item.text}</span>

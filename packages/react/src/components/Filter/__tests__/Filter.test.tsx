@@ -254,12 +254,12 @@ describe('Filter', () => {
       expect(screen.getByText('Nenhum item encontrado')).toBeInTheDocument();
     });
 
-    it('renderiza ícone do item quando type="icon"', async () => {
+    it('renderiza ícone do item quando o item possui icon', async () => {
       const itemsWithIcon: FilterItem[] = [
         { id: 'i1', text: 'Home', icon: <span data-testid="home-icon">🏠</span> },
       ];
       const user = userEvent.setup();
-      render(<Filter items={itemsWithIcon} type="icon" />);
+      render(<Filter items={itemsWithIcon} type="single" />);
 
       await user.click(screen.getByTestId('popover-trigger'));
       expect(screen.getByTestId('home-icon')).toBeInTheDocument();
