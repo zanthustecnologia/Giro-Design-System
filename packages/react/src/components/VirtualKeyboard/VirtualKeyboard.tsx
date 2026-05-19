@@ -4,6 +4,7 @@ import Keyboard from 'react-simple-keyboard';
 import 'react-simple-keyboard/build/css/index.css';
 import SimpleKeyboardLayouts from 'simple-keyboard-layouts';
 
+import TextField from '../TextField';
 import { NATIVE_LAYOUTS, NATIVE_LAYOUT_KEYS, SHIFT_TOGGLES, LAYOUT_THEMES, LAYOUT_DISPLAY } from './components/Layouts';
 import styles from './VirtualKeyboard.module.scss';
 
@@ -18,15 +19,26 @@ const keyboardLayouts = new SimpleKeyboardLayouts();
  * teclado completo, mobile e iOS) e mais de 40 layouts de idiomas via `simple-keyboard-layouts`,
  * seguindo o visual padrão da biblioteca.
  *
+ * Possui dois modos:
+ * - **`native`** (padrão): age como teclado nativo — será exibido ao focar em um campo (futuramente).
+ * - **`fixed`**: teclado sempre visível com um TextField próprio acima.
+ *
  * @example
  * ```tsx
- * const [value, setValue] = useState('');
+ * // Modo fixed
+ * <VirtualKeyboard mode="fixed" layout="default" textFieldLabel="Busca" onChange={setValue} />
+ * ```
  *
+ * @example
+ * ```tsx
+ * // Modo native (controlado externamente)
+ * const [value, setValue] = useState('');
  * <TextField value={value} onChange={setValue} readOnly />
  * <VirtualKeyboard layout="default" value={value} onChange={setValue} />
  * ```
  */
 const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
+  mode = 'native',
   layout = 'brazilian',
   value = '',
   onChange,
@@ -35,6 +47,8 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
   disabled = false,
   className,
   id,
+  textFieldLabel,
+  textFieldPlaceholder,
 }) => {
   const [layoutName, setLayoutName] = useState<string>('default');
   const [activeLayout, setActiveLayout] = useState<Record<string, string[]> | null>(
@@ -94,10 +108,22 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
       id={id}
       className={clsx(
         styles.container,
+        styles[`mode--${mode}`],
         { [styles.disabled]: disabled },
         className
       )}
     >
+      {mode === 'fixed' && (
+        <div className={styles.textFieldWrapper}>
+          <TextField
+            label={textFieldLabel}
+            placeholder={textFieldPlaceholder}
+            value={value}
+            readOnly
+            disabled={disabled}
+          />
+        </div>
+      )}
       {activeLayout && (
         <Keyboard
           layoutName={layoutName}

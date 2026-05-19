@@ -51,6 +51,26 @@ import { VirtualKeyboard } from '@giro-ds/react';
 
 <div style={{ marginTop: '48px' }} />
 
+## Modos
+
+O VirtualKeyboard possui dois modos de exibição, configurados pela prop `mode`.
+
+### Fixed
+
+O teclado fica sempre visível na tela com um **TextField próprio** acima. O campo é somente leitura — toda a entrada vem pelas teclas do teclado. Ideal para totens, painéis e interfaces sem teclado físico onde a digitação é o fluxo principal.
+
+Use `textFieldLabel` e `textFieldPlaceholder` para personalizar o campo interno.
+
+<Canvas of={VirtualKeyboardStories.ModoFixed} />
+
+### Native
+
+O teclado age como um teclado nativo e será exibido ao focar em um campo externo (acionamento por foco — **implementação futura**). Neste modo, o componente é renderizado normalmente e o controle de exibição fica a cargo do consumidor.
+
+<Canvas of={VirtualKeyboardStories.ModoNative} />
+
+<div style={{ marginTop: '48px' }} />
+
 ## Variações
 
 ### Numérico

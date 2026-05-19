@@ -1,5 +1,12 @@
 import { BaseProps } from '../../types/common.types';
 
+/**
+ * Modo de exibição do VirtualKeyboard.
+ * - `native`: age como teclado nativo — aparecerá ao focar em um campo (implementação futura).
+ * - `fixed`: teclado sempre visível na tela com um TextField próprio acima dele.
+ */
+export type VirtualKeyboardMode = 'native' | 'fixed';
+
 /** Layouts disponíveis para o VirtualKeyboard */
 export type VirtualKeyboardLayout =
   // Layouts nativos
@@ -60,27 +67,39 @@ export type VirtualKeyboardLayout =
  * Props do componente VirtualKeyboard
  * @example
  * ```tsx
+ * // Modo fixed: teclado sempre visível com TextField próprio
  * <VirtualKeyboard
+ *   mode="fixed"
  *   layout="default"
+ *   textFieldLabel="Digite aqui"
  *   onChange={(value) => setValue(value)}
  * />
  * ```
  * @example
  * ```tsx
+ * // Modo native: teclado gerenciado externamente (futuramente acionado por foco)
  * <VirtualKeyboard
+ *   mode="native"
  *   layout="numeric"
  *   value={pin}
  *   onChange={setPin}
- *   onKeyPress={(key) => console.log('Tecla:', key)}
  *   maxLength={4}
  * />
  * ```
  */
 export interface VirtualKeyboardProps extends BaseProps {
+  /**
+   * Modo de exibição do teclado.
+   * - `native`: comporta-se como teclado nativo (acionamento por foco — futuramente implementado).
+   * - `fixed`: teclado fixo na tela com um TextField próprio acima.
+   * @default 'native'
+   */
+  mode?: VirtualKeyboardMode;
+
   /** Valor controlado do input vinculado ao teclado */
   value?: string;
 
-  /** Layout do teclado (padrão: "default") */
+  /** Layout do teclado (padrão: "brazilian") */
   layout?: VirtualKeyboardLayout;
 
   /** Callback executado quando o valor do input muda: (value) => void */
@@ -91,42 +110,10 @@ export interface VirtualKeyboardProps extends BaseProps {
 
   /** Limite máximo de caracteres */
   maxLength?: number;
-}
 
+  /** Label do TextField exibido no modo `fixed` */
+  textFieldLabel?: string;
 
-/**
- * Props do componente VirtualKeyboard
- * @example
- * ```tsx
- * <VirtualKeyboard
- *   layout="default"
- *   onChange={(value) => setValue(value)}
- * />
- * ```
- * @example
- * ```tsx
- * <VirtualKeyboard
- *   layout="numeric"
- *   value={pin}
- *   onChange={setPin}
- *   onKeyPress={(key) => console.log('Tecla:', key)}
- *   maxLength={4}
- * />
- * ```
- */
-export interface VirtualKeyboardProps extends BaseProps {
-  /** Valor controlado do input vinculado ao teclado */
-  value?: string;
-
-  /** Layout do teclado (padrão: "default") */
-  layout?: VirtualKeyboardLayout;
-
-  /** Callback executado quando o valor do input muda: (value) => void */
-  onChange?: (value: string) => void;
-
-  /** Callback executado quando uma tecla é pressionada: (key) => void */
-  onKeyPress?: (key: string) => void;
-
-  /** Limite máximo de caracteres */
-  maxLength?: number;
+  /** Placeholder do TextField exibido no modo `fixed` */
+  textFieldPlaceholder?: string;
 }

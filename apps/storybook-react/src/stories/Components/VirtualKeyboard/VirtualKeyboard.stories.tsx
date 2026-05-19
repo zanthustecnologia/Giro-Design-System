@@ -14,6 +14,21 @@ const meta: Meta<typeof VirtualKeyboard> = {
     layout: 'centered',
   },
   argTypes: {
+    mode: {
+      control: 'select',
+      options: ['native', 'fixed'],
+      description: 'Modo de exibição do teclado. `native` age como teclado nativo (acionamento por foco — futuramente). `fixed` exibe o teclado sempre visível com um TextField próprio acima.',
+    },
+    textFieldLabel: {
+      control: 'text',
+      description: 'Label do TextField interno. Disponível apenas no modo `fixed`.',
+      if: { arg: 'mode', eq: 'fixed' },
+    },
+    textFieldPlaceholder: {
+      control: 'text',
+      description: 'Placeholder do TextField interno. Disponível apenas no modo `fixed`.',
+      if: { arg: 'mode', eq: 'fixed' },
+    },
     layout: {
       control: 'select',
       options: [
@@ -61,6 +76,7 @@ export default meta;
 
 export const Default: Story = {
   args: {
+    mode: 'native',
     layout: 'default',
     disabled: false,
   },
@@ -73,6 +89,47 @@ export const Default: Story = {
           value={value}
           onChange={setValue}
           placeholder="Digite no teclado abaixo..."
+          readOnly
+        />
+        <VirtualKeyboard {...args} value={value} onChange={setValue} />
+      </div>
+    );
+  },
+};
+
+export const ModoFixed: Story = {
+  name: 'Modo Fixed',
+  args: {
+    mode: 'fixed',
+    layout: 'default',
+    textFieldLabel: 'Campo de texto',
+    textFieldPlaceholder: 'Digite no teclado...',
+  },
+  render: (args) => {
+    const [value, setValue] = useState('');
+    return (
+      <div style={{ width: '420px' }}>
+        <VirtualKeyboard {...args} value={value} onChange={setValue} />
+      </div>
+    );
+  },
+};
+
+export const ModoNative: Story = {
+  name: 'Modo Native',
+  args: {
+    mode: 'native',
+    layout: 'default',
+  },
+  render: (args) => {
+    const [value, setValue] = useState('');
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', width: '420px' }}>
+        <TextField
+          label="Campo de texto (externo)"
+          value={value}
+          onChange={setValue}
+          placeholder="O teclado preenche este campo..."
           readOnly
         />
         <VirtualKeyboard {...args} value={value} onChange={setValue} />

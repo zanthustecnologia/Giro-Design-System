@@ -20,7 +20,7 @@ export const NATIVE_LAYOUTS: Partial<Record<VirtualKeyboardLayout, Record<string
     ],
   },
   numeric: {
-    default: ['1 2 3', '4 5 6', '7 8 9', '{shift} 0 _', '{bksp}'],
+    default: ['1 2 3', '4 5 6', '7 8 9', '{shift} 0 {enter}', '{bksp}'],
     shift: ['! / #', '$ % ^', '& * (', '{shift} ) +', '{bksp}'],
   },
   fullKeyboard: {
