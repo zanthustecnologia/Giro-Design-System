@@ -4,7 +4,6 @@ import React, { useState, useMemo } from 'react';
 
 import type { Meta, StoryFn } from '@storybook/react-vite';
 
-// ─── Tipos ────────────────────────────────────────────────────────────────────
 type Promocao = {
   id: number;
   nome: string;
@@ -15,7 +14,6 @@ type Promocao = {
   inicioObj: Date;
 };
 
-// ─── Dataset ──────────────────────────────────────────────────────────────────
 const promocoes: Promocao[] = [
   { id: 1,  nome: 'Black Friday',         descricao: 'Desconto progressivo de 20%',             tipo: 'Desconto',     status: 'Ativa',     inicio: '24/11/2024', inicioObj: new Date(2024, 10, 24) },
   { id: 2,  nome: 'Frete Grátis Natal',   descricao: 'Frete grátis acima de R$ 100',            tipo: 'Frete Grátis', status: 'Agendada',  inicio: '01/12/2024', inicioObj: new Date(2024, 11, 1)  },
@@ -52,7 +50,6 @@ const tipoColor: Record<string, 'success' | 'alert' | 'brand' | 'neutral'> = {
   Cashback: 'neutral',
 };
 
-// ─── Colunas ──────────────────────────────────────────────────────────────────
 const col = createTableColumnHelper<Promocao>();
 
 const colunasPadrao = [
@@ -138,7 +135,6 @@ const colunasCompletas = [
   }),
 ];
 
-// ─── Tipo dos args controláveis ──────────────────────────────────────────────
 type FilterItemConfig =
   | { id: string; type: 'checkbox'; buttonText: string; items: { id: string; text: string }[] }
   | { id: string; type: 'calendar'; buttonText: string; minDate?: string; maxDate?: string };
@@ -153,7 +149,6 @@ type DefaultArgs = {
   bulkActions: boolean;
 };
 
-// ─── Meta ─────────────────────────────────────────────────────────────────────
 const meta: Meta<DefaultArgs> = {
   title: 'Components/TableV2',
   component: TableV2 as unknown as React.ComponentType<DefaultArgs>,
@@ -201,7 +196,6 @@ const meta: Meta<DefaultArgs> = {
 
 export default meta;
 
-// ─── Padrão (com controles) ───────────────────────────────────────────────────
 export const Default: StoryFn<DefaultArgs> = ({
   enableRowSelection,
   enableSorting,
@@ -327,7 +321,6 @@ Default.args = {
 
 Default.storyName = 'Default';
 
-// ─── Com Busca e Filtros ──────────────────────────────────────────────────────
 export const ComBuscaEFiltros: StoryFn = () => {
   const [selectedStatus, setSelectedStatus] = useState<string[]>([]);
   const [dataInicio, setDataInicio] = useState<Date | null>(null);
@@ -427,7 +420,6 @@ export const ComBuscaEFiltros: StoryFn = () => {
   );
 };
 
-// ─── Somente Filtros ─────────────────────────────────────────────────────────
 export const SomenteFiltros: StoryFn = () => {
   const [selectedStatus, setSelectedStatus] = useState<string[]>([]);
   const [dataInicio, setDataInicio] = useState<Date | null>(null);
@@ -491,7 +483,6 @@ export const SomenteFiltros: StoryFn = () => {
 
 SomenteFiltros.storyName = 'Somente Filtros';
 
-// ─── Somente Busca ────────────────────────────────────────────────────────────
 export const SomenteBusca: StoryFn = () => (
   <div style={{ width: 800 }}>
     <TableV2
@@ -507,7 +498,6 @@ export const SomenteBusca: StoryFn = () => (
   </div>
 );
 
-// ─── Sem Header ───────────────────────────────────────────────────────────────
 export const SemHeader: StoryFn = () => (
   <div style={{ width: 800 }}>
     <TableV2
@@ -522,21 +512,18 @@ export const SemHeader: StoryFn = () => (
   </div>
 );
 
-// ─── Carregando ───────────────────────────────────────────────────────────────
 export const Carregando: StoryFn = () => (
   <div style={{ width: 800 }}>
     <TableV2 columns={colunasCompletas} data={[]} loading />
   </div>
 );
 
-// ─── Vazia ────────────────────────────────────────────────────────────────────
 export const Vazia: StoryFn = () => (
   <div style={{ width: 800 }}>
     <TableV2 columns={colunasCompletas} data={[]}  />
   </div>
 );
 
-// ─── Tabela Responsiva ────────────────────────────────────────────────────────
 const colunasLargas = [
   col.accessor('nome', {
     header: 'Nome',
@@ -615,7 +602,6 @@ export const TabelaResponsiva: StoryFn = () => (
 
 TabelaResponsiva.storyName = 'Tabela Responsiva';
 
-// ─── Ações em Massa ──────────────────────────────────────────────────────────
 export const AcoesEmMassa: StoryFn = () => {
   const [selecionados, setSelecionados] = useState<Promocao[]>([]);
 
