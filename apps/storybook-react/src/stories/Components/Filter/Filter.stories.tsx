@@ -307,11 +307,6 @@ export const CombinedFilter: Story = {
           activeCount={activeCount}
           onApply={handleApply}
           onClear={handleClear}
-          drawerHeaderContent={
-            <Chips variant="brand">
-              Avançado
-            </Chips>
-          }
         >
           {/* Datas — 2 colunas */}
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
@@ -395,7 +390,7 @@ export const CombinedFilter: Story = {
               ].map((opt) => (
                 <Chips
                   key={opt.id}
-                  variant={conferencia.includes(opt.id) ? 'brand' : 'neutral'}
+                  variant={conferencia.includes(opt.id) ? 'success' : 'neutral'}
                   onClick={() => toggleChip(conferencia, setConferencia, opt.id)}
                   style={{ cursor: 'pointer' }}
                   role="checkbox"
@@ -416,7 +411,7 @@ export const CombinedFilter: Story = {
               ].map((opt) => (
                 <Chips
                   key={opt.id}
-                  variant={diferenca.includes(opt.id) ? 'brand' : 'neutral'}
+                  variant={diferenca.includes(opt.id) ? 'success' : 'neutral'}
                   onClick={() => toggleChip(diferenca, setDiferenca, opt.id)}
                   style={{ cursor: 'pointer' }}
                   role="checkbox"
