@@ -418,6 +418,70 @@ export const ComBuscaEFiltros: StoryFn = () => {
   );
 };
 
+// ─── Somente Filtros ─────────────────────────────────────────────────────────
+export const SomenteFiltros: StoryFn = () => {
+  const [selectedStatus, setSelectedStatus] = useState<string[]>([]);
+  const [dataInicio, setDataInicio] = useState<Date | null>(null);
+
+  const dadosFiltrados = useMemo(() => {
+    let result = promocoes;
+    if (selectedStatus.length > 0) {
+      result = result.filter((p) =>
+        selectedStatus.includes(p.status.toLowerCase().replace(' ', '-')),
+      );
+    }
+    if (dataInicio) {
+      result = result.filter((p) => p.inicioObj >= dataInicio);
+    }
+    return result;
+  }, [selectedStatus, dataInicio]);
+
+  const filterItems = [
+    {
+      id: 'status',
+      buttonText: selectedStatus.length > 0 ? `Status (${selectedStatus.length})` : 'Status',
+      type: 'checkbox' as const,
+      items: [
+        { id: 'ativa', text: 'Ativa' },
+        { id: 'inativa', text: 'Inativa' },
+        { id: 'agendada', text: 'Agendada' },
+        { id: 'expirada', text: 'Expirada' },
+      ],
+      selectedIds: selectedStatus,
+      onSelectionChange: setSelectedStatus,
+    },
+    {
+      id: 'inicio',
+      buttonText: dataInicio
+        ? `A partir de ${dataInicio.toLocaleDateString('pt-BR')}`
+        : 'Data de início',
+      type: 'calendar' as const,
+      selectedDate: dataInicio,
+      onDateSelect: (date: Date) => setDataInicio(date),
+      onClear: () => setDataInicio(null),
+      minDate: new Date(2024, 0, 1),
+      maxDate: new Date(2024, 11, 31),
+    },
+  ];
+
+  return (
+    <div style={{ width: 800 }}>
+      <TableV2
+        columns={colunasPadrao}
+        data={dadosFiltrados}
+        header={{ showSearch: false, filterItems }}
+        footer={{
+          totalItems: dadosFiltrados.length,
+          defaultPageSize: 5,
+          pageSizeOptions: [5, 10],
+        }}
+      />
+    </div>
+  );
+};
+
+SomenteFiltros.storyName = 'Somente Filtros';
+
 // ─── Somente Busca ────────────────────────────────────────────────────────────
 export const SomenteBusca: StoryFn = () => (
   <div style={{ width: 800 }}>
