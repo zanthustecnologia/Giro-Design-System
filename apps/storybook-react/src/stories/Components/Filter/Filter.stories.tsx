@@ -1,4 +1,3 @@
-// Filter.stories.tsx
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 import { Chips, DatePicker, Filter, Select } from '@giro-ds/react';
@@ -102,7 +101,6 @@ const meta: Meta<typeof Filter> = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-// ✅ Dados de exemplo para os filtros
 const statusItems = [
   { id: 'ativo', text: 'Ativo' },
   { id: 'inativo', text: 'Inativo' },
@@ -122,7 +120,6 @@ const categoryItems = [
   { id: 'automotivo', text: 'Automotivo', subText: 'Peças e acessórios' },
 ];
 
-// Template básico com Dropdown integrado
 const FilterTemplate = (args: FilterProps) => {
   const [appliedFilters, setAppliedFilters] = useState<string[]>([]);
 
@@ -139,8 +136,6 @@ const FilterTemplate = (args: FilterProps) => {
       />
   );
 };
-
-// ✅ STORIES ATUALIZADAS
 
 export const Default: Story = {
   render: FilterTemplate,
@@ -181,7 +176,6 @@ export const Disabled: Story = {
   },
 };
 
-// ✅ NOVO: Story para testar o filtro de calendário
 export const CalendarFilter: Story = {
   render: () => {
     const [selectedDate, setSelectedDate] = useState<Date | null>(null);
@@ -211,7 +205,6 @@ export const CalendarFilter: Story = {
   },
 };
 
-// ✅ EXEMPLO AVANÇADO - Múltiplos filtros trabalhando juntos
 export const MultipleFilters: Story = {
   render: () => {
     const [statusFilters, setStatusFilters] = useState<string[]>([]);
@@ -243,7 +236,6 @@ export const MultipleFilters: Story = {
   },
 };
 
-// ✅ Filtro combinado — painel lateral com componentes compostos via children
 export const CombinedFilter: Story = {
   render: () => {
     const [dataInicio, setDataInicio] = useState<Date | null>(null);
@@ -308,7 +300,6 @@ export const CombinedFilter: Story = {
           onApply={handleApply}
           onClear={handleClear}
         >
-          {/* Datas — 2 colunas */}
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
             <DatePicker
               label="Data inicial"
@@ -327,7 +318,6 @@ export const CombinedFilter: Story = {
             />
           </div>
 
-          {/* Selects — 2 colunas */}
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
             <Select
               label="PDV"
@@ -379,7 +369,6 @@ export const CombinedFilter: Story = {
             />
           </div>
 
-          {/* Chips de seleção */}
           <div>
             <p style={{ margin: '0 0 8px', fontSize: '14px', fontWeight: 500 }}>Conferência</p>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
