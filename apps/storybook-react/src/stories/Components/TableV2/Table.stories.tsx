@@ -185,7 +185,7 @@ const meta: Meta<DefaultArgs> = {
       table: { defaultValue: { summary: 'false' } },
     },
     filters: {
-      description: 'Exibe os filtros no cabeçalho da tabela (requer search)',
+      description: 'Exibe os filtros no cabeçalho da tabela (pode ser usado sem busca)',
       control: 'boolean',
       table: { defaultValue: { summary: 'false' } },
     },
@@ -269,8 +269,11 @@ export const Default: StoryFn<DefaultArgs> = ({
         loading={loading}
         onRowSelectionChange={setSelecionados}
         header={
-          showSearch
-            ? { searchPlaceholder: 'Buscar promoções...', ...(showFilters ? { filterItems } : {}) }
+          showSearch || showFilters
+            ? {
+                ...(showSearch ? { searchPlaceholder: 'Buscar promoções...' } : { showSearch: false }),
+                ...(showFilters ? { filterItems } : {}),
+              }
             : undefined
         }
         footer={
