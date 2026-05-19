@@ -148,12 +148,16 @@ const colunasCompletas = [
 ];
 
 // ─── Tipo dos args controláveis ──────────────────────────────────────────────
+type FilterItemConfig =
+  | { id: string; type: 'checkbox'; buttonText: string; items: { id: string; text: string }[] }
+  | { id: string; type: 'calendar'; buttonText: string; minDate?: string; maxDate?: string };
+
 type DefaultArgs = {
   enableRowSelection: boolean;
   enableSorting: boolean;
   loading: boolean;
   showSearch: boolean;
-  filters: boolean;
+  filterItems?: string;
   footer: boolean;
   bulkActions: boolean;
 };
@@ -184,10 +188,12 @@ const meta: Meta<DefaultArgs> = {
       control: 'boolean',
       table: { defaultValue: { summary: 'false' } },
     },
-    filters: {
-      description: 'Exibe os filtros no cabeçalho da tabela (pode ser usado sem busca)',
-      control: 'boolean',
-      table: { defaultValue: { summary: 'false' } },
+    filterItems: {
+      description:
+        'JSON dos itens de filtro. Cole o array diretamente no campo. ' +
+        'Exemplo: `[{"id":"status","type":"checkbox","buttonText":"Status","items":[{"id":"ativa","text":"Ativa"}]},{"id":"inicio","type":"calendar","buttonText":"Data de início","minDate":"2024-01-01","maxDate":"2024-12-31"}]`',
+      control: 'text',
+      table: { defaultValue: { summary: '""' } },
     },
     footer: {
       description: 'Exibe o rodapé com controles de paginação abaixo da tabela',
@@ -209,55 +215,64 @@ export const Default: StoryFn<DefaultArgs> = ({
   enableRowSelection,
   enableSorting,
   loading,
-  showSearch: showSearch,
-  filters: showFilters,
+  showSearch,
+  filterItems: filterItemsJson,
   footer: showFooter,
   bulkActions: showBulkActions,
 }) => {
   const [selecionados, setSelecionados] = React.useState<Promocao[]>([]);
-  const [selectedStatus, setSelectedStatus] = React.useState<string[]>([]);
-  const [dataInicio, setDataInicio] = React.useState<Date | null>(null);
+  const [checkboxSelections, setCheckboxSelections] = React.useState<Record<string, string[]>>({});
+  const [calendarDates, setCalendarDates] = React.useState<Record<string, Date | null>>({});
+
+  const filterItemsConfig = useMemo((): FilterItemConfig[] => {
+    if (!filterItemsJson?.trim()) return [];
+    try {
+      const parsed = JSON.parse(filterItemsJson);
+      return Array.isArray(parsed) ? parsed : [];
+    } catch {
+      return [];
+    }
+  }, [filterItemsJson]);
 
   const dadosFiltrados = useMemo(() => {
     let result = promocoes;
-    if (selectedStatus.length > 0) {
+    const statusIds = checkboxSelections['status'];
+    if (statusIds?.length > 0) {
       result = result.filter((p) =>
-        selectedStatus.includes(p.status.toLowerCase().replace(' ', '-')),
+        statusIds.includes(p.status.toLowerCase().replace(' ', '-')),
       );
     }
-    if (dataInicio) {
-      result = result.filter((p) => p.inicioObj >= dataInicio);
+    const dateFrom = calendarDates['inicio'];
+    if (dateFrom) {
+      result = result.filter((p) => p.inicioObj >= dateFrom);
     }
     return result;
-  }, [selectedStatus, dataInicio]);
+  }, [checkboxSelections, calendarDates]);
 
-  const filterItems = [
-    {
-      id: 'status',
-      buttonText: selectedStatus.length > 0 ? `Status (${selectedStatus.length})` : 'Status',
-      type: 'checkbox' as const,
-      items: [
-        { id: 'ativa', text: 'Ativa' },
-        { id: 'inativa', text: 'Inativa' },
-        { id: 'agendada', text: 'Agendada' },
-        { id: 'expirada', text: 'Expirada' },
-      ],
-      selectedIds: selectedStatus,
-      onSelectionChange: setSelectedStatus,
-    },
-    {
-      id: 'inicio',
-      buttonText: dataInicio
-        ? `A partir de ${dataInicio.toLocaleDateString('pt-BR')}`
-        : 'Data de início',
-      type: 'calendar' as const,
-      selectedDate: dataInicio,
-      onDateSelect: (date: Date) => setDataInicio(date),
-      onClear: () => setDataInicio(null),
-      minDate: new Date(2024, 0, 1),
-      maxDate: new Date(2024, 11, 31),
-    },
-  ];
+  const resolvedFilterItems = filterItemsConfig?.map((item) => {
+    if (item.type === 'checkbox') {
+      const selected = checkboxSelections[item.id] ?? [];
+      return {
+        ...item,
+        buttonText: selected.length > 0 ? `${item.buttonText} (${selected.length})` : item.buttonText,
+        selectedIds: selected,
+        onSelectionChange: (ids: string[]) =>
+          setCheckboxSelections((prev) => ({ ...prev, [item.id]: ids })),
+      };
+    }
+    const date = calendarDates[item.id] ?? null;
+    return {
+      ...item,
+      selectedDate: date,
+      minDate: item.minDate ? new Date(item.minDate) : undefined,
+      maxDate: item.maxDate ? new Date(item.maxDate) : undefined,
+      buttonText: date ? `A partir de ${date.toLocaleDateString('pt-BR')}` : item.buttonText,
+      onDateSelect: (d: Date) => setCalendarDates((prev) => ({ ...prev, [item.id]: d })),
+      onClear: () => setCalendarDates((prev) => ({ ...prev, [item.id]: null })),
+    };
+  });
+
+  const hasFilters = !!resolvedFilterItems?.length;
 
   return (
     <div style={{ width: 800 }}>
@@ -269,10 +284,10 @@ export const Default: StoryFn<DefaultArgs> = ({
         loading={loading}
         onRowSelectionChange={setSelecionados}
         header={
-          showSearch || showFilters
+          showSearch || hasFilters
             ? {
                 ...(showSearch ? { searchPlaceholder: 'Buscar promoções...' } : { showSearch: false }),
-                ...(showFilters ? { filterItems } : {}),
+                ...(hasFilters ? { filterItems: resolvedFilterItems } : {}),
               }
             : undefined
         }
@@ -314,7 +329,7 @@ Default.args = {
   enableSorting: false,
   loading: false,
   showSearch: false,
-  filters: false,
+  filterItems: '',
   footer: false,
   bulkActions: false,
 };
