@@ -64,7 +64,6 @@ const Combined: React.FC<FilterProps> = ({
           )}
         </span>
       </Button>
-
       <Drawer
         isOpen={isOpen}
         onClose={handleClose}
@@ -72,7 +71,7 @@ const Combined: React.FC<FilterProps> = ({
         customWidth={drawerWidth}
         closeOnOverlayClick
         closeOnEscape
-        headerContent = {drawerHeaderContent}
+        headerContent={drawerHeaderContent}
         footer={
           <div className={styles.combinedFooter}>
             <Button variant="outlined" onClick={handleClear}>
