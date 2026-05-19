@@ -152,7 +152,8 @@ type DefaultArgs = {
   enableRowSelection: boolean;
   enableSorting: boolean;
   loading: boolean;
-  header: boolean;
+  showSearch: boolean;
+  filters: boolean;
   footer: boolean;
   bulkActions: boolean;
 };
@@ -178,8 +179,13 @@ const meta: Meta<DefaultArgs> = {
       control: 'boolean',
       table: { defaultValue: { summary: 'false' } },
     },
-    header: {
-      description: 'Exibe o cabeçalho com campo de busca global acima da tabela',
+    showSearch: {
+      description: 'Exibe o campo de busca global no cabeçalho da tabela',
+      control: 'boolean',
+      table: { defaultValue: { summary: 'false' } },
+    },
+    filters: {
+      description: 'Exibe os filtros no cabeçalho da tabela (requer search)',
       control: 'boolean',
       table: { defaultValue: { summary: 'false' } },
     },
@@ -203,7 +209,8 @@ export const Default: StoryFn<DefaultArgs> = ({
   enableRowSelection,
   enableSorting,
   loading,
-  header: showHeader,
+  showSearch: showSearch,
+  filters: showFilters,
   footer: showFooter,
   bulkActions: showBulkActions,
 }) => {
@@ -261,7 +268,11 @@ export const Default: StoryFn<DefaultArgs> = ({
         enableSorting={enableSorting}
         loading={loading}
         onRowSelectionChange={setSelecionados}
-        header={showHeader ? { searchPlaceholder: 'Buscar promoções...', filterItems } : undefined}
+        header={
+          showSearch
+            ? { searchPlaceholder: 'Buscar promoções...', ...(showFilters ? { filterItems } : {}) }
+            : undefined
+        }
         footer={
           showFooter
             ? { totalItems: dadosFiltrados.length, defaultPageSize: 5, pageSizeOptions: [5, 10] }
@@ -299,7 +310,8 @@ Default.args = {
   enableRowSelection: false,
   enableSorting: false,
   loading: false,
-  header: false,
+  showSearch: false,
+  filters: false,
   footer: false,
   bulkActions: false,
 };
