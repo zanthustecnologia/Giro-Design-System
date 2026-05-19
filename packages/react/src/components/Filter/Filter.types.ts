@@ -7,7 +7,7 @@ export interface FilterItem {
   text: string;
   subText?: string;
   icon?: ReactNode;
-  disabled?: boolean;
+  disabled?: BaseProps['disabled'];
 }
 
 export type FilterType = 'single' | 'multiple' | 'calendar';
@@ -95,7 +95,7 @@ export interface FilterProps extends BaseProps {
   locale?: Locale;
 
   /** Classe CSS opcional */
-  className?: string;
+  className?: BaseProps['className'];
 
   /**
    * Modo de exibição do filtro
