@@ -55,7 +55,6 @@ const Combined: React.FC<FilterProps> = ({
         disabled={disabled}
         icon={icon ?? <FilterRegular />}
         iconPosition="left"
-        size="lg"
         onClick={handleOpen}
       >
         <span className={styles.triggerContent}>
