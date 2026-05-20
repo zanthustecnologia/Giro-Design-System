@@ -181,13 +181,15 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
             )}
           </div>
 
-          <span
-            id={helperId}
-            className={styles.helperText}
-            aria-live={hasError ? 'polite' : undefined}
-          >
-            {displayHelperText}
-          </span>
+          {(errorMessage || inputError || helperText) && (  
+            <span
+              id={helperId}
+              className={styles.helperText}
+              aria-live={hasError ? 'polite' : undefined}
+            >
+              {displayHelperText}
+            </span>
+          )}
         </div>
       </div>
     );
