@@ -83,14 +83,17 @@ export const Default: Story = {
   render: (args) => {
     const [value, setValue] = useState('');
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', width: '420px' }}>
-        <TextField
-          label="Campo de texto"
-          value={value}
-          onChange={setValue}
-          placeholder="Digite no teclado abaixo..."
-          readOnly
-        />
+      <div style={{ display: 'flex', flexDirection: 'column', width: '420px' }}>
+        <div style={{ marginBottom: '20px'}}>
+          <TextField
+            label="Campo de texto"
+            value={value}
+            onChange={setValue}
+            placeholder="Digite no teclado abaixo..."
+            readOnly
+            helperText='↳ Campo de texto externo ao teclado virtual'
+          />
+        </div>
         <VirtualKeyboard {...args} value={value} onChange={setValue} />
       </div>
     );
@@ -131,6 +134,7 @@ export const ModoNative: Story = {
           onChange={setValue}
           placeholder="O teclado preenche este campo..."
           readOnly
+          helperText='↳ Campo de texto externo ao teclado virtual'
         />
         <VirtualKeyboard {...args} value={value} onChange={setValue} />
       </div>
@@ -154,6 +158,7 @@ export const Numerico: Story = {
           placeholder="Digite o PIN..."
           maxLength={6}
           readOnly
+          helperText='↳ Campo de texto externo ao teclado virtual'
         />
         <VirtualKeyboard {...args} value={value} onChange={setValue} maxLength={6} />
       </div>
@@ -176,6 +181,7 @@ export const Telefone: Story = {
           onChange={setValue}
           placeholder="Digite o número..."
           readOnly
+          helperText='↳ Campo de texto externo ao teclado virtual'
         />
         <VirtualKeyboard {...args} value={value} onChange={setValue} />
       </div>
@@ -199,6 +205,7 @@ export const Disabled: Story = {
           placeholder="Teclado desabilitado"
           disabled
           readOnly
+          helperText='↳ Campo de texto externo ao teclado virtual'
         />
         <VirtualKeyboard {...args} value={value} onChange={setValue} />
       </div>
@@ -244,6 +251,7 @@ export const TecladoCompleto: Story = {
           onChange={setValue}
           placeholder="Digite no teclado abaixo..."
           readOnly
+          helperText='↳ Campo de texto externo ao teclado virtual'
         />
         <VirtualKeyboard {...args} value={value} onChange={setValue} />
       </div>
@@ -265,6 +273,7 @@ export const Mobile: Story = {
           onChange={setValue}
           placeholder="Digite no teclado abaixo..."
           readOnly
+          helperText='↳ Campo de texto externo ao teclado virtual'
         />
         <VirtualKeyboard {...args} value={value} onChange={setValue} />
       </div>
@@ -286,6 +295,7 @@ export const AppleIOS: Story = {
           onChange={setValue}
           placeholder="Digite no teclado abaixo..."
           readOnly
+          helperText='↳ Campo de texto externo ao teclado virtual'
         />
         <VirtualKeyboard {...args} value={value} onChange={setValue} />
       </div>
@@ -307,6 +317,7 @@ export const Idioma: Story = {
           onChange={setValue}
           placeholder="Selecione um idioma no painel de controles..."
           readOnly
+          helperText='↳ Campo de texto externo ao teclado virtual'
         />
         <VirtualKeyboard {...args} value={value} onChange={setValue} />
       </div>
