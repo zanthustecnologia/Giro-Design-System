@@ -51,12 +51,14 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
   textFieldPlaceholder,
 }) => {
   const [layoutName, setLayoutName] = useState<string>('default');
+  const [capsLockOn, setCapsLockOn] = useState(false);
   const [activeLayout, setActiveLayout] = useState<Record<string, string[]> | null>(
     NATIVE_LAYOUTS[layout] ?? null
   );
 
   useEffect(() => {
     setLayoutName('default');
+    setCapsLockOn(false);
 
     if (NATIVE_LAYOUT_KEYS.has(layout)) {
       setActiveLayout(NATIVE_LAYOUTS[layout] ?? null);
@@ -70,10 +72,19 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
     (button: string) => {
       if (disabled) return;
 
+      if (button === '{capslock}' || button === '{lock}') {
+        setCapsLockOn((prev) => {
+          const next = !prev;
+          setLayoutName(next ? 'shift' : 'default');
+          return next;
+        });
+        return;
+      }
+
       if (
-        button === '{shift}' || button === '{lock}' ||
+        button === '{shift}' ||
         button === '{shiftleft}' || button === '{shiftright}' ||
-        button === '{capslock}' || button === '{shiftactivated}'
+        button === '{shiftactivated}'
       ) {
         setLayoutName((prev) => SHIFT_TOGGLES[prev] ?? 'default');
         return;
@@ -85,13 +96,17 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
       if (button === '{symbols}') { setLayoutName((prev) => (prev === 'symbols' ? 'alt' : 'symbols')); return; }
       if (button === '{default}' || button === '{back}' || button === '{downkeyboard}') { setLayoutName('default'); return; }
 
-      if (layoutName === 'shift' && button !== '{backspace}' && button !== '{bksp}' && button !== '{enter}') {
-        setLayoutName('default');
+      if (button !== '{backspace}' && button !== '{bksp}' && button !== '{enter}') {
+        if (layoutName === 'shift' && !capsLockOn) {
+          setLayoutName('default');
+        } else if (layoutName === 'default' && capsLockOn) {
+          setLayoutName('shift');
+        }
       }
 
       onKeyPress?.(button);
     },
-    [disabled, layoutName, onKeyPress]
+    [disabled, layoutName, capsLockOn, onKeyPress]
   );
 
   const handleChange = useCallback(
