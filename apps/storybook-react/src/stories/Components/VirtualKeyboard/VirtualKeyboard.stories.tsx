@@ -147,24 +147,18 @@ export const ModoNative: Story = {
 
 export const Numerico: Story = {
   args: {
+    mode: 'fixed',
     layout: 'numeric',
     disabled: false,
+    textFieldLabel: 'PIN',
+    textFieldPlaceholder: 'Digite o PIN...',
+    maxLength: 6,
   },
   render: (args) => {
     const [value, setValue] = useState('');
     return (
       <div style={{ width: '240px' }}>
-        <TextField
-          label="PIN"
-          placeholder="Clique aqui para abrir o teclado..."
-          value={value}
-          onChange={setValue}
-          virtualKeyboard
-          virtualKeyboardLayout="numeric"
-          maxLength={args.maxLength ?? 6}
-          disabled={args.disabled}
-          helperText="Clique no campo para abrir o teclado numérico"
-        />
+        <VirtualKeyboard {...args} value={value} onChange={setValue} />
       </div>
     );
   },
@@ -172,23 +166,17 @@ export const Numerico: Story = {
 
 export const Telefone: Story = {
   args: {
+    mode: 'fixed',
     layout: 'numeric',
     disabled: false,
+    textFieldLabel: 'Número',
+    textFieldPlaceholder: 'Digite o número...',
   },
   render: (args) => {
     const [value, setValue] = useState('');
     return (
       <div style={{ width: '240px' }}>
-        <TextField
-          label="Número"
-          placeholder="Clique aqui para abrir o teclado..."
-          value={value}
-          onChange={setValue}
-          virtualKeyboard
-          virtualKeyboardLayout="numeric"
-          disabled={args.disabled}
-          helperText="Clique no campo para abrir o teclado numérico"
-        />
+        <VirtualKeyboard {...args} value={value} onChange={setValue} />
       </div>
     );
   },
