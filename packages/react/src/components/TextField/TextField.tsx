@@ -1,7 +1,8 @@
 import { Dismiss16Regular } from '@fluentui/react-icons';
 import clsx from 'clsx';
-import React, { useState, useCallback, useId, forwardRef, useEffect } from 'react';
+import React, { useState, useCallback, useId, forwardRef, useEffect, useRef } from 'react';
 
+import VirtualKeyboard from '../VirtualKeyboard';
 import styles from './TextField.module.scss';
 import { validateInput } from './utils';
 import LabelComponent from '../../shared/Label';
@@ -33,6 +34,8 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
       onFocus,
       name,
       persistIcon = false,
+      virtualKeyboard = false,
+      virtualKeyboardLayout,
       ...rest
     },
     ref
@@ -44,6 +47,8 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
     const [inputValue, setInputValue] = useState(normalizeValue(value));
     const [inputError, setInputError] = useState('');
     const [isFocused, setIsFocused] = useState(false);
+    const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
+    const containerRef = useRef<HTMLDivElement>(null);
     const generatedId = useId();
     const componentId = id || generatedId;
 
@@ -63,6 +68,19 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
         setInputError(validationError);
       }
     }, [value, inputError, type, maxLength, errorMessage, required]);
+
+    useEffect(() => {
+      if (!virtualKeyboard || !isKeyboardOpen) return;
+
+      const handleClickOutside = (e: MouseEvent) => {
+        if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+          setIsKeyboardOpen(false);
+        }
+      };
+
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, [virtualKeyboard, isKeyboardOpen]);
 
     const handleChange = useCallback(
       (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -102,9 +120,10 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
     const handleFocus = useCallback(
       (e: React.FocusEvent<HTMLInputElement>) => {
         setIsFocused(true);
+        if (virtualKeyboard) setIsKeyboardOpen(true);
         onFocus?.(e);
       },
-      [onFocus]
+      [virtualKeyboard, onFocus]
     );
 
     const showCustomIcon = inputValue.trim().length === 0 && icon;
@@ -124,7 +143,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
     });
 
     return (
-      <div className={containerClass}>
+      <div className={containerClass} ref={containerRef}>
         {label && (
           <LabelComponent
             htmlFor={componentId}
@@ -158,6 +177,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
               aria-invalid={hasError}
               aria-required={required}
               aria-describedby={helperId}
+              inputMode={virtualKeyboard ? 'none' : rest.inputMode}
               className={clsx({
                 [styles.inputWithIcon]: showCustomIcon || showClearIcon,
               })}
@@ -191,6 +211,22 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
             </span>
           )}
         </div>
+
+        {virtualKeyboard && isKeyboardOpen && (
+          <div className={styles.virtualKeyboardWrapper}>
+            <VirtualKeyboard
+              mode="native"
+              layout={virtualKeyboardLayout}
+              value={inputValue}
+              onChange={(val) => {
+                if (!disabled && (!maxLength || val.length <= maxLength)) {
+                  setInputValue(val);
+                  onChange?.(val);
+                }
+              }}
+            />
+          </div>
+        )}
       </div>
     );
   }

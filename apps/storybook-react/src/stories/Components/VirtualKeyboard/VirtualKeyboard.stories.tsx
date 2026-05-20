@@ -123,20 +123,23 @@ export const ModoNative: Story = {
   args: {
     mode: 'native',
     layout: 'default',
+    disabled: false,
   },
   render: (args) => {
     const [value, setValue] = useState('');
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', width: '420px' }}>
+      <div style={{ width: '420px' }}>
         <TextField
-          label="Campo de texto (externo)"
+          label="Campo de texto"
+          placeholder="Clique aqui para abrir o teclado..."
           value={value}
           onChange={setValue}
-          placeholder="O teclado preenche este campo..."
-          readOnly
-          helperText='↳ Campo de texto externo ao teclado virtual'
+          virtualKeyboard
+          virtualKeyboardLayout={args.layout}
+          maxLength={args.maxLength}
+          disabled={args.disabled}
+          helperText="Clique no campo para abrir o teclado virtual"
         />
-        <VirtualKeyboard {...args} value={value} onChange={setValue} />
       </div>
     );
   },
@@ -150,17 +153,18 @@ export const Numerico: Story = {
   render: (args) => {
     const [value, setValue] = useState('');
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', width: '240px' }}>
+      <div style={{ width: '240px' }}>
         <TextField
           label="PIN"
+          placeholder="Clique aqui para abrir o teclado..."
           value={value}
           onChange={setValue}
-          placeholder="Digite o PIN..."
-          maxLength={6}
-          readOnly
-          helperText='↳ Campo de texto externo ao teclado virtual'
+          virtualKeyboard
+          virtualKeyboardLayout="numeric"
+          maxLength={args.maxLength ?? 6}
+          disabled={args.disabled}
+          helperText="Clique no campo para abrir o teclado numérico"
         />
-        <VirtualKeyboard {...args} value={value} onChange={setValue} maxLength={6} />
       </div>
     );
   },
@@ -174,16 +178,17 @@ export const Telefone: Story = {
   render: (args) => {
     const [value, setValue] = useState('');
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', width: '240px' }}>
+      <div style={{ width: '240px' }}>
         <TextField
           label="Número"
+          placeholder="Clique aqui para abrir o teclado..."
           value={value}
           onChange={setValue}
-          placeholder="Digite o número..."
-          readOnly
-          helperText='↳ Campo de texto externo ao teclado virtual'
+          virtualKeyboard
+          virtualKeyboardLayout="numeric"
+          disabled={args.disabled}
+          helperText="Clique no campo para abrir o teclado numérico"
         />
-        <VirtualKeyboard {...args} value={value} onChange={setValue} />
       </div>
     );
   },
@@ -197,17 +202,17 @@ export const Disabled: Story = {
   render: (args) => {
     const [value, setValue] = useState('');
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', width: '420px' }}>
+      <div style={{ width: '420px' }}>
         <TextField
           label="Campo desabilitado"
+          placeholder="Campo desabilitado"
           value={value}
           onChange={setValue}
-          placeholder="Teclado desabilitado"
+          virtualKeyboard
+          virtualKeyboardLayout={args.layout}
           disabled
-          readOnly
-          helperText='↳ Campo de texto externo ao teclado virtual'
+          helperText="O teclado virtual não abre em campos desabilitados"
         />
-        <VirtualKeyboard {...args} value={value} onChange={setValue} />
       </div>
     );
   },
@@ -221,17 +226,17 @@ export const ComLimiteDeCaracteres: Story = {
   render: (args) => {
     const [value, setValue] = useState('');
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', width: '240px' }}>
+      <div style={{ width: '240px' }}>
         <TextField
           label="Código de 4 dígitos"
+          placeholder="Clique aqui para abrir o teclado..."
           value={value}
           onChange={setValue}
-          placeholder="Ex.: 1234"
+          virtualKeyboard
+          virtualKeyboardLayout="numeric"
           maxLength={4}
-          helperText="Máximo 4 dígitos"
-          readOnly
+          helperText="Máximo 4 dígitos — clique para abrir o teclado"
         />
-        <VirtualKeyboard {...args} value={value} onChange={setValue} />
       </div>
     );
   },
@@ -244,16 +249,17 @@ export const TecladoCompleto: Story = {
   render: (args) => {
     const [value, setValue] = useState('');
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', width: '860px' }}>
+      <div style={{ width: '860px' }}>
         <TextField
           label="Teclado completo"
+          placeholder="Clique aqui para abrir o teclado..."
           value={value}
           onChange={setValue}
-          placeholder="Digite no teclado abaixo..."
-          readOnly
-          helperText='↳ Campo de texto externo ao teclado virtual'
+          virtualKeyboard
+          virtualKeyboardLayout="fullKeyboard"
+          disabled={args.disabled}
+          helperText="Clique no campo para abrir o teclado completo"
         />
-        <VirtualKeyboard {...args} value={value} onChange={setValue} />
       </div>
     );
   },
@@ -266,16 +272,17 @@ export const Mobile: Story = {
   render: (args) => {
     const [value, setValue] = useState('');
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', width: '340px' }}>
+      <div style={{ width: '340px' }}>
         <TextField
           label="Mobile"
+          placeholder="Clique aqui para abrir o teclado..."
           value={value}
           onChange={setValue}
-          placeholder="Digite no teclado abaixo..."
-          readOnly
-          helperText='↳ Campo de texto externo ao teclado virtual'
+          virtualKeyboard
+          virtualKeyboardLayout="mobile"
+          disabled={args.disabled}
+          helperText="Clique no campo para abrir o teclado mobile"
         />
-        <VirtualKeyboard {...args} value={value} onChange={setValue} />
       </div>
     );
   },
@@ -288,16 +295,17 @@ export const AppleIOS: Story = {
   render: (args) => {
     const [value, setValue] = useState('');
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', width: '380px' }}>
+      <div style={{ width: '380px' }}>
         <TextField
           label="iOS"
+          placeholder="Clique aqui para abrir o teclado..."
           value={value}
           onChange={setValue}
-          placeholder="Digite no teclado abaixo..."
-          readOnly
-          helperText='↳ Campo de texto externo ao teclado virtual'
+          virtualKeyboard
+          virtualKeyboardLayout="appleIOS"
+          disabled={args.disabled}
+          helperText="Clique no campo para abrir o teclado iOS"
         />
-        <VirtualKeyboard {...args} value={value} onChange={setValue} />
       </div>
     );
   },
@@ -310,16 +318,17 @@ export const Idioma: Story = {
   render: (args) => {
     const [value, setValue] = useState('');
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', width: '420px' }}>
+      <div style={{ width: '420px' }}>
         <TextField
           label="Idioma"
+          placeholder="Clique aqui para abrir o teclado..."
           value={value}
           onChange={setValue}
-          placeholder="Selecione um idioma no painel de controles..."
-          readOnly
-          helperText='↳ Campo de texto externo ao teclado virtual'
+          virtualKeyboard
+          virtualKeyboardLayout={args.layout}
+          disabled={args.disabled}
+          helperText="Selecione um idioma no painel de controles e clique para abrir"
         />
-        <VirtualKeyboard {...args} value={value} onChange={setValue} />
       </div>
     );
   },

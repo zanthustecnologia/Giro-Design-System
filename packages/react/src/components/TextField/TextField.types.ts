@@ -2,6 +2,8 @@ import React from 'react';
 
 import { Side, Align } from '../../types/common.types';
 
+import type { VirtualKeyboardLayout } from '../VirtualKeyboard/VirtualKeyboard.type';
+
 /** Tipos de input suportados pelo TextField */
 export type TextFieldType = 'text' | 'email' | 'password' | 'number' | 'tel' | 'url';
 
@@ -80,6 +82,12 @@ export interface TextFieldProps extends Omit<
 
   /** Classe CSS opcional */
   className?: string;
+
+  /** Habilita o teclado virtual */
+  virtualKeyboard?: boolean;
+
+  /** Layout do teclado virtual (padrão: 'default') */
+  virtualKeyboardLayout?: VirtualKeyboardLayout;
 }
 
 /**

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { TextField } from '@giro-ds/react';
 import { Mail16Regular, Clock16Regular, ArrowUpload16Regular } from '@fluentui/react-icons';
@@ -99,7 +99,27 @@ const meta: Meta<typeof TextField> = {
       table: {
         disable: true
       }
-    }
+    },
+    virtualKeyboard: {
+      control: 'boolean',
+      description: 'Exibe o teclado virtual ao clicar no campo'
+    },
+    virtualKeyboardLayout: {
+      control: 'select',
+      options: [
+        'default', 'numeric', 'fullKeyboard', 'mobile', 'appleIOS',
+        'arabic', 'armenianEastern', 'armenianWestern', 'assamese', 'balochi',
+        'belarusian', 'bengali', 'brazilian', 'burmese', 'chinese', 'czech',
+        'english', 'farsi', 'french', 'georgian', 'german', 'gilaki', 'greek',
+        'hebrew', 'hindi', 'hungarian', 'italian', 'japanese', 'kannada',
+        'korean', 'kurdish', 'macedonian', 'malayalam', 'nigerian', 'nko',
+        'norwegian', 'odia', 'polish', 'punjabi', 'russian', 'russianOld',
+        'sindhi', 'spanish', 'swedish', 'telugu', 'thai', 'turkish',
+        'ukrainian', 'urdu', 'urduStandard', 'uyghur',
+      ],
+      description: 'Layout do teclado virtual',
+      if: { arg: 'virtualKeyboard', truthy: true },
+    },
   },
 };
 
@@ -124,7 +144,7 @@ export const Default: Story = {
   ),
 };
 
-export const ComIcone: Story = {
+export const WithIcon: Story = {
   args: {
     placeholder: 'Ex.: joao@empresa.com',
     label: 'Email',
@@ -139,7 +159,7 @@ export const ComIcone: Story = {
   ),
 };
 
-export const ComTooltip: Story = {
+export const WithTooltip: Story = {
   args: {
     label: 'CPF',
     placeholder: 'Ex.: 000 000 000-00',
@@ -206,4 +226,27 @@ export const WithDifferentIcons: Story = {
       />
     </div>
   ),
+};
+
+export const WithVirtualKeyboard: Story = {
+  args: {
+    label: 'Campo de texto',
+    placeholder: 'Clique aqui para abrir o teclado...',
+    virtualKeyboard: true,
+    virtualKeyboardLayout: 'default',
+    disabled: false,
+  },
+  render: (args) => {
+    const [value, setValue] = useState('');
+    return (
+      <div style={{ width: '420px' }}>
+        <TextField
+          {...args}
+          value={value}
+          onChange={setValue}
+          helperText="Clique no campo para abrir o teclado virtual"
+        />
+      </div>
+    );
+  },
 };

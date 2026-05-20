@@ -37,19 +37,26 @@
 
 .textFieldWrapper {
   width: 100%;
-
-  [class*='inputContainer'] {
-    border: none;
-    border-radius: var(--border-radius-none);
-    border-bottom: var(--border-width-1) solid var(--color-neutral-high-dark);
-
-    &:hover {
-      border: var(--border-width-none);
-      border-bottom: var(--border-width-1) solid var(--color-neutral-low-dark);
-    }
-  }
 }
 
-.textField {
-  height: 50px;
+.textFieldInput {
+  width: 100%;
+  height: 44px;
+  padding: 0 var(--spacing-16);
+  border: none;
+  border-radius: var(--border-radius-none);
+  border-bottom: var(--border-width-1) solid var(--color-neutral-high-dark);
+  background-color: var(--color-neutral-high-default);
+  color: var(--color-neutral-low-default);
+  font-size: var(--font-size-16);
+  font-family: var(--font-family-primary);
+  box-sizing: border-box;
+  outline: none;
+
+  &::placeholder {
+    color: var(--color-neutral-low-medium);
+    font-family: var(--font-family-primary);
+    font-weight: var(--font-weight-regular);
+    font-size: var(--font-size-16);
+  }
 }
