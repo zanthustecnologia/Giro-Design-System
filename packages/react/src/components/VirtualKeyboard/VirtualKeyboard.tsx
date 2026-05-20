@@ -131,12 +131,12 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
     >
       {mode === 'fixed' && (
         <div className={styles.textFieldWrapper}>
-          <TextField
-            label={textFieldLabel}
+          <TextField  
             placeholder={textFieldPlaceholder}
             value={value}
             readOnly
             disabled={disabled}
+            className={styles.textField}
           />
         </div>
       )}

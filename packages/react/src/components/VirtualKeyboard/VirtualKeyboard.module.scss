@@ -2,7 +2,6 @@
   font-family: var(--font-family-primary);
   width: 100%;
 
-  // Aplica a fonte do DS ao teclado mantendo o visual padrão da biblioteca
   :global(.hg-theme-default) {
     font-family: var(--font-family-primary);
 
@@ -11,27 +10,46 @@
     }
   }
 
-  // Estado desabilitado
   &.disabled {
     pointer-events: none;
     opacity: 0.4;
     cursor: not-allowed;
   }
 
-  // Layout numérico: equaliza o tamanho de todos os botões
   &.layout--numeric {
     :global(.hg-button) {
-      flex: 1 0 0 !important;
+      flex: 1 0 0;
     }
   }
 
-  // Modo fixed: teclado sempre visível com TextField acima
   &.mode--fixed {
     display: flex;
     flex-direction: column;
+    border: var(--border-width-1) solid var(--color-neutral-high-dark);
+    border-radius: var(--border-radius-8);
+    overflow: hidden;
+
+    :global(.hg-theme-default) {
+      border-radius: var(--border-radius-none);
+    }
   }
 }
 
 .textFieldWrapper {
   width: 100%;
+
+  [class*='inputContainer'] {
+    border: none;
+    border-radius: var(--border-radius-none);
+    border-bottom: var(--border-width-1) solid var(--color-neutral-high-dark);
+
+    &:hover {
+      border: var(--border-width-none);
+      border-bottom: var(--border-width-1) solid var(--color-neutral-low-dark);
+    }
+  }
+}
+
+.textField {
+  height: 50px;
 }
