@@ -1,7 +1,5 @@
 import type { VirtualKeyboardLayout } from '../VirtualKeyboard.type';
 
-// ─── Layouts nativos ────────────────────────────────────────────────────────
-
 export const NATIVE_LAYOUTS: Partial<Record<VirtualKeyboardLayout, Record<string, string[]>>> = {
   default: {
     default: [
@@ -20,8 +18,7 @@ export const NATIVE_LAYOUTS: Partial<Record<VirtualKeyboardLayout, Record<string
     ],
   },
   numeric: {
-    default: ['1 2 3', '4 5 6', '7 8 9', '{shift} 0 {enter}', '{bksp}'],
-    shift: ['! / #', '$ % ^', '& * (', '{shift} ) +', '{bksp}'],
+    default: ['1 2 3', '4 5 6', '7 8 9', '{bksp} 0 {enter}']
   },
   fullKeyboard: {
     default: [
@@ -88,15 +85,15 @@ export const NATIVE_LAYOUT_KEYS = new Set<VirtualKeyboardLayout>([
   'default', 'numeric', 'fullKeyboard', 'mobile', 'appleIOS',
 ]);
 
-// ─── Tema por layout ─────────────────────────────────────────────────────────
-
 export const LAYOUT_THEMES: Partial<Record<VirtualKeyboardLayout, string>> = {
   appleIOS: 'hg-theme-default hg-theme-ios',
 };
 
-// ─── Display por layout ──────────────────────────────────────────────────────
-
 export const LAYOUT_DISPLAY: Partial<Record<VirtualKeyboardLayout, Record<string, string>>> = {
+  numeric: {
+    '{bksp}': 'del',
+    '{enter}': 'enter'
+  },
   fullKeyboard: {
     '{escape}': 'esc',
     '{tab}': 'tab ⇥',
@@ -146,8 +143,6 @@ export const LAYOUT_DISPLAY: Partial<Record<VirtualKeyboardLayout, Record<string
     '{back}': '⇦',
   },
 };
-
-// ─── Shift toggle por sublayout ──────────────────────────────────────────────
 
 export const SHIFT_TOGGLES: Partial<Record<string, string>> = {
   default: 'shift',

@@ -18,11 +18,17 @@
     cursor: not-allowed;
   }
 
+  // Layout numérico: equaliza o tamanho de todos os botões
+  &.layout--numeric {
+    :global(.hg-button) {
+      flex: 1 0 0 !important;
+    }
+  }
+
   // Modo fixed: teclado sempre visível com TextField acima
   &.mode--fixed {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-2, 8px);
   }
 }
 

@@ -109,6 +109,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
       className={clsx(
         styles.container,
         styles[`mode--${mode}`],
+        styles[`layout--${layout}`],
         { [styles.disabled]: disabled },
         className
       )}
