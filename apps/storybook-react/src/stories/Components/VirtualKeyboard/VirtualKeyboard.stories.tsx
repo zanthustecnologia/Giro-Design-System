@@ -68,6 +68,7 @@ export const Default: Story = {
   },
   render: (args) => {
     const [value, setValue] = useState('');
+    const inputRef = useRef<HTMLInputElement>(null);
     return (
       <div style={{ display: 'flex', flexDirection: 'column', width: '420px' }}>
         <div style={{ marginBottom: '20px' }}>
@@ -75,12 +76,13 @@ export const Default: Story = {
             label="Campo de texto"
             value={value}
             onChange={setValue}
-            placeholder="Digite no teclado abaixo..."
+            placeholder="Clique aqui para abrir o teclado..."
             readOnly
-            helperText="Campo de texto externo ao teclado virtual"
+            helperText="Clique no campo para abrir o teclado virtual"
+            ref={inputRef}
           />
         </div>
-        <VirtualKeyboard {...args} value={value} onChange={setValue} />
+        <VirtualKeyboard {...args} targetRef={inputRef as React.RefObject<HTMLInputElement>} value={value} onChange={setValue} />
       </div>
     );
   },
