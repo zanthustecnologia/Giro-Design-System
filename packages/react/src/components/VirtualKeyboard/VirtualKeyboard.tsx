@@ -7,6 +7,7 @@ import SimpleKeyboardLayouts from 'simple-keyboard-layouts';
 
 import { NATIVE_LAYOUTS, NATIVE_LAYOUT_KEYS, SHIFT_TOGGLES, LAYOUT_THEMES, LAYOUT_DISPLAY } from './components/Layouts';
 import styles from './VirtualKeyboard.module.scss';
+import TextField from '../TextField';
 
 import type { VirtualKeyboardProps } from './VirtualKeyboard.type';
 
@@ -48,6 +49,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
   disabled = false,
   className,
   id,
+  textFieldLabel,
   textFieldPlaceholder,
   targetRef,
 }) => {
@@ -194,13 +196,15 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
       )}
     >
       {mode === 'fixed' && (
-        <div className={styles.textFieldWrapper}>
-          <input
-            className={styles.textFieldInput}
+        <div className={styles.textFieldContainer}>
+          <TextField
+            label={textFieldLabel}
             placeholder={textFieldPlaceholder}
             value={value}
             readOnly
             disabled={disabled}
+            maxLength={maxLength}
+            className={styles.textFieldWrapper}
           />
         </div>
       )}
