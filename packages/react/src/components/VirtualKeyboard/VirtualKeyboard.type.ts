@@ -1,5 +1,7 @@
 import { BaseProps } from '../../types/common.types';
 
+import type { RefObject } from 'react';
+
 /**
  * Modo de exibição do VirtualKeyboard.
  * - `native`: age como teclado nativo — aparecerá ao focar em um campo (implementação futura).
@@ -99,7 +101,7 @@ export interface VirtualKeyboardProps extends BaseProps {
   /** Valor controlado do input vinculado ao teclado */
   value?: string;
 
-  /** Layout do teclado (padrão: "brazilian") */
+  /** Layout do teclado (padrão: "default") */
   layout?: VirtualKeyboardLayout;
 
   /** Callback executado quando o valor do input muda: (value) => void */
@@ -116,4 +118,11 @@ export interface VirtualKeyboardProps extends BaseProps {
 
   /** Placeholder do TextField exibido no modo `fixed` */
   textFieldPlaceholder?: string;
+
+  /**
+   * Ref para o campo de input que aciona o teclado no modo `native`.
+   * O teclado aparece ao focar no elemento referenciado e some ao perder o foco.
+   * Se omitido no modo `native`, o teclado permanece sempre visível.
+   */
+  targetRef?: RefObject<HTMLInputElement | HTMLTextAreaElement | null>;
 }

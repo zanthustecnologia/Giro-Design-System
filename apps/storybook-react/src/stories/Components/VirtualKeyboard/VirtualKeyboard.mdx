@@ -46,6 +46,9 @@ import { VirtualKeyboard } from '@giro-ds/react';
     <>
       Use o estado <strong>disabled</strong> quando o contexto não permitir entrada de dados. Tanto o campo quanto o teclado devem ser desabilitados juntos para evitar inconsistências.
     </>,
+    <>
+      No modo <strong>native</strong>, passe um <code>ref</code> do campo de texto para a prop <code>targetRef</code>. O teclado aparecerá ao focar no campo e sumirá ao perder o foco.
+    </>,
   ]}
 />
 
@@ -65,7 +68,7 @@ Use `textFieldLabel` e `textFieldPlaceholder` para personalizar o campo interno.
 
 ### Native
 
-O teclado age como um teclado nativo e será exibido ao focar em um campo externo (acionamento por foco — **implementação futura**). Neste modo, o componente é renderizado normalmente e o controle de exibição fica a cargo do consumidor.
+O teclado age como um teclado nativo: aparece quando o campo referenciado por `targetRef` recebe foco e some ao perder o foco (com um debounce de 150ms para não fechar antes do clique na tecla ser processado). Se `targetRef` não for fornecido, o teclado permanece sempre visível.
 
 <Canvas of={VirtualKeyboardStories.ModoNative} />
 

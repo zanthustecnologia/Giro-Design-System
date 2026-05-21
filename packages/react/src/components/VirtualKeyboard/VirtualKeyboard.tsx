@@ -1,5 +1,6 @@
 import clsx from 'clsx';
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import Keyboard from 'react-simple-keyboard';
 import 'react-simple-keyboard/build/css/index.css';
 import SimpleKeyboardLayouts from 'simple-keyboard-layouts';
@@ -19,26 +20,27 @@ const keyboardLayouts = new SimpleKeyboardLayouts();
  * seguindo o visual padrão da biblioteca.
  *
  * Possui dois modos:
- * - **`native`** (padrão): age como teclado nativo — será exibido ao focar em um campo (futuramente).
+ * - **`native`** (padrão): age como teclado nativo — aparece ao focar no campo referenciado por `targetRef` e some ao perder o foco.
  * - **`fixed`**: teclado sempre visível com um TextField próprio acima.
  *
  * @example
  * ```tsx
  * // Modo fixed
- * <VirtualKeyboard mode="fixed" layout="default" textFieldLabel="Busca" onChange={setValue} />
+ * <VirtualKeyboard mode="fixed" layout="default" onChange={setValue} />
  * ```
  *
  * @example
  * ```tsx
- * // Modo native (controlado externamente)
+ * // Modo native — aparece ao focar no input
+ * const inputRef = useRef<HTMLInputElement>(null);
  * const [value, setValue] = useState('');
- * <TextField value={value} onChange={setValue} readOnly />
- * <VirtualKeyboard layout="default" value={value} onChange={setValue} />
+ * <input ref={inputRef} value={value} readOnly />
+ * <VirtualKeyboard targetRef={inputRef} value={value} onChange={setValue} />
  * ```
  */
 const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
   mode = 'native',
-  layout = 'brazilian',
+  layout = 'default',
   value = '',
   onChange,
   onKeyPress,
@@ -47,12 +49,45 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
   className,
   id,
   textFieldPlaceholder,
+  targetRef,
 }) => {
   const [layoutName, setLayoutName] = useState<string>('default');
   const [capsLockOn, setCapsLockOn] = useState(false);
   const [activeLayout, setActiveLayout] = useState<Record<string, string[]> | null>(
     NATIVE_LAYOUTS[layout] ?? null
   );
+
+  const [isOpen, setIsOpen] = useState(mode !== 'native');
+  const hideTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    if (mode !== 'native') return;
+
+    if (!targetRef?.current) {
+      setIsOpen(true);
+      return;
+    }
+
+    const el = targetRef.current;
+
+    const handleFocus = () => {
+      if (hideTimeoutRef.current !== null) clearTimeout(hideTimeoutRef.current);
+      setIsOpen(true);
+    };
+
+    const handleBlur = () => {
+      hideTimeoutRef.current = setTimeout(() => setIsOpen(false), 150);
+    };
+
+    el.addEventListener('focus', handleFocus);
+    el.addEventListener('blur', handleBlur);
+
+    return () => {
+      el.removeEventListener('focus', handleFocus);
+      el.removeEventListener('blur', handleBlur);
+      if (hideTimeoutRef.current !== null) clearTimeout(hideTimeoutRef.current);
+    };
+  }, [mode, targetRef]);
 
   useEffect(() => {
     setLayoutName('default');
@@ -116,6 +151,37 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
     [disabled, maxLength, onChange]
   );
 
+  const keyboardEl = activeLayout ? (
+    <Keyboard
+      layoutName={layoutName}
+      layout={activeLayout}
+      theme={LAYOUT_THEMES[layout] ?? 'hg-theme-default'}
+      display={LAYOUT_DISPLAY[layout]}
+      onChange={handleChange}
+      onKeyPress={handleKeyPress}
+      input={value}
+      preventMouseDownDefault
+    />
+  ) : null;
+
+  if (mode === 'native' && typeof document !== 'undefined') {
+    return createPortal(
+      <div
+        id={id}
+        className={clsx(
+          styles.overlay,
+          { [styles.overlayOpen]: isOpen },
+          styles[`layout--${layout}`],
+          { [styles.disabled]: disabled },
+          className
+        )}
+      >
+        {keyboardEl}
+      </div>,
+      document.body
+    );
+  }
+
   return (
     <div
       id={id}
@@ -138,18 +204,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
           />
         </div>
       )}
-      {activeLayout && (
-        <Keyboard
-          layoutName={layoutName}
-          layout={activeLayout}
-          theme={LAYOUT_THEMES[layout] ?? 'hg-theme-default'}
-          display={LAYOUT_DISPLAY[layout]}
-          onChange={handleChange}
-          onKeyPress={handleKeyPress}
-          input={value}
-          preventMouseDownDefault
-        />
-      )}
+      {keyboardEl}
     </div>
   );
 };
