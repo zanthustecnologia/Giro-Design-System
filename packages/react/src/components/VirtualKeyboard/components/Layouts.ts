@@ -7,14 +7,14 @@ export const NATIVE_LAYOUTS: Partial<Record<VirtualKeyboardLayout, Record<string
       'q w e r t y u i o p [ ] \\',
       'a s d f g h j k l ; \' {enter}',
       '{capslock} z x c v b n m , . / {shiftright}',
-      '{space}',
+      '{//} {//} {//} {space} {//} {//} {//}',
     ],
     shift: [
       '~ ! @ # $ % ^ & * ( ) _ + {bksp}',
       'Q W E R T Y U I O P { } |',
       'A S D F G H J K L : " {enter}',
       '{capslock} Z X C V B N M < > ? {shiftright}',
-      '{space}',
+      '{//} {//} {//} {space} {//} {//} {//}',
     ],
   },
   numeric: {

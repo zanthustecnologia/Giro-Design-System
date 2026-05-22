@@ -29,6 +29,18 @@
     }
   }
 
+  &.layout--default {
+    :global(.hg-button[data-skbtn="{//}"]) {
+      opacity: 0 !important;
+      pointer-events: none;
+      cursor: default;
+    }
+
+    :global(.hg-button[data-skbtn="{space}"]) {
+      flex: 7.8;
+    }
+  }
+
   &.mode--fixed {
     display: flex;
     flex-direction: column;
@@ -83,6 +95,18 @@
   &.layout--appleIOS {
     :global(.hg-button[data-skbtn="{space}"]) {
       flex: 4;
+    }
+  }
+
+  &.layout--default {
+    :global(.hg-button[data-skbtn="{//}"]) {
+      opacity: 0 !important;
+      pointer-events: none;
+      cursor: default;
+    }
+
+    :global(.hg-button[data-skbtn="{space}"]) {
+      flex: 7.8;
     }
   }
 }
