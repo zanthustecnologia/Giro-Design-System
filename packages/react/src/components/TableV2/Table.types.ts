@@ -1,5 +1,6 @@
 import type { Side, Align, Locale } from '../../types/common.types';
 import type { FilterItem as FilterDropdownItem } from '../Filter';
+import type { VirtualKeyboardLayout } from '../VirtualKeyboard/VirtualKeyboard.type';
 import type { ColumnDef, RowData } from '@tanstack/react-table';
 import type { ReactNode, ReactElement } from 'react';
 
@@ -91,6 +92,12 @@ export interface TableV2HeaderProps {
   showSearch?: boolean;
   /** Items de filtro (Status, Data de início, etc.) */
   filterItems?: FilterItem[];
+  /** Habilita o teclado virtual */
+  virtualKeyboard?: boolean;
+  /** Layout do teclado virtual (padrão: 'default') */
+  virtualKeyboardLayout?: VirtualKeyboardLayout;
+  /** Comprimento máximo permitido pelo teclado virtual */
+  virtualKeyboardMaxLength?: number;
 }
 
 /**

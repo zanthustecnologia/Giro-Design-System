@@ -210,6 +210,9 @@ const TableV2 = <T,>({
             <div className={styles.tableHeaderSearchContainer}>
               <Search
                 value={globalFilter}
+                virtualKeyboard={header.virtualKeyboard}
+                virtualKeyboardLayout={header.virtualKeyboardLayout}
+                virtualKeyboardMaxLength={header.virtualKeyboardMaxLength}
                 onChange={(e) => {
                   setGlobalFilter(e.target.value);
                   if (footer) setPagination((prev) => ({ ...prev, pageIndex: 0 }));
