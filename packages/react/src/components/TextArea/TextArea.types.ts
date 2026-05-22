@@ -2,6 +2,8 @@ import React from 'react';
 
 import { Side, Align } from '../../types/common.types';
 
+import type { VirtualKeyboardLayout } from '../VirtualKeyboard/VirtualKeyboard.type';
+
 /**
  * Props do componente TextArea
  * @example
@@ -74,4 +76,13 @@ export interface TextAreaProps extends Omit<
 
   /** Classe CSS opcional */
   className?: string;
+
+  /** Habilita o teclado virtual */
+  virtualKeyboard?: boolean;
+
+  /** Layout do teclado virtual (padrão: 'default') */
+  virtualKeyboardLayout?: VirtualKeyboardLayout;
+
+  /** Comprimento máximo permitido pelo teclado virtual */
+  virtualKeyboardMaxLength?: number;
 }

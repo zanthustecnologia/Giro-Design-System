@@ -122,3 +122,11 @@
     background-color: var(--color-neutral-high-default);
   }
 }
+
+.virtualKeyboardWrapper {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}

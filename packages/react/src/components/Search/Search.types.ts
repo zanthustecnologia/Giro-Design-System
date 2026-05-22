@@ -2,6 +2,7 @@ import * as React from 'react';
 import type { ComponentPropsWithoutRef } from 'react';
 
 import { BaseProps } from '../../types/common.types';
+import type { VirtualKeyboardLayout } from '../VirtualKeyboard/VirtualKeyboard.type';
 
 /**
  * Props do componente Search
@@ -63,4 +64,13 @@ export interface SearchProps extends BaseProps, NativeInputProps {
 
   /** Classe CSS opcional */
   className?: string;
+
+  /** Habilita o teclado virtual */
+  virtualKeyboard?: boolean;
+
+  /** Layout do teclado virtual (padrão: 'default') */
+  virtualKeyboardLayout?: VirtualKeyboardLayout;
+
+  /** Comprimento máximo permitido pelo teclado virtual */
+  virtualKeyboardMaxLength?: number;
 }

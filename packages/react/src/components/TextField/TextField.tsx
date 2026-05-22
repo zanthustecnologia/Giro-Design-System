@@ -36,6 +36,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
       persistIcon = false,
       virtualKeyboard = false,
       virtualKeyboardLayout,
+      virtualKeyboardMaxLength,
       ...rest
     },
     ref
@@ -218,6 +219,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
               mode="native"
               layout={virtualKeyboardLayout}
               value={inputValue}
+              maxLength={virtualKeyboardMaxLength}
               onChange={(val) => {
                 if (!disabled && (!maxLength || val.length <= maxLength)) {
                   setInputValue(val);

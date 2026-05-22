@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { TextArea } from '@giro-ds/react';
 import { Source } from '@storybook/addon-docs/blocks';
@@ -90,7 +90,27 @@ const meta: Meta<typeof TextArea> = {
       table: {
         disable: true
       }
-    }
+    },
+    virtualKeyboard: {
+      control: 'boolean',
+      description: 'Exibe o teclado virtual ao clicar no campo'
+    },
+    virtualKeyboardLayout: {
+      control: 'select',
+      options: [
+        'default', 'numeric', 'fullKeyboard', 'mobile', 'appleIOS',
+        'arabic', 'armenianEastern', 'armenianWestern', 'assamese', 'balochi',
+        'belarusian', 'bengali', 'brazilian', 'burmese', 'chinese', 'czech',
+        'english', 'farsi', 'french', 'georgian', 'german', 'gilaki', 'greek',
+        'hebrew', 'hindi', 'hungarian', 'italian', 'japanese', 'kannada',
+        'korean', 'kurdish', 'macedonian', 'malayalam', 'nigerian', 'nko',
+        'norwegian', 'odia', 'polish', 'punjabi', 'russian', 'russianOld',
+        'sindhi', 'spanish', 'swedish', 'telugu', 'thai', 'turkish',
+        'ukrainian', 'urdu', 'urduStandard', 'uyghur',
+      ],
+      description: 'Layout do teclado virtual',
+      if: { arg: 'virtualKeyboard', truthy: true },
+    },
   },
 };
 
@@ -127,6 +147,29 @@ export const Disabled: Story = {
       <TextArea {...args} />
     </div>
   ),
+};
+
+export const WithVirtualKeyboard: Story = {
+  args: {
+    label: 'Comentário',
+    placeholder: 'Clique aqui para abrir o teclado...',
+    virtualKeyboard: true,
+    virtualKeyboardLayout: 'default',
+    disabled: false,
+  },
+  render: (args) => {
+    const [value, setValue] = useState('');
+    return (
+      <div style={{ width: '420px' }}>
+        <TextArea
+          {...args}
+          value={value}
+          onChange={setValue}
+          helperText="Clique no campo para abrir o teclado virtual"
+        />
+      </div>
+    );
+  },
 };
 
 export const Required: Story = {

@@ -88,6 +88,9 @@ export interface TextFieldProps extends Omit<
 
   /** Layout do teclado virtual (padrão: 'default') */
   virtualKeyboardLayout?: VirtualKeyboardLayout;
+
+  /** Comprimento máximo permitido pelo teclado virtual */
+  virtualKeyboardMaxLength?: number;
 }
 
 /**

@@ -1,6 +1,7 @@
 import clsx from 'clsx';
-import React, { useState, useCallback, useId, forwardRef, useEffect } from 'react';
+import React, { useState, useCallback, useId, forwardRef, useEffect, useRef } from 'react';
 
+import VirtualKeyboard from '../VirtualKeyboard';
 import styles from './TextArea.module.scss';
 import LabelComponent from '../../shared/Label';
 
@@ -31,6 +32,9 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
       resize = 'vertical',
       showCharCount = false,
       height,
+      virtualKeyboard = false,
+      virtualKeyboardLayout,
+      virtualKeyboardMaxLength,
       ...rest
     },
     ref
@@ -41,12 +45,27 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
 
     const [textareaValue, setTextareaValue] = useState(normalizeValue(value));
     const [textareaError, setTextareaError] = useState('');
+    const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
+    const containerRef = useRef<HTMLDivElement>(null);
     const generatedId = useId();
     const componentId = id || generatedId;
 
     useEffect(() => {
       setTextareaValue(normalizeValue(value));
     }, [value]);
+
+    useEffect(() => {
+      if (!virtualKeyboard || !isKeyboardOpen) return;
+
+      const handleClickOutside = (e: MouseEvent) => {
+        if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+          setIsKeyboardOpen(false);
+        }
+      };
+
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, [virtualKeyboard, isKeyboardOpen]);
 
     const handleChange = useCallback(
       (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -74,9 +93,10 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
 
     const handleFocus = useCallback(
       (e: React.FocusEvent<HTMLTextAreaElement>) => {
+        if (virtualKeyboard) setIsKeyboardOpen(true);
         onFocus?.(e);
       },
-      [onFocus]
+      [virtualKeyboard, onFocus]
     );
 
     const hasError = Boolean(textareaError) || Boolean(error);
@@ -95,7 +115,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
     );
 
     return (
-      <div className={containerClass}>
+      <div className={containerClass} ref={containerRef}>
         {label && (
           <LabelComponent
             htmlFor={componentId}
@@ -129,6 +149,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
               aria-required={required}
               aria-describedby={helperId}
               style={{ resize, height }}
+              inputMode={virtualKeyboard ? 'none' : rest.inputMode}
             />
           </div>
 
@@ -148,6 +169,23 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
             )}
           </div>
         </div>
+
+        {virtualKeyboard && isKeyboardOpen && (
+          <div className={styles.virtualKeyboardWrapper}>
+            <VirtualKeyboard
+              mode="native"
+              layout={virtualKeyboardLayout}
+              maxLength={virtualKeyboardMaxLength}
+              value={textareaValue}
+              onChange={(val) => {
+                if (!disabled && (!maxLength || val.length <= maxLength)) {
+                  setTextareaValue(val);
+                  onChange?.(val);
+                }
+              }}
+            />
+          </div>
+        )}
       </div>
     );
   }
