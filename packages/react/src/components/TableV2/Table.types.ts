@@ -91,6 +91,13 @@ export interface TableV2HeaderProps {
   showSearch?: boolean;
   /** Items de filtro (Status, Data de início, etc.) */
   filterItems?: FilterItem[];
+  /**
+   * Callback chamado quando o valor da busca muda.
+   * Necessário quando `footer.manualPagination` é `true` — nesse modo a tabela
+   * não filtra os dados internamente e o pai é responsável por buscar os dados
+   * filtrados no servidor.
+   */
+  onSearchChange?: (value: string) => void;
 }
 
 /**
@@ -107,6 +114,14 @@ export interface TableV2FooterProps {
   onPageChange?: (page: number) => void;
   /** Callback chamado quando o tamanho da página muda */
   onPageSizeChange?: (pageSize: number) => void;
+  /**
+   * Habilita paginação server-side (manual).
+   * Quando `true`, a tabela não fatiará `data` internamente — exibe todos os itens
+   * recebidos como sendo a página atual. O pai é responsável por buscar a página
+   * correta e passar apenas seus dados via `data`. Use `onPageChange` e
+   * `onPageSizeChange` para reagir às mudanças de página.
+   */
+  manualPagination?: boolean;
 }
 
 /**

@@ -87,6 +87,9 @@ const TableV2 = <T,>({
   );
 
   const showSearch = !!(header && (header.showSearch ?? true));
+  const isManualPagination = footer?.manualPagination ?? false;
+  const hasExternalSearch = !!(header?.onSearchChange);
+  const useClientSideSearch = showSearch && !hasExternalSearch && !isManualPagination;
 
   const table = useReactTable({
     data,
@@ -94,13 +97,13 @@ const TableV2 = <T,>({
     defaultColumn: { minSize: 44, size: 0 },
     state: {
       ...(enableFilters ? { columnFilters } : {}),
-      ...(showSearch ? { globalFilter } : {}),
+      ...(useClientSideSearch ? { globalFilter } : {}),
       ...(footer ? { pagination: { pageIndex, pageSize } } : {}),
       ...(enableRowSelection ? { rowSelection } : {}),
       ...(enableSorting ? { sorting } : {}),
     },
     onColumnFiltersChange: enableFilters ? setColumnFilters : undefined,
-    onGlobalFilterChange: showSearch ? setGlobalFilter : undefined,
+    onGlobalFilterChange: useClientSideSearch ? setGlobalFilter : undefined,
     onSortingChange: enableSorting ? setSorting : undefined,
     enableSorting,
     onRowSelectionChange: enableRowSelection
@@ -123,16 +126,22 @@ const TableV2 = <T,>({
       : undefined,
     enableRowSelection,
     onPaginationChange: footer ? setPagination : undefined,
+    manualPagination: footer?.manualPagination ?? false,
+    pageCount: footer?.manualPagination
+      ? Math.ceil(footer.totalItems / pageSize)
+      : undefined,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel:
-      enableFilters || showSearch ? getFilteredRowModel() : undefined,
+      enableFilters || useClientSideSearch ? getFilteredRowModel() : undefined,
     getPaginationRowModel: footer ? getPaginationRowModel() : undefined,
     getSortedRowModel: enableSorting ? getSortedRowModel() : undefined,
   });
 
   const filteredRowCount = table.getFilteredRowModel().rows.length;
   const effectiveTotalItems = footer
-    ? (enableFilters || showSearch) ? filteredRowCount : footer.totalItems
+    ? footer.manualPagination
+      ? footer.totalItems
+      : (enableFilters || showSearch) ? filteredRowCount : footer.totalItems
     : 0;
   const totalPages = footer ? Math.ceil(effectiveTotalItems / pageSize) : 0;
   const canGoPrev = pageIndex > 0;
@@ -213,6 +222,7 @@ const TableV2 = <T,>({
                 onChange={(e) => {
                   setGlobalFilter(e.target.value);
                   if (footer) setPagination((prev) => ({ ...prev, pageIndex: 0 }));
+                  header?.onSearchChange?.(e.target.value);
                 }}
                 placeholder={header.searchPlaceholder ?? 'Pesquisar...'}
                 className={styles.tableHeaderSearch}
