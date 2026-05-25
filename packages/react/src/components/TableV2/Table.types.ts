@@ -192,8 +192,8 @@ export interface TableV2Props<T = Record<string, unknown>> extends EmptyStatePro
   data: T[];
   /** Habilita filtros individuais por coluna no <th> */
   enableFilters?: boolean;
-  /** Habilita seleção de linhas via checkbox */
-  enableRowSelection?: boolean;
+  /** Habilita seleção de linhas via checkbox. Passe uma função para desabilitar linhas específicas com base nos dados da linha e seu índice. */
+  enableRowSelection?: boolean | ((row: T, index: number) => boolean);
   /** Habilita ordenação de colunas ao clicar no cabeçalho */
   enableSorting?: boolean;
   /** Callback chamado quando a seleção de linhas muda */

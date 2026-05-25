@@ -475,3 +475,69 @@ export const AcoesEmMassa: StoryFn = () => {
 
 AcoesEmMassa.storyName = 'Ações em Massa';
 
+// ─── Seleção com Linhas Desabilitadas ────────────────────────────────────────
+export const SelecaoComLinhasDesabilitadas: StoryFn = () => {
+  const [selecionados, setSelecionados] = useState<Promocao[]>([]);
+
+  return (
+    <div style={{ width: 800, display: 'flex', flexDirection: 'column', gap: 16 }}>
+      <p style={{ fontSize: 13, color: 'var(--color-neutral-low-medium)', margin: 0 }}>
+        Promoções <strong>Expiradas</strong> têm o checkbox desabilitado —{' '}
+        <code>{`enableRowSelection={(row) => row.status !== 'Expirada'}`}</code>
+      </p>
+      <TableV2
+        columns={colunasPadrao}
+        data={promocoes}
+        enableRowSelection={(row) => row.status !== 'Expirada'}
+        onRowSelectionChange={setSelecionados}
+        bulkActions={{
+          onClear: () => setSelecionados([]),
+          actions: [
+            {
+              label: 'Ativar selecionadas',
+              variant: 'filled',
+              onClick: () => console.warn('Ativar:', selecionados.map((r) => r.nome)),
+            },
+          ],
+        }}
+        footer={{
+          totalItems: promocoes.length,
+          defaultPageSize: 10,
+          pageSizeOptions: [5, 10, 25],
+        }}
+      />
+      <div
+        style={{
+          padding: '12px 16px',
+          border: '2px dashed var(--color-neutral-high-dark)',
+          borderRadius: 'var(--border-radius-8)',
+          background: 'var(--color-neutral-high-pure, #f5f5f5)',
+          minHeight: 48,
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 8,
+        }}
+      >
+        <span style={{ fontSize: 12, color: 'var(--color-neutral-low-medium)', fontWeight: 600 }}>
+          ITENS SELECIONADOS ({selecionados.length})
+        </span>
+        {selecionados.length === 0 ? (
+          <span style={{ fontSize: 14, color: 'var(--color-neutral-low-light)' }}>
+            Nenhum item selecionado
+          </span>
+        ) : (
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+            {selecionados.map((r) => (
+              <Chips key={r.id} variant={statusColor[r.status] ?? 'neutral'}>
+                {r.nome}
+              </Chips>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+SelecaoComLinhasDesabilitadas.storyName = 'Seleção com Linhas Desabilitadas';
+

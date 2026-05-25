@@ -76,6 +76,7 @@ const TableV2 = <T,>({
       <div className={styles.checkboxCell}>
         <Checkbox
           checked={row.getIsSelected()}
+          disabled={!row.getCanSelect()}
           onCheckedChange={(checked) => row.toggleSelected(checked)}
         />
       </div>
@@ -125,7 +126,9 @@ const TableV2 = <T,>({
           }
         }
       : undefined,
-    enableRowSelection,
+    enableRowSelection: typeof enableRowSelection === 'function'
+      ? (row) => (enableRowSelection as (r: T, i: number) => boolean)(row.original, row.index)
+      : enableRowSelection,
     onPaginationChange: footer ? setPagination : undefined,
     manualPagination: footer?.manualPagination ?? false,
     pageCount: footer?.manualPagination

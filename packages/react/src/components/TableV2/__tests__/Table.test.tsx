@@ -23,11 +23,12 @@ vi.mock('react-loading-skeleton', () => ({
 }));
 
 vi.mock('../../Checkbox/Checkbox', () => ({
-  default: ({ checked, indeterminate, onCheckedChange }: any) => (
+  default: ({ checked, indeterminate, onCheckedChange, disabled }: any) => (
     <input
       type="checkbox"
       data-testid="row-checkbox"
       checked={!!checked}
+      disabled={!!disabled}
       aria-checked={indeterminate ? 'mixed' : (checked ? 'true' : 'false')}
       onChange={(e) => onCheckedChange?.(e.target.checked)}
     />
@@ -35,14 +36,22 @@ vi.mock('../../Checkbox/Checkbox', () => ({
 }));
 
 vi.mock('../../Search/Search', () => ({
-  default: ({ value, onChange, placeholder, className }: any) => (
-    <input
-      data-testid="search-input"
-      value={value ?? ''}
-      onChange={onChange}
-      placeholder={placeholder}
-      className={className}
-    />
+  default: ({ value, onChange, onSearch, onClear, placeholder, className }: any) => (
+    <>
+      <input
+        data-testid="search-input"
+        value={value ?? ''}
+        onChange={onChange}
+        onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+          if (e.key === 'Enter') onSearch?.(value ?? '');
+        }}
+        placeholder={placeholder}
+        className={className}
+      />
+      <button data-testid="search-clear" type="button" onClick={() => onClear?.()}>
+        Limpar busca
+      </button>
+    </>
   ),
 }));
 
@@ -221,11 +230,45 @@ describe('TableV2', () => {
       expect(screen.queryByTestId('search-input')).not.toBeInTheDocument();
     });
 
-    it('deve filtrar linhas ao digitar no campo de busca', () => {
+    it('não deve filtrar ao digitar antes de pressionar Enter', () => {
       render(<TableV2 columns={columns} data={data} header={{}} />);
       fireEvent.change(screen.getByTestId('search-input'), { target: { value: 'Alice' } });
       expect(screen.getByText('Alice')).toBeInTheDocument();
+      expect(screen.getByText('Bob')).toBeInTheDocument();
+    });
+
+    it('deve filtrar ao pressionar Enter no campo de busca', () => {
+      render(<TableV2 columns={columns} data={data} header={{}} />);
+      const input = screen.getByTestId('search-input');
+      fireEvent.change(input, { target: { value: 'Alice' } });
+      fireEvent.keyDown(input, { key: 'Enter' });
+      expect(screen.getByText('Alice')).toBeInTheDocument();
       expect(screen.queryByText('Bob')).not.toBeInTheDocument();
+    });
+
+    it('deve chamar onSearchChange ao pressionar Enter (busca server-side)', () => {
+      const onSearchChange = vi.fn();
+      render(
+        <TableV2
+          columns={columns}
+          data={data}
+          header={{ onSearchChange }}
+        />
+      );
+      const input = screen.getByTestId('search-input');
+      fireEvent.change(input, { target: { value: 'Carol' } });
+      fireEvent.keyDown(input, { key: 'Enter' });
+      expect(onSearchChange).toHaveBeenCalledWith('Carol');
+    });
+
+    it('deve limpar o filtro ao acionar onClear', () => {
+      render(<TableV2 columns={columns} data={data} header={{}} />);
+      const input = screen.getByTestId('search-input');
+      fireEvent.change(input, { target: { value: 'Alice' } });
+      fireEvent.keyDown(input, { key: 'Enter' });
+      expect(screen.queryByText('Bob')).not.toBeInTheDocument();
+      fireEvent.click(screen.getByTestId('search-clear'));
+      expect(screen.getByText('Bob')).toBeInTheDocument();
     });
 
     it('deve renderizar filtros do tipo checkbox', () => {
@@ -328,6 +371,46 @@ describe('TableV2', () => {
       fireEvent.click(checkboxes[1]);
       const headerCheckbox = screen.getAllByTestId('row-checkbox')[0];
       expect(headerCheckbox).toHaveAttribute('aria-checked', 'mixed');
+    });
+
+    it('deve adicionar coluna de checkbox quando enableRowSelection é uma função', () => {
+      render(
+        <TableV2
+          columns={columns}
+          data={data}
+          enableRowSelection={() => true}
+        />
+      );
+      expect(screen.getAllByTestId('row-checkbox').length).toBeGreaterThan(0);
+    });
+
+    it('deve desabilitar checkbox da linha quando enableRowSelection retorna false para ela', () => {
+      render(
+        <TableV2
+          columns={columns}
+          data={data}
+          enableRowSelection={(row) => (row as Person).id !== 1}
+        />
+      );
+      const checkboxes = screen.getAllByTestId('row-checkbox');
+      // checkboxes[0] = cabeçalho, checkboxes[1] = Alice (id=1 → desabilitado)
+      expect(checkboxes[1]).toBeDisabled();
+      expect(checkboxes[2]).not.toBeDisabled();
+    });
+
+    it('não deve desabilitar checkboxes quando enableRowSelection retorna true para todas as linhas', () => {
+      render(
+        <TableV2
+          columns={columns}
+          data={data}
+          enableRowSelection={() => true}
+        />
+      );
+      const checkboxes = screen.getAllByTestId('row-checkbox');
+      // Pula o checkbox do cabeçalho
+      checkboxes.slice(1).forEach((cb) => {
+        expect(cb).not.toBeDisabled();
+      });
     });
   });
 
