@@ -44,6 +44,7 @@ const TableV2 = <T,>({
 }: TableV2Props<T>) => {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [globalFilter, setGlobalFilter] = useState('');
+  const [pendingSearch, setPendingSearch] = useState('');
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
   const rowSelectionRef = useRef<RowSelectionState>({});
   rowSelectionRef.current = rowSelection;
@@ -161,6 +162,12 @@ const TableV2 = <T,>({
   const showBulkActions = enableRowSelection && !!bulkActions && selectedCount > 0;
 
   useEffect(() => {
+    if (header?.searchValue !== undefined) {
+      setPendingSearch(header.searchValue);
+    }
+  }, [header?.searchValue]);
+
+  useEffect(() => {
     if (enableRowSelection) {
       table.resetRowSelection();
     }
@@ -218,15 +225,27 @@ const TableV2 = <T,>({
           {showSearch && (
             <div className={styles.tableHeaderSearchContainer}>
               <Search
-                value={header?.searchValue ?? globalFilter}
+                value={header?.searchValue ?? pendingSearch}
+                searchMode="on-enter"
                 onChange={(e) => {
-                  const val = e.target.value;
+                  setPendingSearch(e.target.value);
+                }}
+                onSearch={(val) => {
                   setGlobalFilter(val);
                   if (footer) {
                     setPagination((prev) => ({ ...prev, pageIndex: 0 }));
                     if (isManualPagination) footer?.onPageChange?.(1);
                   }
                   header?.onSearchChange?.(val);
+                }}
+                onClear={() => {
+                  setPendingSearch('');
+                  setGlobalFilter('');
+                  if (footer) {
+                    setPagination((prev) => ({ ...prev, pageIndex: 0 }));
+                    if (isManualPagination) footer?.onPageChange?.(1);
+                  }
+                  header?.onSearchChange?.('');
                 }}
                 placeholder={header.searchPlaceholder ?? 'Pesquisar...'}
                 className={styles.tableHeaderSearch}
