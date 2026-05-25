@@ -19,6 +19,8 @@ const Search = React.forwardRef<HTMLInputElement, SearchProps>(
       onClear,
       onClick,
       onMouseDown,
+      searchMode = 'instant',
+      onSearch,
       id,
       className,
       'data-testid': testId, 
@@ -38,6 +40,10 @@ const Search = React.forwardRef<HTMLInputElement, SearchProps>(
         onChange?.(e);
       } else {
         setInternalValue(e.target.value);
+      }
+
+      if (searchMode === 'instant') {
+        onSearch?.(e.target.value);
       }
     };
     const handleFocus = (e: React.FocusEvent<HTMLInputElement>): void => {
@@ -66,6 +72,11 @@ const Search = React.forwardRef<HTMLInputElement, SearchProps>(
     };
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>): void => {
       if (disabled) return;
+
+      if (searchMode === 'on-enter' && e.key === 'Enter') {
+        onSearch?.(currentValue || '');
+      }
+
       onKeyDown?.(e);
     };
     return (
