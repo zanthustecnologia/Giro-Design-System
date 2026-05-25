@@ -92,10 +92,16 @@ export interface TableV2HeaderProps {
   /** Items de filtro (Status, Data de início, etc.) */
   filterItems?: FilterItem[];
   /**
+   * Valor controlado do campo de busca.
+   * Útil em conjunto com `footer.manualPagination`, permitindo que o pai
+   * controle (e resete) o valor exibido no campo de busca.
+   */
+  searchValue?: string;
+  /**
    * Callback chamado quando o valor da busca muda.
-   * Necessário quando `footer.manualPagination` é `true` — nesse modo a tabela
-   * não filtra os dados internamente e o pai é responsável por buscar os dados
-   * filtrados no servidor.
+   * Quando `footer.manualPagination` é `true`, este callback é a única forma
+   * de reagir à busca — a tabela desativa o filtro client-side e reseta
+   * automaticamente a paginação para a página 1 (chamando `footer.onPageChange`).
    */
   onSearchChange?: (value: string) => void;
 }

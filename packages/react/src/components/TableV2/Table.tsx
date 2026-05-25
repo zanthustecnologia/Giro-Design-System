@@ -88,8 +88,8 @@ const TableV2 = <T,>({
 
   const showSearch = !!(header && (header.showSearch ?? true));
   const isManualPagination = footer?.manualPagination ?? false;
-  const hasExternalSearch = !!(header?.onSearchChange);
-  const useClientSideSearch = showSearch && !hasExternalSearch && !isManualPagination;
+  const hasExternalSearch = !!(header?.onSearchChange) || isManualPagination;
+  const useClientSideSearch = showSearch && !hasExternalSearch;
 
   const table = useReactTable({
     data,
@@ -218,11 +218,15 @@ const TableV2 = <T,>({
           {showSearch && (
             <div className={styles.tableHeaderSearchContainer}>
               <Search
-                value={globalFilter}
+                value={header?.searchValue ?? globalFilter}
                 onChange={(e) => {
-                  setGlobalFilter(e.target.value);
-                  if (footer) setPagination((prev) => ({ ...prev, pageIndex: 0 }));
-                  header?.onSearchChange?.(e.target.value);
+                  const val = e.target.value;
+                  setGlobalFilter(val);
+                  if (footer) {
+                    setPagination((prev) => ({ ...prev, pageIndex: 0 }));
+                    if (isManualPagination) footer?.onPageChange?.(1);
+                  }
+                  header?.onSearchChange?.(val);
                 }}
                 placeholder={header.searchPlaceholder ?? 'Pesquisar...'}
                 className={styles.tableHeaderSearch}
