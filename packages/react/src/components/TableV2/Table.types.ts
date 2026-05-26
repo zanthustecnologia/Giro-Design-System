@@ -91,6 +91,8 @@ export interface TableV2HeaderProps {
   showSearch?: boolean;
   /** Items de filtro (Status, Data de início, etc.) */
   filterItems?: FilterItem[];
+  /** Modo de busca do Search, instant é pesquisar a cada tecla digitada e o on-enter é pesquisar apenas quando o enter for pressionado */
+  searchMode?: 'instant' | 'on-enter';
   /**
    * Valor controlado do campo de busca.
    * Útil em conjunto com `footer.manualPagination`, permitindo que o pai

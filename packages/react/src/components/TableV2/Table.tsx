@@ -229,7 +229,7 @@ const TableV2 = <T,>({
             <div className={styles.tableHeaderSearchContainer}>
               <Search
                 value={header?.searchValue ?? pendingSearch}
-                searchMode="on-enter"
+                searchMode={header?.searchMode ?? "on-enter"}
                 onChange={(e) => {
                   setPendingSearch(e.target.value);
                 }}
