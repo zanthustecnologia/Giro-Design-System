@@ -199,7 +199,7 @@ Default.storyName = 'Default';
 export const ComBuscaEFiltros: StoryFn = () => {
   const [selectedStatus, setSelectedStatus] = useState<string[]>([]);
   const [dataInicio, setDataInicio] = useState<Date | null>(null);
-  const [selecionados, setSelecionados] = useState<Promocao[]>([]);
+  const [selected, setSelected] = useState<Promocao[]>([]);
 
   const dadosFiltrados = useMemo(() => {
     let result = promocoes;
@@ -246,7 +246,7 @@ export const ComBuscaEFiltros: StoryFn = () => {
         columns={colunasCompletas}
         data={dadosFiltrados}
         enableRowSelection
-        onRowSelectionChange={setSelecionados}
+        onRowSelectionChange={setSelected}
         header={{
           searchPlaceholder: 'Buscar promoções...',
           filterItems
@@ -274,15 +274,15 @@ export const ComBuscaEFiltros: StoryFn = () => {
           }}
         >
         <span style={{ fontSize: 12, color: 'var(--color-neutral-low-medium)', fontWeight: 600 }}>
-          ITENS SELECIONADOS ({selecionados.length})
+          ITENS SELECIONADOS ({selected.length})
         </span>
-        {selecionados.length === 0 ? (
+        {selected.length === 0 ? (
           <span style={{ fontSize: 14, color: 'var(--color-neutral-low-light)' }}>
             Nenhum item selecionado
           </span>
         ) : (
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-            {selecionados.map((r) => (
+            {selected.map((r) => (
               <Chips key={r.id} variant={statusColor[r.status] ?? 'neutral'}>
                 {r.nome}
               </Chips>
@@ -421,7 +421,7 @@ TabelaResponsiva.storyName = 'Tabela Responsiva';
 
 // ─── Ações em Massa ──────────────────────────────────────────────────────────
 export const AcoesEmMassa: StoryFn = () => {
-  const [selecionados, setSelecionados] = useState<Promocao[]>([]);
+  const [selected, setSelected] = useState<Promocao[]>([]);
 
   return (
     <div style={{ width: 800 }}>
@@ -429,9 +429,9 @@ export const AcoesEmMassa: StoryFn = () => {
         columns={colunasPadrao}
         data={promocoes}
         enableRowSelection
-        onRowSelectionChange={setSelecionados}
+        onRowSelectionChange={setSelected}
         bulkActions={{
-          onClear: () => setSelecionados([]),
+          onClear: () => setSelected([]),
           actions: [
             {
               label: 'Ativar',
@@ -439,7 +439,7 @@ export const AcoesEmMassa: StoryFn = () => {
               onClick: () =>
                 console.warn(
                   'Ativar:',
-                  selecionados.map((r) => r.nome),
+                  selected.map((r) => r.nome),
                 ),
             },
             {
@@ -448,7 +448,7 @@ export const AcoesEmMassa: StoryFn = () => {
               onClick: () =>
                 console.warn(
                   'Pausar:',
-                  selecionados.map((r) => r.nome),
+                  selected.map((r) => r.nome),
                 ),
             },
             {
@@ -457,7 +457,7 @@ export const AcoesEmMassa: StoryFn = () => {
               onClick: () =>
                 console.warn(
                   'Excluir:',
-                  selecionados.map((r) => r.nome),
+                  selected.map((r) => r.nome),
                 ),
             },
           ],
@@ -477,7 +477,7 @@ AcoesEmMassa.storyName = 'Ações em Massa';
 
 // ─── Seleção com Linhas Desabilitadas ────────────────────────────────────────
 export const SelecaoComLinhasDesabilitadas: StoryFn = () => {
-  const [selecionados, setSelecionados] = useState<Promocao[]>([]);
+  const [selected, setSelected] = useState<Promocao[]>([]);
 
   return (
     <div style={{ width: 800, display: 'flex', flexDirection: 'column', gap: 16 }}>
@@ -489,14 +489,14 @@ export const SelecaoComLinhasDesabilitadas: StoryFn = () => {
         columns={colunasPadrao}
         data={promocoes}
         enableRowSelection={(row) => row.status !== 'Expirada'}
-        onRowSelectionChange={setSelecionados}
+        onRowSelectionChange={setSelected}
         bulkActions={{
-          onClear: () => setSelecionados([]),
+          onClear: () => setSelected([]),
           actions: [
             {
               label: 'Ativar selecionadas',
               variant: 'filled',
-              onClick: () => console.warn('Ativar:', selecionados.map((r) => r.nome)),
+              onClick: () => console.warn('Ativar:', selected.map((r) => r.nome)),
             },
           ],
         }}
@@ -519,15 +519,15 @@ export const SelecaoComLinhasDesabilitadas: StoryFn = () => {
         }}
       >
         <span style={{ fontSize: 12, color: 'var(--color-neutral-low-medium)', fontWeight: 600 }}>
-          ITENS SELECIONADOS ({selecionados.length})
+          ITENS SELECIONADOS ({selected.length})
         </span>
-        {selecionados.length === 0 ? (
+        {selected.length === 0 ? (
           <span style={{ fontSize: 14, color: 'var(--color-neutral-low-light)' }}>
             Nenhum item selecionado
           </span>
         ) : (
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-            {selecionados.map((r) => (
+            {selected.map((r) => (
               <Chips key={r.id} variant={statusColor[r.status] ?? 'neutral'}>
                 {r.nome}
               </Chips>
