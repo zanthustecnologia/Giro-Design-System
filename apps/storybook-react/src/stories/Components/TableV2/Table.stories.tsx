@@ -159,12 +159,6 @@ const meta: Meta = {
       control: 'boolean',
       table: { defaultValue: { summary: 'false' } },
     },
-    enableFilters: {
-      name: 'Filtros por coluna',
-      description: 'Exibe inputs de filtro em cada coluna do cabeçalho',
-      control: 'boolean',
-      table: { defaultValue: { summary: 'false' } },
-    },
   },
 };
 
@@ -173,24 +167,21 @@ export default meta;
 // ─── Padrão (com controles) ───────────────────────────────────────────────────
 export const Default: StoryFn<{
   enableRowSelection: boolean;
-  enableFilters: boolean;
-}> = ({ enableRowSelection, enableFilters }) => (
+}> = ({ enableRowSelection }) => (
   <div style={{ width: 700 }}>
     <TableV2
       columns={colunasPadrao}
       data={promocoes}
-      enableRowSelection={enableRowSelection}
-      enableFilters={enableFilters}
-      onRowSelectionChange={(rows) =>
-        console.warn('Selecionados:', rows.map((r) => r.nome))
-      }
+      rowSelection={enableRowSelection ? {
+        onRowChange: (rows) =>
+          console.warn('Selecionados:', rows.map((r) => r.nome)),
+      } : undefined}
     />
   </div>
 );
 
 Default.args = {
   enableRowSelection: false,
-  enableFilters: false,
 };
 
 Default.storyName = 'Default';
@@ -245,8 +236,7 @@ export const ComBuscaEFiltros: StoryFn = () => {
       <TableV2
         columns={colunasCompletas}
         data={dadosFiltrados}
-        enableRowSelection
-        onRowSelectionChange={setSelected}
+        rowSelection={{ onRowChange: (rows) => setSelected(rows) }}
         header={{
           searchPlaceholder: 'Buscar promoções...',
           filterItems
@@ -259,7 +249,7 @@ export const ComBuscaEFiltros: StoryFn = () => {
       />
       <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
         <span style={{ fontSize: 11, color: 'var(--color-neutral-low-light)', fontStyle: 'italic' }}>
-          ↳ Valor retornado pelo callback <code>onRowSelectionChange</code> (externo à tabela)
+          ↳ Valor retornado pelo callback <code>rowSelection.onRowChange</code> (externo à tabela)
         </span>
         <div
           style={{
@@ -428,8 +418,7 @@ export const AcoesEmMassa: StoryFn = () => {
       <TableV2
         columns={colunasPadrao}
         data={promocoes}
-        enableRowSelection
-        onRowSelectionChange={setSelected}
+        rowSelection={{ onRowChange: (rows) => setSelected(rows) }}
         bulkActions={{
           onClear: () => setSelected([]),
           actions: [
@@ -483,13 +472,16 @@ export const SelecaoComLinhasDesabilitadas: StoryFn = () => {
     <div style={{ width: 800, display: 'flex', flexDirection: 'column', gap: 16 }}>
       <p style={{ fontSize: 13, color: 'var(--color-neutral-low-medium)', margin: 0 }}>
         Promoções <strong>Expiradas</strong> têm o checkbox desabilitado —{' '}
-        <code>{`enableRowSelection={(row) => row.status !== 'Expirada'}`}</code>
+        <code>{`rowSelection={{ disabled: (row) => row.status === 'Expirada' }}`}</code>
       </p>
       <TableV2
         columns={colunasPadrao}
         data={promocoes}
-        enableRowSelection={(row) => row.status !== 'Expirada'}
-        onRowSelectionChange={setSelected}
+        rowSelection={{
+          disabled: (row) => row.status === 'Expirada',
+          onRowChange: (rows) => setSelected(rows),
+          disableSelectAll: true
+        }}
         bulkActions={{
           onClear: () => setSelected([]),
           actions: [

@@ -332,40 +332,39 @@ describe('TableV2', () => {
   });
 
   describe('Seleção de linhas', () => {
-    it('deve adicionar coluna de checkbox quando enableRowSelection=true', () => {
-      render(<TableV2 columns={columns} data={data} enableRowSelection />);
+    it('deve adicionar coluna de checkbox quando rowSelection está definido', () => {
+      render(<TableV2 columns={columns} data={data} rowSelection={{}} />);
       expect(screen.getAllByTestId('row-checkbox').length).toBeGreaterThan(0);
     });
 
-    it('não deve adicionar coluna de checkbox quando enableRowSelection=false', () => {
-      render(<TableV2 columns={columns} data={data} enableRowSelection={false} />);
+    it('não deve adicionar coluna de checkbox quando rowSelection não está definido', () => {
+      render(<TableV2 columns={columns} data={data} />);
       expect(screen.queryAllByTestId('row-checkbox')).toHaveLength(0);
     });
 
     it('deve renderizar um checkbox por linha mais o do cabeçalho', () => {
-      render(<TableV2 columns={columns} data={data} enableRowSelection />);
+      render(<TableV2 columns={columns} data={data} rowSelection={{}} />);
       // 1 checkbox no cabeçalho + 1 por linha de dado
       expect(screen.getAllByTestId('row-checkbox')).toHaveLength(data.length + 1);
     });
 
-    it('deve chamar onRowSelectionChange ao selecionar uma linha', () => {
-      const onRowSelectionChange = vi.fn();
+    it('deve chamar rowSelection.onRowChange ao selecionar uma linha', () => {
+      const onRowChange = vi.fn();
       render(
         <TableV2
           columns={columns}
           data={data}
-          enableRowSelection
-          onRowSelectionChange={onRowSelectionChange}
+          rowSelection={{ onRowChange }}
         />
       );
       const checkboxes = screen.getAllByTestId('row-checkbox');
       // checkboxes[0] = cabeçalho, checkboxes[1] = primeira linha
       fireEvent.click(checkboxes[1]);
-      expect(onRowSelectionChange).toHaveBeenCalledTimes(1);
+      expect(onRowChange).toHaveBeenCalledTimes(1);
     });
 
     it('checkbox do cabeçalho deve estar com indeterminate quando parte das linhas está selecionada', () => {
-      render(<TableV2 columns={columns} data={data} enableRowSelection />);
+      render(<TableV2 columns={columns} data={data} rowSelection={{}} />);
       const checkboxes = screen.getAllByTestId('row-checkbox');
       // Seleciona apenas a primeira linha
       fireEvent.click(checkboxes[1]);
@@ -373,23 +372,23 @@ describe('TableV2', () => {
       expect(headerCheckbox).toHaveAttribute('aria-checked', 'mixed');
     });
 
-    it('deve adicionar coluna de checkbox quando enableRowSelection é uma função', () => {
+    it('deve adicionar coluna de checkbox quando rowSelection.disabled é uma função', () => {
       render(
         <TableV2
           columns={columns}
           data={data}
-          enableRowSelection={() => true}
+          rowSelection={{ disabled: () => false }}
         />
       );
       expect(screen.getAllByTestId('row-checkbox').length).toBeGreaterThan(0);
     });
 
-    it('deve desabilitar checkbox da linha quando enableRowSelection retorna false para ela', () => {
+    it('deve desabilitar checkbox da linha quando rowSelection.disabled retorna true para ela', () => {
       render(
         <TableV2
           columns={columns}
           data={data}
-          enableRowSelection={(row) => (row as Person).id !== 1}
+          rowSelection={{ disabled: (row) => (row as Person).id === 1 }}
         />
       );
       const checkboxes = screen.getAllByTestId('row-checkbox');
@@ -398,12 +397,12 @@ describe('TableV2', () => {
       expect(checkboxes[2]).not.toBeDisabled();
     });
 
-    it('não deve desabilitar checkboxes quando enableRowSelection retorna true para todas as linhas', () => {
+    it('não deve desabilitar checkboxes quando rowSelection.disabled retorna false para todas as linhas', () => {
       render(
         <TableV2
           columns={columns}
           data={data}
-          enableRowSelection={() => true}
+          rowSelection={{ disabled: () => false }}
         />
       );
       const checkboxes = screen.getAllByTestId('row-checkbox');
@@ -412,26 +411,59 @@ describe('TableV2', () => {
         expect(cb).not.toBeDisabled();
       });
     });
-  });
 
-  describe('Filtros por coluna', () => {
-    it('deve renderizar inputs de filtro nos cabeçalhos quando enableFilters=true', () => {
-      render(<TableV2 columns={columns} data={data} enableFilters />);
-      const filterInputs = screen.getAllByPlaceholderText('Filtrar...');
-      expect(filterInputs.length).toBeGreaterThan(0);
+    it('deve renderizar linhas pré-selecionadas quando selectedRowKeys é fornecido', () => {
+      render(
+        <TableV2
+          columns={columns}
+          data={data}
+          rowSelection={{ selectedRowKeys: [0] }}
+        />
+      );
+      const checkboxes = screen.getAllByTestId('row-checkbox');
+      // checkboxes[1] = primeira linha (índice 0) deve estar marcada
+      expect(checkboxes[1]).toBeChecked();
+      expect(checkboxes[2]).not.toBeChecked();
     });
 
-    it('não deve renderizar inputs de filtro quando enableFilters=false', () => {
-      render(<TableV2 columns={columns} data={data} enableFilters={false} />);
-      expect(screen.queryByPlaceholderText('Filtrar...')).not.toBeInTheDocument();
+    it('deve atualizar seleção quando selectedRowKeys externo muda (modo controlado)', () => {
+      const { rerender } = render(
+        <TableV2
+          columns={columns}
+          data={data}
+          rowSelection={{ selectedRowKeys: [0] }}
+        />
+      );
+      let checkboxes = screen.getAllByTestId('row-checkbox');
+      expect(checkboxes[1]).toBeChecked();
+      expect(checkboxes[2]).not.toBeChecked();
+
+      rerender(
+        <TableV2
+          columns={columns}
+          data={data}
+          rowSelection={{ selectedRowKeys: [1] }}
+        />
+      );
+      checkboxes = screen.getAllByTestId('row-checkbox');
+      expect(checkboxes[1]).not.toBeChecked();
+      expect(checkboxes[2]).toBeChecked();
     });
 
-    it('deve filtrar dados ao digitar no input de filtro por coluna', () => {
-      render(<TableV2 columns={columns} data={data} enableFilters />);
-      const [nameFilter] = screen.getAllByPlaceholderText('Filtrar...');
-      fireEvent.change(nameFilter, { target: { value: 'Alice' } });
-      expect(screen.getByText('Alice')).toBeInTheDocument();
-      expect(screen.queryByText('Bob')).not.toBeInTheDocument();
+    it('deve chamar onRowChange em modo controlado sem alterar estado interno', () => {
+      const onRowChange = vi.fn();
+      render(
+        <TableV2
+          columns={columns}
+          data={data}
+          rowSelection={{ selectedRowKeys: [], onRowChange }}
+        />
+      );
+      const checkboxes = screen.getAllByTestId('row-checkbox');
+      fireEvent.click(checkboxes[1]);
+      expect(onRowChange).toHaveBeenCalledTimes(1);
+      // Em modo controlado a seleção visual não muda sem o pai atualizar selectedRowKeys
+      expect(checkboxes[1]).not.toBeChecked();
     });
   });
 
