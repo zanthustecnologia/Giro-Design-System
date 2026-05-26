@@ -203,25 +203,25 @@ describe('TableV2', () => {
   });
 
   describe('Header (busca e filtros)', () => {
-    it('deve renderizar campo de busca quando header é fornecido', () => {
-      render(<TableV2 columns={columns} data={data} header={{}} />);
+    it('deve renderizar campo de busca quando header.onSearchChange é fornecido', () => {
+      render(<TableV2 columns={columns} data={data} header={{ onSearchChange: vi.fn() }} />);
       expect(screen.getByTestId('search-input')).toBeInTheDocument();
     });
 
     it('deve usar placeholder padrão no campo de busca', () => {
-      render(<TableV2 columns={columns} data={data} header={{}} />);
+      render(<TableV2 columns={columns} data={data} header={{ onSearchChange: vi.fn() }} />);
       expect(screen.getByTestId('search-input')).toHaveAttribute('placeholder', 'Pesquisar...');
     });
 
     it('deve usar placeholder customizado no campo de busca', () => {
       render(
-        <TableV2 columns={columns} data={data} header={{ searchPlaceholder: 'Buscar usuário...' }} />
+        <TableV2 columns={columns} data={data} header={{ onSearchChange: vi.fn(), searchPlaceholder: 'Buscar usuário...' }} />
       );
       expect(screen.getByTestId('search-input')).toHaveAttribute('placeholder', 'Buscar usuário...');
     });
 
-    it('não deve renderizar campo de busca quando showSearch=false', () => {
-      render(<TableV2 columns={columns} data={data} header={{ showSearch: false }} />);
+    it('não deve renderizar campo de busca quando onSearchChange não é fornecido', () => {
+      render(<TableV2 columns={columns} data={data} header={{}} />);
       expect(screen.queryByTestId('search-input')).not.toBeInTheDocument();
     });
 
@@ -230,23 +230,14 @@ describe('TableV2', () => {
       expect(screen.queryByTestId('search-input')).not.toBeInTheDocument();
     });
 
-    it('não deve filtrar ao digitar antes de pressionar Enter', () => {
-      render(<TableV2 columns={columns} data={data} header={{}} />);
+    it('não deve chamar onSearchChange ao digitar sem pressionar Enter', () => {
+      const onSearchChange = vi.fn();
+      render(<TableV2 columns={columns} data={data} header={{ onSearchChange }} />);
       fireEvent.change(screen.getByTestId('search-input'), { target: { value: 'Alice' } });
-      expect(screen.getByText('Alice')).toBeInTheDocument();
-      expect(screen.getByText('Bob')).toBeInTheDocument();
+      expect(onSearchChange).not.toHaveBeenCalled();
     });
 
-    it('deve filtrar ao pressionar Enter no campo de busca', () => {
-      render(<TableV2 columns={columns} data={data} header={{}} />);
-      const input = screen.getByTestId('search-input');
-      fireEvent.change(input, { target: { value: 'Alice' } });
-      fireEvent.keyDown(input, { key: 'Enter' });
-      expect(screen.getByText('Alice')).toBeInTheDocument();
-      expect(screen.queryByText('Bob')).not.toBeInTheDocument();
-    });
-
-    it('deve chamar onSearchChange ao pressionar Enter (busca server-side)', () => {
+    it('deve chamar onSearchChange ao pressionar Enter', () => {
       const onSearchChange = vi.fn();
       render(
         <TableV2
@@ -261,14 +252,11 @@ describe('TableV2', () => {
       expect(onSearchChange).toHaveBeenCalledWith('Carol');
     });
 
-    it('deve limpar o filtro ao acionar onClear', () => {
-      render(<TableV2 columns={columns} data={data} header={{}} />);
-      const input = screen.getByTestId('search-input');
-      fireEvent.change(input, { target: { value: 'Alice' } });
-      fireEvent.keyDown(input, { key: 'Enter' });
-      expect(screen.queryByText('Bob')).not.toBeInTheDocument();
+    it('deve chamar onSearchChange com "" ao acionar onClear', () => {
+      const onSearchChange = vi.fn();
+      render(<TableV2 columns={columns} data={data} header={{ onSearchChange }} />);
       fireEvent.click(screen.getByTestId('search-clear'));
-      expect(screen.getByText('Bob')).toBeInTheDocument();
+      expect(onSearchChange).toHaveBeenCalledWith('');
     });
 
     it('deve renderizar filtros do tipo checkbox', () => {
@@ -277,7 +265,6 @@ describe('TableV2', () => {
           columns={columns}
           data={data}
           header={{
-            showSearch: false,
             filterItems: [
               {
                 type: 'checkbox',
@@ -298,7 +285,6 @@ describe('TableV2', () => {
           columns={columns}
           data={data}
           header={{
-            showSearch: false,
             filterItems: [
               {
                 type: 'calendar',
@@ -318,7 +304,6 @@ describe('TableV2', () => {
           columns={columns}
           data={data}
           header={{
-            showSearch: false,
             filterItems: [
               { type: 'checkbox', buttonText: 'Status', items: [] },
               { type: 'calendar', buttonText: 'Data' },
@@ -580,6 +565,59 @@ describe('TableV2', () => {
         />
       );
       expect(screen.getByText('0 páginas')).toBeInTheDocument();
+    });
+  });
+
+  describe('Paginação controlada (currentPage)', () => {
+    it('deve iniciar na página correta quando currentPage é fornecido', () => {
+      render(
+        <TableV2
+          columns={columns}
+          data={manyData}
+          footer={{ totalItems: 20, defaultPageSize: 10, currentPage: 2 }}
+        />
+      );
+      expect(screen.getByText('2 de 2')).toBeInTheDocument();
+    });
+
+    it('deve sincronizar pageIndex quando currentPage externo muda', () => {
+      const { rerender } = render(
+        <TableV2
+          columns={columns}
+          data={manyData}
+          footer={{ totalItems: 20, defaultPageSize: 10, currentPage: 1 }}
+        />
+      );
+      expect(screen.getByText('1 de 2')).toBeInTheDocument();
+
+      rerender(
+        <TableV2
+          columns={columns}
+          data={manyData}
+          footer={{ totalItems: 20, defaultPageSize: 10, currentPage: 2 }}
+        />
+      );
+      expect(screen.getByText('2 de 2')).toBeInTheDocument();
+    });
+
+    it('deve resetar para a página 1 quando currentPage externo muda para 1', () => {
+      const { rerender } = render(
+        <TableV2
+          columns={columns}
+          data={manyData}
+          footer={{ totalItems: 20, defaultPageSize: 10, currentPage: 2 }}
+        />
+      );
+      expect(screen.getByText('2 de 2')).toBeInTheDocument();
+
+      rerender(
+        <TableV2
+          columns={columns}
+          data={manyData}
+          footer={{ totalItems: 20, defaultPageSize: 10, currentPage: 1 }}
+        />
+      );
+      expect(screen.getByText('1 de 2')).toBeInTheDocument();
     });
   });
 

@@ -87,23 +87,20 @@ export type FilterItem = CheckboxFilterItem | CalendarFilterItem;
 export interface TableV2HeaderProps {
   /** Placeholder do campo de busca global */
   searchPlaceholder?: string;
-  /** Exibe o campo de busca (padrão: true) */
-  showSearch?: boolean;
   /** Items de filtro (Status, Data de início, etc.) */
   filterItems?: FilterItem[];
-  /** Modo de busca do Search, instant é pesquisar a cada tecla digitada e o on-enter é pesquisar apenas quando o enter for pressionado */
+  /** Modo de busca: 'instant' chama onSearchChange a cada tecla; 'on-enter' chama apenas ao pressionar Enter (padrão) */
   searchMode?: 'instant' | 'on-enter';
   /**
    * Valor controlado do campo de busca.
-   * Útil em conjunto com `footer.manualPagination`, permitindo que o pai
-   * controle (e resete) o valor exibido no campo de busca.
+   * Permite que o pai redefina o texto exibido no campo (ex: ao limpar filtros).
    */
   searchValue?: string;
   /**
-   * Callback chamado quando o valor da busca muda.
-   * Quando `footer.manualPagination` é `true`, este callback é a única forma
-   * de reagir à busca — a tabela desativa o filtro client-side e reseta
-   * automaticamente a paginação para a página 1 (chamando `footer.onPageChange`).
+   * Callback chamado quando o valor da busca é confirmado.
+   * A presença deste callback é o que exibe o campo de busca —
+   * quando não fornecido, o campo de busca não é renderizado.
+   * A paginação é automaticamente resetada para a página 1 ao buscar.
    */
   onSearchChange?: (value: string) => void;
 }
@@ -123,13 +120,13 @@ export interface TableV2FooterProps {
   /** Callback chamado quando o tamanho da página muda */
   onPageSizeChange?: (pageSize: number) => void;
   /**
-   * Habilita paginação server-side (manual).
-   * Quando `true`, a tabela não fatiará `data` internamente — exibe todos os itens
-   * recebidos como sendo a página atual. O pai é responsável por buscar a página
-   * correta e passar apenas seus dados via `data`. Use `onPageChange` e
-   * `onPageSizeChange` para reagir às mudanças de página.
+   * Página atual (1-based) para controle externo da paginação.
+   * Quando fornecido, sincroniza o estado interno com este valor,
+   * permitindo que o pai redefina a página — por exemplo, ao aplicar
+   * um filtro externo que deva redefinir para a página 1.
+   * Funciona tanto no modo client-side quanto no modo `manualPagination`.
    */
-  manualPagination?: boolean;
+  currentPage?: number;
 }
 
 /**

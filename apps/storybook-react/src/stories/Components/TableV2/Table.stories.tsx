@@ -191,9 +191,17 @@ export const ComBuscaEFiltros: StoryFn = () => {
   const [selectedStatus, setSelectedStatus] = useState<string[]>([]);
   const [dataInicio, setDataInicio] = useState<Date | null>(null);
   const [selected, setSelected] = useState<Promocao[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const dadosFiltrados = useMemo(() => {
     let result = promocoes;
+    if (searchQuery) {
+      const q = searchQuery.toLowerCase();
+      result = result.filter(
+        (p) => p.nome.toLowerCase().includes(q) || p.descricao.toLowerCase().includes(q),
+      );
+    }
     if (selectedStatus.length > 0) {
       result = result.filter((p) =>
         selectedStatus.includes(p.status.toLowerCase().replace(' ', '-')),
@@ -203,7 +211,7 @@ export const ComBuscaEFiltros: StoryFn = () => {
       result = result.filter((p) => p.inicioObj >= dataInicio);
     }
     return result;
-  }, [selectedStatus, dataInicio]);
+  }, [searchQuery, selectedStatus, dataInicio]);
 
   const filterItems = [
     {
@@ -217,15 +225,15 @@ export const ComBuscaEFiltros: StoryFn = () => {
         { id: 'expirada', text: 'Expirada' },
       ],
       selectedIds: selectedStatus,
-      onSelectionChange: setSelectedStatus,
+      onSelectionChange: (ids: string[]) => { setSelectedStatus(ids); setCurrentPage(1); },
     },
     {
       id: 'inicio',
       buttonText: dataInicio ? `A partir de ${dataInicio.toLocaleDateString('pt-BR')}` : 'Data de início',
       type: 'calendar' as const,
       selectedDate: dataInicio,
-      onDateSelect: (date: Date) => setDataInicio(date),
-      onClear: () => setDataInicio(null),
+      onDateSelect: (date: Date) => { setDataInicio(date); setCurrentPage(1); },
+      onClear: () => { setDataInicio(null); setCurrentPage(1); },
       minDate: new Date(2024, 0, 1),
       maxDate: new Date(2024, 11, 31),
     },
@@ -239,12 +247,15 @@ export const ComBuscaEFiltros: StoryFn = () => {
         rowSelection={{ onRowChange: (rows) => setSelected(rows) }}
         header={{
           searchPlaceholder: 'Buscar promoções...',
-          filterItems
+          onSearchChange: (val) => { setSearchQuery(val); setCurrentPage(1); },
+          filterItems,
         }}
         footer={{
           totalItems: dadosFiltrados.length,
           defaultPageSize: 5,
           pageSizeOptions: [5, 10],
+          currentPage,
+          onPageChange: setCurrentPage,
         }}
       />
       <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
@@ -286,20 +297,35 @@ export const ComBuscaEFiltros: StoryFn = () => {
 };
 
 // ─── Somente Busca ────────────────────────────────────────────────────────────
-export const SomenteBusca: StoryFn = () => (
-  <div style={{ width: 800 }}>
-    <TableV2
-      columns={colunasCompletas}
-      data={promocoes}
-      header={{ searchPlaceholder: 'Buscar promoções...' }}
-      footer={{
-        totalItems: promocoes.length,
-        defaultPageSize: 5,
-        pageSizeOptions: [5, 10],
-      }}
-    />
-  </div>
-);
+export const SomenteBusca: StoryFn = () => {
+  const [search, setSearch] = useState('');
+
+  const filteredData = useMemo(() => {
+    if (!search) return promocoes;
+    const q = search.toLowerCase();
+    return promocoes.filter(
+      (p) => p.nome.toLowerCase().includes(q) || p.descricao.toLowerCase().includes(q),
+    );
+  }, [search]);
+
+  return (
+    <div style={{ width: 800 }}>
+      <TableV2
+        columns={colunasCompletas}
+        data={filteredData}
+        header={{
+          searchPlaceholder: 'Buscar promoções...',
+          onSearchChange: setSearch,
+        }}
+        footer={{
+          totalItems: filteredData.length,
+          defaultPageSize: 5,
+          pageSizeOptions: [5, 10],
+        }}
+      />
+    </div>
+  );
+};
 
 // ─── Sem Header ───────────────────────────────────────────────────────────────
 export const SemHeader: StoryFn = () => (
@@ -392,32 +418,52 @@ const colunasLargas = [
   }),
 ];
 
-export const TabelaResponsiva: StoryFn = () => (
-  <div style={{ width: 500 }}>
-    <TableV2
-      columns={colunasLargas}
-      data={promocoes}
-      header={{ searchPlaceholder: 'Buscar...' }}
-      footer={{
-        totalItems: promocoes.length,
-        defaultPageSize: 5,
-        pageSizeOptions: [5, 10],
-      }}
-    />
-  </div>
-);
+export const TabelaResponsiva: StoryFn = () => {
+  const [search, setSearch] = useState('');
+
+  const filteredData = useMemo(() => {
+    if (!search) return promocoes;
+    const q = search.toLowerCase();
+    return promocoes.filter((p) => p.nome.toLowerCase().includes(q));
+  }, [search]);
+
+  return (
+    <div style={{ width: 500 }}>
+      <TableV2
+        columns={colunasLargas}
+        data={filteredData}
+        header={{
+          searchPlaceholder: 'Buscar...',
+          onSearchChange: setSearch,
+        }}
+        footer={{
+          totalItems: filteredData.length,
+          defaultPageSize: 5,
+          pageSizeOptions: [5, 10],
+        }}
+      />
+    </div>
+  );
+};
 
 TabelaResponsiva.storyName = 'Tabela Responsiva';
 
 // ─── Ações em Massa ──────────────────────────────────────────────────────────
 export const AcoesEmMassa: StoryFn = () => {
   const [selected, setSelected] = useState<Promocao[]>([]);
+  const [search, setSearch] = useState('');
+
+  const filteredData = useMemo(() => {
+    if (!search) return promocoes;
+    const q = search.toLowerCase();
+    return promocoes.filter((p) => p.nome.toLowerCase().includes(q));
+  }, [search]);
 
   return (
     <div style={{ width: 800 }}>
       <TableV2
         columns={colunasPadrao}
-        data={promocoes}
+        data={filteredData}
         rowSelection={{ onRowChange: (rows) => setSelected(rows) }}
         bulkActions={{
           onClear: () => setSelected([]),
@@ -451,9 +497,12 @@ export const AcoesEmMassa: StoryFn = () => {
             },
           ],
         }}
-        header={{ searchPlaceholder: 'Buscar promoções...' }}
+        header={{
+          searchPlaceholder: 'Buscar promoções...',
+          onSearchChange: setSearch,
+        }}
         footer={{
-          totalItems: promocoes.length,
+          totalItems: filteredData.length,
           defaultPageSize: 10,
           pageSizeOptions: [5, 10, 25],
         }}
@@ -480,7 +529,6 @@ export const SelecaoComLinhasDesabilitadas: StoryFn = () => {
         rowSelection={{
           disabled: (row) => row.status === 'Expirada',
           onRowChange: (rows) => setSelected(rows),
-          disableSelectAll: true
         }}
         bulkActions={{
           onClear: () => setSelected([]),
@@ -532,4 +580,54 @@ export const SelecaoComLinhasDesabilitadas: StoryFn = () => {
 };
 
 SelecaoComLinhasDesabilitadas.storyName = 'Seleção com Linhas Desabilitadas';
+
+// ─── Paginação Server-side (Controlada) ──────────────────────────────────────
+export const PaginacaoServidor: StoryFn = () => {
+  const PAGE_SIZE = 5;
+  const [currentPage, setCurrentPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const filteredData = useMemo(() => {
+    if (!searchQuery) return promocoes;
+    const q = searchQuery.toLowerCase();
+    return promocoes.filter(
+      (p) => p.nome.toLowerCase().includes(q) || p.tipo.toLowerCase().includes(q),
+    );
+  }, [searchQuery]);
+
+  const paginatedData = useMemo(() => {
+    const start = (currentPage - 1) * PAGE_SIZE;
+    return filteredData.slice(start, start + PAGE_SIZE);
+  }, [filteredData, currentPage]);
+
+  const handleSearch = (value: string) => {
+    setSearchQuery(value);
+    setCurrentPage(1);
+  };
+
+  return (
+    <div style={{ width: 800, display: 'flex', flexDirection: 'column', gap: 12 }}>
+      <p style={{ fontSize: 13, color: 'var(--color-neutral-low-medium)', margin: 0 }}>
+        Paginação e busca totalmente controladas pelo pai via <code>currentPage</code> e
+        <code>onSearchChange</code>. Ao buscar, o pai reseta <code>currentPage</code> para 1.
+      </p>
+      <TableV2
+        columns={colunasPadrao}
+        data={paginatedData}
+        header={{
+          searchPlaceholder: 'Buscar promoções...',
+          onSearchChange: handleSearch,
+        }}
+        footer={{
+          totalItems: filteredData.length,
+          defaultPageSize: PAGE_SIZE,
+          currentPage,
+          onPageChange: setCurrentPage,
+        }}
+      />
+    </div>
+  );
+};
+
+PaginacaoServidor.storyName = 'Paginação Server-side (Controlada)';
 

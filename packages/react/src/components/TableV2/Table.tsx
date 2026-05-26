@@ -5,8 +5,6 @@ import {
   type SortingState,
   flexRender,
   getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
@@ -42,7 +40,6 @@ const TableV2 = <T,>({
   const isRowSelectionEnabled = !!rowSelectionConfig;
   const isControlled = rowSelectionConfig?.selectedRowKeys !== undefined;
 
-  const [globalFilter, setGlobalFilter] = useState('');
   const [pendingSearch, setPendingSearch] = useState('');
   const [rowSelectionState, setRowSelectionState] = useState<RowSelectionState>({});
   const rowSelectionRef = useRef<RowSelectionState>({});
@@ -97,22 +94,16 @@ const TableV2 = <T,>({
     [isRowSelectionEnabled, selectionColumn, columns]
   );
 
-  const showSearch = !!(header && (header.showSearch ?? true));
-  const isManualPagination = footer?.manualPagination ?? false;
-  const hasExternalSearch = !!(header?.onSearchChange) || isManualPagination;
-  const useClientSideSearch = showSearch && !hasExternalSearch;
+  const showSearch = !!(header?.onSearchChange);
 
   const table = useReactTable({
     data,
     columns: resolvedColumns,
     defaultColumn: { minSize: 44, size: 0 },
     state: {
-      ...(useClientSideSearch ? { globalFilter } : {}),
-      ...(footer ? { pagination: { pageIndex, pageSize } } : {}),
       ...(isRowSelectionEnabled ? { rowSelection: effectiveRowSelection } : {}),
       ...(enableSorting ? { sorting } : {}),
     },
-    onGlobalFilterChange: useClientSideSearch ? setGlobalFilter : undefined,
     onSortingChange: enableSorting ? setSorting : undefined,
     enableSorting,
     onRowSelectionChange: isRowSelectionEnabled
@@ -141,23 +132,11 @@ const TableV2 = <T,>({
           ? !rowSelectionConfig.disabled
           : true
       : false,
-    onPaginationChange: footer ? setPagination : undefined,
-    manualPagination: footer?.manualPagination ?? false,
-    pageCount: footer?.manualPagination
-      ? Math.ceil(footer.totalItems / pageSize)
-      : undefined,
     getCoreRowModel: getCoreRowModel(),
-    getFilteredRowModel: showSearch ? getFilteredRowModel() : undefined,
-    getPaginationRowModel: footer ? getPaginationRowModel() : undefined,
     getSortedRowModel: enableSorting ? getSortedRowModel() : undefined,
   });
 
-  const filteredRowCount = table.getFilteredRowModel().rows.length;
-  const effectiveTotalItems = footer
-    ? footer.manualPagination
-      ? footer.totalItems
-      : showSearch ? filteredRowCount : footer.totalItems
-    : 0;
+  const effectiveTotalItems = footer?.totalItems ?? 0;
   const totalPages = footer ? Math.ceil(effectiveTotalItems / pageSize) : 0;
   const canGoPrev = pageIndex > 0;
   const canGoNext = pageIndex + 1 < totalPages;
@@ -176,17 +155,22 @@ const TableV2 = <T,>({
   const showBulkActions = isRowSelectionEnabled && !!bulkActions && selectedCount > 0;
 
   useEffect(() => {
-    if (header?.searchValue !== undefined) {
-      setPendingSearch(header.searchValue);
-    }
-  }, [header?.searchValue]);
-
-  useEffect(() => {
     if (isRowSelectionEnabled) {
       table.resetRowSelection();
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageIndex]);
+
+  useEffect(() => {
+    if (footer?.currentPage !== undefined) {
+      const targetPageIndex = footer.currentPage - 1;
+      setPagination((prev) =>
+        prev.pageIndex !== targetPageIndex
+          ? { ...prev, pageIndex: targetPageIndex }
+          : prev,
+      );
+    }
+  }, [footer?.currentPage]);
 
   const handleClearSelection = () => {
     table.resetRowSelection();
@@ -245,19 +229,17 @@ const TableV2 = <T,>({
                   setPendingSearch(e.target.value);
                 }}
                 onSearch={(val) => {
-                  setGlobalFilter(val);
                   if (footer) {
                     setPagination((prev) => ({ ...prev, pageIndex: 0 }));
-                    if (isManualPagination) footer?.onPageChange?.(1);
+                    footer?.onPageChange?.(1);
                   }
                   header?.onSearchChange?.(val);
                 }}
                 onClear={() => {
                   setPendingSearch('');
-                  setGlobalFilter('');
                   if (footer) {
                     setPagination((prev) => ({ ...prev, pageIndex: 0 }));
-                    if (isManualPagination) footer?.onPageChange?.(1);
+                    footer?.onPageChange?.(1);
                   }
                   header?.onSearchChange?.('');
                 }}
@@ -320,7 +302,7 @@ const TableV2 = <T,>({
           <table
             className={styles.table}
             aria-label="Tabela de dados"
-            aria-rowcount={filteredRowCount + 1}
+            aria-rowcount={data.length + 1}
           >
             <thead className={styles.tableHead}>
               {table.getHeaderGroups().map((headerGroup) => (
