@@ -3,18 +3,37 @@ import type { VirtualKeyboardLayout } from '../VirtualKeyboard.type';
 export const NATIVE_LAYOUTS: Partial<Record<VirtualKeyboardLayout, Record<string, string[]>>> = {
   default: {
     default: [
-      '` 1 2 3 4 5 6 7 8 9 0 - = {bksp}',
-      'q w e r t y u i o p [ ] \\',
-      'a s d f g h j k l ; \' {enter}',
-      '{capslock} z x c v b n m , . / {shiftright}',
-      '{//} {//} {//} {space} {//} {//} {//}',
+      '1 2 3 4 5 6 7 8 9 0',
+      'q w e r t y u i o p {bksp}',
+      'a s d f g h j k l ç {enter}',
+      '{shift} z x c v b n m , . {shift}',
+      '{alt} {smileys} {space} {downkeyboard}',
     ],
     shift: [
-      '~ ! @ # $ % ^ & * ( ) _ + {bksp}',
-      'Q W E R T Y U I O P { } |',
-      'A S D F G H J K L : " {enter}',
-      '{capslock} Z X C V B N M < > ? {shiftright}',
-      '{//} {//} {//} {space} {//} {//} {//}',
+      '1 2 3 4 5 6 7 8 9 0',
+      'Q W E R T Y U I O P {bksp}',
+      'A S D F G H J K L Ç {enter}',
+      '{capslock} Z X C V B N M , . {capslock}',
+      '{alt} {smileys} {space} {downkeyboard}',
+    ],
+    caps: [
+      '1 2 3 4 5 6 7 8 9 0',
+      'Q W E R T Y U I O P {bksp}',
+      'A S D F G H J K L {enter}',
+      '{shiftactivated} Z X C V B N M , . {shiftactivated}',
+      '{alt} {smileys} {space} {downkeyboard}',
+    ],
+    alt: [
+      '1 2 3 4 5 6 7 8 9 0 {bksp}',
+      `@ # $ & * ( ) ' " {enter}`,
+      '{shift} % - + = / ; : ! ? {shift}',
+      '{default} {smileys} {space} {back} {downkeyboard}',
+    ],
+    smileys: [
+      '😀 😊 😅 😂 🙂 😉 😍 😛 😠 😎 {bksp}',
+      `😏 😬 😭 😓 😱 😪 🙄 😴 😯 {enter}`,
+      '😐 😇 🤣 😘 😚 😆 😡 😥 😓 {shift}',
+      '{default} {smileys} {space} {altright} {downkeyboard}',
     ],
   },
   numeric: {
@@ -53,34 +72,6 @@ export const NATIVE_LAYOUTS: Partial<Record<VirtualKeyboardLayout, Record<string
     ],
     numbers: ['1 2 3', '4 5 6', '7 8 9', '{abc} 0 {backspace}'],
   },
-  appleIOS: {
-    default: [
-      '1 2 3 4 5 6 7 8 9 0',
-      'q w e r t y u i o p {bksp}',
-      'a s d f g h j k l {enter}',
-      '{shift} z x c v b n m , . {shift}',
-      '{alt} {smileys} {space} {downkeyboard}',
-    ],
-    shift: [
-      '1 2 3 4 5 6 7 8 9 0',
-      'Q W E R T Y U I O P {bksp}',
-      'A S D F G H J K L {enter}',
-      '{shiftactivated} Z X C V B N M , . {shiftactivated}',
-      '{alt} {smileys} {space} {downkeyboard}',
-    ],
-    alt: [
-      '1 2 3 4 5 6 7 8 9 0 {bksp}',
-      `@ # $ & * ( ) ' " {enter}`,
-      '{shift} % - + = / ; : ! ? {shift}',
-      '{default} {smileys} {space} {back} {downkeyboard}',
-    ],
-    smileys: [
-      '😀 😊 😅 😂 🙂 😉 😍 😛 😠 😎 {bksp}',
-      `😏 😬 😭 😓 😱 😪 🙄 😴 😯 {enter}`,
-      '😐 😇 🤣 😘 😚 😆 😡 😥 😓 {shift}',
-      '{default} {smileys} {space} {altright} {downkeyboard}',
-    ],
-  },
 };
 
 export const NATIVE_LAYOUT_KEYS = new Set<VirtualKeyboardLayout>([
@@ -93,11 +84,18 @@ export const LAYOUT_THEMES: Partial<Record<VirtualKeyboardLayout, string>> = {
 
 export const LAYOUT_DISPLAY: Partial<Record<VirtualKeyboardLayout, Record<string, string>>> = {
   default: {
-    '{bksp}': 'Apagar',
-    '{enter}': 'Enter',
-    '{shiftright}': '⇧',
     '{capslock}': '⇪',
+    '{alt}': '.?123',
+    '{smileys}': '😃',
+    '{shift}': '⇧',
+    '{shiftactivated}': '⇧',
+    '{enter}': 'Enter',
+    '{bksp}': '⌫ Apagar',
+    '{altright}': '.?123',
+    '{downkeyboard}': '🞃',
     '{space}': ' ',
+    '{default}': 'ABC',
+    '{back}': '⇦',
   },
   numeric: {
     '{bksp}': 'del',
@@ -138,19 +136,6 @@ export const LAYOUT_DISPLAY: Partial<Record<VirtualKeyboardLayout, Record<string
     '{shift}': '⇧',
     '{abc}': 'ABC',
     '{space}': '                 ',
-  },
-  appleIOS: {
-    '{alt}': '.?123',
-    '{smileys}': '😃',
-    '{shift}': '⇧',
-    '{shiftactivated}': '⇧',
-    '{enter}': 'enter',
-    '{bksp}': '⌫',
-    '{altright}': '.?123',
-    '{downkeyboard}': '🞃',
-    '{space}': ' ',
-    '{default}': 'ABC',
-    '{back}': '⇦',
   },
 };
 

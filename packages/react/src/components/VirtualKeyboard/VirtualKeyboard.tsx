@@ -110,7 +110,8 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
       if (button === '{capslock}' || button === '{lock}') {
         setCapsLockOn((prev) => {
           const next = !prev;
-          setLayoutName(next ? 'shift' : 'default');
+          setLayoutName(next ? 'caps' : 'default');
+          setCapsLockOn(false);
           return next;
         });
         return;

@@ -29,7 +29,7 @@ const meta: Meta<typeof VirtualKeyboard> = {
     layout: {
       control: 'select',
       options: [
-        'default', 'numeric', 'fullKeyboard', 'mobile', 'appleIOS',
+        'default', 'numeric', 'fullKeyboard', 'mobile',
         'arabic', 'armenianEastern', 'armenianWestern', 'assamese', 'balochi',
         'belarusian', 'bengali', 'brazilian', 'burmese', 'chinese', 'czech',
         'english', 'farsi', 'french', 'georgian', 'german', 'gilaki', 'greek',
@@ -157,23 +157,6 @@ export const Numerico: Story = {
   },
 };
 
-export const Telefone: Story = {
-  args: {
-    mode: 'fixed',
-    layout: 'numeric',
-    disabled: false,
-    textFieldPlaceholder: 'Digite o numero...',
-  },
-  render: (args) => {
-    const [value, setValue] = useState('');
-    return (
-      <div style={{ width: '240px' }}>
-        <VirtualKeyboard {...args} value={value} onChange={setValue} />
-      </div>
-    );
-  },
-};
-
 export const Disabled: Story = {
   args: {
     mode: 'fixed',
@@ -251,21 +234,6 @@ export const Mobile: Story = {
     const [value, setValue] = useState('');
     return (
       <div style={{ width: '340px' }}>
-        <VirtualKeyboard {...args} value={value} onChange={setValue} />
-      </div>
-    );
-  },
-};
-
-export const AppleIOS: Story = {
-  args: {
-    mode: 'fixed',
-    layout: 'appleIOS',
-  },
-  render: (args) => {
-    const [value, setValue] = useState('');
-    return (
-      <div style={{ width: '380px' }}>
         <VirtualKeyboard {...args} value={value} onChange={setValue} />
       </div>
     );
