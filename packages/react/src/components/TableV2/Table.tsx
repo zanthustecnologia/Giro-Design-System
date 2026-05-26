@@ -40,7 +40,13 @@ const TableV2 = <T,>({
   const isRowSelectionEnabled = !!rowSelectionConfig;
   const isControlled = rowSelectionConfig?.selectedRowKeys !== undefined;
 
-  const [pendingSearch, setPendingSearch] = useState('');
+  const [pendingSearch, setPendingSearch] = useState(header?.searchValue ?? '');
+
+  useEffect(() => {
+    if (header?.searchValue !== undefined) {
+      setPendingSearch(header.searchValue);
+    }
+  }, [header?.searchValue]);
   const [rowSelectionState, setRowSelectionState] = useState<RowSelectionState>({});
   const rowSelectionRef = useRef<RowSelectionState>({});
 
@@ -223,7 +229,7 @@ const TableV2 = <T,>({
           {showSearch && (
             <div className={styles.tableHeaderSearchContainer}>
               <Search
-                value={header?.searchValue ?? pendingSearch}
+                value={pendingSearch}
                 searchMode={header?.searchMode ?? "on-enter"}
                 onChange={(e) => {
                   setPendingSearch(e.target.value);
