@@ -26,7 +26,7 @@ const meta: Meta<typeof VirtualKeyboard> = {
       description: 'Placeholder do TextField interno. Disponivel apenas no modo `fixed`.',
       if: { arg: 'mode', eq: 'fixed' },
     },
-    layout: {
+    variant: {
       control: 'select',
       options: [
         'default', 'numeric', 'fullKeyboard', 'mobile',
@@ -63,7 +63,7 @@ export default meta;
 export const Default: Story = {
   args: {
     mode: 'native',
-    layout: 'default',
+    variant: 'default',
     disabled: false,
   },
   render: (args) => {
@@ -91,7 +91,7 @@ export const Default: Story = {
 export const ModoFixed: Story = {
   args: {
     mode: 'fixed',
-    layout: 'default',
+    variant: 'default',
     textFieldPlaceholder: 'Digite no teclado...',
   },
   render: (args) => {
@@ -107,7 +107,7 @@ export const ModoFixed: Story = {
 export const ModoNative: Story = {
   args: {
     mode: 'native',
-    layout: 'default',
+    variant: 'default',
     disabled: false,
   },
   render: (args) => {

@@ -5,7 +5,7 @@ import Keyboard from 'react-simple-keyboard';
 import 'react-simple-keyboard/build/css/index.css';
 import SimpleKeyboardLayouts from 'simple-keyboard-layouts';
 
-import { NATIVE_LAYOUTS, NATIVE_LAYOUT_KEYS, SHIFT_TOGGLES, LAYOUT_THEMES, LAYOUT_DISPLAY } from './components/Layouts';
+import { NATIVE_LAYOUTS, NATIVE_LAYOUT_KEYS, SHIFT_TOGGLES, LAYOUT_THEMES, LAYOUT_DISPLAY } from './components/Variants';
 import styles from './VirtualKeyboard.module.scss';
 import TextField from '../TextField';
 
@@ -27,7 +27,7 @@ const keyboardLayouts = new SimpleKeyboardLayouts();
  * @example
  * ```tsx
  * // Modo fixed
- * <VirtualKeyboard mode="fixed" layout="default" onChange={setValue} />
+ * <VirtualKeyboard mode="fixed" variant="default" onChange={setValue} />
  * ```
  *
  * @example
@@ -41,7 +41,7 @@ const keyboardLayouts = new SimpleKeyboardLayouts();
  */
 const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
   mode = 'native',
-  layout = 'default',
+  variant = 'default',
   value = '',
   onChange,
   onKeyPress,
@@ -56,7 +56,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
   const [layoutName, setLayoutName] = useState<string>('default');
   const [capsLockOn, setCapsLockOn] = useState(false);
   const [activeLayout, setActiveLayout] = useState<Record<string, string[]> | null>(
-    NATIVE_LAYOUTS[layout] ?? null
+    NATIVE_LAYOUTS[variant] ?? null
   );
 
   const [isOpen, setIsOpen] = useState(mode !== 'native');
@@ -95,19 +95,19 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
     setLayoutName('default');
     setCapsLockOn(false);
 
-    if (NATIVE_LAYOUT_KEYS.has(layout)) {
-      setActiveLayout(NATIVE_LAYOUTS[layout] ?? null);
+    if (NATIVE_LAYOUT_KEYS.has(variant)) {
+      setActiveLayout(NATIVE_LAYOUTS[variant] ?? null);
     } else {
-      const loaded = keyboardLayouts.get(layout) as { layout: Record<string, string[]> } | undefined;
+      const loaded = keyboardLayouts.get(variant) as { layout: Record<string, string[]> } | undefined;
       setActiveLayout(loaded?.layout ?? null);
     }
-  }, [layout]);
+  }, [variant]);
 
   const handleKeyPress = useCallback(
     (button: string) => {
       if (disabled) return;
 
-      const baseLayout = layout === 'numeric' ? 'abc' : 'default';
+      const baseLayout = variant === 'numeric' ? 'abc' : 'default';
 
       if (button === '{capslock}' || button === '{lock}') {
         setCapsLockOn((prev) => {
@@ -154,7 +154,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
 
       onKeyPress?.(button);
     },
-    [disabled, layout, layoutName, capsLockOn, onKeyPress]
+    [disabled, variant, layoutName, capsLockOn, onKeyPress]
   );
 
   const handleChange = useCallback(
@@ -170,8 +170,8 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
     <Keyboard
       layoutName={layoutName}
       layout={activeLayout}
-      theme={LAYOUT_THEMES[layout] ?? 'hg-theme-default'}
-      display={LAYOUT_DISPLAY[layout]}
+      theme={LAYOUT_THEMES[variant] ?? 'hg-theme-default'}
+      display={LAYOUT_DISPLAY[variant]}
       onChange={handleChange}
       onKeyPress={handleKeyPress}
       input={value}
@@ -186,7 +186,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
         className={clsx(
           styles.overlay,
           { [styles.overlayOpen]: isOpen },
-          styles[`layout--${layout}`],
+          styles[`layout--${variant}`],
           { [styles.disabled]: disabled },
           className
         )}
@@ -203,7 +203,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
       className={clsx(
         styles.container,
         styles[`mode--${mode}`],
-        styles[`layout--${layout}`],
+        styles[`layout--${variant}`],
         { [styles.disabled]: disabled },
         className
       )}

@@ -33,7 +33,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
       showCharCount = false,
       height,
       virtualKeyboard = false,
-      virtualKeyboardLayout,
+      virtualKeyboardVariant,
       virtualKeyboardMaxLength,
       ...rest
     },
@@ -174,7 +174,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
           <div className={styles.virtualKeyboardWrapper}>
             <VirtualKeyboard
               mode="native"
-              layout={virtualKeyboardLayout}
+              variant={virtualKeyboardVariant}
               maxLength={virtualKeyboardMaxLength}
               value={textareaValue}
               onChange={(val) => {

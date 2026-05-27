@@ -1,6 +1,6 @@
-import type { VirtualKeyboardLayout } from '../VirtualKeyboard.type';
+import type { VirtualKeyboardVariant } from '../VirtualKeyboard.type';
 
-export const NATIVE_LAYOUTS: Partial<Record<VirtualKeyboardLayout, Record<string, string[]>>> = {
+export const NATIVE_LAYOUTS: Partial<Record<VirtualKeyboardVariant, Record<string, string[]>>> = {
   default: {
     default: [
       '1 2 3 4 5 6 7 8 9 0',
@@ -45,7 +45,7 @@ export const NATIVE_LAYOUTS: Partial<Record<VirtualKeyboardLayout, Record<string
       '{default} {alt} {space} {altright} {downkeyboard}',
     ],
   },
-  
+
   numeric: {
     default: [
       '1 2 3', '4 5 6', '7 8 9', '{abc} 0 {bksp}'
@@ -128,15 +128,15 @@ export const NATIVE_LAYOUTS: Partial<Record<VirtualKeyboardLayout, Record<string
   },
 };
 
-export const NATIVE_LAYOUT_KEYS = new Set<VirtualKeyboardLayout>([
+export const NATIVE_LAYOUT_KEYS = new Set<VirtualKeyboardVariant>([
   'default', 'numeric', 'fullKeyboard', 'mobile', 'appleIOS',
 ]);
 
-export const LAYOUT_THEMES: Partial<Record<VirtualKeyboardLayout, string>> = {
+export const LAYOUT_THEMES: Partial<Record<VirtualKeyboardVariant, string>> = {
   appleIOS: 'hg-theme-default hg-theme-ios',
 };
 
-export const LAYOUT_DISPLAY: Partial<Record<VirtualKeyboardLayout, Record<string, string>>> = {
+export const LAYOUT_DISPLAY: Partial<Record<VirtualKeyboardVariant, Record<string, string>>> = {
   default: {
     '{capslock}': '⇪',
     '{numbers}': '123',

@@ -95,7 +95,7 @@ const meta: Meta<typeof TextArea> = {
       control: 'boolean',
       description: 'Exibe o teclado virtual ao clicar no campo'
     },
-    virtualKeyboardLayout: {
+    virtualKeyboardVariant: {
       control: 'select',
       options: [
         'default', 'numeric', 'fullKeyboard', 'mobile', 'appleIOS',
@@ -154,7 +154,7 @@ export const WithVirtualKeyboard: Story = {
     label: 'Comentário',
     placeholder: 'Clique aqui para abrir o teclado...',
     virtualKeyboard: true,
-    virtualKeyboardLayout: 'default',
+    virtualKeyboardVariant: 'default',
     disabled: false,
   },
   render: (args) => {

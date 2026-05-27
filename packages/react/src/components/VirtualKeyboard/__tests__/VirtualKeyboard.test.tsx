@@ -361,7 +361,7 @@ describe('VirtualKeyboard', () => {
     });
 
     it('deve alternar para layout "numbers" ao pressionar {numbers} (mobile)', () => {
-      render(<VirtualKeyboard mode="fixed" layout="mobile" value="" />);
+      render(<VirtualKeyboard mode="fixed" variant="mobile" value="" />);
 
       fireEvent.click(screen.getByTestId('key-numbers'));
 
@@ -369,7 +369,7 @@ describe('VirtualKeyboard', () => {
     });
 
     it('deve voltar para "default" ao pressionar {abc} (mobile)', () => {
-      render(<VirtualKeyboard mode="fixed" layout="mobile" value="" />);
+      render(<VirtualKeyboard mode="fixed" variant="mobile" value="" />);
 
       fireEvent.click(screen.getByTestId('key-numbers'));
       fireEvent.click(screen.getByTestId('key-abc'));
@@ -378,7 +378,7 @@ describe('VirtualKeyboard', () => {
     });
 
     it('deve alternar para layout "alt" ao pressionar {alt} (appleIOS)', () => {
-      render(<VirtualKeyboard mode="fixed" layout="appleIOS" value="" />);
+      render(<VirtualKeyboard mode="fixed" variant="appleIOS" value="" />);
 
       fireEvent.click(screen.getByTestId('key-alt'));
 
@@ -386,7 +386,7 @@ describe('VirtualKeyboard', () => {
     });
 
     it('deve voltar para "default" ao pressionar {alt} pela segunda vez', () => {
-      render(<VirtualKeyboard mode="fixed" layout="appleIOS" value="" />);
+      render(<VirtualKeyboard mode="fixed" variant="appleIOS" value="" />);
 
       fireEvent.click(screen.getByTestId('key-alt'));
       fireEvent.click(screen.getByTestId('key-alt'));
@@ -414,7 +414,7 @@ describe('VirtualKeyboard', () => {
     });
 
     it('deve alternar para layout "smileys" ao pressionar {smileys} (appleIOS)', () => {
-      render(<VirtualKeyboard mode="fixed" layout="appleIOS" value="" />);
+      render(<VirtualKeyboard mode="fixed" variant="appleIOS" value="" />);
 
       fireEvent.click(screen.getByTestId('key-smileys'));
 
@@ -440,7 +440,7 @@ describe('VirtualKeyboard', () => {
       ['appleIOS' as const],
       ['fullKeyboard' as const],
     ])('deve renderizar o layout nativo "%s"', (layout) => {
-      render(<VirtualKeyboard mode="fixed" layout={layout} />);
+      render(<VirtualKeyboard mode="fixed" variant={layout} />);
       expect(screen.getByTestId('keyboard')).toBeInTheDocument();
     });
   });
@@ -448,7 +448,7 @@ describe('VirtualKeyboard', () => {
   // ───────────────────────────────────────────────────────────────────────────
   describe('Layout de idioma via simple-keyboard-layouts', () => {
     it('deve renderizar um layout de idioma externo (ex: spanish)', async () => {
-      render(<VirtualKeyboard mode="fixed" layout="spanish" />);
+      render(<VirtualKeyboard mode="fixed" variant="spanish" />);
       // Para layouts externos, o activeLayout é definido via efeito (assíncrono)
       expect(await screen.findByTestId('keyboard')).toBeInTheDocument();
     });
@@ -457,12 +457,12 @@ describe('VirtualKeyboard', () => {
   // ───────────────────────────────────────────────────────────────────────────
   describe('Reinicialização ao trocar de layout', () => {
     it('deve resetar layoutName para "default" ao trocar o prop layout', () => {
-      const { rerender } = render(<VirtualKeyboard mode="fixed" layout="default" value="" />);
+      const { rerender } = render(<VirtualKeyboard mode="fixed" variant="default" value="" />);
 
       fireEvent.click(screen.getByTestId('key-shift'));
       expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'shift');
 
-      rerender(<VirtualKeyboard mode="fixed" layout="numeric" value="" />);
+      rerender(<VirtualKeyboard mode="fixed" variant="numeric" value="" />);
 
       expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'default');
     });
