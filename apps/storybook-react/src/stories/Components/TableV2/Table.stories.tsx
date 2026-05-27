@@ -1,5 +1,5 @@
 import { MoreVertical16Regular } from '@fluentui/react-icons';
-import { TableV2, Chips, Button, Menu, Avatar, createTableColumnHelper } from '@giro-ds/react';
+import { TableV2, Chips, Button, Menu, Avatar, createTableColumnHelper, type TableV2HeaderProps } from '@giro-ds/react';
 import React, { useState, useMemo } from 'react';
 
 import type { Meta, StoryFn } from '@storybook/react-vite';
@@ -136,17 +136,17 @@ const colunasCompletas = [
 ];
 
 type FilterItemConfig =
-  | { id: string; type: 'checkbox'; buttonText: string; items: { id: string; text: string }[] }
+  | { id: string; type: 'multiple'; buttonText: string; items: { id: string; text: string }[] }
   | { id: string; type: 'calendar'; buttonText: string; minDate?: string; maxDate?: string };
 
 type DefaultArgs = {
-  enableRowSelection: boolean;
+  rowSelection: Record<string, unknown> | undefined;
   enableSorting: boolean;
   loading: boolean;
-  showSearch: boolean;
-  filterItems?: string;
-  footer: boolean;
-  bulkActions: boolean;
+  headerSearch: { searchPlaceholder?: string } | undefined;
+  headerFilterItems: FilterItemConfig[] | undefined;
+  footer: { defaultPageSize?: number; pageSizeOptions?: number[] } | undefined;
+  bulkActions: { actions?: Array<{ label: string; variant?: string }> } | undefined;
 };
 
 const meta: Meta<DefaultArgs> = {
@@ -154,42 +154,80 @@ const meta: Meta<DefaultArgs> = {
   component: TableV2 as unknown as React.ComponentType<DefaultArgs>,
   parameters: { layout: 'centered' },
   argTypes: {
-    enableRowSelection: {
-      description: 'Habilita checkboxes para seleção de linhas',
-      control: 'boolean',
-      table: { defaultValue: { summary: 'false' } },
+    rowSelection: {
+      description:
+        'Habilita seleção de linhas via checkbox. Passe um objeto para ativar (o callback `onRowChange` é adicionado pela story). ' +
+        'Exemplos: seleção padrão `{}`, sem "Selecionar todos" `{ "disableSelectAll": true }`, ' +
+        'todas desabilitadas `{ "disabled": true }`.',
+      control: 'object',
+      table: {
+        type: { summary: 'TableV2RowSelectionProps | undefined' },
+        defaultValue: { summary: 'undefined' },
+      },
     },
     enableSorting: {
-      description: 'Habilita ordenação ao clicar no cabeçalho das colunas',
+      description: 'Habilita ordenação ao clicar no cabeçalho das colunas.',
       control: 'boolean',
-      table: { defaultValue: { summary: 'false' } },
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'false' },
+      },
     },
     loading: {
-      description: 'Exibe skeleton animado no lugar dos dados da tabela',
+      description: 'Exibe skeleton animado no lugar dos dados.',
       control: 'boolean',
-      table: { defaultValue: { summary: 'false' } },
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'false' },
+      },
     },
-    showSearch: {
-      description: 'Exibe o campo de busca global no cabeçalho da tabela',
-      control: 'boolean',
-      table: { defaultValue: { summary: 'false' } },
-    },
-    filterItems: {
+    headerSearch: {
+      name: 'onSearchChange',
       description:
-        'JSON dos itens de filtro. Cole o array diretamente no campo. ' +
-        'Exemplo: `[{"id":"status","type":"checkbox","buttonText":"Status","items":[{"id":"ativa","text":"Ativa"}]},{"id":"inicio","type":"calendar","buttonText":"Data de início","minDate":"2024-01-01","maxDate":"2024-12-31"}]`',
-      control: 'text',
-      table: { defaultValue: { summary: '""' } },
+        'Habilita o campo de busca global. Passe um objeto para ativar: `{ "searchPlaceholder": "Buscar..." }`. ' +
+        'A presença do objeto é o que renderiza o campo de busca. ' +
+        'Combinável com `header.filterItems`.',
+      control: 'object',
+      table: {
+        type: { summary: '{ searchPlaceholder?: string } | undefined' },
+        defaultValue: { summary: 'undefined' },
+        category: 'header',
+      },
+    },
+    headerFilterItems: {
+      name: 'filterItems',
+      description:
+        'Filtros do cabeçalho: `header={{ filterItems: FilterItem[] }}`. ' +
+        '`FilterItem` é a union de `CheckboxFilterItem` (`type: "multiple" | "single"`) e `CalendarFilterItem` (`type: "calendar"`). ' +
+        'Cole o JSON do array. Ex: `[{"id":"status","type":"multiple","buttonText":"Status","items":[{"id":"ativa","text":"Ativa"}]},{"id":"inicio","type":"calendar","buttonText":"Data de início","minDate":"2024-01-01","maxDate":"2024-12-31"}]`',
+      control: 'object',
+      table: {
+        type: { summary: 'FilterItem[]' },
+        defaultValue: { summary: 'undefined' },
+        category: 'header',
+      },
     },
     footer: {
-      description: 'Exibe o rodapé com controles de paginação abaixo da tabela',
-      control: 'boolean',
-      table: { defaultValue: { summary: 'false' } },
+      description:
+        'Exibe o rodapé de paginação. Passe um objeto para ativar: `{ "defaultPageSize": 5, "pageSizeOptions": [5, 10] }`. ' +
+        'O componente não faz paginação interna — o pai deve fatiar os dados antes de passar para `data`. ' +
+        '`totalItems`, `currentPage` e os callbacks são gerenciados pela story.',
+      control: 'object',
+      table: {
+        type: { summary: 'TableV2FooterProps | undefined' },
+        defaultValue: { summary: 'undefined' },
+      },
     },
     bulkActions: {
-      description: 'Exibe barra de ações em massa ao selecionar linhas (requer enableRowSelection)',
-      control: 'boolean',
-      table: { defaultValue: { summary: 'false' } },
+      description:
+        'Exibe barra de ações em massa quando há linhas selecionadas (requer `rowSelection`). ' +
+        'Passe um objeto para ativar, opcionalmente com ações customizadas: `{ "actions": [{ "label": "Ativar", "variant": "filled" }] }`. ' +
+        'Se `actions` estiver ausente, usa ações padrão (Ativar, Pausar, Excluir).',
+      control: 'object',
+      table: {
+        type: { summary: 'TableV2BulkActionsProps | undefined' },
+        defaultValue: { summary: 'undefined' },
+      },
     },
   },
 };
@@ -197,30 +235,37 @@ const meta: Meta<DefaultArgs> = {
 export default meta;
 
 export const Default: StoryFn<DefaultArgs> = ({
-  enableRowSelection,
+  rowSelection: rowSelectionArg,
   enableSorting,
   loading,
-  showSearch,
-  filterItems: filterItemsJson,
-  footer: showFooter,
-  bulkActions: showBulkActions,
+  headerSearch: headerSearchArg,
+  headerFilterItems: filterItemsArg,
+  footer: footerArg,
+  bulkActions: bulkActionsArg,
 }) => {
   const [selecionados, setSelecionados] = React.useState<Promocao[]>([]);
+
+  const rowSelectionConfig = rowSelectionArg && typeof rowSelectionArg === 'object' ? rowSelectionArg : undefined;
+
   const [checkboxSelections, setCheckboxSelections] = React.useState<Record<string, string[]>>({});
   const [calendarDates, setCalendarDates] = React.useState<Record<string, Date | null>>({});
+  const [searchQuery, setSearchQuery] = React.useState('');
+  const [currentPage, setCurrentPage] = React.useState(1);
+  const [pageSize, setPageSize] = React.useState(5);
 
   const filterItemsConfig = useMemo((): FilterItemConfig[] => {
-    if (!filterItemsJson?.trim()) return [];
-    try {
-      const parsed = JSON.parse(filterItemsJson);
-      return Array.isArray(parsed) ? parsed : [];
-    } catch {
-      return [];
-    }
-  }, [filterItemsJson]);
+    if (!Array.isArray(filterItemsArg)) return [];
+    return filterItemsArg;
+  }, [filterItemsArg]);
 
   const dadosFiltrados = useMemo(() => {
     let result = promocoes;
+    if (searchQuery) {
+      const q = searchQuery.toLowerCase();
+      result = result.filter(
+        (p) => p.nome.toLowerCase().includes(q) || p.descricao.toLowerCase().includes(q),
+      );
+    }
     const statusIds = checkboxSelections['status'];
     if (statusIds?.length > 0) {
       result = result.filter((p) =>
@@ -232,17 +277,19 @@ export const Default: StoryFn<DefaultArgs> = ({
       result = result.filter((p) => p.inicioObj >= dateFrom);
     }
     return result;
-  }, [checkboxSelections, calendarDates]);
+  }, [searchQuery, checkboxSelections, calendarDates]);
 
   const resolvedFilterItems = filterItemsConfig?.map((item) => {
-    if (item.type === 'checkbox') {
+    if (item.type === 'multiple') {
       const selected = checkboxSelections[item.id] ?? [];
       return {
         ...item,
         buttonText: selected.length > 0 ? `${item.buttonText} (${selected.length})` : item.buttonText,
         selectedIds: selected,
-        onSelectionChange: (ids: string[]) =>
-          setCheckboxSelections((prev) => ({ ...prev, [item.id]: ids })),
+        onSelectionChange: (ids: string[]) => {
+          setCheckboxSelections((prev) => ({ ...prev, [item.id]: ids }));
+          setCurrentPage(1);
+        },
       };
     }
     const date = calendarDates[item.id] ?? null;
@@ -252,55 +299,52 @@ export const Default: StoryFn<DefaultArgs> = ({
       minDate: item.minDate ? new Date(item.minDate) : undefined,
       maxDate: item.maxDate ? new Date(item.maxDate) : undefined,
       buttonText: date ? `A partir de ${date.toLocaleDateString('pt-BR')}` : item.buttonText,
-      onDateSelect: (d: Date) => setCalendarDates((prev) => ({ ...prev, [item.id]: d })),
-      onClear: () => setCalendarDates((prev) => ({ ...prev, [item.id]: null })),
+      onDateSelect: (d: Date) => { setCalendarDates((prev) => ({ ...prev, [item.id]: d })); setCurrentPage(1); },
+      onClear: () => { setCalendarDates((prev) => ({ ...prev, [item.id]: null })); setCurrentPage(1); },
     };
   });
 
   const hasFilters = !!resolvedFilterItems?.length;
 
+  const paginatedData = useMemo(() => {
+    if (!footerArg) return dadosFiltrados;
+    const start = (currentPage - 1) * pageSize;
+    return dadosFiltrados.slice(start, start + pageSize);
+  }, [dadosFiltrados, footerArg, currentPage, pageSize]);
+
   return (
-    <div style={{ width: 600 }}>
+    <div style={{ width: 800 }}>
       <TableV2
-        columns={colunasPadrao}
-        data={dadosFiltrados}
-        enableRowSelection={enableRowSelection}
+        columns={colunasCompletas}
+        data={paginatedData}
+        rowSelection={rowSelectionConfig !== undefined ? { ...(rowSelectionConfig as any), onRowChange: setSelecionados } : undefined}
         enableSorting={enableSorting}
         loading={loading}
-        onRowSelectionChange={setSelecionados}
         header={
-          showSearch || hasFilters
+          headerSearchArg || hasFilters
             ? {
-                ...(showSearch ? { searchPlaceholder: 'Buscar promoções...' } : { showSearch: false }),
+                ...(headerSearchArg ? { searchPlaceholder: headerSearchArg.searchPlaceholder ?? 'Buscar promoções...', onSearchChange: (v: string) => { setSearchQuery(v); setCurrentPage(1); } } : {}),
                 ...(hasFilters ? { filterItems: resolvedFilterItems } : {}),
               }
             : undefined
         }
         footer={
-          showFooter
-            ? { totalItems: dadosFiltrados.length, defaultPageSize: 5, pageSizeOptions: [5, 10] }
+          footerArg
+            ? { totalItems: dadosFiltrados.length, defaultPageSize: footerArg.defaultPageSize ?? 5, pageSizeOptions: footerArg.pageSizeOptions ?? [5, 10], currentPage, onPageChange: setCurrentPage, onPageSizeChange: (size: number) => { setPageSize(size); setCurrentPage(1); } }
             : undefined
         }
         bulkActions={
-          showBulkActions
+          bulkActionsArg
             ? {
-                actions: [
-                  {
-                    label: 'Ativar',
-                    variant: 'filled',
-                    onClick: () => console.warn('Ativar:', selecionados.map((r) => r.nome)),
-                  },
-                  {
-                    label: 'Pausar',
-                    variant: 'outlined',
-                    onClick: () => console.warn('Pausar:', selecionados.map((r) => r.nome)),
-                  },
-                  {
-                    label: 'Excluir',
-                    variant: 'outlined',
-                    onClick: () => console.warn('Excluir:', selecionados.map((r) => r.nome)),
-                  },
-                ],
+                actions: (bulkActionsArg.actions ?? [
+                  { label: 'Ativar', variant: 'filled' as const },
+                  { label: 'Pausar', variant: 'outlined' as const },
+                  { label: 'Excluir', variant: 'outlined' as const },
+                ]).map((action) => ({
+                  label: action.label,
+                  variant: action.variant as 'filled' | 'outlined' | 'text' | undefined,
+                  onClick: () => console.warn(action.label + ':', selecionados.map((r) => r.nome)),
+                })),
               }
             : undefined
         }
@@ -310,22 +354,21 @@ export const Default: StoryFn<DefaultArgs> = ({
 };
 
 Default.args = {
-  enableRowSelection: false,
+  rowSelection: undefined,
   enableSorting: false,
   loading: false,
-  showSearch: false,
-  filterItems: '',
-  footer: false,
-  bulkActions: false,
+  headerSearch: undefined,
+  headerFilterItems: undefined,
+  footer: undefined,
+  bulkActions: undefined,
 };
-
-Default.storyName = 'Default';
 
 export const ComBuscaEFiltros: StoryFn = () => {
   const [selectedStatus, setSelectedStatus] = useState<string[]>([]);
   const [dataInicio, setDataInicio] = useState<Date | null>(null);
   const [selected, setSelected] = useState<Promocao[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(5);
   const [searchQuery, setSearchQuery] = useState('');
 
   const dadosFiltrados = useMemo(() => {
@@ -347,11 +390,11 @@ export const ComBuscaEFiltros: StoryFn = () => {
     return result;
   }, [searchQuery, selectedStatus, dataInicio]);
 
-  const filterItems = [
+  const filterItems: NonNullable<TableV2HeaderProps['filterItems']> = [
     {
       id: 'status',
       buttonText: selectedStatus.length > 0 ? `Status (${selectedStatus.length})` : 'Status',
-      type: 'multiple' as const,
+      type: 'multiple',
       items: [
         { id: 'ativa', text: 'Ativa' },
         { id: 'inativa', text: 'Inativa' },
@@ -373,11 +416,16 @@ export const ComBuscaEFiltros: StoryFn = () => {
     },
   ];
 
+  const paginatedData = useMemo(() => {
+    const start = (currentPage - 1) * pageSize;
+    return dadosFiltrados.slice(start, start + pageSize);
+  }, [dadosFiltrados, currentPage, pageSize]);
+
   return (
     <div style={{ width: 800, display: 'flex', flexDirection: 'column', gap: 16 }}>
       <TableV2
         columns={colunasCompletas}
-        data={dadosFiltrados}
+        data={paginatedData}
         rowSelection={{ onRowChange: (rows) => setSelected(rows) }}
         header={{
           searchPlaceholder: 'Buscar promoções...',
@@ -390,6 +438,7 @@ export const ComBuscaEFiltros: StoryFn = () => {
           pageSizeOptions: [5, 10],
           currentPage,
           onPageChange: setCurrentPage,
+          onPageSizeChange: (size) => { setPageSize(size); setCurrentPage(1); },
         }}
       />
       <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
@@ -433,6 +482,8 @@ export const ComBuscaEFiltros: StoryFn = () => {
 export const SomenteFiltros: StoryFn = () => {
   const [selectedStatus, setSelectedStatus] = useState<string[]>([]);
   const [dataInicio, setDataInicio] = useState<Date | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(5);
 
   const dadosFiltrados = useMemo(() => {
     let result = promocoes;
@@ -447,11 +498,16 @@ export const SomenteFiltros: StoryFn = () => {
     return result;
   }, [selectedStatus, dataInicio]);
 
-  const filterItems = [
+  const paginatedData = useMemo(() => {
+    const start = (currentPage - 1) * pageSize;
+    return dadosFiltrados.slice(start, start + pageSize);
+  }, [dadosFiltrados, currentPage, pageSize]);
+
+  const filterItems: NonNullable<TableV2HeaderProps['filterItems']> = [
     {
       id: 'status',
       buttonText: selectedStatus.length > 0 ? `Status (${selectedStatus.length})` : 'Status',
-      type: 'checkbox' as const,
+      type: 'multiple',
       items: [
         { id: 'ativa', text: 'Ativa' },
         { id: 'inativa', text: 'Inativa' },
@@ -459,17 +515,17 @@ export const SomenteFiltros: StoryFn = () => {
         { id: 'expirada', text: 'Expirada' },
       ],
       selectedIds: selectedStatus,
-      onSelectionChange: setSelectedStatus,
+      onSelectionChange: (ids: string[]) => { setSelectedStatus(ids); setCurrentPage(1); },
     },
     {
       id: 'inicio',
       buttonText: dataInicio
         ? `A partir de ${dataInicio.toLocaleDateString('pt-BR')}`
         : 'Data de início',
-      type: 'calendar' as const,
+      type: 'calendar',
       selectedDate: dataInicio,
-      onDateSelect: (date: Date) => setDataInicio(date),
-      onClear: () => setDataInicio(null),
+      onDateSelect: (date: Date) => { setDataInicio(date); setCurrentPage(1); },
+      onClear: () => { setDataInicio(null); setCurrentPage(1); },
       minDate: new Date(2024, 0, 1),
       maxDate: new Date(2024, 11, 31),
     },
@@ -479,48 +535,87 @@ export const SomenteFiltros: StoryFn = () => {
     <div style={{ width: 800 }}>
       <TableV2
         columns={colunasCompletas}
-        data={dadosFiltrados}
-        header={{ showSearch: false, filterItems }}
+        data={paginatedData}
+        header={{ filterItems }}
         footer={{
           totalItems: dadosFiltrados.length,
           defaultPageSize: 5,
           pageSizeOptions: [5, 10],
+          currentPage,
+          onPageChange: setCurrentPage,
+          onPageSizeChange: (size) => { setPageSize(size); setCurrentPage(1); },
         }}
       />
     </div>
   );
 };
 
-SomenteFiltros.storyName = 'Somente Filtros';
+export const SomenteBusca: StoryFn = () => {
+  const [search, setSearch] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(5);
 
-export const SomenteBusca: StoryFn = () => (
-  <div style={{ width: 800 }}>
-    <TableV2
-      columns={colunasCompletas}
-      data={promocoes}
-      header={{ searchPlaceholder: 'Buscar promoções...' }}
-      footer={{
-        totalItems: promocoes.length,
-        defaultPageSize: 5,
-        pageSizeOptions: [5, 10],
-      }}
-    />
-  </div>
-);
+  const filteredData = useMemo(() => {
+    if (!search) return promocoes;
+    const q = search.toLowerCase();
+    return promocoes.filter(
+      (p) => p.nome.toLowerCase().includes(q) || p.descricao.toLowerCase().includes(q),
+    );
+  }, [search]);
 
-export const SemHeader: StoryFn = () => (
-  <div style={{ width: 800 }}>
-    <TableV2
-      columns={colunasCompletas}
-      data={promocoes}
-      footer={{
-        totalItems: promocoes.length,
-        defaultPageSize: 5,
-        pageSizeOptions: [5, 10],
-      }}
-    />
-  </div>
-);
+  const paginatedData = useMemo(() => {
+    const start = (currentPage - 1) * pageSize;
+    return filteredData.slice(start, start + pageSize);
+  }, [filteredData, currentPage, pageSize]);
+
+  return (
+    <div style={{ width: 800 }}>
+      <TableV2
+        columns={colunasCompletas}
+        data={paginatedData}
+        header={{
+          searchPlaceholder: 'Buscar promoções...',
+          onSearchChange: (val) => { setSearch(val); setCurrentPage(1); },
+        }}
+        footer={{
+          totalItems: filteredData.length,
+          defaultPageSize: 5,
+          pageSizeOptions: [5, 10],
+          currentPage,
+          onPageChange: setCurrentPage,
+          onPageSizeChange: (size) => { setPageSize(size); setCurrentPage(1); },
+        }}
+      />
+    </div>
+  );
+};
+
+export const SemHeader: StoryFn = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(5);
+
+  const paginatedData = useMemo(() => {
+    const start = (currentPage - 1) * pageSize;
+    return promocoes.slice(start, start + pageSize);
+  }, [currentPage, pageSize]);
+
+  return (
+    <div style={{ width: 800 }}>
+      <TableV2
+        columns={colunasCompletas}
+        data={paginatedData}
+        footer={{
+          totalItems: promocoes.length,
+          defaultPageSize: 5,
+          pageSizeOptions: [5, 10],
+          currentPage,
+          onPageChange: setCurrentPage,
+          onPageSizeChange: (size) => { setPageSize(size); setCurrentPage(1); },
+        }}
+      />
+    </div>
+  );
+};
 
 export const Carregando: StoryFn = () => (
   <div style={{ width: 800 }}>
@@ -597,6 +692,8 @@ const colunasLargas = [
 
 export const TabelaResponsiva: StoryFn = () => {
   const [search, setSearch] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(5);
 
   const filteredData = useMemo(() => {
     if (!search) return promocoes;
@@ -604,30 +701,38 @@ export const TabelaResponsiva: StoryFn = () => {
     return promocoes.filter((p) => p.nome.toLowerCase().includes(q));
   }, [search]);
 
+  const paginatedData = useMemo(() => {
+    const start = (currentPage - 1) * pageSize;
+    return filteredData.slice(start, start + pageSize);
+  }, [filteredData, currentPage, pageSize]);
+
   return (
     <div style={{ width: 500 }}>
       <TableV2
         columns={colunasLargas}
-        data={filteredData}
+        data={paginatedData}
         header={{
           searchPlaceholder: 'Buscar...',
-          onSearchChange: setSearch,
+          onSearchChange: (val) => { setSearch(val); setCurrentPage(1); },
         }}
         footer={{
           totalItems: filteredData.length,
           defaultPageSize: 5,
           pageSizeOptions: [5, 10],
+          currentPage,
+          onPageChange: setCurrentPage,
+          onPageSizeChange: (size) => { setPageSize(size); setCurrentPage(1); },
         }}
       />
     </div>
   );
 };
 
-TabelaResponsiva.storyName = 'Tabela Responsiva';
-
 export const AcoesEmMassa: StoryFn = () => {
   const [selected, setSelected] = useState<Promocao[]>([]);
   const [search, setSearch] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
 
   const filteredData = useMemo(() => {
     if (!search) return promocoes;
@@ -635,11 +740,16 @@ export const AcoesEmMassa: StoryFn = () => {
     return promocoes.filter((p) => p.nome.toLowerCase().includes(q));
   }, [search]);
 
+  const paginatedData = useMemo(() => {
+    const start = (currentPage - 1) * pageSize;
+    return filteredData.slice(start, start + pageSize);
+  }, [filteredData, currentPage, pageSize]);
+
   return (
     <div style={{ width: 800 }}>
       <TableV2
         columns={colunasPadrao}
-        data={filteredData}
+        data={paginatedData}
         rowSelection={{ onRowChange: (rows) => setSelected(rows) }}
         bulkActions={{
           onClear: () => setSelected([]),
@@ -675,12 +785,15 @@ export const AcoesEmMassa: StoryFn = () => {
         }}
         header={{
           searchPlaceholder: 'Buscar promoções...',
-          onSearchChange: setSearch,
+          onSearchChange: (val) => { setSearch(val); setCurrentPage(1); },
         }}
         footer={{
           totalItems: filteredData.length,
           defaultPageSize: 10,
           pageSizeOptions: [5, 10, 25],
+          currentPage,
+          onPageChange: setCurrentPage,
+          onPageSizeChange: (size) => { setPageSize(size); setCurrentPage(1); },
         }}
       />
     </div>
@@ -692,6 +805,13 @@ AcoesEmMassa.storyName = 'Ações em Massa';
 // ─── Seleção com Linhas Desabilitadas ────────────────────────────────────────
 export const SelecaoComLinhasDesabilitadas: StoryFn = () => {
   const [selected, setSelected] = useState<Promocao[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+
+  const paginatedData = useMemo(() => {
+    const start = (currentPage - 1) * pageSize;
+    return promocoes.slice(start, start + pageSize);
+  }, [currentPage, pageSize]);
 
   return (
     <div style={{ width: 800, display: 'flex', flexDirection: 'column', gap: 16 }}>
@@ -701,7 +821,7 @@ export const SelecaoComLinhasDesabilitadas: StoryFn = () => {
       </p>
       <TableV2
         columns={colunasPadrao}
-        data={promocoes}
+        data={paginatedData}
         rowSelection={{
           disabled: (row) => row.status === 'Expirada',
           onRowChange: (rows) => setSelected(rows),
@@ -720,6 +840,9 @@ export const SelecaoComLinhasDesabilitadas: StoryFn = () => {
           totalItems: promocoes.length,
           defaultPageSize: 10,
           pageSizeOptions: [5, 10, 25],
+          currentPage,
+          onPageChange: setCurrentPage,
+          onPageSizeChange: (size) => { setPageSize(size); setCurrentPage(1); },
         }}
       />
       <div
@@ -756,54 +879,4 @@ export const SelecaoComLinhasDesabilitadas: StoryFn = () => {
 };
 
 SelecaoComLinhasDesabilitadas.storyName = 'Seleção com Linhas Desabilitadas';
-
-// ─── Paginação Server-side (Controlada) ──────────────────────────────────────
-export const PaginacaoServidor: StoryFn = () => {
-  const PAGE_SIZE = 5;
-  const [currentPage, setCurrentPage] = useState(1);
-  const [searchQuery, setSearchQuery] = useState('');
-
-  const filteredData = useMemo(() => {
-    if (!searchQuery) return promocoes;
-    const q = searchQuery.toLowerCase();
-    return promocoes.filter(
-      (p) => p.nome.toLowerCase().includes(q) || p.tipo.toLowerCase().includes(q),
-    );
-  }, [searchQuery]);
-
-  const paginatedData = useMemo(() => {
-    const start = (currentPage - 1) * PAGE_SIZE;
-    return filteredData.slice(start, start + PAGE_SIZE);
-  }, [filteredData, currentPage]);
-
-  const handleSearch = (value: string) => {
-    setSearchQuery(value);
-    setCurrentPage(1);
-  };
-
-  return (
-    <div style={{ width: 800, display: 'flex', flexDirection: 'column', gap: 12 }}>
-      <p style={{ fontSize: 13, color: 'var(--color-neutral-low-medium)', margin: 0 }}>
-        Paginação e busca totalmente controladas pelo pai via <code>currentPage</code> e
-        <code>onSearchChange</code>. Ao buscar, o pai reseta <code>currentPage</code> para 1.
-      </p>
-      <TableV2
-        columns={colunasPadrao}
-        data={paginatedData}
-        header={{
-          searchPlaceholder: 'Buscar promoções...',
-          onSearchChange: handleSearch,
-        }}
-        footer={{
-          totalItems: filteredData.length,
-          defaultPageSize: PAGE_SIZE,
-          currentPage,
-          onPageChange: setCurrentPage,
-        }}
-      />
-    </div>
-  );
-};
-
-PaginacaoServidor.storyName = 'Paginação Server-side (Controlada)';
 
