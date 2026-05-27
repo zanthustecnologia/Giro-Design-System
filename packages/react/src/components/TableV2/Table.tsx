@@ -5,8 +5,6 @@ import {
   type SortingState,
   flexRender,
   getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
@@ -27,9 +25,8 @@ import type { TableV2Props } from './Table.types';
 const TableV2 = <T,>({
   columns,
   data,
-  enableRowSelection = false,
+  rowSelection: rowSelectionConfig,
   enableSorting = true,
-  onRowSelectionChange,
   bulkActions,
   header,
   footer,
@@ -40,10 +37,28 @@ const TableV2 = <T,>({
   onRow,
   className,
 }: TableV2Props<T>) => {
-  const [globalFilter, setGlobalFilter] = useState('');
-  const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
+  const isRowSelectionEnabled = !!rowSelectionConfig;
+  const isControlled = rowSelectionConfig?.selectedRowKeys !== undefined;
+
+  const [pendingSearch, setPendingSearch] = useState(header?.searchValue ?? '');
+
+  useEffect(() => {
+    if (header?.searchValue !== undefined) {
+      setPendingSearch(header.searchValue);
+    }
+  }, [header?.searchValue]);
+  const [rowSelectionState, setRowSelectionState] = useState<RowSelectionState>({});
   const rowSelectionRef = useRef<RowSelectionState>({});
-  rowSelectionRef.current = rowSelection;
+
+  const externalSelectionState = useMemo<RowSelectionState>(() => {
+    if (!rowSelectionConfig?.selectedRowKeys) return {};
+    return Object.fromEntries(
+      rowSelectionConfig.selectedRowKeys.map((key) => [String(key), true])
+    );
+  }, [rowSelectionConfig?.selectedRowKeys]);
+
+  const effectiveRowSelection = isControlled ? externalSelectionState : rowSelectionState;
+  rowSelectionRef.current = effectiveRowSelection;
   const lastEmittedSelectionKey = useRef('{}');
   const [sorting, setSorting] = useState<SortingState>([]);
   const [pagination, setPagination] = useState({
@@ -62,6 +77,7 @@ const TableV2 = <T,>({
         <Checkbox
           checked={t.getIsAllPageRowsSelected()}
           indeterminate={t.getIsSomePageRowsSelected()}
+          disabled={rowSelectionConfig?.disableSelectAll}
           onCheckedChange={(checked) =>
             t.toggleAllPageRowsSelected(checked)
           }
@@ -72,33 +88,31 @@ const TableV2 = <T,>({
       <div className={styles.checkboxCell}>
         <Checkbox
           checked={row.getIsSelected()}
+          disabled={!row.getCanSelect()}
           onCheckedChange={(checked) => row.toggleSelected(checked)}
         />
       </div>
     ),
-  }), []);
+  }), [rowSelectionConfig?.disableSelectAll]);
 
   const resolvedColumns = useMemo(
-    () => (enableRowSelection ? [selectionColumn, ...columns] : columns),
-    [enableRowSelection, selectionColumn, columns]
+    () => (isRowSelectionEnabled ? [selectionColumn, ...columns] : columns),
+    [isRowSelectionEnabled, selectionColumn, columns]
   );
 
-  const showSearch = !!(header && (header.showSearch ?? true));
+  const showSearch = !!(header?.onSearchChange);
 
   const table = useReactTable({
     data,
     columns: resolvedColumns,
     defaultColumn: { minSize: 44, size: 0 },
     state: {
-      ...(showSearch ? { globalFilter } : {}),
-      ...(footer ? { pagination: { pageIndex, pageSize } } : {}),
-      ...(enableRowSelection ? { rowSelection } : {}),
+      ...(isRowSelectionEnabled ? { rowSelection: effectiveRowSelection } : {}),
       ...(enableSorting ? { sorting } : {}),
     },
-    onGlobalFilterChange: showSearch ? setGlobalFilter : undefined,
     onSortingChange: enableSorting ? setSorting : undefined,
     enableSorting,
-    onRowSelectionChange: enableRowSelection
+    onRowSelectionChange: isRowSelectionEnabled
       ? (updater) => {
           const prev = rowSelectionRef.current;
           const next = typeof updater === 'function' ? updater(prev) : updater;
@@ -106,28 +120,29 @@ const TableV2 = <T,>({
           if (selectionKey === lastEmittedSelectionKey.current) return;
           lastEmittedSelectionKey.current = selectionKey;
           rowSelectionRef.current = next;
-          setRowSelection(next);
-          if (onRowSelectionChange) {
-            const selectedRows = table
-              .getCoreRowModel()
-              .rows.filter((r) => next[r.id])
-              .map((r) => r.original);
-            onRowSelectionChange(selectedRows);
+          if (!isControlled) {
+            setRowSelectionState(next);
+          }
+          if (rowSelectionConfig?.onRowChange) {
+            const allRows = table.getCoreRowModel().rows;
+            const selectedRows = allRows.filter((r) => next[r.id]).map((r) => r.original);
+            const selectedKeys = allRows.filter((r) => next[r.id]).map((r) => r.index as (string | number));
+            rowSelectionConfig.onRowChange(selectedRows, selectedKeys);
           }
         }
       : undefined,
-    enableRowSelection,
-    onPaginationChange: footer ? setPagination : undefined,
+    enableRowSelection: isRowSelectionEnabled
+      ? typeof rowSelectionConfig?.disabled === 'function'
+        ? (row) => !(rowSelectionConfig.disabled as (r: T, i: number) => boolean)(row.original, row.index)
+        : typeof rowSelectionConfig?.disabled === 'boolean'
+          ? !rowSelectionConfig.disabled
+          : true
+      : false,
     getCoreRowModel: getCoreRowModel(),
-    getFilteredRowModel: showSearch ? getFilteredRowModel() : undefined,
-    getPaginationRowModel: footer ? getPaginationRowModel() : undefined,
     getSortedRowModel: enableSorting ? getSortedRowModel() : undefined,
   });
 
-  const filteredRowCount = table.getFilteredRowModel().rows.length;
-  const effectiveTotalItems = footer
-    ? showSearch ? filteredRowCount : footer.totalItems
-    : 0;
+  const effectiveTotalItems = footer?.totalItems ?? 0;
   const totalPages = footer ? Math.ceil(effectiveTotalItems / pageSize) : 0;
   const canGoPrev = pageIndex > 0;
   const canGoNext = pageIndex + 1 < totalPages;
@@ -138,19 +153,30 @@ const TableV2 = <T,>({
     () =>
       table
         .getCoreRowModel()
-        .rows.filter((r) => rowSelection[r.id])
+        .rows.filter((r) => effectiveRowSelection[r.id])
         .map((r) => r.original),
-    [rowSelection, table]
+    [effectiveRowSelection, table]
   );
   const selectedCount = selectedRows.length;
-  const showBulkActions = enableRowSelection && !!bulkActions && selectedCount > 0;
+  const showBulkActions = isRowSelectionEnabled && !!bulkActions && selectedCount > 0;
 
   useEffect(() => {
-    if (enableRowSelection) {
+    if (isRowSelectionEnabled) {
       table.resetRowSelection();
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageIndex]);
+
+  useEffect(() => {
+    if (footer?.currentPage !== undefined) {
+      const targetPageIndex = footer.currentPage - 1;
+      setPagination((prev) =>
+        prev.pageIndex !== targetPageIndex
+          ? { ...prev, pageIndex: targetPageIndex }
+          : prev,
+      );
+    }
+  }, [footer?.currentPage]);
 
   const handleClearSelection = () => {
     table.resetRowSelection();
@@ -203,10 +229,25 @@ const TableV2 = <T,>({
           {showSearch && (
             <div className={styles.tableHeaderSearchContainer}>
               <Search
-                value={globalFilter}
+                value={pendingSearch}
+                searchMode={header?.searchMode ?? "on-enter"}
                 onChange={(e) => {
-                  setGlobalFilter(e.target.value);
-                  if (footer) setPagination((prev) => ({ ...prev, pageIndex: 0 }));
+                  setPendingSearch(e.target.value);
+                }}
+                onSearch={(val) => {
+                  if (footer) {
+                    setPagination((prev) => ({ ...prev, pageIndex: 0 }));
+                    footer?.onPageChange?.(1);
+                  }
+                  header?.onSearchChange?.(val);
+                }}
+                onClear={() => {
+                  setPendingSearch('');
+                  if (footer) {
+                    setPagination((prev) => ({ ...prev, pageIndex: 0 }));
+                    footer?.onPageChange?.(1);
+                  }
+                  header?.onSearchChange?.('');
                 }}
                 placeholder={header.searchPlaceholder ?? 'Pesquisar...'}
                 className={styles.tableHeaderSearch}
@@ -267,7 +308,7 @@ const TableV2 = <T,>({
           <table
             className={styles.table}
             aria-label="Tabela de dados"
-            aria-rowcount={filteredRowCount + 1}
+            aria-rowcount={data.length + 1}
           >
             <thead className={styles.tableHead}>
               {table.getHeaderGroups().map((headerGroup) => (
@@ -306,7 +347,6 @@ const TableV2 = <T,>({
                           flexRender(col.column.columnDef.header, col.getContext())
                         )}
                       </div>
-
                     </th>
                   ))}
                 </tr>

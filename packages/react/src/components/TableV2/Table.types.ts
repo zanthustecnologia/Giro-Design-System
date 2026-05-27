@@ -87,10 +87,22 @@ export type FilterItem = CheckboxFilterItem | CalendarFilterItem;
 export interface TableV2HeaderProps {
   /** Placeholder do campo de busca global */
   searchPlaceholder?: string;
-  /** Exibe o campo de busca (padrão: true) */
-  showSearch?: boolean;
   /** Items de filtro (Status, Data de início, etc.) */
   filterItems?: FilterItem[];
+  /** Modo de busca: 'instant' chama onSearchChange a cada tecla; 'on-enter' chama apenas ao pressionar Enter (padrão) */
+  searchMode?: 'instant' | 'on-enter';
+  /**
+   * Valor controlado do campo de busca.
+   * Permite que o pai redefina o texto exibido no campo (ex: ao limpar filtros).
+   */
+  searchValue?: string;
+  /**
+   * Callback chamado quando o valor da busca é confirmado.
+   * A presença deste callback é o que exibe o campo de busca —
+   * quando não fornecido, o campo de busca não é renderizado.
+   * A paginação é automaticamente resetada para a página 1 ao buscar.
+   */
+  onSearchChange?: (value: string) => void;
 }
 
 /**
@@ -107,6 +119,14 @@ export interface TableV2FooterProps {
   onPageChange?: (page: number) => void;
   /** Callback chamado quando o tamanho da página muda */
   onPageSizeChange?: (pageSize: number) => void;
+  /**
+   * Página atual (1-based) para controle externo da paginação.
+   * Quando fornecido, sincroniza o estado interno com este valor,
+   * permitindo que o pai redefina a página — por exemplo, ao aplicar
+   * um filtro externo que deva redefinir para a página 1.
+   * Funciona tanto no modo client-side quanto no modo `manualPagination`.
+   */
+  currentPage?: number;
 }
 
 /**
@@ -119,6 +139,28 @@ export interface EmptyStateProps {
   emptyTitle?: ReactNode;
   /** Texto descritivo exibido no estado vazio */
   emptyText?: ReactNode;
+}
+
+/**
+ * Props de configuração de seleção de linhas do TableV2.
+ */
+export interface TableV2RowSelectionProps<T = Record<string, unknown>> {
+  /**
+   * Keys das linhas selecionadas (modo controlado).
+   * Quando fornecido, o componente não gerencia o estado de seleção internamente —
+   * o pai é responsável por atualizar este array via `onRowChange`.
+   */
+  selectedRowKeys?: (string | number)[];
+  /**
+   * Desabilita a seleção de uma linha específica.
+   * Pode ser um booleano global ou uma função chamada por linha.
+   */
+  disabled?: boolean | ((row: T, index: number) => boolean);
+  /** Callback chamado quando a seleção de linhas muda.
+   * Recebe os dados das linhas selecionadas e suas keys (índices). */
+  onRowChange?: (selectedRows: T[], selectedKeys: (string | number)[]) => void;
+  /** Desabilita o checkbox "selecionar todos" */
+  disableSelectAll?: boolean;
 }
 
 /**
@@ -150,6 +192,7 @@ export interface TableV2BulkActionsProps<T = Record<string, unknown>> {
   onClear?: () => void;
 }
 
+
 /**
  * Props do componente TableV2.
  * @example
@@ -158,7 +201,7 @@ export interface TableV2BulkActionsProps<T = Record<string, unknown>> {
  *   columns={columns}
  *   data={data}
  *   enableSorting
- *   enableRowSelection
+ *   rowSelection={{ onRowChange: (rows, keys) => console.log(rows, keys) }}
  *   loading={isLoading}
  * />
  * ```
@@ -169,12 +212,21 @@ export interface TableV2Props<T = Record<string, unknown>> extends EmptyStatePro
   columns: ColumnDef<T, any>[];
   /** Dados exibidos na tabela */
   data: T[];
-  /** Habilita seleção de linhas via checkbox */
-  enableRowSelection?: boolean;
+  /**
+   * Configuração de seleção de linhas via checkbox.
+   * A presença deste objeto habilita a seleção. Use `disabled` para controlar
+   * linhas específicas e `onRowChange` para reagir às mudanças.
+   * @example
+   * ```tsx
+   * rowSelection={{
+   *   disabled: (row) => row.status !== 'pronto_para_fechar',
+   *   onRowChange: (rows, keys) => handleRowChange(rows, keys),
+   * }}
+   * ```
+   */
+  rowSelection?: TableV2RowSelectionProps<T>;
   /** Habilita ordenação de colunas ao clicar no cabeçalho */
   enableSorting?: boolean;
-  /** Callback chamado quando a seleção de linhas muda */
-  onRowSelectionChange?: (selectedRows: T[]) => void;
   /** Configuração das ações em massa exibidas quando há linhas selecionadas */
   bulkActions?: TableV2BulkActionsProps<T>;
   /** Header acima da tabela com busca + filtros */
