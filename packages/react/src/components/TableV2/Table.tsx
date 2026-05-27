@@ -1,7 +1,6 @@
 import { ChevronLeft16Regular, ChevronRight16Regular, ArrowSort16Regular, ArrowSortUp16Regular, ArrowSortDown16Regular, Dismiss16Regular } from '@fluentui/react-icons';
 import {
   type ColumnDef,
-  type ColumnFiltersState,
   type RowSelectionState,
   type SortingState,
   flexRender,
@@ -28,7 +27,6 @@ import type { TableV2Props } from './Table.types';
 const TableV2 = <T,>({
   columns,
   data,
-  enableFilters = false,
   enableRowSelection = false,
   enableSorting = true,
   onRowSelectionChange,
@@ -42,7 +40,6 @@ const TableV2 = <T,>({
   onRow,
   className,
 }: TableV2Props<T>) => {
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [globalFilter, setGlobalFilter] = useState('');
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
   const rowSelectionRef = useRef<RowSelectionState>({});
@@ -93,13 +90,11 @@ const TableV2 = <T,>({
     columns: resolvedColumns,
     defaultColumn: { minSize: 44, size: 0 },
     state: {
-      ...(enableFilters ? { columnFilters } : {}),
       ...(showSearch ? { globalFilter } : {}),
       ...(footer ? { pagination: { pageIndex, pageSize } } : {}),
       ...(enableRowSelection ? { rowSelection } : {}),
       ...(enableSorting ? { sorting } : {}),
     },
-    onColumnFiltersChange: enableFilters ? setColumnFilters : undefined,
     onGlobalFilterChange: showSearch ? setGlobalFilter : undefined,
     onSortingChange: enableSorting ? setSorting : undefined,
     enableSorting,
@@ -124,15 +119,14 @@ const TableV2 = <T,>({
     enableRowSelection,
     onPaginationChange: footer ? setPagination : undefined,
     getCoreRowModel: getCoreRowModel(),
-    getFilteredRowModel:
-      enableFilters || showSearch ? getFilteredRowModel() : undefined,
+    getFilteredRowModel: showSearch ? getFilteredRowModel() : undefined,
     getPaginationRowModel: footer ? getPaginationRowModel() : undefined,
     getSortedRowModel: enableSorting ? getSortedRowModel() : undefined,
   });
 
   const filteredRowCount = table.getFilteredRowModel().rows.length;
   const effectiveTotalItems = footer
-    ? (enableFilters || showSearch) ? filteredRowCount : footer.totalItems
+    ? showSearch ? filteredRowCount : footer.totalItems
     : 0;
   const totalPages = footer ? Math.ceil(effectiveTotalItems / pageSize) : 0;
   const canGoPrev = pageIndex > 0;
@@ -312,15 +306,7 @@ const TableV2 = <T,>({
                           flexRender(col.column.columnDef.header, col.getContext())
                         )}
                       </div>
-                      {enableFilters && col.column.getCanFilter() && (
-                        <input
-                          value={(col.column.getFilterValue() as string) ?? ''}
-                          onChange={(e) =>
-                            col.column.setFilterValue(e.target.value)
-                          }
-                          placeholder="Filtrar..."
-                        />
-                      )}
+
                     </th>
                   ))}
                 </tr>
