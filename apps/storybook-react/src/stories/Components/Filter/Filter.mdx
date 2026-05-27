@@ -83,6 +83,12 @@ Vários filtros podem coexistir na mesma interface para permitir combinações d
 
 <Canvas of={FilterStories.MultipleFilters} />
 
+### Filtro combinado
+
+O modo combinado abre um painel lateral (drawer) onde qualquer componente pode ser composto como filho. Use-o quando houver múltiplos critérios de filtragem que não se encaixam bem em um único popover. O número de filtros ativos é controlado externamente via `activeCount`. Os callbacks `onApply` e `onClear` são chamados quando o usuário clica nos botões do rodapé.
+
+<Canvas of={FilterStories.CombinedFilter} />
+
 <div style={{ marginTop: '48px' }} />
 
 ## O que fazer e não fazer
@@ -99,7 +105,7 @@ Vários filtros podem coexistir na mesma interface para permitir combinações d
               { id: 'c', text: 'C' },
             ]}
             buttonText="Filtrar"
-            type="checkbox"
+            type="multiple"
             variant="outlined"
           />
         ),
@@ -114,7 +120,7 @@ Vários filtros podem coexistir na mesma interface para permitir combinações d
               { id: 'pendente', text: 'Pendente' },
             ]}
             buttonText="Status"
-            type="checkbox"
+            type="multiple"
             variant="outlined"
           />
         ),
@@ -125,10 +131,10 @@ Vários filtros podem coexistir na mesma interface para permitir combinações d
       negative: {
         component: (
           <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-            <Filter items={[{ id: '1', text: 'Opção 1' }]} buttonText="Filtro 1" type="checkbox" variant="outlined" />
-            <Filter items={[{ id: '2', text: 'Opção 2' }]} buttonText="Filtro 2" type="checkbox" variant="outlined" />
-            <Filter items={[{ id: '3', text: 'Opção 3' }]} buttonText="Filtro 3" type="checkbox" variant="outlined" />
-            <Filter items={[{ id: '4', text: 'Opção 4' }]} buttonText="Filtro 4" type="checkbox" variant="outlined" />
+            <Filter items={[{ id: '1', text: 'Opção 1' }]} buttonText="Filtro 1" type="multiple" variant="outlined" />
+            <Filter items={[{ id: '2', text: 'Opção 2' }]} buttonText="Filtro 2" type="multiple" variant="outlined" />
+            <Filter items={[{ id: '3', text: 'Opção 3' }]} buttonText="Filtro 3" type="multiple" variant="outlined" />
+            <Filter items={[{ id: '4', text: 'Opção 4' }]} buttonText="Filtro 4" type="multiple" variant="outlined" />
           </div>
         ),
         description: 'Evite acumular muitos filtros em linha. Um excesso de filtros sobrecarrega a interface e dificulta a leitura.'
@@ -136,8 +142,8 @@ Vários filtros podem coexistir na mesma interface para permitir combinações d
       positive: {
         component: (
           <div style={{ display: 'flex', gap: '8px' }}>
-            <Filter items={[{ id: 'ativo', text: 'Ativo' }, { id: 'inativo', text: 'Inativo' }]} buttonText="Status" type="checkbox" variant="outlined" />
-            <Filter items={[{ id: 'alta', text: 'Alta' }, { id: 'baixa', text: 'Baixa' }]} buttonText="Prioridade" type="checkbox" variant="outlined" />
+            <Filter items={[{ id: 'ativo', text: 'Ativo' }, { id: 'inativo', text: 'Inativo' }]} buttonText="Status" type="multiple" variant="outlined" />
+            <Filter items={[{ id: 'alta', text: 'Alta' }, { id: 'baixa', text: 'Baixa' }]} buttonText="Prioridade" type="multiple" variant="outlined" />
           </div>
         ),
         description: 'Limite o número de filtros visíveis. Agrupe critérios relacionados em um único Filter quando possível.'

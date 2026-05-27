@@ -218,7 +218,7 @@ export const ComBuscaEFiltros: StoryFn = () => {
     {
       id: 'status',
       buttonText: selectedStatus.length > 0 ? `Status (${selectedStatus.length})` : 'Status',
-      type: 'checkbox' as const,
+      type: 'multiple' as const,
       items: [
         { id: 'ativa', text: 'Ativa' },
         { id: 'inativa', text: 'Inativa' },

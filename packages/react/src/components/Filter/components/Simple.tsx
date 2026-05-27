@@ -1,0 +1,286 @@
+import { ChevronDownRegular, Calendar16Regular } from '@fluentui/react-icons';
+import clsx from 'clsx';
+import React, {
+  useState,
+  useEffect,
+  useCallback,
+  useMemo,
+} from 'react';
+
+import Badge from '../../Badge';
+import Button from '../../Button';
+import Calendar from '../../Calendar/Calendar';
+import Checkbox from '../../Checkbox';
+import Popover from '../../Popover/Popover';
+import Search from '../../Search';
+import styles from '../Filter.module.scss';
+
+import type { FilterItem, FilterProps } from '../Filter.types';
+
+type SelectionState = Record<string, boolean>;
+
+const Simple: React.FC<FilterProps> = ({
+  items,
+  type = 'multiple',
+  selectedIds,
+  onApplyFilter,
+  placeholder = 'Selecionar...',
+  enableSearch = false,
+  buttonText = 'Filter',
+  icon,
+  variant = 'outlined',
+  onOpen,
+  onClose,
+  side = 'bottom',
+  align = 'start',
+  disabled = false,
+  className,
+  selectedDate,
+  onDateSelect,
+  onClearDate,
+  minDate,
+  maxDate,
+  locale = 'pt-br',
+  id,
+  ...rest
+}) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [tempSelectedItems, setTempSelectedItems] = useState<SelectionState>({});
+  const [searchQuery, setSearchQuery] = useState('');
+  const [currentCalendarDate, setCurrentCalendarDate] = useState<Date | null>(
+    () => selectedDate || new Date()
+  );
+
+  useEffect(() => {
+    if (selectedDate) {
+      setCurrentCalendarDate(selectedDate);
+    }
+  }, [selectedDate]);
+
+  const handleCalendarNavigation = useCallback((date: Date) => {
+    setCurrentCalendarDate(date);
+  }, []);
+
+  const handleDateSelection = useCallback(
+    (date: Date) => {
+      onDateSelect?.(date);
+      setIsOpen(false);
+      onClose?.();
+    },
+    [onDateSelect, onClose]
+  );
+
+  const handleClear = useCallback((): void => {
+    onClearDate?.();
+    setCurrentCalendarDate(new Date());
+    setIsOpen(false);
+    onClose?.();
+  }, [onClearDate, onClose]);
+
+  const handleOpenChange = useCallback(
+    (open: boolean) => {
+      if (disabled && open) return;
+      if (open) {
+        const initial: SelectionState = {};
+        selectedIds?.forEach((itemId) => { initial[itemId] = true; });
+        setTempSelectedItems(initial);
+        setSearchQuery('');
+        onOpen?.();
+      } else {
+        onClose?.();
+      }
+      setIsOpen(open);
+    },
+    [disabled, selectedIds, onOpen, onClose]
+  );
+
+  const toggleItem = useCallback(
+    (itemId: string, item: FilterItem) => {
+      if (item.disabled) return;
+      setTempSelectedItems((prev) => {
+        if (type === 'multiple') {
+          return { ...prev, [itemId]: !prev[itemId] };
+        }
+        return prev[itemId] ? {} : { [itemId]: true };
+      });
+    },
+    [type]
+  );
+
+  const handleApplyFilter = useCallback(() => {
+    const ids = Object.keys(tempSelectedItems).filter((k) => tempSelectedItems[k]);
+    onApplyFilter?.(ids);
+    setIsOpen(false);
+    onClose?.();
+  }, [tempSelectedItems, onApplyFilter, onClose]);
+
+  const handleClearFilter = useCallback(() => {
+    setTempSelectedItems({});
+    onApplyFilter?.([]);
+  }, [onApplyFilter]);
+
+  const handleSearchChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+  }, []);
+
+  const handleSearchKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        setSearchQuery('');
+      }
+    },
+    []
+  );
+
+  const searchVisible = enableSearch || (items?.length ?? 0) > 4;
+
+  const filteredItems = useMemo(() => {
+    if (!items?.length) return [];
+    if (!searchQuery.trim()) return items;
+    const q = searchQuery.toLowerCase();
+    return items.filter((item) => item.text.toLowerCase().includes(q));
+  }, [items, searchQuery]);
+
+  const buttonDisplayText = useMemo(() => {
+    if (type === 'calendar' && selectedDate) {
+      return selectedDate.toLocaleDateString(
+        locale === 'pt-br' ? 'pt-BR' : 'en-US'
+      );
+    }
+    if (!selectedIds?.length) return buttonText;
+    const firstItem = items?.find((item) => item.id === selectedIds[0]);
+    return firstItem?.text || selectedIds[0];
+  }, [type, selectedDate, selectedIds, items, buttonText, locale]);
+
+  const getBadgeValue = useCallback(() => {
+    if (!selectedIds || selectedIds.length <= 1) return null;
+    return selectedIds.length - 1;
+  }, [selectedIds]);
+
+  const filterClass = clsx(styles.container, className);
+
+  const triggerButton = (
+    <Button
+      variant={variant}
+      disabled={disabled}
+      icon={
+        type === 'calendar' ? <Calendar16Regular /> : <ChevronDownRegular />
+      }
+      iconPosition="right"
+      size="lg"
+    >
+      <div className={styles.buttonContent}>
+        {icon && <span className={styles.buttonIcon}>{icon}</span>}
+        <span className={styles.buttonText}>{buttonDisplayText}</span>
+        <span className={clsx(styles.buttonArrow, { [styles.buttonArrowOpen]: isOpen })}>
+          {getBadgeValue() && (
+            <Badge badgeValue={`+${getBadgeValue()}`} filterVariant />
+          )}
+        </span>
+      </div>
+    </Button>
+  );
+
+  const popoverContent =
+    type === 'calendar' ? (
+      <Calendar
+        currentDate={currentCalendarDate}
+        selected={selectedDate}
+        onDaySelect={handleDateSelection}
+        onDateChange={handleCalendarNavigation}
+        minDate={minDate}
+        maxDate={maxDate}
+        locale={locale}
+        onClear={handleClear}
+        id={`filter-calendar-${id || ''}`}
+        aria-label="Selecionar data para filtro"
+      />
+    ) : (
+      <div className={styles.panel}>
+        {searchVisible && (
+          <div className={styles.search}>
+            <Search
+              value={searchQuery}
+              placeholder={placeholder}
+              onChange={handleSearchChange}
+              onKeyDown={handleSearchKeyDown}
+              onClear={() => setSearchQuery('')}
+            />
+          </div>
+        )}
+        <ul
+          className={styles.list}
+          role="listbox"
+          aria-multiselectable={type === 'multiple'}
+        >
+          {filteredItems.length > 0 ? (
+            filteredItems.map((item, index) => {
+              const itemId = item.id || `filter-item-${index}`;
+              const isSelected = !!tempSelectedItems[itemId];
+              return (
+                <li
+                  key={itemId}
+                  role="option"
+                  aria-selected={isSelected}
+                  aria-disabled={item.disabled}
+                  className={clsx(styles.item, {
+                    [styles.itemSelected]: isSelected,
+                    [styles.itemDisabled]: item.disabled,
+                  })}
+                  onMouseDown={(e) => e.preventDefault()}
+                  onClick={() => toggleItem(itemId, item)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      toggleItem(itemId, item);
+                    }
+                  }}
+                >
+                  {type === 'multiple' && (
+                    <Checkbox
+                      checked={isSelected}
+                      disabled={item.disabled}
+                      label=""
+                    />
+                  )}
+                  {item.icon && (
+                    <span className={styles.itemIcon}>{item.icon}</span>
+                  )}
+                  <span className={styles.itemText}>{item.text}</span>
+                </li>
+              );
+            })
+          ) : (
+            <li className={styles.noResults} role="status" aria-live="polite">
+              Nenhum item encontrado
+            </li>
+          )}
+        </ul>
+        <div className={styles.footer}>
+          <Button fullWidth variant="outlined" onClick={handleClearFilter}>
+            Limpar
+          </Button>
+          <Button fullWidth onClick={handleApplyFilter}>
+            Aplicar
+          </Button>
+        </div>
+      </div>
+    );
+
+  return (
+    <div className={filterClass} id={id} {...rest}>
+      <Popover
+        open={isOpen}
+        onOpenChange={handleOpenChange}
+        side={side}
+        align={align}
+        onOpenAutoFocus={(e) => e.preventDefault()}
+        trigger={triggerButton}
+        content={popoverContent}
+      />
+    </div>
+  );
+};
+
+export default Simple;

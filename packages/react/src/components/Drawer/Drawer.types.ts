@@ -64,6 +64,9 @@ export interface DrawerProps extends BaseProps {
 
   /** Classe CSS opcional */
   className?: string;
+
+  /** Conteúdo fixo exibido abaixo da área rolável, sem acompanhar o scroll */
+  footer?: ReactNode;
 }
 
 /**
