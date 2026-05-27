@@ -269,6 +269,26 @@ const TableV2 = <T,>({
                     onOpen: () => filterItem.onToggle?.(true),
                     onClose: () => filterItem.onToggle?.(false),
                   };
+                  if (filterItem.type === 'combined') {
+                    return (
+                      <Filter
+                        key={filterItem.id ?? index}
+                        mode="combined"
+                        buttonText={filterItem.buttonText}
+                        icon={filterItem.icon}
+                        title={filterItem.title}
+                        drawerWidth={filterItem.drawerWidth}
+                        activeCount={filterItem.activeCount}
+                        drawerHeaderContent={filterItem.drawerHeaderContent}
+                        onApply={filterItem.onApply}
+                        onClear={filterItem.onClear}
+                        variant={filterItem.variant ?? 'outlined'}
+                        disabled={filterItem.disabled}
+                      >
+                        {filterItem.children}
+                      </Filter>
+                    );
+                  }
                   if (filterItem.type === 'calendar') {
                     return (
                       <Filter
