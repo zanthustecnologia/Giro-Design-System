@@ -1,4 +1,4 @@
-import type { Side, Align, Locale } from '../../types/common.types';
+import type { Side, Align, Locale, Variant } from '../../types/common.types';
 import type { FilterItem as FilterDropdownItem } from '../Filter';
 import type { ColumnDef, RowData } from '@tanstack/react-table';
 import type { ReactNode, ReactElement } from 'react';
@@ -76,10 +76,35 @@ interface CalendarFilterItem extends BaseFilterItem {
 }
 
 /**
- * Union type representando um item de filtro da tabela.
- * Pode ser do tipo multiple/single/ícone ou calendário.
+ * Props de filtro do tipo combined.
+ * Abre um painel lateral (Drawer) com conteúdo composto via children.
  */
-export type FilterItem = CheckboxFilterItem | CalendarFilterItem;
+interface CombinedFilterItem extends BaseFilterItem {
+  /** Tipo do filtro */
+  type: 'combined';
+  /** Título do painel lateral (padrão: 'Filtrar') */
+  title?: string;
+  /** Largura do painel lateral (ex: '400px', '50vw') */
+  drawerWidth?: string;
+  /** Número de filtros ativos exibido como badge no botão */
+  activeCount?: number;
+  /** Conteúdo customizado no cabeçalho do Drawer */
+  drawerHeaderContent?: ReactNode;
+  /** Conteúdo do painel lateral */
+  children?: ReactNode;
+  /** Callback ao clicar em Aplicar */
+  onApply?: () => void;
+  /** Callback ao clicar em Limpar */
+  onClear?: () => void;
+  /** Variante visual do botão (padrão: 'outlined') */
+  variant?: Variant;
+}
+
+/**
+ * Union type representando um item de filtro da tabela.
+ * Pode ser do tipo multiple/single, calendário ou combined (Drawer).
+ */
+export type FilterItem = CheckboxFilterItem | CalendarFilterItem | CombinedFilterItem;
 
 /**
  * Props do cabeçalho do TableV2, com busca global e filtros.

@@ -56,8 +56,13 @@ vi.mock('../../Search/Search', () => ({
 }));
 
 vi.mock('../../Filter/Filter', () => ({
-  default: ({ buttonText, type }: any) => (
-    <button data-testid={`filter-${type}`}>{buttonText}</button>
+  default: ({ buttonText, type, mode, activeCount }: any) => (
+    <button data-testid={mode === 'combined' ? 'filter-combined' : `filter-${type}`}>
+      {buttonText}
+      {mode === 'combined' && activeCount > 0 && (
+        <span data-testid="filter-combined-badge">{activeCount}</span>
+      )}
+    </button>
   ),
 }));
 
@@ -313,6 +318,68 @@ describe('TableV2', () => {
       );
       expect(screen.getByTestId('filter-multiple')).toBeInTheDocument();
       expect(screen.getByTestId('filter-calendar')).toBeInTheDocument();
+    });
+
+    it('deve renderizar filtro combinado quando filterItems contém type combined', () => {
+      render(
+        <TableV2
+          columns={columns}
+          data={data}
+          header={{
+            filterItems: [
+              {
+                type: 'combined',
+                buttonText: 'Filtrar',
+                children: <div>Conteúdo dos filtros</div>,
+              },
+            ],
+          }}
+        />
+      );
+      expect(screen.getByTestId('filter-combined')).toBeInTheDocument();
+      expect(screen.getByText('Filtrar')).toBeInTheDocument();
+    });
+
+    it('deve exibir badge com activeCount no filtro combinado', () => {
+      render(
+        <TableV2
+          columns={columns}
+          data={data}
+          header={{
+            filterItems: [
+              {
+                type: 'combined',
+                buttonText: 'Filtrar',
+                activeCount: 3,
+                children: <div>Conteúdo dos filtros</div>,
+              },
+            ],
+          }}
+        />
+      );
+      expect(screen.getByTestId('filter-combined-badge')).toHaveTextContent('3');
+    });
+
+    it('não deve renderizar filtro combinado quando filterItems não possui type combined', () => {
+      render(<TableV2 columns={columns} data={data} header={{}} />);
+      expect(screen.queryByTestId('filter-combined')).not.toBeInTheDocument();
+    });
+
+    it('deve renderizar filtro combined junto com outros tipos em filterItems', () => {
+      render(
+        <TableV2
+          columns={columns}
+          data={data}
+          header={{
+            filterItems: [
+              { type: 'multiple', buttonText: 'Status', items: [] },
+              { type: 'combined', buttonText: 'Filtros avançados' },
+            ],
+          }}
+        />
+      );
+      expect(screen.getByTestId('filter-multiple')).toBeInTheDocument();
+      expect(screen.getByTestId('filter-combined')).toBeInTheDocument();
     });
   });
 

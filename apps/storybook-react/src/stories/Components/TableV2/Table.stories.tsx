@@ -198,11 +198,12 @@ const meta: Meta<DefaultArgs> = {
       name: 'filterItems',
       description:
         'Filtros do cabeçalho: `header={{ filterItems: FilterItem[] }}`. ' +
-        '`FilterItem` é a union de `CheckboxFilterItem` (`type: "multiple" | "single"`) e `CalendarFilterItem` (`type: "calendar"`). ' +
+        '`FilterItem` é a union de `CheckboxFilterItem` (`type: "multiple" | "single"`), `CalendarFilterItem` (`type: "calendar"`) ' +
+        'e `CombinedFilterItem` (`type: "combined"` — abre um Drawer lateral com conteúdo via `children`). ' +
         'Cole o JSON do array. Ex: `[{"id":"status","type":"multiple","buttonText":"Status","items":[{"id":"ativa","text":"Ativa"}]},{"id":"inicio","type":"calendar","buttonText":"Data de início","minDate":"2024-01-01","maxDate":"2024-12-31"}]`',
       control: 'object',
       table: {
-        type: { summary: 'FilterItem[]' },
+        type: { summary: '"multiple" | "single" | "calendar" | "combined"' },
         defaultValue: { summary: 'undefined' },
         category: 'header',
       },
@@ -478,6 +479,135 @@ export const ComBuscaEFiltros: StoryFn = () => {
     </div>
   );
 };
+
+export const ComFiltroCombinado: StoryFn = () => {
+  const [draftStatus, setDraftStatus] = useState<string[]>([]);
+  const [draftTipo, setDraftTipo] = useState<string[]>([]);
+  const [appliedStatus, setAppliedStatus] = useState<string[]>([]);
+  const [appliedTipo, setAppliedTipo] = useState<string[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(5);
+
+  const activeCount = appliedStatus.length + appliedTipo.length;
+
+  const dadosFiltrados = useMemo(() => {
+    let result = promocoes;
+    if (appliedStatus.length > 0) {
+      result = result.filter((p) =>
+        appliedStatus.includes(p.status.toLowerCase().replace(' ', '-'))
+      );
+    }
+    if (appliedTipo.length > 0) {
+      result = result.filter((p) =>
+        appliedTipo.includes(p.tipo.toLowerCase().replace(' ', '-'))
+      );
+    }
+    return result;
+  }, [appliedStatus, appliedTipo]);
+
+  const paginatedData = useMemo(() => {
+    const start = (currentPage - 1) * pageSize;
+    return dadosFiltrados.slice(start, start + pageSize);
+  }, [dadosFiltrados, currentPage, pageSize]);
+
+  const toggleChip = (
+    selected: string[],
+    setter: (v: string[]) => void,
+    id: string,
+  ) => setter(selected.includes(id) ? selected.filter((v) => v !== id) : [...selected, id]);
+
+  const handleApply = () => {
+    setAppliedStatus(draftStatus);
+    setAppliedTipo(draftTipo);
+    setCurrentPage(1);
+  };
+
+  const handleClear = () => {
+    setDraftStatus([]);
+    setDraftTipo([]);
+    setAppliedStatus([]);
+    setAppliedTipo([]);
+    setCurrentPage(1);
+  };
+
+  return (
+    <div style={{ width: 800 }}>
+      <TableV2
+        columns={colunasPadrao}
+        data={paginatedData}
+        header={{
+          filterItems: [
+            {
+              type: 'combined' as const,
+              buttonText: 'Filtros',
+              activeCount,
+              title: 'Filtrar promoções',
+              drawerWidth: '320px',
+              onApply: handleApply,
+              onClear: handleClear,
+              children: (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+                  <div>
+                    <p style={{ margin: '0 0 8px', fontSize: 14, fontWeight: 500 }}>Status</p>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                      {[
+                        { id: 'ativa', label: 'Ativa' },
+                        { id: 'inativa', label: 'Inativa' },
+                        { id: 'agendada', label: 'Agendada' },
+                        { id: 'expirada', label: 'Expirada' },
+                      ].map(({ id, label }) => (
+                        <Chips
+                          key={id}
+                          variant={draftStatus.includes(id) ? 'success' : 'neutral'}
+                          onClick={() => toggleChip(draftStatus, setDraftStatus, id)}
+                          style={{ cursor: 'pointer' }}
+                          role="checkbox"
+                          aria-checked={draftStatus.includes(id)}
+                        >
+                          {label}
+                        </Chips>
+                      ))}
+                    </div>
+                  </div>
+                  <div>
+                    <p style={{ margin: '0 0 8px', fontSize: 14, fontWeight: 500 }}>Tipo</p>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                      {[
+                        { id: 'desconto', label: 'Desconto' },
+                        { id: 'frete-gratis', label: 'Frete Grátis' },
+                        { id: 'cashback', label: 'Cashback' },
+                      ].map(({ id, label }) => (
+                        <Chips
+                          key={id}
+                          variant={draftTipo.includes(id) ? 'success' : 'neutral'}
+                          onClick={() => toggleChip(draftTipo, setDraftTipo, id)}
+                          style={{ cursor: 'pointer' }}
+                          role="checkbox"
+                          aria-checked={draftTipo.includes(id)}
+                        >
+                          {label}
+                        </Chips>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ),
+            },
+          ]}}
+        footer={{
+          totalItems: dadosFiltrados.length,
+          defaultPageSize: 5,
+          pageSizeOptions: [5, 10],
+          currentPage,
+          onPageChange: setCurrentPage,
+          onPageSizeChange: (size) => { setPageSize(size); setCurrentPage(1); },
+        }}
+      />
+    </div>
+  );
+};
+
+ComFiltroCombinado.storyName = 'Com Filtro Combinado (Drawer)';
 
 export const SomenteFiltros: StoryFn = () => {
   const [selectedStatus, setSelectedStatus] = useState<string[]>([]);
