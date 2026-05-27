@@ -50,7 +50,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
   className,
   id,
   textFieldLabel,
-  textFieldPlaceholder,
+  textFieldPlaceholder = 'Digite aqui...',
   targetRef,
 }) => {
   const [layoutName, setLayoutName] = useState<string>('default');
