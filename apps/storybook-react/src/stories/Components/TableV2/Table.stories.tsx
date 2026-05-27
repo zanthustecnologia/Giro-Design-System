@@ -251,7 +251,7 @@ export const Default: StoryFn<DefaultArgs> = ({
   const [calendarDates, setCalendarDates] = React.useState<Record<string, Date | null>>({});
   const [searchQuery, setSearchQuery] = React.useState('');
   const [currentPage, setCurrentPage] = React.useState(1);
-  const [pageSize, setPageSize] = React.useState(5);
+  const [pageSize, setPageSize] = React.useState(10);
 
   const filterItemsConfig = useMemo((): FilterItemConfig[] => {
     if (!Array.isArray(filterItemsArg)) return [];
@@ -330,7 +330,7 @@ export const Default: StoryFn<DefaultArgs> = ({
         }
         footer={
           footerArg
-            ? { totalItems: dadosFiltrados.length, defaultPageSize: footerArg.defaultPageSize ?? 5, pageSizeOptions: footerArg.pageSizeOptions ?? [5, 10], currentPage, onPageChange: setCurrentPage, onPageSizeChange: (size: number) => { setPageSize(size); setCurrentPage(1); } }
+            ? { totalItems: dadosFiltrados.length, ...(footerArg.defaultPageSize !== undefined ? { defaultPageSize: footerArg.defaultPageSize } : {}), pageSizeOptions: footerArg.pageSizeOptions ?? [5, 10, 25], currentPage, onPageChange: setCurrentPage, onPageSizeChange: (size: number) => { setPageSize(size); setCurrentPage(1); } }
             : undefined
         }
         bulkActions={
