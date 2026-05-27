@@ -259,7 +259,7 @@ describe('TableV2', () => {
       expect(onSearchChange).toHaveBeenCalledWith('');
     });
 
-    it('deve renderizar filtros do tipo checkbox', () => {
+    it('deve renderizar filtros do tipo multiple', () => {
       render(
         <TableV2
           columns={columns}
@@ -267,7 +267,7 @@ describe('TableV2', () => {
           header={{
             filterItems: [
               {
-                type: 'checkbox',
+                type: 'multiple',
                 buttonText: 'Status',
                 items: [{ id: '1', text: 'Ativo' }],
               },
@@ -275,7 +275,7 @@ describe('TableV2', () => {
           }}
         />
       );
-      expect(screen.getByTestId('filter-checkbox')).toBeInTheDocument();
+      expect(screen.getByTestId('filter-multiple')).toBeInTheDocument();
       expect(screen.getByText('Status')).toBeInTheDocument();
     });
 
@@ -305,13 +305,13 @@ describe('TableV2', () => {
           data={data}
           header={{
             filterItems: [
-              { type: 'checkbox', buttonText: 'Status', items: [] },
+              { type: 'multiple', buttonText: 'Status', items: [] },
               { type: 'calendar', buttonText: 'Data' },
             ],
           }}
         />
       );
-      expect(screen.getByTestId('filter-checkbox')).toBeInTheDocument();
+      expect(screen.getByTestId('filter-multiple')).toBeInTheDocument();
       expect(screen.getByTestId('filter-calendar')).toBeInTheDocument();
     });
   });

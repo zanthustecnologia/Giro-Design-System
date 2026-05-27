@@ -4,7 +4,6 @@ import React, { useState, useMemo } from 'react';
 
 import type { Meta, StoryFn } from '@storybook/react-vite';
 
-// ─── Tipos ────────────────────────────────────────────────────────────────────
 type Promocao = {
   id: number;
   nome: string;
@@ -15,7 +14,6 @@ type Promocao = {
   inicioObj: Date;
 };
 
-// ─── Dataset ──────────────────────────────────────────────────────────────────
 const promocoes: Promocao[] = [
   { id: 1,  nome: 'Black Friday',         descricao: 'Desconto progressivo de 20%',             tipo: 'Desconto',     status: 'Ativa',     inicio: '24/11/2024', inicioObj: new Date(2024, 10, 24) },
   { id: 2,  nome: 'Frete Grátis Natal',   descricao: 'Frete grátis acima de R$ 100',            tipo: 'Frete Grátis', status: 'Agendada',  inicio: '01/12/2024', inicioObj: new Date(2024, 11, 1)  },
@@ -52,7 +50,6 @@ const tipoColor: Record<string, 'success' | 'alert' | 'brand' | 'neutral'> = {
   Cashback: 'neutral',
 };
 
-// ─── Colunas ──────────────────────────────────────────────────────────────────
 const col = createTableColumnHelper<Promocao>();
 
 const colunasPadrao = [
@@ -76,23 +73,6 @@ const colunasPadrao = [
       </Chips>
     ),
   }),
-  col.display({
-    id: 'actions',
-    header: '',
-    meta: { align: 'center' },
-    cell: ({ row }) => (
-      <Menu
-        items={[
-          { id: 'edit', text: 'Editar' },
-          { id: 'pause', text: row.original.status === 'Ativa' ? 'Pausar' : 'Ativar' },
-          { id: 'delete', text: 'Excluir' },
-        ]}
-        onItemSelect={(item) => console.warn(item.text, row.original.nome)}
-      >
-        <Button variant="text" iconOnly icon={<MoreVertical16Regular />} tooltipText="Mais ações" />
-      </Menu>
-    ),
-  }),
 ];
 
 const colunasCompletas = [
@@ -104,20 +84,24 @@ const colunasCompletas = [
       return <Avatar initialLetters={initials} size="sm" />;
     },
   }),
+  col.accessor('id', {
+    header: 'ID',
+    cell: (info) => info.getValue(),
+  }),
   col.accessor('nome', {
     header: 'Nome',
     cell: (info) => info.getValue(),
   }),
-  col.display({
-    id: 'detalhes',
-    header: 'Detalhes',
-    cell: ({ row }) => (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-8)' }}>
-        <div>{row.original.nome}</div>
-        <div style={{ fontSize: '12px', color: 'var(--color-neutral-low-medium)' }}>
-          {row.original.descricao}
-        </div>
-      </div>
+  col.accessor('descricao', {
+    header: 'Descrição',
+    cell: (info) => info.getValue(),
+  }),
+  col.accessor('tipo', {
+    header: 'Tipo',
+    cell: (info) => (
+      <Chips variant={tipoColor[info.getValue()] ?? 'neutral'}>
+        {info.getValue()}
+      </Chips>
     ),
   }),
   col.accessor('status', {
@@ -127,6 +111,10 @@ const colunasCompletas = [
         {info.getValue()}
       </Chips>
     ),
+  }),
+  col.accessor('inicio', {
+    header: 'Data de Início',
+    cell: (info) => info.getValue(),
   }),
   col.display({
     id: 'actions',
@@ -147,15 +135,59 @@ const colunasCompletas = [
   }),
 ];
 
-// ─── Meta ─────────────────────────────────────────────────────────────────────
-const meta: Meta = {
+type FilterItemConfig =
+  | { id: string; type: 'checkbox'; buttonText: string; items: { id: string; text: string }[] }
+  | { id: string; type: 'calendar'; buttonText: string; minDate?: string; maxDate?: string };
+
+type DefaultArgs = {
+  enableRowSelection: boolean;
+  enableSorting: boolean;
+  loading: boolean;
+  showSearch: boolean;
+  filterItems?: string;
+  footer: boolean;
+  bulkActions: boolean;
+};
+
+const meta: Meta<DefaultArgs> = {
   title: 'Components/TableV2',
-  component: TableV2,
+  component: TableV2 as unknown as React.ComponentType<DefaultArgs>,
   parameters: { layout: 'centered' },
   argTypes: {
     enableRowSelection: {
-      name: 'Checkbox de seleção',
-      description: 'Exibe checkboxes para seleção de linhas',
+      description: 'Habilita checkboxes para seleção de linhas',
+      control: 'boolean',
+      table: { defaultValue: { summary: 'false' } },
+    },
+    enableSorting: {
+      description: 'Habilita ordenação ao clicar no cabeçalho das colunas',
+      control: 'boolean',
+      table: { defaultValue: { summary: 'false' } },
+    },
+    loading: {
+      description: 'Exibe skeleton animado no lugar dos dados da tabela',
+      control: 'boolean',
+      table: { defaultValue: { summary: 'false' } },
+    },
+    showSearch: {
+      description: 'Exibe o campo de busca global no cabeçalho da tabela',
+      control: 'boolean',
+      table: { defaultValue: { summary: 'false' } },
+    },
+    filterItems: {
+      description:
+        'JSON dos itens de filtro. Cole o array diretamente no campo. ' +
+        'Exemplo: `[{"id":"status","type":"checkbox","buttonText":"Status","items":[{"id":"ativa","text":"Ativa"}]},{"id":"inicio","type":"calendar","buttonText":"Data de início","minDate":"2024-01-01","maxDate":"2024-12-31"}]`',
+      control: 'text',
+      table: { defaultValue: { summary: '""' } },
+    },
+    footer: {
+      description: 'Exibe o rodapé com controles de paginação abaixo da tabela',
+      control: 'boolean',
+      table: { defaultValue: { summary: 'false' } },
+    },
+    bulkActions: {
+      description: 'Exibe barra de ações em massa ao selecionar linhas (requer enableRowSelection)',
       control: 'boolean',
       table: { defaultValue: { summary: 'false' } },
     },
@@ -164,29 +196,131 @@ const meta: Meta = {
 
 export default meta;
 
-// ─── Padrão (com controles) ───────────────────────────────────────────────────
-export const Default: StoryFn<{
-  enableRowSelection: boolean;
-}> = ({ enableRowSelection }) => (
-  <div style={{ width: 700 }}>
-    <TableV2
-      columns={colunasPadrao}
-      data={promocoes}
-      rowSelection={enableRowSelection ? {
-        onRowChange: (rows) =>
-          console.warn('Selecionados:', rows.map((r) => r.nome)),
-      } : undefined}
-    />
-  </div>
-);
+export const Default: StoryFn<DefaultArgs> = ({
+  enableRowSelection,
+  enableSorting,
+  loading,
+  showSearch,
+  filterItems: filterItemsJson,
+  footer: showFooter,
+  bulkActions: showBulkActions,
+}) => {
+  const [selecionados, setSelecionados] = React.useState<Promocao[]>([]);
+  const [checkboxSelections, setCheckboxSelections] = React.useState<Record<string, string[]>>({});
+  const [calendarDates, setCalendarDates] = React.useState<Record<string, Date | null>>({});
+
+  const filterItemsConfig = useMemo((): FilterItemConfig[] => {
+    if (!filterItemsJson?.trim()) return [];
+    try {
+      const parsed = JSON.parse(filterItemsJson);
+      return Array.isArray(parsed) ? parsed : [];
+    } catch {
+      return [];
+    }
+  }, [filterItemsJson]);
+
+  const dadosFiltrados = useMemo(() => {
+    let result = promocoes;
+    const statusIds = checkboxSelections['status'];
+    if (statusIds?.length > 0) {
+      result = result.filter((p) =>
+        statusIds.includes(p.status.toLowerCase().replace(' ', '-')),
+      );
+    }
+    const dateFrom = calendarDates['inicio'];
+    if (dateFrom) {
+      result = result.filter((p) => p.inicioObj >= dateFrom);
+    }
+    return result;
+  }, [checkboxSelections, calendarDates]);
+
+  const resolvedFilterItems = filterItemsConfig?.map((item) => {
+    if (item.type === 'checkbox') {
+      const selected = checkboxSelections[item.id] ?? [];
+      return {
+        ...item,
+        buttonText: selected.length > 0 ? `${item.buttonText} (${selected.length})` : item.buttonText,
+        selectedIds: selected,
+        onSelectionChange: (ids: string[]) =>
+          setCheckboxSelections((prev) => ({ ...prev, [item.id]: ids })),
+      };
+    }
+    const date = calendarDates[item.id] ?? null;
+    return {
+      ...item,
+      selectedDate: date,
+      minDate: item.minDate ? new Date(item.minDate) : undefined,
+      maxDate: item.maxDate ? new Date(item.maxDate) : undefined,
+      buttonText: date ? `A partir de ${date.toLocaleDateString('pt-BR')}` : item.buttonText,
+      onDateSelect: (d: Date) => setCalendarDates((prev) => ({ ...prev, [item.id]: d })),
+      onClear: () => setCalendarDates((prev) => ({ ...prev, [item.id]: null })),
+    };
+  });
+
+  const hasFilters = !!resolvedFilterItems?.length;
+
+  return (
+    <div style={{ width: 600 }}>
+      <TableV2
+        columns={colunasPadrao}
+        data={dadosFiltrados}
+        enableRowSelection={enableRowSelection}
+        enableSorting={enableSorting}
+        loading={loading}
+        onRowSelectionChange={setSelecionados}
+        header={
+          showSearch || hasFilters
+            ? {
+                ...(showSearch ? { searchPlaceholder: 'Buscar promoções...' } : { showSearch: false }),
+                ...(hasFilters ? { filterItems: resolvedFilterItems } : {}),
+              }
+            : undefined
+        }
+        footer={
+          showFooter
+            ? { totalItems: dadosFiltrados.length, defaultPageSize: 5, pageSizeOptions: [5, 10] }
+            : undefined
+        }
+        bulkActions={
+          showBulkActions
+            ? {
+                actions: [
+                  {
+                    label: 'Ativar',
+                    variant: 'filled',
+                    onClick: () => console.warn('Ativar:', selecionados.map((r) => r.nome)),
+                  },
+                  {
+                    label: 'Pausar',
+                    variant: 'outlined',
+                    onClick: () => console.warn('Pausar:', selecionados.map((r) => r.nome)),
+                  },
+                  {
+                    label: 'Excluir',
+                    variant: 'outlined',
+                    onClick: () => console.warn('Excluir:', selecionados.map((r) => r.nome)),
+                  },
+                ],
+              }
+            : undefined
+        }
+      />
+    </div>
+  );
+};
 
 Default.args = {
   enableRowSelection: false,
+  enableSorting: false,
+  loading: false,
+  showSearch: false,
+  filterItems: '',
+  footer: false,
+  bulkActions: false,
 };
 
 Default.storyName = 'Default';
 
-// ─── Com Busca e Filtros ──────────────────────────────────────────────────────
 export const ComBuscaEFiltros: StoryFn = () => {
   const [selectedStatus, setSelectedStatus] = useState<string[]>([]);
   const [dataInicio, setDataInicio] = useState<Date | null>(null);
@@ -217,7 +351,7 @@ export const ComBuscaEFiltros: StoryFn = () => {
     {
       id: 'status',
       buttonText: selectedStatus.length > 0 ? `Status (${selectedStatus.length})` : 'Status',
-      type: 'checkbox' as const,
+      type: 'multiple' as const,
       items: [
         { id: 'ativa', text: 'Ativa' },
         { id: 'inativa', text: 'Inativa' },
@@ -296,29 +430,59 @@ export const ComBuscaEFiltros: StoryFn = () => {
   );
 };
 
-// ─── Somente Busca ────────────────────────────────────────────────────────────
-export const SomenteBusca: StoryFn = () => {
-  const [search, setSearch] = useState('');
+export const SomenteFiltros: StoryFn = () => {
+  const [selectedStatus, setSelectedStatus] = useState<string[]>([]);
+  const [dataInicio, setDataInicio] = useState<Date | null>(null);
 
-  const filteredData = useMemo(() => {
-    if (!search) return promocoes;
-    const q = search.toLowerCase();
-    return promocoes.filter(
-      (p) => p.nome.toLowerCase().includes(q) || p.descricao.toLowerCase().includes(q),
-    );
-  }, [search]);
+  const dadosFiltrados = useMemo(() => {
+    let result = promocoes;
+    if (selectedStatus.length > 0) {
+      result = result.filter((p) =>
+        selectedStatus.includes(p.status.toLowerCase().replace(' ', '-')),
+      );
+    }
+    if (dataInicio) {
+      result = result.filter((p) => p.inicioObj >= dataInicio);
+    }
+    return result;
+  }, [selectedStatus, dataInicio]);
+
+  const filterItems = [
+    {
+      id: 'status',
+      buttonText: selectedStatus.length > 0 ? `Status (${selectedStatus.length})` : 'Status',
+      type: 'checkbox' as const,
+      items: [
+        { id: 'ativa', text: 'Ativa' },
+        { id: 'inativa', text: 'Inativa' },
+        { id: 'agendada', text: 'Agendada' },
+        { id: 'expirada', text: 'Expirada' },
+      ],
+      selectedIds: selectedStatus,
+      onSelectionChange: setSelectedStatus,
+    },
+    {
+      id: 'inicio',
+      buttonText: dataInicio
+        ? `A partir de ${dataInicio.toLocaleDateString('pt-BR')}`
+        : 'Data de início',
+      type: 'calendar' as const,
+      selectedDate: dataInicio,
+      onDateSelect: (date: Date) => setDataInicio(date),
+      onClear: () => setDataInicio(null),
+      minDate: new Date(2024, 0, 1),
+      maxDate: new Date(2024, 11, 31),
+    },
+  ];
 
   return (
     <div style={{ width: 800 }}>
       <TableV2
         columns={colunasCompletas}
-        data={filteredData}
-        header={{
-          searchPlaceholder: 'Buscar promoções...',
-          onSearchChange: setSearch,
-        }}
+        data={dadosFiltrados}
+        header={{ showSearch: false, filterItems }}
         footer={{
-          totalItems: filteredData.length,
+          totalItems: dadosFiltrados.length,
           defaultPageSize: 5,
           pageSizeOptions: [5, 10],
         }}
@@ -327,7 +491,23 @@ export const SomenteBusca: StoryFn = () => {
   );
 };
 
-// ─── Sem Header ───────────────────────────────────────────────────────────────
+SomenteFiltros.storyName = 'Somente Filtros';
+
+export const SomenteBusca: StoryFn = () => (
+  <div style={{ width: 800 }}>
+    <TableV2
+      columns={colunasCompletas}
+      data={promocoes}
+      header={{ searchPlaceholder: 'Buscar promoções...' }}
+      footer={{
+        totalItems: promocoes.length,
+        defaultPageSize: 5,
+        pageSizeOptions: [5, 10],
+      }}
+    />
+  </div>
+);
+
 export const SemHeader: StoryFn = () => (
   <div style={{ width: 800 }}>
     <TableV2
@@ -342,21 +522,18 @@ export const SemHeader: StoryFn = () => (
   </div>
 );
 
-// ─── Carregando ───────────────────────────────────────────────────────────────
 export const Carregando: StoryFn = () => (
   <div style={{ width: 800 }}>
     <TableV2 columns={colunasCompletas} data={[]} loading />
   </div>
 );
 
-// ─── Vazia ────────────────────────────────────────────────────────────────────
 export const Vazia: StoryFn = () => (
   <div style={{ width: 800 }}>
     <TableV2 columns={colunasCompletas} data={[]}  />
   </div>
 );
 
-// ─── Tabela Responsiva ────────────────────────────────────────────────────────
 const colunasLargas = [
   col.accessor('nome', {
     header: 'Nome',
@@ -448,7 +625,6 @@ export const TabelaResponsiva: StoryFn = () => {
 
 TabelaResponsiva.storyName = 'Tabela Responsiva';
 
-// ─── Ações em Massa ──────────────────────────────────────────────────────────
 export const AcoesEmMassa: StoryFn = () => {
   const [selected, setSelected] = useState<Promocao[]>([]);
   const [search, setSearch] = useState('');
