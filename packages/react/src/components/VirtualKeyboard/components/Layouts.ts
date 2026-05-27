@@ -7,21 +7,24 @@ export const NATIVE_LAYOUTS: Partial<Record<VirtualKeyboardLayout, Record<string
       'q w e r t y u i o p {bksp}',
       'a s d f g h j k l ç {enter}',
       '{shift} z x c v b n m , . {shift}',
-      '{alt} {smileys} {space} {downkeyboard}',
+      '{numbers} {alt} {smileys} {space} {downkeyboard}',
     ],
     shift: [
       '1 2 3 4 5 6 7 8 9 0',
       'Q W E R T Y U I O P {bksp}',
       'A S D F G H J K L Ç {enter}',
       '{capslock} Z X C V B N M , . {capslock}',
-      '{alt} {smileys} {space} {downkeyboard}',
+      '{numbers} {alt} {smileys} {space} {downkeyboard}',
     ],
     caps: [
       '1 2 3 4 5 6 7 8 9 0',
       'Q W E R T Y U I O P {bksp}',
       'A S D F G H J K L Ç {enter}',
       '{shiftactivated} Z X C V B N M , . {shiftactivated}',
-      '{alt} {smileys} {space} {downkeyboard}',
+      '{numbers} {alt} {smileys} {space} {downkeyboard}',
+    ],
+    numbers: [
+      '1 2 3', '4 5 6', '7 8 9', '{abc} 0 {bksp}'
     ],
     alt: [
       '1 2 3 4 5 6 7 8 9 0 {bksp}',
@@ -85,7 +88,9 @@ export const LAYOUT_THEMES: Partial<Record<VirtualKeyboardLayout, string>> = {
 export const LAYOUT_DISPLAY: Partial<Record<VirtualKeyboardLayout, Record<string, string>>> = {
   default: {
     '{capslock}': '⇪',
-    '{alt}': '.?123',
+    '{numbers}': '123',
+    '{abc}': 'ABC',
+    '{alt}': '.?!',
     '{smileys}': '😃',
     '{shift}': '⇧',
     '{shiftactivated}': '⇧',

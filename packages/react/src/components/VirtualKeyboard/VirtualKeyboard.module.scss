@@ -22,8 +22,7 @@
     }
   }
 
-  &.layout--mobile,
-  &.layout--appleIOS {
+  &.layout--mobile {
     :global(.hg-button[data-skbtn="{space}"]) {
       flex: 4;
     }
@@ -38,6 +37,12 @@
 
     :global(.hg-button[data-skbtn="{space}"]) {
       flex: 7.8;
+    }
+
+    :global(.hg-layout-numbers) {
+      :global(.hg-button) {
+        flex: 1 0 0;
+      }
     }
   }
 
@@ -94,8 +99,7 @@
     }
   }
 
-  &.layout--mobile,
-  &.layout--appleIOS {
+  &.layout--mobile {
     :global(.hg-button[data-skbtn="{space}"]) {
       flex: 4;
     }
@@ -110,6 +114,12 @@
 
     :global(.hg-button[data-skbtn="{space}"]) {
       flex: 7.8;
+    }
+
+    :global(.hg-layout-numbers) {
+      :global(.hg-button) {
+        flex: 1 0 0;
+      }
     }
   }
 }
