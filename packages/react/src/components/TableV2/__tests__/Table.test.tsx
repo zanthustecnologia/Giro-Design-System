@@ -23,11 +23,12 @@ vi.mock('react-loading-skeleton', () => ({
 }));
 
 vi.mock('../../Checkbox/Checkbox', () => ({
-  default: ({ checked, indeterminate, onCheckedChange }: any) => (
+  default: ({ checked, indeterminate, onCheckedChange, disabled }: any) => (
     <input
       type="checkbox"
       data-testid="row-checkbox"
       checked={!!checked}
+      disabled={!!disabled}
       aria-checked={indeterminate ? 'mixed' : (checked ? 'true' : 'false')}
       onChange={(e) => onCheckedChange?.(e.target.checked)}
     />
@@ -35,20 +36,33 @@ vi.mock('../../Checkbox/Checkbox', () => ({
 }));
 
 vi.mock('../../Search/Search', () => ({
-  default: ({ value, onChange, placeholder, className }: any) => (
-    <input
-      data-testid="search-input"
-      value={value ?? ''}
-      onChange={onChange}
-      placeholder={placeholder}
-      className={className}
-    />
+  default: ({ value, onChange, onSearch, onClear, placeholder, className }: any) => (
+    <>
+      <input
+        data-testid="search-input"
+        value={value ?? ''}
+        onChange={onChange}
+        onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+          if (e.key === 'Enter') onSearch?.(value ?? '');
+        }}
+        placeholder={placeholder}
+        className={className}
+      />
+      <button data-testid="search-clear" type="button" onClick={() => onClear?.()}>
+        Limpar busca
+      </button>
+    </>
   ),
 }));
 
 vi.mock('../../Filter/Filter', () => ({
-  default: ({ buttonText, type }: any) => (
-    <button data-testid={`filter-${type}`}>{buttonText}</button>
+  default: ({ buttonText, type, mode, activeCount }: any) => (
+    <button data-testid={mode === 'combined' ? 'filter-combined' : `filter-${type}`}>
+      {buttonText}
+      {mode === 'combined' && activeCount > 0 && (
+        <span data-testid="filter-combined-badge">{activeCount}</span>
+      )}
+    </button>
   ),
 }));
 
@@ -194,25 +208,25 @@ describe('TableV2', () => {
   });
 
   describe('Header (busca e filtros)', () => {
-    it('deve renderizar campo de busca quando header é fornecido', () => {
-      render(<TableV2 columns={columns} data={data} header={{}} />);
+    it('deve renderizar campo de busca quando header.onSearchChange é fornecido', () => {
+      render(<TableV2 columns={columns} data={data} header={{ onSearchChange: vi.fn() }} />);
       expect(screen.getByTestId('search-input')).toBeInTheDocument();
     });
 
     it('deve usar placeholder padrão no campo de busca', () => {
-      render(<TableV2 columns={columns} data={data} header={{}} />);
+      render(<TableV2 columns={columns} data={data} header={{ onSearchChange: vi.fn() }} />);
       expect(screen.getByTestId('search-input')).toHaveAttribute('placeholder', 'Pesquisar...');
     });
 
     it('deve usar placeholder customizado no campo de busca', () => {
       render(
-        <TableV2 columns={columns} data={data} header={{ searchPlaceholder: 'Buscar usuário...' }} />
+        <TableV2 columns={columns} data={data} header={{ onSearchChange: vi.fn(), searchPlaceholder: 'Buscar usuário...' }} />
       );
       expect(screen.getByTestId('search-input')).toHaveAttribute('placeholder', 'Buscar usuário...');
     });
 
-    it('não deve renderizar campo de busca quando showSearch=false', () => {
-      render(<TableV2 columns={columns} data={data} header={{ showSearch: false }} />);
+    it('não deve renderizar campo de busca quando onSearchChange não é fornecido', () => {
+      render(<TableV2 columns={columns} data={data} header={{}} />);
       expect(screen.queryByTestId('search-input')).not.toBeInTheDocument();
     });
 
@@ -221,23 +235,44 @@ describe('TableV2', () => {
       expect(screen.queryByTestId('search-input')).not.toBeInTheDocument();
     });
 
-    it('deve filtrar linhas ao digitar no campo de busca', () => {
-      render(<TableV2 columns={columns} data={data} header={{}} />);
+    it('não deve chamar onSearchChange ao digitar sem pressionar Enter', () => {
+      const onSearchChange = vi.fn();
+      render(<TableV2 columns={columns} data={data} header={{ onSearchChange }} />);
       fireEvent.change(screen.getByTestId('search-input'), { target: { value: 'Alice' } });
-      expect(screen.getByText('Alice')).toBeInTheDocument();
-      expect(screen.queryByText('Bob')).not.toBeInTheDocument();
+      expect(onSearchChange).not.toHaveBeenCalled();
     });
 
-    it('deve renderizar filtros do tipo checkbox', () => {
+    it('deve chamar onSearchChange ao pressionar Enter', () => {
+      const onSearchChange = vi.fn();
+      render(
+        <TableV2
+          columns={columns}
+          data={data}
+          header={{ onSearchChange }}
+        />
+      );
+      const input = screen.getByTestId('search-input');
+      fireEvent.change(input, { target: { value: 'Carol' } });
+      fireEvent.keyDown(input, { key: 'Enter' });
+      expect(onSearchChange).toHaveBeenCalledWith('Carol');
+    });
+
+    it('deve chamar onSearchChange com "" ao acionar onClear', () => {
+      const onSearchChange = vi.fn();
+      render(<TableV2 columns={columns} data={data} header={{ onSearchChange }} />);
+      fireEvent.click(screen.getByTestId('search-clear'));
+      expect(onSearchChange).toHaveBeenCalledWith('');
+    });
+
+    it('deve renderizar filtros do tipo multiple', () => {
       render(
         <TableV2
           columns={columns}
           data={data}
           header={{
-            showSearch: false,
             filterItems: [
               {
-                type: 'checkbox',
+                type: 'multiple',
                 buttonText: 'Status',
                 items: [{ id: '1', text: 'Ativo' }],
               },
@@ -245,7 +280,7 @@ describe('TableV2', () => {
           }}
         />
       );
-      expect(screen.getByTestId('filter-checkbox')).toBeInTheDocument();
+      expect(screen.getByTestId('filter-multiple')).toBeInTheDocument();
       expect(screen.getByText('Status')).toBeInTheDocument();
     });
 
@@ -255,7 +290,6 @@ describe('TableV2', () => {
           columns={columns}
           data={data}
           header={{
-            showSearch: false,
             filterItems: [
               {
                 type: 'calendar',
@@ -275,80 +309,213 @@ describe('TableV2', () => {
           columns={columns}
           data={data}
           header={{
-            showSearch: false,
             filterItems: [
-              { type: 'checkbox', buttonText: 'Status', items: [] },
+              { type: 'multiple', buttonText: 'Status', items: [] },
               { type: 'calendar', buttonText: 'Data' },
             ],
           }}
         />
       );
-      expect(screen.getByTestId('filter-checkbox')).toBeInTheDocument();
+      expect(screen.getByTestId('filter-multiple')).toBeInTheDocument();
       expect(screen.getByTestId('filter-calendar')).toBeInTheDocument();
     });
-  });
 
-  describe('Seleção de linhas', () => {
-    it('deve adicionar coluna de checkbox quando enableRowSelection=true', () => {
-      render(<TableV2 columns={columns} data={data} enableRowSelection />);
-      expect(screen.getAllByTestId('row-checkbox').length).toBeGreaterThan(0);
-    });
-
-    it('não deve adicionar coluna de checkbox quando enableRowSelection=false', () => {
-      render(<TableV2 columns={columns} data={data} enableRowSelection={false} />);
-      expect(screen.queryAllByTestId('row-checkbox')).toHaveLength(0);
-    });
-
-    it('deve renderizar um checkbox por linha mais o do cabeçalho', () => {
-      render(<TableV2 columns={columns} data={data} enableRowSelection />);
-      // 1 checkbox no cabeçalho + 1 por linha de dado
-      expect(screen.getAllByTestId('row-checkbox')).toHaveLength(data.length + 1);
-    });
-
-    it('deve chamar onRowSelectionChange ao selecionar uma linha', () => {
-      const onRowSelectionChange = vi.fn();
+    it('deve renderizar filtro combinado quando filterItems contém type combined', () => {
       render(
         <TableV2
           columns={columns}
           data={data}
-          enableRowSelection
-          onRowSelectionChange={onRowSelectionChange}
+          header={{
+            filterItems: [
+              {
+                type: 'combined',
+                buttonText: 'Filtrar',
+                children: <div>Conteúdo dos filtros</div>,
+              },
+            ],
+          }}
+        />
+      );
+      expect(screen.getByTestId('filter-combined')).toBeInTheDocument();
+      expect(screen.getByText('Filtrar')).toBeInTheDocument();
+    });
+
+    it('deve exibir badge com activeCount no filtro combinado', () => {
+      render(
+        <TableV2
+          columns={columns}
+          data={data}
+          header={{
+            filterItems: [
+              {
+                type: 'combined',
+                buttonText: 'Filtrar',
+                activeCount: 3,
+                children: <div>Conteúdo dos filtros</div>,
+              },
+            ],
+          }}
+        />
+      );
+      expect(screen.getByTestId('filter-combined-badge')).toHaveTextContent('3');
+    });
+
+    it('não deve renderizar filtro combinado quando filterItems não possui type combined', () => {
+      render(<TableV2 columns={columns} data={data} header={{}} />);
+      expect(screen.queryByTestId('filter-combined')).not.toBeInTheDocument();
+    });
+
+    it('deve renderizar filtro combined junto com outros tipos em filterItems', () => {
+      render(
+        <TableV2
+          columns={columns}
+          data={data}
+          header={{
+            filterItems: [
+              { type: 'multiple', buttonText: 'Status', items: [] },
+              { type: 'combined', buttonText: 'Filtros avançados' },
+            ],
+          }}
+        />
+      );
+      expect(screen.getByTestId('filter-multiple')).toBeInTheDocument();
+      expect(screen.getByTestId('filter-combined')).toBeInTheDocument();
+    });
+  });
+
+  describe('Seleção de linhas', () => {
+    it('deve adicionar coluna de checkbox quando rowSelection está definido', () => {
+      render(<TableV2 columns={columns} data={data} rowSelection={{}} />);
+      expect(screen.getAllByTestId('row-checkbox').length).toBeGreaterThan(0);
+    });
+
+    it('não deve adicionar coluna de checkbox quando rowSelection não está definido', () => {
+      render(<TableV2 columns={columns} data={data} />);
+      expect(screen.queryAllByTestId('row-checkbox')).toHaveLength(0);
+    });
+
+    it('deve renderizar um checkbox por linha mais o do cabeçalho', () => {
+      render(<TableV2 columns={columns} data={data} rowSelection={{}} />);
+      // 1 checkbox no cabeçalho + 1 por linha de dado
+      expect(screen.getAllByTestId('row-checkbox')).toHaveLength(data.length + 1);
+    });
+
+    it('deve chamar rowSelection.onRowChange ao selecionar uma linha', () => {
+      const onRowChange = vi.fn();
+      render(
+        <TableV2
+          columns={columns}
+          data={data}
+          rowSelection={{ onRowChange }}
         />
       );
       const checkboxes = screen.getAllByTestId('row-checkbox');
       // checkboxes[0] = cabeçalho, checkboxes[1] = primeira linha
       fireEvent.click(checkboxes[1]);
-      expect(onRowSelectionChange).toHaveBeenCalledTimes(1);
+      expect(onRowChange).toHaveBeenCalledTimes(1);
     });
 
     it('checkbox do cabeçalho deve estar com indeterminate quando parte das linhas está selecionada', () => {
-      render(<TableV2 columns={columns} data={data} enableRowSelection />);
+      render(<TableV2 columns={columns} data={data} rowSelection={{}} />);
       const checkboxes = screen.getAllByTestId('row-checkbox');
       // Seleciona apenas a primeira linha
       fireEvent.click(checkboxes[1]);
       const headerCheckbox = screen.getAllByTestId('row-checkbox')[0];
       expect(headerCheckbox).toHaveAttribute('aria-checked', 'mixed');
     });
-  });
 
-  describe('Filtros por coluna', () => {
-    it('deve renderizar inputs de filtro nos cabeçalhos quando enableFilters=true', () => {
-      render(<TableV2 columns={columns} data={data} enableFilters />);
-      const filterInputs = screen.getAllByPlaceholderText('Filtrar...');
-      expect(filterInputs.length).toBeGreaterThan(0);
+    it('deve adicionar coluna de checkbox quando rowSelection.disabled é uma função', () => {
+      render(
+        <TableV2
+          columns={columns}
+          data={data}
+          rowSelection={{ disabled: () => false }}
+        />
+      );
+      expect(screen.getAllByTestId('row-checkbox').length).toBeGreaterThan(0);
     });
 
-    it('não deve renderizar inputs de filtro quando enableFilters=false', () => {
-      render(<TableV2 columns={columns} data={data} enableFilters={false} />);
-      expect(screen.queryByPlaceholderText('Filtrar...')).not.toBeInTheDocument();
+    it('deve desabilitar checkbox da linha quando rowSelection.disabled retorna true para ela', () => {
+      render(
+        <TableV2
+          columns={columns}
+          data={data}
+          rowSelection={{ disabled: (row) => (row as Person).id === 1 }}
+        />
+      );
+      const checkboxes = screen.getAllByTestId('row-checkbox');
+      // checkboxes[0] = cabeçalho, checkboxes[1] = Alice (id=1 → desabilitado)
+      expect(checkboxes[1]).toBeDisabled();
+      expect(checkboxes[2]).not.toBeDisabled();
     });
 
-    it('deve filtrar dados ao digitar no input de filtro por coluna', () => {
-      render(<TableV2 columns={columns} data={data} enableFilters />);
-      const [nameFilter] = screen.getAllByPlaceholderText('Filtrar...');
-      fireEvent.change(nameFilter, { target: { value: 'Alice' } });
-      expect(screen.getByText('Alice')).toBeInTheDocument();
-      expect(screen.queryByText('Bob')).not.toBeInTheDocument();
+    it('não deve desabilitar checkboxes quando rowSelection.disabled retorna false para todas as linhas', () => {
+      render(
+        <TableV2
+          columns={columns}
+          data={data}
+          rowSelection={{ disabled: () => false }}
+        />
+      );
+      const checkboxes = screen.getAllByTestId('row-checkbox');
+      // Pula o checkbox do cabeçalho
+      checkboxes.slice(1).forEach((cb) => {
+        expect(cb).not.toBeDisabled();
+      });
+    });
+
+    it('deve renderizar linhas pré-selecionadas quando selectedRowKeys é fornecido', () => {
+      render(
+        <TableV2
+          columns={columns}
+          data={data}
+          rowSelection={{ selectedRowKeys: [0] }}
+        />
+      );
+      const checkboxes = screen.getAllByTestId('row-checkbox');
+      // checkboxes[1] = primeira linha (índice 0) deve estar marcada
+      expect(checkboxes[1]).toBeChecked();
+      expect(checkboxes[2]).not.toBeChecked();
+    });
+
+    it('deve atualizar seleção quando selectedRowKeys externo muda (modo controlado)', () => {
+      const { rerender } = render(
+        <TableV2
+          columns={columns}
+          data={data}
+          rowSelection={{ selectedRowKeys: [0] }}
+        />
+      );
+      let checkboxes = screen.getAllByTestId('row-checkbox');
+      expect(checkboxes[1]).toBeChecked();
+      expect(checkboxes[2]).not.toBeChecked();
+
+      rerender(
+        <TableV2
+          columns={columns}
+          data={data}
+          rowSelection={{ selectedRowKeys: [1] }}
+        />
+      );
+      checkboxes = screen.getAllByTestId('row-checkbox');
+      expect(checkboxes[1]).not.toBeChecked();
+      expect(checkboxes[2]).toBeChecked();
+    });
+
+    it('deve chamar onRowChange em modo controlado sem alterar estado interno', () => {
+      const onRowChange = vi.fn();
+      render(
+        <TableV2
+          columns={columns}
+          data={data}
+          rowSelection={{ selectedRowKeys: [], onRowChange }}
+        />
+      );
+      const checkboxes = screen.getAllByTestId('row-checkbox');
+      fireEvent.click(checkboxes[1]);
+      expect(onRowChange).toHaveBeenCalledTimes(1);
+      // Em modo controlado a seleção visual não muda sem o pai atualizar selectedRowKeys
+      expect(checkboxes[1]).not.toBeChecked();
     });
   });
 
@@ -465,6 +632,59 @@ describe('TableV2', () => {
         />
       );
       expect(screen.getByText('0 páginas')).toBeInTheDocument();
+    });
+  });
+
+  describe('Paginação controlada (currentPage)', () => {
+    it('deve iniciar na página correta quando currentPage é fornecido', () => {
+      render(
+        <TableV2
+          columns={columns}
+          data={manyData}
+          footer={{ totalItems: 20, defaultPageSize: 10, currentPage: 2 }}
+        />
+      );
+      expect(screen.getByText('2 de 2')).toBeInTheDocument();
+    });
+
+    it('deve sincronizar pageIndex quando currentPage externo muda', () => {
+      const { rerender } = render(
+        <TableV2
+          columns={columns}
+          data={manyData}
+          footer={{ totalItems: 20, defaultPageSize: 10, currentPage: 1 }}
+        />
+      );
+      expect(screen.getByText('1 de 2')).toBeInTheDocument();
+
+      rerender(
+        <TableV2
+          columns={columns}
+          data={manyData}
+          footer={{ totalItems: 20, defaultPageSize: 10, currentPage: 2 }}
+        />
+      );
+      expect(screen.getByText('2 de 2')).toBeInTheDocument();
+    });
+
+    it('deve resetar para a página 1 quando currentPage externo muda para 1', () => {
+      const { rerender } = render(
+        <TableV2
+          columns={columns}
+          data={manyData}
+          footer={{ totalItems: 20, defaultPageSize: 10, currentPage: 2 }}
+        />
+      );
+      expect(screen.getByText('2 de 2')).toBeInTheDocument();
+
+      rerender(
+        <TableV2
+          columns={columns}
+          data={manyData}
+          footer={{ totalItems: 20, defaultPageSize: 10, currentPage: 1 }}
+        />
+      );
+      expect(screen.getByText('1 de 2')).toBeInTheDocument();
     });
   });
 

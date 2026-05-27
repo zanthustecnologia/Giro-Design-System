@@ -1,5 +1,47 @@
 # @giro-ds/react
 
+## 9.0.0
+
+### Major Changes
+
+- **Filter**: Refatoração com novo modo `combined` e renomeação de valores de `FilterType`
+  - **Alterado**: `type="checkbox"` → `type="multiple"`
+  - **Alterado**: `type="text"` → `type="single"`
+  - **Adicionado**: nova prop `mode` (`'simple'` | `'combined'`) — no modo `combined`, o filtro abre um `Drawer` com conteúdo via `children` e botões "Aplicar" e "Limpar" fixos no rodapé
+  - **Como migrar**:
+
+    ```tsx
+    // Antes
+    <Filter type="checkbox" />
+    <Filter type="text" />
+
+    // Depois
+    <Filter type="multiple" />
+    <Filter type="single" />
+    ```
+
+### Minor Changes
+
+- **Drawer**: Adiciona prop `footer` para conteúdo fixo no rodapé
+  - Nova prop opcional `footer` (`ReactNode`) que renderiza conteúdo abaixo da área rolável, sem acompanhar o scroll
+- **Search**: Adiciona controle do modo de disparo da busca
+  - Nova prop `searchMode` (`'instant'` | `'on-enter'`) para controlar quando a busca é disparada
+  - Nova prop `onSearch` com callback `(value: string) => void`
+  - Modo `instant` (padrão): dispara a cada tecla; modo `on-enter`: dispara apenas ao pressionar Enter
+- **TableV2**: Adiciona suporte a busca server-side, paginação manual, seleção condicional e filtro combinado
+  - Nova prop `header.searchValue` para controlar o valor do campo de busca externamente
+  - Nova prop `header.onSearchChange` — callback acionado ao realizar busca (Enter ou clear)
+  - Nova prop `footer.manualPagination` para paginação server-side (desativa filtro e fatiamento client-side)
+  - `enableRowSelection` agora aceita função `(row: T, index: number) => boolean` para desabilitar checkboxes de linhas específicas
+  - Suporte a `CombinedFilterItem` nos filtros do header para integração com o modo `combined` do `Filter`
+  - Remove prop `enableFilters` (filtros individuais por coluna foram descontinuados em favor do filtro global via `header`)
+
+### Patch Changes
+
+- **Label**: Corrige altura do ícone de tooltip
+  - Troca `display: inline-block` por `display: inline-flex` no `.triggerWrapper` do Tooltip, corrigindo altura incorreta causada pelo `line-height` padrão do navegador
+  - Adiciona `margin-bottom: 4px` para alinhar com o Figma
+
 ## 8.0.0
 
 ### Major Changes
