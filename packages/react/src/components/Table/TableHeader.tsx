@@ -19,7 +19,7 @@ interface BaseFilterItem {
 }
 
 interface CheckboxFilterItem extends BaseFilterItem {
-  type: 'multiple' | 'single' | 'icon';
+  type: 'multiple' | 'single';
   items: FilterListItem[];
   selectedIds?: string[];
   onSelectionChange?: (selectedIds: string[]) => void;
@@ -45,7 +45,7 @@ const isCalendarFilter = (filter: FilterItem): filter is CalendarFilterItem => {
 };
 
 const isCheckboxFilter = (filter: FilterItem): filter is CheckboxFilterItem => {
-  return filter.type === 'multiple' || filter.type === 'single' || filter.type === 'icon';
+  return filter.type === 'multiple' || filter.type === 'single';
 };
 
 export interface TableHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
