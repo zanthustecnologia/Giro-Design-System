@@ -107,10 +107,12 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
     (button: string) => {
       if (disabled) return;
 
+      const baseLayout = layout === 'numeric' ? 'abc' : 'default';
+
       if (button === '{capslock}' || button === '{lock}') {
         setCapsLockOn((prev) => {
           const next = !prev;
-          setLayoutName(next ? 'caps' : 'default');
+          setLayoutName(next ? 'caps' : baseLayout);
           setCapsLockOn(false);
           return next;
         });
@@ -122,27 +124,37 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
         button === '{shiftleft}' || button === '{shiftright}' ||
         button === '{shiftactivated}'
       ) {
-        setLayoutName((prev) => SHIFT_TOGGLES[prev] ?? 'default');
+        setLayoutName((prev) => {
+          const next = SHIFT_TOGGLES[prev] ?? 'default';
+          return next === 'default' ? baseLayout : next;
+        });
         return;
       }
       if (button === '{numbers}') { setLayoutName('numbers'); return; }
-      if (button === '{abc}')     { setLayoutName('default'); return; }
-      if (button === '{alt}' || button === '{altright}') { setLayoutName((prev) => (prev === 'alt' ? 'default' : 'alt')); return; }
-      if (button === '{smileys}') { setLayoutName((prev) => (prev === 'smileys' ? 'default' : 'smileys')); return; }
+      if (button === '{abc}')     { setLayoutName(baseLayout); return; }
+      if (button === '{alt}' || button === '{altright}') {
+        setLayoutName((prev) => {
+          if (prev === 'alt2') return 'alt';
+          return prev === 'alt' ? baseLayout : 'alt';
+        });
+        return;
+      }
+      if (button === '{alt2}') { setLayoutName((prev) => (prev === 'alt2' ? 'alt' : 'alt2')); return; }
+      if (button === '{smileys}') { setLayoutName((prev) => (prev === 'smileys' ? baseLayout : 'smileys')); return; }
       if (button === '{symbols}') { setLayoutName((prev) => (prev === 'symbols' ? 'alt' : 'symbols')); return; }
-      if (button === '{default}' || button === '{back}' || button === '{downkeyboard}') { setLayoutName('default'); return; }
+      if (button === '{default}' || button === '{back}' || button === '{downkeyboard}') { setLayoutName(baseLayout); return; }
 
       if (button !== '{backspace}' && button !== '{bksp}' && button !== '{enter}') {
         if (layoutName === 'shift' && !capsLockOn) {
-          setLayoutName('default');
-        } else if (layoutName === 'default' && capsLockOn) {
+          setLayoutName(baseLayout);
+        } else if (layoutName === baseLayout && capsLockOn) {
           setLayoutName('shift');
         }
       }
 
       onKeyPress?.(button);
     },
-    [disabled, layoutName, capsLockOn, onKeyPress]
+    [disabled, layout, layoutName, capsLockOn, onKeyPress]
   );
 
   const handleChange = useCallback(

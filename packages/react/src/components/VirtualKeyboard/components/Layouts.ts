@@ -7,7 +7,7 @@ export const NATIVE_LAYOUTS: Partial<Record<VirtualKeyboardLayout, Record<string
       'q w e r t y u i o p {bksp}',
       'a s d f g h j k l ç {enter}',
       '{shift} z x c v b n m , . {shift}',
-      '{numbers} {alt} {smileys} {space} {downkeyboard}',
+      '{numbers} {alt} {space} {downkeyboard}',
     ],
     shift: [
       '1 2 3 4 5 6 7 8 9 0',
@@ -27,20 +27,71 @@ export const NATIVE_LAYOUTS: Partial<Record<VirtualKeyboardLayout, Record<string
       '1 2 3', '4 5 6', '7 8 9', '{abc} 0 {bksp}'
     ],
     alt: [
-      '1 2 3 4 5 6 7 8 9 0 {bksp}',
-      `@ # $ & * ( ) ' " {enter}`,
-      '{shift} % - + = / ; : ! ? {shift}',
-      '{default} {smileys} {space} {back} {downkeyboard}',
+      '1 2 3 4 5 6 7 8 9 0',
+      `- / : ; ( ) $ & @ " {bksp}`,
+      '{alt2} . , ? ! ´ {enter}',
+      '{default} {smileys} {space} {downkeyboard}',
+    ],
+    alt2: [
+      '[ ] { } # % ^ * + =',
+      '_ \\ | ~ < > ¢ £ ¥ • {bksp}',
+      `{alt} . , ? ! ' {enter}`,
+      '{default} {smileys} {space} {downkeyboard}',
     ],
     smileys: [
       '😀 😊 😅 😂 🙂 😉 😍 😛 😠 😎 {bksp}',
       `😏 😬 😭 😓 😱 😪 🙄 😴 😯 {enter}`,
       '😐 😇 🤣 😘 😚 😆 😡 😥 😓 {shift}',
-      '{default} {smileys} {space} {altright} {downkeyboard}',
+      '{default} {alt} {space} {altright} {downkeyboard}',
     ],
   },
+  
   numeric: {
-    default: ['1 2 3', '4 5 6', '7 8 9', '{bksp} 0 {enter}']
+    default: [
+      '1 2 3', '4 5 6', '7 8 9', '{abc} 0 {bksp}'
+    ],
+    abc: [
+      '1 2 3 4 5 6 7 8 9 0',
+      'q w e r t y u i o p {bksp}',
+      'a s d f g h j k l ç {enter}',
+      '{shift} z x c v b n m , . {shift}',
+      '{numbers} {alt} {space} {downkeyboard}',
+    ],
+    shift: [
+      '1 2 3 4 5 6 7 8 9 0',
+      'Q W E R T Y U I O P {bksp}',
+      'A S D F G H J K L Ç {enter}',
+      '{capslock} Z X C V B N M , . {capslock}',
+      '{numbers} {alt} {smileys} {space} {downkeyboard}',
+    ],
+    caps: [
+      '1 2 3 4 5 6 7 8 9 0',
+      'Q W E R T Y U I O P {bksp}',
+      'A S D F G H J K L Ç {enter}',
+      '{shiftactivated} Z X C V B N M , . {shiftactivated}',
+      '{numbers} {alt} {smileys} {space} {downkeyboard}',
+    ],
+    numbers: [
+      '1 2 3', '4 5 6', '7 8 9', '{abc} 0 {bksp}'
+    ],
+    alt: [
+      '1 2 3 4 5 6 7 8 9 0',
+      `- / : ; ( ) $ & @ " {bksp}`,
+      '{alt2} . , ? ! ´ {enter}',
+      '{default} {smileys} {space} {downkeyboard}',
+    ],
+    alt2: [
+      '[ ] { } # % ^ * + =',
+      '_ \\ | ~ < > ¢ £ ¥ • {bksp}',
+      `{alt} . , ? ! ' {enter}`,
+      '{default} {smileys} {space} {downkeyboard}',
+    ],
+    smileys: [
+      '😀 😊 😅 😂 🙂 😉 😍 😛 😠 😎 {bksp}',
+      `😏 😬 😭 😓 😱 😪 🙄 😴 😯 {enter}`,
+      '😐 😇 🤣 😘 😚 😆 😡 😥 😓 {shift}',
+      '{default} {alt} {space} {altright} {downkeyboard}',
+    ],
   },
   fullKeyboard: {
     default: [
@@ -91,6 +142,7 @@ export const LAYOUT_DISPLAY: Partial<Record<VirtualKeyboardLayout, Record<string
     '{numbers}': '123',
     '{abc}': 'ABC',
     '{alt}': '.?!',
+    '{alt2}': '#+=',
     '{smileys}': '😃',
     '{shift}': '⇧',
     '{shiftactivated}': '⇧',
@@ -100,11 +152,22 @@ export const LAYOUT_DISPLAY: Partial<Record<VirtualKeyboardLayout, Record<string
     '{downkeyboard}': '🞃',
     '{space}': ' ',
     '{default}': 'ABC',
-    '{back}': '⇦',
   },
   numeric: {
-    '{bksp}': 'del',
-    '{enter}': 'enter'
+    '{bksp}': '⌫ Apagar',
+    '{enter}': 'Enter',
+    '{abc}': 'ABC',
+    '{capslock}': '⇪',
+    '{numbers}': '123',
+    '{alt}': '.?!',
+    '{alt2}': '#+=',
+    '{smileys}': '😃',
+    '{shift}': '⇧',
+    '{shiftactivated}': '⇧',
+    '{altright}': '.?123',
+    '{downkeyboard}': '🞃',
+    '{space}': ' ',
+    '{default}': 'ABC',
   },
   fullKeyboard: {
     '{escape}': 'esc',
@@ -146,7 +209,9 @@ export const LAYOUT_DISPLAY: Partial<Record<VirtualKeyboardLayout, Record<string
 
 export const SHIFT_TOGGLES: Partial<Record<string, string>> = {
   default: 'shift',
+  abc: 'shift',
   shift: 'default',
   alt: 'default',
+  alt2: 'alt',
   symbols: 'alt',
 };

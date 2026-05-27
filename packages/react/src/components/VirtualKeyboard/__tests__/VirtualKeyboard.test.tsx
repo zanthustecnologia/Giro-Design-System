@@ -51,6 +51,9 @@ vi.mock('react-simple-keyboard', () => ({
       <button data-testid="key-alt" onClick={() => onKeyPress?.('{alt}')}>
         alt
       </button>
+      <button data-testid="key-alt2" onClick={() => onKeyPress?.('{alt2}')}>
+        alt2
+      </button>
       <button data-testid="key-smileys" onClick={() => onKeyPress?.('{smileys}')}>
         smileys
       </button>
@@ -389,6 +392,25 @@ describe('VirtualKeyboard', () => {
       fireEvent.click(screen.getByTestId('key-alt'));
 
       expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'default');
+    });
+
+    it('deve alternar para layout "alt2" ao pressionar {alt2}', () => {
+      render(<VirtualKeyboard mode="fixed" value="" />);
+
+      fireEvent.click(screen.getByTestId('key-alt'));
+      fireEvent.click(screen.getByTestId('key-alt2'));
+
+      expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'alt2');
+    });
+
+    it('deve voltar para layout "alt" ao pressionar {alt2} novamente', () => {
+      render(<VirtualKeyboard mode="fixed" value="" />);
+
+      fireEvent.click(screen.getByTestId('key-alt'));
+      fireEvent.click(screen.getByTestId('key-alt2'));
+      fireEvent.click(screen.getByTestId('key-alt2'));
+
+      expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'alt');
     });
 
     it('deve alternar para layout "smileys" ao pressionar {smileys} (appleIOS)', () => {
