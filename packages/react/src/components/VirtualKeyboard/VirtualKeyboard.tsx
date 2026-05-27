@@ -51,6 +51,9 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
   id,
   textFieldLabel,
   textFieldPlaceholder = 'Digite aqui...',
+  helperText,
+  error,
+  errorMessage,
   targetRef,
 }) => {
   const [layoutName, setLayoutName] = useState<string>('default');
@@ -214,9 +217,13 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
             label={textFieldLabel}
             placeholder={textFieldPlaceholder}
             value={value}
+            helperText={helperText}
+            error={error}
+            errorMessage={errorMessage}
             readOnly
             disabled={disabled}
             maxLength={maxLength}
+            attachedToVirtualKeyboard
             className={styles.textFieldWrapper}
           />
         </div>

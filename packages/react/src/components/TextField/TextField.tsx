@@ -37,6 +37,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
       virtualKeyboard = false,
       virtualKeyboardVariant,
       virtualKeyboardMaxLength,
+      attachedToVirtualKeyboard = false,
       ...rest
     },
     ref
@@ -140,6 +141,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
     const containerClass = clsx(styles.container, {
       [styles.disabled]: disabled,
       [styles.error]: hasError && !disabled,
+      [styles.attachedToVirtualKeyboard]: attachedToVirtualKeyboard,
       [className!]: className,
     });
 

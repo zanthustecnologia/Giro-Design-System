@@ -127,6 +127,25 @@ describe('VirtualKeyboard', () => {
       expect(screen.getByRole('textbox')).toHaveValue('olá');
     });
 
+    it('deve renderizar helperText no TextField interno do modo fixed', () => {
+      render(<VirtualKeyboard mode="fixed" helperText="Texto de ajuda" />);
+      expect(screen.getByText('Texto de ajuda')).toBeInTheDocument();
+    });
+
+    it('deve renderizar errorMessage quando error for true no TextField interno', () => {
+      render(
+        <VirtualKeyboard
+          mode="fixed"
+          error
+          errorMessage="Mensagem de erro"
+          helperText="Texto de ajuda"
+        />
+      );
+
+      expect(screen.getByText('Mensagem de erro')).toBeInTheDocument();
+      expect(screen.queryByText('Texto de ajuda')).not.toBeInTheDocument();
+    });
+
     it('não deve renderizar TextField no modo native', () => {
       render(<VirtualKeyboard mode="native" />);
       expect(screen.queryByRole('textbox')).not.toBeInTheDocument();

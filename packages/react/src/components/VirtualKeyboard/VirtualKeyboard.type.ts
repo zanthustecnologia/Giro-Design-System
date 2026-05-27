@@ -119,6 +119,15 @@ export interface VirtualKeyboardProps extends BaseProps {
   /** Placeholder do TextField exibido no modo `fixed` */
   textFieldPlaceholder?: string;
 
+  /** Texto de ajuda do TextField exibido no modo `fixed` */
+  helperText?: string;
+
+  /** Sinaliza erro no TextField exibido no modo `fixed` */
+  error?: boolean;
+
+  /** Mensagem de erro do TextField exibido no modo `fixed` */
+  errorMessage?: string;
+
   /**
    * Ref para o campo de input que aciona o teclado no modo `native`.
    * O teclado aparece ao focar no elemento referenciado e some ao perder o foco.

@@ -26,6 +26,21 @@ const meta: Meta<typeof VirtualKeyboard> = {
       description: 'Placeholder do TextField interno. Disponivel apenas no modo `fixed`.',
       if: { arg: 'mode', eq: 'fixed' },
     },
+    helperText: {
+      control: 'text',
+      description: 'Helper text do TextField interno. Disponivel apenas no modo `fixed`.',
+      if: { arg: 'mode', eq: 'fixed' },
+    },
+    error: {
+      control: 'boolean',
+      description: 'Ativa o estado de erro no TextField interno. Disponivel apenas no modo `fixed`.',
+      if: { arg: 'mode', eq: 'fixed' },
+    },
+    errorMessage: {
+      control: 'text',
+      description: 'Mensagem de erro do TextField interno. Disponivel apenas no modo `fixed`.',
+      if: { arg: 'mode', eq: 'fixed' },
+    },
     variant: {
       control: 'select',
       options: [
@@ -93,6 +108,7 @@ export const ModoFixed: Story = {
     mode: 'fixed',
     variant: 'default',
     textFieldPlaceholder: 'Digite no teclado...',
+    helperText: 'Use o teclado virtual para preencher o campo.',
   },
   render: (args) => {
     const [value, setValue] = useState('');

@@ -181,3 +181,33 @@
   right: 0;
   z-index: 1000;
 }
+
+.attachedToVirtualKeyboard {
+  height: auto;
+  min-height: 75px;
+
+  .inputContainer {
+    border-bottom-left-radius: var(--border-radius-none);
+    border-bottom-right-radius: var(--border-radius-none);
+
+    input {
+      border-bottom-left-radius: var(--border-radius-none);
+      border-bottom-right-radius: var(--border-radius-none);
+    }
+  }
+
+  .helperText {
+    width: 100%;
+    min-height: 30px;
+    background-color: var(--color-neutral-high-default);
+    color: var(--color-neutral-low-default);
+    padding: var(--spacing-8) var(--spacing-16);
+    box-sizing: border-box;
+  }
+
+  &.error {
+    .helperText {
+      color: var(--color-neutral-low-default);
+    }
+  }
+}
