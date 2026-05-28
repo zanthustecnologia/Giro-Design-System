@@ -49,10 +49,25 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
     const [inputValue, setInputValue] = useState(normalizeValue(value));
     const [inputError, setInputError] = useState('');
     const [isFocused, setIsFocused] = useState(false);
-    const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
-    const containerRef = useRef<HTMLDivElement>(null);
+    const inputRef = useRef<HTMLInputElement>(null);
     const generatedId = useId();
     const componentId = id || generatedId;
+
+    const setInputRefs = useCallback(
+      (node: HTMLInputElement | null) => {
+        inputRef.current = node;
+
+        if (typeof ref === 'function') {
+          ref(node);
+          return;
+        }
+
+        if (ref) {
+          ref.current = node;
+        }
+      },
+      [ref]
+    );
 
     useEffect(() => {
       const newValue = normalizeValue(value);
@@ -70,19 +85,6 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
         setInputError(validationError);
       }
     }, [value, inputError, type, maxLength, errorMessage, required]);
-
-    useEffect(() => {
-      if (!virtualKeyboard || !isKeyboardOpen) return;
-
-      const handleClickOutside = (e: MouseEvent) => {
-        if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
-          setIsKeyboardOpen(false);
-        }
-      };
-
-      document.addEventListener('mousedown', handleClickOutside);
-      return () => document.removeEventListener('mousedown', handleClickOutside);
-    }, [virtualKeyboard, isKeyboardOpen]);
 
     const handleChange = useCallback(
       (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -122,10 +124,9 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
     const handleFocus = useCallback(
       (e: React.FocusEvent<HTMLInputElement>) => {
         setIsFocused(true);
-        if (virtualKeyboard) setIsKeyboardOpen(true);
         onFocus?.(e);
       },
-      [virtualKeyboard, onFocus]
+      [onFocus]
     );
 
     const showCustomIcon = inputValue.trim().length === 0 && icon;
@@ -146,7 +147,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
     });
 
     return (
-      <div className={containerClass} ref={containerRef}>
+      <div className={containerClass}>
         {label && (
           <LabelComponent
             htmlFor={componentId}
@@ -166,7 +167,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
           <div className={styles.inputContainer}>
             <input
               {...rest}
-              ref={ref}
+                ref={setInputRefs}
               id={componentId}
               name={name}
               type={type}
@@ -215,13 +216,14 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
           )}
         </div>
 
-        {virtualKeyboard && isKeyboardOpen && (
+        {virtualKeyboard && (
           <div className={styles.virtualKeyboardWrapper}>
             <VirtualKeyboard
               mode="native"
               variant={virtualKeyboardVariant}
               value={inputValue}
               maxLength={virtualKeyboardMaxLength}
+              targetRef={inputRef}
               onChange={(val) => {
                 if (!disabled && (!maxLength || val.length <= maxLength)) {
                   setInputValue(val);

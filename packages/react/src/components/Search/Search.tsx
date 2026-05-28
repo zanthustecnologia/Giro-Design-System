@@ -1,6 +1,6 @@
 import { Search16Regular, Dismiss16Regular } from '@fluentui/react-icons';
 import clsx from 'clsx';
-import React, { useState, useId, useRef, useEffect } from 'react';
+import React, { useState, useId, useRef, useCallback } from 'react';
 
 import VirtualKeyboard from '../VirtualKeyboard';
 import styles from './Search.module.scss';
@@ -31,25 +31,27 @@ const Search = React.forwardRef<HTMLInputElement, SearchProps>(
     ref
   ) => {
     const [internalValue, setInternalValue] = useState<string>('');
-    const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
-    const containerRef = useRef<HTMLDivElement>(null);
+    const inputRef = useRef<HTMLInputElement>(null);
     const isControlled = value !== undefined && onChange !== undefined;
     const currentValue = isControlled ? value : internalValue;
     const generatedId = useId();
     const inputId = id || generatedId;
 
-    useEffect(() => {
-      if (!virtualKeyboard || !isKeyboardOpen) return;
+    const setInputRefs = useCallback(
+      (node: HTMLInputElement | null) => {
+        inputRef.current = node;
 
-      const handleClickOutside = (e: MouseEvent) => {
-        if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
-          setIsKeyboardOpen(false);
+        if (typeof ref === 'function') {
+          ref(node);
+          return;
         }
-      };
 
-      document.addEventListener('mousedown', handleClickOutside);
-      return () => document.removeEventListener('mousedown', handleClickOutside);
-    }, [virtualKeyboard, isKeyboardOpen]);
+        if (ref) {
+          ref.current = node;
+        }
+      },
+      [ref]
+    );
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
       if (disabled) return;
@@ -62,7 +64,6 @@ const Search = React.forwardRef<HTMLInputElement, SearchProps>(
     };
     const handleFocus = (e: React.FocusEvent<HTMLInputElement>): void => {
       if (disabled) return;
-      if (virtualKeyboard) setIsKeyboardOpen(true);
       onFocus?.(e);
     };
 
@@ -96,7 +97,6 @@ const Search = React.forwardRef<HTMLInputElement, SearchProps>(
           { [styles.disabled]: disabled },
           className
         )} 
-        ref={containerRef}
         onClick={onClick} 
         onMouseDown={onMouseDown}
         role={onClick || onMouseDown ? "button" : undefined}
@@ -118,7 +118,7 @@ const Search = React.forwardRef<HTMLInputElement, SearchProps>(
         </span>
 
         <input
-          ref={ref}
+          ref={setInputRefs}
           id={inputId}
           type="text"
           placeholder={placeholder}
@@ -144,13 +144,14 @@ const Search = React.forwardRef<HTMLInputElement, SearchProps>(
           </span>
         )}
 
-        {virtualKeyboard && isKeyboardOpen && (
+        {virtualKeyboard && (
           <div className={styles.virtualKeyboardWrapper}>
             <VirtualKeyboard
               mode="native"
               variant={virtualKeyboardVariant}
               maxLength={virtualKeyboardMaxLength}
               value={currentValue || ''}
+              targetRef={inputRef}
               onChange={(val) => {
                 if (disabled) return;
                 if (isControlled) {
