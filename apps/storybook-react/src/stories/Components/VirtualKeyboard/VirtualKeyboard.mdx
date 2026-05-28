@@ -9,7 +9,7 @@ import { Footer } from '../../../internal-components/mdx/Footer/Footer';
 
 # Virtual Keyboard
 
-O Virtual Keyboard é um teclado on-screen para ambientes onde o teclado físico está indisponível ou não é desejável — como totens, terminais e caixas de pagamento. Ele se integra a campos de texto controlados e suporta três layouts: padrão (QWERTY), numérico e de telefone.
+O Virtual Keyboard é um teclado on-screen para ambientes onde o teclado físico está indisponível ou não é desejável — como totens, terminais e caixas de pagamento. Ele se integra a campos de texto controlados e suporta layouts nativos (como padrão, numérico, full keyboard, mobile e appleIOS), além de layouts de idioma.
 
 <Canvas of={VirtualKeyboardStories.Default} />
 
@@ -49,6 +49,9 @@ import { VirtualKeyboard } from '@giro-ds/react';
     <>
       No modo <strong>native</strong>, passe um <code>ref</code> do campo de texto para a prop <code>targetRef</code>. O teclado aparecerá ao focar no campo e sumirá ao perder o foco.
     </>,
+    <>
+      Use <code>showSmileysButton</code> para controlar se o botao <code>{'{smileys}'}</code> deve aparecer. Isso permite ativar ou desativar emojis conforme a regra de negocio da tela.
+    </>,
   ]}
 />
 
@@ -74,6 +77,17 @@ O teclado age como um teclado nativo: aparece quando o campo referenciado por `t
 
 <div style={{ marginTop: '48px' }} />
 
+## Shift e CapsLock
+
+O comportamento esperado das teclas de caixa alta e:
+
+- Shift: altera para maiusculas somente na proxima tecla digitada e retorna para o layout default.
+- CapsLock: alterna o modo caps de forma persistente e permanece ativo ate retornar para o layout default.
+
+<Canvas of={VirtualKeyboardStories.ShiftECapsLock} />
+
+<div style={{ marginTop: '48px' }} />
+
 ## Variações
 
 ### Numérico
@@ -81,12 +95,6 @@ O teclado age como um teclado nativo: aparece quando o campo referenciado por `t
 Indicado para entradas de PINs, senhas e códigos. Exibe apenas os dígitos de 0 a 9, além de backspace e enter.
 
 <Canvas of={VirtualKeyboardStories.Numerico} />
-
-### Telefone
-
-Exibe o layout de discagem telefônica, com suporte a <code>*</code> e <code>#</code>.
-
-<Canvas of={VirtualKeyboardStories.Telefone} />
 
 ### Desabilitado
 
@@ -99,6 +107,12 @@ O teclado bloqueado impede qualquer interação. Use junto com o campo de texto 
 Use a prop <code>maxLength</code> para restringir o número de caracteres aceitos pelo teclado.
 
 <Canvas of={VirtualKeyboardStories.ComLimiteDeCaracteres} />
+
+### Sem botao de smileys
+
+Quando a tela nao deve permitir emojis, desative o botao de smileys com <code>showSmileysButton=false</code>.
+
+<Canvas of={VirtualKeyboardStories.SemSmileys} />
 
 <div style={{ marginTop: '48px' }} />
 

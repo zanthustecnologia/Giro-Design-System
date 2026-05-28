@@ -7,7 +7,7 @@ import SimpleKeyboardLayouts from 'simple-keyboard-layouts';
 
 import TextField from '../TextField';
 import { LAYOUT_DISPLAY } from './components/IconDisplay';
-import { NATIVE_LAYOUTS, NATIVE_LAYOUT_KEYS, SHIFT_TOGGLES, LAYOUT_THEMES } from './components/Variants';
+import { NATIVE_LAYOUT_KEYS, SHIFT_TOGGLES, LAYOUT_THEMES, getNativeLayout } from './components/Variants';
 import styles from './VirtualKeyboard.module.scss';
 
 import type { VirtualKeyboardProps } from './VirtualKeyboard.type';
@@ -47,6 +47,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
   onChange,
   onKeyPress,
   maxLength,
+  showSmileysButton = false,
   disabled = false,
   className,
   id,
@@ -60,7 +61,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
   const [layoutName, setLayoutName] = useState<string>('default');
   const [capsLockOn, setCapsLockOn] = useState(false);
   const [activeLayout, setActiveLayout] = useState<Record<string, string[]> | null>(
-    NATIVE_LAYOUTS[variant] ?? null
+    getNativeLayout(variant, showSmileysButton)
   );
 
   const [isOpen, setIsOpen] = useState(mode !== 'native');
@@ -100,12 +101,18 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
     setCapsLockOn(false);
 
     if (NATIVE_LAYOUT_KEYS.has(variant)) {
-      setActiveLayout(NATIVE_LAYOUTS[variant] ?? null);
+      setActiveLayout(getNativeLayout(variant, showSmileysButton));
     } else {
       const loaded = keyboardLayouts.get(variant) as { layout: Record<string, string[]> } | undefined;
       setActiveLayout(loaded?.layout ?? null);
     }
-  }, [variant]);
+  }, [variant, showSmileysButton]);
+
+  useEffect(() => {
+    if (!showSmileysButton && layoutName === 'smileys') {
+      setLayoutName(variant === 'numeric' ? 'abc' : 'default');
+    }
+  }, [showSmileysButton, layoutName, variant]);
 
   const handleKeyPress = useCallback(
     (button: string) => {
@@ -144,7 +151,11 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
         return;
       }
       if (button === '{alt2}') { setLayoutName((prev) => (prev === 'alt2' ? 'alt' : 'alt2')); return; }
-      if (button === '{smileys}') { setLayoutName((prev) => (prev === 'smileys' ? baseLayout : 'smileys')); return; }
+      if (button === '{smileys}') {
+        if (!showSmileysButton) return;
+        setLayoutName((prev) => (prev === 'smileys' ? baseLayout : 'smileys'));
+        return;
+      }
       if (button === '{symbols}') { setLayoutName((prev) => (prev === 'symbols' ? 'alt' : 'symbols')); return; }
       if (button === '{default}' || button === '{back}' || button === '{downkeyboard}') { setLayoutName(baseLayout); return; }
 
@@ -158,7 +169,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
 
       onKeyPress?.(button);
     },
-    [disabled, variant, layoutName, capsLockOn, onKeyPress]
+    [disabled, variant, layoutName, capsLockOn, onKeyPress, showSmileysButton]
   );
 
   const handleChange = useCallback(

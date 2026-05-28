@@ -4,11 +4,16 @@ import { describe, it, expect, vi } from 'vitest';
 import { createRef } from 'react';
 import Search from '../Search';
 
-// Mock dos ícones do Fluent UI
-vi.mock('@fluentui/react-icons', () => ({
-  Search16Regular: () => <span data-testid="search-icon">🔍</span>,
-  Dismiss16Regular: () => <span data-testid="dismiss-icon">×</span>,
-}));
+// Mock parcial dos ícones do Fluent UI
+vi.mock('@fluentui/react-icons', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@fluentui/react-icons')>();
+
+  return {
+    ...actual,
+    Search16Regular: () => <span data-testid="search-icon">🔍</span>,
+    Dismiss16Regular: () => <span data-testid="dismiss-icon">×</span>,
+  };
+});
 
 describe('Search', () => {
   describe('Renderização básica', () => {

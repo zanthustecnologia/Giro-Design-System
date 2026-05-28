@@ -60,6 +60,10 @@ const meta: Meta<typeof VirtualKeyboard> = {
       control: 'boolean',
       description: 'Estado desabilitado do teclado',
     },
+    showSmileysButton: {
+      control: 'boolean',
+      description: 'Exibe ou oculta o botao {smileys} nos layouts suportados.',
+    },
     maxLength: {
       control: 'number',
       description: 'Limite maximo de caracteres',
@@ -79,6 +83,7 @@ export const Default: Story = {
   args: {
     mode: 'native',
     variant: 'default',
+    showSmileysButton: true,
     disabled: false,
   },
   render: (args) => {
@@ -109,6 +114,7 @@ export const ModoFixed: Story = {
   args: {
     mode: 'fixed',
     variant: 'default',
+    showSmileysButton: true,
     textFieldPlaceholder: 'Digite no teclado...',
     helperText: 'Use o teclado virtual para preencher o campo.',
   },
@@ -126,6 +132,7 @@ export const ModoNative: Story = {
   args: {
     mode: 'native',
     variant: 'default',
+    showSmileysButton: true,
     disabled: false,
   },
   render: (args) => {
@@ -152,6 +159,99 @@ export const ModoNative: Story = {
           }}
         />
         <VirtualKeyboard {...args} targetRef={inputRef as React.RefObject<HTMLInputElement>} value={value} onChange={setValue} />
+      </div>
+    );
+  },
+};
+
+export const SemSmileys: Story = {
+  args: {
+    mode: 'fixed',
+    variant: 'default',
+    showSmileysButton: false,
+    textFieldPlaceholder: 'Teclado sem botao de smileys',
+  },
+  render: (args) => {
+    const [value, setValue] = useState('');
+    return (
+      <div style={{ width: '420px' }}>
+        <VirtualKeyboard {...args} value={value} onChange={setValue} />
+      </div>
+    );
+  },
+};
+
+export const Numerico: Story = {
+  args: {
+    mode: 'fixed',
+    variant: 'numeric',
+    textFieldPlaceholder: 'Digite apenas numeros',
+  },
+  render: (args) => {
+    const [value, setValue] = useState('');
+    return (
+      <div style={{ width: '320px' }}>
+        <VirtualKeyboard {...args} value={value} onChange={setValue} />
+      </div>
+    );
+  },
+};
+
+export const Disabled: Story = {
+  args: {
+    mode: 'fixed',
+    variant: 'default',
+    disabled: true,
+    textFieldPlaceholder: 'Teclado desabilitado',
+  },
+  render: (args) => {
+    const [value, setValue] = useState('');
+    return (
+      <div style={{ width: '420px' }}>
+        <VirtualKeyboard {...args} value={value} onChange={setValue} />
+      </div>
+    );
+  },
+};
+
+export const ComLimiteDeCaracteres: Story = {
+  args: {
+    mode: 'fixed',
+    variant: 'numeric',
+    maxLength: 4,
+    textFieldPlaceholder: 'Maximo de 4 caracteres',
+  },
+  render: (args) => {
+    const [value, setValue] = useState('');
+    return (
+      <div style={{ width: '320px' }}>
+        <VirtualKeyboard {...args} value={value} onChange={setValue} />
+      </div>
+    );
+  },
+};
+
+export const ShiftECapsLock: Story = {
+  args: {
+    mode: 'fixed',
+    variant: 'default',
+    showSmileysButton: true,
+    textFieldPlaceholder: 'Teste Shift e CapsLock',
+    helperText: 'Shift vale para uma tecla. CapsLock permanece ativo ate sair do layout caps.',
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Comportamento esperado: Shift aplica maiusculas apenas na proxima tecla e volta ao layout default. CapsLock alterna para o layout caps e permanece ativo ate alternar de volta para o layout default.',
+      },
+    },
+  },
+  render: (args) => {
+    const [value, setValue] = useState('');
+    return (
+      <div style={{ width: '420px' }}>
+        <VirtualKeyboard {...args} value={value} onChange={setValue} />
       </div>
     );
   },

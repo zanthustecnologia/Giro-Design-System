@@ -177,15 +177,20 @@ vi.mock('radix-ui', () => {
   };
 });
 
-// Mock dos ícones do Fluent UI
-vi.mock('@fluentui/react-icons', () => ({
-  ChevronUp16Regular: () => <span data-testid="chevron-up">↑</span>,
-  ChevronDown16Regular: () => <span data-testid="chevron-down">↓</span>,
-  ChevronRight16Regular: () => <span data-testid="chevron-right">→</span>,
-  Search16Regular: () => <span data-testid="search-icon">🔍</span>,
-  Info12Regular: () => <span data-testid="info-icon">ℹ️</span>,
-  Dismiss16Regular: () => <span data-testid="dismiss-icon">✕</span>,
-}));
+// Mock parcial dos ícones do Fluent UI
+vi.mock('@fluentui/react-icons', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@fluentui/react-icons')>();
+
+  return {
+    ...actual,
+    ChevronUp16Regular: () => <span data-testid="chevron-up">↑</span>,
+    ChevronDown16Regular: () => <span data-testid="chevron-down">↓</span>,
+    ChevronRight16Regular: () => <span data-testid="chevron-right">→</span>,
+    Search16Regular: () => <span data-testid="search-icon">🔍</span>,
+    Info12Regular: () => <span data-testid="info-icon">ℹ️</span>,
+    Dismiss16Regular: () => <span data-testid="dismiss-icon">✕</span>,
+  };
+});
 
 import Select from '../Select';
 import { SelectItemProps } from '../Select.types';

@@ -1,5 +1,15 @@
 import type { VirtualKeyboardVariant } from '../VirtualKeyboard.type';
 
+const SMILEYS_KEY = '{smileys}';
+
+const removeKeyFromLayout = (layout: Record<string, string[]>, key: string) =>
+  Object.fromEntries(
+    Object.entries(layout).map(([layoutName, rows]) => [
+      layoutName,
+      rows.map((row) => row.split(key).join(' ').replace(/\s+/g, ' ').trim()),
+    ])
+  ) as Record<string, string[]>;
+
 export const NATIVE_LAYOUTS: Partial<Record<VirtualKeyboardVariant, Record<string, string[]>>> = {
   default: {
     default: [
@@ -134,6 +144,17 @@ export const NATIVE_LAYOUT_KEYS = new Set<VirtualKeyboardVariant>([
 
 export const LAYOUT_THEMES: Partial<Record<VirtualKeyboardVariant, string>> = {
   appleIOS: 'hg-theme-default hg-theme-ios',
+};
+
+export const getNativeLayout = (
+  variant: VirtualKeyboardVariant,
+  showSmileysButton = true
+): Record<string, string[]> | null => {
+  const layout = NATIVE_LAYOUTS[variant] ?? NATIVE_LAYOUTS.default ?? null;
+
+  if (!layout) return null;
+
+  return showSmileysButton ? layout : removeKeyFromLayout(layout, SMILEYS_KEY);
 };
 
 export const SHIFT_TOGGLES: Partial<Record<string, string>> = {

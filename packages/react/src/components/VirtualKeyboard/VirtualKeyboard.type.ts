@@ -113,6 +113,9 @@ export interface VirtualKeyboardProps extends BaseProps {
   /** Limite máximo de caracteres */
   maxLength?: number;
 
+  /** Controla a exibição do botão {smileys} nos layouts suportados */
+  showSmileysButton?: boolean;
+
   /** Label do TextField exibido no modo `fixed` */
   textFieldLabel?: string;
 

@@ -10,7 +10,12 @@ vi.mock('react-simple-keyboard/build/css/index.css', () => ({}));
  * Renderiza botões que simulam teclas para facilitar os testes de interação.
  */
 vi.mock('react-simple-keyboard', () => ({
-  default: ({ onChange, onKeyPress, layoutName, input }: any) => (
+  default: ({ onChange, onKeyPress, layoutName, input, layout }: any) => {
+    const hasSmileysKey = Object.values(layout ?? {}).some((rows: any) =>
+      rows.some((row: string) => row.includes('{smileys}'))
+    );
+
+    return (
     <div data-testid="keyboard" data-layout-name={layoutName}>
       <button
         data-testid="key-char"
@@ -39,6 +44,9 @@ vi.mock('react-simple-keyboard', () => ({
       <button data-testid="key-capslock" onClick={() => onKeyPress?.('{capslock}')}>
         capslock
       </button>
+      <button data-testid="key-shiftactivated" onClick={() => onKeyPress?.('{shiftactivated}')}>
+        shiftactivated
+      </button>
       <button data-testid="key-numbers" onClick={() => onKeyPress?.('{numbers}')}>
         numbers
       </button>
@@ -54,14 +62,17 @@ vi.mock('react-simple-keyboard', () => ({
       <button data-testid="key-alt2" onClick={() => onKeyPress?.('{alt2}')}>
         alt2
       </button>
-      <button data-testid="key-smileys" onClick={() => onKeyPress?.('{smileys}')}>
-        smileys
-      </button>
+      {hasSmileysKey && (
+        <button data-testid="key-smileys" onClick={() => onKeyPress?.('{smileys}')}>
+          smileys
+        </button>
+      )}
       <button data-testid="key-downkeyboard" onClick={() => onKeyPress?.('{downkeyboard}')}>
         close
       </button>
     </div>
-  ),
+    );
+  },
 }));
 
 // Mock do simple-keyboard-layouts para layouts de idioma
@@ -341,21 +352,35 @@ describe('VirtualKeyboard', () => {
       expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'shift');
     });
 
-    it('deve ativar CapsLock (layout shift) ao pressionar {capslock}', () => {
+    it('deve ativar CapsLock (layout caps) ao pressionar {capslock}', () => {
       render(<VirtualKeyboard mode="fixed" value="" />);
 
       fireEvent.click(screen.getByTestId('key-capslock'));
 
-      expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'shift');
+      expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'caps');
     });
 
-    it('deve desativar CapsLock (layout default) ao pressionar {capslock} novamente', () => {
+    it('deve desativar CapsLock (layout default) ao pressionar {shiftactivated}', () => {
       render(<VirtualKeyboard mode="fixed" value="" />);
 
       fireEvent.click(screen.getByTestId('key-capslock'));
-      fireEvent.click(screen.getByTestId('key-capslock'));
+      fireEvent.click(screen.getByTestId('key-shiftactivated'));
 
       expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'default');
+    });
+
+    it('deve voltar a ativar CapsLock após ciclo ligar > desligar > ligar', () => {
+      render(<VirtualKeyboard mode="fixed" value="" />);
+
+      fireEvent.click(screen.getByTestId('key-capslock'));
+      expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'caps');
+
+      fireEvent.click(screen.getByTestId('key-shiftactivated'));
+      expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'default');
+
+      fireEvent.click(screen.getByTestId('key-shift'));
+      fireEvent.click(screen.getByTestId('key-capslock'));
+      expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'caps');
     });
 
     it('deve voltar para "default" após digitar um caractere com Shift ativo (sem CapsLock)', () => {
@@ -370,13 +395,27 @@ describe('VirtualKeyboard', () => {
       expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'default');
     });
 
-    it('deve permanecer em "shift" após digitar quando CapsLock está ativo', () => {
+    it('deve permanecer em "caps" após digitar quando CapsLock está ativo', () => {
       render(<VirtualKeyboard mode="fixed" value="" />);
 
       fireEvent.click(screen.getByTestId('key-capslock'));
       fireEvent.click(screen.getByTestId('key-char'));
 
+      expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'caps');
+    });
+
+    it('deve tratar Shift como temporário após desativar CapsLock', () => {
+      render(<VirtualKeyboard mode="fixed" value="" />);
+
+      fireEvent.click(screen.getByTestId('key-capslock'));
+      fireEvent.click(screen.getByTestId('key-shiftactivated'));
+      expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'default');
+
+      fireEvent.click(screen.getByTestId('key-shift'));
       expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'shift');
+
+      fireEvent.click(screen.getByTestId('key-char'));
+      expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'default');
     });
 
     it('deve alternar para layout "numbers" ao pressionar {numbers} (mobile)', () => {
@@ -433,11 +472,17 @@ describe('VirtualKeyboard', () => {
     });
 
     it('deve alternar para layout "smileys" ao pressionar {smileys} (appleIOS)', () => {
-      render(<VirtualKeyboard mode="fixed" variant="appleIOS" value="" />);
+      render(<VirtualKeyboard mode="fixed" showSmileysButton={true} variant="appleIOS" value="" />);
 
       fireEvent.click(screen.getByTestId('key-smileys'));
 
       expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'smileys');
+    });
+
+    it('deve ocultar o botão smileys quando showSmileysButton for false', () => {
+      render(<VirtualKeyboard mode="fixed" variant="appleIOS" value="" showSmileysButton={false} />);
+
+      expect(screen.queryByTestId('key-smileys')).not.toBeInTheDocument();
     });
 
     it('deve resetar para "default" ao pressionar {downkeyboard}', () => {
