@@ -19,6 +19,8 @@ vi.mock('react-simple-keyboard', () => ({
     <div data-testid="keyboard" data-layout-name={layoutName}>
       <button
         data-testid="key-char"
+        className="hg-button"
+        data-skbtn="a"
         onClick={() => {
           onChange?.((input ?? '') + 'a');
           onKeyPress?.('a');
@@ -94,6 +96,7 @@ import VirtualKeyboard from '../VirtualKeyboard';
 describe('VirtualKeyboard', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    vi.useRealTimers();
   });
 
   // ───────────────────────────────────────────────────────────────────────────
@@ -262,6 +265,56 @@ describe('VirtualKeyboard', () => {
       fireEvent.click(screen.getByTestId('key-char'));
 
       expect(onChange).toHaveBeenCalledWith('aba');
+    });
+
+    it('deve abrir menu de acentos ao segurar uma vogal', () => {
+      vi.useFakeTimers();
+
+      render(<VirtualKeyboard mode="fixed" value="" />);
+
+      fireEvent.pointerDown(screen.getByTestId('key-char'));
+      act(() => {
+        vi.advanceTimersByTime(450);
+      });
+
+      expect(screen.getByRole('listbox')).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: 'á' })).toBeInTheDocument();
+    });
+
+    it('deve manter short press inalterado para caractere normal', () => {
+      vi.useFakeTimers();
+      const onChange = vi.fn();
+
+      render(<VirtualKeyboard mode="fixed" onChange={onChange} value="" />);
+
+      fireEvent.pointerDown(screen.getByTestId('key-char'));
+      act(() => {
+        vi.advanceTimersByTime(200);
+      });
+      fireEvent.pointerUp(screen.getByTestId('key-char'));
+      fireEvent.click(screen.getByTestId('key-char'));
+
+      expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
+      expect(onChange).toHaveBeenCalledWith('a');
+    });
+
+    it('deve suprimir a letra base e inserir o acento selecionado em long press', () => {
+      vi.useFakeTimers();
+      const onChange = vi.fn();
+
+      render(<VirtualKeyboard mode="fixed" onChange={onChange} value="" />);
+
+      fireEvent.pointerDown(screen.getByTestId('key-char'));
+      act(() => {
+        vi.advanceTimersByTime(450);
+      });
+
+      // Simula a inserção automática da tecla base após o long press.
+      fireEvent.click(screen.getByTestId('key-char'));
+      expect(onChange).not.toHaveBeenCalled();
+
+      fireEvent.click(screen.getByRole('button', { name: 'á' }));
+      expect(onChange).toHaveBeenCalledWith('á');
     });
   });
 

@@ -256,3 +256,29 @@ export const ShiftECapsLock: Story = {
     );
   },
 };
+
+export const AcentosPorPressaoLonga: Story = {
+  args: {
+    mode: 'fixed',
+    variant: 'default',
+    showSmileysButton: true,
+    textFieldPlaceholder: 'Segure vogais para ver acentos',
+    helperText: 'Pressione normalmente para letra simples. Segure vogais para abrir opcoes de acentos.',
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Interacao esperada: clique rapido insere letra simples; pressao longa em vogais abre o menu de acentos, com selecao de caractere acentuado.',
+      },
+    },
+  },
+  render: (args) => {
+    const [value, setValue] = useState('');
+    return (
+      <div style={{ width: '420px' }}>
+        <VirtualKeyboard {...args} value={value} onChange={setValue} />
+      </div>
+    );
+  },
+};

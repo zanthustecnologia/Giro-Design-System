@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import React, { useState, useCallback, useEffect, useRef } from 'react';
+import React, { useState, useCallback, useEffect, useRef, useLayoutEffect } from 'react';
 import { createPortal } from 'react-dom';
 import Keyboard from 'react-simple-keyboard';
 import 'react-simple-keyboard/build/css/index.css';
@@ -13,6 +13,23 @@ import styles from './VirtualKeyboard.module.scss';
 import type { VirtualKeyboardProps } from './VirtualKeyboard.type';
 
 const keyboardLayouts = new SimpleKeyboardLayouts();
+const LONG_PRESS_DELAY_MS = 400;
+
+const ACCENT_OPTIONS: Record<string, string[]> = {
+  a: ['á', 'à', 'â', 'ã', 'ä'],
+  e: ['é', 'è', 'ê', 'ë'],
+  i: ['í', 'ì', 'î', 'ï'],
+  o: ['ó', 'ò', 'ô', 'õ', 'ö'],
+  u: ['ú', 'ù', 'û', 'ü'],
+  c: ['ç'],
+};
+
+type AccentMenuState = {
+  sourceKey: string;
+  options: string[];
+  top: number;
+  left: number;
+};
 
 /**
  * Componente VirtualKeyboard — teclado virtual on-screen para entradas controladas.
@@ -60,12 +77,59 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
 }) => {
   const [layoutName, setLayoutName] = useState<string>('default');
   const [capsLockOn, setCapsLockOn] = useState(false);
+  const [accentMenu, setAccentMenu] = useState<AccentMenuState | null>(null);
+  const [accentMenuOffsetX, setAccentMenuOffsetX] = useState(0);
   const [activeLayout, setActiveLayout] = useState<Record<string, string[]> | null>(
     getNativeLayout(variant, showSmileysButton)
   );
 
   const [isOpen, setIsOpen] = useState(mode !== 'native');
   const hideTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const longPressTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const suppressNextInputRef = useRef<string | null>(null);
+  const heldAccentKeyRef = useRef<string | null>(null);
+  const longPressTriggeredRef = useRef(false);
+  const isKeyboardInteractingRef = useRef(false);
+  const keyboardWrapperRef = useRef<HTMLDivElement | null>(null);
+  const keyboardInstanceRef = useRef<{ setInput: (value: string) => void } | null>(null);
+  const accentMenuRef = useRef<HTMLDivElement | null>(null);
+  const valueRef = useRef(value);
+
+  useEffect(() => {
+    valueRef.current = value;
+  }, [value]);
+
+  const clearLongPressTimeout = useCallback(() => {
+    if (longPressTimeoutRef.current !== null) {
+      clearTimeout(longPressTimeoutRef.current);
+      longPressTimeoutRef.current = null;
+    }
+  }, []);
+
+  const closeAccentMenu = useCallback(() => {
+    setAccentMenu(null);
+  }, []);
+
+  const syncKeyboardInput = useCallback((nextValue: string) => {
+    keyboardInstanceRef.current?.setInput(nextValue);
+  }, []);
+
+  const scheduleHideIfBlurred = useCallback(() => {
+    if (mode !== 'native') return;
+
+    if (hideTimeoutRef.current !== null) {
+      clearTimeout(hideTimeoutRef.current);
+    }
+
+    hideTimeoutRef.current = setTimeout(() => {
+      const targetEl = targetRef?.current;
+      const isTargetFocused = !!targetEl && document.activeElement === targetEl;
+
+      if (!isTargetFocused && !isKeyboardInteractingRef.current) {
+        setIsOpen(false);
+      }
+    }, 150);
+  }, [mode, targetRef]);
 
   useEffect(() => {
     if (mode !== 'native') return;
@@ -83,7 +147,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
     };
 
     const handleBlur = () => {
-      hideTimeoutRef.current = setTimeout(() => setIsOpen(false), 150);
+      scheduleHideIfBlurred();
     };
 
     el.addEventListener('focus', handleFocus);
@@ -94,7 +158,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
       el.removeEventListener('blur', handleBlur);
       if (hideTimeoutRef.current !== null) clearTimeout(hideTimeoutRef.current);
     };
-  }, [mode, targetRef]);
+  }, [mode, targetRef, scheduleHideIfBlurred]);
 
   useEffect(() => {
     setLayoutName('default');
@@ -113,6 +177,154 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
       setLayoutName(variant === 'numeric' ? 'abc' : 'default');
     }
   }, [showSmileysButton, layoutName, variant]);
+
+  useEffect(() => {
+    return () => {
+      clearLongPressTimeout();
+    };
+  }, [clearLongPressTimeout]);
+
+  useEffect(() => {
+    if (!accentMenu) return;
+
+    const handleOutsidePointerDown = (event: PointerEvent) => {
+      if (accentMenuRef.current?.contains(event.target as Node)) return;
+      closeAccentMenu();
+    };
+
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        closeAccentMenu();
+      }
+    };
+
+    document.addEventListener('pointerdown', handleOutsidePointerDown, true);
+    document.addEventListener('keydown', handleEscape);
+
+    return () => {
+      document.removeEventListener('pointerdown', handleOutsidePointerDown, true);
+      document.removeEventListener('keydown', handleEscape);
+    };
+  }, [accentMenu, closeAccentMenu]);
+
+  useLayoutEffect(() => {
+    if (!accentMenu || !accentMenuRef.current) return;
+
+    const margin = 8;
+    const rect = accentMenuRef.current.getBoundingClientRect();
+    if (rect.width <= 0 || rect.height <= 0) return;
+
+    const minCenter = margin + rect.width / 2;
+    const maxCenter = window.innerWidth - margin - rect.width / 2;
+    const clampedCenter = Math.min(maxCenter, Math.max(minCenter, accentMenu.left));
+    const nextOffset = clampedCenter - accentMenu.left;
+
+    if (Math.abs(nextOffset - accentMenuOffsetX) > 0.5) {
+      setAccentMenuOffsetX(nextOffset);
+    }
+  }, [accentMenu, accentMenuOffsetX]);
+
+  useEffect(() => {
+    closeAccentMenu();
+    setAccentMenuOffsetX(0);
+    suppressNextInputRef.current = null;
+    clearLongPressTimeout();
+  }, [layoutName, variant, disabled, closeAccentMenu, clearLongPressTimeout]);
+
+  const handleLongPressStart = useCallback(
+    (event: React.PointerEvent<HTMLDivElement>) => {
+      if (disabled) return;
+
+      isKeyboardInteractingRef.current = true;
+      if (hideTimeoutRef.current !== null) {
+        clearTimeout(hideTimeoutRef.current);
+      }
+
+      const keyboardWrapper = keyboardWrapperRef.current;
+      if (!keyboardWrapper) return;
+
+      const buttonEl = (event.target as HTMLElement).closest('.hg-button') as HTMLButtonElement | null;
+      if (!buttonEl || !keyboardWrapper.contains(buttonEl)) return;
+
+      const sourceKey = buttonEl.getAttribute('data-skbtn') ?? '';
+      heldAccentKeyRef.current = null;
+      longPressTriggeredRef.current = false;
+
+      if (!sourceKey || sourceKey.startsWith('{')) return;
+
+      const accentOptions = ACCENT_OPTIONS[sourceKey.toLowerCase()];
+      if (!accentOptions) return;
+
+      heldAccentKeyRef.current = sourceKey;
+
+      clearLongPressTimeout();
+
+      longPressTimeoutRef.current = setTimeout(() => {
+        const buttonRect = buttonEl.getBoundingClientRect();
+        const isUpperCaseKey = sourceKey === sourceKey.toUpperCase();
+        longPressTriggeredRef.current = true;
+
+        setAccentMenu({
+          sourceKey,
+          options: isUpperCaseKey
+            ? accentOptions.map((option) => option.toUpperCase())
+            : accentOptions,
+          top: buttonRect.top - 8,
+          left: buttonRect.left + buttonRect.width / 2,
+        });
+        setAccentMenuOffsetX(0);
+
+        suppressNextInputRef.current = sourceKey;
+      }, LONG_PRESS_DELAY_MS);
+    },
+    [disabled, clearLongPressTimeout]
+  );
+
+  const handleLongPressEnd = useCallback(() => {
+    const heldKey = heldAccentKeyRef.current;
+    const longPressTriggered = longPressTriggeredRef.current;
+
+    isKeyboardInteractingRef.current = false;
+    clearLongPressTimeout();
+
+    if (heldKey && !longPressTriggered) {
+      const currentValue = valueRef.current;
+      if (maxLength === undefined || currentValue.length < maxLength) {
+        const nextValue = `${currentValue}${heldKey}`;
+        onChange?.(nextValue);
+        onKeyPress?.(heldKey);
+        syncKeyboardInput(nextValue);
+      }
+      suppressNextInputRef.current = heldKey;
+    }
+
+    heldAccentKeyRef.current = null;
+    longPressTriggeredRef.current = false;
+    scheduleHideIfBlurred();
+  }, [clearLongPressTimeout, scheduleHideIfBlurred, maxLength, onChange, onKeyPress, syncKeyboardInput]);
+
+  const handleAccentSelect = useCallback(
+    (accentedChar: string) => {
+      const currentValue = valueRef.current;
+
+      if (maxLength !== undefined && currentValue.length >= maxLength) {
+        closeAccentMenu();
+        suppressNextInputRef.current = null;
+        syncKeyboardInput(currentValue);
+        return;
+      }
+
+      const nextValue = `${currentValue}${accentedChar}`;
+      onChange?.(nextValue);
+      onKeyPress?.(accentedChar);
+      closeAccentMenu();
+      suppressNextInputRef.current = null;
+      heldAccentKeyRef.current = null;
+      longPressTriggeredRef.current = false;
+      syncKeyboardInput(nextValue);
+    },
+    [maxLength, onChange, onKeyPress, closeAccentMenu, syncKeyboardInput]
+  );
 
   const handleKeyPress = useCallback(
     (button: string) => {
@@ -167,6 +379,10 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
         }
       }
 
+      if (heldAccentKeyRef.current === button) {
+        return;
+      }
+
       onKeyPress?.(button);
     },
     [disabled, variant, layoutName, capsLockOn, onKeyPress, showSmileysButton]
@@ -175,23 +391,92 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
   const handleChange = useCallback(
     (input: string) => {
       if (disabled) return;
+
+      const currentValue = valueRef.current;
+      const suppressedKey = suppressNextInputRef.current;
+      const heldKey = heldAccentKeyRef.current;
+
+      if (
+        heldKey &&
+        input.length >= currentValue.length + 1 &&
+        input.startsWith(currentValue) &&
+        input.slice(currentValue.length).split('').every((char) => char === heldKey)
+      ) {
+        syncKeyboardInput(currentValue);
+        return;
+      }
+
+      if (
+        suppressedKey &&
+        input.length === currentValue.length + 1 &&
+        input.endsWith(suppressedKey)
+      ) {
+        suppressNextInputRef.current = null;
+        syncKeyboardInput(currentValue);
+        return;
+      }
+
       if (maxLength !== undefined && input.length > maxLength) return;
       onChange?.(input);
     },
-    [disabled, maxLength, onChange]
+    [disabled, maxLength, onChange, syncKeyboardInput]
   );
 
   const keyboardEl = activeLayout ? (
-    <Keyboard
-      layoutName={layoutName}
-      layout={activeLayout}
-      theme={LAYOUT_THEMES[variant] ?? 'hg-theme-default'}
-      display={LAYOUT_DISPLAY[variant]}
-      onChange={handleChange}
-      onKeyPress={handleKeyPress}
-      input={value}
-      preventMouseDownDefault
-    />
+    <div
+      ref={keyboardWrapperRef}
+      className={styles.keyboardWrapper}
+      onPointerDownCapture={handleLongPressStart}
+      onPointerUpCapture={handleLongPressEnd}
+      onPointerLeave={handleLongPressEnd}
+      onPointerCancelCapture={handleLongPressEnd}
+    >
+      <Keyboard
+        keyboardRef={(instance) => {
+          keyboardInstanceRef.current = instance as { setInput: (value: string) => void } | null;
+        }}
+        layoutName={layoutName}
+        layout={activeLayout}
+        theme={LAYOUT_THEMES[variant] ?? 'hg-theme-default'}
+        display={LAYOUT_DISPLAY[variant]}
+        onChange={handleChange}
+        onKeyPress={handleKeyPress}
+        input={value}
+        preventMouseDownDefault
+      />
+
+      {accentMenu && (
+        typeof document !== 'undefined' &&
+        createPortal(
+          <div
+            ref={accentMenuRef}
+            className={styles.accentMenu}
+            style={{
+              top: accentMenu.top,
+              left: accentMenu.left + accentMenuOffsetX,
+            }}
+            role="listbox"
+            aria-label={`Opcoes de acento para ${accentMenu.sourceKey}`}
+          >
+            {accentMenu.options.map((option) => (
+              <button
+                key={`${accentMenu.sourceKey}-${option}`}
+                type="button"
+                className={styles.accentOption}
+                onPointerDown={(event) => {
+                  event.preventDefault();
+                  event.stopPropagation();
+                }}
+                onClick={() => handleAccentSelect(option)}
+              >
+                {option}
+              </button>
+            ))}
+          </div>,
+          document.body
+        )
+      )}
+    </div>
   ) : null;
 
   if (mode === 'native' && typeof document !== 'undefined') {

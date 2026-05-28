@@ -179,3 +179,44 @@
 .textFieldWrapper {
   width: 100%;
 }
+
+.keyboardWrapper {
+  position: relative;
+}
+
+.accentMenu {
+  position: fixed;
+  transform: translate(-50%, calc(-100% - 8px));
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-4);
+  padding: var(--spacing-4);
+  border-radius: var(--border-radius-8);
+  border: var(--border-width-1) solid var(--color-neutral-medium-default);
+  background: var(--color-neutral-high-default);
+  box-shadow: 0 8px 20px rgba(17, 17, 25, 0.15);
+  z-index: 10000;
+}
+
+.accentOption {
+  min-width: 32px;
+  height: 32px;
+  padding: 0 var(--spacing-8);
+  border: none;
+  border-radius: var(--border-radius-6);
+  background: transparent;
+  color: var(--color-neutral-low-dark);
+  font-family: var(--font-family-primary);
+  font-size: 16px;
+  font-weight: var(--font-weight-bold);
+  cursor: pointer;
+
+  &:hover {
+    background: var(--color-neutral-high-light);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary-default);
+    outline-offset: 1px;
+  }
+}
