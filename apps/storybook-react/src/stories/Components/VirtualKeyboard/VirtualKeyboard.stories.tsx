@@ -86,17 +86,19 @@ export const Default: Story = {
     const inputRef = useRef<HTMLInputElement>(null);
     return (
       <div style={{ display: 'flex', flexDirection: 'column', width: '420px' }}>
-        <div style={{ marginBottom: '20px' }}>
-          <TextField
-            label="Campo de texto"
-            value={value}
-            onChange={setValue}
+        {args.mode === 'native' && (
+          <div style={{ marginBottom: '20px' }}>
+            <TextField
+              label="Campo de texto"
+              value={value}
+              onChange={setValue}
             placeholder="Clique aqui para abrir o teclado..."
             readOnly
             helperText="Clique no campo para abrir o teclado virtual"
             ref={inputRef}
           />
         </div>
+        )}
         <VirtualKeyboard {...args} targetRef={inputRef as React.RefObject<HTMLInputElement>} value={value} onChange={setValue} />
       </div>
     );
