@@ -10,7 +10,19 @@ vi.mock('react-simple-keyboard/build/css/index.css', () => ({}));
  * Renderiza botões que simulam teclas para facilitar os testes de interação.
  */
 vi.mock('react-simple-keyboard', () => ({
-  default: ({ onChange, onKeyPress, layoutName, input, layout }: any) => {
+  default: ({ onChange, onKeyPress, layoutName, input, layout, keyboardRef }: any) => {
+    const [internalInput, setInternalInput] = React.useState(input ?? '');
+
+    React.useEffect(() => {
+      keyboardRef?.({
+        setInput: (nextValue: string) => setInternalInput(nextValue),
+      });
+
+      return () => {
+        keyboardRef?.(null);
+      };
+    }, [keyboardRef]);
+
     const hasSmileysKey = Object.values(layout ?? {}).some((rows: any) =>
       rows.some((row: string) => row.includes('{smileys}'))
     );
@@ -22,7 +34,9 @@ vi.mock('react-simple-keyboard', () => ({
         className="hg-button"
         data-skbtn="a"
         onClick={() => {
-          onChange?.((input ?? '') + 'a');
+          const nextValue = `${internalInput}a`;
+          setInternalInput(nextValue);
+          onChange?.(nextValue);
           onKeyPress?.('a');
         }}
       >
@@ -31,7 +45,9 @@ vi.mock('react-simple-keyboard', () => ({
       <button
         data-testid="key-bksp"
         onClick={() => {
-          onChange?.((input ?? '').slice(0, -1));
+          const nextValue = internalInput.slice(0, -1);
+          setInternalInput(nextValue);
+          onChange?.(nextValue);
           onKeyPress?.('{bksp}');
         }}
       >
@@ -238,6 +254,34 @@ describe('VirtualKeyboard', () => {
       fireEvent.click(screen.getByTestId('key-bksp'));
 
       expect(onChange).toHaveBeenCalledWith('a');
+    });
+
+    it('deve respeitar limpeza externa antes de nova digitacao', () => {
+      const onChange = vi.fn();
+      const { rerender } = render(<VirtualKeyboard mode="fixed" onChange={onChange} value="texto" />);
+
+      rerender(<VirtualKeyboard mode="fixed" onChange={onChange} value="" />);
+      fireEvent.click(screen.getByTestId('key-char'));
+
+      expect(onChange).toHaveBeenLastCalledWith('a');
+    });
+
+    it('deve limpar no TextField fixed e nao restaurar valor antigo na proxima tecla', () => {
+      const Harness = () => {
+        const [currentValue, setCurrentValue] = React.useState('texto');
+
+        return <VirtualKeyboard mode="fixed" value={currentValue} onChange={setCurrentValue} />;
+      };
+
+      render(<Harness />);
+
+      const input = screen.getByRole('textbox');
+      fireEvent.focus(input);
+      fireEvent.mouseDown(screen.getByRole('button', { name: 'Limpar campo' }));
+      expect(input).toHaveValue('');
+
+      fireEvent.click(screen.getByTestId('key-char'));
+      expect(input).toHaveValue('a');
     });
 
     it('não deve chamar onChange quando o componente está desabilitado', () => {

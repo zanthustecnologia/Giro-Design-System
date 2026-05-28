@@ -114,6 +114,11 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
     keyboardInstanceRef.current?.setInput(nextValue);
   }, []);
 
+  useEffect(() => {
+    // Mantem o estado interno do teclado alinhado com atualizacoes externas de valor.
+    syncKeyboardInput(value);
+  }, [value, syncKeyboardInput]);
+
   const scheduleHideIfBlurred = useCallback(() => {
     if (mode !== 'native') return;
 
@@ -434,6 +439,9 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
       <Keyboard
         keyboardRef={(instance) => {
           keyboardInstanceRef.current = instance as { setInput: (value: string) => void } | null;
+          if (instance) {
+            (instance as { setInput: (value: string) => void }).setInput(valueRef.current);
+          }
         }}
         layoutName={layoutName}
         layout={activeLayout}
@@ -514,6 +522,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
             label={textFieldLabel}
             placeholder={textFieldPlaceholder}
             value={value}
+            onChange={onChange}
             helperText={helperText}
             error={error}
             errorMessage={errorMessage}
