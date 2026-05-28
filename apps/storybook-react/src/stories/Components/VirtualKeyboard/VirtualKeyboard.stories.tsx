@@ -19,7 +19,7 @@ const meta: Meta<typeof VirtualKeyboard> = {
       control: 'select',
       options: ['native', 'fixed'],
       description:
-        'Modo de exibicao do teclado. `native` aparece ao focar no campo referenciado por `targetRef`. `fixed` exibe o teclado sempre visivel com um TextField proprio acima.',
+        'Modo de exibicao do teclado. `native` aparece ao focar no campo referenciado por `targetRef` e permite fechar pelo botao {downkeyboard}. `fixed` exibe o teclado sempre visivel com um TextField proprio acima e sem o botao {downkeyboard}.',
     },
     textFieldPlaceholder: {
       control: 'text',
@@ -116,7 +116,7 @@ export const ModoFixed: Story = {
     variant: 'default',
     showSmileysButton: true,
     textFieldPlaceholder: 'Digite no teclado...',
-    helperText: 'Use o teclado virtual para preencher o campo.',
+    helperText: 'Use o teclado virtual para preencher o campo (sem botao de fechar).',
   },
   render: (args) => {
     const [value, setValue] = useState('');
@@ -141,7 +141,7 @@ export const ModoNative: Story = {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', width: '420px' }}>
         <p style={{ margin: 0, fontSize: '13px', color: '#888' }}>
-          Clique no campo abaixo — o teclado abrirá na parte inferior da tela.
+          Clique no campo abaixo para abrir o teclado e use a tecla de fechar para ocultar.
         </p>
         <input
           ref={inputRef}

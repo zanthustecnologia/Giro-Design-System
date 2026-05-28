@@ -1,6 +1,7 @@
 import type { VirtualKeyboardVariant } from '../VirtualKeyboard.type';
 
 const SMILEYS_KEY = '{smileys}';
+const DOWN_KEYBOARD_KEY = '{downkeyboard}';
 
 const removeKeyFromLayout = (layout: Record<string, string[]>, key: string) =>
   Object.fromEntries(
@@ -148,13 +149,24 @@ export const LAYOUT_THEMES: Partial<Record<VirtualKeyboardVariant, string>> = {
 
 export const getNativeLayout = (
   variant: VirtualKeyboardVariant,
-  showSmileysButton = true
+  showSmileysButton = true,
+  showDownKeyboardButton = true
 ): Record<string, string[]> | null => {
   const layout = NATIVE_LAYOUTS[variant] ?? NATIVE_LAYOUTS.default ?? null;
 
   if (!layout) return null;
 
-  return showSmileysButton ? layout : removeKeyFromLayout(layout, SMILEYS_KEY);
+  let computedLayout = layout;
+
+  if (!showSmileysButton) {
+    computedLayout = removeKeyFromLayout(computedLayout, SMILEYS_KEY);
+  }
+
+  if (!showDownKeyboardButton) {
+    computedLayout = removeKeyFromLayout(computedLayout, DOWN_KEYBOARD_KEY);
+  }
+
+  return computedLayout;
 };
 
 export const SHIFT_TOGGLES: Partial<Record<string, string>> = {

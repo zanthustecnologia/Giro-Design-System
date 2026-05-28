@@ -1,6 +1,6 @@
 import { render, screen, fireEvent, act, waitFor } from '@testing-library/react';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
 import React, { createRef } from 'react';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 
 // Mock da importação de CSS do react-simple-keyboard
 vi.mock('react-simple-keyboard/build/css/index.css', () => ({}));
@@ -10,7 +10,7 @@ vi.mock('react-simple-keyboard/build/css/index.css', () => ({}));
  * Renderiza botões que simulam teclas para facilitar os testes de interação.
  */
 vi.mock('react-simple-keyboard', () => ({
-  default: ({ onChange, onKeyPress, layoutName, input, layout, keyboardRef }: any) => {
+  default: function MockKeyboard({ onChange, onKeyPress, layoutName, input, layout, keyboardRef }: any) {
     const [internalInput, setInternalInput] = React.useState(input ?? '');
 
     React.useEffect(() => {
@@ -25,6 +25,10 @@ vi.mock('react-simple-keyboard', () => ({
 
     const hasSmileysKey = Object.values(layout ?? {}).some((rows: any) =>
       rows.some((row: string) => row.includes('{smileys}'))
+    );
+
+    const hasDownKeyboardKey = Object.values(layout ?? {}).some((rows: any) =>
+      rows.some((row: string) => row.includes('{downkeyboard}'))
     );
 
     return (
@@ -85,9 +89,11 @@ vi.mock('react-simple-keyboard', () => ({
           smileys
         </button>
       )}
-      <button data-testid="key-downkeyboard" onClick={() => onKeyPress?.('{downkeyboard}')}>
-        close
-      </button>
+      {hasDownKeyboardKey && (
+        <button data-testid="key-downkeyboard" onClick={() => onKeyPress?.('{downkeyboard}')}>
+          close
+        </button>
+      )}
     </div>
     );
   },
@@ -180,6 +186,11 @@ describe('VirtualKeyboard', () => {
       render(<VirtualKeyboard mode="native" />);
       expect(screen.queryByRole('textbox')).not.toBeInTheDocument();
     });
+
+    it('não deve exibir a tecla {downkeyboard} no modo fixed', () => {
+      render(<VirtualKeyboard mode="fixed" variant="default" />);
+      expect(screen.queryByTestId('key-downkeyboard')).not.toBeInTheDocument();
+    });
   });
 
   // ───────────────────────────────────────────────────────────────────────────
@@ -230,6 +241,25 @@ describe('VirtualKeyboard', () => {
         fireEvent.blur(screen.getByTestId('input-ref'));
         await new Promise((r) => setTimeout(r, 200));
       });
+
+      const overlay = document.querySelector('[class*="overlay"]') as HTMLElement;
+      expect(overlay?.className).not.toMatch(/overlayOpen/);
+    });
+
+    it('deve fechar ao pressionar {downkeyboard} no modo native', () => {
+      const ref = createRef<HTMLInputElement>();
+      render(
+        <>
+          <input data-testid="input-ref" ref={ref} />
+          <VirtualKeyboard mode="native" targetRef={ref} />
+        </>
+      );
+
+      act(() => {
+        fireEvent.focus(screen.getByTestId('input-ref'));
+      });
+
+      fireEvent.click(screen.getByTestId('key-downkeyboard'));
 
       const overlay = document.querySelector('[class*="overlay"]') as HTMLElement;
       expect(overlay?.className).not.toMatch(/overlayOpen/);
@@ -582,14 +612,6 @@ describe('VirtualKeyboard', () => {
       expect(screen.queryByTestId('key-smileys')).not.toBeInTheDocument();
     });
 
-    it('deve resetar para "default" ao pressionar {downkeyboard}', () => {
-      render(<VirtualKeyboard mode="fixed" value="" />);
-
-      fireEvent.click(screen.getByTestId('key-shift'));
-      fireEvent.click(screen.getByTestId('key-downkeyboard'));
-
-      expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'default');
-    });
   });
 
   // ───────────────────────────────────────────────────────────────────────────

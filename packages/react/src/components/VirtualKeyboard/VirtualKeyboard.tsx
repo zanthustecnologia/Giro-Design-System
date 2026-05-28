@@ -80,7 +80,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
   const [accentMenu, setAccentMenu] = useState<AccentMenuState | null>(null);
   const [accentMenuOffsetX, setAccentMenuOffsetX] = useState(0);
   const [activeLayout, setActiveLayout] = useState<Record<string, string[]> | null>(
-    getNativeLayout(variant, showSmileysButton)
+    getNativeLayout(variant, showSmileysButton, mode === 'native')
   );
 
   const [isOpen, setIsOpen] = useState(mode !== 'native');
@@ -170,12 +170,12 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
     setCapsLockOn(false);
 
     if (NATIVE_LAYOUT_KEYS.has(variant)) {
-      setActiveLayout(getNativeLayout(variant, showSmileysButton));
+      setActiveLayout(getNativeLayout(variant, showSmileysButton, mode === 'native'));
     } else {
       const loaded = keyboardLayouts.get(variant) as { layout: Record<string, string[]> } | undefined;
       setActiveLayout(loaded?.layout ?? null);
     }
-  }, [variant, showSmileysButton]);
+  }, [variant, showSmileysButton, mode]);
 
   useEffect(() => {
     if (!showSmileysButton && layoutName === 'smileys') {
@@ -374,7 +374,25 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
         return;
       }
       if (button === '{symbols}') { setLayoutName((prev) => (prev === 'symbols' ? 'alt' : 'symbols')); return; }
-      if (button === '{default}' || button === '{back}' || button === '{downkeyboard}') { setLayoutName(baseLayout); return; }
+      if (button === '{default}' || button === '{back}') {
+        setLayoutName(baseLayout);
+        return;
+      }
+      if (button === '{downkeyboard}') {
+        setLayoutName(baseLayout);
+
+        if (mode === 'native') {
+          closeAccentMenu();
+          setIsOpen(false);
+
+          const targetElement = targetRef?.current;
+          if (targetElement && document.activeElement === targetElement) {
+            targetElement.blur();
+          }
+        }
+
+        return;
+      }
 
       if (button !== '{backspace}' && button !== '{bksp}' && button !== '{enter}') {
         if (layoutName === 'shift' && !capsLockOn) {
@@ -390,7 +408,17 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
 
       onKeyPress?.(button);
     },
-    [disabled, variant, layoutName, capsLockOn, onKeyPress, showSmileysButton]
+    [
+      disabled,
+      variant,
+      layoutName,
+      capsLockOn,
+      onKeyPress,
+      showSmileysButton,
+      mode,
+      closeAccentMenu,
+      targetRef,
+    ]
   );
 
   const handleChange = useCallback(
