@@ -61,3 +61,17 @@ local.properties
 build/
 gradle-app.setting
 !gradle-wrapper.jar
+
+# Compose DS modules
+!packages/compose/
+!packages/compose/**
+!apps/showcase-compose/
+!apps/showcase-compose/**
+packages/compose/.gradle/
+packages/compose/**/build/
+packages/compose/local.properties
+apps/showcase-compose/.gradle/
+apps/showcase-compose/.idea/
+apps/showcase-compose/**/build/
+apps/showcase-compose/local.properties
+apps/showcase-compose/*.hprof
