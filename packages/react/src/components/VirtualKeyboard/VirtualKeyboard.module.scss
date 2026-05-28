@@ -9,6 +9,12 @@
     :global(.hg-button) {
       font-family: var(--font-family-primary);
       font-weight: var(--font-weight-bold);
+
+      svg {
+        width: 1em;
+        height: 1em;
+        vertical-align: middle;
+      }
     }
   }
 
@@ -99,6 +105,12 @@
     :global(.hg-button) {
       font-family: var(--font-family-primary);
       font-weight: var(--font-weight-bold);
+
+      svg {
+        width: 1em;
+        height: 1em;
+        vertical-align: middle;
+      }
     }
   }
 

@@ -5,9 +5,10 @@ import Keyboard from 'react-simple-keyboard';
 import 'react-simple-keyboard/build/css/index.css';
 import SimpleKeyboardLayouts from 'simple-keyboard-layouts';
 
-import { NATIVE_LAYOUTS, NATIVE_LAYOUT_KEYS, SHIFT_TOGGLES, LAYOUT_THEMES, LAYOUT_DISPLAY } from './components/Variants';
-import styles from './VirtualKeyboard.module.scss';
 import TextField from '../TextField';
+import { LAYOUT_DISPLAY } from './components/IconDisplay';
+import { NATIVE_LAYOUTS, NATIVE_LAYOUT_KEYS, SHIFT_TOGGLES, LAYOUT_THEMES } from './components/Variants';
+import styles from './VirtualKeyboard.module.scss';
 
 import type { VirtualKeyboardProps } from './VirtualKeyboard.type';
 
