@@ -35,7 +35,7 @@ export const NATIVE_LAYOUTS: Partial<Record<VirtualKeyboardVariant, Record<strin
       '{numbers} {alt} {smileys} {space} {downkeyboard}',
     ],
     numbers: [
-      '1 2 3', '4 5 6', '7 8 9', '{abc} 0 {bksp}'
+      '1 2 3', '4 5 6', '7 8 9', '{bksp} 0 {abc}'
     ],
     alt: [
       '1 2 3 4 5 6 7 8 9 0',
@@ -59,7 +59,7 @@ export const NATIVE_LAYOUTS: Partial<Record<VirtualKeyboardVariant, Record<strin
 
   numeric: {
     default: [
-      '1 2 3', '4 5 6', '7 8 9', '{abc} 0 {bksp}'
+      '1 2 3', '4 5 6', '7 8 9', '{bksp} 0 {abc}'
     ],
     abc: [
       '1 2 3 4 5 6 7 8 9 0',
@@ -83,7 +83,7 @@ export const NATIVE_LAYOUTS: Partial<Record<VirtualKeyboardVariant, Record<strin
       '{numbers} {alt} {smileys} {space} {downkeyboard}',
     ],
     numbers: [
-      '1 2 3', '4 5 6', '7 8 9', '{abc} 0 {bksp}'
+      '1 2 3', '4 5 6', '7 8 9', '{bksp} 0 {abc}'
     ],
     alt: [
       '1 2 3 4 5 6 7 8 9 0',

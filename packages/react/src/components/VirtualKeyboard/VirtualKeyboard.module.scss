@@ -5,16 +5,29 @@
   :global(.hg-theme-default) {
     font-family: var(--font-family-primary);
     font-weight: var(--font-weight-bold);
+    background-color: var(--color-neutral-high-default);
 
     :global(.hg-button) {
       font-family: var(--font-family-primary);
       font-weight: var(--font-weight-bold);
+      margin: var(--spacing-4);
+      height: 50px;
+      background-color: var(--color-neutral-high-medium);
+      border-bottom: none;
+      box-shadow: none;
 
       svg {
         width: 1em;
         height: 1em;
         vertical-align: middle;
       }
+    }
+
+    :global(.hg-button:active),
+    :global(.hg-button:focus),
+    :global(.hg-button.hg-activeButton) {
+      border-bottom: none;
+      box-shadow: none;
     }
   }
 
@@ -27,6 +40,7 @@
   &.layout--numeric {
     :global(.hg-button) {
       flex: 1 0 0;
+      border-radius: var(--border-radius-16);
     }
 
     :global(.hg-layout-abc),
@@ -67,6 +81,7 @@
     :global(.hg-layout-numbers) {
       :global(.hg-button) {
         flex: 1 0 0;
+        border-radius: var(--border-radius-16);
       }
     }
   }
@@ -90,27 +105,48 @@
   left: var(--spacing-0);
   right: var(--spacing-0);
   background-color: var(--color-neutral-high-default);
-  box-shadow: var(--spacing-0) -2px var(--spacing-12) rgba(17, 17, 25, 0.12);
+  // box-shadow: var(--spacing-0) -2px var(--spacing-12) rgba(17, 17, 25, 0.12);
   transform: translateY(100%);
   transition: transform 0.25s ease-out;
   will-change: transform;
   font-family: var(--font-family-primary);
   font-weight: var(--font-weight-bold);
+  padding: 5px;
 
   :global(.hg-theme-default) {
     font-family: var(--font-family-primary);
     border-radius: var(--border-radius-none);
     font-weight: var(--font-weight-bold);
+    background-color: var(--color-neutral-high-default);
+    box-shadow: none;
 
     :global(.hg-button) {
       font-family: var(--font-family-primary);
       font-weight: var(--font-weight-bold);
+      font-size: var(--font-size-24);
+      background-color: var(--color-neutral-high-medium);
+      margin: var(--spacing-4);
+      height: 50px;
+      line-height: 140%;
+      letter-spacing: -0.96px;
+      flex-direction: column;
+      justify-content: center;
+      flex-shrink: 0;
+      border-bottom: none;
+      box-shadow: none;
 
       svg {
         width: 1em;
         height: 1em;
         vertical-align: middle;
       }
+    }
+
+    :global(.hg-button:active),
+    :global(.hg-button:focus),
+    :global(.hg-button.hg-activeButton) {
+      border-bottom: none;
+      box-shadow: none;
     }
   }
 
