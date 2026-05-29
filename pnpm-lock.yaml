@@ -96,6 +96,9 @@ importers:
       '@giro-ds/version':
         specifier: workspace:*
         version: link:../../packages/version
+      '@tanstack/react-table':
+        specifier: ^8.21.3
+        version: 8.21.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react-router-dom:
         specifier: ^7.8.1
         version: 7.10.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
