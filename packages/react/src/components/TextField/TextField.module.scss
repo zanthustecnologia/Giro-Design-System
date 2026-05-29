@@ -205,9 +205,9 @@
     box-sizing: border-box;
   }
 
-  &.error {
+  &.errorWithMessage {
     .helperText {
-      color: var(--color-neutral-low-default);
+      color: var(--color-feedback-alert-default);
     }
   }
 }
