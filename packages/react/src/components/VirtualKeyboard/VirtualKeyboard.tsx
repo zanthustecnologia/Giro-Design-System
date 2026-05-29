@@ -341,7 +341,6 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
         setCapsLockOn((prev) => {
           const next = !prev;
           setLayoutName(next ? 'caps' : baseLayout);
-          setCapsLockOn(false);
           return next;
         });
         return;
@@ -352,6 +351,12 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
         button === '{shiftleft}' || button === '{shiftright}' ||
         button === '{shiftactivated}'
       ) {
+        if (button === '{shiftactivated}') {
+          setCapsLockOn(false);
+          setLayoutName(baseLayout);
+          return;
+        }
+
         setLayoutName((prev) => {
           const next = SHIFT_TOGGLES[prev] ?? 'default';
           return next === 'default' ? baseLayout : next;
