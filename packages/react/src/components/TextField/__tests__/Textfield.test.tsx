@@ -32,6 +32,24 @@ describe('TextField', () => {
       render(<TextField helperText="Ajuda" />);
       expect(screen.getByText('Ajuda')).toBeInTheDocument();
     });
+
+    it('aplica escala 1.0 por padrão', () => {
+      const { container } = render(<TextField />);
+      const wrapper = container.querySelector('[class*="textfield-scale-1-0"]');
+      expect(wrapper).toBeInTheDocument();
+    });
+
+    it('aplica escala 1.5 quando informado', () => {
+      const { container } = render(<TextField scale={1.5} />);
+      const wrapper = container.querySelector('[class*="textfield-scale-1-5"]');
+      expect(wrapper).toBeInTheDocument();
+    });
+
+    it('aplica escala 2.0 quando informado', () => {
+      const { container } = render(<TextField scale={2} />);
+      const wrapper = container.querySelector('[class*="textfield-scale-2-0"]');
+      expect(wrapper).toBeInTheDocument();
+    });
   });
 
   describe('Interações', () => {

@@ -115,4 +115,10 @@ export interface MenuProps extends BaseProps {
 
   /** Classe CSS opcional */
   className?: string;
+
+  /** Escala visual aplicada ao conteúdo do menu */
+  scale?: 1 | 1.5 | 2;
+
+  /** Escala visual aplicada ao botão/trigger quando ele aceitar a prop `scale` */
+  buttonScale?: 1 | 1.5 | 2;
 }

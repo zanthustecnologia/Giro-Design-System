@@ -41,6 +41,9 @@ type ButtonOwnPropsBase = {
   /** Tamanho do botão */
   size?: Size;
 
+  /** Escala visual aplicada ao botão */
+  scale?: 1 | 1.5 | 2;
+
   /** Define se o botão ocupa 100% da largura do container */
   fullWidth?: boolean;
 

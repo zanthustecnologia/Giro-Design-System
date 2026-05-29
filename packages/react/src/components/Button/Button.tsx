@@ -20,6 +20,7 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPro
   disabled = false,
   onClick,
   size = 'lg',
+  scale = 1,
   className,
   type = 'button',
   id,
@@ -68,10 +69,17 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPro
   }
   const resolvedIcon = icon;
 
+  const scaleClass = {
+    1: 'button-scale-1-0',
+    1.5: 'button-scale-1-5',
+    2: 'button-scale-2-0',
+  }[scale];
+
   const buttonClasses = clsx(
     styles.button,
     styles[`button-${variant}`],
     styles[`button-${size}`],
+    styles[scaleClass],
     {
       [styles['disabled']]: disabled,
       [styles['buttonLoading']]: loading,

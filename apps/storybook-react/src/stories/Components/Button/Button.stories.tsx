@@ -25,6 +25,10 @@ export default {
       control: { type: 'select' },
       options: ['lg', 'sm'],
     },
+    scale: {
+      control: { type: 'select' },
+      options: [1, 1.5, 2],
+    },
     icon: {
       control: { type: 'select' },
       options: ['', 'add'],
@@ -86,6 +90,7 @@ Default.args = {
   type: 'button',
   variant: 'filled',
   size: 'lg',
+  scale: 1,
 };
 
 export const Variants: StoryFn<ButtonProps> = () => (
@@ -150,3 +155,11 @@ IconOnly.args = {
   ariaLabel: 'Add item',
   tooltipText: 'Adicionar item',
 };
+
+export const Escalas: StoryFn<ButtonProps> = () => (
+  <div style={{ display: 'flex', flexDirection: 'column', gap: '40px', alignItems: 'flex-start' }}>
+    <Button scale={1}>Scale 1.0</Button>
+    <Button scale={1.5}>Scale 1.5</Button>
+    <Button scale={2}>Scale 2.0</Button>
+  </div>
+);

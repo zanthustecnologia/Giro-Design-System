@@ -62,6 +62,21 @@
   text-decoration: none;
 }
 
+.button.button-scale-1-0 {
+  transform: scale(1);
+  transform-origin: top left;
+}
+
+.button.button-scale-1-5 {
+  transform: scale(1.5);
+  transform-origin: top left;
+}
+
+.button.button-scale-2-0 {
+  transform: scale(2);
+  transform-origin: top left;
+}
+
 .button.button-lg {
   @include buttonSize(44px, var(--spacing-24), 92px);
 }

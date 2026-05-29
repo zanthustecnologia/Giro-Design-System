@@ -45,6 +45,11 @@ const meta: Meta<typeof Quantity> = {
       options: ['lg', 'sm'],
       description: 'Tamanho do componente.',
     },
+    scale: {
+      control: { type: 'select' },
+      options: [1, 1.5, 2],
+      description: 'Escala visual do componente.',
+    },
     valueIncrement: {
       control: { type: 'number' },
       description: 'Valor de incremento/decremento dos botões.',
@@ -78,6 +83,7 @@ const meta: Meta<typeof Quantity> = {
     decimalPlaces: 2,
     size: 'lg',
     valueIncrement: 1,
+    scale: 1,
   },
 };
 
@@ -126,4 +132,14 @@ export const Controlado: Story = {
       </div>
     );
   },
+};
+
+export const Escalas: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '48px', alignItems: 'flex-start' }}>
+      <ControlledWrapper value={1} scale={1} />
+      <ControlledWrapper value={1} scale={1.5} />
+      <ControlledWrapper value={1} scale={2} />
+    </div>
+  ),
 };
