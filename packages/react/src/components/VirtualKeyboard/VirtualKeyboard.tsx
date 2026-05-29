@@ -14,6 +14,7 @@ import type { VirtualKeyboardProps } from './VirtualKeyboard.type';
 
 const keyboardLayouts = new SimpleKeyboardLayouts();
 const LONG_PRESS_DELAY_MS = 400;
+const ACTION_KEY_PATTERN = /^\{.+\}$/;
 
 const ACCENT_OPTIONS: Record<string, string[]> = {
   a: ['á', 'à', 'â', 'ã', 'ä'],
@@ -31,11 +32,100 @@ type AccentMenuState = {
   left: number;
 };
 
+const tokenizeRow = (row: string): string[] => row.split(/\s+/).filter(Boolean);
+
+const isActionKey = (token: string): boolean => ACTION_KEY_PATTERN.test(token);
+
+const pickLanguageTokens = (
+  tokens: string[],
+  targetCount: number,
+  strategy: 'start' | 'end'
+): string[] => {
+  if (tokens.length <= targetCount) return tokens;
+  return strategy === 'end'
+    ? tokens.slice(tokens.length - targetCount)
+    : tokens.slice(0, targetCount);
+};
+
+const mergeLanguageRow = (
+  baseRow: string,
+  languageRow: string,
+  strategy: 'start' | 'end'
+): string => {
+  const baseTokens = tokenizeRow(baseRow);
+  const languageTokens = tokenizeRow(languageRow).filter((token) => !isActionKey(token));
+  const replaceIndexes = baseTokens
+    .map((token, index) => ({ token, index }))
+    .filter(({ token }) => !isActionKey(token))
+    .map(({ index }) => index);
+
+  if (!replaceIndexes.length || !languageTokens.length) return baseRow;
+
+  const selectedLanguageTokens = pickLanguageTokens(languageTokens, replaceIndexes.length, strategy);
+  const mergedTokens = [...baseTokens];
+
+  replaceIndexes.forEach((tokenIndex, index) => {
+    const nextToken = selectedLanguageTokens[index];
+    if (nextToken) mergedTokens[tokenIndex] = nextToken;
+  });
+
+  return mergedTokens.join(' ');
+};
+
+const applyLanguageRowsToBase = (baseRows: string[], languageRows?: string[]): string[] => {
+  if (!languageRows?.length) return baseRows;
+
+  const nextRows = [...baseRows];
+  const mapByRow: Array<{ rowIndex: number; strategy: 'start' | 'end' }> = [
+    { rowIndex: 1, strategy: 'start' },
+    { rowIndex: 2, strategy: 'start' },
+    { rowIndex: 3, strategy: 'end' },
+  ];
+
+  mapByRow.forEach(({ rowIndex, strategy }) => {
+    const baseRow = baseRows[rowIndex];
+    const languageRow = languageRows[rowIndex];
+    if (!baseRow || !languageRow) return;
+    nextRows[rowIndex] = mergeLanguageRow(baseRow, languageRow, strategy);
+  });
+
+  return nextRows;
+};
+
+const buildLanguageLayout = (
+  languageLayout: Record<string, string[]> | undefined,
+  showSmileysButton: boolean,
+  showDownKeyboardButton: boolean
+): Record<string, string[]> | null => {
+  const baseLayout = getNativeLayout('default', showSmileysButton, showDownKeyboardButton);
+  if (!baseLayout) return languageLayout ?? null;
+  if (!languageLayout) return baseLayout;
+
+  const baseDefault = baseLayout.default ?? [];
+  const baseShift = baseLayout.shift ?? baseDefault;
+  const baseCaps = baseLayout.caps ?? baseShift;
+
+  const languageDefault = languageLayout.default;
+  const languageShift = languageLayout.shift ?? languageDefault;
+
+  const nextDefault = applyLanguageRowsToBase(baseDefault, languageDefault);
+  const nextShift = applyLanguageRowsToBase(baseShift, languageShift);
+  const nextCaps = applyLanguageRowsToBase(baseCaps, languageShift);
+
+  return {
+    ...baseLayout,
+    ...languageLayout,
+    default: nextDefault,
+    shift: nextShift,
+    caps: nextCaps,
+  };
+};
+
 /**
  * Componente VirtualKeyboard — teclado virtual on-screen para entradas controladas.
  *
- * @description Baseado em `react-simple-keyboard`, oferece layouts nativos (QWERTY, numérico,
- * teclado completo, mobile e iOS) e mais de 40 layouts de idiomas via `simple-keyboard-layouts`,
+ * @description Baseado em `react-simple-keyboard`, oferece layouts nativos (QWERTY e numérico)
+ * e mais de 40 layouts de idiomas via `simple-keyboard-layouts`,
  * seguindo o visual padrão da biblioteca.
  *
  * Possui dois modos:
@@ -82,6 +172,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
   const [activeLayout, setActiveLayout] = useState<Record<string, string[]> | null>(
     getNativeLayout(variant, showSmileysButton, mode === 'native')
   );
+  const visualVariant = NATIVE_LAYOUT_KEYS.has(variant) ? variant : 'default';
 
   const [isOpen, setIsOpen] = useState(mode !== 'native');
   const hideTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -173,7 +264,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
       setActiveLayout(getNativeLayout(variant, showSmileysButton, mode === 'native'));
     } else {
       const loaded = keyboardLayouts.get(variant) as { layout: Record<string, string[]> } | undefined;
-      setActiveLayout(loaded?.layout ?? null);
+      setActiveLayout(buildLanguageLayout(loaded?.layout, showSmileysButton, mode === 'native'));
     }
   }, [variant, showSmileysButton, mode]);
 
@@ -502,8 +593,8 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
         }}
         layoutName={layoutName}
         layout={activeLayout}
-        theme={LAYOUT_THEMES[variant] ?? 'hg-theme-default'}
-        display={LAYOUT_DISPLAY[variant]}
+        theme={LAYOUT_THEMES[visualVariant] ?? 'hg-theme-default'}
+        display={LAYOUT_DISPLAY[visualVariant]}
         onChange={handleChange}
         onKeyPress={handleKeyPress}
         input={value}
@@ -551,7 +642,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
         className={clsx(
           styles.overlay,
           { [styles.overlayOpen]: isOpen },
-          styles[`layout--${variant}`],
+          styles[`layout--${visualVariant}`],
           { [styles.disabled]: disabled },
           className
         )}
@@ -568,7 +659,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
       className={clsx(
         styles.container,
         styles[`mode--${mode}`],
-        styles[`layout--${variant}`],
+        styles[`layout--${visualVariant}`],
         { [styles.disabled]: disabled },
         className
       )}

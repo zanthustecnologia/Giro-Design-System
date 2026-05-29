@@ -64,12 +64,6 @@
     }
   }
 
-  &.layout--mobile {
-    :global(.hg-button[data-skbtn="{space}"]) {
-      flex: 4;
-    }
-  }
-
   &.layout--default {
     :global(.hg-button[data-skbtn="{//}"]) {
       opacity: 0;
@@ -186,12 +180,6 @@
       :global(.hg-button[data-skbtn="{space}"]) {
         flex: 7.8;
       }
-    }
-  }
-
-  &.layout--mobile {
-    :global(.hg-button[data-skbtn="{space}"]) {
-      flex: 4;
     }
   }
 

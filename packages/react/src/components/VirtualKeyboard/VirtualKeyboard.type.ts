@@ -14,9 +14,6 @@ export type VirtualKeyboardVariant =
   // Layouts nativos
   | 'default'
   | 'numeric'
-  | 'fullKeyboard'
-  | 'mobile'
-  | 'appleIOS'
   // Layouts de idiomas (via simple-keyboard-layouts)
   | 'arabic'
   | 'armenianEastern'

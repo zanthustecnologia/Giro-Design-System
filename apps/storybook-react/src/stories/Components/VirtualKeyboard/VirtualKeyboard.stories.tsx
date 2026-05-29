@@ -1,7 +1,7 @@
 import { VirtualKeyboard, TextField } from '@giro-ds/react';
 import React, { useRef, useState } from 'react';
 
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 type Story = StoryObj<typeof VirtualKeyboard>;
 
@@ -44,7 +44,7 @@ const meta: Meta<typeof VirtualKeyboard> = {
     variant: {
       control: 'select',
       options: [
-        'default', 'numeric', 'fullKeyboard', 'mobile',
+        'default', 'numeric',
         'arabic', 'armenianEastern', 'armenianWestern', 'assamese', 'balochi',
         'belarusian', 'bengali', 'brazilian', 'burmese', 'chinese', 'czech',
         'english', 'farsi', 'french', 'georgian', 'german', 'gilaki', 'greek',

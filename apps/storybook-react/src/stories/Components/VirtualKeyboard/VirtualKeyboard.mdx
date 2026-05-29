@@ -9,7 +9,7 @@ import { Footer } from '../../../internal-components/mdx/Footer/Footer';
 
 # Virtual Keyboard
 
-O Virtual Keyboard é um teclado on-screen para ambientes onde o teclado físico está indisponível ou não é desejável — como totens, terminais e caixas de pagamento. Ele se integra a campos de texto controlados e suporta layouts nativos (como padrão, numérico, full keyboard, mobile e appleIOS), além de layouts de idioma.
+O Virtual Keyboard é um teclado on-screen para ambientes onde o teclado físico está indisponível ou não é desejável — como totens, terminais e caixas de pagamento. Ele se integra a campos de texto controlados e suporta layouts nativos (padrão e numérico), além de layouts de idioma.
 
 <Canvas of={VirtualKeyboardStories.Default} />
 
@@ -36,9 +36,6 @@ import { VirtualKeyboard } from '@giro-ds/react';
     </>,
     <>
       Use o layout <strong>numeric</strong> para entradas que aceitam somente dígitos, como PINs, senhas numéricas e códigos. Ele oferece uma interface mais simples e focada.
-    </>,
-    <>
-      Use o layout <strong>phone</strong> para discagem de números telefônicos. Ele inclui os caracteres <code>*</code> e <code>#</code> presentes em teclados de telefonia.
     </>,
     <>
       Combine o <code>maxLength</code> com o campo de texto para garantir consistência entre o limite visual do input e o limite aplicado pelo teclado.
