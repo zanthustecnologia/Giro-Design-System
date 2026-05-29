@@ -41,9 +41,11 @@
   }
 
   &.layout--numeric {
-    :global(.hg-button) {
-      flex: 1 0 0;
-      border-radius: var(--border-radius-16);
+    :global(.hg-layout-default) {
+      :global(.hg-button) {
+        flex: 1 0 0;
+        border-radius: var(--border-radius-16);
+      }
     }
 
     :global(.hg-layout-abc),
@@ -161,8 +163,10 @@
   }
 
   &.layout--numeric {
-    :global(.hg-button) {
-      flex: 1 0 0;
+    :global(.hg-layout-default) {
+      :global(.hg-button) {
+        flex: 1 0 0;
+      }
     }
 
     :global(.hg-layout-abc),
