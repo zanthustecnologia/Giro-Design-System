@@ -288,6 +288,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
   const handleLongPressEnd = useCallback(() => {
     const heldKey = heldAccentKeyRef.current;
     const longPressTriggered = longPressTriggeredRef.current;
+    const baseLayout = variant === 'numeric' ? 'abc' : 'default';
 
     isKeyboardInteractingRef.current = false;
     clearLongPressTimeout();
@@ -300,17 +301,33 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
         onKeyPress?.(heldKey);
         syncKeyboardInput(nextValue);
       }
+
+      if (layoutName === 'shift' && !capsLockOn) {
+        setLayoutName(baseLayout);
+      }
+
       suppressNextInputRef.current = heldKey;
     }
 
     heldAccentKeyRef.current = null;
     longPressTriggeredRef.current = false;
     scheduleHideIfBlurred();
-  }, [clearLongPressTimeout, scheduleHideIfBlurred, maxLength, onChange, onKeyPress, syncKeyboardInput]);
+  }, [
+    clearLongPressTimeout,
+    scheduleHideIfBlurred,
+    maxLength,
+    onChange,
+    onKeyPress,
+    syncKeyboardInput,
+    variant,
+    layoutName,
+    capsLockOn,
+  ]);
 
   const handleAccentSelect = useCallback(
     (accentedChar: string) => {
       const currentValue = valueRef.current;
+      const baseLayout = variant === 'numeric' ? 'abc' : 'default';
 
       if (maxLength !== undefined && currentValue.length >= maxLength) {
         closeAccentMenu();
@@ -326,9 +343,14 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
       suppressNextInputRef.current = null;
       heldAccentKeyRef.current = null;
       longPressTriggeredRef.current = false;
+
+      if (layoutName === 'shift' && !capsLockOn) {
+        setLayoutName(baseLayout);
+      }
+
       syncKeyboardInput(nextValue);
     },
-    [maxLength, onChange, onKeyPress, closeAccentMenu, syncKeyboardInput]
+    [maxLength, onChange, onKeyPress, closeAccentMenu, syncKeyboardInput, variant, layoutName, capsLockOn]
   );
 
   const handleKeyPress = useCallback(
@@ -399,7 +421,9 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
         return;
       }
 
-      if (button !== '{backspace}' && button !== '{bksp}' && button !== '{enter}') {
+      const isHeldAccentKey = heldAccentKeyRef.current === button;
+
+      if (button !== '{backspace}' && button !== '{bksp}' && button !== '{enter}' && !isHeldAccentKey) {
         if (layoutName === 'shift' && !capsLockOn) {
           setLayoutName(baseLayout);
         } else if (layoutName === baseLayout && capsLockOn) {
@@ -407,7 +431,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
         }
       }
 
-      if (heldAccentKeyRef.current === button) {
+      if (isHeldAccentKey) {
         return;
       }
 
