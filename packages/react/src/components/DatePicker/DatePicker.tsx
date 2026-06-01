@@ -25,6 +25,8 @@ const DatePicker: React.FC<DatePickerProps> = ({
   minDate,
   maxDate,
   'data-testid': testId,
+  className,
+  ...rest
 }) => {
   const fieldId = useId();
   const calendarId = `${fieldId}-calendar`;
@@ -172,7 +174,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
   };
 
   return (
-    <div ref={wrapperRef} className={styles.datePicker}>
+    <div ref={wrapperRef} className={clsx(styles.datePicker, className)} {...rest}>
         <Popover
           open={showCalendar}
           onOpenChange={setShowCalendar}

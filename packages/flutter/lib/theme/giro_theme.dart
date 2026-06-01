@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../tokens/generated_tokens.dart';
 import '../components/buttons/button_tokens.dart';
+import '../components/chips/chip_tokens.dart';
 import '../components/text_field/text_field_tokens.dart';
 import '../components/select/select_tokens.dart';
 
@@ -43,8 +44,10 @@ ButtonStyle _baseStyle({
     }),
 
     overlayColor: WidgetStateProperty.resolveWith((states) {
-      if (states.contains(WidgetState.hovered)) return hoverBg.withOpacity(0.12);
-      if (states.contains(WidgetState.pressed)) return pressedBg.withOpacity(0.16);
+      if (states.contains(WidgetState.hovered))
+        return hoverBg.withOpacity(0.12);
+      if (states.contains(WidgetState.pressed))
+        return pressedBg.withOpacity(0.16);
       return null;
     }),
 
@@ -201,11 +204,13 @@ ThemeData applyGiroTheme(ThemeData base) {
         ),
       ),
       menuStyle: MenuStyle(
-        backgroundColor: WidgetStateProperty.all(GiroSelectTokens.menuBackgroundColor),
+        backgroundColor:
+            WidgetStateProperty.all(GiroSelectTokens.menuBackgroundColor),
         elevation: WidgetStateProperty.all(GiroSelectTokens.menuElevation),
         shape: WidgetStateProperty.all(
           RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(GiroSelectTokens.menuBorderRadius),
+            borderRadius:
+                BorderRadius.circular(GiroSelectTokens.menuBorderRadius),
           ),
         ),
         maximumSize: WidgetStateProperty.all(
@@ -215,6 +220,43 @@ ThemeData applyGiroTheme(ThemeData base) {
           const EdgeInsets.symmetric(vertical: 4),
         ),
       ),
+    ),
+    chipTheme: ChipThemeData(
+      backgroundColor: GiroChipTokens.backgroundColor,
+      selectedColor: GiroChipTokens.selectedColor,
+      disabledColor: GiroChipTokens.disabledColor,
+      checkmarkColor: GiroChipTokens.checkmarkColor,
+      deleteIconColor: GiroChipTokens.deleteIconColor,
+      labelStyle: GoogleFonts.getFont(
+        GiroChipTokens.fontFamily,
+        fontSize: GiroChipTokens.fontSize,
+        fontWeight: GiroChipTokens.fontWeight,
+        color: GiroChipTokens.labelColor,
+      ),
+      secondaryLabelStyle: GoogleFonts.getFont(
+        GiroChipTokens.fontFamily,
+        fontSize: GiroChipTokens.fontSize,
+        fontWeight: GiroChipTokens.fontWeight,
+        color: GiroChipTokens.selectedLabelColor,
+      ),
+      // padding: horizontal=8 + labelPadding: horizontal=8 = 16px total each side (no icon)
+      // With avatar/deleteIcon: chip(8) + icon + labelPad(8) = 8px gap icon→text ✓
+      padding: const EdgeInsets.symmetric(
+        horizontal: GiroChipTokens.iconGap,
+        vertical: GiroChipTokens.paddingY,
+      ),
+      labelPadding: const EdgeInsets.symmetric(
+        horizontal: GiroChipTokens.iconGap,
+      ),
+      shape: const StadiumBorder(),
+      side: BorderSide.none,
+      iconTheme: const IconThemeData(
+        size: GiroChipTokens.iconSize,
+        color: GiroChipTokens.iconColor,
+      ),
+      elevation: GiroChipTokens.elevation,
+      pressElevation: GiroChipTokens.pressElevation,
+      showCheckmark: true,
     ),
   );
 }

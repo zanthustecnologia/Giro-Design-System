@@ -77,6 +77,9 @@ export interface TextFieldProps extends Omit<
 
   /** Mantém o ícone visível mesmo quando o campo tem valor */
   persistIcon?: boolean;
+
+  /** Classe CSS opcional */
+  className?: string;
 }
 
 /**

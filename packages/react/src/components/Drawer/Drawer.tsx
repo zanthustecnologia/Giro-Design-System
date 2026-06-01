@@ -11,6 +11,7 @@ import type { DrawerProps, DrawerExampleProps } from './Drawer.types';
 const Drawer: React.FC<DrawerProps> = ({
   children,
   headerContent,
+  footer,
   customWidth = '400px',
   onClose,
   title = 'Título',
@@ -22,6 +23,7 @@ const Drawer: React.FC<DrawerProps> = ({
   onOverlayClick,
   closeOnOverlayClick = true,
   closeOnEscape = true,
+  ...rest
 }) => {
 
   const internalClose = useCallback((): void => {
@@ -108,6 +110,7 @@ const Drawer: React.FC<DrawerProps> = ({
         aria-hidden={!isOpen}
         data-testid="drawer-panel"
         id={id}
+        {...rest}
       >
      
         <div className={styles.drawerTitleClose}>
@@ -134,10 +137,11 @@ const Drawer: React.FC<DrawerProps> = ({
         <div 
           className={styles.drawerChildren} 
           data-testid="drawer-content"
-        >
-          {children}
+          >
+            {children}
+          </div>
+          {footer}
         </div>
-      </div>
     </>,
     document.body
   );

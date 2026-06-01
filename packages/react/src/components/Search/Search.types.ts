@@ -57,7 +57,24 @@ export interface SearchProps extends BaseProps, NativeInputProps {
   
   /** Callback executado ao pressionar mouse no componente: (e) => void */
   onMouseDown?: (e: React.MouseEvent<HTMLDivElement>) => void;
-  
+
+  /**
+   * Modo de pesquisa:
+   * - `'instant'` (padrão): dispara a busca a cada tecla digitada
+   * - `'on-enter'`: dispara a busca somente ao pressionar Enter
+   */
+  searchMode?: 'instant' | 'on-enter';
+
+  /**
+   * Callback executado quando a busca é acionada.
+   * - No modo `'instant'`: chamado a cada mudança de valor
+   * - No modo `'on-enter'`: chamado somente ao pressionar Enter
+   */
+  onSearch?: (value: string) => void;
+
   /** ID para testes automatizados */
   'data-testid'?: string;
+
+  /** Classe CSS opcional */
+  className?: string;
 }

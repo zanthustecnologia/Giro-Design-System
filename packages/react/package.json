@@ -1,6 +1,6 @@
 {
   "name": "@giro-ds/react",
-  "version": "6.0.2",
+  "version": "9.0.0",
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
@@ -65,12 +65,14 @@
     "@radix-ui/react-label": "^2.1.0",
     "@radix-ui/react-radio-group": "^1.2.1",
     "@radix-ui/react-select": "^2.1.2",
+    "@tanstack/react-table": "^8.21.3",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
     "i18next": "^25.3.6",
     "radix-ui": "^1.4.3",
     "react-day-picker": "^9.14.0",
     "react-i18next": "^15.6.1",
+    "react-loading-skeleton": "^3.5.0",
     "react-router-dom": "^7.8.1"
   }
 }

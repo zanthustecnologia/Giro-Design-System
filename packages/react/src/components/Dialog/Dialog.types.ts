@@ -28,4 +28,6 @@ export interface DialogProps extends BaseProps, React.HTMLAttributes<HTMLDivElem
   onPrimaryAction?: () => void;
   /** Função chamada ao executar a ação secundária */
   onSecondaryAction?: () => void;
+  /** Classe CSS opcional */
+  className?: string;
 }

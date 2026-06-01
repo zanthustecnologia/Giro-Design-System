@@ -20,6 +20,7 @@ export 'components/buttons/button_tokens.dart';
 export 'theme/giro_theme.dart';
 export 'components/cards/cards.dart';
 export 'components/chips/chips.dart';
+export 'components/chips/chip_tokens.dart';
 export 'components/data_table/data_table.dart';
 export 'components/date_picker/date_picker.dart';
 export 'components/dialogs/dialogs.dart';

@@ -41,4 +41,7 @@ export interface ChipsProps extends BaseProps, Omit<React.HTMLAttributes<HTMLDiv
 
   /** Estilos inline adicionais */
   style?: React.CSSProperties;
+
+  /** Classe CSS opcional */
+  className?: string;
 }

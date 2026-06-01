@@ -22,4 +22,7 @@ export interface TooltipProps extends BaseProps {
   
   /** Elemento que dispara o tooltip ao hover */
   children: React.ReactNode;
+
+  /** Classe CSS opcional */
+  className?: string;
 }

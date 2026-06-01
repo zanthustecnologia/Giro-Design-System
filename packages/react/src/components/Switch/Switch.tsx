@@ -10,9 +10,10 @@ const Switch: React.FC<SwitchProps> = ({
 	defaultChecked = false,
 	checked,
 	onCheckedChange,
+	className,
 	...rest
 }) => (
-		<div className={clsx(styles.container)}>
+		<div className={clsx(styles.container, className)}>
 			<SwitchRadix.Root  
 				className={styles.switchRoot} 
 				disabled={disabled} 
