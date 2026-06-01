@@ -32,6 +32,11 @@
       border-bottom: none;
       box-shadow: none;
     }
+
+    :global(.hg-button[data-skbtn="{enter}"]) {
+      background-color: var(--color-brand-primary-default);
+      color: var(--color-neutral-high-default);
+    }
   }
 
   &.disabled {
@@ -159,6 +164,11 @@
     :global(.hg-button.hg-activeButton) {
       border-bottom: none;
       box-shadow: none;
+    }
+
+    :global(.hg-button[data-skbtn="{enter}"]) {
+      background-color: var(--color-brand-primary-default);
+      color: var(--color-neutral-high-default);
     }
   }
 
