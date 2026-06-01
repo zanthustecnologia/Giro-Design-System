@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_giro/flutter_giro.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:widgetbook/widgetbook.dart';
 
 class _FilterChipState extends StatefulWidget {
@@ -50,6 +52,49 @@ WidgetbookComponent chipsStory() {
   return WidgetbookComponent(
     name: 'Chips',
     useCases: [
+      // Giro Design System stories
+      WidgetbookUseCase(
+        name: 'Default',
+        builder: (context) {
+          final label = context.knobs.string(label: 'Label', initialValue: 'Etiqueta');
+          final variant = context.knobs.list<String>(
+            label: 'Variant',
+            options: ['neutral', 'brand', 'success', 'alert'],
+            initialOption: 'neutral',
+          );
+          final disabled = context.knobs.boolean(label: 'Disabled', initialValue: false);
+          final showLeftIcon = context.knobs.boolean(label: 'Left Icon', initialValue: false);
+          final showRightIcon = context.knobs.boolean(label: 'Right Icon', initialValue: false);
+
+          final bg = switch (variant) {
+            'brand'   => GiroTokens.colorBrandPrimaryLight,
+            'success' => GiroTokens.colorFeedbackSuccessLight,
+            'alert'   => GiroTokens.colorFeedbackAlertLight,
+            _         => GiroChipTokens.backgroundColor,
+          };
+
+          final fg = disabled
+              ? GiroChipTokens.disabledLabelColor
+              : GiroChipTokens.labelColor;
+
+          final effectiveBg = disabled ? GiroChipTokens.disabledColor : bg;
+
+          return Center(
+            child: Chip(
+              label: Text(label, style: TextStyle(color: fg)),
+              backgroundColor: effectiveBg,
+              avatar: showLeftIcon
+                  ? Icon(FluentIcons.tag_16_regular, size: GiroChipTokens.iconSize, color: fg)
+                  : null,
+              deleteIcon: showRightIcon
+                  ? Icon(FluentIcons.dismiss_16_regular, size: GiroChipTokens.iconSize, color: fg)
+                  : null,
+              onDeleted: showRightIcon ? () {} : null,
+            ),
+          );
+        },
+      ),
+
       WidgetbookUseCase(
         name: 'Chip',
         builder: (context) {
@@ -58,6 +103,7 @@ WidgetbookComponent chipsStory() {
           return Center(
             child: Chip(
               label: Text(label),
+              deleteIcon: const Icon(FluentIcons.dismiss_16_regular),
               onDeleted: () {},
             ),
           );
@@ -66,10 +112,13 @@ WidgetbookComponent chipsStory() {
       WidgetbookUseCase(
         name: 'InputChip',
         builder: (context) {
-          return const Center(
+          return Center(
             child: InputChip(
-              label: Text('Input'),
-              avatar: Icon(Icons.person, size: 18),
+              label: const Text('Input'),
+              avatar: const Icon(FluentIcons.person_16_regular),
+              deleteIcon: const Icon(FluentIcons.dismiss_16_regular),
+              onDeleted: () {},
+              onPressed: () {},
             ),
           );
         },
@@ -97,7 +146,7 @@ WidgetbookComponent chipsStory() {
             child: ActionChip(
               label: const Text('Action'),
               onPressed: () {},
-              avatar: const Icon(Icons.add, size: 18),
+              avatar: const Icon(FluentIcons.add_16_regular),
             ),
           );
         },
@@ -115,6 +164,62 @@ WidgetbookComponent chipsStory() {
                 FilterChip(label: const Text('Filter'), onSelected: (v) {}),
                 ChoiceChip(label: const Text('Choice'), selected: true, onSelected: (v) {}),
                 ActionChip(label: const Text('Action'), onPressed: () {}),
+              ],
+            ),
+          );
+        },
+      ),
+
+      // Native Material chips
+      WidgetbookUseCase(
+        name: 'Todas as variantes',
+        builder: (context) {
+          Widget chip(String label, Color bg) => Chip(
+                label: Text(label),
+                backgroundColor: bg,
+              );
+
+          return Center(
+            child: Wrap(
+              spacing: 8,
+              runSpacing: 12,
+              alignment: WrapAlignment.center,
+              children: [
+                chip('Neutral', GiroChipTokens.backgroundColor),
+                chip('Brand', GiroTokens.colorBrandPrimaryLight),
+                chip('Success', GiroTokens.colorFeedbackSuccessLight),
+                chip('Alert', GiroTokens.colorFeedbackAlertLight),
+                chip('Disabled', GiroChipTokens.disabledColor),
+              ],
+            ),
+          );
+        },
+      ),
+
+      WidgetbookUseCase(
+        name: 'Com ícones',
+        builder: (context) {
+          return Center(
+            child: Wrap(
+              spacing: 8,
+              runSpacing: 12,
+              alignment: WrapAlignment.center,
+              children: [
+                const Chip(
+                  avatar: Icon(FluentIcons.person_16_regular),
+                  label: Text('Com avatar'),
+                ),
+                Chip(
+                  label: const Text('Com delete'),
+                  deleteIcon: const Icon(FluentIcons.dismiss_16_regular),
+                  onDeleted: () {},
+                ),
+                Chip(
+                  avatar: const Icon(FluentIcons.tag_16_regular),
+                  label: const Text('Avatar + delete'),
+                  deleteIcon: const Icon(FluentIcons.dismiss_16_regular),
+                  onDeleted: () {},
+                ),
               ],
             ),
           );
