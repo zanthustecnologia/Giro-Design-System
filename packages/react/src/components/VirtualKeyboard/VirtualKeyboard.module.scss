@@ -110,6 +110,10 @@
     :global(.hg-theme-default) {
       border-radius: var(--border-radius-none);
     }
+
+    :global(.hg-button[data-skbtn="{enter}"]) {
+      flex: 2;
+    }
   }
 }
 
