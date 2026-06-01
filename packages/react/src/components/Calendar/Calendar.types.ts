@@ -88,6 +88,9 @@ interface CalendarBaseProps extends Omit<BaseProps, 'disabled'> {
   // --- Estilização -----------------------------------------------------
   /** Substitui os `classNames` padrão do react-day-picker. */
   classNames?: Partial<Record<string, string>>;
+
+  /** Escala visual aplicada ao componente */
+  scale?: 1 | 1.5 | 2;
 }
 
 export type CalendarProps = CalendarBaseProps;

@@ -63,4 +63,7 @@ export interface RadioGroupProps extends BaseProps {
   
   /** Orientação do layout dos radio buttons */
   orientation?: "horizontal" | "vertical";
+
+  /** Escala visual aplicada ao grupo */
+  scale?: 1 | 1.5 | 2;
 }

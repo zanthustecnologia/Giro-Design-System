@@ -24,6 +24,10 @@ const meta: Meta<typeof Radio> = {
     ariaLabel: {
       control: { type: 'text' },
     },
+    scale: {
+      control: { type: 'select' },
+      options: [1, 1.5, 2],
+    },
     onValueChange: {
       action: 'valueChanged',
     },
@@ -32,6 +36,16 @@ const meta: Meta<typeof Radio> = {
     className: { table: { disable: true } },
     name: { table: { disable: true } },
   },
+};
+
+export const Escalas: Story = {
+  render: () => (
+    <div style={{ display: 'flex', gap: '40px', alignItems: 'center' }}>
+      <Radio items={basicItems} ariaLabel="Scale 1.0" scale={1} />
+      <Radio items={basicItems} ariaLabel="Scale 1.5" scale={1.5} />
+      <Radio items={basicItems} ariaLabel="Scale 2.0" scale={2} />
+    </div>
+  ),
 };
 
 export default meta;

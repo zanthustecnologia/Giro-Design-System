@@ -41,4 +41,7 @@ export interface CheckboxProps extends BaseProps {
 
   /** Classe CSS opcional */
   className?: string;
+
+  /** Escala visual aplicada ao componente */
+  scale?: 1 | 1.5 | 2;
 }

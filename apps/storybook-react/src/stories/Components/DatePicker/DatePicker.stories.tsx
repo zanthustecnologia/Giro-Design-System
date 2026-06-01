@@ -49,6 +49,11 @@ const meta: Meta<typeof DatePicker> = {
       control: 'text',
       description: 'Label do campo',
     },
+    scale: {
+      control: { type: 'select' },
+      options: [1, 1.5, 2],
+      description: 'Escala visual do componente',
+    },
   },
 } satisfies Meta<typeof DatePicker>;
 
@@ -77,6 +82,7 @@ export const Default: Story = {
     calendarSide: 'bottom',
     label: 'Data de nascimento',
     helperText: 'Selecione sua data de nascimento',
+    scale: 1,
   },
 };
 
@@ -141,4 +147,14 @@ export const RightPositioned: Story = {
     label: 'Data de nascimento',
     helperText: 'Calendário ancorado à direita',
   },
+};
+
+export const Escalas: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '64px', alignItems: 'flex-start' }}>
+      <DatePicker label="Scale 1.0" helperText="Exemplo" scale={1} />
+      <DatePicker label="Scale 1.5" helperText="Exemplo" scale={1.5} />
+      <DatePicker label="Scale 2.0" helperText="Exemplo" scale={2} />
+    </div>
+  ),
 };

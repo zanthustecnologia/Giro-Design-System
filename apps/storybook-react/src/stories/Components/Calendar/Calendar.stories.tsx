@@ -13,6 +13,12 @@ const meta: Meta<typeof Calendar> = {
       },
     },
   },
+  argTypes: {
+    scale: {
+      control: { type: 'select' },
+      options: [1, 1.5, 2],
+    },
+  },
 } satisfies Meta<typeof Calendar>;
 
 export default meta;
@@ -116,6 +122,22 @@ export const EmIngles: Story = {
     docs: {
       description: { story: 'Calendário com locale em inglês via `locale="en-us"`.' },
     },
+  },
+};
+
+export const Escalas: Story = {
+  render: () => {
+    const [selectedA, setSelectedA] = useState<Date | undefined>();
+    const [selectedB, setSelectedB] = useState<Date | undefined>();
+    const [selectedC, setSelectedC] = useState<Date | undefined>();
+
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '56px', alignItems: 'flex-start' }}>
+        <Calendar onDaySelect={(d) => setSelectedA(d)} selected={selectedA ?? null} scale={1} />
+        <Calendar onDaySelect={(d) => setSelectedB(d)} selected={selectedB ?? null} scale={1.5} />
+        <Calendar onDaySelect={(d) => setSelectedC(d)} selected={selectedC ?? null} scale={2} />
+      </div>
+    );
   },
 };
 

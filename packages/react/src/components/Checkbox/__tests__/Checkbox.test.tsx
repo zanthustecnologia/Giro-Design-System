@@ -25,6 +25,24 @@ vi.mock('radix-ui', () => {
 import Checkbox from '../Checkbox';
 
 describe('Checkbox', () => {
+  it('aplica escala 1.0 por padrão', () => {
+    const { container } = render(<Checkbox label="Scale" />);
+    const wrapper = container.querySelector('[class*="checkbox-scale-1-0"]');
+    expect(wrapper).toBeInTheDocument();
+  });
+
+  it('aplica escala 1.5 quando informado', () => {
+    const { container } = render(<Checkbox label="Scale" scale={1.5} />);
+    const wrapper = container.querySelector('[class*="checkbox-scale-1-5"]');
+    expect(wrapper).toBeInTheDocument();
+  });
+
+  it('aplica escala 2.0 quando informado', () => {
+    const { container } = render(<Checkbox label="Scale" scale={2} />);
+    const wrapper = container.querySelector('[class*="checkbox-scale-2-0"]');
+    expect(wrapper).toBeInTheDocument();
+  });
+
   it('renders the label and control', () => {
     render(<Checkbox label="My Checkbox" />);
     expect(screen.getByLabelText('My Checkbox')).toBeInTheDocument();

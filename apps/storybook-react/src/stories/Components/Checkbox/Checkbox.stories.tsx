@@ -13,7 +13,11 @@ const meta: Meta<typeof Checkbox> = {
     disabled: { control: 'boolean' },
     label: { control: 'text' },
     onCheckedChange: { action: 'checked changed' },
-    indeterminate: { control: 'boolean'}
+    indeterminate: { control: 'boolean'},
+    scale: {
+      control: { type: 'select' },
+      options: [1, 1.5, 2],
+    },
   },
 }
 export default meta;
@@ -28,6 +32,7 @@ export const Default: Story = {
     label: 'Checkbox',
     disabled: false,
     indeterminate: false,
+    scale: 1,
 
   }   
 }
@@ -180,4 +185,14 @@ export const SelectAll: Story = {
       </div>
     );
   },
+};
+
+export const Escalas: Story = {
+  render: () => (
+    <div style={{ display: 'flex', gap: '40px', alignItems: 'center' }}>
+      <Checkbox label="Scale 1.0" scale={1} />
+      <Checkbox label="Scale 1.5" scale={1.5} />
+      <Checkbox label="Scale 2.0" scale={2} />
+    </div>
+  ),
 };

@@ -15,13 +15,20 @@ const Checkbox: React.FC<CheckboxProps> = ({
   checked,
   disabled,
   className,
+  scale = 1,
   indeterminate = false,
   ...rest
 }) => {
   const componentId = id || React.useId();
 
+  const scaleClass = {
+    1: 'checkbox-scale-1-0',
+    1.5: 'checkbox-scale-1-5',
+    2: 'checkbox-scale-2-0',
+  }[scale];
+
   return (
-    <div className={clsx(styles.container, className)}>
+    <div className={clsx(styles.container, styles[scaleClass], className)}>
       <div
         className={clsx(styles.wrapperCheckbox, {
           [styles.disabled]: disabled,

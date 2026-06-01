@@ -160,6 +160,22 @@ $select-icon-size: 16px;
   position: relative;
   isolation: isolate;
 }
+
+.container.select-scale-1-0 {
+  transform: scale(1);
+  transform-origin: top left;
+}
+
+.container.select-scale-1-5 {
+  transform: scale(1.5);
+  transform-origin: top left;
+}
+
+.container.select-scale-2-0 {
+  transform: scale(2);
+  transform-origin: top left;
+}
+
 .containerLabel {
   display: flex;
   flex-direction: column;

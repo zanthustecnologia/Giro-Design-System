@@ -157,7 +157,7 @@ IconOnly.args = {
 };
 
 export const Escalas: StoryFn<ButtonProps> = () => (
-  <div style={{ display: 'flex', flexDirection: 'column', gap: '40px', alignItems: 'flex-start' }}>
+  <div style={{ display: 'flex', gap: '40px', alignItems: 'center' }}>
     <Button scale={1}>Scale 1.0</Button>
     <Button scale={1.5}>Scale 1.5</Button>
     <Button scale={2}>Scale 2.0</Button>

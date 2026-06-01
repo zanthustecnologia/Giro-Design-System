@@ -5,13 +5,17 @@ vi.mock('radix-ui', () => {
   const React = require('react');
   const ctx = React.createContext({ value: undefined, onChange: () => {} });
 
-  const Root = ({ children, defaultValue, onValueChange, ...rest }: any) => {
+  const Root = ({ children, defaultValue, onValueChange, className, ...rest }: any) => {
     const [value, setValue] = React.useState(defaultValue);
     const handleChange = (v: any) => {
       setValue(v);
       onValueChange?.(v);
     };
-    return React.createElement(ctx.Provider, { value: { value, onChange: handleChange } }, children);
+    return React.createElement(
+      ctx.Provider,
+      { value: { value, onChange: handleChange } },
+      React.createElement('div', { className, ...rest }, children)
+    );
   };
 
   const Item = ({ children, value, disabled, ...rest }: any) => {
@@ -37,6 +41,7 @@ vi.mock('radix-ui', () => {
   return { RadioGroup: { Root, Item, Indicator } };
 });
 import { render, screen } from '@testing-library/react';
+import { fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Radio from '../Radio';
 
@@ -55,6 +60,24 @@ describe('Radio', () => {
     { value: 'c', label: 'Option C' },
   ];
 
+  it('aplica escala 1.0 por padrão', () => {
+    const { container } = render(<Radio items={items} />);
+    const wrapper = container.querySelector('[class*="radio-scale-1-0"]');
+    expect(wrapper).toBeInTheDocument();
+  });
+
+  it('aplica escala 1.5 quando informado', () => {
+    const { container } = render(<Radio items={items} scale={1.5} />);
+    const wrapper = container.querySelector('[class*="radio-scale-1-5"]');
+    expect(wrapper).toBeInTheDocument();
+  });
+
+  it('aplica escala 2.0 quando informado', () => {
+    const { container } = render(<Radio items={items} scale={2} />);
+    const wrapper = container.querySelector('[class*="radio-scale-2-0"]');
+    expect(wrapper).toBeInTheDocument();
+  });
+
   it('renders all items', () => {
     render(<Radio items={items} />);
     expect(screen.getByText('Option A')).toBeInTheDocument();
@@ -63,11 +86,12 @@ describe('Radio', () => {
   });
 
   it('calls onValueChange when an item is clicked', async () => {
-    const user = userEvent.setup();
     const onChange = vi.fn();
-    render(<Radio items={items} onValueChange={onChange} />);
-    const labelC = screen.getByText('Option C').closest('label');
-    await user.click(labelC!);
+    render(<Radio id="radio-group" items={items} onValueChange={onChange} />);
+
+    const radios = screen.getAllByRole('radio');
+    fireEvent.click(radios[2]);
+
     expect(onChange).toHaveBeenCalledWith('c');
   });
 
@@ -79,13 +103,15 @@ describe('Radio', () => {
   });
 
   it('does not call onValueChange for disabled items and has data-disabled', async () => {
-    const user = userEvent.setup();
     const onChange = vi.fn();
-    render(<Radio items={items} onValueChange={onChange} />);
-    const labelB = screen.getByText('Option B').closest('label')!;
-    const itemB = labelB.querySelector('[data-disabled]');
+    render(<Radio id="radio-group" items={items} onValueChange={onChange} />);
+
+    const radios = screen.getAllByRole('radio');
+    const itemB = radios[1];
+
     expect(itemB).toHaveAttribute('data-disabled', 'true');
-    await user.click(labelB);
+    fireEvent.click(itemB);
+
     expect(onChange).not.toHaveBeenCalled();
   });
 });

@@ -9,6 +9,9 @@ vi.mock("../Switch.module.scss", () => ({
     container: "switch-container",
     switchRoot: "switch-root",
     switchThumb: "switch-thumb",
+    "switch-scale-1-0": "switch-scale-1-0",
+    "switch-scale-1-5": "switch-scale-1-5",
+    "switch-scale-2-0": "switch-scale-2-0",
   },
 }));
 
@@ -34,6 +37,24 @@ describe("Switch component", () => {
     render(<Switch />);
     expect(screen.getByTestId("radix-root")).toBeDefined();
     expect(screen.getByTestId("radix-thumb")).toBeDefined();
+  });
+
+  it("aplica escala 1.0 por padrão", () => {
+    const { container } = render(<Switch />);
+    const wrapper = container.querySelector('.switch-scale-1-0');
+    expect(wrapper).toBeInTheDocument();
+  });
+
+  it("aplica escala 1.5 quando informado", () => {
+    const { container } = render(<Switch scale={1.5} />);
+    const wrapper = container.querySelector('.switch-scale-1-5');
+    expect(wrapper).toBeInTheDocument();
+  });
+
+  it("aplica escala 2.0 quando informado", () => {
+    const { container } = render(<Switch scale={2} />);
+    const wrapper = container.querySelector('.switch-scale-2-0');
+    expect(wrapper).toBeInTheDocument();
   });
 
   it("is enabled by default", () => {
