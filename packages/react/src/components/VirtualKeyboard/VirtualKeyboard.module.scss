@@ -4,16 +4,16 @@
 
   :global(.hg-theme-default) {
     font-family: var(--font-family-primary);
-    font-weight: var(--font-weight-bold);
+    font-weight: var(--font-weight-medium);
     background-color: var(--color-neutral-high-default);
 
     :global(.hg-button) {
       font-family: var(--font-family-primary);
-      font-weight: var(--font-weight-bold);
+      font-weight: var(--font-weight-medium);
       font-size: var(--font-size-20);
       margin: var(--spacing-4);
       height: 44px;
-      background-color: var(--color-neutral-high-light);
+      background-color: var(--color-neutral-high-medium);
       border-radius: var(--border-radius-8);
       border-bottom: none;
       box-shadow: none;
@@ -129,22 +129,22 @@
   transition: transform 0.25s ease-out;
   will-change: transform;
   font-family: var(--font-family-primary);
-  font-weight: var(--font-weight-bold);
+  font-weight: var(--font-weight-medium);
   padding: var(--spacing-4);
 
   :global(.hg-theme-default) {
     font-family: var(--font-family-primary);
     border-radius: var(--border-radius-none);
-    font-weight: var(--font-weight-bold);
+    font-weight: var(--font-weight-medium);
     background-color: transparent;
     backdrop-filter: blur(10px);
     box-shadow: none;
 
     :global(.hg-button) {
       font-family: var(--font-family-primary);
-      font-weight: var(--font-weight-bold);
+      font-weight: var(--font-weight-medium);
       font-size: var(--font-size-20);
-      background-color: var(--color-neutral-high-light);
+      background-color: var(--color-neutral-high-medium);
       margin: var(--spacing-4);
       height: 44px;
       line-height: 1;
@@ -271,7 +271,7 @@
   font-family: var(--font-family-primary);
   font-size: var(--font-size-16);
   background: none;
-  font-weight: var(--font-weight-bold);
+  font-weight: var(--font-weight-medium);
   cursor: pointer;
 
   &:hover {
