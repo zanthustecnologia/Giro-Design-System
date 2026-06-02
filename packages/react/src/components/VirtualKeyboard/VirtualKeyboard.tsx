@@ -206,7 +206,6 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
   }, []);
 
   useEffect(() => {
-    // Mantem o estado interno do teclado alinhado com atualizacoes externas de valor.
     syncKeyboardInput(value);
   }, [value, syncKeyboardInput]);
 
