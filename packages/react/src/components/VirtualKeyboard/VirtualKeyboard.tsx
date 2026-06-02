@@ -3,7 +3,6 @@ import React, { useState, useCallback, useEffect, useRef, useLayoutEffect } from
 import { createPortal } from 'react-dom';
 import Keyboard from 'react-simple-keyboard';
 import 'react-simple-keyboard/build/css/index.css';
-import SimpleKeyboardLayouts from 'simple-keyboard-layouts';
 
 import TextField from '../TextField';
 import { LAYOUT_DISPLAY } from './components/IconDisplay';
@@ -12,7 +11,6 @@ import styles from './VirtualKeyboard.module.scss';
 
 import type { VirtualKeyboardProps } from './VirtualKeyboard.type';
 
-const keyboardLayouts = new SimpleKeyboardLayouts();
 const LONG_PRESS_DELAY_MS = 400;
 const ACTION_KEY_PATTERN = /^\{.+\}$/;
 
@@ -32,100 +30,10 @@ type AccentMenuState = {
   left: number;
 };
 
-const tokenizeRow = (row: string): string[] => row.split(/\s+/).filter(Boolean);
-
-const isActionKey = (token: string): boolean => ACTION_KEY_PATTERN.test(token);
-
-const pickLanguageTokens = (
-  tokens: string[],
-  targetCount: number,
-  strategy: 'start' | 'end'
-): string[] => {
-  if (tokens.length <= targetCount) return tokens;
-  return strategy === 'end'
-    ? tokens.slice(tokens.length - targetCount)
-    : tokens.slice(0, targetCount);
-};
-
-const mergeLanguageRow = (
-  baseRow: string,
-  languageRow: string,
-  strategy: 'start' | 'end'
-): string => {
-  const baseTokens = tokenizeRow(baseRow);
-  const languageTokens = tokenizeRow(languageRow).filter((token) => !isActionKey(token));
-  const replaceIndexes = baseTokens
-    .map((token, index) => ({ token, index }))
-    .filter(({ token }) => !isActionKey(token))
-    .map(({ index }) => index);
-
-  if (!replaceIndexes.length || !languageTokens.length) return baseRow;
-
-  const selectedLanguageTokens = pickLanguageTokens(languageTokens, replaceIndexes.length, strategy);
-  const mergedTokens = [...baseTokens];
-
-  replaceIndexes.forEach((tokenIndex, index) => {
-    const nextToken = selectedLanguageTokens[index];
-    if (nextToken) mergedTokens[tokenIndex] = nextToken;
-  });
-
-  return mergedTokens.join(' ');
-};
-
-const applyLanguageRowsToBase = (baseRows: string[], languageRows?: string[]): string[] => {
-  if (!languageRows?.length) return baseRows;
-
-  const nextRows = [...baseRows];
-  const mapByRow: Array<{ rowIndex: number; strategy: 'start' | 'end' }> = [
-    { rowIndex: 1, strategy: 'start' },
-    { rowIndex: 2, strategy: 'start' },
-    { rowIndex: 3, strategy: 'end' },
-  ];
-
-  mapByRow.forEach(({ rowIndex, strategy }) => {
-    const baseRow = baseRows[rowIndex];
-    const languageRow = languageRows[rowIndex];
-    if (!baseRow || !languageRow) return;
-    nextRows[rowIndex] = mergeLanguageRow(baseRow, languageRow, strategy);
-  });
-
-  return nextRows;
-};
-
-const buildLanguageLayout = (
-  languageLayout: Record<string, string[]> | undefined,
-  showEmoticonButton: boolean,
-  showDownKeyboardButton: boolean
-): Record<string, string[]> | null => {
-  const baseLayout = getNativeLayout('default', showEmoticonButton, showDownKeyboardButton);
-  if (!baseLayout) return languageLayout ?? null;
-  if (!languageLayout) return baseLayout;
-
-  const baseDefault = baseLayout.default ?? [];
-  const baseShift = baseLayout.shift ?? baseDefault;
-  const baseCaps = baseLayout.caps ?? baseShift;
-
-  const languageDefault = languageLayout.default;
-  const languageShift = languageLayout.shift ?? languageDefault;
-
-  const nextDefault = applyLanguageRowsToBase(baseDefault, languageDefault);
-  const nextShift = applyLanguageRowsToBase(baseShift, languageShift);
-  const nextCaps = applyLanguageRowsToBase(baseCaps, languageShift);
-
-  return {
-    ...baseLayout,
-    ...languageLayout,
-    default: nextDefault,
-    shift: nextShift,
-    caps: nextCaps,
-  };
-};
-
 /**
  * Componente VirtualKeyboard — teclado virtual on-screen para entradas controladas.
  *
- * @description Baseado em `react-simple-keyboard`, oferece layouts nativos (QWERTY e numérico)
- * e mais de 40 layouts de idiomas via `simple-keyboard-layouts`,
+ * @description Baseado em `react-simple-keyboard`, oferece apenas layouts nativos (QWERTY e numérico)
  * seguindo o visual padrão da biblioteca.
  *
  * Possui dois modos:
@@ -155,7 +63,6 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
   onKeyPress,
   maxLength,
   showEmoticonButton = false,
-  disabled = false,
   className,
   id,
   textFieldLabel,
@@ -259,12 +166,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
     setLayoutName('default');
     setCapsLockOn(false);
 
-    if (NATIVE_LAYOUT_KEYS.has(variant)) {
-      setActiveLayout(getNativeLayout(variant, showEmoticonButton, mode === 'native'));
-    } else {
-      const loaded = keyboardLayouts.get(variant) as { layout: Record<string, string[]> } | undefined;
-      setActiveLayout(buildLanguageLayout(loaded?.layout, showEmoticonButton, mode === 'native'));
-    }
+    setActiveLayout(getNativeLayout(variant, showEmoticonButton, mode === 'native'));
   }, [variant, showEmoticonButton, mode]);
 
   useEffect(() => {
@@ -324,12 +226,10 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
     setAccentMenuOffsetX(0);
     suppressNextInputRef.current = null;
     clearLongPressTimeout();
-  }, [layoutName, variant, disabled, closeAccentMenu, clearLongPressTimeout]);
+  }, [layoutName, variant, closeAccentMenu, clearLongPressTimeout]);
 
   const handleLongPressStart = useCallback(
     (event: React.PointerEvent<HTMLDivElement>) => {
-      if (disabled) return;
-
       isKeyboardInteractingRef.current = true;
       if (hideTimeoutRef.current !== null) {
         clearTimeout(hideTimeoutRef.current);
@@ -372,7 +272,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
         suppressNextInputRef.current = sourceKey;
       }, LONG_PRESS_DELAY_MS);
     },
-    [disabled, clearLongPressTimeout]
+    [clearLongPressTimeout]
   );
 
   const handleLongPressEnd = useCallback(() => {
@@ -445,8 +345,6 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
 
   const handleKeyPress = useCallback(
     (button: string) => {
-      if (disabled) return;
-
       const baseLayout = variant === 'numeric' ? 'abc' : 'default';
 
       if (button === '{capslock}' || button === '{lock}') {
@@ -528,7 +426,6 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
       onKeyPress?.(button);
     },
     [
-      disabled,
       variant,
       layoutName,
       capsLockOn,
@@ -542,8 +439,6 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
 
   const handleChange = useCallback(
     (input: string) => {
-      if (disabled) return;
-
       const currentValue = valueRef.current;
       const suppressedKey = suppressNextInputRef.current;
       const heldKey = heldAccentKeyRef.current;
@@ -571,7 +466,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
       if (maxLength !== undefined && input.length > maxLength) return;
       onChange?.(input);
     },
-    [disabled, maxLength, onChange, syncKeyboardInput]
+    [maxLength, onChange, syncKeyboardInput]
   );
 
   const keyboardEl = activeLayout ? (
@@ -642,7 +537,6 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
           styles.overlay,
           { [styles.overlayOpen]: isOpen },
           styles[`layout--${visualVariant}`],
-          { [styles.disabled]: disabled },
           className
         )}
       >
@@ -659,7 +553,6 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
         styles.container,
         styles[`mode--${mode}`],
         styles[`layout--${visualVariant}`],
-        { [styles.disabled]: disabled },
         className
       )}
     >
@@ -674,7 +567,6 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
             error={error}
             errorMessage={errorMessage}
             readOnly
-            disabled={disabled}
             maxLength={maxLength}
             attachedToVirtualKeyboard
             className={styles.textFieldWrapper}

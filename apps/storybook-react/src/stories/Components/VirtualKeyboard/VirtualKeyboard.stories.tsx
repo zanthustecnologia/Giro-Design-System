@@ -45,20 +45,8 @@ const meta: Meta<typeof VirtualKeyboard> = {
       control: 'select',
       options: [
         'default', 'numeric',
-        'arabic', 'armenianEastern', 'armenianWestern', 'assamese', 'balochi',
-        'belarusian', 'bengali', 'brazilian', 'burmese', 'chinese', 'czech',
-        'english', 'farsi', 'french', 'georgian', 'german', 'gilaki', 'greek',
-        'hebrew', 'hindi', 'hungarian', 'italian', 'japanese', 'kannada',
-        'korean', 'kurdish', 'macedonian', 'malayalam', 'nigerian', 'nko',
-        'norwegian', 'odia', 'polish', 'punjabi', 'russian', 'russianOld',
-        'sindhi', 'spanish', 'swedish', 'telugu', 'thai', 'turkish',
-        'ukrainian', 'urdu', 'urduStandard', 'uyghur',
       ],
       description: 'Layout do teclado',
-    },
-    disabled: {
-      control: 'boolean',
-      description: 'Estado desabilitado do teclado',
     },
     showEmoticonButton: {
       control: 'boolean',
@@ -84,7 +72,6 @@ export const Default: Story = {
     mode: 'native',
     variant: 'default',
     showEmoticonButton: false,
-    disabled: false,
   },
   render: (args) => {
     const [value, setValue] = useState('');

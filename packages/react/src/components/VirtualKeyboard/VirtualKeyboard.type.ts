@@ -10,57 +10,7 @@ import type { RefObject } from 'react';
 export type VirtualKeyboardMode = 'native' | 'fixed';
 
 /** Layouts disponíveis para o VirtualKeyboard */
-export type VirtualKeyboardVariant =
-  // Layouts nativos
-  | 'default'
-  | 'numeric'
-  // Layouts de idiomas (via simple-keyboard-layouts)
-  | 'arabic'
-  | 'armenianEastern'
-  | 'armenianWestern'
-  | 'assamese'
-  | 'balochi'
-  | 'belarusian'
-  | 'bengali'
-  | 'brazilian'
-  | 'burmese'
-  | 'chinese'
-  | 'czech'
-  | 'english'
-  | 'farsi'
-  | 'french'
-  | 'georgian'
-  | 'german'
-  | 'gilaki'
-  | 'greek'
-  | 'hebrew'
-  | 'hindi'
-  | 'hungarian'
-  | 'italian'
-  | 'japanese'
-  | 'kannada'
-  | 'korean'
-  | 'kurdish'
-  | 'macedonian'
-  | 'malayalam'
-  | 'nigerian'
-  | 'nko'
-  | 'norwegian'
-  | 'odia'
-  | 'polish'
-  | 'punjabi'
-  | 'russian'
-  | 'russianOld'
-  | 'sindhi'
-  | 'spanish'
-  | 'swedish'
-  | 'telugu'
-  | 'thai'
-  | 'turkish'
-  | 'ukrainian'
-  | 'urdu'
-  | 'urduStandard'
-  | 'uyghur';
+export type VirtualKeyboardVariant = 'default' | 'numeric';
 
 /**
  * Props do componente VirtualKeyboard
@@ -86,7 +36,7 @@ export type VirtualKeyboardVariant =
  * />
  * ```
  */
-export interface VirtualKeyboardProps extends BaseProps {
+export interface VirtualKeyboardProps extends Omit<BaseProps, 'disabled'> {
   /**
    * Modo de exibição do teclado.
    * - `native`: comporta-se como teclado nativo (acionamento por foco — futuramente implementado).

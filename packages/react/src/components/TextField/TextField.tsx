@@ -73,7 +73,6 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
       const newValue = normalizeValue(value);
       setInputValue(newValue);
       
-      // Reavaliar erro quando valor muda externamente (ex: DatePicker atualiza o campo)
       if (inputError) {
         const validationError = validateInput({
           value: newValue,
@@ -223,7 +222,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
               mode="native"
               variant={virtualKeyboardVariant}
               value={inputValue}
-              maxLength={virtualKeyboardMaxLength}
+              maxLength={maxLength ?? virtualKeyboardMaxLength}
               targetRef={inputRef}
               onChange={(val) => {
                 if (!disabled && (!maxLength || val.length <= maxLength)) {

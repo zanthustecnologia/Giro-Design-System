@@ -209,9 +209,6 @@ importers:
       react-simple-keyboard:
         specifier: ^3.8.206
         version: 3.8.206(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      simple-keyboard-layouts:
-        specifier: ^3.4.209
-        version: 3.4.209
     devDependencies:
       '@rollup/plugin-commonjs':
         specifier: ^26.0.0
@@ -5252,9 +5249,6 @@ packages:
   signal-exit@4.1.0:
     resolution: {integrity: sha512-bzyZ1e88w9O1iNJbKnOlvYTrWPDl46O1bG0D3XInv+9tkPrxrN8jUUTiFlDkkmKWgn1M6CfIA13SuGqOa9Korw==}
     engines: {node: '>=14'}
-
-  simple-keyboard-layouts@3.4.209:
-    resolution: {integrity: sha512-IdNa91SKGEONYfysakbHQEUe40fbCeW0yeodMOsgrNAlCjxcu4UbVw5sObZIli5bATb8uGw0iblg0loG4M9LVA==}
 
   sirv@3.0.2:
     resolution: {integrity: sha512-2wcC/oGxHis/BoHkkPwldgiPSYcpZK3JU28WoMVv55yHJgcZ8rlXvuG9iZggz+sU1d4bRgIGASwyWqjxu3FM0g==}
@@ -11412,8 +11406,6 @@ snapshots:
   siginfo@2.0.0: {}
 
   signal-exit@4.1.0: {}
-
-  simple-keyboard-layouts@3.4.209: {}
 
   sirv@3.0.2:
     dependencies:

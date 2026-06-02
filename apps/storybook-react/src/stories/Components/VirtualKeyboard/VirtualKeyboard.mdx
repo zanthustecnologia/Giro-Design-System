@@ -41,9 +41,6 @@ import { VirtualKeyboard } from '@giro-ds/react';
       Combine o <code>maxLength</code> com o campo de texto para garantir consistência entre o limite visual do input e o limite aplicado pelo teclado.
     </>,
     <>
-      Use o estado <strong>disabled</strong> quando o contexto não permitir entrada de dados. Tanto o campo quanto o teclado devem ser desabilitados juntos para evitar inconsistências.
-    </>,
-    <>
       No modo <strong>native</strong>, passe um <code>ref</code> do campo de texto para a prop <code>targetRef</code>. O teclado aparecerá ao focar no campo e sumirá ao perder o foco.
     </>,
     <>
@@ -92,18 +89,6 @@ O comportamento esperado das teclas de caixa alta e:
 Indicado para entradas de PINs, senhas e códigos. Exibe apenas os dígitos de 0 a 9, além de backspace e enter.
 
 <Canvas of={VirtualKeyboardStories.Numerico} />
-
-### Desabilitado
-
-O teclado bloqueado impede qualquer interação. Use junto com o campo de texto desabilitado.
-
-<Canvas of={VirtualKeyboardStories.Disabled} />
-
-### Com limite de caracteres
-
-Use a prop <code>maxLength</code> para restringir o número de caracteres aceitos pelo teclado.
-
-<Canvas of={VirtualKeyboardStories.ComLimiteDeCaracteres} />
 
 ### Sem botao de smileys
 

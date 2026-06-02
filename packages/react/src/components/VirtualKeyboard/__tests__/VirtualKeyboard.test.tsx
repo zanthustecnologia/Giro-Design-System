@@ -99,18 +99,6 @@ vi.mock('react-simple-keyboard', () => ({
   },
 }));
 
-// Mock do simple-keyboard-layouts para layouts de idioma
-vi.mock('simple-keyboard-layouts', () => ({
-  default: vi.fn().mockImplementation(() => ({
-    get: vi.fn().mockReturnValue({
-      layout: {
-        default: ['q w e r t'],
-        shift: ['Q W E R T'],
-      },
-    }),
-  })),
-}));
-
 import VirtualKeyboard from '../VirtualKeyboard';
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -314,15 +302,6 @@ describe('VirtualKeyboard', () => {
       expect(input).toHaveValue('a');
     });
 
-    it('não deve chamar onChange quando o componente está desabilitado', () => {
-      const onChange = vi.fn();
-      render(<VirtualKeyboard mode="fixed" onChange={onChange} value="" disabled />);
-
-      fireEvent.click(screen.getByTestId('key-char'));
-
-      expect(onChange).not.toHaveBeenCalled();
-    });
-
     it('não deve chamar onChange quando o maxLength foi atingido', () => {
       const onChange = vi.fn();
       render(<VirtualKeyboard mode="fixed" onChange={onChange} value="abc" maxLength={3} />);
@@ -403,15 +382,6 @@ describe('VirtualKeyboard', () => {
       expect(onKeyPress).toHaveBeenCalledWith('a');
     });
 
-    it('não deve chamar onKeyPress quando o componente está desabilitado', () => {
-      const onKeyPress = vi.fn();
-      render(<VirtualKeyboard mode="fixed" onKeyPress={onKeyPress} value="" disabled />);
-
-      fireEvent.click(screen.getByTestId('key-char'));
-
-      expect(onKeyPress).not.toHaveBeenCalled();
-    });
-
     it('não deve chamar onKeyPress para teclas de controle de layout (shift)', () => {
       const onKeyPress = vi.fn();
       render(<VirtualKeyboard mode="fixed" onKeyPress={onKeyPress} value="" />);
@@ -429,21 +399,6 @@ describe('VirtualKeyboard', () => {
 
       // {enter} não é bloqueado pelo handleKeyPress, portanto é repassado ao callback externo
       expect(onKeyPress).toHaveBeenCalledWith('{enter}');
-    });
-  });
-
-  // ───────────────────────────────────────────────────────────────────────────
-  describe('Estado disabled', () => {
-    it('deve aplicar classe CSS disabled quando desabilitado', () => {
-      const { container } = render(<VirtualKeyboard mode="fixed" disabled />);
-      const wrapper = container.firstChild as HTMLElement;
-      expect(wrapper.className).toMatch(/disabled/);
-    });
-
-    it('não deve aplicar classe CSS disabled quando habilitado', () => {
-      const { container } = render(<VirtualKeyboard mode="fixed" />);
-      const wrapper = container.firstChild as HTMLElement;
-      expect(wrapper.className).not.toMatch(/disabled/);
     });
   });
 
@@ -626,27 +581,6 @@ describe('VirtualKeyboard', () => {
   });
 
   // ───────────────────────────────────────────────────────────────────────────
-  describe('Layout de idioma via simple-keyboard-layouts', () => {
-    it('deve renderizar um layout de idioma externo (ex: spanish)', async () => {
-      render(<VirtualKeyboard mode="fixed" variant="spanish" />);
-      // Para layouts externos, o activeLayout é definido via efeito (assíncrono)
-      expect(await screen.findByTestId('keyboard')).toBeInTheDocument();
-    });
-
-    it('deve manter a tecla {downkeyboard} para idioma externo no modo native', async () => {
-      render(<VirtualKeyboard mode="native" variant="spanish" />);
-
-      expect(await screen.findByTestId('key-downkeyboard')).toBeInTheDocument();
-    });
-
-    it('não deve exibir a tecla {downkeyboard} para idioma externo no modo fixed', async () => {
-      render(<VirtualKeyboard mode="fixed" variant="spanish" />);
-
-      await screen.findByTestId('keyboard');
-      expect(screen.queryByTestId('key-downkeyboard')).not.toBeInTheDocument();
-    });
-  });
-
   // ───────────────────────────────────────────────────────────────────────────
   describe('Reinicialização ao trocar de layout', () => {
     it('deve resetar layoutName para "default" ao trocar o prop layout', () => {
