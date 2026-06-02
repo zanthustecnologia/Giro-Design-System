@@ -35,7 +35,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
       name,
       persistIcon = false,
       virtualKeyboard = false,
-      virtualKeyboardVariant,
+      virtualKeyboardType,
       virtualKeyboardMaxLength,
       attachedToVirtualKeyboard = false,
       ...rest
@@ -220,7 +220,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
           <div className={styles.virtualKeyboardWrapper}>
             <VirtualKeyboard
               mode="native"
-              variant={virtualKeyboardVariant}
+              type={virtualKeyboardType}
               value={inputValue}
               maxLength={maxLength ?? virtualKeyboardMaxLength}
               targetRef={inputRef}

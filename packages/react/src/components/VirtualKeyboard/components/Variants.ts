@@ -1,4 +1,4 @@
-import type { VirtualKeyboardVariant } from '../VirtualKeyboard.type';
+import type { VirtualKeyboardType } from '../VirtualKeyboard.type';
 
 const EMOTICON_KEY = '{emoticon}';
 const DOWN_KEYBOARD_KEY = '{downkeyboard}';
@@ -11,7 +11,7 @@ const removeKeyFromLayout = (layout: Record<string, string[]>, key: string) =>
     ])
   ) as Record<string, string[]>;
 
-export const NATIVE_LAYOUTS: Partial<Record<VirtualKeyboardVariant, Record<string, string[]>>> = {
+export const NATIVE_LAYOUTS: Partial<Record<VirtualKeyboardType, Record<string, string[]>>> = {
   default: {
     default: [
       '1 2 3 4 5 6 7 8 9 0',
@@ -106,18 +106,18 @@ export const NATIVE_LAYOUTS: Partial<Record<VirtualKeyboardVariant, Record<strin
   },
 };
 
-export const NATIVE_LAYOUT_KEYS = new Set<VirtualKeyboardVariant>([
+export const NATIVE_LAYOUT_KEYS = new Set<VirtualKeyboardType>([
   'default', 'numeric',
 ]);
 
-export const LAYOUT_THEMES: Partial<Record<VirtualKeyboardVariant, string>> = {};
+export const LAYOUT_THEMES: Partial<Record<VirtualKeyboardType, string>> = {};
 
 export const getNativeLayout = (
-  variant: VirtualKeyboardVariant,
+  type: VirtualKeyboardType,
   showEmoticonButton = true,
   showDownKeyboardButton = true
 ): Record<string, string[]> | null => {
-  const layout = NATIVE_LAYOUTS[variant] ?? NATIVE_LAYOUTS.default ?? null;
+  const layout = NATIVE_LAYOUTS[type] ?? NATIVE_LAYOUTS.default ?? null;
 
   if (!layout) return null;
 

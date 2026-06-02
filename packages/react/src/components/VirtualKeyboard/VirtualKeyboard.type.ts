@@ -10,7 +10,7 @@ import type { RefObject } from 'react';
 export type VirtualKeyboardMode = 'native' | 'fixed';
 
 /** Layouts disponíveis para o VirtualKeyboard */
-export type VirtualKeyboardVariant = 'default' | 'numeric';
+export type VirtualKeyboardType = 'default' | 'numeric';
 
 /**
  * Props do componente VirtualKeyboard
@@ -19,7 +19,7 @@ export type VirtualKeyboardVariant = 'default' | 'numeric';
  * // Modo fixed: teclado sempre visível com TextField próprio
  * <VirtualKeyboard
  *   mode="fixed"
- *   variant="default"
+ *   type="default"
  *   textFieldLabel="Digite aqui"
  *   onChange={(value) => setValue(value)}
  * />
@@ -48,8 +48,8 @@ export interface VirtualKeyboardProps extends Omit<BaseProps, 'disabled'> {
   /** Valor controlado do input vinculado ao teclado */
   value?: string;
 
-  /** Variante do teclado (padrão: "default") */
-  variant?: VirtualKeyboardVariant;
+  /** Tipo do teclado (padrão: "default") */
+  type?: VirtualKeyboardType;
 
   /** Callback executado quando o valor do input muda: (value) => void */
   onChange?: (value: string) => void;
@@ -86,5 +86,5 @@ export interface VirtualKeyboardProps extends Omit<BaseProps, 'disabled'> {
   targetRef?: RefObject<HTMLInputElement | HTMLTextAreaElement | null>;
 }
 
-/** @deprecated Use `VirtualKeyboardVariant` */
-export type VirtualKeyboardLayout = VirtualKeyboardVariant;
+/** @deprecated Use `VirtualKeyboardType` */
+export type VirtualKeyboardLayout = VirtualKeyboardType;

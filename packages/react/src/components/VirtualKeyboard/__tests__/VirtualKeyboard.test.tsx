@@ -176,7 +176,7 @@ describe('VirtualKeyboard', () => {
     });
 
     it('não deve exibir a tecla {downkeyboard} no modo fixed', () => {
-      render(<VirtualKeyboard mode="fixed" variant="default" />);
+      render(<VirtualKeyboard mode="fixed" type="default" />);
       expect(screen.queryByTestId('key-downkeyboard')).not.toBeInTheDocument();
     });
   });
@@ -501,7 +501,7 @@ describe('VirtualKeyboard', () => {
     });
 
     it('deve alternar para layout "numbers" ao pressionar {numbers} (default)', () => {
-      render(<VirtualKeyboard mode="fixed" variant="default" value="" />);
+      render(<VirtualKeyboard mode="fixed" type="default" value="" />);
 
       fireEvent.click(screen.getByTestId('key-numbers'));
 
@@ -509,7 +509,7 @@ describe('VirtualKeyboard', () => {
     });
 
     it('deve voltar para "default" ao pressionar {abc} (default)', () => {
-      render(<VirtualKeyboard mode="fixed" variant="default" value="" />);
+      render(<VirtualKeyboard mode="fixed" type="default" value="" />);
 
       fireEvent.click(screen.getByTestId('key-numbers'));
       fireEvent.click(screen.getByTestId('key-abc'));
@@ -518,7 +518,7 @@ describe('VirtualKeyboard', () => {
     });
 
     it('deve alternar para layout "alt" ao pressionar {alt} (default)', () => {
-      render(<VirtualKeyboard mode="fixed" variant="default" value="" />);
+      render(<VirtualKeyboard mode="fixed" type="default" value="" />);
 
       fireEvent.click(screen.getByTestId('key-alt'));
 
@@ -526,7 +526,7 @@ describe('VirtualKeyboard', () => {
     });
 
     it('deve voltar para "default" ao pressionar {alt} pela segunda vez', () => {
-      render(<VirtualKeyboard mode="fixed" variant="default" value="" />);
+      render(<VirtualKeyboard mode="fixed" type="default" value="" />);
 
       fireEvent.click(screen.getByTestId('key-alt'));
       fireEvent.click(screen.getByTestId('key-alt'));
@@ -554,7 +554,7 @@ describe('VirtualKeyboard', () => {
     });
 
     it('deve alternar para layout "emoticon" ao pressionar {emoticon} (default)', () => {
-      render(<VirtualKeyboard mode="fixed" showEmoticonButton={true} variant="default" value="" />);
+      render(<VirtualKeyboard mode="fixed" showEmoticonButton={true} type="default" value="" />);
 
       fireEvent.click(screen.getByTestId('key-emoticon'));
 
@@ -562,7 +562,7 @@ describe('VirtualKeyboard', () => {
     });
 
     it('deve ocultar o botão emoticon quando showEmoticonButton for false', () => {
-      render(<VirtualKeyboard mode="fixed" variant="default" value="" showEmoticonButton={false} />);
+      render(<VirtualKeyboard mode="fixed" type="default" value="" showEmoticonButton={false} />);
 
       expect(screen.queryByTestId('key-emoticon')).not.toBeInTheDocument();
     });
@@ -575,7 +575,7 @@ describe('VirtualKeyboard', () => {
       ['default' as const],
       ['numeric' as const],
     ])('deve renderizar o layout nativo "%s"', (layout) => {
-      render(<VirtualKeyboard mode="fixed" variant={layout} />);
+      render(<VirtualKeyboard mode="fixed" type={layout} />);
       expect(screen.getByTestId('keyboard')).toBeInTheDocument();
     });
   });
@@ -584,12 +584,12 @@ describe('VirtualKeyboard', () => {
   // ───────────────────────────────────────────────────────────────────────────
   describe('Reinicialização ao trocar de layout', () => {
     it('deve resetar layoutName para "default" ao trocar o prop layout', () => {
-      const { rerender } = render(<VirtualKeyboard mode="fixed" variant="default" value="" />);
+      const { rerender } = render(<VirtualKeyboard mode="fixed" type="default" value="" />);
 
       fireEvent.click(screen.getByTestId('key-shift'));
       expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'shift');
 
-      rerender(<VirtualKeyboard mode="fixed" variant="numeric" value="" />);
+      rerender(<VirtualKeyboard mode="fixed" type="numeric" value="" />);
 
       expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'default');
     });

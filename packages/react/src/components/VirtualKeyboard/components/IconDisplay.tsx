@@ -1,4 +1,4 @@
-import type { VirtualKeyboardVariant } from '../VirtualKeyboard.type';
+import type { VirtualKeyboardType } from '../VirtualKeyboard.type';
 
 // Paths oficiais dos mesmos ícones do pacote @fluentui/react-icons.
 const icon = (path: string, viewBox = 20): string =>
@@ -10,7 +10,7 @@ const shiftActive = icon('M11.14 2.53a1.5 1.5 0 0 0-2.28 0l-6.62 7.8A1 1 0 0 0 3
 const capslock = icon('M11.14 2.53a1.5 1.5 0 0 0-2.28 0l-6.62 7.8A1 1 0 0 0 3 11.98h3V15a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-3.02h3a1 1 0 0 0 .76-1.65l-6.62-7.8Zm-1.52.65a.5.5 0 0 1 .76 0l6.62 7.8h-3.5a.5.5 0 0 0-.5.5V15H7v-3.52a.5.5 0 0 0-.5-.5H3l6.62-7.8ZM6.5 17a.5.5 0 1 0 0 1h7a.5.5 0 0 0 0-1h-7Z');
 const chevronDn = icon('M15.85 7.65c.2.2.2.5 0 .7l-5.46 5.49a.55.55 0 0 1-.78 0L4.15 8.35a.5.5 0 1 1 .7-.7L10 12.8l5.15-5.16c.2-.2.5-.2.7 0Z');
 
-export const LAYOUT_DISPLAY: Partial<Record<VirtualKeyboardVariant, Record<string, string>>> = {
+export const LAYOUT_DISPLAY: Partial<Record<VirtualKeyboardType, Record<string, string>>> = {
   default: {
     '{capslock}':      capslock,
     '{numbers}':       '123',
