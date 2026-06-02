@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../tokens/generated_tokens.dart';
 import '../components/buttons/button_tokens.dart';
+import '../components/checkbox/checkbox_tokens.dart';
 import '../components/chips/chip_tokens.dart';
+import '../components/radio/radio_tokens.dart';
+import '../components/switch/switch_tokens.dart';
 import '../components/text_field/text_field_tokens.dart';
 
 ButtonStyle _baseStyle({
@@ -154,6 +157,130 @@ ThemeData applyGiroTheme(ThemeData base) {
 
     bottomSheetTheme: const BottomSheetThemeData(
       backgroundColor: GiroTokens.colorNeutralHighDefault,
+    ),
+
+    checkboxTheme: CheckboxThemeData(
+      fillColor: WidgetStateProperty.resolveWith((states) {
+        if (states.contains(WidgetState.disabled)) {
+          return states.contains(WidgetState.selected)
+              ? GiroCheckboxTokens.disabledCheckedFillColor
+              : Colors.transparent;
+        }
+        if (states.contains(WidgetState.selected)) {
+          return GiroCheckboxTokens.checkedFillColor;
+        }
+        return Colors.transparent;
+      }),
+      checkColor: WidgetStateProperty.all(GiroCheckboxTokens.checkColor),
+      side: WidgetStateBorderSide.resolveWith((states) {
+        if (states.contains(WidgetState.disabled)) {
+          return const BorderSide(
+            color: GiroCheckboxTokens.disabledBorderColor,
+            width: GiroCheckboxTokens.borderWidth,
+          );
+        }
+        if (states.contains(WidgetState.selected)) {
+          return const BorderSide(
+            color: GiroCheckboxTokens.checkedBorderColor,
+            width: GiroCheckboxTokens.borderWidth,
+          );
+        }
+        return const BorderSide(
+          color: GiroCheckboxTokens.boxBorderColor,
+          width: GiroCheckboxTokens.borderWidth,
+        );
+      }),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(GiroCheckboxTokens.borderRadius),
+      ),
+      overlayColor: WidgetStateProperty.resolveWith((states) {
+        if (states.contains(WidgetState.disabled)) return Colors.transparent;
+        if (states.contains(WidgetState.pressed)) {
+          return GiroCheckboxTokens.overlayPressColor;
+        }
+        if (states.contains(WidgetState.focused)) {
+          return GiroCheckboxTokens.overlayFocusColor;
+        }
+        if (states.contains(WidgetState.hovered)) {
+          return GiroCheckboxTokens.overlayHoverColor;
+        }
+        return Colors.transparent;
+      }),
+      splashRadius: GiroCheckboxTokens.splashRadius,
+      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      visualDensity: VisualDensity.compact,
+    ),
+
+    radioTheme: RadioThemeData(
+      fillColor: WidgetStateProperty.resolveWith((states) {
+        if (states.contains(WidgetState.disabled)) {
+          return GiroRadioTokens.disabledFillColor;
+        }
+        if (states.contains(WidgetState.selected)) {
+          return GiroRadioTokens.fillColor;
+        }
+        return GiroRadioTokens.borderColor;
+      }),
+      overlayColor: WidgetStateProperty.resolveWith((states) {
+        if (states.contains(WidgetState.disabled)) return Colors.transparent;
+        if (states.contains(WidgetState.pressed)) {
+          return GiroRadioTokens.overlayPressColor;
+        }
+        if (states.contains(WidgetState.focused)) {
+          return GiroRadioTokens.overlayFocusColor;
+        }
+        if (states.contains(WidgetState.hovered)) {
+          return GiroRadioTokens.overlayHoverColor;
+        }
+        return Colors.transparent;
+      }),
+      splashRadius: GiroRadioTokens.splashRadius,
+      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      visualDensity: VisualDensity.compact,
+    ),
+
+    switchTheme: SwitchThemeData(
+      trackColor: WidgetStateProperty.resolveWith((states) {
+        if (states.contains(WidgetState.disabled)) {
+          if (states.contains(WidgetState.selected)) {
+            return GiroSwitchTokens.trackCheckedDisabledColor;
+          }
+          return GiroSwitchTokens.trackDisabledColor;
+        }
+        if (states.contains(WidgetState.selected)) {
+          if (states.contains(WidgetState.hovered)) {
+            return GiroSwitchTokens.trackCheckedHoverColor;
+          }
+          return GiroSwitchTokens.trackCheckedColor;
+        }
+        if (states.contains(WidgetState.hovered)) {
+          return GiroSwitchTokens.trackHoverColor;
+        }
+        return GiroSwitchTokens.trackColor;
+      }),
+      thumbColor: WidgetStateProperty.resolveWith((states) {
+        if (states.contains(WidgetState.selected)) {
+          return GiroSwitchTokens.thumbCheckedColor;
+        }
+        return GiroSwitchTokens.thumbColor;
+      }),
+      trackOutlineColor: WidgetStateProperty.resolveWith((states) {
+        if (states.contains(WidgetState.selected)) return Colors.transparent;
+        if (states.contains(WidgetState.disabled)) return Colors.transparent;
+        return GiroSwitchTokens.trackBorderColor;
+      }),
+      trackOutlineWidth: WidgetStateProperty.all(GiroSwitchTokens.trackBorderWidth),
+      overlayColor: WidgetStateProperty.resolveWith((states) {
+        if (states.contains(WidgetState.disabled)) return Colors.transparent;
+        if (states.contains(WidgetState.pressed)) {
+          return GiroSwitchTokens.focusColor.withValues(alpha: 0.2);
+        }
+        if (states.contains(WidgetState.focused)) {
+          return GiroSwitchTokens.focusColor.withValues(alpha: 0.2);
+        }
+        return Colors.transparent;
+      }),
+      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
     ),
 
     chipTheme: ChipThemeData(
