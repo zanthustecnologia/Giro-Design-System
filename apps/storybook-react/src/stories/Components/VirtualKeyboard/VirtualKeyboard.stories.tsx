@@ -72,6 +72,7 @@ export const Default: Story = {
     mode: 'native',
     variant: 'default',
     showEmoticonButton: false,
+    maxLength: 100,
   },
   render: (args) => {
     const [value, setValue] = useState('');
