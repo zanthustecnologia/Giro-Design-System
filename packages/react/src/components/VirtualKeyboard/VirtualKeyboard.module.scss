@@ -260,15 +260,14 @@
 }
 
 .accentOption {
-  min-width: 36px;
-  height: 36px;
+  min-width: 44px;
+  height: 44px;
   padding: 0 var(--spacing-8);
   border: none;
-  border-radius: var(--border-radius-6);
-  background: transparent;
-  color: var(--color-neutral-low-dark);
+  border-radius: var(--border-radius-8);
   font-family: var(--font-family-primary);
   font-size: var(--font-size-16);
+  background: none;
   font-weight: var(--font-weight-bold);
   cursor: pointer;
 

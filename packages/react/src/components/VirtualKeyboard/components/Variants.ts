@@ -18,21 +18,21 @@ export const NATIVE_LAYOUTS: Partial<Record<VirtualKeyboardVariant, Record<strin
       'q w e r t y u i o p',
       'a s d f g h j k l ç {bksp}',
       '{shift} z x c v b n m , . {shift}',
-      '{numbers} {alt} {space} {enter} {downkeyboard}',
+      '{numbers} {alt} {space} {downkeyboard} {enter}',
     ],
     shift: [
       '1 2 3 4 5 6 7 8 9 0',
       'Q W E R T Y U I O P',
       'A S D F G H J K L Ç {bksp}',
       '{capslock} Z X C V B N M , . {capslock}',
-      '{numbers} {alt} {smileys} {space} {enter} {downkeyboard}',
+      '{numbers} {alt} {smileys} {space} {downkeyboard} {enter}',
     ],
     caps: [
       '1 2 3 4 5 6 7 8 9 0',
       'Q W E R T Y U I O P',
       'A S D F G H J K L Ç {bksp}',
       '{shiftactivated} Z X C V B N M , . {shiftactivated}',
-      '{numbers} {alt} {smileys} {space} {enter} {downkeyboard}',
+      '{numbers} {alt} {smileys} {space} {downkeyboard} {enter}',
     ],
     numbers: [
       '1 2 3', '4 5 6', '7 8 9', '{bksp} 0 {abc}'
@@ -41,13 +41,13 @@ export const NATIVE_LAYOUTS: Partial<Record<VirtualKeyboardVariant, Record<strin
       '1 2 3 4 5 6 7 8 9 0',
       `- / : ; ( ) $ & @ "`,
       '{alt2} . , ? ! ´ {bksp}',
-      '{default} {smileys} {space} {enter} {downkeyboard}',
+      '{default} {smileys} {space} {downkeyboard} {enter}',
     ],
     alt2: [
       '[ ] { } # % ^ * + =',
       '_ \\ | ~ < > ¢ £ ¥ •',
       `{alt} . , ? ! ' {bksp}`,
-      '{default} {smileys} {space} {enter} {downkeyboard}',
+      '{default} {smileys} {space} {downkeyboard} {enter}',
     ],
     smileys: [
       '😀 😊 😅 😂 🙂 😉 😍 😛 😠 😎 {bksp}',
@@ -66,21 +66,21 @@ export const NATIVE_LAYOUTS: Partial<Record<VirtualKeyboardVariant, Record<strin
       'q w e r t y u i o p',
       'a s d f g h j k l ç {bksp}',
       '{shift} z x c v b n m , . {shift}',
-      '{numbers} {alt} {space} {enter} {downkeyboard}',
+      '{numbers} {alt} {space} {downkeyboard} {enter}',
     ],
     shift: [
       '1 2 3 4 5 6 7 8 9 0',
       'Q W E R T Y U I O P',
       'A S D F G H J K L Ç {bksp}',
       '{capslock} Z X C V B N M , . {capslock}',
-      '{numbers} {alt} {smileys} {space} {enter} {downkeyboard}',
+      '{numbers} {alt} {smileys} {space} {downkeyboard} {enter}',
     ],
     caps: [
       '1 2 3 4 5 6 7 8 9 0',
       'Q W E R T Y U I O P',
       'A S D F G H J K L Ç {bksp}',
       '{shiftactivated} Z X C V B N M , . {shiftactivated}',
-      '{numbers} {alt} {smileys} {space} {enter} {downkeyboard}',
+      '{numbers} {alt} {smileys} {space} {downkeyboard} {enter}',
     ],
     numbers: [
       '1 2 3', '4 5 6', '7 8 9', '{bksp} 0 {abc}'
@@ -89,13 +89,13 @@ export const NATIVE_LAYOUTS: Partial<Record<VirtualKeyboardVariant, Record<strin
       '1 2 3 4 5 6 7 8 9 0',
       `- / : ; ( ) $ & @ "`,
       '{alt2} . , ? ! ´ {bksp}',
-      '{default} {smileys} {space} {enter} {downkeyboard}',
+      '{default} {smileys} {space} {downkeyboard} {enter}',
     ],
     alt2: [
       '[ ] { } # % ^ * + =',
       '_ \\ | ~ < > ¢ £ ¥ •',
       `{alt} . , ? ! ' {bksp}`,
-      '{default} {smileys} {space} {enter} {downkeyboard}',
+      '{default} {smileys} {space} {downkeyboard} {enter}',
     ],
     smileys: [
       '😀 😊 😅 😂 🙂 😉 😍 😛 😠 😎 {bksp}',
