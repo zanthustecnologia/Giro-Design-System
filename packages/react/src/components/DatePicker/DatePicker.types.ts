@@ -67,5 +67,8 @@ export interface DatePickerProps extends BaseProps {
   className?: string;
 
   /** Escala visual aplicada ao componente */
-  scale?: Scale;
+  datePickerScale?: Scale;
+
+  /** Escala visual aplicada ao calendário */
+  calendarScale?: Scale;
 }

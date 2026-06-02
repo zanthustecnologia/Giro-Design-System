@@ -25,7 +25,8 @@ const DatePicker: React.FC<DatePickerProps> = ({
   minDate,
   maxDate,
   'data-testid': testId,
-  scale = 1,
+  datePickerScale = 1,
+  calendarScale = 1,
   className,
   ...rest
 }) => {
@@ -53,7 +54,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
     1: 'scale-1-0',
     1.5: 'scale-1-5',
     2: 'scale-2-0',
-  }[scale];
+  }[datePickerScale];
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -234,6 +235,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
               format={locale === 'en-us' ? 'mm/dd/yyyy' : 'dd/mm/yyyy'}
               minDate={minDate}
               maxDate={maxDate}
+              scale={calendarScale}
               id={calendarId}
               onClear={() => {
                 handleDateChange(null);
