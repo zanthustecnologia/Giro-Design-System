@@ -25,7 +25,7 @@ const meta: Meta<typeof Menu> = {
   },
   argTypes: {
     search: { control: 'boolean' },
-    scale: {
+    dropdownScale: {
       control: { type: 'select' },
       options: [1, 1.5, 2],
     },
@@ -133,7 +133,7 @@ export const Default: Story = {
   args: {
     search: false,
     align: 'start',
-    scale: 1,
+    dropdownScale: 1,
     buttonScale: 1,
   },
 };
@@ -239,13 +239,13 @@ export const ScrollInfinito: Story = {
 export const Escalas: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '40px', alignItems: 'flex-start' }}>
-      <Menu items={acoesItens} scale={1} buttonScale={1}>
+      <Menu items={acoesItens} dropdownScale={1} buttonScale={1}>
         <Button variant="outlined">Menu 1.0 / Botão 1.0</Button>
       </Menu>
-      <Menu items={acoesItens} scale={1.5} buttonScale={1.5}>
+      <Menu items={acoesItens} dropdownScale={1.5} buttonScale={1.5}>
         <Button variant="outlined">Menu 1.5 / Botão 1.5</Button>
       </Menu>
-      <Menu items={acoesItens} scale={2} buttonScale={2}>
+      <Menu items={acoesItens} dropdownScale={2} buttonScale={2}>
         <Button variant="outlined">Menu 2.0 / Botão 2.0</Button>
       </Menu>
     </div>
