@@ -174,7 +174,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
         {virtualKeyboard && (
           <div className={styles.virtualKeyboardWrapper}>
             <VirtualKeyboard
-              mode="native"
+              variant="native"
               type={virtualKeyboardType}
               maxLength={virtualKeyboardMaxLength}
               value={textareaValue}

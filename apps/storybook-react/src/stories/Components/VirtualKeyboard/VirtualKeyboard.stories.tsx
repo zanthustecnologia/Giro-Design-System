@@ -15,7 +15,7 @@ const meta: Meta<typeof VirtualKeyboard> = {
     layout: 'centered',
   },
   argTypes: {
-    mode: {
+    variant: {
       control: 'select',
       options: ['native', 'fixed'],
       description:
@@ -24,24 +24,24 @@ const meta: Meta<typeof VirtualKeyboard> = {
     textFieldPlaceholder: {
       control: 'text',
       description: 'Placeholder do TextField interno. Disponivel apenas no modo `fixed`.',
-      if: { arg: 'mode', eq: 'fixed' },
+      if: { arg: 'variant', eq: 'fixed' },
     },
     helperText: {
       control: 'text',
       description: 'Helper text do TextField interno. Disponivel apenas no modo `fixed`.',
-      if: { arg: 'mode', eq: 'fixed' },
+      if: { arg: 'variant', eq: 'fixed' },
     },
     error: {
       control: 'boolean',
       description: 'Ativa o estado de erro no TextField interno. Disponivel apenas no modo `fixed`.',
-      if: { arg: 'mode', eq: 'fixed' },
+      if: { arg: 'variant', eq: 'fixed' },
     },
     errorMessage: {
       control: 'text',
       description: 'Mensagem de erro do TextField interno. Disponivel apenas no modo `fixed`.',
-      if: { arg: 'mode', eq: 'fixed' },
+      if: { arg: 'variant', eq: 'fixed' },
     },
-    variant: {
+    type: {
       control: 'select',
       options: [
         'default', 'numeric',
@@ -55,6 +55,7 @@ const meta: Meta<typeof VirtualKeyboard> = {
     maxLength: {
       control: 'number',
       description: 'Limite maximo de caracteres',
+      if: { arg: 'variant', eq: 'fixed' },
     },
     value: { table: { disable: true } },
     onChange: { table: { disable: true } },
@@ -69,8 +70,8 @@ export default meta;
 
 export const Default: Story = {
   args: {
-    mode: 'native',
-    variant: 'default',
+    variant: 'native',
+    type: 'default',
     showEmoticonButton: false,
   },
   render: (args) => {
@@ -78,7 +79,7 @@ export const Default: Story = {
     const inputRef = useRef<HTMLInputElement>(null);
     return (
       <div style={{ display: 'flex', flexDirection: 'column', width: '420px' }}>
-        {args.mode === 'native' && (
+        {args.variant === 'native' && (
           <div style={{ marginBottom: '20px' }}>
             <TextField
               label="Campo de texto"

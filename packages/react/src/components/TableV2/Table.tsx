@@ -211,7 +211,7 @@ const TableV2 = <T,>({
               <Search
                 value={globalFilter}
                 virtualKeyboard={header.virtualKeyboard}
-                virtualKeyboardVariant={header.virtualKeyboardVariant}
+                virtualKeyboardType={header.virtualKeyboardType}
                 virtualKeyboardMaxLength={header.virtualKeyboardMaxLength}
                 onChange={(e) => {
                   setGlobalFilter(e.target.value);

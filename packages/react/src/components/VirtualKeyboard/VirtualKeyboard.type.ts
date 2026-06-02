@@ -7,7 +7,7 @@ import type { RefObject } from 'react';
  * - `native`: age como teclado nativo — aparecerá ao focar em um campo (implementação futura).
  * - `fixed`: teclado sempre visível na tela com um TextField próprio acima dele.
  */
-export type VirtualKeyboardMode = 'native' | 'fixed';
+export type VirtualKeyboardVariant = 'native' | 'fixed';
 
 /** Layouts disponíveis para o VirtualKeyboard */
 export type VirtualKeyboardType = 'default' | 'numeric';
@@ -18,7 +18,7 @@ export type VirtualKeyboardType = 'default' | 'numeric';
  * ```tsx
  * // Modo fixed: teclado sempre visível com TextField próprio
  * <VirtualKeyboard
- *   mode="fixed"
+ *   variant="fixed"
  *   type="default"
  *   textFieldLabel="Digite aqui"
  *   onChange={(value) => setValue(value)}
@@ -28,8 +28,8 @@ export type VirtualKeyboardType = 'default' | 'numeric';
  * ```tsx
  * // Modo native: teclado gerenciado externamente (futuramente acionado por foco)
  * <VirtualKeyboard
- *   mode="native"
- *   variant="numeric"
+ *   variant="native"
+ *   type="numeric"
  *   value={pin}
  *   onChange={setPin}
  *   maxLength={4}
@@ -43,7 +43,7 @@ export interface VirtualKeyboardProps extends Omit<BaseProps, 'disabled'> {
    * - `fixed`: teclado fixo na tela com um TextField próprio acima.
    * @default 'native'
    */
-  mode?: VirtualKeyboardMode;
+  variant?: VirtualKeyboardVariant;
 
   /** Valor controlado do input vinculado ao teclado */
   value?: string;
@@ -88,3 +88,6 @@ export interface VirtualKeyboardProps extends Omit<BaseProps, 'disabled'> {
 
 /** @deprecated Use `VirtualKeyboardType` */
 export type VirtualKeyboardLayout = VirtualKeyboardType;
+
+/** @deprecated Use `VirtualKeyboardVariant` */
+export type VirtualKeyboardMode = VirtualKeyboardVariant;

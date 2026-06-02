@@ -44,7 +44,7 @@ import { VirtualKeyboard } from '@giro-ds/react';
       No modo <strong>native</strong>, passe um <code>ref</code> do campo de texto para a prop <code>targetRef</code>. O teclado aparecerá ao focar no campo e sumirá ao perder o foco.
     </>,
     <>
-      Use <code>showSmileysButton</code> para controlar se o botao <code>{'{smileys}'}</code> deve aparecer. Isso permite ativar ou desativar emojis conforme a regra de negocio da tela.
+      Use <code>showEmoticonButton</code> para controlar se o botao <code>{'{emoticon}'}</code> deve aparecer. Isso permite ativar ou desativar emojis conforme a regra de negocio da tela.
     </>,
   ]}
 />
@@ -53,7 +53,7 @@ import { VirtualKeyboard } from '@giro-ds/react';
 
 ## Modos
 
-O VirtualKeyboard possui dois modos de exibição, configurados pela prop `mode`.
+O VirtualKeyboard possui dois modos de exibição, configurados pela prop `variant`.
 
 ### Fixed
 
@@ -92,7 +92,7 @@ Indicado para entradas de PINs, senhas e códigos. Exibe apenas os dígitos de 0
 
 ### Sem botao de smileys
 
-Quando a tela nao deve permitir emojis, desative o botao de smileys com <code>showSmileysButton=false</code>.
+Quando a tela nao deve permitir emojis, desative o botao de smileys com <code>showEmoticonButton=false</code>.
 
 <Canvas of={VirtualKeyboardStories.SemSmileys} />
 
@@ -106,7 +106,7 @@ Quando a tela nao deve permitir emojis, desative o botao de smileys com <code>sh
       positive: {
         component: (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', width: '240px' }}>
-            <VirtualKeyboard mode="fixed" variant="numeric" />
+            <VirtualKeyboard variant="fixed" type="numeric" />
           </div>
         ),
         description: 'Use o layout numérico para campos que aceitam somente dígitos, como PINs e códigos de verificação.'
@@ -114,7 +114,7 @@ Quando a tela nao deve permitir emojis, desative o botao de smileys com <code>sh
       negative: {
         component: (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', width: '420px' }}>
-            <VirtualKeyboard mode="fixed" variant="default" />
+            <VirtualKeyboard variant="fixed" type="default" />
           </div>
         ),
         description: 'Evite usar o layout QWERTY completo quando o campo aceita apenas números. Isso sobrecarrega a interface desnecessariamente.'
@@ -124,7 +124,7 @@ Quando a tela nao deve permitir emojis, desative o botao de smileys com <code>sh
       positive: {
         component: (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', width: '240px' }}>
-            <VirtualKeyboard mode="fixed" variant="numeric" maxLength={4} />
+            <VirtualKeyboard variant="fixed" type="numeric" maxLength={4} />
           </div>
         ),
         description: 'Defina maxLength no teclado quando o campo tiver limite de caracteres. Isso sincroniza o comportamento de ambos.'
@@ -132,7 +132,7 @@ Quando a tela nao deve permitir emojis, desative o botao de smileys com <code>sh
       negative: {
         component: (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', width: '240px' }}>
-            <VirtualKeyboard mode="fixed" variant="numeric" />
+            <VirtualKeyboard variant="fixed" type="numeric" />
           </div>
         ),
         description: 'Evite omitir maxLength quando o campo tem restrição de tamanho. O teclado continuará aceitando entrada além do limite esperado.'

@@ -112,23 +112,23 @@ describe('VirtualKeyboard', () => {
   // ───────────────────────────────────────────────────────────────────────────
   describe('Renderização básica', () => {
     it('deve renderizar o teclado no modo fixed', () => {
-      render(<VirtualKeyboard mode="fixed" />);
+      render(<VirtualKeyboard variant="fixed" />);
       expect(screen.getByTestId('keyboard')).toBeInTheDocument();
     });
 
     it('deve renderizar o teclado no modo native sem targetRef (sempre visível)', async () => {
-      render(<VirtualKeyboard mode="native" />);
+      render(<VirtualKeyboard variant="native" />);
       // O teclado é portalled para document.body; screen consulta o documento inteiro
       expect(await screen.findByTestId('keyboard')).toBeInTheDocument();
     });
 
     it('deve aplicar id customizado no modo fixed', () => {
-      const { container } = render(<VirtualKeyboard mode="fixed" id="meu-teclado" />);
+      const { container } = render(<VirtualKeyboard variant="fixed" id="meu-teclado" />);
       expect(container.querySelector('#meu-teclado')).toBeInTheDocument();
     });
 
     it('deve aplicar className customizada no modo fixed', () => {
-      const { container } = render(<VirtualKeyboard mode="fixed" className="classe-customizada" />);
+      const { container } = render(<VirtualKeyboard variant="fixed" className="classe-customizada" />);
       const wrapper = container.firstChild as HTMLElement;
       expect(wrapper.className).toContain('classe-customizada');
     });
@@ -137,29 +137,29 @@ describe('VirtualKeyboard', () => {
   // ───────────────────────────────────────────────────────────────────────────
   describe('Modo fixed', () => {
     it('deve renderizar TextField com label no modo fixed', () => {
-      render(<VirtualKeyboard mode="fixed" textFieldLabel="Digite aqui" />);
+      render(<VirtualKeyboard variant="fixed" textFieldLabel="Digite aqui" />);
       expect(screen.getByText('Digite aqui')).toBeInTheDocument();
     });
 
     it('deve renderizar TextField com placeholder no modo fixed', () => {
-      render(<VirtualKeyboard mode="fixed" textFieldPlaceholder="Escreva algo" />);
+      render(<VirtualKeyboard variant="fixed" textFieldPlaceholder="Escreva algo" />);
       expect(screen.getByPlaceholderText('Escreva algo')).toBeInTheDocument();
     });
 
     it('deve exibir o valor atual no TextField', () => {
-      render(<VirtualKeyboard mode="fixed" value="olá" />);
+      render(<VirtualKeyboard variant="fixed" value="olá" />);
       expect(screen.getByRole('textbox')).toHaveValue('olá');
     });
 
     it('deve renderizar helperText no TextField interno do modo fixed', () => {
-      render(<VirtualKeyboard mode="fixed" helperText="Texto de ajuda" />);
+      render(<VirtualKeyboard variant="fixed" helperText="Texto de ajuda" />);
       expect(screen.getByText('Texto de ajuda')).toBeInTheDocument();
     });
 
     it('deve renderizar errorMessage quando error for true no TextField interno', () => {
       render(
         <VirtualKeyboard
-          mode="fixed"
+          variant="fixed"
           error
           errorMessage="Mensagem de erro"
           helperText="Texto de ajuda"
@@ -171,12 +171,12 @@ describe('VirtualKeyboard', () => {
     });
 
     it('não deve renderizar TextField no modo native', () => {
-      render(<VirtualKeyboard mode="native" />);
+      render(<VirtualKeyboard variant="native" />);
       expect(screen.queryByRole('textbox')).not.toBeInTheDocument();
     });
 
     it('não deve exibir a tecla {downkeyboard} no modo fixed', () => {
-      render(<VirtualKeyboard mode="fixed" type="default" />);
+      render(<VirtualKeyboard variant="fixed" type="default" />);
       expect(screen.queryByTestId('key-downkeyboard')).not.toBeInTheDocument();
     });
   });
@@ -188,7 +188,7 @@ describe('VirtualKeyboard', () => {
       render(
         <>
           <input ref={ref} />
-          <VirtualKeyboard mode="native" targetRef={ref} />
+          <VirtualKeyboard variant="native" targetRef={ref} />
         </>
       );
       const overlay = document.querySelector('[class*="overlay"]') as HTMLElement;
@@ -200,7 +200,7 @@ describe('VirtualKeyboard', () => {
       render(
         <>
           <input data-testid="input-ref" ref={ref} />
-          <VirtualKeyboard mode="native" targetRef={ref} />
+          <VirtualKeyboard variant="native" targetRef={ref} />
         </>
       );
 
@@ -217,7 +217,7 @@ describe('VirtualKeyboard', () => {
       render(
         <>
           <input data-testid="input-ref" ref={ref} />
-          <VirtualKeyboard mode="native" targetRef={ref} />
+          <VirtualKeyboard variant="native" targetRef={ref} />
         </>
       );
 
@@ -239,7 +239,7 @@ describe('VirtualKeyboard', () => {
       render(
         <>
           <input data-testid="input-ref" ref={ref} />
-          <VirtualKeyboard mode="native" targetRef={ref} />
+          <VirtualKeyboard variant="native" targetRef={ref} />
         </>
       );
 
@@ -258,7 +258,7 @@ describe('VirtualKeyboard', () => {
   describe('Callback onChange', () => {
     it('deve chamar onChange ao pressionar uma tecla de caractere', () => {
       const onChange = vi.fn();
-      render(<VirtualKeyboard mode="fixed" onChange={onChange} value="" />);
+      render(<VirtualKeyboard variant="fixed" onChange={onChange} value="" />);
 
       fireEvent.click(screen.getByTestId('key-char'));
 
@@ -267,7 +267,7 @@ describe('VirtualKeyboard', () => {
 
     it('deve chamar onChange com texto atualizado após backspace', () => {
       const onChange = vi.fn();
-      render(<VirtualKeyboard mode="fixed" onChange={onChange} value="ab" />);
+      render(<VirtualKeyboard variant="fixed" onChange={onChange} value="ab" />);
 
       fireEvent.click(screen.getByTestId('key-bksp'));
 
@@ -276,9 +276,9 @@ describe('VirtualKeyboard', () => {
 
     it('deve respeitar limpeza externa antes de nova digitacao', () => {
       const onChange = vi.fn();
-      const { rerender } = render(<VirtualKeyboard mode="fixed" onChange={onChange} value="texto" />);
+      const { rerender } = render(<VirtualKeyboard variant="fixed" onChange={onChange} value="texto" />);
 
-      rerender(<VirtualKeyboard mode="fixed" onChange={onChange} value="" />);
+      rerender(<VirtualKeyboard variant="fixed" onChange={onChange} value="" />);
       fireEvent.click(screen.getByTestId('key-char'));
 
       expect(onChange).toHaveBeenLastCalledWith('a');
@@ -288,7 +288,7 @@ describe('VirtualKeyboard', () => {
       const Harness = () => {
         const [currentValue, setCurrentValue] = React.useState('texto');
 
-        return <VirtualKeyboard mode="fixed" value={currentValue} onChange={setCurrentValue} />;
+        return <VirtualKeyboard variant="fixed" value={currentValue} onChange={setCurrentValue} />;
       };
 
       render(<Harness />);
@@ -304,7 +304,7 @@ describe('VirtualKeyboard', () => {
 
     it('não deve chamar onChange quando o maxLength foi atingido', () => {
       const onChange = vi.fn();
-      render(<VirtualKeyboard mode="fixed" onChange={onChange} value="abc" maxLength={3} />);
+      render(<VirtualKeyboard variant="fixed" onChange={onChange} value="abc" maxLength={3} />);
 
       fireEvent.click(screen.getByTestId('key-char'));
 
@@ -313,7 +313,7 @@ describe('VirtualKeyboard', () => {
 
     it('deve chamar onChange quando o valor está abaixo do maxLength', () => {
       const onChange = vi.fn();
-      render(<VirtualKeyboard mode="fixed" onChange={onChange} value="ab" maxLength={3} />);
+      render(<VirtualKeyboard variant="fixed" onChange={onChange} value="ab" maxLength={3} />);
 
       fireEvent.click(screen.getByTestId('key-char'));
 
@@ -323,7 +323,7 @@ describe('VirtualKeyboard', () => {
     it('deve abrir menu de acentos ao segurar uma vogal', () => {
       vi.useFakeTimers();
 
-      render(<VirtualKeyboard mode="fixed" value="" />);
+      render(<VirtualKeyboard variant="fixed" value="" />);
 
       fireEvent.pointerDown(screen.getByTestId('key-char'));
       act(() => {
@@ -338,7 +338,7 @@ describe('VirtualKeyboard', () => {
       vi.useFakeTimers();
       const onChange = vi.fn();
 
-      render(<VirtualKeyboard mode="fixed" onChange={onChange} value="" />);
+      render(<VirtualKeyboard variant="fixed" onChange={onChange} value="" />);
 
       fireEvent.pointerDown(screen.getByTestId('key-char'));
       act(() => {
@@ -355,7 +355,7 @@ describe('VirtualKeyboard', () => {
       vi.useFakeTimers();
       const onChange = vi.fn();
 
-      render(<VirtualKeyboard mode="fixed" onChange={onChange} value="" />);
+      render(<VirtualKeyboard variant="fixed" onChange={onChange} value="" />);
 
       fireEvent.pointerDown(screen.getByTestId('key-char'));
       act(() => {
@@ -375,7 +375,7 @@ describe('VirtualKeyboard', () => {
   describe('Callback onKeyPress', () => {
     it('deve chamar onKeyPress ao pressionar uma tecla de caractere', () => {
       const onKeyPress = vi.fn();
-      render(<VirtualKeyboard mode="fixed" onKeyPress={onKeyPress} value="" />);
+      render(<VirtualKeyboard variant="fixed" onKeyPress={onKeyPress} value="" />);
 
       fireEvent.click(screen.getByTestId('key-char'));
 
@@ -384,7 +384,7 @@ describe('VirtualKeyboard', () => {
 
     it('não deve chamar onKeyPress para teclas de controle de layout (shift)', () => {
       const onKeyPress = vi.fn();
-      render(<VirtualKeyboard mode="fixed" onKeyPress={onKeyPress} value="" />);
+      render(<VirtualKeyboard variant="fixed" onKeyPress={onKeyPress} value="" />);
 
       fireEvent.click(screen.getByTestId('key-shift'));
 
@@ -393,7 +393,7 @@ describe('VirtualKeyboard', () => {
 
     it('não deve chamar onKeyPress para a tecla {enter} (tratada internamente pelo Keyboard)', () => {
       const onKeyPress = vi.fn();
-      render(<VirtualKeyboard mode="fixed" onKeyPress={onKeyPress} value="" />);
+      render(<VirtualKeyboard variant="fixed" onKeyPress={onKeyPress} value="" />);
 
       fireEvent.click(screen.getByTestId('key-enter'));
 
@@ -405,12 +405,12 @@ describe('VirtualKeyboard', () => {
   // ───────────────────────────────────────────────────────────────────────────
   describe('Alternância de layout (Shift / CapsLock)', () => {
     it('deve iniciar com layoutName "default"', () => {
-      render(<VirtualKeyboard mode="fixed" value="" />);
+      render(<VirtualKeyboard variant="fixed" value="" />);
       expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'default');
     });
 
     it('deve alternar para layout "shift" ao pressionar {shift}', () => {
-      render(<VirtualKeyboard mode="fixed" value="" />);
+      render(<VirtualKeyboard variant="fixed" value="" />);
 
       fireEvent.click(screen.getByTestId('key-shift'));
 
@@ -418,7 +418,7 @@ describe('VirtualKeyboard', () => {
     });
 
     it('deve voltar para layout "default" ao pressionar {shift} novamente', () => {
-      render(<VirtualKeyboard mode="fixed" value="" />);
+      render(<VirtualKeyboard variant="fixed" value="" />);
 
       fireEvent.click(screen.getByTestId('key-shift'));
       fireEvent.click(screen.getByTestId('key-shift'));
@@ -427,7 +427,7 @@ describe('VirtualKeyboard', () => {
     });
 
     it('deve alternar para layout "shift" ao pressionar {shiftleft}', () => {
-      render(<VirtualKeyboard mode="fixed" value="" />);
+      render(<VirtualKeyboard variant="fixed" value="" />);
 
       fireEvent.click(screen.getByTestId('key-shiftleft'));
 
@@ -435,7 +435,7 @@ describe('VirtualKeyboard', () => {
     });
 
     it('deve ativar CapsLock (layout caps) ao pressionar {capslock}', () => {
-      render(<VirtualKeyboard mode="fixed" value="" />);
+      render(<VirtualKeyboard variant="fixed" value="" />);
 
       fireEvent.click(screen.getByTestId('key-capslock'));
 
@@ -443,7 +443,7 @@ describe('VirtualKeyboard', () => {
     });
 
     it('deve desativar CapsLock (layout default) ao pressionar {shiftactivated}', () => {
-      render(<VirtualKeyboard mode="fixed" value="" />);
+      render(<VirtualKeyboard variant="fixed" value="" />);
 
       fireEvent.click(screen.getByTestId('key-capslock'));
       fireEvent.click(screen.getByTestId('key-shiftactivated'));
@@ -452,7 +452,7 @@ describe('VirtualKeyboard', () => {
     });
 
     it('deve voltar a ativar CapsLock após ciclo ligar > desligar > ligar', () => {
-      render(<VirtualKeyboard mode="fixed" value="" />);
+      render(<VirtualKeyboard variant="fixed" value="" />);
 
       fireEvent.click(screen.getByTestId('key-capslock'));
       expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'caps');
@@ -466,7 +466,7 @@ describe('VirtualKeyboard', () => {
     });
 
     it('deve voltar para "default" após digitar um caractere com Shift ativo (sem CapsLock)', () => {
-      render(<VirtualKeyboard mode="fixed" value="" />);
+      render(<VirtualKeyboard variant="fixed" value="" />);
 
       fireEvent.click(screen.getByTestId('key-shift'));
       expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'shift');
@@ -478,7 +478,7 @@ describe('VirtualKeyboard', () => {
     });
 
     it('deve permanecer em "caps" após digitar quando CapsLock está ativo', () => {
-      render(<VirtualKeyboard mode="fixed" value="" />);
+      render(<VirtualKeyboard variant="fixed" value="" />);
 
       fireEvent.click(screen.getByTestId('key-capslock'));
       fireEvent.click(screen.getByTestId('key-char'));
@@ -487,7 +487,7 @@ describe('VirtualKeyboard', () => {
     });
 
     it('deve tratar Shift como temporário após desativar CapsLock', () => {
-      render(<VirtualKeyboard mode="fixed" value="" />);
+      render(<VirtualKeyboard variant="fixed" value="" />);
 
       fireEvent.click(screen.getByTestId('key-capslock'));
       fireEvent.click(screen.getByTestId('key-shiftactivated'));
@@ -501,7 +501,7 @@ describe('VirtualKeyboard', () => {
     });
 
     it('deve alternar para layout "numbers" ao pressionar {numbers} (default)', () => {
-      render(<VirtualKeyboard mode="fixed" type="default" value="" />);
+      render(<VirtualKeyboard variant="fixed" type="default" value="" />);
 
       fireEvent.click(screen.getByTestId('key-numbers'));
 
@@ -509,7 +509,7 @@ describe('VirtualKeyboard', () => {
     });
 
     it('deve voltar para "default" ao pressionar {abc} (default)', () => {
-      render(<VirtualKeyboard mode="fixed" type="default" value="" />);
+      render(<VirtualKeyboard variant="fixed" type="default" value="" />);
 
       fireEvent.click(screen.getByTestId('key-numbers'));
       fireEvent.click(screen.getByTestId('key-abc'));
@@ -518,7 +518,7 @@ describe('VirtualKeyboard', () => {
     });
 
     it('deve alternar para layout "alt" ao pressionar {alt} (default)', () => {
-      render(<VirtualKeyboard mode="fixed" type="default" value="" />);
+      render(<VirtualKeyboard variant="fixed" type="default" value="" />);
 
       fireEvent.click(screen.getByTestId('key-alt'));
 
@@ -526,7 +526,7 @@ describe('VirtualKeyboard', () => {
     });
 
     it('deve voltar para "default" ao pressionar {alt} pela segunda vez', () => {
-      render(<VirtualKeyboard mode="fixed" type="default" value="" />);
+      render(<VirtualKeyboard variant="fixed" type="default" value="" />);
 
       fireEvent.click(screen.getByTestId('key-alt'));
       fireEvent.click(screen.getByTestId('key-alt'));
@@ -535,7 +535,7 @@ describe('VirtualKeyboard', () => {
     });
 
     it('deve alternar para layout "alt2" ao pressionar {alt2}', () => {
-      render(<VirtualKeyboard mode="fixed" value="" />);
+      render(<VirtualKeyboard variant="fixed" value="" />);
 
       fireEvent.click(screen.getByTestId('key-alt'));
       fireEvent.click(screen.getByTestId('key-alt2'));
@@ -544,7 +544,7 @@ describe('VirtualKeyboard', () => {
     });
 
     it('deve voltar para layout "alt" ao pressionar {alt2} novamente', () => {
-      render(<VirtualKeyboard mode="fixed" value="" />);
+      render(<VirtualKeyboard variant="fixed" value="" />);
 
       fireEvent.click(screen.getByTestId('key-alt'));
       fireEvent.click(screen.getByTestId('key-alt2'));
@@ -554,7 +554,7 @@ describe('VirtualKeyboard', () => {
     });
 
     it('deve alternar para layout "emoticon" ao pressionar {emoticon} (default)', () => {
-      render(<VirtualKeyboard mode="fixed" showEmoticonButton={true} type="default" value="" />);
+      render(<VirtualKeyboard variant="fixed" showEmoticonButton={true} type="default" value="" />);
 
       fireEvent.click(screen.getByTestId('key-emoticon'));
 
@@ -562,7 +562,7 @@ describe('VirtualKeyboard', () => {
     });
 
     it('deve ocultar o botão emoticon quando showEmoticonButton for false', () => {
-      render(<VirtualKeyboard mode="fixed" type="default" value="" showEmoticonButton={false} />);
+      render(<VirtualKeyboard variant="fixed" type="default" value="" showEmoticonButton={false} />);
 
       expect(screen.queryByTestId('key-emoticon')).not.toBeInTheDocument();
     });
@@ -575,7 +575,7 @@ describe('VirtualKeyboard', () => {
       ['default' as const],
       ['numeric' as const],
     ])('deve renderizar o layout nativo "%s"', (layout) => {
-      render(<VirtualKeyboard mode="fixed" type={layout} />);
+      render(<VirtualKeyboard variant="fixed" type={layout} />);
       expect(screen.getByTestId('keyboard')).toBeInTheDocument();
     });
   });
@@ -584,12 +584,12 @@ describe('VirtualKeyboard', () => {
   // ───────────────────────────────────────────────────────────────────────────
   describe('Reinicialização ao trocar de layout', () => {
     it('deve resetar layoutName para "default" ao trocar o prop layout', () => {
-      const { rerender } = render(<VirtualKeyboard mode="fixed" type="default" value="" />);
+      const { rerender } = render(<VirtualKeyboard variant="fixed" type="default" value="" />);
 
       fireEvent.click(screen.getByTestId('key-shift'));
       expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'shift');
 
-      rerender(<VirtualKeyboard mode="fixed" type="numeric" value="" />);
+      rerender(<VirtualKeyboard variant="fixed" type="numeric" value="" />);
 
       expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'default');
     });

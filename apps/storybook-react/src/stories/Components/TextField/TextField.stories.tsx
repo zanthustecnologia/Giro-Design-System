@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-import { TextField } from '@giro-ds/react';
 import { Mail16Regular, Clock16Regular, ArrowUpload16Regular } from '@fluentui/react-icons';
+import { TextField } from '@giro-ds/react';
+import React, { useState } from 'react';
+
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 type Story = StoryObj<typeof TextField>;
 
@@ -104,18 +105,10 @@ const meta: Meta<typeof TextField> = {
       control: 'boolean',
       description: 'Exibe o teclado virtual ao clicar no campo'
     },
-    virtualKeyboardVariant: {
+    virtualKeyboardType: {
       control: 'select',
       options: [
-        'default', 'numeric', 'fullKeyboard', 'mobile', 'appleIOS',
-        'arabic', 'armenianEastern', 'armenianWestern', 'assamese', 'balochi',
-        'belarusian', 'bengali', 'brazilian', 'burmese', 'chinese', 'czech',
-        'english', 'farsi', 'french', 'georgian', 'german', 'gilaki', 'greek',
-        'hebrew', 'hindi', 'hungarian', 'italian', 'japanese', 'kannada',
-        'korean', 'kurdish', 'macedonian', 'malayalam', 'nigerian', 'nko',
-        'norwegian', 'odia', 'polish', 'punjabi', 'russian', 'russianOld',
-        'sindhi', 'spanish', 'swedish', 'telugu', 'thai', 'turkish',
-        'ukrainian', 'urdu', 'urduStandard', 'uyghur',
+        'default', 'numeric',
       ],
       description: 'Layout do teclado virtual',
       if: { arg: 'virtualKeyboard', truthy: true },
@@ -233,7 +226,7 @@ export const WithVirtualKeyboard: Story = {
     label: 'Campo de texto',
     placeholder: 'Clique aqui para abrir o teclado...',
     virtualKeyboard: true,
-    virtualKeyboardVariant: 'default',
+    virtualKeyboardType: 'default',
     disabled: false,
   },
   render: (args) => {

@@ -12,7 +12,6 @@ import styles from './VirtualKeyboard.module.scss';
 import type { VirtualKeyboardProps } from './VirtualKeyboard.type';
 
 const LONG_PRESS_DELAY_MS = 400;
-const ACTION_KEY_PATTERN = /^\{.+\}$/;
 
 const ACCENT_OPTIONS: Record<string, string[]> = {
   a: ['á', 'à', 'â', 'ã', 'ä'],
@@ -43,7 +42,7 @@ type AccentMenuState = {
  * @example
  * ```tsx
  * // Modo fixed
- * <VirtualKeyboard mode="fixed" type="default" onChange={setValue} />
+ * <VirtualKeyboard variant="fixed" type="default" onChange={setValue} />
  * ```
  *
  * @example
@@ -56,7 +55,7 @@ type AccentMenuState = {
  * ```
  */
 const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
-  mode = 'native',
+  variant = 'native',
   type = 'default',
   value = '',
   onChange,
@@ -77,11 +76,11 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
   const [accentMenu, setAccentMenu] = useState<AccentMenuState | null>(null);
   const [accentMenuOffsetX, setAccentMenuOffsetX] = useState(0);
   const [activeLayout, setActiveLayout] = useState<Record<string, string[]> | null>(
-    getNativeLayout(type, showEmoticonButton, mode === 'native')
+    getNativeLayout(type, showEmoticonButton, variant === 'native')
   );
   const visualType = NATIVE_LAYOUT_KEYS.has(type) ? type : 'default';
 
-  const [isOpen, setIsOpen] = useState(mode !== 'native');
+  const [isOpen, setIsOpen] = useState(variant !== 'native');
   const hideTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const longPressTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const suppressNextInputRef = useRef<string | null>(null);
@@ -117,7 +116,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
   }, [value, syncKeyboardInput]);
 
   const scheduleHideIfBlurred = useCallback(() => {
-    if (mode !== 'native') return;
+    if (variant !== 'native') return;
 
     if (hideTimeoutRef.current !== null) {
       clearTimeout(hideTimeoutRef.current);
@@ -131,10 +130,10 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
         setIsOpen(false);
       }
     }, 150);
-  }, [mode, targetRef]);
+  }, [variant, targetRef]);
 
   useEffect(() => {
-    if (mode !== 'native') return;
+    if (variant !== 'native') return;
 
     if (!targetRef?.current) {
       setIsOpen(true);
@@ -160,14 +159,14 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
       el.removeEventListener('blur', handleBlur);
       if (hideTimeoutRef.current !== null) clearTimeout(hideTimeoutRef.current);
     };
-  }, [mode, targetRef, scheduleHideIfBlurred]);
+  }, [variant, targetRef, scheduleHideIfBlurred]);
 
   useEffect(() => {
     setLayoutName('default');
     setCapsLockOn(false);
 
-    setActiveLayout(getNativeLayout(type, showEmoticonButton, mode === 'native'));
-  }, [type, showEmoticonButton, mode]);
+    setActiveLayout(getNativeLayout(type, showEmoticonButton, variant === 'native'));
+  }, [type, showEmoticonButton, variant]);
 
   useEffect(() => {
     if (!showEmoticonButton && layoutName === 'emoticon') {
@@ -396,7 +395,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
       if (button === '{downkeyboard}') {
         setLayoutName(baseLayout);
 
-        if (mode === 'native') {
+        if (variant === 'native') {
           closeAccentMenu();
           setIsOpen(false);
 
@@ -431,7 +430,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
       capsLockOn,
       onKeyPress,
       showEmoticonButton,
-      mode,
+      variant,
       closeAccentMenu,
       targetRef,
     ]
@@ -529,7 +528,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
     </div>
   ) : null;
 
-  if (mode === 'native' && typeof document !== 'undefined') {
+  if (variant === 'native' && typeof document !== 'undefined') {
     return createPortal(
       <div
         id={id}
@@ -551,12 +550,12 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
       id={id}
       className={clsx(
         styles.container,
-        styles[`mode--${mode}`],
+        styles[`mode--${variant}`],
         styles[`layout--${visualType}`],
         className
       )}
     >
-      {mode === 'fixed' && (
+      {variant === 'fixed' && (
         <div className={styles.textFieldContainer}>
           <TextField
             label={textFieldLabel}

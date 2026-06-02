@@ -147,7 +147,7 @@ const Search = React.forwardRef<HTMLInputElement, SearchProps>(
         {virtualKeyboard && (
           <div className={styles.virtualKeyboardWrapper}>
             <VirtualKeyboard
-              mode="native"
+              variant="native"
               type={virtualKeyboardType}
               maxLength={virtualKeyboardMaxLength}
               value={currentValue || ''}

@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
 import { TextArea } from '@giro-ds/react';
-import { Source } from '@storybook/addon-docs/blocks';
+import React, { useState } from 'react';
+
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 type Story = StoryObj<typeof TextArea>;
 
@@ -95,18 +95,10 @@ const meta: Meta<typeof TextArea> = {
       control: 'boolean',
       description: 'Exibe o teclado virtual ao clicar no campo'
     },
-    virtualKeyboardVariant: {
+    virtualKeyboardType: {
       control: 'select',
       options: [
-        'default', 'numeric', 'fullKeyboard', 'mobile', 'appleIOS',
-        'arabic', 'armenianEastern', 'armenianWestern', 'assamese', 'balochi',
-        'belarusian', 'bengali', 'brazilian', 'burmese', 'chinese', 'czech',
-        'english', 'farsi', 'french', 'georgian', 'german', 'gilaki', 'greek',
-        'hebrew', 'hindi', 'hungarian', 'italian', 'japanese', 'kannada',
-        'korean', 'kurdish', 'macedonian', 'malayalam', 'nigerian', 'nko',
-        'norwegian', 'odia', 'polish', 'punjabi', 'russian', 'russianOld',
-        'sindhi', 'spanish', 'swedish', 'telugu', 'thai', 'turkish',
-        'ukrainian', 'urdu', 'urduStandard', 'uyghur',
+        'default', 'numeric',
       ],
       description: 'Layout do teclado virtual',
       if: { arg: 'virtualKeyboard', truthy: true },
@@ -154,7 +146,7 @@ export const WithVirtualKeyboard: Story = {
     label: 'Comentário',
     placeholder: 'Clique aqui para abrir o teclado...',
     virtualKeyboard: true,
-    virtualKeyboardVariant: 'default',
+    virtualKeyboardType: 'default',
     disabled: false,
   },
   render: (args) => {
