@@ -17,6 +17,7 @@ const meta: Meta<typeof Checkbox> = {
     scale: {
       control: { type: 'select' },
       options: [1, 1.5, 2],
+      description: 'Escala visual do componente.',
     },
   },
 }

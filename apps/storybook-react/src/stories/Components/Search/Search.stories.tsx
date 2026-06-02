@@ -12,7 +12,6 @@ const meta: Meta<typeof Search> = {
     placeholder: { control: { type: 'text' } },
     disabled: { control: { type: 'boolean' } },
     searchMode: { control: { type: 'select' }, options: ['instant', 'on-enter'] },
-    scale: { control: { type: 'select' }, options: [1, 1.5, 2] },
     value: { control: false },
     onChange: { control: false },
     onSearch: { control: false },
@@ -22,6 +21,11 @@ const meta: Meta<typeof Search> = {
     onClear: { control: false },
     onClick: { control: false },
     onMouseDown: { control: false },
+    scale: {
+      control: { type: 'select' },
+      options: [1, 1.5, 2],
+      description: 'Escala visual do componente.',
+    },
   },
 };
 

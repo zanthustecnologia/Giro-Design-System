@@ -24,10 +24,12 @@ export default {
     size: {
       control: { type: 'select' },
       options: ['lg', 'sm'],
+      description: 'Tamanho do componente.',
     },
     scale: {
       control: { type: 'select' },
       options: [1, 1.5, 2],
+      description: 'Escala visual do componente.',
     },
     icon: {
       control: { type: 'select' },
@@ -49,9 +51,11 @@ export default {
     },
     disabled: {
       control: { type: 'boolean' },
+      description: 'Desabilita o componente.',
     },
     loading: {
       control: { type: 'boolean' },
+      description: 'Exibe um indicador de carregamento.',
     },
     to: {
       control: { type: 'text' },

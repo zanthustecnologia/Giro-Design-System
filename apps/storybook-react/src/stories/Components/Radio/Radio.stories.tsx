@@ -27,6 +27,7 @@ const meta: Meta<typeof Radio> = {
     scale: {
       control: { type: 'select' },
       options: [1, 1.5, 2],
+      description: 'Escala visual do componente.',
     },
     onValueChange: {
       action: 'valueChanged',

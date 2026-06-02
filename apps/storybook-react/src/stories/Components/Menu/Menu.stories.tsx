@@ -28,6 +28,7 @@ const meta: Meta<typeof Menu> = {
     dropdownScale: {
       control: { type: 'select' },
       options: [1, 1.5, 2],
+      description: 'Escala visual do dropdown do menu.',
     },
     buttonScale: {
       control: { type: 'select' },

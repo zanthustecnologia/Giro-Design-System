@@ -17,6 +17,7 @@ const meta: Meta<typeof Calendar> = {
     scale: {
       control: { type: 'select' },
       options: [1, 1.5, 2],
+      description: 'Escala visual do componente.',
     },
   },
 } satisfies Meta<typeof Calendar>;
