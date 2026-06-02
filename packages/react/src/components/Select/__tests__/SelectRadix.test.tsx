@@ -243,7 +243,7 @@ describe('Select Component', () => {
         />
       );
 
-      const wrapper = container.querySelector('[class*="select-scale-1-0"]');
+      const wrapper = container.querySelector('.scale-1-0');
       expect(wrapper).toBeInTheDocument();
     });
 
@@ -257,7 +257,7 @@ describe('Select Component', () => {
         />
       );
 
-      const wrapper = container.querySelector('[class*="select-scale-1-5"]');
+      const wrapper = container.querySelector('.scale-1-5');
       expect(wrapper).toBeInTheDocument();
     });
 
@@ -271,7 +271,7 @@ describe('Select Component', () => {
         />
       );
 
-      const wrapper = container.querySelector('[class*="select-scale-2-0"]');
+      const wrapper = container.querySelector('.scale-2-0');
       expect(wrapper).toBeInTheDocument();
     });
 

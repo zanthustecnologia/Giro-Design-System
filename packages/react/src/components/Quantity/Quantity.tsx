@@ -242,13 +242,13 @@ const Quantity: React.FC<QuantityProps> = ({
   const inputId = id || uniqueId;
 
   const scaleClass = {
-    1: 'quantity-scale-1-0',
-    1.5: 'quantity-scale-1-5',
-    2: 'quantity-scale-2-0',
+    1: 'scale-1-0',
+    1.5: 'scale-1-5',
+    2: 'scale-2-0',
   }[scale];
 
   return (
-    <div className={clsx(styles.quantity, styles[scaleClass], { [styles.disabled]: disabled }, className)} {...rest}>
+    <div className={clsx(styles.quantity, scaleClass, { [styles.disabled]: disabled }, className)} {...rest}>
       <Button
         variant='outlined'
         size={size}

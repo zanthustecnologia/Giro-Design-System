@@ -21,15 +21,15 @@ const Radio: React.FC<RadioGroupProps> = ({
   const componentId = id || generatedId;
 
   const scaleClass = {
-    1: 'radio-scale-1-0',
-    1.5: 'radio-scale-1-5',
-    2: 'radio-scale-2-0',
+    1: 'scale-1-0',
+    1.5: 'scale-1-5',
+    2: 'scale-2-0',
   }[scale];
 
   return (
     <RadioGroup.Root
       id={componentId}
-      className={clsx(styles.root, styles[scaleClass], className)}
+      className={clsx(styles.root, scaleClass, className)}
       defaultValue={defaultValue}
       onValueChange={onValueChange}
       name={name}

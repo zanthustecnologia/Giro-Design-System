@@ -36,9 +36,9 @@ const Search = React.forwardRef<HTMLInputElement, SearchProps>(
     const inputId = id || generatedId;
 
     const scaleClass = {
-      1: 'search-scale-1-0',
-      1.5: 'search-scale-1-5',
-      2: 'search-scale-2-0',
+      1: 'scale-1-0',
+      1.5: 'scale-1-5',
+      2: 'scale-2-0',
     }[scale];
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -91,7 +91,7 @@ const Search = React.forwardRef<HTMLInputElement, SearchProps>(
       <div 
         className={clsx(
           styles.search,
-          styles[scaleClass],
+          scaleClass,
           { [styles.disabled]: disabled },
           className
         )} 

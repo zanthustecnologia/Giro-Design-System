@@ -15,13 +15,13 @@ const Switch: React.FC<SwitchProps> = ({
 	...rest
 }) => {
 	const scaleClass = {
-		1: 'switch-scale-1-0',
-		1.5: 'switch-scale-1-5',
-		2: 'switch-scale-2-0',
+		1: 'scale-1-0',
+		1.5: 'scale-1-5',
+		2: 'scale-2-0',
 	}[scale];
 
 	return (
-		<div className={clsx(styles.container, styles[scaleClass], className)}>
+		<div className={clsx(styles.container, scaleClass, className)}>
 			<SwitchRadix.Root  
 				className={styles.switchRoot} 
 				disabled={disabled} 

@@ -42,9 +42,9 @@ const Menu: React.FC<MenuProps> = ({
   const maxHeightStyle = typeof maxHeight === 'number' ? `${maxHeight}px` : maxHeight;
 
   const scaleClass = {
-    1: 'menu-scale-1-0',
-    1.5: 'menu-scale-1-5',
-    2: 'menu-scale-2-0',
+    1: 'scale-1-0',
+    1.5: 'scale-1-5',
+    2: 'scale-2-0',
   }[dropdownScale];
 
   const triggerWithScale = React.isValidElement(children) && buttonScale
@@ -227,7 +227,7 @@ const Menu: React.FC<MenuProps> = ({
       <DropdownMenu.Trigger asChild>{triggerWithScale}</DropdownMenu.Trigger>
       <DropdownMenu.Portal>
         <DropdownMenu.Content
-          className={clsx(styles.content, styles[scaleClass], className)}
+          className={clsx(styles.content, scaleClass, className)}
           sideOffset={8}
           align={align}
           onPointerDown={() => { closedByPointerRef.current = true; }}

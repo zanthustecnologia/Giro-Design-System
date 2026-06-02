@@ -119,15 +119,14 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
         : undefined;
 
     const scaleClass = {
-      1: 'textfield-scale-1-0',
-      1.5: 'textfield-scale-1-5',
-      2: 'textfield-scale-2-0',
+      1: 'scale-1-0',
+      1.5: 'scale-1-5',
+      2: 'scale-2-0',
     }[scale];
 
-    const containerClass = clsx(styles.container, {
+    const containerClass = clsx(styles.container, scaleClass, {
       [styles.disabled]: disabled,
       [styles.error]: hasError && !disabled,
-      [styles[scaleClass]]: true,
       [className!]: className,
     });
 

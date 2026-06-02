@@ -70,16 +70,16 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPro
   const resolvedIcon = icon;
 
   const scaleClass = {
-    1: 'button-scale-1-0',
-    1.5: 'button-scale-1-5',
-    2: 'button-scale-2-0',
+    1: 'scale-1-0',
+    1.5: 'scale-1-5',
+    2: 'scale-2-0',
   }[scale];
 
   const buttonClasses = clsx(
     styles.button,
     styles[`button-${variant}`],
     styles[`button-${size}`],
-    styles[scaleClass],
+    scaleClass,
     {
       [styles['disabled']]: disabled,
       [styles['buttonLoading']]: loading,

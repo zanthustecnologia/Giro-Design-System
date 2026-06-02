@@ -4,21 +4,6 @@
   gap: var(--spacing-8);
 }
 
-.container.checkbox-scale-1-0 {
-  transform: scale(1);
-  transform-origin: top left;
-}
-
-.container.checkbox-scale-1-5 {
-  transform: scale(1.5);
-  transform-origin: top left;
-}
-
-.container.checkbox-scale-2-0 {
-  transform: scale(2);
-  transform-origin: top left;
-}
-
 .root {
   all: unset;
   position: relative;

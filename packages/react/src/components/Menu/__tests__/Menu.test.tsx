@@ -555,7 +555,7 @@ describe('Menu', () => {
       await user.click(screen.getByText('Abrir Menu'));
 
       await waitFor(() => {
-        const content = document.querySelector('[class*="menu-scale-1-0"]');
+        const content = document.querySelector('.scale-1-0');
         expect(content).toBeInTheDocument();
       });
     });
@@ -564,7 +564,7 @@ describe('Menu', () => {
       const user = userEvent.setup();
 
       render(
-        <Menu items={mockItems} scale={1.5}>
+        <Menu items={mockItems} dropdownScale={1.5}>
           <button>Abrir Menu</button>
         </Menu>
       );
@@ -572,7 +572,7 @@ describe('Menu', () => {
       await user.click(screen.getByText('Abrir Menu'));
 
       await waitFor(() => {
-        const content = document.querySelector('[class*="menu-scale-1-5"]');
+        const content = document.querySelector('.scale-1-5');
         expect(content).toBeInTheDocument();
       });
     });
@@ -581,7 +581,7 @@ describe('Menu', () => {
       const user = userEvent.setup();
 
       render(
-        <Menu items={mockItems} scale={2}>
+        <Menu items={mockItems} dropdownScale={2}>
           <button>Abrir Menu</button>
         </Menu>
       );
@@ -589,7 +589,7 @@ describe('Menu', () => {
       await user.click(screen.getByText('Abrir Menu'));
 
       await waitFor(() => {
-        const content = document.querySelector('[class*="menu-scale-2-0"]');
+        const content = document.querySelector('.scale-2-0');
         expect(content).toBeInTheDocument();
       });
     });
@@ -602,7 +602,7 @@ describe('Menu', () => {
       );
 
       const trigger = screen.getByRole('button', { name: 'Abrir Menu' });
-      expect(trigger.className).toMatch(/button-scale-2-0/);
+      expect(trigger.className).toMatch(/scale-2-0/);
     });
   });
 

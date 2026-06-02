@@ -50,9 +50,9 @@ const DatePicker: React.FC<DatePickerProps> = ({
     : externalError || helperText || '';
 
   const scaleClass = {
-    1: 'datepicker-scale-1-0',
-    1.5: 'datepicker-scale-1-5',
-    2: 'datepicker-scale-2-0',
+    1: 'scale-1-0',
+    1.5: 'scale-1-5',
+    2: 'scale-2-0',
   }[scale];
 
   useEffect(() => {
@@ -181,7 +181,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
   };
 
   return (
-    <div ref={wrapperRef} className={clsx(styles.datePicker, styles[scaleClass], className)} {...rest}>
+    <div ref={wrapperRef} className={clsx(styles.datePicker, scaleClass, className)} {...rest}>
         <Popover
           open={showCalendar}
           onOpenChange={setShowCalendar}

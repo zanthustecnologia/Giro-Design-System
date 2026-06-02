@@ -19,9 +19,6 @@ vi.mock('../DatePicker.module.scss', () => ({
     textfieldContainer: 'textfieldContainer',
     datePickerIcon: 'datePickerIcon',
     datePickerIconDisabled: 'datePickerIconDisabled',
-    'datepicker-scale-1-0': 'datepicker-scale-1-0',
-    'datepicker-scale-1-5': 'datepicker-scale-1-5',
-    'datepicker-scale-2-0': 'datepicker-scale-2-0',
   },
 }));
 
@@ -274,19 +271,19 @@ describe('DatePicker', () => {
 
     it('aplica escala 1.0 por padrão', () => {
       const { container } = render(<DatePicker />);
-      const wrapper = container.querySelector('.datepicker-scale-1-0');
+      const wrapper = container.querySelector('.scale-1-0');
       expect(wrapper).toBeInTheDocument();
     });
 
     it('aplica escala 1.5 quando informado', () => {
       const { container } = render(<DatePicker scale={1.5} />);
-      const wrapper = container.querySelector('.datepicker-scale-1-5');
+      const wrapper = container.querySelector('.scale-1-5');
       expect(wrapper).toBeInTheDocument();
     });
 
     it('aplica escala 2.0 quando informado', () => {
       const { container } = render(<DatePicker scale={2} />);
-      const wrapper = container.querySelector('.datepicker-scale-2-0');
+      const wrapper = container.querySelector('.scale-2-0');
       expect(wrapper).toBeInTheDocument();
     });
 

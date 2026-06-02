@@ -108,9 +108,9 @@ const Select: React.FC<SelectProps> = ({
   }), [maxWidth]);
 
   const scaleClass = {
-    1: 'select-scale-1-0',
-    1.5: 'select-scale-1-5',
-    2: 'select-scale-2-0',
+    1: 'scale-1-0',
+    1.5: 'scale-1-5',
+    2: 'scale-2-0',
   }[scale];
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -162,7 +162,7 @@ const Select: React.FC<SelectProps> = ({
       {...rest}
     >
       <div
-        className={clsx(styles.container, styles[scaleClass], className)}
+        className={clsx(styles.container, scaleClass, className)}
         style={containerStyle}
         data-testid={testId}
       >
