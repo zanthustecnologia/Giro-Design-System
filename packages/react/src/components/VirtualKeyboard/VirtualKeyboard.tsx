@@ -94,10 +94,10 @@ const applyLanguageRowsToBase = (baseRows: string[], languageRows?: string[]): s
 
 const buildLanguageLayout = (
   languageLayout: Record<string, string[]> | undefined,
-  showSmileysButton: boolean,
+  showEmoticonButton: boolean,
   showDownKeyboardButton: boolean
 ): Record<string, string[]> | null => {
-  const baseLayout = getNativeLayout('default', showSmileysButton, showDownKeyboardButton);
+  const baseLayout = getNativeLayout('default', showEmoticonButton, showDownKeyboardButton);
   if (!baseLayout) return languageLayout ?? null;
   if (!languageLayout) return baseLayout;
 
@@ -154,7 +154,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
   onChange,
   onKeyPress,
   maxLength,
-  showSmileysButton = false,
+  showEmoticonButton = false,
   disabled = false,
   className,
   id,
@@ -170,7 +170,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
   const [accentMenu, setAccentMenu] = useState<AccentMenuState | null>(null);
   const [accentMenuOffsetX, setAccentMenuOffsetX] = useState(0);
   const [activeLayout, setActiveLayout] = useState<Record<string, string[]> | null>(
-    getNativeLayout(variant, showSmileysButton, mode === 'native')
+    getNativeLayout(variant, showEmoticonButton, mode === 'native')
   );
   const visualVariant = NATIVE_LAYOUT_KEYS.has(variant) ? variant : 'default';
 
@@ -260,18 +260,18 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
     setCapsLockOn(false);
 
     if (NATIVE_LAYOUT_KEYS.has(variant)) {
-      setActiveLayout(getNativeLayout(variant, showSmileysButton, mode === 'native'));
+      setActiveLayout(getNativeLayout(variant, showEmoticonButton, mode === 'native'));
     } else {
       const loaded = keyboardLayouts.get(variant) as { layout: Record<string, string[]> } | undefined;
-      setActiveLayout(buildLanguageLayout(loaded?.layout, showSmileysButton, mode === 'native'));
+      setActiveLayout(buildLanguageLayout(loaded?.layout, showEmoticonButton, mode === 'native'));
     }
-  }, [variant, showSmileysButton, mode]);
+  }, [variant, showEmoticonButton, mode]);
 
   useEffect(() => {
-    if (!showSmileysButton && layoutName === 'smileys') {
+    if (!showEmoticonButton && layoutName === 'emoticon') {
       setLayoutName(variant === 'numeric' ? 'abc' : 'default');
     }
-  }, [showSmileysButton, layoutName, variant]);
+  }, [showEmoticonButton, layoutName, variant]);
 
   useEffect(() => {
     return () => {
@@ -485,9 +485,9 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
         return;
       }
       if (button === '{alt2}') { setLayoutName((prev) => (prev === 'alt2' ? 'alt' : 'alt2')); return; }
-      if (button === '{smileys}') {
-        if (!showSmileysButton) return;
-        setLayoutName((prev) => (prev === 'smileys' ? baseLayout : 'smileys'));
+      if (button === '{emoticon}') {
+        if (!showEmoticonButton) return;
+        setLayoutName((prev) => (prev === 'emoticon' ? baseLayout : 'emoticon'));
         return;
       }
       if (button === '{symbols}') { setLayoutName((prev) => (prev === 'symbols' ? 'alt' : 'symbols')); return; }
@@ -533,7 +533,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
       layoutName,
       capsLockOn,
       onKeyPress,
-      showSmileysButton,
+      showEmoticonButton,
       mode,
       closeAccentMenu,
       targetRef,

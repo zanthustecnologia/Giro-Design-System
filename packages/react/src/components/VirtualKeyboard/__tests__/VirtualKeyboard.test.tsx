@@ -23,8 +23,8 @@ vi.mock('react-simple-keyboard', () => ({
       };
     }, [keyboardRef]);
 
-    const hasSmileysKey = Object.values(layout ?? {}).some((rows: any) =>
-      rows.some((row: string) => row.includes('{smileys}'))
+    const hasEmoticonKey = Object.values(layout ?? {}).some((rows: any) =>
+      rows.some((row: string) => row.includes('{emoticon}'))
     );
 
     const hasDownKeyboardKey = Object.values(layout ?? {}).some((rows: any) =>
@@ -84,9 +84,9 @@ vi.mock('react-simple-keyboard', () => ({
       <button data-testid="key-alt2" onClick={() => onKeyPress?.('{alt2}')}>
         alt2
       </button>
-      {hasSmileysKey && (
-        <button data-testid="key-smileys" onClick={() => onKeyPress?.('{smileys}')}>
-          smileys
+      {hasEmoticonKey && (
+        <button data-testid="key-emoticon" onClick={() => onKeyPress?.('{emoticon}')}>
+          emoticon
         </button>
       )}
       {hasDownKeyboardKey && (
@@ -598,18 +598,18 @@ describe('VirtualKeyboard', () => {
       expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'alt');
     });
 
-    it('deve alternar para layout "smileys" ao pressionar {smileys} (default)', () => {
-      render(<VirtualKeyboard mode="fixed" showSmileysButton={true} variant="default" value="" />);
+    it('deve alternar para layout "emoticon" ao pressionar {emoticon} (default)', () => {
+      render(<VirtualKeyboard mode="fixed" showEmoticonButton={true} variant="default" value="" />);
 
-      fireEvent.click(screen.getByTestId('key-smileys'));
+      fireEvent.click(screen.getByTestId('key-emoticon'));
 
-      expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'smileys');
+      expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'emoticon');
     });
 
-    it('deve ocultar o botão smileys quando showSmileysButton for false', () => {
-      render(<VirtualKeyboard mode="fixed" variant="default" value="" showSmileysButton={false} />);
+    it('deve ocultar o botão emoticon quando showEmoticonButton for false', () => {
+      render(<VirtualKeyboard mode="fixed" variant="default" value="" showEmoticonButton={false} />);
 
-      expect(screen.queryByTestId('key-smileys')).not.toBeInTheDocument();
+      expect(screen.queryByTestId('key-emoticon')).not.toBeInTheDocument();
     });
 
   });

@@ -60,9 +60,9 @@ const meta: Meta<typeof VirtualKeyboard> = {
       control: 'boolean',
       description: 'Estado desabilitado do teclado',
     },
-    showSmileysButton: {
+    showEmoticonButton: {
       control: 'boolean',
-      description: 'Exibe ou oculta o botao {smileys} nos layouts suportados.',
+      description: 'Exibe ou oculta o botao {emoticon} nos layouts suportados.',
     },
     maxLength: {
       control: 'number',
@@ -83,7 +83,7 @@ export const Default: Story = {
   args: {
     mode: 'native',
     variant: 'default',
-    showSmileysButton: false,
+    showEmoticonButton: false,
     disabled: false,
   },
   render: (args) => {

@@ -58,7 +58,7 @@
     :global(.hg-layout-caps),
     :global(.hg-layout-alt),
     :global(.hg-layout-alt2),
-    :global(.hg-layout-smileys) {
+    :global(.hg-layout-emoticon), {
       :global(.hg-button[data-skbtn="{//}"]) {
         opacity: 0;
         pointer-events: none;
@@ -201,7 +201,7 @@
     :global(.hg-layout-caps),
     :global(.hg-layout-alt),
     :global(.hg-layout-alt2),
-    :global(.hg-layout-smileys) {
+    :global(.hg-layout-emoticon) {
       :global(.hg-button[data-skbtn="{//}"]) {
         opacity: 0;
         pointer-events: none;
