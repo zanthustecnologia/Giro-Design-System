@@ -1,4 +1,4 @@
-import { BaseProps } from '../../types/common.types';
+import { BaseProps, Scale } from '../../types/common.types';
 
 /**
  * Props de um item individual de rádio
@@ -65,5 +65,5 @@ export interface RadioGroupProps extends BaseProps {
   orientation?: "horizontal" | "vertical";
 
   /** Escala visual aplicada ao grupo */
-  scale?: 1 | 1.5 | 2;
+  scale?: Scale;
 }

@@ -23,7 +23,7 @@ const Menu: React.FC<MenuProps> = ({
   selectedItems,
   onOpenChange,
   align = 'start',
-  scale = 1,
+  dropdownScale = 1,
   buttonScale,
   className,
   maxHeight = 400,
@@ -45,7 +45,7 @@ const Menu: React.FC<MenuProps> = ({
     1: 'menu-scale-1-0',
     1.5: 'menu-scale-1-5',
     2: 'menu-scale-2-0',
-  }[scale];
+  }[dropdownScale];
 
   const triggerWithScale = React.isValidElement(children) && buttonScale
     ? React.cloneElement(children as React.ReactElement<any>, {

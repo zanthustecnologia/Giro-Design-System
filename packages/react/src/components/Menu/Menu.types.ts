@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ReactElement } from 'react';
 
-import { BaseProps } from '../../types/common.types';
+import { BaseProps, Scale } from '../../types/common.types';
 
 /**
  * Representa um item do menu (suporta subitens aninhados)
@@ -117,8 +117,8 @@ export interface MenuProps extends BaseProps {
   className?: string;
 
   /** Escala visual aplicada ao conteúdo do menu */
-  scale?: 1 | 1.5 | 2;
+  dropdownScale?: Scale;
 
   /** Escala visual aplicada ao botão/trigger quando ele aceitar a prop `scale` */
-  buttonScale?: 1 | 1.5 | 2;
+  buttonScale?: Scale;
 }

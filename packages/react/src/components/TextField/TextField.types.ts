@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Side, Align } from '../../types/common.types';
+import { Side, Align, Scale } from '../../types/common.types';
 
 /** Tipos de input suportados pelo TextField */
 export type TextFieldType = 'text' | 'email' | 'password' | 'number' | 'tel' | 'url';
@@ -82,7 +82,7 @@ export interface TextFieldProps extends Omit<
   className?: string;
 
   /** Escala visual aplicada ao componente */
-  scale?: 1 | 1.5 | 2;
+  scale?: Scale;
 }
 
 /**

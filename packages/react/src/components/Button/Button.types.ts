@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Size, BaseProps, Variant, Position } from '../../types/common.types';
+import { Size, BaseProps, Variant, Position, Scale } from '../../types/common.types';
 
 /**
  * Props base do Button, independentes da variante iconOnly/icon.
@@ -42,7 +42,7 @@ type ButtonOwnPropsBase = {
   size?: Size;
 
   /** Escala visual aplicada ao botão */
-  scale?: 1 | 1.5 | 2;
+  scale?: Scale;
 
   /** Define se o botão ocupa 100% da largura do container */
   fullWidth?: boolean;
