@@ -2,14 +2,24 @@
 
 All notable changes to the Zanthus Flutter Components package will be documented in this file.
 
+## [0.4.0] - 2026-06-02
+
+### Added
+
+- Componente customizado **Button** com o design visual oficial do Flutter-Giro
+- Componente customizado **Chip**
+- Adição de novos **Design Tokens** para expandir o suporte e integração com o Design System
+
 ## [0.3.0] - 2025-12-12
 
 ### Changed
+
 - **BREAKING**: Removidos todos os componentes customizados com wrappers
 - **BREAKING**: Pacote agora contém apenas componentes Material 3 puros (re-exports nativos)
 - Reorganizada estrutura de exports por categoria (Actions, Communication, Containment, Navigation, Selection, Input, Data Display, Layout, Feedback)
 
 ### Added
+
 - **18 novos componentes Material 3**:
   - Buttons (ElevatedButton, FilledButton, OutlinedButton, TextButton)
   - IconButton (standard, filled, filledTonal, outlined)
@@ -31,10 +41,12 @@ All notable changes to the Zanthus Flutter Components package will be documented
   - RefreshIndicator
 
 ### Removed
+
 - Componentes customizados (avatar, badge, button, card, checkbox, chip, dialog, divider, dropdown, icon_button, input, list_item, radio, select, switch, text, tooltip)
 - Design tokens mantidos apenas para futura integração
 
 ### Notes
+
 - Total de **37+ componentes Material 3 puros** disponíveis
 - Todos os componentes seguem 100% a API oficial do Flutter Material
 - Preparados para integração futura de tokens de design
@@ -43,6 +55,7 @@ All notable changes to the Zanthus Flutter Components package will be documented
 ## [0.2.0] - 2025-12-12
 
 ### Added
+
 - **21 Material 3 Pure Components** (re-exports nativos):
   - Actions: FloatingActionButton, SegmentedButton
   - Communication: SnackBar, Banner, CircularProgressIndicator, LinearProgressIndicator
@@ -54,6 +67,7 @@ All notable changes to the Zanthus Flutter Components package will be documented
 - Total de 38 componentes disponíveis no pacote
 
 ### Notes
+
 - Componentes Material 3 são re-exports puros dos widgets nativos do Flutter
 - Preparados para receber integração de tokens posteriormente
 - Seguem 100% a API oficial do Material Design 3
@@ -61,6 +75,7 @@ All notable changes to the Zanthus Flutter Components package will be documented
 ## [0.1.0] - 2025-12-12
 
 ### Added
+
 - Initial release of Zanthus Flutter components
 - Design tokens:
   - Colors (primary, secondary, grayscale)
@@ -88,6 +103,7 @@ All notable changes to the Zanthus Flutter Components package will be documented
   - Tooltip with customizable message
 
 ### Notes
+
 - All components follow Material Design principles
 - Design tokens prepared for integration with tokens package
 - Ready for customization and theming
