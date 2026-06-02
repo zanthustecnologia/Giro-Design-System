@@ -7,20 +7,35 @@ import 'select_tokens.dart';
 enum GiroSelectVariant { text, icon, checkbox }
 
 class GiroSelectItem<T> {
-  final T value;
-  final String label;
-  final String? subTitle;
-  final Widget? icon;
-
   const GiroSelectItem({
     required this.value,
     required this.label,
     this.subTitle,
     this.icon,
   });
+
+  final T value;
+  final String label;
+  final String? subTitle;
+  final Widget? icon;
 }
 
 class GiroSelect<T> extends StatefulWidget {
+  const GiroSelect({
+    required this.items,
+    super.key,
+    this.variant = GiroSelectVariant.text,
+    this.label,
+    this.hintText,
+    this.errorText,
+    this.helperText,
+    this.required = false,
+    this.enabled = true,
+    this.initialSelections = const [],
+    this.onSelected,
+    this.width,
+  });
+
   final GiroSelectVariant variant;
   final String? label;
   final String? hintText;
@@ -32,21 +47,6 @@ class GiroSelect<T> extends StatefulWidget {
   final List<GiroSelectItem<T>> items;
   final ValueChanged<List<T>>? onSelected;
   final double? width;
-
-  const GiroSelect({
-    super.key,
-    this.variant = GiroSelectVariant.text,
-    this.label,
-    this.hintText,
-    this.errorText,
-    this.helperText,
-    this.required = false,
-    this.enabled = true,
-    this.initialSelections = const [],
-    required this.items,
-    this.onSelected,
-    this.width,
-  });
 
   @override
   State<GiroSelect<T>> createState() => _GiroSelectState<T>();
@@ -181,8 +181,9 @@ class _GiroSelectState<T> extends State<GiroSelect<T>> {
                           localSelected.add(item.value);
                         }
                       });
-                      setState(() =>
-                          _selectedValues = List<T>.from(localSelected));
+                      setState(
+                        () => _selectedValues = List<T>.from(localSelected),
+                      );
                       widget.onSelected?.call(List<T>.from(localSelected));
                     },
                     borderRadius:
@@ -380,10 +381,12 @@ class _GiroSelectState<T> extends State<GiroSelect<T>> {
                   ),
                   suffixIcon: Padding(
                     padding: const EdgeInsets.only(
-                        right: GiroSelectTokens.suffixIconPaddingRight),
+                      right: GiroSelectTokens.suffixIconPaddingRight,
+                    ),
                     child: IconTheme(
                       data: const IconThemeData(
-                          size: GiroSelectTokens.suffixIconSize),
+                        size: GiroSelectTokens.suffixIconSize,
+                      ),
                       child: Icon(
                         _isOpen
                             ? FluentIcons.chevron_up_16_regular
