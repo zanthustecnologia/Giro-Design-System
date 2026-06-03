@@ -549,15 +549,15 @@ describe('VirtualKeyboard', () => {
     });
 
     it('deve alternar para layout "emoticon" ao pressionar {emoticon} (default)', () => {
-      render(<VirtualKeyboard variant="fixed" showEmoticonButton={true} type="default" value="" />);
+      render(<VirtualKeyboard variant="fixed" Emoji={true} type="default" value="" />);
 
       fireEvent.click(screen.getByTestId('key-emoticon'));
 
       expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'emoticon');
     });
 
-    it('deve ocultar o botão emoticon quando showEmoticonButton for false', () => {
-      render(<VirtualKeyboard variant="fixed" type="default" value="" showEmoticonButton={false} />);
+    it('deve ocultar o botão emoticon quando Emoji for false', () => {
+      render(<VirtualKeyboard variant="fixed" type="default" value="" Emoji={false} />);
 
       expect(screen.queryByTestId('key-emoticon')).not.toBeInTheDocument();
     });

@@ -114,7 +114,7 @@ export const LAYOUT_THEMES: Partial<Record<VirtualKeyboardType, string>> = {};
 
 export const getNativeLayout = (
   type: VirtualKeyboardType,
-  showEmoticonButton = true,
+  Emoji = true,
   showDownKeyboardButton = true
 ): Record<string, string[]> | null => {
   const layout = NATIVE_LAYOUTS[type] ?? NATIVE_LAYOUTS.default ?? null;
@@ -123,7 +123,7 @@ export const getNativeLayout = (
 
   let computedLayout = layout;
 
-  if (!showEmoticonButton) {
+  if (!Emoji) {
     computedLayout = removeKeyFromLayout(computedLayout, EMOTICON_KEY);
   }
 

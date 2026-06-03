@@ -48,7 +48,7 @@ const meta: Meta<typeof VirtualKeyboard> = {
       ],
       description: 'Layout do teclado',
     },
-    showEmoticonButton: {
+    Emoji: {
       control: 'boolean',
       description: 'Exibe ou oculta o botao {emoticon} nos layouts suportados.',
     },
@@ -72,7 +72,7 @@ export const Default: Story = {
   args: {
     variant: 'native',
     type: 'default',
-    showEmoticonButton: false,
+    Emoji: false,
   },
   render: (args) => {
     const [value, setValue] = useState('');

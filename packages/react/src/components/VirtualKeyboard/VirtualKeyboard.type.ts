@@ -60,7 +60,7 @@ export interface VirtualKeyboardProps extends Omit<BaseProps, 'disabled'> {
   maxLength?: number;
 
   /** Controla a exibição do botão {emoticon} nos layouts suportados */
-  showEmoticonButton?: boolean;
+  Emoji?: boolean;
 
   /** Placeholder do TextField exibido no modo `fixed` */
   textFieldPlaceholder?: string;

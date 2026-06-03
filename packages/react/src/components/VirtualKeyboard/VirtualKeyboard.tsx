@@ -61,7 +61,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
   onChange,
   onKeyPress,
   maxLength,
-  showEmoticonButton = false,
+  Emoji = false,
   className,
   id,
   textFieldPlaceholder = 'Digite aqui...',
@@ -75,7 +75,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
   const [accentMenu, setAccentMenu] = useState<AccentMenuState | null>(null);
   const [accentMenuOffsetX, setAccentMenuOffsetX] = useState(0);
   const [activeLayout, setActiveLayout] = useState<Record<string, string[]> | null>(
-    getNativeLayout(type, showEmoticonButton, variant === 'native')
+    getNativeLayout(type, Emoji, variant === 'native')
   );
   const visualType = NATIVE_LAYOUT_KEYS.has(type) ? type : 'default';
 
@@ -164,14 +164,14 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
     setLayoutName('default');
     setCapsLockOn(false);
 
-    setActiveLayout(getNativeLayout(type, showEmoticonButton, variant === 'native'));
-  }, [type, showEmoticonButton, variant]);
+    setActiveLayout(getNativeLayout(type, Emoji, variant === 'native'));
+  }, [type, Emoji, variant]);
 
   useEffect(() => {
-    if (!showEmoticonButton && layoutName === 'emoticon') {
+    if (!Emoji && layoutName === 'emoticon') {
       setLayoutName(type === 'numeric' ? 'abc' : 'default');
     }
-  }, [showEmoticonButton, layoutName, type]);
+  }, [Emoji, layoutName, type]);
 
   useEffect(() => {
     return () => {
@@ -382,7 +382,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
       }
       if (button === '{alt2}') { setLayoutName((prev) => (prev === 'alt2' ? 'alt' : 'alt2')); return; }
       if (button === '{emoticon}') {
-        if (!showEmoticonButton) return;
+        if (!Emoji) return;
         setLayoutName((prev) => (prev === 'emoticon' ? baseLayout : 'emoticon'));
         return;
       }
@@ -428,7 +428,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
       layoutName,
       capsLockOn,
       onKeyPress,
-      showEmoticonButton,
+      Emoji,
       variant,
       closeAccentMenu,
       targetRef,
