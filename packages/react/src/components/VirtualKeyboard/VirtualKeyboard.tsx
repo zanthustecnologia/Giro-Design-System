@@ -89,6 +89,8 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
   const keyboardWrapperRef = useRef<HTMLDivElement | null>(null);
   const keyboardInstanceRef = useRef<{ setInput: (value: string) => void } | null>(null);
   const accentMenuRef = useRef<HTMLDivElement | null>(null);
+  const accentButtonRef = useRef<HTMLButtonElement | null>(null);
+  const accentMenuOpenRef = useRef(false);
   const valueRef = useRef(value);
 
   useEffect(() => {
@@ -104,6 +106,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
 
   const closeAccentMenu = useCallback(() => {
     setAccentMenu(null);
+    accentButtonRef.current = null;
   }, []);
 
   const syncKeyboardInput = useCallback((nextValue: string) => {
@@ -226,6 +229,30 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
     clearLongPressTimeout();
   }, [layoutName, type, closeAccentMenu, clearLongPressTimeout]);
 
+  useEffect(() => {
+    accentMenuOpenRef.current = !!accentMenu;
+  }, [accentMenu]);
+
+  useEffect(() => {
+    const updateAccentPosition = () => {
+      if (!accentMenuOpenRef.current) return;
+      const btn = accentButtonRef.current;
+      if (!btn) return;
+      const rect = btn.getBoundingClientRect();
+      setAccentMenu((prev) =>
+        prev ? { ...prev, top: rect.top - 8, left: rect.left + rect.width / 2 } : null
+      );
+    };
+
+    window.addEventListener('scroll', updateAccentPosition, { capture: true, passive: true });
+    window.addEventListener('resize', updateAccentPosition);
+
+    return () => {
+      window.removeEventListener('scroll', updateAccentPosition, true);
+      window.removeEventListener('resize', updateAccentPosition);
+    };
+  }, []);
+
   const handleLongPressStart = useCallback(
     (event: React.PointerEvent<HTMLDivElement>) => {
       isKeyboardInteractingRef.current = true;
@@ -257,6 +284,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
         const isUpperCaseKey = sourceKey === sourceKey.toUpperCase();
         longPressTriggeredRef.current = true;
 
+        accentButtonRef.current = buttonEl;
         setAccentMenu({
           sourceKey,
           options: isUpperCaseKey

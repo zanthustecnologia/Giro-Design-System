@@ -88,7 +88,7 @@ export const Default: Story = {
     };
 
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', width: '420px' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', width: '500px' }}>
         {args.variant === 'native' && (
           <div style={{ marginBottom: '20px' }}>
             <TextField
