@@ -136,7 +136,10 @@ export const WithVirtualKeyboard: Story = {
           onChange={(e) => setValue(e.target.value)}
           onClear={() => setValue('')}
         />
-
+      </div>
+    );
+  },
+};
 export const ModoEnter: Story = {
   render: () => {
     const [query, setQuery] = useState('');
@@ -176,3 +179,4 @@ export const ModoEnter: Story = {
     );
   },
 };
+
