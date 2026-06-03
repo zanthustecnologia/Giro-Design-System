@@ -136,11 +136,6 @@ describe('VirtualKeyboard', () => {
 
   // ───────────────────────────────────────────────────────────────────────────
   describe('Modo fixed', () => {
-    it('deve renderizar TextField com label no modo fixed', () => {
-      render(<VirtualKeyboard variant="fixed" textFieldLabel="Digite aqui" />);
-      expect(screen.getByText('Digite aqui')).toBeInTheDocument();
-    });
-
     it('deve renderizar TextField com placeholder no modo fixed', () => {
       render(<VirtualKeyboard variant="fixed" textFieldPlaceholder="Escreva algo" />);
       expect(screen.getByPlaceholderText('Escreva algo')).toBeInTheDocument();

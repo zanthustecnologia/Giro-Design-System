@@ -20,7 +20,6 @@ export type VirtualKeyboardType = 'default' | 'numeric';
  * <VirtualKeyboard
  *   variant="fixed"
  *   type="default"
- *   textFieldLabel="Digite aqui"
  *   onChange={(value) => setValue(value)}
  * />
  * ```
@@ -62,9 +61,6 @@ export interface VirtualKeyboardProps extends Omit<BaseProps, 'disabled'> {
 
   /** Controla a exibição do botão {emoticon} nos layouts suportados */
   showEmoticonButton?: boolean;
-
-  /** Label do TextField exibido no modo `fixed` */
-  textFieldLabel?: string;
 
   /** Placeholder do TextField exibido no modo `fixed` */
   textFieldPlaceholder?: string;
