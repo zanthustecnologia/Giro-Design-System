@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import React, { useState, useCallback, useEffect, useRef, useLayoutEffect } from 'react';
+import React, { useState, useCallback, useEffect, useRef, useLayoutEffect, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import Keyboard from 'react-simple-keyboard';
 import 'react-simple-keyboard/build/css/index.css';
@@ -467,6 +467,20 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
     [maxLength, onChange, syncKeyboardInput]
   );
 
+  const keyboardDisplay = useMemo(() => {
+    const baseDisplay = LAYOUT_DISPLAY[visualType];
+    if (!baseDisplay) return baseDisplay;
+
+    if (variant !== 'fixed') {
+      return baseDisplay;
+    }
+
+    return {
+      ...baseDisplay,
+      '{bksp}': (baseDisplay['{bksp}'] ?? '').replace(/\s*Apagar$/, ''),
+    };
+  }, [visualType, variant]);
+
   const keyboardEl = activeLayout ? (
     <div
       ref={keyboardWrapperRef}
@@ -486,7 +500,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
         layoutName={layoutName}
         layout={activeLayout}
         theme={LAYOUT_THEMES[visualType] ?? 'hg-theme-default'}
-        display={LAYOUT_DISPLAY[visualType]}
+        display={keyboardDisplay}
         onChange={handleChange}
         onKeyPress={handleKeyPress}
         input={value}

@@ -10,7 +10,7 @@ vi.mock('react-simple-keyboard/build/css/index.css', () => ({}));
  * Renderiza botões que simulam teclas para facilitar os testes de interação.
  */
 vi.mock('react-simple-keyboard', () => ({
-  default: function MockKeyboard({ onChange, onKeyPress, layoutName, input, layout, keyboardRef }: any) {
+  default: function MockKeyboard({ onChange, onKeyPress, layoutName, input, layout, display, keyboardRef }: any) {
     const [internalInput, setInternalInput] = React.useState(input ?? '');
 
     React.useEffect(() => {
@@ -33,6 +33,7 @@ vi.mock('react-simple-keyboard', () => ({
 
     return (
     <div data-testid="keyboard" data-layout-name={layoutName}>
+      <div data-testid="display-bksp">{display?.['{bksp}'] ?? ''}</div>
       <button
         data-testid="key-char"
         className="hg-button"
@@ -173,6 +174,16 @@ describe('VirtualKeyboard', () => {
     it('não deve exibir a tecla {downkeyboard} no modo fixed', () => {
       render(<VirtualKeyboard variant="fixed" type="default" />);
       expect(screen.queryByTestId('key-downkeyboard')).not.toBeInTheDocument();
+    });
+
+    it('deve exibir apenas ícone na tecla {bksp} no modo fixed', () => {
+      render(<VirtualKeyboard variant="fixed" type="default" />);
+      expect(screen.getByTestId('display-bksp')).not.toHaveTextContent('Apagar');
+    });
+
+    it('deve manter texto "Apagar" na tecla {bksp} no modo native', async () => {
+      render(<VirtualKeyboard variant="native" type="default" />);
+      expect(await screen.findByTestId('display-bksp')).toHaveTextContent('Apagar');
     });
   });
 
