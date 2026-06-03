@@ -1,10 +1,9 @@
 import { MoreVertical16Regular } from '@fluentui/react-icons';
-import { TableV2, Chips, Button, Menu, Avatar, createTableColumnHelper } from '@giro-ds/react';
+import { TableV2, Chips, Button, Menu, Avatar, createTableColumnHelper, type TableV2HeaderProps } from '@giro-ds/react';
 import React, { useState, useMemo } from 'react';
 
 import type { Meta, StoryFn } from '@storybook/react-vite';
 
-// ─── Tipos ────────────────────────────────────────────────────────────────────
 type Promocao = {
   id: number;
   nome: string;
@@ -15,7 +14,6 @@ type Promocao = {
   inicioObj: Date;
 };
 
-// ─── Dataset ──────────────────────────────────────────────────────────────────
 const promocoes: Promocao[] = [
   { id: 1,  nome: 'Black Friday',         descricao: 'Desconto progressivo de 20%',             tipo: 'Desconto',     status: 'Ativa',     inicio: '24/11/2024', inicioObj: new Date(2024, 10, 24) },
   { id: 2,  nome: 'Frete Grátis Natal',   descricao: 'Frete grátis acima de R$ 100',            tipo: 'Frete Grátis', status: 'Agendada',  inicio: '01/12/2024', inicioObj: new Date(2024, 11, 1)  },
@@ -52,7 +50,6 @@ const tipoColor: Record<string, 'success' | 'alert' | 'brand' | 'neutral'> = {
   Cashback: 'neutral',
 };
 
-// ─── Colunas ──────────────────────────────────────────────────────────────────
 const col = createTableColumnHelper<Promocao>();
 
 const colunasPadrao = [
@@ -76,23 +73,6 @@ const colunasPadrao = [
       </Chips>
     ),
   }),
-  col.display({
-    id: 'actions',
-    header: '',
-    meta: { align: 'center' },
-    cell: ({ row }) => (
-      <Menu
-        items={[
-          { id: 'edit', text: 'Editar' },
-          { id: 'pause', text: row.original.status === 'Ativa' ? 'Pausar' : 'Ativar' },
-          { id: 'delete', text: 'Excluir' },
-        ]}
-        onItemSelect={(item) => console.warn(item.text, row.original.nome)}
-      >
-        <Button variant="text" iconOnly icon={<MoreVertical16Regular />} tooltipText="Mais ações" />
-      </Menu>
-    ),
-  }),
 ];
 
 const colunasCompletas = [
@@ -104,20 +84,24 @@ const colunasCompletas = [
       return <Avatar initialLetters={initials} size="sm" />;
     },
   }),
+  col.accessor('id', {
+    header: 'ID',
+    cell: (info) => info.getValue(),
+  }),
   col.accessor('nome', {
     header: 'Nome',
     cell: (info) => info.getValue(),
   }),
-  col.display({
-    id: 'detalhes',
-    header: 'Detalhes',
-    cell: ({ row }) => (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-8)' }}>
-        <div>{row.original.nome}</div>
-        <div style={{ fontSize: '12px', color: 'var(--color-neutral-low-medium)' }}>
-          {row.original.descricao}
-        </div>
-      </div>
+  col.accessor('descricao', {
+    header: 'Descrição',
+    cell: (info) => info.getValue(),
+  }),
+  col.accessor('tipo', {
+    header: 'Tipo',
+    cell: (info) => (
+      <Chips variant={tipoColor[info.getValue()] ?? 'neutral'}>
+        {info.getValue()}
+      </Chips>
     ),
   }),
   col.accessor('status', {
@@ -127,6 +111,10 @@ const colunasCompletas = [
         {info.getValue()}
       </Chips>
     ),
+  }),
+  col.accessor('inicio', {
+    header: 'Data de Início',
+    cell: (info) => info.getValue(),
   }),
   col.display({
     id: 'actions',
@@ -147,62 +135,251 @@ const colunasCompletas = [
   }),
 ];
 
-// ─── Meta ─────────────────────────────────────────────────────────────────────
-const meta: Meta = {
+type FilterItemConfig =
+  | { id: string; type: 'multiple'; buttonText: string; items: { id: string; text: string }[] }
+  | { id: string; type: 'calendar'; buttonText: string; minDate?: string; maxDate?: string };
+
+type DefaultArgs = {
+  rowSelection: Record<string, unknown> | undefined;
+  enableSorting: boolean;
+  loading: boolean;
+  headerSearch: { searchPlaceholder?: string } | undefined;
+  headerFilterItems: FilterItemConfig[] | undefined;
+  footer: { defaultPageSize?: number; pageSizeOptions?: number[] } | undefined;
+  bulkActions: { actions?: Array<{ label: string; variant?: string }> } | undefined;
+};
+
+const meta: Meta<DefaultArgs> = {
   title: 'Components/TableV2',
-  component: TableV2,
+  component: TableV2 as unknown as React.ComponentType<DefaultArgs>,
   parameters: { layout: 'centered' },
   argTypes: {
-    enableRowSelection: {
-      name: 'Checkbox de seleção',
-      description: 'Exibe checkboxes para seleção de linhas',
-      control: 'boolean',
-      table: { defaultValue: { summary: 'false' } },
+    rowSelection: {
+      description:
+        'Habilita seleção de linhas via checkbox. Passe um objeto para ativar (o callback `onRowChange` é adicionado pela story). ' +
+        'Exemplos: seleção padrão `{}`, sem "Selecionar todos" `{ "disableSelectAll": true }`, ' +
+        'todas desabilitadas `{ "disabled": true }`.',
+      control: 'object',
+      table: {
+        type: { summary: 'TableV2RowSelectionProps | undefined' },
+        defaultValue: { summary: 'undefined' },
+      },
     },
-    enableFilters: {
-      name: 'Filtros por coluna',
-      description: 'Exibe inputs de filtro em cada coluna do cabeçalho',
+    enableSorting: {
+      description: 'Habilita ordenação ao clicar no cabeçalho das colunas.',
       control: 'boolean',
-      table: { defaultValue: { summary: 'false' } },
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'false' },
+      },
+    },
+    loading: {
+      description: 'Exibe skeleton animado no lugar dos dados.',
+      control: 'boolean',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'false' },
+      },
+    },
+    headerSearch: {
+      name: 'onSearchChange',
+      description:
+        'Habilita o campo de busca global. Passe um objeto para ativar: `{ "searchPlaceholder": "Buscar..." }`. ' +
+        'A presença do objeto é o que renderiza o campo de busca. ' +
+        'Combinável com `header.filterItems`.',
+      control: 'object',
+      table: {
+        type: { summary: '{ searchPlaceholder?: string } | undefined' },
+        defaultValue: { summary: 'undefined' },
+        category: 'header',
+      },
+    },
+    headerFilterItems: {
+      name: 'filterItems',
+      description:
+        'Filtros do cabeçalho: `header={{ filterItems: FilterItem[] }}`. ' +
+        '`FilterItem` é a union de `CheckboxFilterItem` (`type: "multiple" | "single"`), `CalendarFilterItem` (`type: "calendar"`) ' +
+        'e `CombinedFilterItem` (`type: "combined"` — abre um Drawer lateral com conteúdo via `children`). ' +
+        'Cole o JSON do array. Ex: `[{"id":"status","type":"multiple","buttonText":"Status","items":[{"id":"ativa","text":"Ativa"}]},{"id":"inicio","type":"calendar","buttonText":"Data de início","minDate":"2024-01-01","maxDate":"2024-12-31"}]`',
+      control: 'object',
+      table: {
+        type: { summary: '"multiple" | "single" | "calendar" | "combined"' },
+        defaultValue: { summary: 'undefined' },
+        category: 'header',
+      },
+    },
+    footer: {
+      description:
+        'Exibe o rodapé de paginação. Passe um objeto para ativar: `{ "defaultPageSize": 5, "pageSizeOptions": [5, 10] }`. ' +
+        'O componente não faz paginação interna — o pai deve fatiar os dados antes de passar para `data`. ' +
+        '`totalItems`, `currentPage` e os callbacks são gerenciados pela story.',
+      control: 'object',
+      table: {
+        type: { summary: 'TableV2FooterProps | undefined' },
+        defaultValue: { summary: 'undefined' },
+      },
+    },
+    bulkActions: {
+      description:
+        'Exibe barra de ações em massa quando há linhas selecionadas (requer `rowSelection`). ' +
+        'Passe um objeto para ativar, opcionalmente com ações customizadas: `{ "actions": [{ "label": "Ativar", "variant": "filled" }] }`. ' +
+        'Se `actions` estiver ausente, usa ações padrão (Ativar, Pausar, Excluir).',
+      control: 'object',
+      table: {
+        type: { summary: 'TableV2BulkActionsProps | undefined' },
+        defaultValue: { summary: 'undefined' },
+      },
     },
   },
 };
 
 export default meta;
 
-// ─── Padrão (com controles) ───────────────────────────────────────────────────
-export const Default: StoryFn<{
-  enableRowSelection: boolean;
-  enableFilters: boolean;
-}> = ({ enableRowSelection, enableFilters }) => (
-  <div style={{ width: 700 }}>
-    <TableV2
-      columns={colunasPadrao}
-      data={promocoes}
-      enableRowSelection={enableRowSelection}
-      enableFilters={enableFilters}
-      onRowSelectionChange={(rows) =>
-        console.warn('Selecionados:', rows.map((r) => r.nome))
-      }
-    />
-  </div>
-);
+export const Default: StoryFn<DefaultArgs> = ({
+  rowSelection: rowSelectionArg,
+  enableSorting,
+  loading,
+  headerSearch: headerSearchArg,
+  headerFilterItems: filterItemsArg,
+  footer: footerArg,
+  bulkActions: bulkActionsArg,
+}) => {
+  const [selecionados, setSelecionados] = React.useState<Promocao[]>([]);
 
-Default.args = {
-  enableRowSelection: false,
-  enableFilters: false,
-};
+  const rowSelectionConfig = rowSelectionArg && typeof rowSelectionArg === 'object' ? rowSelectionArg : undefined;
 
-Default.storyName = 'Default';
+  const [checkboxSelections, setCheckboxSelections] = React.useState<Record<string, string[]>>({});
+  const [calendarDates, setCalendarDates] = React.useState<Record<string, Date | null>>({});
+  const [searchQuery, setSearchQuery] = React.useState('');
+  const [currentPage, setCurrentPage] = React.useState(1);
+  const [pageSize, setPageSize] = React.useState(10);
 
-// ─── Com Busca e Filtros ──────────────────────────────────────────────────────
-export const ComBuscaEFiltros: StoryFn = () => {
-  const [selectedStatus, setSelectedStatus] = useState<string[]>([]);
-  const [dataInicio, setDataInicio] = useState<Date | null>(null);
-  const [selecionados, setSelecionados] = useState<Promocao[]>([]);
+  const filterItemsConfig = useMemo((): FilterItemConfig[] => {
+    if (!Array.isArray(filterItemsArg)) return [];
+    return filterItemsArg;
+  }, [filterItemsArg]);
 
   const dadosFiltrados = useMemo(() => {
     let result = promocoes;
+    if (searchQuery) {
+      const q = searchQuery.toLowerCase();
+      result = result.filter(
+        (p) => p.nome.toLowerCase().includes(q) || p.descricao.toLowerCase().includes(q),
+      );
+    }
+    const statusIds = checkboxSelections['status'];
+    if (statusIds?.length > 0) {
+      result = result.filter((p) =>
+        statusIds.includes(p.status.toLowerCase().replace(' ', '-')),
+      );
+    }
+    const dateFrom = calendarDates['inicio'];
+    if (dateFrom) {
+      result = result.filter((p) => p.inicioObj >= dateFrom);
+    }
+    return result;
+  }, [searchQuery, checkboxSelections, calendarDates]);
+
+  const resolvedFilterItems = filterItemsConfig?.map((item) => {
+    if (item.type === 'multiple') {
+      const selected = checkboxSelections[item.id] ?? [];
+      return {
+        ...item,
+        buttonText: selected.length > 0 ? `${item.buttonText} (${selected.length})` : item.buttonText,
+        selectedIds: selected,
+        onSelectionChange: (ids: string[]) => {
+          setCheckboxSelections((prev) => ({ ...prev, [item.id]: ids }));
+          setCurrentPage(1);
+        },
+      };
+    }
+    const date = calendarDates[item.id] ?? null;
+    return {
+      ...item,
+      selectedDate: date,
+      minDate: item.minDate ? new Date(item.minDate) : undefined,
+      maxDate: item.maxDate ? new Date(item.maxDate) : undefined,
+      buttonText: date ? `A partir de ${date.toLocaleDateString('pt-BR')}` : item.buttonText,
+      onDateSelect: (d: Date) => { setCalendarDates((prev) => ({ ...prev, [item.id]: d })); setCurrentPage(1); },
+      onClear: () => { setCalendarDates((prev) => ({ ...prev, [item.id]: null })); setCurrentPage(1); },
+    };
+  });
+
+  const hasFilters = !!resolvedFilterItems?.length;
+
+  const paginatedData = useMemo(() => {
+    if (!footerArg) return dadosFiltrados;
+    const start = (currentPage - 1) * pageSize;
+    return dadosFiltrados.slice(start, start + pageSize);
+  }, [dadosFiltrados, footerArg, currentPage, pageSize]);
+
+  return (
+    <div style={{ width: 800 }}>
+      <TableV2
+        columns={colunasCompletas}
+        data={paginatedData}
+        rowSelection={rowSelectionConfig !== undefined ? { ...(rowSelectionConfig as any), onRowChange: setSelecionados } : undefined}
+        enableSorting={enableSorting}
+        loading={loading}
+        header={
+          headerSearchArg || hasFilters
+            ? {
+                ...(headerSearchArg ? { searchPlaceholder: headerSearchArg.searchPlaceholder ?? 'Buscar promoções...', onSearchChange: (v: string) => { setSearchQuery(v); setCurrentPage(1); } } : {}),
+                ...(hasFilters ? { filterItems: resolvedFilterItems } : {}),
+              }
+            : undefined
+        }
+        footer={
+          footerArg
+            ? { totalItems: dadosFiltrados.length, ...(footerArg.defaultPageSize !== undefined ? { defaultPageSize: footerArg.defaultPageSize } : {}), pageSizeOptions: footerArg.pageSizeOptions ?? [5, 10, 25], currentPage, onPageChange: setCurrentPage, onPageSizeChange: (size: number) => { setPageSize(size); setCurrentPage(1); } }
+            : undefined
+        }
+        bulkActions={
+          bulkActionsArg
+            ? {
+                actions: (bulkActionsArg.actions ?? [
+                  { label: 'Ativar', variant: 'filled' as const },
+                  { label: 'Pausar', variant: 'outlined' as const },
+                  { label: 'Excluir', variant: 'outlined' as const },
+                ]).map((action) => ({
+                  label: action.label,
+                  variant: action.variant as 'filled' | 'outlined' | 'text' | undefined,
+                  onClick: () => console.warn(action.label + ':', selecionados.map((r) => r.nome)),
+                })),
+              }
+            : undefined
+        }
+      />
+    </div>
+  );
+};
+
+Default.args = {
+  rowSelection: undefined,
+  enableSorting: false,
+  loading: false,
+  headerSearch: undefined,
+  headerFilterItems: undefined,
+  footer: undefined,
+  bulkActions: undefined,
+};
+
+export const ComBuscaEFiltros: StoryFn = () => {
+  const [selectedStatus, setSelectedStatus] = useState<string[]>([]);
+  const [dataInicio, setDataInicio] = useState<Date | null>(null);
+  const [selected, setSelected] = useState<Promocao[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(5);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const dadosFiltrados = useMemo(() => {
+    let result = promocoes;
+    if (searchQuery) {
+      const q = searchQuery.toLowerCase();
+      result = result.filter(
+        (p) => p.nome.toLowerCase().includes(q) || p.descricao.toLowerCase().includes(q),
+      );
+    }
     if (selectedStatus.length > 0) {
       result = result.filter((p) =>
         selectedStatus.includes(p.status.toLowerCase().replace(' ', '-')),
@@ -212,13 +389,13 @@ export const ComBuscaEFiltros: StoryFn = () => {
       result = result.filter((p) => p.inicioObj >= dataInicio);
     }
     return result;
-  }, [selectedStatus, dataInicio]);
+  }, [searchQuery, selectedStatus, dataInicio]);
 
-  const filterItems = [
+  const filterItems: NonNullable<TableV2HeaderProps['filterItems']> = [
     {
       id: 'status',
       buttonText: selectedStatus.length > 0 ? `Status (${selectedStatus.length})` : 'Status',
-      type: 'checkbox' as const,
+      type: 'multiple',
       items: [
         { id: 'ativa', text: 'Ativa' },
         { id: 'inativa', text: 'Inativa' },
@@ -226,40 +403,48 @@ export const ComBuscaEFiltros: StoryFn = () => {
         { id: 'expirada', text: 'Expirada' },
       ],
       selectedIds: selectedStatus,
-      onSelectionChange: setSelectedStatus,
+      onSelectionChange: (ids: string[]) => { setSelectedStatus(ids); setCurrentPage(1); },
     },
     {
       id: 'inicio',
       buttonText: dataInicio ? `A partir de ${dataInicio.toLocaleDateString('pt-BR')}` : 'Data de início',
       type: 'calendar' as const,
       selectedDate: dataInicio,
-      onDateSelect: (date: Date) => setDataInicio(date),
-      onClear: () => setDataInicio(null),
+      onDateSelect: (date: Date) => { setDataInicio(date); setCurrentPage(1); },
+      onClear: () => { setDataInicio(null); setCurrentPage(1); },
       minDate: new Date(2024, 0, 1),
       maxDate: new Date(2024, 11, 31),
     },
   ];
 
+  const paginatedData = useMemo(() => {
+    const start = (currentPage - 1) * pageSize;
+    return dadosFiltrados.slice(start, start + pageSize);
+  }, [dadosFiltrados, currentPage, pageSize]);
+
   return (
     <div style={{ width: 800, display: 'flex', flexDirection: 'column', gap: 16 }}>
       <TableV2
         columns={colunasCompletas}
-        data={dadosFiltrados}
-        enableRowSelection
-        onRowSelectionChange={setSelecionados}
+        data={paginatedData}
+        rowSelection={{ onRowChange: (rows) => setSelected(rows) }}
         header={{
           searchPlaceholder: 'Buscar promoções...',
-          filterItems
+          onSearchChange: (val) => { setSearchQuery(val); setCurrentPage(1); },
+          filterItems,
         }}
         footer={{
           totalItems: dadosFiltrados.length,
           defaultPageSize: 5,
           pageSizeOptions: [5, 10],
+          currentPage,
+          onPageChange: setCurrentPage,
+          onPageSizeChange: (size) => { setPageSize(size); setCurrentPage(1); },
         }}
       />
       <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
         <span style={{ fontSize: 11, color: 'var(--color-neutral-low-light)', fontStyle: 'italic' }}>
-          ↳ Valor retornado pelo callback <code>onRowSelectionChange</code> (externo à tabela)
+          ↳ Valor retornado pelo callback <code>rowSelection.onRowChange</code> (externo à tabela)
         </span>
         <div
           style={{
@@ -274,15 +459,15 @@ export const ComBuscaEFiltros: StoryFn = () => {
           }}
         >
         <span style={{ fontSize: 12, color: 'var(--color-neutral-low-medium)', fontWeight: 600 }}>
-          ITENS SELECIONADOS ({selecionados.length})
+          ITENS SELECIONADOS ({selected.length})
         </span>
-        {selecionados.length === 0 ? (
+        {selected.length === 0 ? (
           <span style={{ fontSize: 14, color: 'var(--color-neutral-low-light)' }}>
             Nenhum item selecionado
           </span>
         ) : (
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-            {selecionados.map((r) => (
+            {selected.map((r) => (
               <Chips key={r.id} variant={statusColor[r.status] ?? 'neutral'}>
                 {r.nome}
               </Chips>
@@ -295,52 +480,285 @@ export const ComBuscaEFiltros: StoryFn = () => {
   );
 };
 
-// ─── Somente Busca ────────────────────────────────────────────────────────────
-export const SomenteBusca: StoryFn = () => (
-  <div style={{ width: 800 }}>
-    <TableV2
-      columns={colunasCompletas}
-      data={promocoes}
-      header={{ searchPlaceholder: 'Buscar promoções...' }}
-      footer={{
-        totalItems: promocoes.length,
-        defaultPageSize: 5,
-        pageSizeOptions: [5, 10],
-      }}
-    />
-  </div>
-);
+export const ComFiltroCombinado: StoryFn = () => {
+  const [draftStatus, setDraftStatus] = useState<string[]>([]);
+  const [draftTipo, setDraftTipo] = useState<string[]>([]);
+  const [appliedStatus, setAppliedStatus] = useState<string[]>([]);
+  const [appliedTipo, setAppliedTipo] = useState<string[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(5);
 
-// ─── Sem Header ───────────────────────────────────────────────────────────────
-export const SemHeader: StoryFn = () => (
-  <div style={{ width: 800 }}>
-    <TableV2
-      columns={colunasCompletas}
-      data={promocoes}
-      footer={{
-        totalItems: promocoes.length,
-        defaultPageSize: 5,
-        pageSizeOptions: [5, 10],
-      }}
-    />
-  </div>
-);
+  const activeCount = appliedStatus.length + appliedTipo.length;
 
-// ─── Carregando ───────────────────────────────────────────────────────────────
+  const dadosFiltrados = useMemo(() => {
+    let result = promocoes;
+    if (appliedStatus.length > 0) {
+      result = result.filter((p) =>
+        appliedStatus.includes(p.status.toLowerCase().replace(' ', '-'))
+      );
+    }
+    if (appliedTipo.length > 0) {
+      result = result.filter((p) =>
+        appliedTipo.includes(p.tipo.toLowerCase().replace(' ', '-'))
+      );
+    }
+    return result;
+  }, [appliedStatus, appliedTipo]);
+
+  const paginatedData = useMemo(() => {
+    const start = (currentPage - 1) * pageSize;
+    return dadosFiltrados.slice(start, start + pageSize);
+  }, [dadosFiltrados, currentPage, pageSize]);
+
+  const toggleChip = (
+    selected: string[],
+    setter: (v: string[]) => void,
+    id: string,
+  ) => setter(selected.includes(id) ? selected.filter((v) => v !== id) : [...selected, id]);
+
+  const handleApply = () => {
+    setAppliedStatus(draftStatus);
+    setAppliedTipo(draftTipo);
+    setCurrentPage(1);
+  };
+
+  const handleClear = () => {
+    setDraftStatus([]);
+    setDraftTipo([]);
+    setAppliedStatus([]);
+    setAppliedTipo([]);
+    setCurrentPage(1);
+  };
+
+  return (
+    <div style={{ width: 800 }}>
+      <TableV2
+        columns={colunasPadrao}
+        data={paginatedData}
+        header={{
+          filterItems: [
+            {
+              type: 'combined' as const,
+              buttonText: 'Filtros',
+              activeCount,
+              title: 'Filtrar promoções',
+              drawerWidth: '320px',
+              onApply: handleApply,
+              onClear: handleClear,
+              children: (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+                  <div>
+                    <p style={{ margin: '0 0 8px', fontSize: 14, fontWeight: 500 }}>Status</p>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                      {[
+                        { id: 'ativa', label: 'Ativa' },
+                        { id: 'inativa', label: 'Inativa' },
+                        { id: 'agendada', label: 'Agendada' },
+                        { id: 'expirada', label: 'Expirada' },
+                      ].map(({ id, label }) => (
+                        <Chips
+                          key={id}
+                          variant={draftStatus.includes(id) ? 'success' : 'neutral'}
+                          onClick={() => toggleChip(draftStatus, setDraftStatus, id)}
+                          style={{ cursor: 'pointer' }}
+                          role="checkbox"
+                          aria-checked={draftStatus.includes(id)}
+                        >
+                          {label}
+                        </Chips>
+                      ))}
+                    </div>
+                  </div>
+                  <div>
+                    <p style={{ margin: '0 0 8px', fontSize: 14, fontWeight: 500 }}>Tipo</p>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                      {[
+                        { id: 'desconto', label: 'Desconto' },
+                        { id: 'frete-gratis', label: 'Frete Grátis' },
+                        { id: 'cashback', label: 'Cashback' },
+                      ].map(({ id, label }) => (
+                        <Chips
+                          key={id}
+                          variant={draftTipo.includes(id) ? 'success' : 'neutral'}
+                          onClick={() => toggleChip(draftTipo, setDraftTipo, id)}
+                          style={{ cursor: 'pointer' }}
+                          role="checkbox"
+                          aria-checked={draftTipo.includes(id)}
+                        >
+                          {label}
+                        </Chips>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ),
+            },
+          ]}}
+        footer={{
+          totalItems: dadosFiltrados.length,
+          defaultPageSize: 5,
+          pageSizeOptions: [5, 10],
+          currentPage,
+          onPageChange: setCurrentPage,
+          onPageSizeChange: (size) => { setPageSize(size); setCurrentPage(1); },
+        }}
+      />
+    </div>
+  );
+};
+
+ComFiltroCombinado.storyName = 'Com Filtro Combinado (Drawer)';
+
+export const SomenteFiltros: StoryFn = () => {
+  const [selectedStatus, setSelectedStatus] = useState<string[]>([]);
+  const [dataInicio, setDataInicio] = useState<Date | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(5);
+
+  const dadosFiltrados = useMemo(() => {
+    let result = promocoes;
+    if (selectedStatus.length > 0) {
+      result = result.filter((p) =>
+        selectedStatus.includes(p.status.toLowerCase().replace(' ', '-')),
+      );
+    }
+    if (dataInicio) {
+      result = result.filter((p) => p.inicioObj >= dataInicio);
+    }
+    return result;
+  }, [selectedStatus, dataInicio]);
+
+  const paginatedData = useMemo(() => {
+    const start = (currentPage - 1) * pageSize;
+    return dadosFiltrados.slice(start, start + pageSize);
+  }, [dadosFiltrados, currentPage, pageSize]);
+
+  const filterItems: NonNullable<TableV2HeaderProps['filterItems']> = [
+    {
+      id: 'status',
+      buttonText: selectedStatus.length > 0 ? `Status (${selectedStatus.length})` : 'Status',
+      type: 'multiple',
+      items: [
+        { id: 'ativa', text: 'Ativa' },
+        { id: 'inativa', text: 'Inativa' },
+        { id: 'agendada', text: 'Agendada' },
+        { id: 'expirada', text: 'Expirada' },
+      ],
+      selectedIds: selectedStatus,
+      onSelectionChange: (ids: string[]) => { setSelectedStatus(ids); setCurrentPage(1); },
+    },
+    {
+      id: 'inicio',
+      buttonText: dataInicio
+        ? `A partir de ${dataInicio.toLocaleDateString('pt-BR')}`
+        : 'Data de início',
+      type: 'calendar',
+      selectedDate: dataInicio,
+      onDateSelect: (date: Date) => { setDataInicio(date); setCurrentPage(1); },
+      onClear: () => { setDataInicio(null); setCurrentPage(1); },
+      minDate: new Date(2024, 0, 1),
+      maxDate: new Date(2024, 11, 31),
+    },
+  ];
+
+  return (
+    <div style={{ width: 800 }}>
+      <TableV2
+        columns={colunasCompletas}
+        data={paginatedData}
+        header={{ filterItems }}
+        footer={{
+          totalItems: dadosFiltrados.length,
+          defaultPageSize: 5,
+          pageSizeOptions: [5, 10],
+          currentPage,
+          onPageChange: setCurrentPage,
+          onPageSizeChange: (size) => { setPageSize(size); setCurrentPage(1); },
+        }}
+      />
+    </div>
+  );
+};
+
+export const SomenteBusca: StoryFn = () => {
+  const [search, setSearch] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(5);
+
+  const filteredData = useMemo(() => {
+    if (!search) return promocoes;
+    const q = search.toLowerCase();
+    return promocoes.filter(
+      (p) => p.nome.toLowerCase().includes(q) || p.descricao.toLowerCase().includes(q),
+    );
+  }, [search]);
+
+  const paginatedData = useMemo(() => {
+    const start = (currentPage - 1) * pageSize;
+    return filteredData.slice(start, start + pageSize);
+  }, [filteredData, currentPage, pageSize]);
+
+  return (
+    <div style={{ width: 800 }}>
+      <TableV2
+        columns={colunasCompletas}
+        data={paginatedData}
+        header={{
+          searchPlaceholder: 'Buscar promoções...',
+          onSearchChange: (val) => { setSearch(val); setCurrentPage(1); },
+        }}
+        footer={{
+          totalItems: filteredData.length,
+          defaultPageSize: 5,
+          pageSizeOptions: [5, 10],
+          currentPage,
+          onPageChange: setCurrentPage,
+          onPageSizeChange: (size) => { setPageSize(size); setCurrentPage(1); },
+        }}
+      />
+    </div>
+  );
+};
+
+export const SemHeader: StoryFn = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(5);
+
+  const paginatedData = useMemo(() => {
+    const start = (currentPage - 1) * pageSize;
+    return promocoes.slice(start, start + pageSize);
+  }, [currentPage, pageSize]);
+
+  return (
+    <div style={{ width: 800 }}>
+      <TableV2
+        columns={colunasCompletas}
+        data={paginatedData}
+        footer={{
+          totalItems: promocoes.length,
+          defaultPageSize: 5,
+          pageSizeOptions: [5, 10],
+          currentPage,
+          onPageChange: setCurrentPage,
+          onPageSizeChange: (size) => { setPageSize(size); setCurrentPage(1); },
+        }}
+      />
+    </div>
+  );
+};
+
 export const Carregando: StoryFn = () => (
   <div style={{ width: 800 }}>
     <TableV2 columns={colunasCompletas} data={[]} loading />
   </div>
 );
 
-// ─── Vazia ────────────────────────────────────────────────────────────────────
 export const Vazia: StoryFn = () => (
   <div style={{ width: 800 }}>
     <TableV2 columns={colunasCompletas} data={[]}  />
   </div>
 );
 
-// ─── Tabela Responsiva ────────────────────────────────────────────────────────
 const colunasLargas = [
   col.accessor('nome', {
     header: 'Nome',
@@ -402,36 +820,69 @@ const colunasLargas = [
   }),
 ];
 
-export const TabelaResponsiva: StoryFn = () => (
-  <div style={{ width: 500 }}>
-    <TableV2
-      columns={colunasLargas}
-      data={promocoes}
-      header={{ searchPlaceholder: 'Buscar...' }}
-      footer={{
-        totalItems: promocoes.length,
-        defaultPageSize: 5,
-        pageSizeOptions: [5, 10],
-      }}
-    />
-  </div>
-);
+export const TabelaResponsiva: StoryFn = () => {
+  const [search, setSearch] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(5);
 
-TabelaResponsiva.storyName = 'Tabela Responsiva';
+  const filteredData = useMemo(() => {
+    if (!search) return promocoes;
+    const q = search.toLowerCase();
+    return promocoes.filter((p) => p.nome.toLowerCase().includes(q));
+  }, [search]);
 
-// ─── Ações em Massa ──────────────────────────────────────────────────────────
+  const paginatedData = useMemo(() => {
+    const start = (currentPage - 1) * pageSize;
+    return filteredData.slice(start, start + pageSize);
+  }, [filteredData, currentPage, pageSize]);
+
+  return (
+    <div style={{ width: 500 }}>
+      <TableV2
+        columns={colunasLargas}
+        data={paginatedData}
+        header={{
+          searchPlaceholder: 'Buscar...',
+          onSearchChange: (val) => { setSearch(val); setCurrentPage(1); },
+        }}
+        footer={{
+          totalItems: filteredData.length,
+          defaultPageSize: 5,
+          pageSizeOptions: [5, 10],
+          currentPage,
+          onPageChange: setCurrentPage,
+          onPageSizeChange: (size) => { setPageSize(size); setCurrentPage(1); },
+        }}
+      />
+    </div>
+  );
+};
+
 export const AcoesEmMassa: StoryFn = () => {
-  const [selecionados, setSelecionados] = useState<Promocao[]>([]);
+  const [selected, setSelected] = useState<Promocao[]>([]);
+  const [search, setSearch] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+
+  const filteredData = useMemo(() => {
+    if (!search) return promocoes;
+    const q = search.toLowerCase();
+    return promocoes.filter((p) => p.nome.toLowerCase().includes(q));
+  }, [search]);
+
+  const paginatedData = useMemo(() => {
+    const start = (currentPage - 1) * pageSize;
+    return filteredData.slice(start, start + pageSize);
+  }, [filteredData, currentPage, pageSize]);
 
   return (
     <div style={{ width: 800 }}>
       <TableV2
         columns={colunasPadrao}
-        data={promocoes}
-        enableRowSelection
-        onRowSelectionChange={setSelecionados}
+        data={paginatedData}
+        rowSelection={{ onRowChange: (rows) => setSelected(rows) }}
         bulkActions={{
-          onClear: () => setSelecionados([]),
+          onClear: () => setSelected([]),
           actions: [
             {
               label: 'Ativar',
@@ -439,7 +890,7 @@ export const AcoesEmMassa: StoryFn = () => {
               onClick: () =>
                 console.warn(
                   'Ativar:',
-                  selecionados.map((r) => r.nome),
+                  selected.map((r) => r.nome),
                 ),
             },
             {
@@ -448,7 +899,7 @@ export const AcoesEmMassa: StoryFn = () => {
               onClick: () =>
                 console.warn(
                   'Pausar:',
-                  selecionados.map((r) => r.nome),
+                  selected.map((r) => r.nome),
                 ),
             },
             {
@@ -457,16 +908,22 @@ export const AcoesEmMassa: StoryFn = () => {
               onClick: () =>
                 console.warn(
                   'Excluir:',
-                  selecionados.map((r) => r.nome),
+                  selected.map((r) => r.nome),
                 ),
             },
           ],
         }}
-        header={{ searchPlaceholder: 'Buscar promoções...' }}
+        header={{
+          searchPlaceholder: 'Buscar promoções...',
+          onSearchChange: (val) => { setSearch(val); setCurrentPage(1); },
+        }}
         footer={{
-          totalItems: promocoes.length,
+          totalItems: filteredData.length,
           defaultPageSize: 10,
           pageSizeOptions: [5, 10, 25],
+          currentPage,
+          onPageChange: setCurrentPage,
+          onPageSizeChange: (size) => { setPageSize(size); setCurrentPage(1); },
         }}
       />
     </div>
@@ -474,4 +931,82 @@ export const AcoesEmMassa: StoryFn = () => {
 };
 
 AcoesEmMassa.storyName = 'Ações em Massa';
+
+// ─── Seleção com Linhas Desabilitadas ────────────────────────────────────────
+export const SelecaoComLinhasDesabilitadas: StoryFn = () => {
+  const [selected, setSelected] = useState<Promocao[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+
+  const paginatedData = useMemo(() => {
+    const start = (currentPage - 1) * pageSize;
+    return promocoes.slice(start, start + pageSize);
+  }, [currentPage, pageSize]);
+
+  return (
+    <div style={{ width: 800, display: 'flex', flexDirection: 'column', gap: 16 }}>
+      <p style={{ fontSize: 13, color: 'var(--color-neutral-low-medium)', margin: 0 }}>
+        Promoções <strong>Expiradas</strong> têm o checkbox desabilitado —{' '}
+        <code>{`rowSelection={{ disabled: (row) => row.status === 'Expirada' }}`}</code>
+      </p>
+      <TableV2
+        columns={colunasPadrao}
+        data={paginatedData}
+        rowSelection={{
+          disabled: (row) => row.status === 'Expirada',
+          onRowChange: (rows) => setSelected(rows),
+        }}
+        bulkActions={{
+          onClear: () => setSelected([]),
+          actions: [
+            {
+              label: 'Ativar selecionadas',
+              variant: 'filled',
+              onClick: () => console.warn('Ativar:', selected.map((r) => r.nome)),
+            },
+          ],
+        }}
+        footer={{
+          totalItems: promocoes.length,
+          defaultPageSize: 10,
+          pageSizeOptions: [5, 10, 25],
+          currentPage,
+          onPageChange: setCurrentPage,
+          onPageSizeChange: (size) => { setPageSize(size); setCurrentPage(1); },
+        }}
+      />
+      <div
+        style={{
+          padding: '12px 16px',
+          border: '2px dashed var(--color-neutral-high-dark)',
+          borderRadius: 'var(--border-radius-8)',
+          background: 'var(--color-neutral-high-pure, #f5f5f5)',
+          minHeight: 48,
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 8,
+        }}
+      >
+        <span style={{ fontSize: 12, color: 'var(--color-neutral-low-medium)', fontWeight: 600 }}>
+          ITENS SELECIONADOS ({selected.length})
+        </span>
+        {selected.length === 0 ? (
+          <span style={{ fontSize: 14, color: 'var(--color-neutral-low-light)' }}>
+            Nenhum item selecionado
+          </span>
+        ) : (
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+            {selected.map((r) => (
+              <Chips key={r.id} variant={statusColor[r.status] ?? 'neutral'}>
+                {r.nome}
+              </Chips>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+SelecaoComLinhasDesabilitadas.storyName = 'Seleção com Linhas Desabilitadas';
 

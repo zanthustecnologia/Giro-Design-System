@@ -12,8 +12,10 @@ const meta: Meta<typeof Search> = {
   argTypes: {
     placeholder: { control: { type: 'text' } },
     disabled: { control: { type: 'boolean' } },
+    searchMode: { control: { type: 'select' }, options: ['instant', 'on-enter'] },
     value: { control: false },
     onChange: { control: false },
+    onSearch: { control: false },
     onKeyDown: { control: false },
     onFocus: { control: false },
     onBlur: { control: false },
@@ -134,6 +136,42 @@ export const WithVirtualKeyboard: Story = {
           onChange={(e) => setValue(e.target.value)}
           onClear={() => setValue('')}
         />
+
+export const ModoEnter: Story = {
+  render: () => {
+    const [query, setQuery] = useState('');
+    const [searchedQuery, setSearchedQuery] = useState('');
+    const filtered = produtosList.filter((item) =>
+      item.toLowerCase().includes(searchedQuery.toLowerCase())
+    );
+
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', width: '300px' }}>
+        <Search
+          placeholder="Pesquisar e pressionar Enter"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          onClear={() => {
+            setQuery('');
+            setSearchedQuery('');
+          }}
+          searchMode="on-enter"
+          onSearch={(value) => setSearchedQuery(value)}
+        />
+        <p style={{ margin: 0, fontSize: '12px', color: 'var(--color-neutral-low-medium)' }}>
+          {searchedQuery
+            ? `Resultados para: "${searchedQuery}"`
+            : 'Digite algo e pressione Enter para pesquisar'}
+        </p>
+        <ul style={{ margin: 0, padding: '0 0 0 16px', fontSize: '13px', color: 'var(--color-neutral-low-dark)' }}>
+          {filtered.length > 0 ? (
+            filtered.map((item) => <li key={item}>{item}</li>)
+          ) : (
+            <li style={{ listStyle: 'none', color: 'var(--color-neutral-low-medium)' }}>
+              Nenhum resultado encontrado
+            </li>
+          )}
+        </ul>
       </div>
     );
   },
