@@ -77,6 +77,16 @@ export const Default: Story = {
   render: (args) => {
     const [value, setValue] = useState('');
     const inputRef = useRef<HTMLInputElement>(null);
+    const normalizedMaxLength =
+      typeof args.maxLength === 'number' && Number.isFinite(args.maxLength) && args.maxLength >= 0
+        ? args.maxLength
+        : undefined;
+
+    const virtualKeyboardArgs = {
+      ...args,
+      maxLength: normalizedMaxLength,
+    };
+
     return (
       <div style={{ display: 'flex', flexDirection: 'column', width: '420px' }}>
         {args.variant === 'native' && (
@@ -92,7 +102,7 @@ export const Default: Story = {
           />
         </div>
         )}
-        <VirtualKeyboard {...args} targetRef={inputRef as React.RefObject<HTMLInputElement>} value={value} onChange={setValue} />
+        <VirtualKeyboard {...virtualKeyboardArgs} targetRef={inputRef as React.RefObject<HTMLInputElement>} value={value} onChange={setValue} />
       </div>
     );
   },
