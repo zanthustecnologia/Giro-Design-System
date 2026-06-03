@@ -68,42 +68,86 @@ const meta: Meta<typeof VirtualKeyboard> = {
 
 export default meta;
 
-export const Default: Story = {
-  args: {
-    variant: 'native',
-    type: 'default',
-    Emoji: false,
-  },
-  render: (args) => {
-    const [value, setValue] = useState('');
-    const inputRef = useRef<HTMLInputElement>(null);
-    const normalizedMaxLength =
-      typeof args.maxLength === 'number' && Number.isFinite(args.maxLength) && args.maxLength >= 0
-        ? args.maxLength
-        : undefined;
+const renderKeyboard = (args: React.ComponentProps<typeof VirtualKeyboard>) => {
+  const [value, setValue] = useState('');
+  const inputRef = useRef<HTMLInputElement>(null);
 
-    const virtualKeyboardArgs = {
-      ...args,
-      maxLength: normalizedMaxLength,
-    };
-
-    return (
-      <div style={{ display: 'flex', flexDirection: 'column', width: '500px' }}>
-        {args.variant === 'native' && (
-          <div style={{ marginBottom: '20px' }}>
-            <TextField
-              label="Campo de texto"
-              value={value}
-              onChange={setValue}
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', width: args.type === 'numeric' ? '320px' : '500px' }}>
+      {args.variant === 'native' && (
+        <div style={{ marginBottom: '20px' }}>
+          <TextField
+            label="Campo de texto"
+            value={value}
+            onChange={setValue}
             placeholder="Clique aqui para abrir o teclado..."
             readOnly
             helperText="Clique no campo para abrir o teclado virtual"
             ref={inputRef}
           />
         </div>
-        )}
-        <VirtualKeyboard {...virtualKeyboardArgs} targetRef={inputRef as React.RefObject<HTMLInputElement>} value={value} onChange={setValue} />
-      </div>
-    );
+      )}
+      <VirtualKeyboard
+        {...args}
+        targetRef={inputRef as React.RefObject<HTMLInputElement>}
+        value={value}
+        onChange={setValue}
+      />
+    </div>
+  );
+};
+
+export const Default: Story = {
+  args: {
+    variant: 'native',
+    type: 'default',
+    Emoji: false,
   },
+  render: renderKeyboard,
+};
+
+export const ModoFixed: Story = {
+  args: {
+    variant: 'fixed',
+    type: 'default',
+    Emoji: false,
+    textFieldPlaceholder: 'Digite aqui...',
+  },
+  render: renderKeyboard,
+};
+
+export const ModoNative: Story = {
+  args: {
+    variant: 'native',
+    type: 'default',
+    Emoji: false,
+  },
+  render: renderKeyboard,
+};
+
+export const ShiftECapsLock: Story = {
+  args: {
+    variant: 'native',
+    type: 'default',
+    Emoji: false,
+  },
+  render: renderKeyboard,
+};
+
+export const Numerico: Story = {
+  args: {
+    variant: 'native',
+    type: 'numeric',
+    Emoji: false,
+  },
+  render: renderKeyboard,
+};
+
+export const SemEmoji: Story = {
+  args: {
+    variant: 'native',
+    type: 'default',
+    Emoji: false,
+  },
+  render: renderKeyboard,
 };
