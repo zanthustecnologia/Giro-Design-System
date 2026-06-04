@@ -1,15 +1,17 @@
 import clsx from 'clsx';
-import React, { useState, useCallback, useEffect, useRef, useLayoutEffect, useMemo } from 'react';
+import React, { createElement, useState, useCallback, useEffect, useRef, useLayoutEffect, useMemo } from 'react';
 import { createPortal } from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import Keyboard from 'react-simple-keyboard';
 import 'react-simple-keyboard/build/css/index.css';
 
 import TextField from '../TextField';
-import { LAYOUT_DISPLAY } from './components/IconDisplay';
+import { LAYOUT_DISPLAY, ICON_KEY_MAP } from './components/IconDisplay';
 import { NATIVE_LAYOUT_KEYS, SHIFT_TOGGLES, LAYOUT_THEMES, getNativeLayout } from './components/Variants';
 import styles from './VirtualKeyboard.module.scss';
 
 import type { VirtualKeyboardProps } from './VirtualKeyboard.type';
+import type { Root } from 'react-dom/client';
 
 const LONG_PRESS_DELAY_MS = 400;
 
@@ -92,6 +94,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
   const accentButtonRef = useRef<HTMLButtonElement | null>(null);
   const accentMenuOpenRef = useRef(false);
   const valueRef = useRef(value);
+  const iconRootsRef = useRef<Root[]>([]);
 
   useEffect(() => {
     valueRef.current = value;
@@ -221,6 +224,37 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
       setAccentMenuOffsetX(nextOffset);
     }
   }, [accentMenu, accentMenuOffsetX]);
+
+  useEffect(() => {
+    if (!keyboardWrapperRef.current) return;
+
+    const inject = (container: HTMLElement) => {
+      container.querySelectorAll<HTMLElement>('[data-icon-key]').forEach((slot) => {
+        if (slot.hasAttribute('data-icon-root')) return;
+        const key = slot.getAttribute('data-icon-key');
+        const Icon = key ? ICON_KEY_MAP[key] : undefined;
+        if (!Icon) return;
+        slot.setAttribute('data-icon-root', 'true');
+        const root = createRoot(slot);
+        root.render(createElement(Icon));
+        iconRootsRef.current.push(root);
+      });
+    };
+
+    inject(keyboardWrapperRef.current);
+
+    const observer = new MutationObserver(() => {
+      if (keyboardWrapperRef.current) inject(keyboardWrapperRef.current);
+    });
+
+    observer.observe(keyboardWrapperRef.current, { childList: true, subtree: true });
+
+    return () => {
+      observer.disconnect();
+      iconRootsRef.current.forEach((root) => { try { root.unmount(); } catch { /* noop */ } });
+      iconRootsRef.current = [];
+    };
+  }, []);
 
   useEffect(() => {
     closeAccentMenu();
@@ -531,7 +565,6 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
         display={keyboardDisplay}
         onChange={handleChange}
         onKeyPress={handleKeyPress}
-        input={value}
         preventMouseDownDefault
       />
 
