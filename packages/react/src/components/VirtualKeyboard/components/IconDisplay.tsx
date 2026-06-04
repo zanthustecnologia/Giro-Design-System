@@ -3,7 +3,8 @@ import {
   ChevronDown20Regular,
   KeyboardShift20Filled,
   KeyboardShift20Regular,
-  KeyboardShiftUppercase20Regular
+  KeyboardShiftUppercase20Regular,
+  Emoji20Regular
 } from '@fluentui/react-icons';
 
 import type { VirtualKeyboardType } from '../VirtualKeyboard.type';
@@ -17,6 +18,7 @@ export const ICON_KEY_MAP: Record<string, ElementType> = {
   shiftactivated: KeyboardShift20Filled,
   capslock:       KeyboardShiftUppercase20Regular,
   downkeyboard:   ChevronDown20Regular,
+  emoji:         Emoji20Regular,
 };
 
 export const LAYOUT_DISPLAY: Partial<Record<VirtualKeyboardType, Record<string, string>>> = {
@@ -26,7 +28,7 @@ export const LAYOUT_DISPLAY: Partial<Record<VirtualKeyboardType, Record<string, 
     '{abc}':            'ABC',
     '{alt}':            '.?!',
     '{alt2}':           '#+=',
-    '{emoticon}':       '😃',
+    '{emoticon}':       iconSlot('emoji'),
     '{shift}':          iconSlot('shift'),
     '{shiftactivated}': iconSlot('shiftactivated'),
     '{enter}':          'Enter',
@@ -44,7 +46,7 @@ export const LAYOUT_DISPLAY: Partial<Record<VirtualKeyboardType, Record<string, 
     '{numbers}':        '123',
     '{alt}':            '.?!',
     '{alt2}':           '#+=',
-    '{emoticon}':       '😃',
+    '{emoticon}':       iconSlot('emoji'),
     '{shift}':          iconSlot('shift'),
     '{shiftactivated}': iconSlot('shiftactivated'),
     '{altright}':       '.?123',
