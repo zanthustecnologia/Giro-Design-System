@@ -9,10 +9,8 @@ import {
 import type { VirtualKeyboardType } from '../VirtualKeyboard.type';
 import type { ElementType } from 'react';
 
-/** Cria um placeholder HTML com `data-icon-key` — o ícone React real é injetado em VirtualKeyboard via MutationObserver + createRoot */
 const iconSlot = (key: string): string => `<span data-icon-key="${key}"></span>`;
 
-/** Mapeamento de chave de slot → componente de ícone @fluentui/react-icons */
 export const ICON_KEY_MAP: Record<string, ElementType> = {
   bksp:           Backspace20Regular,
   shift:          KeyboardShift20Regular,

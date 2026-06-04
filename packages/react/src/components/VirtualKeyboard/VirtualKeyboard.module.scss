@@ -23,6 +23,12 @@
         height: 1em;
         vertical-align: middle;
       }
+
+      [data-icon-key] {
+        display: inline-flex;
+        align-items: center;
+        vertical-align: middle;
+      }
     }
 
     :global(.hg-button:active),
