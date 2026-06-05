@@ -8,7 +8,7 @@ const meta: Meta<typeof Tooltip> = {
   title: 'Components/Tooltip',
   component: Tooltip,
   parameters: {
-    layout: 'centered',
+    // layout: 'centered',
   },
 
   argTypes: {
@@ -54,7 +54,7 @@ export const Default: Story = {
   ),
 };
 
-export const WithButton: Story = {
+export const ComBotao: Story = {
   args: {
     text: 'Clique no botão para realizar uma ação',
   },
@@ -64,8 +64,9 @@ export const WithButton: Story = {
     </Tooltip>
   ),
 };
+ComBotao.storyName = 'Com Botão';
 
-export const PositionBottom: Story = {
+export const PosicaoAbaixo: Story = {
   args: {
     text: 'Abaixo do elemento',
     side: 'bottom',
@@ -76,8 +77,9 @@ export const PositionBottom: Story = {
     </Tooltip>
   ),
 };
+PosicaoAbaixo.storyName = 'Posição Abaixo';
 
-export const PositionLeft: Story = {
+export const PosicaoEsquerda: Story = {
   args: {
     text: 'À esquerda do elemento',
     side: 'left',
@@ -88,8 +90,9 @@ export const PositionLeft: Story = {
     </Tooltip>
   ),
 };
+PosicaoEsquerda.storyName = 'Posição Esquerda';
 
-export const PositionRight: Story = {
+export const PosicaoDireita: Story = {
   args: {
     text: 'À direita do elemento',
     side: 'right',
@@ -99,4 +102,4 @@ export const PositionRight: Story = {
       <Button>Hover me</Button>
     </Tooltip>
   ),
-};
+};PosicaoDireita.storyName = 'Posição Direita';

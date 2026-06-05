@@ -7,7 +7,9 @@ import { MoreVertical16Regular } from '@fluentui/react-icons';
 const meta: Meta = {
   title: 'Components/Table',
   component: Table,
-  parameters: { layout: 'centered' },
+  parameters: {
+    // layout: 'centered',
+  },
 };
 
 export default meta;

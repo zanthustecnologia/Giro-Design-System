@@ -21,7 +21,7 @@ const meta: Meta<typeof Menu> = {
   title: 'Components/Menu',
   component: Menu,
   parameters: {
-    layout: 'centered',
+    // layout: 'centered',
   },
   argTypes: {
     search: { control: 'boolean' },

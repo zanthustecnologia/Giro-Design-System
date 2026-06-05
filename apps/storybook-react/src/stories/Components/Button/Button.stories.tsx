@@ -11,7 +11,7 @@ export default {
     controls: {
       sort: 'alpha',
     },
-    layout: 'centered',
+    // layout: 'centered',
   },
   argTypes: {
     children: {
@@ -88,7 +88,7 @@ Default.args = {
   size: 'lg',
 };
 
-export const Variants: StoryFn<ButtonProps> = () => (
+export const Variantes: StoryFn<ButtonProps> = () => (
   <div style={{ display: 'flex', gap: '24px' }}>
     <Button variant="filled" size="lg">
       Filled Button
@@ -102,7 +102,7 @@ export const Variants: StoryFn<ButtonProps> = () => (
   </div>
 );
 
-export const Sizes: StoryFn<ButtonProps> = () => (
+export const Tamanhos: StoryFn<ButtonProps> = () => (
   <div style={{ display: 'flex', gap: '24px' }}>
     <Button
       variant="filled"
@@ -121,7 +121,7 @@ export const Sizes: StoryFn<ButtonProps> = () => (
   </div>
 );
 
-const TemplateWithIcons: StoryFn<ButtonProps> = (args) => (
+const TemplateComIcones: StoryFn<ButtonProps> = (args) => (
   <div style={{ display: 'flex', gap: '24px' }}>
     <Button {...args} icon={<Add16Regular />} iconPosition="right">
       Button
@@ -135,14 +135,14 @@ const TemplateWithIcons: StoryFn<ButtonProps> = (args) => (
   </div>
 );
 
-export const WithIcons = TemplateWithIcons.bind({});
-WithIcons.args = {
+export const ComIcones = TemplateComIcones.bind({});
+ComIcones.args = {
   variant: 'filled',
   size: 'lg',
 };
-export const IconOnly: StoryFn<ButtonProps> = (args) => <Button {...args} />;
+export const ApenasIcone: StoryFn<ButtonProps> = (args) => <Button {...args} />;
 
-IconOnly.args = {
+ApenasIcone.args = {
   variant: 'filled',
   size: 'lg',
   iconOnly: true,

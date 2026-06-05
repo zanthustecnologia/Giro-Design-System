@@ -17,7 +17,7 @@ const meta: Meta<typeof Quantity> = {
   title: 'Components/Quantity',
   component: Quantity,
   parameters: {
-    layout: 'centered',
+    // layout: 'centered',
   },
   argTypes: {
     value: {

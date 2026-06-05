@@ -7,7 +7,7 @@ const meta: Meta<typeof Dialog> = {
   title: 'Components/Dialog',
   component: Dialog,
   parameters: {
-    layout: 'centered',
+    // layout: 'centered',
   },
   argTypes: {
     title: {
@@ -33,6 +33,22 @@ const meta: Meta<typeof Dialog> = {
 
 export default meta;
 
+// Story com ação única — Dialog sempre aberto
+export const Default: StoryFn<DialogProps> = (args) => {
+  const [isOpen, setIsOpen] = useState(false);
+  return (
+    <>
+      <Button onClick={() => setIsOpen(true)}>Abrir Dialog</Button>
+      <Dialog {...args} show={isOpen} onPrimaryAction={() => setIsOpen(false)} />
+    </>
+  );
+};
+Default.args = {
+  title: 'Título do dialog',
+  bodyContent: 'Mensagem do dialog',
+  textPrimaryAction: 'Ok',
+};
+
 // Story interativa — abre o Dialog ao clicar no botão
 export const Interativo: StoryFn<DialogProps> = (args) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -53,22 +69,6 @@ Interativo.args = {
   bodyContent: 'Mensagem do dialog',
   textPrimaryAction: 'Confirmar',
   textSecondaryAction: 'Cancelar',
-};
-
-// Story com ação única — Dialog sempre aberto
-export const Default: StoryFn<DialogProps> = (args) => {
-  const [isOpen, setIsOpen] = useState(false);
-  return (
-    <>
-      <Button onClick={() => setIsOpen(true)}>Abrir Dialog</Button>
-      <Dialog {...args} show={isOpen} onPrimaryAction={() => setIsOpen(false)} />
-    </>
-  );
-};
-Default.args = {
-  title: 'Título do dialog',
-  bodyContent: 'Mensagem do dialog',
-  textPrimaryAction: 'Ok',
 };
 
 // Story com duas ações — Dialog sempre aberto

@@ -7,7 +7,7 @@ const meta: Meta<typeof Drawer> = {
   title: 'Components/Drawer',
   component: Drawer,
   parameters: {
-    layout: 'centered',
+    // layout: 'centered',
   },
   argTypes: {
     title: { control: 'text' },

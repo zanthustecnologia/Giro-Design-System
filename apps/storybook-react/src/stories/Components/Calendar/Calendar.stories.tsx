@@ -6,7 +6,7 @@ const meta: Meta<typeof Calendar> = {
   title: 'Components/Calendar',
   component: Calendar,
   parameters: {
-    layout: 'centered',
+    // layout: 'centered',
     docs: {
       description: {
         component: 'Componente de calendário interativo com suporte a internacionalização e diferentes formatos de data.',

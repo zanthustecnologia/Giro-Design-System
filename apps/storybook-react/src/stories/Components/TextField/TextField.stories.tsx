@@ -12,7 +12,7 @@ const meta: Meta<typeof TextField> = {
     controls: {
       sort: 'alpha'
     },
-    layout: 'centered',
+    // layout: 'centered',
   },
   
   argTypes: {
@@ -158,7 +158,7 @@ export const ComTooltip: Story = {
   ),
 };
 
-export const Disabled: Story = {
+export const Desabilitado: Story = {
   args: {
     placeholder: 'Ex.: João da Silva',
     label: 'Campo desabilitado',
@@ -172,7 +172,7 @@ export const Disabled: Story = {
   ),
 };
 
-export const Required: Story = {
+export const Obrigatorio: Story = {
   args: {
     placeholder: 'Ex.: João da Silva',
     label: 'Nome',
@@ -185,8 +185,9 @@ export const Required: Story = {
     </div>
   ),
 };
+Obrigatorio.storyName = 'Obrigatório';
 
-export const WithDifferentIcons: Story = {
+export const DiferentesIcones: Story = {
   render: () => (
     <div className='storybook__container' style={{ display: 'flex', gap: '16px', flexDirection: 'column' }}>
       <TextField 
@@ -207,3 +208,4 @@ export const WithDifferentIcons: Story = {
     </div>
   ),
 };
+DiferentesIcones.storyName = 'Diferentes Ícones';

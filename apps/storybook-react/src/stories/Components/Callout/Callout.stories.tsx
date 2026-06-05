@@ -25,7 +25,7 @@ const meta: Meta<typeof Callout> = {
     controls: {
       sort: 'requiredFirst',
     },
-    layout: 'padded',
+    // layout: 'padded',
   },
   argTypes: {
     variant: {
@@ -94,16 +94,6 @@ export const Default: Story = {
   } as any,
 };
 
-export const Removivel_DismissLabel: Story = {
-  name: 'Dismiss',
-  args: {
-    variant: 'neutral',
-    text: 'Esta notificação pode ser dispensada.',
-    dismiss: true,
-    onDismiss: () => {},
-  },
-};
-
 export const CoresCustomizadas: StoryFn = () => (
   <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
     <Callout
@@ -122,7 +112,7 @@ export const CoresCustomizadas: StoryFn = () => (
   </div>
 );
 
-export const Variants: StoryFn = () => (
+export const Variantes: StoryFn = () => (
   <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
     <Callout variant="neutral" text="Neutral: Mensagem informativa neutra em relação ao conteúdo da jornada." icon={<Info24Regular />} />
     <Callout variant="brand" text="Brand: Novidade: experimente o novo modo de visualização compacta." icon={<Star24Regular />} />
@@ -164,6 +154,10 @@ export const Removivel: StoryFn = () => {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+      <p style={{ fontSize: 13, color: 'var(--color-neutral-low-medium)', margin: 0 }}>
+        O botão de fechar só funciona quando <code>onDismiss</code> é passado —{' '}
+        <code>{`<Callout dismiss onDismiss={() => setItems((prev) => prev.filter((i) => i.id !== item.id))} />`}</code>
+      </p>
       {items.map((item) => (
         <Callout
           key={item.id}

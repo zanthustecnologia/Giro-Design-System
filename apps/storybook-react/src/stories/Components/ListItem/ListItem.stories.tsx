@@ -8,7 +8,7 @@ const meta: Meta<typeof ListItem> = {
     title: 'Components/ListItem',
     component: ListItem,
     parameters: {
-        layout: 'centered'
+        // layout: 'centered'
     },
       argTypes: {
         variant: {

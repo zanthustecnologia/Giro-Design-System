@@ -14,7 +14,7 @@ const meta: Meta<SwitchProps> = {
           'Componente Switch usando Radix UI com estilização customizada e melhor organização de código.',
       },
     },
-    layout: 'centered',
+    // layout: 'centered',
   },
 
   argTypes: {
@@ -47,14 +47,14 @@ export const Default: Story = {
   ),
 };
 
-export const Checked: Story = {
+export const Marcado: Story = {
   render: (args) => <Switch {...args} />,
   args: {
     defaultChecked: true,
   },
 };
 
-export const Disabled: Story = {
+export const Desabilitado: Story = {
   render: () => (
     <div style={{ display: 'flex', gap: '24px', alignItems: 'center' }}>
       <Switch disabled />

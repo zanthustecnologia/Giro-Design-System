@@ -8,9 +8,9 @@ import type { Meta, StoryObj } from '@storybook/react';
 const meta: Meta<AvatarProps> = {
   title: "Components/Avatar",
   component: Avatar,
-  parameters: {
-    layout: 'centered'
-  },
+  // parameters: {
+  //   layout: 'centered'
+  // },
   argTypes: {
     size: {
       control: { type: 'select' },
@@ -74,7 +74,7 @@ export const ComIniciais: Story = {
   },
 };
 
-export const Sizes: Story = {
+export const Tamanhos: Story = {
   render: () => (
     <div style={{ display: 'flex', gap: '24px', alignItems: 'center' }}>
       <Avatar icon={<Person16Regular />} size="lg" initialLetters="GR" />

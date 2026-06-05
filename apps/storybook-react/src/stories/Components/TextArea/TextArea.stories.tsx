@@ -10,7 +10,7 @@ const meta: Meta<typeof TextArea> = {
   component: TextArea,
   parameters: {
     
-    layout: 'centered',
+    // layout: 'centered',
   },
   
   argTypes: {
@@ -115,7 +115,7 @@ export const Default: Story = {
   ),
 };
 
-export const Disabled: Story = {
+export const Desabilitado: Story = {
   args: {
     placeholder: 'Campo desabilitado',
     label: 'Campo Desabilitado',
@@ -129,7 +129,7 @@ export const Disabled: Story = {
   ),
 };
 
-export const Required: Story = {
+export const Obrigatorio: Story = {
   args: {
     placeholder: 'Campo obrigatório',
     label: 'Nome ',
@@ -142,3 +142,4 @@ export const Required: Story = {
     </div>
   ),
 };
+Obrigatorio.storyName = 'Obrigatório';

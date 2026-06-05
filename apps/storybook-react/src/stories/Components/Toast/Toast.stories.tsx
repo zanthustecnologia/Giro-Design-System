@@ -96,7 +96,7 @@ export const Persistente: StoryFn = () => (
   />
 );
 
-export const StressTest: StoryFn = () => {
+export const TesteDeCarga: StoryFn = () => {
   const { showToast } = useToast();
   const [count, setCount] = React.useState(0);
 
@@ -120,3 +120,4 @@ export const StressTest: StoryFn = () => {
     </div>
   );
 };
+TesteDeCarga.storyName = 'Teste de Carga';

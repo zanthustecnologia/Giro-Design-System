@@ -6,7 +6,7 @@ const meta: Meta<typeof Modal> = {
   title: 'Components/Modal',
   component: Modal,
   parameters: {
-    layout: 'centered',
+    // layout: 'centered',
   },
   argTypes: {
     title: { control: 'text' },
@@ -166,7 +166,7 @@ export const ComFooter: Story = {
   },
 };
 
-export const Fullscreen: Story = {
+export const TelaCheia: Story = {
   render: () => {
     const [isOpen, setIsOpen] = useState(false);
     return (

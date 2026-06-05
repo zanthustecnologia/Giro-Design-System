@@ -6,7 +6,7 @@ const meta: Meta<typeof Container> = {
   title: 'Components/Container',
   component: Container,
   parameters: {
-    layout: 'fullscreen',
+    // layout: 'fullscreen',
   },
   argTypes: {
     children: { table: { disable: true } },
