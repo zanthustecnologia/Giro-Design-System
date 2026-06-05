@@ -7,6 +7,11 @@ export default {
   title: 'Components/Badge',
   component: Badge,
   parameters: {
+    docs: {
+      description: {
+        component: 'Badge é um indicador visual sobreposto a um elemento para comunicar notificações, contagens ou estados.',
+      },
+    },
     controls: {
       sort: 'alpha',
     },

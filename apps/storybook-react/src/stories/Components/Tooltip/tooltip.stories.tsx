@@ -8,19 +8,23 @@ const meta: Meta<typeof Tooltip> = {
   title: 'Components/Tooltip',
   component: Tooltip,
   parameters: {
-    // layout: 'centered',
+    docs: {
+      description: {
+        component: 'O Tooltip exibe uma mensagem de texto ao passar o mouse sobre um elemento. É usado para fornecer informações complementares sem ocupar espaço permanente na interface.',
+      },
+    },
   },
 
   argTypes: {
     side: {
       control: 'select',
       options: ['top','bottom', 'left', 'right'],
-      description: 'Posição do tooltip'
+      description: 'Lado em que o tooltip aparece em relação ao elemento'
     },
     align: {
       control: 'select',
       options: ['start', 'center', 'end'],
-      description: 'Posição do tooltip'
+      description: 'Alinhamento do tooltip ao longo do eixo perpendicular ao side'
     },
     text: {
       control: 'text',

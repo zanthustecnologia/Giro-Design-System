@@ -7,7 +7,11 @@ const meta: Meta<typeof Dialog> = {
   title: 'Components/Dialog',
   component: Dialog,
   parameters: {
-    // layout: 'centered',
+    docs: {
+      description: {
+        component: 'O Dialog é uma janela modal que sobrepõe o conteúdo da página para solicitar uma decisão ou confirmação do usuário. O fluxo principal fica bloqueado até que o Dialog seja respondido ou fechado.',
+      },
+    },
   },
   argTypes: {
     title: {

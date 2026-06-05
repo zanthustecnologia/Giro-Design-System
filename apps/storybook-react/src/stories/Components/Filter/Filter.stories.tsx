@@ -15,7 +15,7 @@ const meta: Meta<typeof Filter> = {
   parameters: {
     docs: {
       description: {
-        component: 'Componente de filtro que encapsula o Dropdown com modo filter automático.',
+        component: 'O Filter é um botão que expande um painel de seleção de opções. Permite ao usuário aplicar filtros em listas, tabelas ou qualquer conjunto de dados, com suporte a seleção múltipla, busca e integração com calendário.',
       },
     },
   },

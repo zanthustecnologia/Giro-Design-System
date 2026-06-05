@@ -7,6 +7,11 @@ const meta: Meta<typeof DatePicker> = {
   title: 'Components/Date Picker',
   component: DatePicker,
   parameters: {
+    docs: {
+      description: {
+        component: 'O DatePicker é um campo de entrada de data que combina um input de texto com um calendário. O usuário pode digitar a data diretamente ou selecioná-la pelo calendário.',
+      },
+    },
     // layout: 'centered',
   },
   argTypes: {

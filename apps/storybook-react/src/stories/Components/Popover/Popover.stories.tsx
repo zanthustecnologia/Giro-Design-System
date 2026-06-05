@@ -16,7 +16,11 @@ const meta: Meta<typeof Popover> = {
   title: 'Components/Popover',
   component: Popover,
   parameters: {
-    // layout: 'centered',
+    docs: {
+      description: {
+        component: 'O Popover é um painel flutuante ancorado a um gatilho. Diferente do Tooltip, exibe conteúdo interativo: informações estruturadas, ações rápidas ou confirmações simples.',
+      },
+    },
   },
   argTypes: {
     side: {
@@ -31,7 +35,6 @@ const meta: Meta<typeof Popover> = {
     },
     trigger: { table: { disable: true } },
     content: { table: { disable: true } },
-    onDateSelect: { table: { disable: true } },
   },
   args: {
     side: 'bottom',

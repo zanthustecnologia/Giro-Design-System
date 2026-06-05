@@ -7,11 +7,14 @@ const meta: Meta<typeof Drawer> = {
   title: 'Components/Drawer',
   component: Drawer,
   parameters: {
+    docs: {
+      description: {
+        component: 'O Drawer é um painel deslizante que aparece pela lateral direita da tela sobre um overlay semitransparente. É usado para exibir conteúdo secundário, formulários, filtros ou configurações sem remover o usuário do contexto principal da página.',
+      },
+    },
     // layout: 'centered',
   },
   argTypes: {
-    title: { control: 'text' },
-    customWidth: { control: 'text' },
     closeOnOverlayClick: { control: 'boolean' },
     closeOnEscape: { control: 'boolean' },
     disabled: { control: 'boolean' },

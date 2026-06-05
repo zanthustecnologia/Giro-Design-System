@@ -9,6 +9,11 @@ const meta: Meta<typeof TextField> = {
   title: 'Components/TextField',
   component: TextField,
   parameters: {
+    docs: {
+      description: {
+        component: 'O Text Field é um campo de entrada de texto que suporta validação, ícones e feedback visual de estado. Pode ser usado para capturar texto livre, e-mail, senha, número, telefone ou URL.',
+      },
+    },
     controls: {
       sort: 'alpha'
     },

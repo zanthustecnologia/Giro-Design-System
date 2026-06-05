@@ -22,6 +22,11 @@ const meta: Meta<typeof Callout> = {
   title: 'Components/Callout',
   component: Callout,
   parameters: {
+    docs: {
+      description: {
+        component: 'Callout é um bloco de conteúdo em destaque, projetado para ser visualmente mais proeminente do que o texto ao redor. Use-o para destacar informações relevantes, dicas, avisos, requisitos ou notas, sem interromper o fluxo da página.',
+      },
+    },
     controls: {
       sort: 'requiredFirst',
     },

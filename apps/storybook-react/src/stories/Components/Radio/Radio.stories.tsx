@@ -6,7 +6,11 @@ const meta: Meta<typeof Radio> = {
   title: 'Components/Radio',
   component: Radio,
   parameters: {
-    // layout: 'centered'
+    docs: {
+      description: {
+        component: 'Radio é um controle de formulário que permite ao usuário selecionar exatamente uma opção dentro de um grupo. Ao contrário do Checkbox, selecionar um item automaticamente desmarca os demais.',
+      },
+    },
   },
   args: {
     orientation: 'vertical',

@@ -10,13 +10,10 @@ const meta: Meta<SwitchProps> = {
   parameters: {
     docs: {
       description: {
-        component:
-          'Componente Switch usando Radix UI com estilização customizada e melhor organização de código.',
+        component: 'O Switch é um controle de alternância que representa dois estados: ativado ou desativado. É a versão visual de uma escolha binária imediata: ao ser acionado, o efeito acontece na hora, sem necessidade de confirmação.',
       },
     },
-    // layout: 'centered',
   },
-
   argTypes: {
     disabled: {
       description: 'Campo desabilitado',
@@ -34,11 +31,6 @@ const meta: Meta<SwitchProps> = {
 };
 
 export default meta;
-
-// Template base
-const Template = (args: React.ComponentProps<typeof Switch>) => (
-  <Switch {...args} />
-);
 
 // Stories
 export const Default: Story = {

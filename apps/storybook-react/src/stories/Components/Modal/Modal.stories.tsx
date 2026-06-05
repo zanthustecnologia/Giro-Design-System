@@ -6,6 +6,11 @@ const meta: Meta<typeof Modal> = {
   title: 'Components/Modal',
   component: Modal,
   parameters: {
+    docs: {
+      description: {
+        component: 'O Modal é uma janela sobreposta ao conteúdo da página que exibe informações ou formulários sem remover o usuário do contexto atual. Diferente do Dialog, aceita qualquer conteúdo livre no corpo e pode ser fechado pelo botão X, pela tecla Escape ou clicando no overlay.',
+      },
+    },
     // layout: 'centered',
   },
   argTypes: {

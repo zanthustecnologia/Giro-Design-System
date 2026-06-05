@@ -8,9 +8,13 @@ import type { Meta, StoryObj } from '@storybook/react';
 const meta: Meta<AvatarProps> = {
   title: "Components/Avatar",
   component: Avatar,
-  // parameters: {
-  //   layout: 'centered'
-  // },
+  parameters: {
+    docs: {
+      description: {
+        component: 'Avatar é um componente que representa um usuário ou entidade na interface. Exibe uma imagem, ícone ou iniciais como identificação visual, com suporte a fallback automático quando a imagem não está disponível.',
+      },
+    },
+  },
   argTypes: {
     size: {
       control: { type: 'select' },
@@ -26,10 +30,10 @@ const meta: Meta<AvatarProps> = {
         add16F: <Add16Filled />,
         arrow: <ArrowCircleDown12Regular />,
       },
-      initialLetters: {
-        control: 'text',
-        description: 'Letras iniciais a serem exibidas quando não houver imagem ou ícone(colocar apenas 2 caracteres)'
-      },
+    },
+    initialLetters: {
+      control: 'text',
+      description: 'Letras iniciais exibidas quando não há imagem ou ícone (máximo 2 caracteres)',
     },
   },
 };

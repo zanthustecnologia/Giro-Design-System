@@ -7,6 +7,11 @@ const meta: Meta<typeof Checkbox> = {
   component: Checkbox,
   title: 'Components/Checkbox',
   parameters:{
+    docs: {
+      description: {
+        component: 'Checkbox é um controle de formulário que permite ao usuário selecionar ou desmarcar uma opção de forma independente. Use-o quando o usuário precisar confirmar uma escolha binária ou selecionar múltiplos itens de uma lista.',
+      },
+    },
     // layout: 'centered'
   },
   argTypes:{

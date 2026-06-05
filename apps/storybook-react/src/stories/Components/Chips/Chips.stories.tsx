@@ -7,6 +7,11 @@ const meta: Meta<typeof Chips> = {
   title: 'Components/Chips',
   component: Chips,
   parameters: {
+    docs: {
+      description: {
+        component: 'Chips são elementos compactos e em destaque usados para representar atributos, categorias, status ou filtros associados a um conteúdo. Eles comunicam informação de forma concisa e visual, sem a necessidade de ações do usuário.',
+      },
+    },
     // layout: 'centered'
   },
   argTypes: {

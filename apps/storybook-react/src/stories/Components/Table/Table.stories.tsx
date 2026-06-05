@@ -8,6 +8,11 @@ const meta: Meta = {
   title: 'Components/Table',
   component: Table,
   parameters: {
+    docs: {
+      description: {
+        component: 'A tabela organiza dados em linhas e colunas, facilitando a leitura e comparação de informações. Pode ser composta com busca, filtros e paginação, dependendo da complexidade dos dados exibidos.',
+      },
+    },
     // layout: 'centered',
   },
 };

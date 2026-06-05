@@ -9,7 +9,11 @@ const meta: Meta<typeof TextArea> = {
   title: 'Components/TextArea',
   component: TextArea,
   parameters: {
-    
+    docs: {
+      description: {
+        component: 'O Text Area é um campo de entrada de texto multilinha que suporta validação, tooltip e controle de redimensionamento. Use-o quando o usuário precisar digitar textos longos, como descrições, comentários ou observações.',
+      },
+    },
     // layout: 'centered',
   },
   

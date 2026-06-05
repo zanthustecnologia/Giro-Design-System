@@ -17,7 +17,11 @@ const meta: Meta<typeof Quantity> = {
   title: 'Components/Quantity',
   component: Quantity,
   parameters: {
-    // layout: 'centered',
+    docs: {
+      description: {
+        component: 'O Quantity é um campo de entrada numérica com botões de incremento e decremento. Permite ao usuário ajustar um valor de forma precisa, seja por clique nos botões ou por digitação direta. Funciona tanto com valores inteiros quanto com valores decimais.',
+      },
+    },
   },
   argTypes: {
     value: {

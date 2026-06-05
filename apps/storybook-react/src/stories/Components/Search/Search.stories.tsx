@@ -6,6 +6,11 @@ const meta: Meta<typeof Search> = {
   title: 'Components/Search',
   component: Search,
   parameters: {
+    docs: {
+      description: {
+        component: 'O Search é um campo de busca com ícone de lupa à esquerda e botão de limpar à direita. Permite ao usuário filtrar conteúdo por digitação, tanto de forma autônoma quanto conectado a um estado externo.',
+      },
+    },
     controls: { sort: 'alpha' },
   },
   argTypes: {

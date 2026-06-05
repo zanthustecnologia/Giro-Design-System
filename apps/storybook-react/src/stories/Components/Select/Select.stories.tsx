@@ -10,8 +10,7 @@ const meta: Meta<SelectProps> = {
   parameters: {
     docs: {
       description: {
-        component:
-          'Componente Select usando Radix UI com estilização customizada e melhor organização de código.',
+        component: 'O Select é um campo de seleção que abre uma lista de opções ao ser clicado. O usuário escolhe uma ou mais opções e a lista fecha automaticamente. Suporta busca interna, ícones, subtítulos e agrupamento de itens em categorias expansíveis.',
       },
     },
   },
@@ -50,12 +49,12 @@ const meta: Meta<SelectProps> = {
     side: {
       control: 'select',
       options: ['top','bottom', 'left', 'right'],
-      description: 'Posição do tooltip'
+      description: 'Lado em que o dropdown abre em relação ao campo'
     },
     align: {
       control: 'select',
       options: ['start', 'center', 'end'],
-      description: 'Posição do tooltip'
+      description: 'Alinhamento do dropdown em relação ao campo'
     },
   },
 };
