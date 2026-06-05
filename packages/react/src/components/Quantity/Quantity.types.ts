@@ -16,7 +16,7 @@ import { Size, BaseProps } from '../../types/common.types';
  *   value={1}
  *   decimal={true}
  *   decimalPlaces={2}
- *   step={0.5}
+ *   valueIncrement={0.5}
  *   disabled={false}
  * />
  * ```
