@@ -81,7 +81,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
   const [accentMenu, setAccentMenu] = useState<AccentMenuState | null>(null);
   const [accentMenuOffsetX, setAccentMenuOffsetX] = useState(0);
   const [activeLayout, setActiveLayout] = useState<Record<string, string[]> | null>(
-    getNativeLayout(type, Emoji, variant === 'native', variant === 'fixed')
+    getNativeLayout(type, Emoji, variant === 'native')
   );
   const visualType = NATIVE_LAYOUT_KEYS.has(type) ? type : 'default';
 
@@ -174,7 +174,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
     setLayoutName('default');
     setCapsLockOn(false);
 
-    setActiveLayout(getNativeLayout(type, Emoji, variant === 'native', variant === 'fixed'));
+    setActiveLayout(getNativeLayout(type, Emoji, variant === 'native'));
   }, [type, Emoji, variant]);
 
   useEffect(() => {

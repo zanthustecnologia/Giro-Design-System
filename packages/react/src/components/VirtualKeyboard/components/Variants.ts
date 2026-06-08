@@ -14,22 +14,22 @@ const removeKeyFromLayout = (layout: Record<string, string[]>, key: string) =>
 export const NATIVE_LAYOUTS: Partial<Record<VirtualKeyboardType, Record<string, string[]>>> = {
   default: {
     default: [
-      '{///} 1 2 3 4 5 6 7 8 9 0 {///}',
-      "{//} q w e r t y u i o p {//}",
+      '{//} 1 2 3 4 5 6 7 8 9 0 {//}',
+      '{//} q w e r t y u i o p {//}',
       'a s d f g h j k l ç {bksp}',
       '{shift} z x c v b n m , . {shift}',
       '{numbers} {alt} {space} {downkeyboard} {enter}',
     ],
     shift: [
-      '{///} 1 2 3 4 5 6 7 8 9 0 {///}',
-      "{//} Q W E R T Y U I O P {//}",
+      '{//} 1 2 3 4 5 6 7 8 9 0 {//}',
+      '{//} Q W E R T Y U I O P {//}',
       'A S D F G H J K L Ç {bksp}',
       '{capslock} Z X C V B N M , . {capslock}',
       '{numbers} {alt} {emoticon} {space} {downkeyboard} {enter}',
     ],
     caps: [
-      '{///} 1 2 3 4 5 6 7 8 9 0 {///}',
-      "{//} Q W E R T Y U I O P {//}",
+      '{//} 1 2 3 4 5 6 7 8 9 0 {//}',
+      '{//} Q W E R T Y U I O P {//}',
       'A S D F G H J K L Ç {bksp}',
       '{shiftactivated} Z X C V B N M , . {shiftactivated}',
       '{numbers} {alt} {emoticon} {space} {downkeyboard} {enter}',
@@ -62,22 +62,22 @@ export const NATIVE_LAYOUTS: Partial<Record<VirtualKeyboardType, Record<string, 
       '1 2 3', '4 5 6', '7 8 9', '{bksp} 0 {abc}'
     ],
     abc: [
-      '{///} 1 2 3 4 5 6 7 8 9 0 {///}',
-      "{//} q w e r t y u i o p {//}",
+      '{//} 1 2 3 4 5 6 7 8 9 0 {//}',
+      '{//} q w e r t y u i o p {//}',
       'a s d f g h j k l ç {bksp}',
       '{shift} z x c v b n m , . {shift}',
       '{numbers} {alt} {space} {downkeyboard} {enter}',
     ],
     shift: [
-      '{///} 1 2 3 4 5 6 7 8 9 0 {///}',
-      "{//} Q W E R T Y U I O P {//}",
+      '{//} 1 2 3 4 5 6 7 8 9 0 {//}',
+      '{//} Q W E R T Y U I O P {//}',
       'A S D F G H J K L Ç {bksp}',
       '{capslock} Z X C V B N M , . {capslock}',
       '{numbers} {alt} {emoticon} {space} {downkeyboard} {enter}',
     ],
     caps: [
-      '{///} 1 2 3 4 5 6 7 8 9 0 {///}',
-      "{//} Q W E R T Y U I O P {//}",
+      '{//} 1 2 3 4 5 6 7 8 9 0 {//}',
+      '{//} Q W E R T Y U I O P {//}',
       'A S D F G H J K L Ç {bksp}',
       '{shiftactivated} Z X C V B N M , . {shiftactivated}',
       '{numbers} {alt} {emoticon} {space} {downkeyboard} {enter}',
@@ -115,8 +115,7 @@ export const LAYOUT_THEMES: Partial<Record<VirtualKeyboardType, string>> = {};
 export const getNativeLayout = (
   type: VirtualKeyboardType,
   Emoji = true,
-  showDownKeyboardButton = true,
-  isFixed = false
+  showDownKeyboardButton = true
 ): Record<string, string[]> | null => {
   const layout = NATIVE_LAYOUTS[type] ?? NATIVE_LAYOUTS.default ?? null;
 
@@ -130,20 +129,6 @@ export const getNativeLayout = (
 
   if (!showDownKeyboardButton) {
     computedLayout = removeKeyFromLayout(computedLayout, DOWN_KEYBOARD_KEY);
-  }
-
-  if (isFixed) {
-    computedLayout = Object.fromEntries(
-      Object.entries(computedLayout).map(([layoutName, rows]) => [
-        layoutName,
-        rows.map((row) =>
-          row
-            .replace(/\{\/{3}\}/g, '__TRIPLE__')
-            // .replace(/\{\/{2}\}/g, '{/}')
-            .replace(/__TRIPLE__/g, '{//}')
-        ),
-      ])
-    ) as Record<string, string[]>;
   }
 
   return computedLayout;
