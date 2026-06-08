@@ -81,9 +81,3 @@ export interface VirtualKeyboardProps extends Omit<BaseProps, 'disabled'> {
    */
   targetRef?: RefObject<HTMLInputElement | HTMLTextAreaElement | null>;
 }
-
-/** @deprecated Use `VirtualKeyboardType` */
-export type VirtualKeyboardLayout = VirtualKeyboardType;
-
-/** @deprecated Use `VirtualKeyboardVariant` */
-export type VirtualKeyboardMode = VirtualKeyboardVariant;

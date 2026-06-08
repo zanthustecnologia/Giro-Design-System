@@ -110,8 +110,6 @@ export const NATIVE_LAYOUT_KEYS = new Set<VirtualKeyboardType>([
   'default', 'numeric',
 ]);
 
-export const LAYOUT_THEMES: Partial<Record<VirtualKeyboardType, string>> = {};
-
 export const getNativeLayout = (
   type: VirtualKeyboardType,
   Emoji = true,
@@ -159,5 +157,4 @@ export const SHIFT_TOGGLES: Partial<Record<string, string>> = {
   shift: 'default',
   alt: 'default',
   alt2: 'alt',
-  symbols: 'alt',
 };

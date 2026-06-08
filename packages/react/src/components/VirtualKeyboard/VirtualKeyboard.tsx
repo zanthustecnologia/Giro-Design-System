@@ -7,7 +7,7 @@ import 'react-simple-keyboard/build/css/index.css';
 
 import TextField from '../TextField';
 import { LAYOUT_DISPLAY, ICON_KEY_MAP } from './components/IconDisplay';
-import { NATIVE_LAYOUT_KEYS, SHIFT_TOGGLES, LAYOUT_THEMES, getNativeLayout } from './components/Variants';
+import { NATIVE_LAYOUT_KEYS, SHIFT_TOGGLES, getNativeLayout } from './components/Variants';
 import styles from './VirtualKeyboard.module.scss';
 
 import type { VirtualKeyboardProps } from './VirtualKeyboard.type';
@@ -411,7 +411,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
     (button: string) => {
       const baseLayout = type === 'numeric' ? 'abc' : 'default';
 
-      if (button === '{capslock}' || button === '{lock}') {
+      if (button === '{capslock}') {
         setCapsLockOn((prev) => {
           const next = !prev;
           setLayoutName(next ? 'caps' : baseLayout);
@@ -422,7 +422,6 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
 
       if (
         button === '{shift}' ||
-        button === '{shiftleft}' || button === '{shiftright}' ||
         button === '{shiftactivated}'
       ) {
         if (button === '{shiftactivated}') {
@@ -452,8 +451,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
         setLayoutName((prev) => (prev === 'emoticon' ? baseLayout : 'emoticon'));
         return;
       }
-      if (button === '{symbols}') { setLayoutName((prev) => (prev === 'symbols' ? 'alt' : 'symbols')); return; }
-      if (button === '{default}' || button === '{back}') {
+      if (button === '{default}') {
         setLayoutName(baseLayout);
         return;
       }
@@ -475,7 +473,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
 
       const isHeldAccentKey = heldAccentKeyRef.current === button;
 
-      if (button !== '{backspace}' && button !== '{bksp}' && button !== '{enter}' && !isHeldAccentKey) {
+      if (button !== '{bksp}' && button !== '{enter}' && !isHeldAccentKey) {
         if (layoutName === 'shift' && !capsLockOn) {
           setLayoutName(baseLayout);
         } else if (layoutName === baseLayout && capsLockOn) {
@@ -565,7 +563,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
         }}
         layoutName={layoutName}
         layout={activeLayout}
-        theme={LAYOUT_THEMES[visualType] ?? 'hg-theme-default'}
+        theme='hg-theme-default'
         display={keyboardDisplay}
         onChange={handleChange}
         onKeyPress={handleKeyPress}

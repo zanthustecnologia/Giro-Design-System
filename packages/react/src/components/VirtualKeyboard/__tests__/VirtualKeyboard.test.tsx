@@ -61,9 +61,6 @@ vi.mock('react-simple-keyboard', () => ({
       <button data-testid="key-shift" onClick={() => onKeyPress?.('{shift}')}>
         shift
       </button>
-      <button data-testid="key-shiftleft" onClick={() => onKeyPress?.('{shiftleft}')}>
-        shiftleft
-      </button>
       <button data-testid="key-capslock" onClick={() => onKeyPress?.('{capslock}')}>
         capslock
       </button>
@@ -430,14 +427,6 @@ describe('VirtualKeyboard', () => {
       fireEvent.click(screen.getByTestId('key-shift'));
 
       expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'default');
-    });
-
-    it('deve alternar para layout "shift" ao pressionar {shiftleft}', () => {
-      render(<VirtualKeyboard variant="fixed" value="" />);
-
-      fireEvent.click(screen.getByTestId('key-shiftleft'));
-
-      expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'shift');
     });
 
     it('deve ativar CapsLock (layout caps) ao pressionar {capslock}', () => {
