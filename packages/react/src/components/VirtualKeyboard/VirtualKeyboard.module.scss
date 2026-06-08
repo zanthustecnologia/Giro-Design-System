@@ -64,6 +64,14 @@
     :global(.hg-layout-alt2),
     :global(.hg-layout-emoticon) {
       :global(.hg-button[data-skbtn="{//}"]) {
+        flex: 0.4;
+        opacity: 0;
+        pointer-events: none;
+        cursor: default;
+      }
+
+      :global(.hg-button[data-skbtn="{///}"]) {
+        flex: 1;
         opacity: 0;
         pointer-events: none;
         cursor: default;
@@ -77,6 +85,14 @@
 
   &.layout--default {
     :global(.hg-button[data-skbtn="{//}"]) {
+      flex: 0.4;
+      opacity: 0;
+      pointer-events: none;
+      cursor: default;
+    }
+
+    :global(.hg-button[data-skbtn="{///}"]) {
+      flex: 1;
       opacity: 0;
       pointer-events: none;
       cursor: default;
@@ -206,6 +222,14 @@
     :global(.hg-layout-alt2),
     :global(.hg-layout-emoticon) {
       :global(.hg-button[data-skbtn="{//}"]) {
+        flex: 0.4;
+        opacity: 0;
+        pointer-events: none;
+        cursor: default;
+      }
+
+      :global(.hg-button[data-skbtn="{///}"]) {
+        flex: 1;
         opacity: 0;
         pointer-events: none;
         cursor: default;
@@ -219,6 +243,14 @@
 
   &.layout--default {
     :global(.hg-button[data-skbtn="{//}"]) {
+      flex: 0.4;
+      opacity: 0;
+      pointer-events: none;
+      cursor: default;
+    }
+
+    :global(.hg-button[data-skbtn="{///}"]) {
+      flex: 1;
       opacity: 0;
       pointer-events: none;
       cursor: default;
