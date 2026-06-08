@@ -68,7 +68,7 @@ const meta: Meta<typeof VirtualKeyboard> = {
 
 export default meta;
 
-const renderKeyboard = (args: React.ComponentProps<typeof VirtualKeyboard>) => {
+const KeyboardWrapper = (args: React.ComponentProps<typeof VirtualKeyboard>) => {
   const [value, setValue] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -103,7 +103,7 @@ export const Default: Story = {
     type: 'default',
     Emoji: false,
   },
-  render: renderKeyboard,
+  render: (args) => <KeyboardWrapper {...args} />,
 };
 
 export const ModoFixed: Story = {
@@ -113,7 +113,7 @@ export const ModoFixed: Story = {
     Emoji: false,
     textFieldPlaceholder: 'Digite aqui...',
   },
-  render: renderKeyboard,
+  render: (args) => <KeyboardWrapper {...args} />,
 };
 
 export const ModoNative: Story = {
@@ -122,7 +122,7 @@ export const ModoNative: Story = {
     type: 'default',
     Emoji: false,
   },
-  render: renderKeyboard,
+  render: (args) => <KeyboardWrapper {...args} />,
 };
 
 export const ShiftECapsLock: Story = {
@@ -131,7 +131,7 @@ export const ShiftECapsLock: Story = {
     type: 'default',
     Emoji: false,
   },
-  render: renderKeyboard,
+  render: (args) => <KeyboardWrapper {...args} />,
 };
 
 export const Numerico: Story = {
@@ -140,7 +140,7 @@ export const Numerico: Story = {
     type: 'numeric',
     Emoji: false,
   },
-  render: renderKeyboard,
+  render: (args) => <KeyboardWrapper {...args} />,
 };
 
 export const SemEmoji: Story = {
@@ -149,5 +149,5 @@ export const SemEmoji: Story = {
     type: 'default',
     Emoji: false,
   },
-  render: renderKeyboard,
+  render: (args) => <KeyboardWrapper {...args} />,
 };
