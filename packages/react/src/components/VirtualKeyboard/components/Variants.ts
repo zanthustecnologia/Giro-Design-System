@@ -115,7 +115,8 @@ export const LAYOUT_THEMES: Partial<Record<VirtualKeyboardType, string>> = {};
 export const getNativeLayout = (
   type: VirtualKeyboardType,
   Emoji = true,
-  showDownKeyboardButton = true
+  showDownKeyboardButton = true,
+  isFixed = false
 ): Record<string, string[]> | null => {
   const layout = NATIVE_LAYOUTS[type] ?? NATIVE_LAYOUTS.default ?? null;
 
@@ -129,6 +130,20 @@ export const getNativeLayout = (
 
   if (!showDownKeyboardButton) {
     computedLayout = removeKeyFromLayout(computedLayout, DOWN_KEYBOARD_KEY);
+  }
+
+  if (isFixed) {
+    computedLayout = Object.fromEntries(
+      Object.entries(computedLayout).map(([layoutName, rows]) => [
+        layoutName,
+        rows.map((row) =>
+          row
+            .replace(/\{\/{3}\}/g, '__TRIPLE__')
+            // .replace(/\{\/{2}\}/g, '{/}')
+            .replace(/__TRIPLE__/g, '{//}')
+        ),
+      ])
+    ) as Record<string, string[]>;
   }
 
   return computedLayout;
