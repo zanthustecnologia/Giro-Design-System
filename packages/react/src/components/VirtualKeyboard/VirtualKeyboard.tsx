@@ -16,12 +16,16 @@ import type { Root } from 'react-dom/client';
 const LONG_PRESS_DELAY_MS = 400;
 
 const ACCENT_OPTIONS: Record<string, string[]> = {
-  a: ['á', 'à', 'â', 'ã', 'ä'],
+  a: ['á', 'à', 'â', 'ã', 'ä', 'å', 'æ'],
   e: ['é', 'è', 'ê', 'ë'],
   i: ['í', 'ì', 'î', 'ï'],
-  o: ['ó', 'ò', 'ô', 'õ', 'ö'],
+  o: ['ó', 'ò', 'ô', 'õ', 'ö', 'ø', 'œ', 'ð'],
   u: ['ú', 'ù', 'û', 'ü'],
+  y: ['ý', 'ÿ'],
+  n: ['ñ'],
   c: ['ç'],
+  '?': ['¿'],
+  '!': ['¡'],
 };
 
 type AccentMenuState = {
