@@ -172,7 +172,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
         </div>
 
         {virtualKeyboard && (
-          <div className={styles.virtualKeyboardWrapper}>
+          <div className="virtualKeyboardWrapper">
             <VirtualKeyboard
               variant="native"
               type={virtualKeyboardType}
