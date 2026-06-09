@@ -70,6 +70,24 @@
   flex-shrink: 0;
 }
 
+/* Badge "Depreciado" na sidebar */
+.sidebar-deprecated-badge {
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  padding: 0 6px;
+  height: 18px;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 4px;
+  background: transparent;
+  border: 1.5px solid #e81e42;
+  color:#e81e42;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
 /* Tamanho do logo */
 .sidebar-header img {
   max-width: 100%;

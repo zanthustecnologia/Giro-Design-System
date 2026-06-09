@@ -1,7 +1,7 @@
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
 import { TextArea } from '@giro-ds/react';
-import { Source } from '@storybook/addon-docs/blocks';
+import React, { useState } from 'react';
+
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 type Story = StoryObj<typeof TextArea>;
 
@@ -9,8 +9,12 @@ const meta: Meta<typeof TextArea> = {
   title: 'Components/TextArea',
   component: TextArea,
   parameters: {
-    
-    layout: 'centered',
+    docs: {
+      description: {
+        component: 'O Text Area é um campo de entrada de texto multilinha que suporta validação, tooltip e controle de redimensionamento. Use-o quando o usuário precisar digitar textos longos, como descrições, comentários ou observações.',
+      },
+    },
+    // layout: 'centered',
   },
   
   argTypes: {
@@ -90,7 +94,19 @@ const meta: Meta<typeof TextArea> = {
       table: {
         disable: true
       }
-    }
+    },
+    virtualKeyboard: {
+      control: 'boolean',
+      description: 'Exibe o teclado virtual ao clicar no campo'
+    },
+    virtualKeyboardType: {
+      control: 'select',
+      options: [
+        'default', 'numeric',
+      ],
+      description: 'Layout do teclado virtual',
+      if: { arg: 'virtualKeyboard', truthy: true },
+    },
   },
 };
 
@@ -115,7 +131,7 @@ export const Default: Story = {
   ),
 };
 
-export const Disabled: Story = {
+export const Desabilitado: Story = {
   args: {
     placeholder: 'Campo desabilitado',
     label: 'Campo Desabilitado',
@@ -127,6 +143,29 @@ export const Disabled: Story = {
       <TextArea {...args} />
     </div>
   ),
+};
+
+export const WithVirtualKeyboard: Story = {
+  args: {
+    label: 'Comentário',
+    placeholder: 'Clique aqui para abrir o teclado...',
+    virtualKeyboard: true,
+    virtualKeyboardType: 'default',
+    disabled: false,
+  },
+  render: (args) => {
+    const [value, setValue] = useState('');
+    return (
+      <div style={{ width: '420px' }}>
+        <TextArea
+          {...args}
+          value={value}
+          onChange={setValue}
+          helperText="Clique no campo para abrir o teclado virtual"
+        />
+      </div>
+    );
+  },
 };
 
 export const Required: Story = {
@@ -142,3 +181,4 @@ export const Required: Story = {
     </div>
   ),
 };
+Obrigatorio.storyName = 'Obrigatório';

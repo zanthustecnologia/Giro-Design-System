@@ -1,0 +1,146 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as VirtualKeyboardStories from './VirtualKeyboard.stories';
+import { VirtualKeyboard } from '@giro-ds/react';
+import { UsageGuidelines } from '../../../internal-components/mdx/UsageGuidelines/UsageGuidelines';
+import { ComponentRules } from '../../../internal-components/mdx/Rules/Rules';
+import { Footer } from '../../../internal-components/mdx/Footer/Footer';
+
+<Meta of={VirtualKeyboardStories} />
+
+# Virtual Keyboard
+
+O Virtual Keyboard é um teclado on-screen para ambientes onde o teclado físico está indisponível ou não é desejável, como totens, terminais e caixas de pagamento. Ele se integra a campos de texto controlados e suporta layouts nativos (padrão e numérico), além de layouts de idioma.
+
+<Canvas of={VirtualKeyboardStories.Default} />
+
+## Importação
+
+```js
+import { VirtualKeyboard } from '@giro-ds/react';
+```
+
+<div style={{ marginTop: '48px' }} />
+
+## Propriedades
+
+<Controls />
+
+<div style={{ marginTop: '48px' }} />
+
+## Uso
+
+<UsageGuidelines
+  guidelines={[
+    <>
+      Sempre vincule o teclado a um campo de texto via <code>value</code> e <code>onChange</code>. O teclado é um componente controlado e não gerencia o estado do input por conta própria.
+    </>,
+    <>
+      Use o layout <strong>numeric</strong> para entradas que aceitam somente dígitos, como PINs, senhas numéricas e códigos. Ele oferece uma interface mais simples e focada.
+    </>,
+    <>
+      Combine o <code>maxLength</code> com o campo de texto para garantir consistência entre o limite visual do input e o limite aplicado pelo teclado.
+    </>,
+    <>
+      No modo <strong>native</strong>, passe um <code>ref</code> do campo de texto para a prop <code>targetRef</code>. O teclado aparecerá ao focar no campo e sumirá ao perder o foco.
+    </>,
+    <>
+      Use <code>showEmoticonButton</code> para controlar se o botao <code>{'{emoticon}'}</code> deve aparecer. Isso permite ativar ou desativar emojis conforme a regra de negocio da tela.
+    </>,
+  ]}
+/>
+
+<div style={{ marginTop: '48px' }} />
+
+## Modos
+
+O VirtualKeyboard possui dois modos de exibição, configurados pela prop `variant`.
+
+### Fixed
+
+O teclado fica sempre visível na tela com um **TextField próprio** acima. O campo é somente leitura — toda a entrada vem pelas teclas do teclado. Ideal para totens, painéis e interfaces sem teclado físico onde a digitação é o fluxo principal.
+
+Use `textFieldLabel` e `textFieldPlaceholder` para personalizar o campo interno.
+
+<Canvas of={VirtualKeyboardStories.ModoFixed} />
+
+### Native
+
+O teclado age como um teclado nativo: aparece quando o campo referenciado por `targetRef` recebe foco e some ao perder o foco (com um debounce de 150ms para não fechar antes do clique na tecla ser processado). Se `targetRef` não for fornecido, o teclado permanece sempre visível.
+
+<Canvas of={VirtualKeyboardStories.ModoNative} />
+
+<div style={{ marginTop: '48px' }} />
+
+## Shift e CapsLock
+
+O comportamento esperado das teclas de caixa alta e:
+
+- Shift: altera para maiusculas somente na proxima tecla digitada e retorna para o layout default.
+- CapsLock: alterna o modo caps de forma persistente e permanece ativo ate retornar para o layout default.
+
+<Canvas of={VirtualKeyboardStories.ShiftECapsLock} />
+
+<div style={{ marginTop: '48px' }} />
+
+## Variações
+
+### Numérico
+
+Indicado para entradas de PINs, senhas e códigos. Exibe apenas os dígitos de 0 a 9, além de backspace e enter.
+
+<Canvas of={VirtualKeyboardStories.Numerico} />
+
+### Sem botao de smileys
+
+Quando a tela nao deve permitir emojis, desative o botao de smileys com <code>showEmoticonButton=false</code>.
+
+<Canvas of={VirtualKeyboardStories.SemEmoji} />
+
+<div style={{ marginTop: '48px' }} />
+
+## O que fazer e não fazer
+
+<ComponentRules
+  rules={[
+    {
+      positive: {
+        component: (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', width: '240px' }}>
+            <VirtualKeyboard variant="fixed" type="numeric" />
+          </div>
+        ),
+        description: 'Use o layout numérico para campos que aceitam somente dígitos, como PINs e códigos de verificação.'
+      },
+      negative: {
+        component: (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', width: '420px' }}>
+            <VirtualKeyboard variant="fixed" type="default" />
+          </div>
+        ),
+        description: 'Evite usar o layout QWERTY completo quando o campo aceita apenas números. Isso sobrecarrega a interface desnecessariamente.'
+      }
+    },
+    {
+      positive: {
+        component: (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', width: '240px' }}>
+            <VirtualKeyboard variant="fixed" type="numeric" maxLength={4} />
+          </div>
+        ),
+        description: 'Defina maxLength no teclado quando o campo tiver limite de caracteres. Isso sincroniza o comportamento de ambos.'
+      },
+      negative: {
+        component: (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', width: '240px' }}>
+            <VirtualKeyboard variant="fixed" type="numeric" />
+          </div>
+        ),
+        description: 'Evite omitir maxLength quando o campo tem restrição de tamanho. O teclado continuará aceitando entrada além do limite esperado.'
+      }
+    }
+  ]}
+/>
+
+<div style={{ marginTop: '48px' }} />
+
+<Footer />

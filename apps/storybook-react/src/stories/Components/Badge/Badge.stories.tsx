@@ -7,10 +7,15 @@ export default {
   title: 'Components/Badge',
   component: Badge,
   parameters: {
+    docs: {
+      description: {
+        component: 'Badge é um indicador visual sobreposto a um elemento para comunicar notificações, contagens ou estados.',
+      },
+    },
     controls: {
       sort: 'alpha',
     },
-    layout: 'centered',
+    // layout: 'centered',
   },
   argTypes: {
     badgeValue: {
@@ -56,7 +61,7 @@ Default.args = {
   badgeValue: 5,
 };
 
-export const Overlay: StoryFn<BadgeProps> = () => (
+export const Sobreposição: StoryFn<BadgeProps> = () => (
   <div style={{ display: 'flex', gap: '40px', alignItems: 'center' }}>
     <Badge badgeValue={1}>
       <Anchor />
@@ -78,7 +83,7 @@ export const Overlay: StoryFn<BadgeProps> = () => (
     </Badge>
   </div>
 );
-Overlay.storyName = 'Overlay (com children)';
+Sobreposição.storyName = 'Sobreposição (com children)';
 
 export const Inline: StoryFn<BadgeProps> = () => (
   <div style={{ display: 'flex', gap: '40px', alignItems: 'center' }}>

@@ -381,6 +381,59 @@ describe('TableV2', () => {
       expect(screen.getByTestId('filter-multiple')).toBeInTheDocument();
       expect(screen.getByTestId('filter-combined')).toBeInTheDocument();
     });
+
+    it('não deve exibir label "Filtros" quando todos os filterItems são do tipo combined', () => {
+      render(
+        <TableV2
+          columns={columns}
+          data={data}
+          header={{
+            filterItems: [
+              {
+                type: 'combined',
+                buttonText: 'Filtros',
+                children: <div>Conteúdo</div>,
+              },
+            ],
+          }}
+        />
+      );
+      // O botão com texto "Filtros" existe, mas não o label estático
+      const allWithText = screen.getAllByText('Filtros');
+      // Apenas o botão do filtro deve ter "Filtros", sem o <span> de label adicional
+      expect(allWithText).toHaveLength(1);
+    });
+
+    it('deve exibir label "Filtros" quando há filtros não-combined', () => {
+      render(
+        <TableV2
+          columns={columns}
+          data={data}
+          header={{
+            filterItems: [
+              { type: 'multiple', buttonText: 'Status', items: [] },
+            ],
+          }}
+        />
+      );
+      expect(screen.getByText('Filtros')).toBeInTheDocument();
+    });
+
+    it('deve exibir label "Filtros" quando há mistura de combined e não-combined', () => {
+      render(
+        <TableV2
+          columns={columns}
+          data={data}
+          header={{
+            filterItems: [
+              { type: 'multiple', buttonText: 'Status', items: [] },
+              { type: 'combined', buttonText: 'Filtros avançados' },
+            ],
+          }}
+        />
+      );
+      expect(screen.getByText('Filtros')).toBeInTheDocument();
+    });
   });
 
   describe('Seleção de linhas', () => {

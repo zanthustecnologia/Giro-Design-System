@@ -1,7 +1,8 @@
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-import { TextField } from '@giro-ds/react';
 import { Mail16Regular, Clock16Regular, ArrowUpload16Regular } from '@fluentui/react-icons';
+import { TextField } from '@giro-ds/react';
+import React, { useState } from 'react';
+
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 type Story = StoryObj<typeof TextField>;
 
@@ -9,10 +10,15 @@ const meta: Meta<typeof TextField> = {
   title: 'Components/TextField',
   component: TextField,
   parameters: {
+    docs: {
+      description: {
+        component: 'O Text Field é um campo de entrada de texto que suporta validação, ícones e feedback visual de estado. Pode ser usado para capturar texto livre, e-mail, senha, número, telefone ou URL.',
+      },
+    },
     controls: {
       sort: 'alpha'
     },
-    layout: 'centered',
+    // layout: 'centered',
   },
   
   argTypes: {
@@ -75,6 +81,11 @@ const meta: Meta<typeof TextField> = {
       control: 'boolean',
       description: 'Campo obrigatório'
     },
+    scale: {
+      control: { type: 'select' },
+      options: [1, 1.5, 2],
+      description: 'Escala visual do componente'
+    },
     className: {
       table: {
         disable: true,
@@ -99,7 +110,19 @@ const meta: Meta<typeof TextField> = {
       table: {
         disable: true
       }
-    }
+    },
+    virtualKeyboard: {
+      control: 'boolean',
+      description: 'Exibe o teclado virtual ao clicar no campo'
+    },
+    virtualKeyboardType: {
+      control: 'select',
+      options: [
+        'default', 'numeric',
+      ],
+      description: 'Layout do teclado virtual',
+      if: { arg: 'virtualKeyboard', truthy: true },
+    },
   },
 };
 
@@ -115,7 +138,8 @@ export const Default: Story = {
     tooltip: true,
     helperText: 'Optional support text',
     label: 'Label',
-    tooltipText: 'Tooltip text'
+    tooltipText: 'Tooltip text',
+    scale: 1,
   },
   render: (args) => (
     <div className='storybook__container'>
@@ -124,7 +148,7 @@ export const Default: Story = {
   ),
 };
 
-export const ComIcone: Story = {
+export const WithIcon: Story = {
   args: {
     placeholder: 'Ex.: joao@empresa.com',
     label: 'Email',
@@ -139,7 +163,7 @@ export const ComIcone: Story = {
   ),
 };
 
-export const ComTooltip: Story = {
+export const WithTooltip: Story = {
   args: {
     label: 'CPF',
     placeholder: 'Ex.: 000 000 000-00',
@@ -158,7 +182,7 @@ export const ComTooltip: Story = {
   ),
 };
 
-export const Disabled: Story = {
+export const Desabilitado: Story = {
   args: {
     placeholder: 'Ex.: João da Silva',
     label: 'Campo desabilitado',
@@ -172,7 +196,7 @@ export const Disabled: Story = {
   ),
 };
 
-export const Required: Story = {
+export const Obrigatorio: Story = {
   args: {
     placeholder: 'Ex.: João da Silva',
     label: 'Nome',
@@ -185,8 +209,9 @@ export const Required: Story = {
     </div>
   ),
 };
+Obrigatorio.storyName = 'Obrigatório';
 
-export const WithDifferentIcons: Story = {
+export const DiferentesIcones: Story = {
   render: () => (
     <div className='storybook__container' style={{ display: 'flex', gap: '16px', flexDirection: 'column' }}>
       <TextField 
@@ -204,6 +229,38 @@ export const WithDifferentIcons: Story = {
         placeholder="Ex.: relatorio-2024.pdf" 
         icon={<ArrowUpload16Regular />}
       />
+    </div>
+  ),
+};
+
+export const WithVirtualKeyboard: Story = {
+  args: {
+    label: 'Campo de texto',
+    placeholder: 'Clique aqui para abrir o teclado...',
+    virtualKeyboard: true,
+    virtualKeyboardType: 'default',
+    disabled: false,
+  },
+  render: (args) => {
+    const [value, setValue] = useState('');
+    return (
+      <div style={{ width: '420px' }}>
+        <TextField
+          {...args}
+          value={value}
+          onChange={setValue}
+          helperText="Clique no campo para abrir o teclado virtual"
+        />
+      </div>
+    );
+  },
+};
+export const Escalas: Story = {
+  render: () => (
+    <div className='storybook__container' style={{ display: 'flex', flexDirection: 'column', gap: '40px', alignItems: 'flex-start' }}>
+      <TextField label="Scale 1.0" placeholder="Texto" scale={1} />
+      <TextField label="Scale 1.5" placeholder="Texto" scale={1.5} />
+      <TextField label="Scale 2.0" placeholder="Texto" scale={2} />
     </div>
   ),
 };

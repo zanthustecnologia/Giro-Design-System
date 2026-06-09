@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ReactElement } from 'react';
 
-import { BaseProps } from '../../types/common.types';
+import { BaseProps, Scale } from '../../types/common.types';
 
 /**
  * Representa um item do menu (suporta subitens aninhados)
@@ -77,7 +77,11 @@ export interface MenuProps extends BaseProps {
   /** Elemento trigger customizado para abrir o menu */
   children?: ReactElement;
   
-  /** Tipo de visualização do menu */
+  /**
+   * Tipo de visualização dos itens do menu.
+   * - `'text'` (padrão): exibe texto e ícone lado a lado
+   * - `'icon'`: exibe apenas ícones, sem texto
+   */
   type?: 'text' | 'icon';
   
   /** Callback executado quando um item é selecionado: (item) => void */
@@ -115,4 +119,10 @@ export interface MenuProps extends BaseProps {
 
   /** Classe CSS opcional */
   className?: string;
+
+  /** Escala visual aplicada ao conteúdo do menu */
+  dropdownScale?: Scale;
+
+  /** Escala visual aplicada ao botão/trigger quando ele aceitar a prop `scale` */
+  buttonScale?: Scale;
 }

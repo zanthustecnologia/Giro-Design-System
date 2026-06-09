@@ -25,6 +25,8 @@ const DatePicker: React.FC<DatePickerProps> = ({
   minDate,
   maxDate,
   'data-testid': testId,
+  datePickerScale = 1,
+  calendarScale = 1,
   className,
   ...rest
 }) => {
@@ -47,6 +49,12 @@ const DatePicker: React.FC<DatePickerProps> = ({
   const combinedHelperText = externalError && helperText
     ? `${helperText} • ${externalError}`
     : externalError || helperText || '';
+
+  const scaleClass = {
+    1: 'scale-1-0',
+    1.5: 'scale-1-5',
+    2: 'scale-2-0',
+  }[datePickerScale];
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -174,7 +182,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
   };
 
   return (
-    <div ref={wrapperRef} className={clsx(styles.datePicker, className)} {...rest}>
+    <div ref={wrapperRef} className={clsx(styles.datePicker, scaleClass, className)} {...rest}>
         <Popover
           open={showCalendar}
           onOpenChange={setShowCalendar}
@@ -227,6 +235,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
               format={locale === 'en-us' ? 'mm/dd/yyyy' : 'dd/mm/yyyy'}
               minDate={minDate}
               maxDate={maxDate}
+              scale={calendarScale}
               id={calendarId}
               onClear={() => {
                 handleDateChange(null);

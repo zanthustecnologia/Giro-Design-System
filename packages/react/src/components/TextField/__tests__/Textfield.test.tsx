@@ -1,10 +1,15 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import TextField from '../TextField';
 
-// Mock do ícone do Fluent UI
-vi.mock('@fluentui/react-icons', () => ({
-  Dismiss16Regular: () => <span data-testid="dismiss-icon">×</span>,
-}));
+// Mock parcial do ícone do Fluent UI
+vi.mock('@fluentui/react-icons', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@fluentui/react-icons')>();
+
+  return {
+    ...actual,
+    Dismiss16Regular: () => <span data-testid="dismiss-icon">×</span>,
+  };
+});
 
 describe('TextField', () => {
   describe('Renderização', () => {
@@ -31,6 +36,24 @@ describe('TextField', () => {
     it('renderiza com helperText', () => {
       render(<TextField helperText="Ajuda" />);
       expect(screen.getByText('Ajuda')).toBeInTheDocument();
+    });
+
+    it('aplica escala 1.0 por padrão', () => {
+      const { container } = render(<TextField />);
+      const wrapper = container.querySelector('.scale-1-0');
+      expect(wrapper).toBeInTheDocument();
+    });
+
+    it('aplica escala 1.5 quando informado', () => {
+      const { container } = render(<TextField scale={1.5} />);
+      const wrapper = container.querySelector('.scale-1-5');
+      expect(wrapper).toBeInTheDocument();
+    });
+
+    it('aplica escala 2.0 quando informado', () => {
+      const { container } = render(<TextField scale={2} />);
+      const wrapper = container.querySelector('.scale-2-0');
+      expect(wrapper).toBeInTheDocument();
     });
   });
 

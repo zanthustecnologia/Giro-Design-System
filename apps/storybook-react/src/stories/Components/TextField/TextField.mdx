@@ -64,25 +64,25 @@ import { TextField } from '@giro-ds/react';
 
 O ícone é exibido enquanto o campo está vazio e desaparece ao digitar, indicando visualmente o tipo de dado esperado. Não é necessário controlar sua visibilidade manualmente.
 
-<Canvas of={TextFieldStories.ComIcone} />
+<Canvas of={TextFieldStories.WithIcon} />
 
 ### Com tooltip
 
 Use o tooltip no label para fornecer informações adicionais sem poluir o layout. O ícone de interrogação aparece ao lado do rótulo e exibe o conteúdo de <code>tooltipText</code> ao passar o cursor.
 
-<Canvas of={TextFieldStories.ComTooltip} />
+<Canvas of={TextFieldStories.WithTooltip} />
 
 ### Desabilitado
 
 Use o estado desabilitado quando o campo não puder ser editado no contexto atual. O conteúdo permanece visível, mas o usuário não consegue interagir com ele.
 
-<Canvas of={TextFieldStories.Disabled} />
+<Canvas of={TextFieldStories.Desabilitado} />
 
 ### Obrigatório e com validação
 
 Campos obrigatórios exibem um indicador visual e validam o conteúdo ao perder o foco. A mensagem de erro é exibida abaixo do campo e pode ser personalizada.
 
-<Canvas of={TextFieldStories.Required} />
+<Canvas of={TextFieldStories.Obrigatorio} />
 
 <div style={{ marginTop: '48px' }} />
 

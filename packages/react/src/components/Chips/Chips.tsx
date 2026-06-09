@@ -13,14 +13,22 @@ const Chips: React.FC<ChipsProps> = ({
   disabled = false,
   backgroundColor,
   textColor,
+  scale = 1,
   className,
   style,
   ...rest
 }) => {
 
+  const scaleClass = {
+    1: 'scale-1-0',
+    1.5: 'scale-1-5',
+    2: 'scale-2-0',
+  }[scale];
+
   const chipsClass = clsx(
     styles.chips,
     styles[variant],
+    scaleClass,
     {
       [styles.disabled]: disabled,
       [styles.hasLeftIcon]: leftIcon,

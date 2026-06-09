@@ -1,11 +1,17 @@
-import React, { useState } from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
 import { Search } from '@giro-ds/react';
+import React, { useState } from 'react';
+
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta: Meta<typeof Search> = {
   title: 'Components/Search',
   component: Search,
   parameters: {
+    docs: {
+      description: {
+        component: 'O Search é um campo de busca com ícone de lupa à esquerda e botão de limpar à direita. Permite ao usuário filtrar conteúdo por digitação, tanto de forma autônoma quanto conectado a um estado externo.',
+      },
+    },
     controls: { sort: 'alpha' },
   },
   argTypes: {
@@ -21,6 +27,23 @@ const meta: Meta<typeof Search> = {
     onClear: { control: false },
     onClick: { control: false },
     onMouseDown: { control: false },
+    virtualKeyboard: {
+      control: 'boolean',
+      description: 'Exibe o teclado virtual ao clicar no campo'
+    },
+    virtualKeyboardType: {
+      control: 'select',
+      options: [
+        'default', 'numeric',
+      ],
+      description: 'Layout do teclado virtual',
+      if: { arg: 'virtualKeyboard', truthy: true },
+    },
+    scale: {
+      control: { type: 'select' },
+      options: [1, 1.5, 2],
+      description: 'Escala visual do componente.',
+    },
   },
 };
 
@@ -32,6 +55,7 @@ export const Default: Story = {
   render: (args) => <Search {...args} />,
   args: {
     placeholder: 'Buscar produto',
+    scale: 1,
   },
 };
 
@@ -106,6 +130,27 @@ export const ComoGatilho: Story = {
   },
 };
 
+export const WithVirtualKeyboard: Story = {
+  args: {
+    placeholder: 'Clique aqui para abrir o teclado...',
+    virtualKeyboard: true,
+    virtualKeyboardType: 'default',
+    disabled: false,
+  },
+  render: (args) => {
+    const [value, setValue] = useState('');
+    return (
+      <div style={{ width: '420px' }}>
+        <Search
+          {...args}
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          onClear={() => setValue('')}
+        />
+      </div>
+    );
+  },
+};
 export const ModoEnter: Story = {
   render: () => {
     const [query, setQuery] = useState('');
@@ -144,4 +189,14 @@ export const ModoEnter: Story = {
       </div>
     );
   },
+};
+
+export const Escalas: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '56px', width: '360px' }}>
+      <Search placeholder="Scale 1.0" scale={1} />
+      <Search placeholder="Scale 1.5" scale={1.5} />
+      <Search placeholder="Scale 2.0" scale={2} />
+    </div>
+  ),
 };

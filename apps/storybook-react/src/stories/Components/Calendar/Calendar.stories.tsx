@@ -6,11 +6,17 @@ const meta: Meta<typeof Calendar> = {
   title: 'Components/Calendar',
   component: Calendar,
   parameters: {
-    layout: 'centered',
     docs: {
       description: {
-        component: 'Componente de calendário interativo com suporte a internacionalização e diferentes formatos de data.',
+        component: 'O Calendar é um componente de seleção de datas. Suporta internacionalização, restrição de intervalo, múltiplos meses, dropdown de navegação e dias desabilitados por regras customizadas.',
       },
+    },
+  },
+  argTypes: {
+    scale: {
+      control: { type: 'select' },
+      options: [1, 1.5, 2],
+      description: 'Escala visual do componente.',
     },
   },
 } satisfies Meta<typeof Calendar>;
@@ -116,6 +122,22 @@ export const EmIngles: Story = {
     docs: {
       description: { story: 'Calendário com locale em inglês via `locale="en-us"`.' },
     },
+  },
+};
+
+export const Escalas: Story = {
+  render: () => {
+    const [selectedA, setSelectedA] = useState<Date | undefined>();
+    const [selectedB, setSelectedB] = useState<Date | undefined>();
+    const [selectedC, setSelectedC] = useState<Date | undefined>();
+
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '56px', alignItems: 'flex-start' }}>
+        <Calendar onDaySelect={(d) => setSelectedA(d)} selected={selectedA ?? null} scale={1} />
+        <Calendar onDaySelect={(d) => setSelectedB(d)} selected={selectedB ?? null} scale={1.5} />
+        <Calendar onDaySelect={(d) => setSelectedC(d)} selected={selectedC ?? null} scale={2} />
+      </div>
+    );
   },
 };
 

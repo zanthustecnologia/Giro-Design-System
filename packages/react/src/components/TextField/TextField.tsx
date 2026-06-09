@@ -2,6 +2,8 @@ import { Dismiss16Regular } from '@fluentui/react-icons';
 import clsx from 'clsx';
 import React, { useState, useCallback, useId, forwardRef, useEffect } from 'react';
 
+import useInputKeyboardValue from '../../hooks/useInputKeyboardValue';
+import VirtualKeyboard from '../VirtualKeyboard';
 import styles from './TextField.module.scss';
 import { validateInput } from './utils';
 import LabelComponent from '../../shared/Label';
@@ -29,10 +31,15 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
       error,
       id,
       icon,
+      scale = 1,
       onBlur,
       onFocus,
       name,
       persistIcon = false,
+      virtualKeyboard = false,
+      virtualKeyboardType,
+      virtualKeyboardMaxLength,
+      attachedToVirtualKeyboard = false,
       ...rest
     },
     ref
@@ -44,6 +51,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
     const [inputValue, setInputValue] = useState(normalizeValue(value));
     const [inputError, setInputError] = useState('');
     const [isFocused, setIsFocused] = useState(false);
+    const { internalRef: inputRef, setRefs: setInputRefs } = useInputKeyboardValue(ref);
     const generatedId = useId();
     const componentId = id || generatedId;
 
@@ -51,7 +59,6 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
       const newValue = normalizeValue(value);
       setInputValue(newValue);
       
-      // Reavaliar erro quando valor muda externamente (ex: DatePicker atualiza o campo)
       if (inputError) {
         const validationError = validateInput({
           value: newValue,
@@ -117,9 +124,17 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
         ? `${componentId}-helper`
         : undefined;
 
-    const containerClass = clsx(styles.container, {
+    const scaleClass = {
+      1: 'scale-1-0',
+      1.5: 'scale-1-5',
+      2: 'scale-2-0',
+    }[scale];
+
+    const containerClass = clsx(styles.container, scaleClass, {
       [styles.disabled]: disabled,
       [styles.error]: hasError && !disabled,
+      [styles.errorWithMessage]: Boolean(error) && Boolean(errorMessage) && !disabled,
+      [styles.attachedToVirtualKeyboard]: attachedToVirtualKeyboard,
       [className!]: className,
     });
 
@@ -144,7 +159,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
           <div className={styles.inputContainer}>
             <input
               {...rest}
-              ref={ref}
+                ref={setInputRefs}
               id={componentId}
               name={name}
               type={type}
@@ -158,6 +173,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
               aria-invalid={hasError}
               aria-required={required}
               aria-describedby={helperId}
+              inputMode={virtualKeyboard ? 'none' : rest.inputMode}
               className={clsx({
                 [styles.inputWithIcon]: showCustomIcon || showClearIcon,
               })}
@@ -181,14 +197,34 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
             )}
           </div>
 
-          <span
-            id={helperId}
-            className={styles.helperText}
-            aria-live={hasError ? 'polite' : undefined}
-          >
-            {displayHelperText}
-          </span>
+          {(errorMessage || inputError || helperText) && (  
+            <span
+              id={helperId}
+              className={styles.helperText}
+              aria-live={hasError ? 'polite' : undefined}
+            >
+              {displayHelperText}
+            </span>
+          )}
         </div>
+
+        {virtualKeyboard && (
+          <div className="virtualKeyboardWrapper">
+            <VirtualKeyboard
+              variant="native"
+              type={virtualKeyboardType}
+              value={inputValue}
+              maxLength={maxLength ?? virtualKeyboardMaxLength}
+              targetRef={inputRef}
+              onChange={(val) => {
+                if (!disabled && (!maxLength || val.length <= maxLength)) {
+                  setInputValue(val);
+                  onChange?.(val);
+                }
+              }}
+            />
+          </div>
+        )}
       </div>
     );
   }

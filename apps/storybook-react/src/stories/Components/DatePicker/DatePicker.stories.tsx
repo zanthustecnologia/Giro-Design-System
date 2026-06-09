@@ -1,13 +1,19 @@
-import React, { useState } from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
 import { DatePicker } from '@giro-ds/react';
+import React, { useState } from 'react';
+
 import type { DatePickerProps } from '@giro-ds/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta: Meta<typeof DatePicker> = {
   title: 'Components/Date Picker',
   component: DatePicker,
   parameters: {
-    layout: 'centered',
+    docs: {
+      description: {
+        component: 'O DatePicker é um campo de entrada de data que combina um input de texto com um calendário. O usuário pode digitar a data diretamente ou selecioná-la pelo calendário.',
+      },
+    },
+    // layout: 'centered',
   },
   argTypes: {
     locale: {
@@ -49,6 +55,16 @@ const meta: Meta<typeof DatePicker> = {
       control: 'text',
       description: 'Label do campo',
     },
+    datePickerScale: {
+      control: { type: 'select' },
+      options: [1, 1.5, 2],
+      description: 'Escala visual do componente',
+    },
+    calendarScale: {
+      control: { type: 'select' },
+      options: [1, 1.5, 2],
+      description: 'Escala visual do calendário',
+    },
   },
 } satisfies Meta<typeof DatePicker>;
 
@@ -77,10 +93,12 @@ export const Default: Story = {
     calendarSide: 'bottom',
     label: 'Data de nascimento',
     helperText: 'Selecione sua data de nascimento',
+    datePickerScale: 1,
+    calendarScale: 1,
   },
 };
 
-export const Controlled: Story = {
+export const ControladoSimples: Story = {
   render: ControlledTemplate,
   args: {
     locale: 'pt-br',
@@ -90,7 +108,7 @@ export const Controlled: Story = {
   },
 };
 
-export const EnglishLocale: Story = {
+export const LocaleIngles: Story = {
   render: Template,
   args: {
     locale: 'en-us',
@@ -99,8 +117,9 @@ export const EnglishLocale: Story = {
     helperText: 'Format: MM/DD/YYYY',
   },
 };
+LocaleIngles.storyName = 'Locale Inglês';
 
-export const WithError: Story = {
+export const ComErro: Story = {
   render: Template,
   args: {
     locale: 'pt-br',
@@ -132,7 +151,7 @@ export const ComRestricaoDeDatas: Story = {
   },
 };
 
-export const RightPositioned: Story = {
+export const AlinhamentoDireita: Story = {
   render: Template,
   args: {
     locale: 'pt-br',
@@ -141,4 +160,14 @@ export const RightPositioned: Story = {
     label: 'Data de nascimento',
     helperText: 'Calendário ancorado à direita',
   },
+};
+
+export const Escalas: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '64px', alignItems: 'flex-start' }}>
+      <DatePicker label="Scale 1.0" helperText="Exemplo" datePickerScale={1} calendarScale={1} />
+      <DatePicker label="Scale 1.5" helperText="Exemplo" datePickerScale={1.5} calendarScale={1.5} />
+      <DatePicker label="Scale 2.0" helperText="Exemplo" datePickerScale={2} calendarScale={2} />
+    </div>
+  ),
 };

@@ -269,6 +269,24 @@ describe('DatePicker', () => {
       expect(screen.getByLabelText('Data')).toBeInTheDocument();
     });
 
+    it('aplica escala 1.0 por padrão', () => {
+      const { container } = render(<DatePicker />);
+      const wrapper = container.querySelector('.scale-1-0');
+      expect(wrapper).toBeInTheDocument();
+    });
+
+    it('aplica escala 1.5 quando informado', () => {
+      const { container } = render(<DatePicker datePickerScale={1.5} />);
+      const wrapper = container.querySelector('.scale-1-5');
+      expect(wrapper).toBeInTheDocument();
+    });
+
+    it('aplica escala 2.0 quando informado', () => {
+      const { container } = render(<DatePicker datePickerScale={2} />);
+      const wrapper = container.querySelector('.scale-2-0');
+      expect(wrapper).toBeInTheDocument();
+    });
+
     it('renderiza com label personalizado', () => {
       render(<DatePicker label="Data de Nascimento" />);
       expect(screen.getByLabelText('Data de Nascimento')).toBeInTheDocument();

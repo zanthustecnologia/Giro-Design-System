@@ -1,0 +1,122 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as TextAreaStories from './TextArea.stories';
+import { TextArea } from '@giro-ds/react';
+import { UsageGuidelines } from '../../../internal-components/mdx/UsageGuidelines/UsageGuidelines';
+import { ComponentRules } from '../../../internal-components/mdx/Rules/Rules';
+import { Footer } from '../../../internal-components/mdx/Footer/Footer';
+
+<Meta of={TextAreaStories} name="Docs" />
+
+# Text Area
+
+O Text Area é um campo de entrada de texto multilinha que suporta validação, tooltip e controle de redimensionamento. Use-o quando o usuário precisar digitar textos longos, como descrições, comentários ou observações.
+
+<Canvas of={TextAreaStories.Default} />
+
+## Importação
+
+```js
+import { TextArea } from '@giro-ds/react';
+```
+
+<div style={{ marginTop: '48px' }} />
+
+## Propriedades
+
+<Controls />
+
+<div style={{ marginTop: '48px' }} />
+
+## Uso
+
+<UsageGuidelines
+  guidelines={[
+    <>
+      Sempre use um rótulo descritivo. Ele identifica o campo para o usuário e é essencial para acessibilidade.
+    </>,
+    <>
+      Use o texto de apoio abaixo do campo para orientar o usuário sobre o conteúdo esperado, como o formato ou limite de caracteres. Ele complementa o rótulo sem poluir o campo.
+    </>,
+    <>
+      Defina o <code>maxLength</code> quando houver um limite real de caracteres. O contador exibido abaixo do campo ajuda o usuário a se planejar antes de atingir o limite.
+    </>,
+    <>
+      Use o tooltip no rótulo para fornecer informações adicionais sem poluir o layout. O ícone de interrogação aparece ao lado do rótulo e exibe o conteúdo de <code>tooltipText</code> ao passar o cursor.
+    </>,
+    <>
+      Controle o redimensionamento com a propriedade <code>resize</code>. Use <code>none</code> para evitar que o usuário quebre o layout, <code>vertical</code> para permitir ajuste apenas em altura, ou <code>both</code> para liberar ambos os eixos.
+    </>,
+  ]}
+/>
+
+<div style={{ marginTop: '48px' }} />
+
+## Variações
+
+### Desabilitado
+
+Use o estado desabilitado quando o campo não puder ser editado no contexto atual. O conteúdo permanece visível, mas o usuário não consegue interagir com ele.
+
+<Canvas of={TextAreaStories.Desabilitado} />
+
+### Obrigatório
+
+Campos obrigatórios exibem um indicador visual e validam o conteúdo ao perder o foco. A mensagem de erro é exibida abaixo do campo e pode ser personalizada.
+
+<Canvas of={TextAreaStories.Obrigatorio} />
+
+<div style={{ marginTop: '48px' }} />
+
+## O que fazer e não fazer
+
+<ComponentRules
+  rules={[
+    {
+      positive: {
+        component: (
+          <TextArea
+            label="Descrição"
+            placeholder="Ex.: Descreva o problema encontrado"
+            helperText="Limite de 300 caracteres"
+            maxLength={300}
+          />
+        ),
+        description: "Use um rótulo descritivo, um placeholder com exemplo real e texto de apoio que informe o limite. O usuário sabe exatamente o que preencher antes mesmo de começar."
+      },
+      negative: {
+        component: (
+          <TextArea
+            label="Campo"
+            placeholder="Digite aqui"
+          />
+        ),
+        description: "Evite rótulos e placeholders genéricos. Sem contexto, o usuário não sabe qual informação é esperada nem em qual extensão."
+      }
+    },
+    {
+      positive: {
+        component: (
+          <TextArea
+            label="Observações"
+            placeholder="Ex.: Informações adicionais relevantes"
+            resize="vertical"
+            helperText="Redimensione verticalmente se precisar de mais espaço"
+          />
+        ),
+        description: "Use resize vertical quando fizer sentido permitir que o usuário ajuste a altura do campo. Isso respeita diferentes quantidades de conteúdo sem quebrar o layout horizontal."
+      },
+      negative: {
+        component: (
+          <TextArea
+            label="Observações"
+            placeholder="Ex.: Informações adicionais relevantes"
+            resize="both"
+          />
+        ),
+        description: "Evite resize livre (both) em layouts estruturados. O usuário pode redimensionar o campo horizontalmente e quebrar a grade da interface."
+      }
+    },
+  ]}
+/>
+
+<Footer />

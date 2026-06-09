@@ -1,4 +1,4 @@
-import { BaseProps } from '../../types/common.types';
+import { BaseProps, Scale } from '../../types/common.types';
 
 /**
  * Props do componente Switch
@@ -26,10 +26,10 @@ export interface SwitchProps extends BaseProps {
   /** Callback executado quando o estado muda: (checked) => void */
   onCheckedChange?: (checked: boolean) => void;
   
-  /** Nome do input */
+  /** Nome do input — associa o switch a um campo de formulário (HTML `name`) */
   name?: string;
   
-  /** Valor do input */
+  /** Valor enviado no formulário quando o switch está ativo (análogo ao `value` do `<input type="checkbox">`) */
   value?: string;
   
   /** Estado atual (modo controlado) */
@@ -37,4 +37,7 @@ export interface SwitchProps extends BaseProps {
 
   /** Classe CSS opcional */
   className?: string;
+
+  /** Escala visual aplicada ao componente */
+  scale?: Scale;
 }

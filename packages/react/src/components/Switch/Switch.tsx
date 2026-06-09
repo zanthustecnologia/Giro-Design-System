@@ -10,10 +10,18 @@ const Switch: React.FC<SwitchProps> = ({
 	defaultChecked = false,
 	checked,
 	onCheckedChange,
+	scale = 1,
 	className,
 	...rest
-}) => (
-		<div className={clsx(styles.container, className)}>
+}) => {
+	const scaleClass = {
+		1: 'scale-1-0',
+		1.5: 'scale-1-5',
+		2: 'scale-2-0',
+	}[scale];
+
+	return (
+		<div className={clsx(styles.container, scaleClass, className)}>
 			<SwitchRadix.Root  
 				className={styles.switchRoot} 
 				disabled={disabled} 
@@ -25,6 +33,7 @@ const Switch: React.FC<SwitchProps> = ({
 				<SwitchRadix.Thumb className={styles.switchThumb} />
 			</SwitchRadix.Root>
 		</div>
-);
+	);
+};
 
 export default Switch;

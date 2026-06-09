@@ -1,5 +1,41 @@
 # @giro-ds/react
 
+## [9.1.0]
+
+### Added
+
+#### VirtualKeyboard
+
+Novo componente para ambientes sem teclado físico, como totens, terminais e painéis de pagamento. Suporta dois modos: `fixed`, sempre visível com `TextField` próprio integrado, e `native`, que aparece ao focar no campo apontado por `targetRef` e se posiciona via `createPortal` como overlay na base da tela.
+
+Inclui 5 layouts nativos (`default`, `numeric`, `fullKeyboard`, `mobile`, `appleIOS`) e suporte a mais de 40 layouts de idioma via `simple-keyboard-layouts`. O comportamento de Shift e CapsLock é independente: CapsLock mantém maiúsculas continuamente enquanto Shift retorna ao layout padrão após a primeira tecla.
+
+#### Button, Chips, Quantity, TextField
+
+Adicionada a prop `scale?: 1 | 1.5 | 2` para controle da escala visual. A prop aplica classes CSS correspondentes ao fator de escala configurado.
+
+#### Menu
+
+Adicionadas as props `scale?: 1 | 1.5 | 2` e `buttonScale?: 1 | 1.5 | 2`. A prop `buttonScale` repassa a escala ao elemento de trigger quando compatível.
+
+#### TextField, TextArea, Search
+
+Adicionadas as props opcionais `virtualKeyboard`, `virtualKeyboardLayout` e `virtualKeyboardMaxLength` para integração com o `VirtualKeyboard`. Quando `virtualKeyboard` está ativo, o `inputMode` do campo é definido como `none`, suprimindo o teclado nativo do sistema operacional.
+
+#### TableV2
+
+Adicionadas as props opcionais `virtualKeyboard`, `virtualKeyboardLayout` e `virtualKeyboardMaxLength` em `TableV2HeaderProps`, repassadas ao `Search` interno da tabela.
+
+### Fixed
+
+#### TableV2
+
+Corrige a renderização do label estático "Filtros" que aparecia duplicado quando `filterItems` continha apenas itens do tipo `combined`. O label agora só é exibido quando existe ao menos um filtro que não seja do tipo `combined`.
+
+#### TextField
+
+Corrige o `<span>` de `helperText` e `errorMessage`, que era renderizado mesmo sem conteúdo, causando espaço invisível no layout. O elemento agora só é montado quando há texto a exibir.
+
 ## 9.0.0
 
 ### Major Changes
