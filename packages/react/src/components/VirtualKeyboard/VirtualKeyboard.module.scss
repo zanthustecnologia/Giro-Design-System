@@ -1,3 +1,9 @@
+@mixin svg {
+  width: 1em;
+  height: 1em;
+  vertical-align: middle;
+}
+
 .container {
   font-family: var(--font-family-primary);
   width: 100%;
@@ -19,9 +25,7 @@
       line-height: 1;
 
       svg {
-        width: 1em;
-        height: 1em;
-        vertical-align: middle;
+        @include svg;
       }
 
       [data-icon-key] {
@@ -165,9 +169,7 @@
       box-shadow: none;
 
       svg {
-        width: 1em;
-        height: 1em;
-        vertical-align: middle;
+        @include svg;
       }
     }
 
