@@ -129,7 +129,7 @@
   left: var(--spacing-0);
   right: var(--spacing-0);
   background-color: transparent;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(20px);
   border-top: var(--border-width-1) solid var(--color-neutral-high-dark);
   transform: translateY(100%);
   transition: transform 0.25s ease-out;
