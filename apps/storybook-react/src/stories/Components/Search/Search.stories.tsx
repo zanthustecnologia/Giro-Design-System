@@ -26,6 +26,11 @@ const meta: Meta<typeof Search> = {
     onClear: { control: false },
     onClick: { control: false },
     onMouseDown: { control: false },
+    scale: {
+      control: { type: 'select' },
+      options: [1, 1.5, 2],
+      description: 'Escala visual do componente.',
+    },
   },
 };
 
@@ -37,6 +42,7 @@ export const Default: Story = {
   render: (args) => <Search {...args} />,
   args: {
     placeholder: 'Buscar produto',
+    scale: 1,
   },
 };
 
@@ -149,4 +155,14 @@ export const ModoEnter: Story = {
       </div>
     );
   },
+};
+
+export const Escalas: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '56px', width: '360px' }}>
+      <Search placeholder="Scale 1.0" scale={1} />
+      <Search placeholder="Scale 1.5" scale={1.5} />
+      <Search placeholder="Scale 2.0" scale={2} />
+    </div>
+  ),
 };

@@ -1,4 +1,4 @@
-import { Locale, BaseProps, Side, Align } from '../../types/common.types';
+import { Locale, BaseProps, Side, Align, Scale } from '../../types/common.types';
 
 /**
  * Props do componente DatePicker
@@ -65,4 +65,10 @@ export interface DatePickerProps extends BaseProps {
 
   /** Classe CSS opcional */
   className?: string;
+
+  /** Escala visual aplicada ao componente */
+  datePickerScale?: Scale;
+
+  /** Escala visual aplicada ao calendário */
+  calendarScale?: Scale;
 }

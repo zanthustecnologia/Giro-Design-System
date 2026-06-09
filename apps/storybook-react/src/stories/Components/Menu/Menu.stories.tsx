@@ -30,6 +30,16 @@ const meta: Meta<typeof Menu> = {
   },
   argTypes: {
     search: { control: 'boolean' },
+    dropdownScale: {
+      control: { type: 'select' },
+      options: [1, 1.5, 2],
+      description: 'Escala visual do dropdown do menu.',
+    },
+    buttonScale: {
+      control: { type: 'select' },
+      options: [1, 1.5, 2],
+      description: 'Escala aplicada ao Button trigger do menu',
+    },
     align: {
       control: { type: 'select' },
       options: ['start', 'end', 'center'],
@@ -129,6 +139,8 @@ export const Default: Story = {
   args: {
     search: false,
     align: 'start',
+    dropdownScale: 1,
+    buttonScale: 1,
   },
 };
 
@@ -228,4 +240,20 @@ const InfiniteScrollDemo = () => {
 
 export const ScrollInfinito: Story = {
   render: () => <InfiniteScrollDemo />,
+};
+
+export const Escalas: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '40px', alignItems: 'flex-start' }}>
+      <Menu items={acoesItens} dropdownScale={1} buttonScale={1}>
+        <Button variant="outlined">Menu 1.0 / Botão 1.0</Button>
+      </Menu>
+      <Menu items={acoesItens} dropdownScale={1.5} buttonScale={1.5}>
+        <Button variant="outlined">Menu 1.5 / Botão 1.5</Button>
+      </Menu>
+      <Menu items={acoesItens} dropdownScale={2} buttonScale={2}>
+        <Button variant="outlined">Menu 2.0 / Botão 2.0</Button>
+      </Menu>
+    </div>
+  ),
 };

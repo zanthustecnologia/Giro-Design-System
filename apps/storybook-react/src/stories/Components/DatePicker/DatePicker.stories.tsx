@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
 import { DatePicker } from '@giro-ds/react';
+import React, { useState } from 'react';
+
 import type { DatePickerProps } from '@giro-ds/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta: Meta<typeof DatePicker> = {
   title: 'Components/Date Picker',
@@ -54,6 +55,16 @@ const meta: Meta<typeof DatePicker> = {
       control: 'text',
       description: 'Label do campo',
     },
+    datePickerScale: {
+      control: { type: 'select' },
+      options: [1, 1.5, 2],
+      description: 'Escala visual do componente',
+    },
+    calendarScale: {
+      control: { type: 'select' },
+      options: [1, 1.5, 2],
+      description: 'Escala visual do calendário',
+    },
   },
 } satisfies Meta<typeof DatePicker>;
 
@@ -82,6 +93,8 @@ export const Default: Story = {
     calendarSide: 'bottom',
     label: 'Data de nascimento',
     helperText: 'Selecione sua data de nascimento',
+    datePickerScale: 1,
+    calendarScale: 1,
   },
 };
 
@@ -147,4 +160,14 @@ export const AlinhamentoDireita: Story = {
     label: 'Data de nascimento',
     helperText: 'Calendário ancorado à direita',
   },
+};
+
+export const Escalas: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '64px', alignItems: 'flex-start' }}>
+      <DatePicker label="Scale 1.0" helperText="Exemplo" datePickerScale={1} calendarScale={1} />
+      <DatePicker label="Scale 1.5" helperText="Exemplo" datePickerScale={1.5} calendarScale={1.5} />
+      <DatePicker label="Scale 2.0" helperText="Exemplo" datePickerScale={2} calendarScale={2} />
+    </div>
+  ),
 };

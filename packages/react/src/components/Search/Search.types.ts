@@ -1,7 +1,7 @@
 import * as React from 'react';
 import type { ComponentPropsWithoutRef } from 'react';
 
-import { BaseProps } from '../../types/common.types';
+import { BaseProps, Scale } from '../../types/common.types';
 
 /**
  * Props do componente Search
@@ -77,4 +77,7 @@ export interface SearchProps extends BaseProps, NativeInputProps {
 
   /** Classe CSS opcional */
   className?: string;
+
+  /** Escala visual aplicada ao componente */
+  scale?: Scale;
 }

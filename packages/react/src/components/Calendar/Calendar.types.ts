@@ -1,4 +1,4 @@
-import type { BaseProps, Locale } from '../../types/common.types';
+import type { BaseProps, Locale, Scale } from '../../types/common.types';
 import type { Matcher } from 'react-day-picker';
 
 // ---------------------------------------------------------------------------
@@ -88,6 +88,9 @@ interface CalendarBaseProps extends Omit<BaseProps, 'disabled'> {
   // --- Estilização -----------------------------------------------------
   /** Substitui os `classNames` padrão do react-day-picker. */
   classNames?: Partial<Record<string, string>>;
+
+  /** Escala visual aplicada ao componente */
+  scale?: Scale;
 }
 
 export type CalendarProps = CalendarBaseProps;

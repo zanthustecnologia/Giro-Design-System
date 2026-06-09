@@ -1,4 +1,4 @@
-import { BaseProps } from '../../types/common.types';
+import { BaseProps, Scale } from '../../types/common.types';
 
 /**
  * Props do componente Switch
@@ -37,4 +37,7 @@ export interface SwitchProps extends BaseProps {
 
   /** Classe CSS opcional */
   className?: string;
+
+  /** Escala visual aplicada ao componente */
+  scale?: Scale;
 }

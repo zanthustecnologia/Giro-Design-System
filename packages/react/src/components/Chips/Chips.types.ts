@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { BaseProps, TextVariant } from '../../types/common.types';
+import { BaseProps, TextVariant, Scale } from '../../types/common.types';
 
 /**
  * Props do componente Chips
@@ -44,4 +44,7 @@ export interface ChipsProps extends BaseProps, Omit<React.HTMLAttributes<HTMLDiv
 
   /** Classe CSS opcional */
   className?: string;
+
+  /** Escala visual aplicada ao componente */
+  scale?: Scale;
 }

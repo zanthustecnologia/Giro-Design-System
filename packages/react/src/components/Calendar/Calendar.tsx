@@ -93,6 +93,7 @@ const Calendar = ({
   locale = "pt-br",
   autoFocus,
   className,
+  scale = 1,
   id,
   "aria-label": ariaLabel,
   ...rest
@@ -202,9 +203,15 @@ const Calendar = ({
     "aria-label": ariaLabel,
   };
 
+  const scaleClass = {
+    1: 'scale-1-0',
+    1.5: 'scale-1-5',
+    2: 'scale-2-0',
+  }[scale];
+
   return (
     <GridCtx.Provider value={gridCtxValue}>
-      <div className={clsx(styles.calendar_grid_wrapper, className)}>
+      <div className={clsx(styles.calendar_grid_wrapper, scaleClass, className)}>
         <DayPicker
           id={id}
           {...sharedDayPickerProps}

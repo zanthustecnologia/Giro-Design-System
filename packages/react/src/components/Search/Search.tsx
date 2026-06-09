@@ -22,6 +22,7 @@ const Search = React.forwardRef<HTMLInputElement, SearchProps>(
       searchMode = 'instant',
       onSearch,
       id,
+      scale = 1,
       className,
       'data-testid': testId, 
       ...rest
@@ -33,6 +34,13 @@ const Search = React.forwardRef<HTMLInputElement, SearchProps>(
     const currentValue = isControlled ? value : internalValue;
     const generatedId = useId();
     const inputId = id || generatedId;
+
+    const scaleClass = {
+      1: 'scale-1-0',
+      1.5: 'scale-1-5',
+      2: 'scale-2-0',
+    }[scale];
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
       if (disabled) return;
 
@@ -83,6 +91,7 @@ const Search = React.forwardRef<HTMLInputElement, SearchProps>(
       <div 
         className={clsx(
           styles.search,
+          scaleClass,
           { [styles.disabled]: disabled },
           className
         )} 

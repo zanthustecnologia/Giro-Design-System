@@ -36,6 +36,11 @@ const meta: Meta<typeof Chips> = {
       control: { type: 'text' },
       description: 'Token CSS para cor do texto e ícones sem o prefixo --. Ex: color-brand-secondary-dark',
     },
+    scale: {
+      control: { type: 'select' },
+      options: [1, 1.5, 2],
+      description: 'Escala visual do componente.',
+    },
     leftIcon: {
       control: { type: 'select' },
       options: ['none', 'Tag'],
@@ -68,6 +73,7 @@ export const Default: Story = {
     children: 'Etiqueta',
     variant: 'neutral',
     disabled: false,
+    scale: 1,
   },
 };
 
@@ -182,6 +188,16 @@ export const Interativo: Story = {
       >
         Desabilitado
       </Chips>
+    </div>
+  ),
+};
+
+export const Escalas: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '28px', alignItems: 'flex-start' }}>
+      <Chips scale={1}>Scale 1.0</Chips>
+      <Chips scale={1.5}>Scale 1.5</Chips>
+      <Chips scale={2}>Scale 2.0</Chips>
     </div>
   ),
 };

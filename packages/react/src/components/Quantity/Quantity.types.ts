@@ -1,4 +1,4 @@
-import { Size, BaseProps } from '../../types/common.types';
+import { Size, BaseProps, Scale } from '../../types/common.types';
 
 /**
  * Props do componente Quantity
@@ -65,4 +65,7 @@ export interface QuantityProps extends BaseProps {
 
   /** Classe CSS opcional */
   className?: string;
+
+  /** Escala visual aplicada ao componente */
+  scale?: Scale;
 }

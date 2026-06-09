@@ -28,6 +28,12 @@ const meta: Meta<typeof Button> = {
     size: {
       control: { type: 'select' },
       options: ['lg', 'sm'],
+      description: 'Tamanho do componente.',
+    },
+    scale: {
+      control: { type: 'select' },
+      options: [1, 1.5, 2],
+      description: 'Escala visual do componente.',
     },
     icon: {
       control: { type: 'select' },
@@ -49,9 +55,11 @@ const meta: Meta<typeof Button> = {
     },
     disabled: {
       control: { type: 'boolean' },
+      description: 'Desabilita o componente.',
     },
     loading: {
       control: { type: 'boolean' },
+      description: 'Exibe um indicador de carregamento.',
     },
     to: {
       control: { type: 'text' },
@@ -75,6 +83,21 @@ const meta: Meta<typeof Button> = {
       control: { type: 'text' },
     },
   },
+} as Meta<ButtonProps>;
+
+const Template: StoryFn<ButtonProps> = (args) => (
+  <Button {...args}>
+    {args.children}
+  </Button>
+);
+
+export const Default = Template.bind({});
+Default.args = {
+  children: 'Button',
+  type: 'button',
+  variant: 'filled',
+  size: 'lg',
+  scale: 1,
 };
 
 export default meta;
@@ -163,3 +186,11 @@ export const ApenasIcone: Story = {
     tooltipText: 'Adicionar item',
   },
 };
+
+export const Escalas: StoryFn<ButtonProps> = () => (
+  <div style={{ display: 'flex', gap: '40px', alignItems: 'center' }}>
+    <Button scale={1}>Scale 1.0</Button>
+    <Button scale={1.5}>Scale 1.5</Button>
+    <Button scale={2}>Scale 2.0</Button>
+  </div>
+);

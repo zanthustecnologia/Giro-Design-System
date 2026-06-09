@@ -27,6 +27,11 @@ const meta: Meta<SwitchProps> = {
       description: 'Valor do switch para formulários',
       type: 'string',
     },
+    scale: {
+      control: { type: 'select' },
+      options: [1, 1.5, 2],
+      description: 'Escala visual do componente',
+    },
   },
 };
 
@@ -37,6 +42,9 @@ export const Default: Story = {
   render: (args) => (
     <Switch {...args} />
   ),
+  args: {
+    scale: 1,
+  },
 };
 
 export const Marcado: Story = {
@@ -67,4 +75,14 @@ export const Controlado: Story = {
       </div>
     );
   },
+};
+
+export const Escalas: Story = {
+  render: () => (
+    <div style={{ display: 'flex', gap: '40px', alignItems: 'center' }}>
+      <Switch scale={1} />
+      <Switch scale={1.5} />
+      <Switch scale={2} />
+    </div>
+  ),
 };
