@@ -7,7 +7,12 @@ const meta: Meta<typeof Checkbox> = {
   component: Checkbox,
   title: 'Components/Checkbox',
   parameters:{
-    layout: 'centered'
+    docs: {
+      description: {
+        component: 'Checkbox é um controle de formulário que permite ao usuário selecionar ou desmarcar uma opção de forma independente. Use-o quando o usuário precisar confirmar uma escolha binária ou selecionar múltiplos itens de uma lista.',
+      },
+    },
+    // layout: 'centered'
   },
   argTypes:{
     disabled: { control: 'boolean' },
@@ -31,7 +36,7 @@ export const Default: Story = {
 
   }   
 }
-export const Unchecked: Story = {
+export const Desmarcado: Story = {
   args: {
     label: 'Opção desmarcada',
     disabled: false,
@@ -39,7 +44,7 @@ export const Unchecked: Story = {
   },
 };
 
-export const Checked: Story = {
+export const Marcado: Story = {
   args: {
     label: 'Opção marcada',
     defaultChecked: true,
@@ -48,7 +53,7 @@ export const Checked: Story = {
   },
 };
 
-export const Indeterminate: Story = {
+export const Indeterminado: Story = {
   args: {
     label: 'Seleção parcial',
     defaultChecked: true,
@@ -57,7 +62,7 @@ export const Indeterminate: Story = {
   },
 };
 
-export const Disabled: Story = {
+export const Desabilitado: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
       <Checkbox label="Desmarcado e desabilitado" disabled />
@@ -66,7 +71,7 @@ export const Disabled: Story = {
   ),
 };
 
-export const SelectAll: Story = {
+export const SelecionarTodos: Story = {
   render: (args) => {
 
     // Estado dos 3 checkboxes individuais

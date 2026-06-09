@@ -7,7 +7,12 @@ const meta: Meta<typeof Chips> = {
   title: 'Components/Chips',
   component: Chips,
   parameters: {
-    layout: 'centered'
+    docs: {
+      description: {
+        component: 'Chips são elementos compactos e em destaque usados para representar atributos, categorias, status ou filtros associados a um conteúdo. Eles comunicam informação de forma concisa e visual, sem a necessidade de ações do usuário.',
+      },
+    },
+    // layout: 'centered'
   },
   argTypes: {
     children: {
@@ -66,7 +71,7 @@ export const Default: Story = {
   },
 };
 
-export const Variants: Story = {
+export const Variantes: Story = {
   render: () => (
     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
       <Chips variant="neutral">Neutro</Chips>

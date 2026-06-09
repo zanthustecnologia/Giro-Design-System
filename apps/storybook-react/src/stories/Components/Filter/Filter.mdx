@@ -57,37 +57,37 @@ import { Filter } from '@giro-ds/react';
 
 Quando a lista de opções for longa, a busca facilita a localização sem rolar pelo painel.
 
-<Canvas of={FilterStories.WithSearch} />
+<Canvas of={FilterStories.ComBusca} />
 
 ### Posicionamento à direita
 
 O painel de seleção pode ser ancorado à direita do botão para evitar que extrapole os limites do layout.
 
-<Canvas of={FilterStories.RightPosition} />
+<Canvas of={FilterStories.PosicaoDireita} />
 
 ### Desabilitado
 
 O Filter desabilitado não abre o painel e indica visualmente que a filtragem não está disponível naquele contexto.
 
-<Canvas of={FilterStories.Disabled} />
+<Canvas of={FilterStories.Desabilitado} />
 
 ### Filtro de data
 
 Quando o critério de filtragem for uma data, o painel exibe um calendário para seleção direta.
 
-<Canvas of={FilterStories.CalendarFilter} />
+<Canvas of={FilterStories.FiltroCalendario} />
 
 ### Múltiplos filtros
 
 Vários filtros podem coexistir na mesma interface para permitir combinações de critérios independentes.
 
-<Canvas of={FilterStories.MultipleFilters} />
+<Canvas of={FilterStories.MultiplosFiltros} />
 
 ### Filtro combinado
 
 O modo combinado abre um painel lateral (drawer) onde qualquer componente pode ser composto como filho. Use-o quando houver múltiplos critérios de filtragem que não se encaixam bem em um único popover. O número de filtros ativos é controlado externamente via `activeCount`. Os callbacks `onApply` e `onClear` são chamados quando o usuário clica nos botões do rodapé.
 
-<Canvas of={FilterStories.CombinedFilter} />
+<Canvas of={FilterStories.FiltrosCombinados} />
 
 <div style={{ marginTop: '48px' }} />
 

@@ -10,8 +10,7 @@ const meta: Meta<SelectProps> = {
   parameters: {
     docs: {
       description: {
-        component:
-          'Componente Select usando Radix UI com estilização customizada e melhor organização de código.',
+        component: 'O Select é um campo de seleção que abre uma lista de opções ao ser clicado. O usuário escolhe uma ou mais opções e a lista fecha automaticamente. Suporta busca interna, ícones, subtítulos e agrupamento de itens em categorias expansíveis.',
       },
     },
   },
@@ -50,12 +49,12 @@ const meta: Meta<SelectProps> = {
     side: {
       control: 'select',
       options: ['top','bottom', 'left', 'right'],
-      description: 'Posição do tooltip'
+      description: 'Lado em que o dropdown abre em relação ao campo'
     },
     align: {
       control: 'select',
       options: ['start', 'center', 'end'],
-      description: 'Posição do tooltip'
+      description: 'Alinhamento do dropdown em relação ao campo'
     },
   },
 };
@@ -224,7 +223,7 @@ Default.args = {
   helperText: 'Texto de ajuda aqui',
 };
 
-export const WithSearch: StoryFn<SelectProps> = (args) => (
+export const ComBusca: StoryFn<SelectProps> = (args) => (
   <div style={{ maxWidth: 300 }}>
     <Select 
       {...args} 
@@ -233,13 +232,13 @@ export const WithSearch: StoryFn<SelectProps> = (args) => (
   </div>
 );
 
-WithSearch.args = {
+ComBusca.args = {
   ...Default.args,
   search: true,
   label: 'Select com busca',
 };
 
-export const WithIcon: StoryFn<SelectProps> = (args) => (
+export const ComIcone: StoryFn<SelectProps> = (args) => (
   <div style={{ maxWidth: 300 }}>
     <Select 
       {...args} 
@@ -249,13 +248,13 @@ export const WithIcon: StoryFn<SelectProps> = (args) => (
   </div>
 );
 
-WithIcon.args = {
+ComIcone.args = {
   ...Default.args,
   variant: 'icon',
   label: 'Select com ícones',
 };
 
-export const Checkbox: StoryFn<SelectProps> = (args) => (
+export const VarianteCheckbox: StoryFn<SelectProps> = (args) => (
   <div style={{ maxWidth: 300 }}>
     <Select 
       {...args} 
@@ -264,14 +263,14 @@ export const Checkbox: StoryFn<SelectProps> = (args) => (
   </div>
 );
 
-Checkbox.args = {
+VarianteCheckbox.args = {
   ...Default.args,
   variant: 'checkbox',
   label: 'Select múltiplo',
   search: false,
 };
 
-export const Required: StoryFn<SelectProps> = (args) => (
+export const Obrigatorio: StoryFn<SelectProps> = (args) => (
   <div style={{ maxWidth: 300 }}>
     <Select 
       {...args} 
@@ -280,14 +279,15 @@ export const Required: StoryFn<SelectProps> = (args) => (
   </div>
 );
 
-Required.args = {
+Obrigatorio.args = {
   ...Default.args,
   required: true,
   label: 'Campo obrigatório',
   helperText: 'Este campo é obrigatório',
 };
+Obrigatorio.storyName = 'Obrigatório';
 
-export const Disabled: StoryFn<SelectProps> = (args) => (
+export const Desabilitado: StoryFn<SelectProps> = (args) => (
   <div style={{ maxWidth: 300 }}>
     <Select 
       {...args} 
@@ -296,14 +296,14 @@ export const Disabled: StoryFn<SelectProps> = (args) => (
   </div>
 );
 
-Disabled.args = {
+Desabilitado.args = {
   ...Default.args,
   disabled: true,
   label: 'Campo desabilitado',
   value: 'item1',
 };
 
-export const Children: StoryFn<SelectProps> = (args) => (
+export const ComFilhos: StoryFn<SelectProps> = (args) => (
   <div style={{ maxWidth: 300 }}>
     <Select 
       {...args} 
@@ -313,13 +313,13 @@ export const Children: StoryFn<SelectProps> = (args) => (
   </div>
 );
 
-Children.args = {
+ComFilhos.args = {
   ...Default.args,
   label: 'Itens agrupados',
   placeholder: 'Selecione um item',
 };
 
-export const Position: StoryFn<SelectProps> = (args) => (
+export const Posicionamento: StoryFn<SelectProps> = (args) => (
   <div style={{ display: 'flex', flexDirection: 'column', gap: '300px', padding: '20px' }}>
     <Select
       {...args}
@@ -334,7 +334,7 @@ export const Position: StoryFn<SelectProps> = (args) => (
   </div>
 );
 
-Position.args = {
+Posicionamento.args = {
   items: [
     ...mockItems,
     { id: '6', value: 'item6', text: 'List-item 6', subTitle: 'Item adicional' },
@@ -347,7 +347,7 @@ Position.args = {
   search: true,
 };
 
-export const InfiniteScroll: StoryFn<SelectProps> = () => {
+export const ScrollInfinito: StoryFn<SelectProps> = () => {
   const [items, setItems] = React.useState(
     Array.from({ length: 20 }, (_, i) => ({
       id: `item-${i + 1}`,
@@ -405,7 +405,7 @@ export const InfiniteScroll: StoryFn<SelectProps> = () => {
 };
 
 // Story para demonstrar a busca em API
-export const ApiSearch: StoryFn<SelectProps> = () => {
+export const BuscaAPI: StoryFn<SelectProps> = () => {
   const [items, setItems] = React.useState([
     { id: '1', value: '1', text: 'Item 1', subTitle: 'Resultado inicial' },
     { id: '2', value: '2', text: 'Item 2', subTitle: 'Resultado inicial' },

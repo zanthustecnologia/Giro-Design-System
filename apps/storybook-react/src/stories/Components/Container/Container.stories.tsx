@@ -6,7 +6,12 @@ const meta: Meta<typeof Container> = {
   title: 'Components/Container',
   component: Container,
   parameters: {
-    layout: 'fullscreen',
+    docs: {
+      description: {
+        component: 'O Container é um componente de layout que envolve o conteúdo principal da página em um elemento `<main>` semântico. Aplica padding horizontal responsivo com base nos tokens do design system e centraliza o conteúdo horizontalmente.',
+      },
+    },
+    // layout: 'fullscreen',
   },
   argTypes: {
     children: { table: { disable: true } },

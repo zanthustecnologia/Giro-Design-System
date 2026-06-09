@@ -1,17 +1,21 @@
 import { Add16Filled, Add16Regular } from '@fluentui/react-icons';
 import React from 'react';
-import { Meta, StoryFn } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
 import { Button } from '@giro-ds/react';
 import type { ButtonProps } from '@giro-ds/react';
 
-export default {
+const meta: Meta<typeof Button> = {
   title: 'Components/Button',
   component: Button,
   parameters: {
+    docs: {
+      description: {
+        component: 'Botões são componentes interativos que acionam uma função, navegação ou mudança de estado na interface. Indicam ações principais e secundárias, ajudando usuários a decidir o que fazer em seguida.',
+      },
+    },
     controls: {
       sort: 'alpha',
     },
-    layout: 'centered',
   },
   argTypes: {
     children: {
@@ -70,83 +74,92 @@ export default {
     tooltipText: {
       control: { type: 'text' },
     },
-    
   },
-} as Meta<ButtonProps>;
-
-const Template: StoryFn<ButtonProps> = (args) => (
-  <Button {...args}>
-    {args.children}
-  </Button>
-);
-
-export const Default = Template.bind({});
-Default.args = {
-  children: 'Button',
-  type: 'button',
-  variant: 'filled',
-  size: 'lg',
 };
 
-export const Variants: StoryFn<ButtonProps> = () => (
-  <div style={{ display: 'flex', gap: '24px' }}>
-    <Button variant="filled" size="lg">
-      Filled Button
-    </Button>
-    <Button variant="outlined" size="lg">
-      Outlined Button
-    </Button>
-    <Button variant="text" size="lg">
-      Text Button
-    </Button>
-  </div>
-);
+export default meta;
 
-export const Sizes: StoryFn<ButtonProps> = () => (
-  <div style={{ display: 'flex', gap: '24px' }}>
-    <Button
-      variant="filled"
-      size="lg"
-      icon={<Add16Filled />}
-    >
-      Large Button
-    </Button>
-    <Button
-      variant="filled"
-      size="sm"
-      icon={<Add16Filled />}
-    >
-      Small Button
-    </Button>
-  </div>
-);
+type Story = StoryObj<typeof Button>;
 
-const TemplateWithIcons: StoryFn<ButtonProps> = (args) => (
-  <div style={{ display: 'flex', gap: '24px' }}>
-    <Button {...args} icon={<Add16Regular />} iconPosition="right">
-      Button
+export const Default: Story = {
+  render: (args: ButtonProps) => (
+    <Button {...args}>
+      {args.children}
     </Button>
-    <Button {...args} icon={<Add16Regular />} iconPosition="left">
-      Button
-    </Button>
-    <Button {...args} icon={<Add16Regular />} iconPosition="both">
-      Button
-    </Button>
-  </div>
-);
-
-export const WithIcons = TemplateWithIcons.bind({});
-WithIcons.args = {
-  variant: 'filled',
-  size: 'lg',
+  ),
+  args: {
+    children: 'Button',
+    type: 'button',
+    variant: 'filled',
+    size: 'lg',
+  },
 };
-export const IconOnly: StoryFn<ButtonProps> = (args) => <Button {...args} />;
 
-IconOnly.args = {
-  variant: 'filled',
-  size: 'lg',
-  iconOnly: true,
-  icon: <Add16Regular />,
-  ariaLabel: 'Add item',
-  tooltipText: 'Adicionar item',
+export const Variantes: Story = {
+  render: () => (
+    <div style={{ display: 'flex', gap: '24px' }}>
+      <Button variant="filled" size="lg">
+        Filled Button
+      </Button>
+      <Button variant="outlined" size="lg">
+        Outlined Button
+      </Button>
+      <Button variant="text" size="lg">
+        Text Button
+      </Button>
+    </div>
+  ),
+};
+
+export const Tamanhos: Story = {
+  render: () => (
+    <div style={{ display: 'flex', gap: '24px' }}>
+      <Button
+        variant="filled"
+        size="lg"
+        icon={<Add16Filled />}
+      >
+        Large Button
+      </Button>
+      <Button
+        variant="filled"
+        size="sm"
+        icon={<Add16Filled />}
+      >
+        Small Button
+      </Button>
+    </div>
+  ),
+};
+
+export const ComIcones: Story = {
+  render: (args: ButtonProps) => (
+    <div style={{ display: 'flex', gap: '24px' }}>
+      <Button {...args} icon={<Add16Regular />} iconPosition="right">
+        Button
+      </Button>
+      <Button {...args} icon={<Add16Regular />} iconPosition="left">
+        Button
+      </Button>
+      <Button {...args} icon={<Add16Regular />} iconPosition="both">
+        Button
+      </Button>
+    </div>
+  ),
+  args: {
+    variant: 'filled',
+    size: 'lg',
+  },
+};
+
+export const ApenasIcone: Story = {
+  render: (args: ButtonProps) => <Button {...args} />,
+  args: {
+    variant: 'filled',
+    size: 'lg',
+    iconOnly: true,
+    icon: <Add16Regular />,
+    ariaLabel: 'Add item',
+    tooltipText: 'Adicionar item',
+  },
 };

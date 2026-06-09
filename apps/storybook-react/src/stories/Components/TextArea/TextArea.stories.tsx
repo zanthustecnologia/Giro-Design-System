@@ -9,8 +9,12 @@ const meta: Meta<typeof TextArea> = {
   title: 'Components/TextArea',
   component: TextArea,
   parameters: {
-    
-    layout: 'centered',
+    docs: {
+      description: {
+        component: 'O Text Area é um campo de entrada de texto multilinha que suporta validação, tooltip e controle de redimensionamento. Use-o quando o usuário precisar digitar textos longos, como descrições, comentários ou observações.',
+      },
+    },
+    // layout: 'centered',
   },
   
   argTypes: {
@@ -115,7 +119,7 @@ export const Default: Story = {
   ),
 };
 
-export const Disabled: Story = {
+export const Desabilitado: Story = {
   args: {
     placeholder: 'Campo desabilitado',
     label: 'Campo Desabilitado',
@@ -129,7 +133,7 @@ export const Disabled: Story = {
   ),
 };
 
-export const Required: Story = {
+export const Obrigatorio: Story = {
   args: {
     placeholder: 'Campo obrigatório',
     label: 'Nome ',
@@ -142,3 +146,4 @@ export const Required: Story = {
     </div>
   ),
 };
+Obrigatorio.storyName = 'Obrigatório';

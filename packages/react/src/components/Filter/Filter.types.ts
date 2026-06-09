@@ -3,10 +3,15 @@ import { ReactNode, ReactElement } from 'react';
 import { Variant, BaseProps, Locale, Side, Align } from '../../types/common.types';
 
 export interface FilterItem {
+  /** Identificador único do item (usado em `selectedIds` e `onApplyFilter`) */
   id?: BaseProps['id'];
+  /** Texto principal exibido no item */
   text: string;
+  /** Texto secundário exibido abaixo do texto principal */
   subText?: string;
+  /** Ícone exibido à esquerda do texto */
   icon?: ReactNode;
+  /** Desabilita o item, impedindo sua seleção */
   disabled?: BaseProps['disabled'];
 }
 

@@ -6,10 +6,9 @@ const meta: Meta<typeof Calendar> = {
   title: 'Components/Calendar',
   component: Calendar,
   parameters: {
-    layout: 'centered',
     docs: {
       description: {
-        component: 'Componente de calendário interativo com suporte a internacionalização e diferentes formatos de data.',
+        component: 'O Calendar é um componente de seleção de datas. Suporta internacionalização, restrição de intervalo, múltiplos meses, dropdown de navegação e dias desabilitados por regras customizadas.',
       },
     },
   },

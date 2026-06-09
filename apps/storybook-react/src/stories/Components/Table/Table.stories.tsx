@@ -7,7 +7,14 @@ import { MoreVertical16Regular } from '@fluentui/react-icons';
 const meta: Meta = {
   title: 'Components/Table',
   component: Table,
-  parameters: { layout: 'centered' },
+  parameters: {
+    docs: {
+      description: {
+        component: 'A tabela organiza dados em linhas e colunas, facilitando a leitura e comparação de informações. Pode ser composta com busca, filtros e paginação, dependendo da complexidade dos dados exibidos.',
+      },
+    },
+    // layout: 'centered',
+  },
 };
 
 export default meta;
