@@ -23,6 +23,8 @@ const Menu: React.FC<MenuProps> = ({
   selectedItems,
   onOpenChange,
   align = 'start',
+  dropdownScale = 1,
+  buttonScale,
   className,
   maxHeight = 400,
   ...rest
@@ -38,6 +40,18 @@ const Menu: React.FC<MenuProps> = ({
   const [searchTerm, setSearchTerm] = useState('');
 
   const maxHeightStyle = typeof maxHeight === 'number' ? `${maxHeight}px` : maxHeight;
+
+  const scaleClass = {
+    1: 'scale-1-0',
+    1.5: 'scale-1-5',
+    2: 'scale-2-0',
+  }[dropdownScale];
+
+  const triggerWithScale = React.isValidElement(children) && buttonScale
+    ? React.cloneElement(children as React.ReactElement<any>, {
+      scale: (children as React.ReactElement<any>).props?.scale ?? buttonScale,
+    })
+    : children;
 
   const { open, setOpen, handleItemSelect: handleItemSelectLogic, isItemSelected } = useMenuLogic({
     selectedItems,
@@ -210,10 +224,10 @@ const Menu: React.FC<MenuProps> = ({
 
   return (
     <DropdownMenu.Root open={open} onOpenChange={handleOpenChange}>
-      <DropdownMenu.Trigger asChild>{children}</DropdownMenu.Trigger>
+      <DropdownMenu.Trigger asChild>{triggerWithScale}</DropdownMenu.Trigger>
       <DropdownMenu.Portal>
         <DropdownMenu.Content
-          className={clsx(styles.content, className)}
+          className={clsx(styles.content, scaleClass, className)}
           sideOffset={8}
           align={align}
           onPointerDown={() => { closedByPointerRef.current = true; }}

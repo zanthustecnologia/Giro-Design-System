@@ -16,6 +16,8 @@ export type Align = 'start' | 'center' | 'end';
 /** Posição horizontal de um elemento secundário: 'right' (direita), 'left' (esquerda) ou 'both' (ambos os lados) */
 export type Position = 'right' | 'left' | 'both';
 
+export type Scale = 1 | 1.5 | 2;
+
 /** Localidade do componente: 'pt-br' (Português do Brasil) ou 'en-us' (Inglês dos EUA) */
 export type Locale = 'pt-br' | 'en-us';
 

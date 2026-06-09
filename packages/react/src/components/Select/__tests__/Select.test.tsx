@@ -239,6 +239,47 @@ describe('Select Component', () => {
       expect(screen.getByText('Selecione uma opção')).toBeInTheDocument();
     });
 
+    it('aplica escala 1.0 por padrão', () => {
+      const { container } = render(
+        <Select
+          items={mockItems}
+          variant="text"
+          data-testid="select"
+        />
+      );
+
+      const wrapper = container.querySelector('.scale-1-0');
+      expect(wrapper).toBeInTheDocument();
+    });
+
+    it('aplica escala 1.5 quando informado', () => {
+      const { container } = render(
+        <Select
+          items={mockItems}
+          variant="text"
+          scale={1.5}
+          data-testid="select"
+        />
+      );
+
+      const wrapper = container.querySelector('.scale-1-5');
+      expect(wrapper).toBeInTheDocument();
+    });
+
+    it('aplica escala 2.0 quando informado', () => {
+      const { container } = render(
+        <Select
+          items={mockItems}
+          variant="text"
+          scale={2}
+          data-testid="select"
+        />
+      );
+
+      const wrapper = container.querySelector('.scale-2-0');
+      expect(wrapper).toBeInTheDocument();
+    });
+
     it('renderiza com label', () => {
       render(
         <Select

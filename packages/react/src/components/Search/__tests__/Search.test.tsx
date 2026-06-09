@@ -22,6 +22,24 @@ describe('Search', () => {
       expect(screen.getByRole('textbox')).toBeInTheDocument();
     });
 
+    it('deve aplicar escala 1.0 por padrão', () => {
+      const { container } = render(<Search />);
+      const wrapper = container.querySelector('.scale-1-0');
+      expect(wrapper).toBeInTheDocument();
+    });
+
+    it('deve aplicar escala 1.5 quando informado', () => {
+      const { container } = render(<Search scale={1.5} />);
+      const wrapper = container.querySelector('.scale-1-5');
+      expect(wrapper).toBeInTheDocument();
+    });
+
+    it('deve aplicar escala 2.0 quando informado', () => {
+      const { container } = render(<Search scale={2} />);
+      const wrapper = container.querySelector('.scale-2-0');
+      expect(wrapper).toBeInTheDocument();
+    });
+
     it('deve renderizar com placeholder padrão', () => {
       render(<Search />);
       expect(screen.getByPlaceholderText('Dica do que deve ser buscado')).toBeInTheDocument();

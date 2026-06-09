@@ -27,6 +27,7 @@ const Select: React.FC<SelectProps> = ({
   search = false,
   errorMessage,
   disabled = false,
+  scale = 1,
   className,
   'aria-label': ariaLabel,
   'data-testid': testId,
@@ -106,6 +107,12 @@ const Select: React.FC<SelectProps> = ({
     maxWidth: maxWidth ? `${maxWidth}px` : undefined,
   }), [maxWidth]);
 
+  const scaleClass = {
+    1: 'scale-1-0',
+    1.5: 'scale-1-5',
+    2: 'scale-2-0',
+  }[scale];
+
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     actions.setSearchInput(value);
@@ -155,7 +162,7 @@ const Select: React.FC<SelectProps> = ({
       {...rest}
     >
       <div
-        className={clsx(styles.container, className)}
+        className={clsx(styles.container, scaleClass, className)}
         style={containerStyle}
         data-testid={testId}
       >

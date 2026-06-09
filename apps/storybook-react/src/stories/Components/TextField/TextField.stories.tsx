@@ -10,10 +10,15 @@ const meta: Meta<typeof TextField> = {
   title: 'Components/TextField',
   component: TextField,
   parameters: {
+    docs: {
+      description: {
+        component: 'O Text Field é um campo de entrada de texto que suporta validação, ícones e feedback visual de estado. Pode ser usado para capturar texto livre, e-mail, senha, número, telefone ou URL.',
+      },
+    },
     controls: {
       sort: 'alpha'
     },
-    layout: 'centered',
+    // layout: 'centered',
   },
   
   argTypes: {
@@ -76,6 +81,11 @@ const meta: Meta<typeof TextField> = {
       control: 'boolean',
       description: 'Campo obrigatório'
     },
+    scale: {
+      control: { type: 'select' },
+      options: [1, 1.5, 2],
+      description: 'Escala visual do componente'
+    },
     className: {
       table: {
         disable: true,
@@ -128,7 +138,8 @@ export const Default: Story = {
     tooltip: true,
     helperText: 'Optional support text',
     label: 'Label',
-    tooltipText: 'Tooltip text'
+    tooltipText: 'Tooltip text',
+    scale: 1,
   },
   render: (args) => (
     <div className='storybook__container'>
@@ -171,7 +182,7 @@ export const WithTooltip: Story = {
   ),
 };
 
-export const Disabled: Story = {
+export const Desabilitado: Story = {
   args: {
     placeholder: 'Ex.: João da Silva',
     label: 'Campo desabilitado',
@@ -185,7 +196,7 @@ export const Disabled: Story = {
   ),
 };
 
-export const Required: Story = {
+export const Obrigatorio: Story = {
   args: {
     placeholder: 'Ex.: João da Silva',
     label: 'Nome',
@@ -198,8 +209,9 @@ export const Required: Story = {
     </div>
   ),
 };
+Obrigatorio.storyName = 'Obrigatório';
 
-export const WithDifferentIcons: Story = {
+export const DiferentesIcones: Story = {
   render: () => (
     <div className='storybook__container' style={{ display: 'flex', gap: '16px', flexDirection: 'column' }}>
       <TextField 
@@ -242,4 +254,13 @@ export const WithVirtualKeyboard: Story = {
       </div>
     );
   },
+};
+export const Escalas: Story = {
+  render: () => (
+    <div className='storybook__container' style={{ display: 'flex', flexDirection: 'column', gap: '40px', alignItems: 'flex-start' }}>
+      <TextField label="Scale 1.0" placeholder="Texto" scale={1} />
+      <TextField label="Scale 1.5" placeholder="Texto" scale={1.5} />
+      <TextField label="Scale 2.0" placeholder="Texto" scale={2} />
+    </div>
+  ),
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Side, Align } from '../../types/common.types';
+import { Side, Align, Scale } from '../../types/common.types';
 
 import type { VirtualKeyboardType } from '../VirtualKeyboard/VirtualKeyboard.type';
 
@@ -94,6 +94,8 @@ export interface TextFieldProps extends Omit<
 
   /** Aplica variação visual para uso acoplado ao VirtualKeyboard no modo fixed */
   attachedToVirtualKeyboard?: boolean;
+  /** Escala visual aplicada ao componente */
+  scale?: Scale;
 }
 
 /**

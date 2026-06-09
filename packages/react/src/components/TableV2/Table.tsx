@@ -259,7 +259,9 @@ const TableV2 = <T,>({
           )}
           {!!header.filterItems?.length && (
             <div className={styles.tableHeaderFilters}>
-              <span className={styles.tableHeaderFilterLabel}>Filtros</span>
+              {header.filterItems.some((item) => item.type !== 'combined') && (
+                <span className={styles.tableHeaderFilterLabel}>Filtros</span>
+              )}
               <div className={styles.tableHeaderFilterItems}>
                 {header.filterItems.map((filterItem, index) => {
                   const commonProps = {

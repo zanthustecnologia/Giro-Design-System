@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ReactNode } from 'react';
 
-import { Side, Align, BaseProps } from '../../types/common.types';
+import { Side, Align, BaseProps, Scale } from '../../types/common.types';
 
 /**
  * Representa um item do select
@@ -146,6 +146,9 @@ export interface SelectProps extends BaseProps {
 
   /** Classe CSS opcional */
   className?: string;
+
+  /** Escala visual aplicada ao componente */
+  scale?: Scale;
 }
 
 /**

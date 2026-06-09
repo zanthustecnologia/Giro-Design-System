@@ -31,6 +31,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
       error,
       id,
       icon,
+      scale = 1,
       onBlur,
       onFocus,
       name,
@@ -123,7 +124,13 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
         ? `${componentId}-helper`
         : undefined;
 
-    const containerClass = clsx(styles.container, {
+    const scaleClass = {
+      1: 'scale-1-0',
+      1.5: 'scale-1-5',
+      2: 'scale-2-0',
+    }[scale];
+
+    const containerClass = clsx(styles.container, scaleClass, {
       [styles.disabled]: disabled,
       [styles.error]: hasError && !disabled,
       [styles.errorWithMessage]: Boolean(error) && Boolean(errorMessage) && !disabled,

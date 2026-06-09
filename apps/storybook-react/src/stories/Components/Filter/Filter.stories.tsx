@@ -15,7 +15,7 @@ const meta: Meta<typeof Filter> = {
   parameters: {
     docs: {
       description: {
-        component: 'Componente de filtro que encapsula o Dropdown com modo filter automático.',
+        component: 'O Filter é um botão que expande um painel de seleção de opções. Permite ao usuário aplicar filtros em listas, tabelas ou qualquer conjunto de dados, com suporte a seleção múltipla, busca e integração com calendário.',
       },
     },
   },
@@ -163,7 +163,7 @@ export const Default: Story = {
   },
 };
 
-export const WithSearch: Story = {
+export const ComBusca: Story = {
   render: FilterTemplate,
   args: {
     items: categoryItems,
@@ -176,7 +176,7 @@ export const WithSearch: Story = {
   },
 };
 
-export const WithIcons: Story = {
+export const ComIcones: Story = {
   render: (args) => {
     const [appliedFilters, setAppliedFilters] = useState<string[]>([]);
 
@@ -199,7 +199,7 @@ export const WithIcons: Story = {
   },
 };
 
-export const Disabled: Story = {
+export const Desabilitado: Story = {
   render: FilterTemplate,
   args: {
     items: statusItems,
@@ -212,7 +212,7 @@ export const Disabled: Story = {
   },
 };
 
-export const CalendarFilter: Story = {
+export const FiltroCalendario: Story = {
   render: () => {
     const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
@@ -241,7 +241,7 @@ export const CalendarFilter: Story = {
   },
 };
 
-export const MultipleFilters: Story = {
+export const MultiplosFiltros: Story = {
   render: () => {
     const [statusFilters, setStatusFilters] = useState<string[]>([]);
     const [categoryFilters, setCategoryFilters] = useState<string[]>([]);
@@ -272,7 +272,7 @@ export const MultipleFilters: Story = {
   },
 };
 
-export const CombinedFilter: Story = {
+export const FiltrosCombinados: Story = {
   render: () => {
     const [dataInicio, setDataInicio] = useState<Date | null>(null);
     const [dataFim, setDataFim] = useState<Date | null>(null);
@@ -453,7 +453,7 @@ export const CombinedFilter: Story = {
   },
 };
 
-export const RightPosition: Story = {
+export const PosicaoDireita: Story = {
   render: FilterTemplate,
   args: {
     items: categoryItems,
@@ -464,3 +464,4 @@ export const RightPosition: Story = {
     variant: 'outlined',
   },
 };
+PosicaoDireita.storyName = 'Posição Direita';
