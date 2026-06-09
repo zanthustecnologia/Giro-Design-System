@@ -1,7 +1,8 @@
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-import { TextField } from '@giro-ds/react';
 import { Mail16Regular, Clock16Regular, ArrowUpload16Regular } from '@fluentui/react-icons';
+import { TextField } from '@giro-ds/react';
+import React, { useState } from 'react';
+
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 type Story = StoryObj<typeof TextField>;
 
@@ -109,7 +110,19 @@ const meta: Meta<typeof TextField> = {
       table: {
         disable: true
       }
-    }
+    },
+    virtualKeyboard: {
+      control: 'boolean',
+      description: 'Exibe o teclado virtual ao clicar no campo'
+    },
+    virtualKeyboardType: {
+      control: 'select',
+      options: [
+        'default', 'numeric',
+      ],
+      description: 'Layout do teclado virtual',
+      if: { arg: 'virtualKeyboard', truthy: true },
+    },
   },
 };
 
@@ -135,7 +148,7 @@ export const Default: Story = {
   ),
 };
 
-export const ComIcone: Story = {
+export const WithIcon: Story = {
   args: {
     placeholder: 'Ex.: joao@empresa.com',
     label: 'Email',
@@ -150,7 +163,7 @@ export const ComIcone: Story = {
   ),
 };
 
-export const ComTooltip: Story = {
+export const WithTooltip: Story = {
   args: {
     label: 'CPF',
     placeholder: 'Ex.: 000 000 000-00',
@@ -220,6 +233,28 @@ export const DiferentesIcones: Story = {
   ),
 };
 
+export const WithVirtualKeyboard: Story = {
+  args: {
+    label: 'Campo de texto',
+    placeholder: 'Clique aqui para abrir o teclado...',
+    virtualKeyboard: true,
+    virtualKeyboardType: 'default',
+    disabled: false,
+  },
+  render: (args) => {
+    const [value, setValue] = useState('');
+    return (
+      <div style={{ width: '420px' }}>
+        <TextField
+          {...args}
+          value={value}
+          onChange={setValue}
+          helperText="Clique no campo para abrir o teclado virtual"
+        />
+      </div>
+    );
+  },
+};
 export const Escalas: Story = {
   render: () => (
     <div className='storybook__container' style={{ display: 'flex', flexDirection: 'column', gap: '40px', alignItems: 'flex-start' }}>

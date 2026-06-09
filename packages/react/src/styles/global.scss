@@ -12,3 +12,10 @@
   transform: scale(2);
   transform-origin: top left;
 }
+
+.virtualKeyboardWrapper {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}

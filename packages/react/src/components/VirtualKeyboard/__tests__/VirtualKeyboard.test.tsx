@@ -1,0 +1,592 @@
+import { render, screen, fireEvent, act, waitFor } from '@testing-library/react';
+import React, { createRef } from 'react';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+
+// Mock da importação de CSS do react-simple-keyboard
+vi.mock('react-simple-keyboard/build/css/index.css', () => ({}));
+
+/**
+ * Mock do Keyboard (react-simple-keyboard).
+ * Renderiza botões que simulam teclas para facilitar os testes de interação.
+ */
+vi.mock('react-simple-keyboard', () => ({
+  default: function MockKeyboard({ onChange, onKeyPress, layoutName, input, layout, display, keyboardRef }: any) {
+    const [internalInput, setInternalInput] = React.useState(input ?? '');
+
+    React.useEffect(() => {
+      keyboardRef?.({
+        setInput: (nextValue: string) => setInternalInput(nextValue),
+      });
+
+      return () => {
+        keyboardRef?.(null);
+      };
+    }, [keyboardRef]);
+
+    const hasEmoticonKey = Object.values(layout ?? {}).some((rows: any) =>
+      rows.some((row: string) => row.includes('{emoticon}'))
+    );
+
+    const hasDownKeyboardKey = Object.values(layout ?? {}).some((rows: any) =>
+      rows.some((row: string) => row.includes('{downkeyboard}'))
+    );
+
+    return (
+    <div data-testid="keyboard" data-layout-name={layoutName}>
+      <div data-testid="display-bksp">{display?.['{bksp}'] ?? ''}</div>
+      <button
+        data-testid="key-char"
+        className="hg-button"
+        data-skbtn="a"
+        onClick={() => {
+          const nextValue = `${internalInput}a`;
+          setInternalInput(nextValue);
+          onChange?.(nextValue);
+          onKeyPress?.('a');
+        }}
+      >
+        a
+      </button>
+      <button
+        data-testid="key-bksp"
+        onClick={() => {
+          const nextValue = internalInput.slice(0, -1);
+          setInternalInput(nextValue);
+          onChange?.(nextValue);
+          onKeyPress?.('{bksp}');
+        }}
+      >
+        bksp
+      </button>
+      <button data-testid="key-shift" onClick={() => onKeyPress?.('{shift}')}>
+        shift
+      </button>
+      <button data-testid="key-capslock" onClick={() => onKeyPress?.('{capslock}')}>
+        capslock
+      </button>
+      <button data-testid="key-shiftactivated" onClick={() => onKeyPress?.('{shiftactivated}')}>
+        shiftactivated
+      </button>
+      <button data-testid="key-numbers" onClick={() => onKeyPress?.('{numbers}')}>
+        numbers
+      </button>
+      <button data-testid="key-abc" onClick={() => onKeyPress?.('{abc}')}>
+        abc
+      </button>
+      <button data-testid="key-enter" onClick={() => onKeyPress?.('{enter}')}>
+        enter
+      </button>
+      <button data-testid="key-alt" onClick={() => onKeyPress?.('{alt}')}>
+        alt
+      </button>
+      <button data-testid="key-alt2" onClick={() => onKeyPress?.('{alt2}')}>
+        alt2
+      </button>
+      {hasEmoticonKey && (
+        <button data-testid="key-emoticon" onClick={() => onKeyPress?.('{emoticon}')}>
+          emoticon
+        </button>
+      )}
+      {hasDownKeyboardKey && (
+        <button data-testid="key-downkeyboard" onClick={() => onKeyPress?.('{downkeyboard}')}>
+          close
+        </button>
+      )}
+    </div>
+    );
+  },
+}));
+
+import VirtualKeyboard from '../VirtualKeyboard';
+
+// ─────────────────────────────────────────────────────────────────────────────
+
+describe('VirtualKeyboard', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    vi.useRealTimers();
+  });
+
+  // ───────────────────────────────────────────────────────────────────────────
+  describe('Renderização básica', () => {
+    it('deve renderizar o teclado no modo fixed', () => {
+      render(<VirtualKeyboard variant="fixed" />);
+      expect(screen.getByTestId('keyboard')).toBeInTheDocument();
+    });
+
+    it('deve renderizar o teclado no modo native sem targetRef (sempre visível)', async () => {
+      render(<VirtualKeyboard variant="native" />);
+      // O teclado é portalled para document.body; screen consulta o documento inteiro
+      expect(await screen.findByTestId('keyboard')).toBeInTheDocument();
+    });
+
+    it('deve aplicar id customizado no modo fixed', () => {
+      const { container } = render(<VirtualKeyboard variant="fixed" id="meu-teclado" />);
+      expect(container.querySelector('#meu-teclado')).toBeInTheDocument();
+    });
+
+    it('deve aplicar className customizada no modo fixed', () => {
+      const { container } = render(<VirtualKeyboard variant="fixed" className="classe-customizada" />);
+      const wrapper = container.firstChild as HTMLElement;
+      expect(wrapper.className).toContain('classe-customizada');
+    });
+  });
+
+  // ───────────────────────────────────────────────────────────────────────────
+  describe('Modo fixed', () => {
+    it('deve renderizar TextField com placeholder no modo fixed', () => {
+      render(<VirtualKeyboard variant="fixed" textFieldPlaceholder="Escreva algo" />);
+      expect(screen.getByPlaceholderText('Escreva algo')).toBeInTheDocument();
+    });
+
+    it('deve exibir o valor atual no TextField', () => {
+      render(<VirtualKeyboard variant="fixed" value="olá" />);
+      expect(screen.getByRole('textbox')).toHaveValue('olá');
+    });
+
+    it('deve renderizar helperText no TextField interno do modo fixed', () => {
+      render(<VirtualKeyboard variant="fixed" helperText="Texto de ajuda" />);
+      expect(screen.getByText('Texto de ajuda')).toBeInTheDocument();
+    });
+
+    it('deve renderizar errorMessage quando error for true no TextField interno', () => {
+      render(
+        <VirtualKeyboard
+          variant="fixed"
+          error
+          errorMessage="Mensagem de erro"
+          helperText="Texto de ajuda"
+        />
+      );
+
+      expect(screen.getByText('Mensagem de erro')).toBeInTheDocument();
+      expect(screen.queryByText('Texto de ajuda')).not.toBeInTheDocument();
+    });
+
+    it('não deve renderizar TextField no modo native', () => {
+      render(<VirtualKeyboard variant="native" />);
+      expect(screen.queryByRole('textbox')).not.toBeInTheDocument();
+    });
+
+    it('não deve exibir a tecla {downkeyboard} no modo fixed', () => {
+      render(<VirtualKeyboard variant="fixed" type="default" />);
+      expect(screen.queryByTestId('key-downkeyboard')).not.toBeInTheDocument();
+    });
+
+    it('deve exibir apenas ícone na tecla {bksp} no modo fixed', () => {
+      render(<VirtualKeyboard variant="fixed" type="default" />);
+      expect(screen.getByTestId('display-bksp')).not.toHaveTextContent('Apagar');
+    });
+
+    it('deve manter texto "Apagar" na tecla {bksp} no modo native', async () => {
+      render(<VirtualKeyboard variant="native" type="default" />);
+      expect(await screen.findByTestId('display-bksp')).toHaveTextContent('Apagar');
+    });
+  });
+
+  // ───────────────────────────────────────────────────────────────────────────
+  describe('Modo native com targetRef', () => {
+    it('deve estar fechado inicialmente quando targetRef é fornecido', () => {
+      const ref = createRef<HTMLInputElement>();
+      render(
+        <>
+          <input ref={ref} />
+          <VirtualKeyboard variant="native" targetRef={ref} />
+        </>
+      );
+      const overlay = document.querySelector('[class*="overlay"]') as HTMLElement;
+      expect(overlay?.className).not.toMatch(/overlayOpen/);
+    });
+
+    it('deve abrir ao focar no elemento referenciado', () => {
+      const ref = createRef<HTMLInputElement>();
+      render(
+        <>
+          <input data-testid="input-ref" ref={ref} />
+          <VirtualKeyboard variant="native" targetRef={ref} />
+        </>
+      );
+
+      act(() => {
+        fireEvent.focus(screen.getByTestId('input-ref'));
+      });
+
+      const overlay = document.querySelector('[class*="overlay"]') as HTMLElement;
+      expect(overlay?.className).toMatch(/overlayOpen/);
+    });
+
+    it('deve fechar ao perder o foco do elemento referenciado', async () => {
+      const ref = createRef<HTMLInputElement>();
+      render(
+        <>
+          <input data-testid="input-ref" ref={ref} />
+          <VirtualKeyboard variant="native" targetRef={ref} />
+        </>
+      );
+
+      act(() => {
+        fireEvent.focus(screen.getByTestId('input-ref'));
+      });
+
+      await act(async () => {
+        fireEvent.blur(screen.getByTestId('input-ref'));
+        await new Promise((r) => setTimeout(r, 200));
+      });
+
+      const overlay = document.querySelector('[class*="overlay"]') as HTMLElement;
+      expect(overlay?.className).not.toMatch(/overlayOpen/);
+    });
+
+    it('deve fechar ao pressionar {downkeyboard} no modo native', () => {
+      const ref = createRef<HTMLInputElement>();
+      render(
+        <>
+          <input data-testid="input-ref" ref={ref} />
+          <VirtualKeyboard variant="native" targetRef={ref} />
+        </>
+      );
+
+      act(() => {
+        fireEvent.focus(screen.getByTestId('input-ref'));
+      });
+
+      fireEvent.click(screen.getByTestId('key-downkeyboard'));
+
+      const overlay = document.querySelector('[class*="overlay"]') as HTMLElement;
+      expect(overlay?.className).not.toMatch(/overlayOpen/);
+    });
+  });
+
+  // ───────────────────────────────────────────────────────────────────────────
+  describe('Callback onChange', () => {
+    it('deve chamar onChange ao pressionar uma tecla de caractere', () => {
+      const onChange = vi.fn();
+      render(<VirtualKeyboard variant="fixed" onChange={onChange} value="" />);
+
+      fireEvent.click(screen.getByTestId('key-char'));
+
+      expect(onChange).toHaveBeenCalledWith('a');
+    });
+
+    it('deve chamar onChange com texto atualizado após backspace', () => {
+      const onChange = vi.fn();
+      render(<VirtualKeyboard variant="fixed" onChange={onChange} value="ab" />);
+
+      fireEvent.click(screen.getByTestId('key-bksp'));
+
+      expect(onChange).toHaveBeenCalledWith('a');
+    });
+
+    it('deve respeitar limpeza externa antes de nova digitacao', () => {
+      const onChange = vi.fn();
+      const { rerender } = render(<VirtualKeyboard variant="fixed" onChange={onChange} value="texto" />);
+
+      rerender(<VirtualKeyboard variant="fixed" onChange={onChange} value="" />);
+      fireEvent.click(screen.getByTestId('key-char'));
+
+      expect(onChange).toHaveBeenLastCalledWith('a');
+    });
+
+    it('deve limpar no TextField fixed e nao restaurar valor antigo na proxima tecla', () => {
+      const Harness = () => {
+        const [currentValue, setCurrentValue] = React.useState('texto');
+
+        return <VirtualKeyboard variant="fixed" value={currentValue} onChange={setCurrentValue} />;
+      };
+
+      render(<Harness />);
+
+      const input = screen.getByRole('textbox');
+      fireEvent.focus(input);
+      fireEvent.mouseDown(screen.getByRole('button', { name: 'Limpar campo' }));
+      expect(input).toHaveValue('');
+
+      fireEvent.click(screen.getByTestId('key-char'));
+      expect(input).toHaveValue('a');
+    });
+
+    it('não deve chamar onChange quando o maxLength foi atingido', () => {
+      const onChange = vi.fn();
+      render(<VirtualKeyboard variant="fixed" onChange={onChange} value="abc" maxLength={3} />);
+
+      fireEvent.click(screen.getByTestId('key-char'));
+
+      expect(onChange).not.toHaveBeenCalled();
+    });
+
+    it('deve chamar onChange quando o valor está abaixo do maxLength', () => {
+      const onChange = vi.fn();
+      render(<VirtualKeyboard variant="fixed" onChange={onChange} value="ab" maxLength={3} />);
+
+      fireEvent.click(screen.getByTestId('key-char'));
+
+      expect(onChange).toHaveBeenCalledWith('aba');
+    });
+
+    it('deve abrir menu de acentos ao segurar uma vogal', () => {
+      vi.useFakeTimers();
+
+      render(<VirtualKeyboard variant="fixed" value="" />);
+
+      fireEvent.pointerDown(screen.getByTestId('key-char'));
+      act(() => {
+        vi.advanceTimersByTime(450);
+      });
+
+      expect(screen.getByRole('listbox')).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: 'á' })).toBeInTheDocument();
+    });
+
+    it('deve manter short press inalterado para caractere normal', () => {
+      vi.useFakeTimers();
+      const onChange = vi.fn();
+
+      render(<VirtualKeyboard variant="fixed" onChange={onChange} value="" />);
+
+      fireEvent.pointerDown(screen.getByTestId('key-char'));
+      act(() => {
+        vi.advanceTimersByTime(200);
+      });
+      fireEvent.pointerUp(screen.getByTestId('key-char'));
+      fireEvent.click(screen.getByTestId('key-char'));
+
+      expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
+      expect(onChange).toHaveBeenCalledWith('a');
+    });
+
+    it('deve suprimir a letra base e inserir o acento selecionado em long press', () => {
+      vi.useFakeTimers();
+      const onChange = vi.fn();
+
+      render(<VirtualKeyboard variant="fixed" onChange={onChange} value="" />);
+
+      fireEvent.pointerDown(screen.getByTestId('key-char'));
+      act(() => {
+        vi.advanceTimersByTime(450);
+      });
+
+      // Simula a inserção automática da tecla base após o long press.
+      fireEvent.click(screen.getByTestId('key-char'));
+      expect(onChange).not.toHaveBeenCalled();
+
+      fireEvent.click(screen.getByRole('button', { name: 'á' }));
+      expect(onChange).toHaveBeenCalledWith('á');
+    });
+  });
+
+  // ───────────────────────────────────────────────────────────────────────────
+  describe('Callback onKeyPress', () => {
+    it('deve chamar onKeyPress ao pressionar uma tecla de caractere', () => {
+      const onKeyPress = vi.fn();
+      render(<VirtualKeyboard variant="fixed" onKeyPress={onKeyPress} value="" />);
+
+      fireEvent.click(screen.getByTestId('key-char'));
+
+      expect(onKeyPress).toHaveBeenCalledWith('a');
+    });
+
+    it('não deve chamar onKeyPress para teclas de controle de layout (shift)', () => {
+      const onKeyPress = vi.fn();
+      render(<VirtualKeyboard variant="fixed" onKeyPress={onKeyPress} value="" />);
+
+      fireEvent.click(screen.getByTestId('key-shift'));
+
+      expect(onKeyPress).not.toHaveBeenCalled();
+    });
+
+    it('não deve chamar onKeyPress para a tecla {enter} (tratada internamente pelo Keyboard)', () => {
+      const onKeyPress = vi.fn();
+      render(<VirtualKeyboard variant="fixed" onKeyPress={onKeyPress} value="" />);
+
+      fireEvent.click(screen.getByTestId('key-enter'));
+
+      // {enter} não é bloqueado pelo handleKeyPress, portanto é repassado ao callback externo
+      expect(onKeyPress).toHaveBeenCalledWith('{enter}');
+    });
+  });
+
+  // ───────────────────────────────────────────────────────────────────────────
+  describe('Alternância de layout (Shift / CapsLock)', () => {
+    it('deve iniciar com layoutName "default"', () => {
+      render(<VirtualKeyboard variant="fixed" value="" />);
+      expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'default');
+    });
+
+    it('deve alternar para layout "shift" ao pressionar {shift}', () => {
+      render(<VirtualKeyboard variant="fixed" value="" />);
+
+      fireEvent.click(screen.getByTestId('key-shift'));
+
+      expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'shift');
+    });
+
+    it('deve voltar para layout "default" ao pressionar {shift} novamente', () => {
+      render(<VirtualKeyboard variant="fixed" value="" />);
+
+      fireEvent.click(screen.getByTestId('key-shift'));
+      fireEvent.click(screen.getByTestId('key-shift'));
+
+      expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'default');
+    });
+
+    it('deve ativar CapsLock (layout caps) ao pressionar {capslock}', () => {
+      render(<VirtualKeyboard variant="fixed" value="" />);
+
+      fireEvent.click(screen.getByTestId('key-capslock'));
+
+      expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'caps');
+    });
+
+    it('deve desativar CapsLock (layout default) ao pressionar {shiftactivated}', () => {
+      render(<VirtualKeyboard variant="fixed" value="" />);
+
+      fireEvent.click(screen.getByTestId('key-capslock'));
+      fireEvent.click(screen.getByTestId('key-shiftactivated'));
+
+      expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'default');
+    });
+
+    it('deve voltar a ativar CapsLock após ciclo ligar > desligar > ligar', () => {
+      render(<VirtualKeyboard variant="fixed" value="" />);
+
+      fireEvent.click(screen.getByTestId('key-capslock'));
+      expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'caps');
+
+      fireEvent.click(screen.getByTestId('key-shiftactivated'));
+      expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'default');
+
+      fireEvent.click(screen.getByTestId('key-shift'));
+      fireEvent.click(screen.getByTestId('key-capslock'));
+      expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'caps');
+    });
+
+    it('deve voltar para "default" após digitar um caractere com Shift ativo (sem CapsLock)', () => {
+      render(<VirtualKeyboard variant="fixed" value="" />);
+
+      fireEvent.click(screen.getByTestId('key-shift'));
+      expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'shift');
+
+      // Após digitar, o Shift é desativado automaticamente
+      fireEvent.click(screen.getByTestId('key-char'));
+
+      expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'default');
+    });
+
+    it('deve permanecer em "caps" após digitar quando CapsLock está ativo', () => {
+      render(<VirtualKeyboard variant="fixed" value="" />);
+
+      fireEvent.click(screen.getByTestId('key-capslock'));
+      fireEvent.click(screen.getByTestId('key-char'));
+
+      expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'caps');
+    });
+
+    it('deve tratar Shift como temporário após desativar CapsLock', () => {
+      render(<VirtualKeyboard variant="fixed" value="" />);
+
+      fireEvent.click(screen.getByTestId('key-capslock'));
+      fireEvent.click(screen.getByTestId('key-shiftactivated'));
+      expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'default');
+
+      fireEvent.click(screen.getByTestId('key-shift'));
+      expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'shift');
+
+      fireEvent.click(screen.getByTestId('key-char'));
+      expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'default');
+    });
+
+    it('deve alternar para layout "numbers" ao pressionar {numbers} (default)', () => {
+      render(<VirtualKeyboard variant="fixed" type="default" value="" />);
+
+      fireEvent.click(screen.getByTestId('key-numbers'));
+
+      expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'numbers');
+    });
+
+    it('deve voltar para "default" ao pressionar {abc} (default)', () => {
+      render(<VirtualKeyboard variant="fixed" type="default" value="" />);
+
+      fireEvent.click(screen.getByTestId('key-numbers'));
+      fireEvent.click(screen.getByTestId('key-abc'));
+
+      expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'default');
+    });
+
+    it('deve alternar para layout "alt" ao pressionar {alt} (default)', () => {
+      render(<VirtualKeyboard variant="fixed" type="default" value="" />);
+
+      fireEvent.click(screen.getByTestId('key-alt'));
+
+      expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'alt');
+    });
+
+    it('deve voltar para "default" ao pressionar {alt} pela segunda vez', () => {
+      render(<VirtualKeyboard variant="fixed" type="default" value="" />);
+
+      fireEvent.click(screen.getByTestId('key-alt'));
+      fireEvent.click(screen.getByTestId('key-alt'));
+
+      expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'default');
+    });
+
+    it('deve alternar para layout "alt2" ao pressionar {alt2}', () => {
+      render(<VirtualKeyboard variant="fixed" value="" />);
+
+      fireEvent.click(screen.getByTestId('key-alt'));
+      fireEvent.click(screen.getByTestId('key-alt2'));
+
+      expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'alt2');
+    });
+
+    it('deve voltar para layout "alt" ao pressionar {alt2} novamente', () => {
+      render(<VirtualKeyboard variant="fixed" value="" />);
+
+      fireEvent.click(screen.getByTestId('key-alt'));
+      fireEvent.click(screen.getByTestId('key-alt2'));
+      fireEvent.click(screen.getByTestId('key-alt2'));
+
+      expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'alt');
+    });
+
+    it('deve alternar para layout "emoticon" ao pressionar {emoticon} (default)', () => {
+      render(<VirtualKeyboard variant="fixed" Emoji={true} type="default" value="" />);
+
+      fireEvent.click(screen.getByTestId('key-emoticon'));
+
+      expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'emoticon');
+    });
+
+    it('deve ocultar o botão emoticon quando Emoji for false', () => {
+      render(<VirtualKeyboard variant="fixed" type="default" value="" Emoji={false} />);
+
+      expect(screen.queryByTestId('key-emoticon')).not.toBeInTheDocument();
+    });
+
+  });
+
+  // ───────────────────────────────────────────────────────────────────────────
+  describe('Layouts nativos', () => {
+    it.each([
+      ['default' as const],
+      ['numeric' as const],
+    ])('deve renderizar o layout nativo "%s"', (layout) => {
+      render(<VirtualKeyboard variant="fixed" type={layout} />);
+      expect(screen.getByTestId('keyboard')).toBeInTheDocument();
+    });
+  });
+
+  // ───────────────────────────────────────────────────────────────────────────
+  // ───────────────────────────────────────────────────────────────────────────
+  describe('Reinicialização ao trocar de layout', () => {
+    it('deve resetar layoutName para "default" ao trocar o prop layout', () => {
+      const { rerender } = render(<VirtualKeyboard variant="fixed" type="default" value="" />);
+
+      fireEvent.click(screen.getByTestId('key-shift'));
+      expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'shift');
+
+      rerender(<VirtualKeyboard variant="fixed" type="numeric" value="" />);
+
+      expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'default');
+    });
+  });
+});

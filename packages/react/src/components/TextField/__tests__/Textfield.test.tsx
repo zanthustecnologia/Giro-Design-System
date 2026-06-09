@@ -1,10 +1,15 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import TextField from '../TextField';
 
-// Mock do ícone do Fluent UI
-vi.mock('@fluentui/react-icons', () => ({
-  Dismiss16Regular: () => <span data-testid="dismiss-icon">×</span>,
-}));
+// Mock parcial do ícone do Fluent UI
+vi.mock('@fluentui/react-icons', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@fluentui/react-icons')>();
+
+  return {
+    ...actual,
+    Dismiss16Regular: () => <span data-testid="dismiss-icon">×</span>,
+  };
+});
 
 describe('TextField', () => {
   describe('Renderização', () => {

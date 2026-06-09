@@ -1,7 +1,7 @@
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
 import { TextArea } from '@giro-ds/react';
-import { Source } from '@storybook/addon-docs/blocks';
+import React, { useState } from 'react';
+
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 type Story = StoryObj<typeof TextArea>;
 
@@ -94,7 +94,19 @@ const meta: Meta<typeof TextArea> = {
       table: {
         disable: true
       }
-    }
+    },
+    virtualKeyboard: {
+      control: 'boolean',
+      description: 'Exibe o teclado virtual ao clicar no campo'
+    },
+    virtualKeyboardType: {
+      control: 'select',
+      options: [
+        'default', 'numeric',
+      ],
+      description: 'Layout do teclado virtual',
+      if: { arg: 'virtualKeyboard', truthy: true },
+    },
   },
 };
 
@@ -133,7 +145,30 @@ export const Desabilitado: Story = {
   ),
 };
 
-export const Obrigatorio: Story = {
+export const WithVirtualKeyboard: Story = {
+  args: {
+    label: 'Comentário',
+    placeholder: 'Clique aqui para abrir o teclado...',
+    virtualKeyboard: true,
+    virtualKeyboardType: 'default',
+    disabled: false,
+  },
+  render: (args) => {
+    const [value, setValue] = useState('');
+    return (
+      <div style={{ width: '420px' }}>
+        <TextArea
+          {...args}
+          value={value}
+          onChange={setValue}
+          helperText="Clique no campo para abrir o teclado virtual"
+        />
+      </div>
+    );
+  },
+};
+
+export const Required: Story = {
   args: {
     placeholder: 'Campo obrigatório',
     label: 'Nome ',
