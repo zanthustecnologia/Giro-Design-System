@@ -22,6 +22,7 @@ const NEW_COMPONENTS = new Set([
   'Popover',
   'Playground',
   'TableV2',
+  'VirtualKeyboard',
 ]);
 
 // Páginas MDX standalone — badge aparece direto no item

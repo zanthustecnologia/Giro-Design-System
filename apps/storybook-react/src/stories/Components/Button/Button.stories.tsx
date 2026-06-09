@@ -1,8 +1,9 @@
 import { Add16Filled, Add16Regular } from '@fluentui/react-icons';
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
 import { Button } from '@giro-ds/react';
+import React from 'react';
+
 import type { ButtonProps } from '@giro-ds/react';
+import type { Meta, StoryFn, StoryObj } from '@storybook/react';
 
 const meta: Meta<typeof Button> = {
   title: 'Components/Button',
@@ -84,21 +85,6 @@ const meta: Meta<typeof Button> = {
     },
   },
 } as Meta<ButtonProps>;
-
-const Template: StoryFn<ButtonProps> = (args) => (
-  <Button {...args}>
-    {args.children}
-  </Button>
-);
-
-export const Default = Template.bind({});
-Default.args = {
-  children: 'Button',
-  type: 'button',
-  variant: 'filled',
-  size: 'lg',
-  scale: 1,
-};
 
 export default meta;
 

@@ -38,6 +38,7 @@ const meta: Meta<typeof Search> = {
       ],
       description: 'Layout do teclado virtual',
       if: { arg: 'virtualKeyboard', truthy: true },
+    },
     scale: {
       control: { type: 'select' },
       options: [1, 1.5, 2],
@@ -190,8 +191,6 @@ export const ModoEnter: Story = {
   },
 };
 
-<<<<<<< apps/storybook-react/src/stories/Components/Search/Search.stories.tsx
-=======
 export const Escalas: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '56px', width: '360px' }}>
@@ -201,4 +200,3 @@ export const Escalas: Story = {
     </div>
   ),
 };
->>>>>>> apps/storybook-react/src/stories/Components/Search/Search.stories.tsx
