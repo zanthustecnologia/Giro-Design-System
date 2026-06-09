@@ -1,6 +1,7 @@
 import clsx from 'clsx';
-import React, { useState, useCallback, useId, forwardRef, useEffect, useRef } from 'react';
+import React, { useState, useCallback, useId, forwardRef, useEffect } from 'react';
 
+import useInputRefVirtualKeyboard from '../../hooks/inputRefVirtualKeyboard';
 import VirtualKeyboard from '../VirtualKeyboard';
 import styles from './TextArea.module.scss';
 import LabelComponent from '../../shared/Label';
@@ -45,25 +46,9 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
 
     const [textareaValue, setTextareaValue] = useState(normalizeValue(value));
     const [textareaError, setTextareaError] = useState('');
-    const textareaRef = useRef<HTMLTextAreaElement>(null);
+    const { internalRef: textareaRef, setRefs: setTextareaRefs } = useInputRefVirtualKeyboard(ref);
     const generatedId = useId();
     const componentId = id || generatedId;
-
-    const setTextareaRefs = useCallback(
-      (node: HTMLTextAreaElement | null) => {
-        textareaRef.current = node;
-
-        if (typeof ref === 'function') {
-          ref(node);
-          return;
-        }
-
-        if (ref) {
-          ref.current = node;
-        }
-      },
-      [ref]
-    );
 
     useEffect(() => {
       setTextareaValue(normalizeValue(value));
