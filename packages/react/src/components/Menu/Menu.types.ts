@@ -77,7 +77,11 @@ export interface MenuProps extends BaseProps {
   /** Elemento trigger customizado para abrir o menu */
   children?: ReactElement;
   
-  /** Tipo de visualização do menu */
+  /**
+   * Tipo de visualização dos itens do menu.
+   * - `'text'` (padrão): exibe texto e ícone lado a lado
+   * - `'icon'`: exibe apenas ícones, sem texto
+   */
   type?: 'text' | 'icon';
   
   /** Callback executado quando um item é selecionado: (item) => void */

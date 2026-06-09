@@ -21,7 +21,12 @@ const meta: Meta<typeof Menu> = {
   title: 'Components/Menu',
   component: Menu,
   parameters: {
-    layout: 'centered',
+    docs: {
+      description: {
+        component: 'O Menu é um painel flutuante com lista de ações contextuais, vinculado a um gatilho. Abre ao clicar no gatilho e fecha ao selecionar um item ou clicar fora. Suporta ícones, subtexto, itens desabilitados, submenus aninhados e busca integrada.',
+      },
+    },
+    // layout: 'centered',
   },
   argTypes: {
     search: { control: 'boolean' },

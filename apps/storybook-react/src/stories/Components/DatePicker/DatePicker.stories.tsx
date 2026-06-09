@@ -8,7 +8,12 @@ const meta: Meta<typeof DatePicker> = {
   title: 'Components/Date Picker',
   component: DatePicker,
   parameters: {
-    layout: 'centered',
+    docs: {
+      description: {
+        component: 'O DatePicker é um campo de entrada de data que combina um input de texto com um calendário. O usuário pode digitar a data diretamente ou selecioná-la pelo calendário.',
+      },
+    },
+    // layout: 'centered',
   },
   argTypes: {
     locale: {
@@ -93,7 +98,7 @@ export const Default: Story = {
   },
 };
 
-export const Controlled: Story = {
+export const ControladoSimples: Story = {
   render: ControlledTemplate,
   args: {
     locale: 'pt-br',
@@ -103,7 +108,7 @@ export const Controlled: Story = {
   },
 };
 
-export const EnglishLocale: Story = {
+export const LocaleIngles: Story = {
   render: Template,
   args: {
     locale: 'en-us',
@@ -112,8 +117,9 @@ export const EnglishLocale: Story = {
     helperText: 'Format: MM/DD/YYYY',
   },
 };
+LocaleIngles.storyName = 'Locale Inglês';
 
-export const WithError: Story = {
+export const ComErro: Story = {
   render: Template,
   args: {
     locale: 'pt-br',
@@ -145,7 +151,7 @@ export const ComRestricaoDeDatas: Story = {
   },
 };
 
-export const RightPositioned: Story = {
+export const AlinhamentoDireita: Story = {
   render: Template,
   args: {
     locale: 'pt-br',

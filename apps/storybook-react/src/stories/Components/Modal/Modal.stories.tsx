@@ -6,7 +6,12 @@ const meta: Meta<typeof Modal> = {
   title: 'Components/Modal',
   component: Modal,
   parameters: {
-    layout: 'centered',
+    docs: {
+      description: {
+        component: 'O Modal é uma janela sobreposta ao conteúdo da página que exibe informações ou formulários sem remover o usuário do contexto atual. Diferente do Dialog, aceita qualquer conteúdo livre no corpo e pode ser fechado pelo botão X, pela tecla Escape ou clicando no overlay.',
+      },
+    },
+    // layout: 'centered',
   },
   argTypes: {
     title: { control: 'text' },
@@ -166,7 +171,7 @@ export const ComFooter: Story = {
   },
 };
 
-export const Fullscreen: Story = {
+export const TelaCheia: Story = {
   render: () => {
     const [isOpen, setIsOpen] = useState(false);
     return (

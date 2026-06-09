@@ -6,7 +6,11 @@ const meta: Meta<typeof Radio> = {
   title: 'Components/Radio',
   component: Radio,
   parameters: {
-    layout: 'centered'
+    docs: {
+      description: {
+        component: 'Radio é um controle de formulário que permite ao usuário selecionar exatamente uma opção dentro de um grupo. Ao contrário do Checkbox, selecionar um item automaticamente desmarca os demais.',
+      },
+    },
   },
   args: {
     orientation: 'vertical',
@@ -92,7 +96,7 @@ export const ComItemDesabilitado: StoryFn = () => (
   />
 );
 
-export const MultiRadio: Story = {
+export const MultiplaSelecao: Story = {
   render: (args) => {
       const items = [
         { id: '1', value: '1', label: args.ariaLabel || 'Option 1' },
@@ -112,3 +116,4 @@ export const MultiRadio: Story = {
       );
   }
 }
+MultiplaSelecao.storyName = 'Múltipla Seleção';

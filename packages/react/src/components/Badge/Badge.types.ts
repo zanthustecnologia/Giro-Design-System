@@ -24,7 +24,7 @@ export interface BadgeProps extends BaseProps {
   badgeValue?: number | string | null;
   /** Label acessível para leitores de tela */
   'aria-label'?: string;
-  /** Prop que sinaliza se o Badge será usado no Filter ou não, pois no Filter ele tem uma cor diferente */
+  /** Quando `true`, aplica a variante de cor do Filter (fundo azul em vez do padrão vermelho) */
   filterVariant?: boolean;
   /** Classe CSS opcional */
   className?: string;
