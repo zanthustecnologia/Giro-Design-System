@@ -2,7 +2,7 @@ import { Search16Regular, Dismiss16Regular } from '@fluentui/react-icons';
 import clsx from 'clsx';
 import React, { useState, useId } from 'react';
 
-import useInputRefVirtualKeyboard from '../../hooks/inputRefVirtualKeyboard';
+import useInputKeyboardValue from '../../hooks/useInputKeyboardValue';
 import VirtualKeyboard from '../VirtualKeyboard';
 import styles from './Search.module.scss';
 
@@ -34,7 +34,7 @@ const Search = React.forwardRef<HTMLInputElement, SearchProps>(
     ref
   ) => {
     const [internalValue, setInternalValue] = useState<string>('');
-    const { internalRef: inputRef, setRefs: setInputRefs } = useInputRefVirtualKeyboard(ref);
+    const { internalRef: inputRef, setRefs: setInputRefs } = useInputKeyboardValue(ref);
     const isControlled = value !== undefined && onChange !== undefined;
     const currentValue = isControlled ? value : internalValue;
     const generatedId = useId();

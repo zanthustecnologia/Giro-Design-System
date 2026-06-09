@@ -2,7 +2,7 @@ import { Dismiss16Regular } from '@fluentui/react-icons';
 import clsx from 'clsx';
 import React, { useState, useCallback, useId, forwardRef, useEffect } from 'react';
 
-import useInputRefVirtualKeyboard from '../../hooks/inputRefVirtualKeyboard';
+import useInputKeyboardValue from '../../hooks/useInputKeyboardValue';
 import VirtualKeyboard from '../VirtualKeyboard';
 import styles from './TextField.module.scss';
 import { validateInput } from './utils';
@@ -50,7 +50,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
     const [inputValue, setInputValue] = useState(normalizeValue(value));
     const [inputError, setInputError] = useState('');
     const [isFocused, setIsFocused] = useState(false);
-    const { internalRef: inputRef, setRefs: setInputRefs } = useInputRefVirtualKeyboard(ref);
+    const { internalRef: inputRef, setRefs: setInputRefs } = useInputKeyboardValue(ref);
     const generatedId = useId();
     const componentId = id || generatedId;
 

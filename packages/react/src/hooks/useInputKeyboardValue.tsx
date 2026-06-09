@@ -2,7 +2,7 @@ import { useRef, useCallback } from 'react';
 
 import type { ForwardedRef } from 'react';
 
-function useInputRefVirtualKeyboard<T extends HTMLElement>(externalRef: ForwardedRef<T>) {
+function useInputKeyboardValue<T extends HTMLElement>(externalRef: ForwardedRef<T>) {
   const internalRef = useRef<T>(null);
 
   const setRefs = useCallback(
@@ -24,4 +24,4 @@ function useInputRefVirtualKeyboard<T extends HTMLElement>(externalRef: Forwarde
   return { internalRef, setRefs };
 }
 
-export default useInputRefVirtualKeyboard;
+export default useInputKeyboardValue;
