@@ -1,7 +1,6 @@
 import clsx from 'clsx';
 import React, { createElement, useState, useCallback, useEffect, useRef, useLayoutEffect, useMemo } from 'react';
 import { createPortal } from 'react-dom';
-import { createRoot } from 'react-dom/client';
 import Keyboard from 'react-simple-keyboard';
 import 'react-simple-keyboard/build/css/index.css';
 
@@ -11,7 +10,6 @@ import { NATIVE_LAYOUT_KEYS, SHIFT_TOGGLES, getNativeLayout } from './components
 import styles from './VirtualKeyboard.module.scss';
 
 import type { VirtualKeyboardProps } from './VirtualKeyboard.type';
-import type { Root } from 'react-dom/client';
 
 const LONG_PRESS_DELAY_MS = 400;
 
@@ -98,7 +96,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
   const accentButtonRef = useRef<HTMLButtonElement | null>(null);
   const accentMenuOpenRef = useRef(false);
   const valueRef = useRef(value);
-  const iconRootsRef = useRef<Root[]>([]);
+  const [iconSlots, setIconSlots] = useState<HTMLElement[]>([]);
 
   useEffect(() => {
     valueRef.current = value;
@@ -232,31 +230,28 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
   useEffect(() => {
     if (!keyboardWrapperRef.current) return;
 
-    const inject = (container: HTMLElement) => {
-      container.querySelectorAll<HTMLElement>('[data-icon-key]').forEach((slot) => {
-        if (slot.hasAttribute('data-icon-root')) return;
-        const key = slot.getAttribute('data-icon-key');
-        const Icon = key ? ICON_KEY_MAP[key] : undefined;
-        if (!Icon) return;
-        slot.setAttribute('data-icon-root', 'true');
-        const root = createRoot(slot);
-        root.render(createElement(Icon));
-        iconRootsRef.current.push(root);
-      });
+    const container = keyboardWrapperRef.current;
+
+    const registerNewSlots = () => {
+      const newSlots = Array.from(
+        container.querySelectorAll<HTMLElement>('[data-icon-key]:not([data-icon-root])')
+      );
+      if (newSlots.length === 0) return;
+      newSlots.forEach((s) => s.setAttribute('data-icon-root', 'true'));
+      setIconSlots((prev) => [...prev, ...newSlots]);
     };
 
-    inject(keyboardWrapperRef.current);
+    registerNewSlots();
 
     const observer = new MutationObserver(() => {
-      if (keyboardWrapperRef.current) inject(keyboardWrapperRef.current);
+      setIconSlots((prev) => prev.filter((slot) => container.contains(slot)));
+      registerNewSlots();
     });
 
-    observer.observe(keyboardWrapperRef.current, { childList: true, subtree: true });
+    observer.observe(container, { childList: true, subtree: true });
 
     return () => {
       observer.disconnect();
-      iconRootsRef.current.forEach((root) => { try { root.unmount(); } catch { /* noop */ } });
-      iconRootsRef.current = [];
     };
   }, []);
 
@@ -569,6 +564,21 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
         onKeyPress={handleKeyPress}
         preventMouseDownDefault
       />
+
+      {(() => {
+        const shiftCount = { current: 0 };
+        return iconSlots.map((slot) => {
+          const key = slot.getAttribute('data-icon-key');
+          const Icon = key ? ICON_KEY_MAP[key] : undefined;
+          if (!Icon || !key) return null;
+          if (key === 'shift') {
+            const label = shiftCount.current === 0 ? 'left' : 'right';
+            shiftCount.current += 1;
+            return createPortal(createElement(Icon), slot, `icon-shift-${label}`);
+          }
+          return createPortal(createElement(Icon), slot, `icon-${key}`);
+        });
+      })()}
 
       {accentMenu && (
         typeof document !== 'undefined' &&
