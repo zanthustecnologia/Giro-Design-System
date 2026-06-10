@@ -36,10 +36,8 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
       onFocus,
       name,
       persistIcon = false,
-      virtualKeyboard = false,
-      virtualKeyboardType,
-      virtualKeyboardMaxLength,
-      attachedToVirtualKeyboard = false,
+      virtualKeyboard,
+      attachedToVirtualKeyboard,
       ...rest
     },
     ref
@@ -173,7 +171,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
               aria-invalid={hasError}
               aria-required={required}
               aria-describedby={helperId}
-              inputMode={virtualKeyboard ? 'none' : rest.inputMode}
+              inputMode={(virtualKeyboard === 'default' || virtualKeyboard === 'numeric') ? 'none' : rest.inputMode}
               className={clsx({
                 [styles.inputWithIcon]: showCustomIcon || showClearIcon,
               })}
@@ -208,13 +206,13 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
           )}
         </div>
 
-        {virtualKeyboard && (
+        {(virtualKeyboard === 'default' || virtualKeyboard === 'numeric') && (
           <div className="virtualKeyboardWrapper">
             <VirtualKeyboard
               variant="native"
-              type={virtualKeyboardType}
+              type={virtualKeyboard}
               value={inputValue}
-              maxLength={maxLength ?? virtualKeyboardMaxLength}
+              maxLength={maxLength}
               targetRef={inputRef}
               onChange={(val) => {
                 if (!disabled && (!maxLength || val.length <= maxLength)) {

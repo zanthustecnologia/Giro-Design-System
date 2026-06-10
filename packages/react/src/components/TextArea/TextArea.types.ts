@@ -77,12 +77,6 @@ export interface TextAreaProps extends Omit<
   /** Classe CSS opcional */
   className?: string;
 
-  /** Habilita o teclado virtual */
-  virtualKeyboard?: boolean;
-
-  /** Tipo do teclado virtual (padrão: 'default') */
-  virtualKeyboardType?: VirtualKeyboardType;
-
-  /** Comprimento máximo permitido pelo teclado virtual */
-  virtualKeyboardMaxLength?: number;
+  /** Tipo do teclado virtual (padrão: undefined = desabilitado) */
+  virtualKeyboard?: VirtualKeyboardType;
 }

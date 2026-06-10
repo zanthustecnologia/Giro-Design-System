@@ -33,9 +33,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
       resize = 'vertical',
       showCharCount = false,
       height,
-      virtualKeyboard = false,
-      virtualKeyboardType,
-      virtualKeyboardMaxLength,
+      virtualKeyboard,
       ...rest
     },
     ref
@@ -135,7 +133,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
               aria-required={required}
               aria-describedby={helperId}
               style={{ resize, height }}
-              inputMode={virtualKeyboard ? 'none' : rest.inputMode}
+              inputMode={(virtualKeyboard === 'default' || virtualKeyboard === 'numeric') ? 'none' : rest.inputMode}
             />
           </div>
 
@@ -156,12 +154,12 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
           </div>
         </div>
 
-        {virtualKeyboard && (
+        {(virtualKeyboard === 'default' || virtualKeyboard === 'numeric') && (
           <div className="virtualKeyboardWrapper">
             <VirtualKeyboard
               variant="native"
-              type={virtualKeyboardType}
-              maxLength={virtualKeyboardMaxLength}
+              type={virtualKeyboard}
+              maxLength={maxLength}
               value={textareaValue}
               targetRef={textareaRef}
               onChange={(val) => {

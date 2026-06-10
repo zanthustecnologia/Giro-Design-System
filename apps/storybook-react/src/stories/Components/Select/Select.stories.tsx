@@ -333,7 +333,7 @@ export const Escalas: StoryFn<SelectProps> = () => (
   </div>
 );
 
-export const Position: StoryFn<SelectProps> = (args) => (
+export const Posicionamento: StoryFn<SelectProps> = (args) => (
   <div style={{ display: 'flex', flexDirection: 'column', gap: '300px', padding: '20px' }}>
     <Select
       {...args}

@@ -112,16 +112,11 @@ const meta: Meta<typeof TextField> = {
       }
     },
     virtualKeyboard: {
-      control: 'boolean',
-      description: 'Exibe o teclado virtual ao clicar no campo'
-    },
-    virtualKeyboardType: {
       control: 'select',
       options: [
-        'default', 'numeric',
+        'default', 'numeric', 'none',
       ],
       description: 'Layout do teclado virtual',
-      if: { arg: 'virtualKeyboard', truthy: true },
     },
   },
 };
@@ -148,7 +143,7 @@ export const Default: Story = {
   ),
 };
 
-export const WithIcon: Story = {
+export const ComIcone: Story = {
   args: {
     placeholder: 'Ex.: joao@empresa.com',
     label: 'Email',
@@ -163,7 +158,7 @@ export const WithIcon: Story = {
   ),
 };
 
-export const WithTooltip: Story = {
+export const ComTooltip: Story = {
   args: {
     label: 'CPF',
     placeholder: 'Ex.: 000 000 000-00',
@@ -233,12 +228,11 @@ export const DiferentesIcones: Story = {
   ),
 };
 
-export const WithVirtualKeyboard: Story = {
+export const ComTecladoVirtual: Story = {
   args: {
     label: 'Campo de texto',
     placeholder: 'Clique aqui para abrir o teclado...',
-    virtualKeyboard: true,
-    virtualKeyboardType: 'default',
+    virtualKeyboard: 'default',
     disabled: false,
   },
   render: (args) => {
