@@ -183,9 +183,6 @@
   }
 
   .inputContainer {
-    border-radius: var(--border-radius-12);
-    border: var(--border-width-1) solid var(--color-neutral-high-medium);
-
     &:hover {
       border: var(--border-width-1) solid var(--color-neutral-high-medium);
     }
@@ -193,10 +190,6 @@
     &:focus-within {
       border: var(--border-width-1) solid var(--color-neutral-high-medium);
       outline: none;
-    }
-
-    input {
-      border-radius: var(--border-radius-12);
     }
   }
 
