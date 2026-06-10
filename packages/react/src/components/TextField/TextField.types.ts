@@ -59,10 +59,10 @@ export interface TextFieldProps extends Omit<
   tooltipText?: string;
   
   /** Lado onde o tooltip aparece */
-  side?: Side;
+  tooltipSide?: Side;
   
   /** Alinhamento do tooltip */
-  align?: Align;
+  tooltipAlign?: Align;
   
   /**
    * Mensagem de erro exibida no campo.

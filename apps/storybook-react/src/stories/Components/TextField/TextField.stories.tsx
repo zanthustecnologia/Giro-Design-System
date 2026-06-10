@@ -34,15 +34,15 @@ const meta: Meta<typeof TextField> = {
       control: 'boolean',
       description: 'Estado desabilitado do campo'
     },
-    side: {
+    tooltipSide: {
       control: 'select',
       options: ['top','bottom', 'left', 'right'],
       description: 'Posição do tooltip'
     },
-    align: {
+    tooltipAlign: {
       control: 'select',
       options: ['start', 'center', 'end'],
-      description: 'Posição do tooltip'
+      description: 'Alinhamento do tooltip'
     },
     type: {
       control: 'select',
@@ -127,7 +127,6 @@ export const Default: Story = {
   args: {
     placeholder: 'Ex.: João da Silva',
     disabled: false,
-    maxLength: 100,
     className: '',
     required: false,
     tooltip: true,
@@ -164,11 +163,10 @@ export const ComTooltip: Story = {
     placeholder: 'Ex.: 000 000 000-00',
     tooltip: true,
     tooltipText: 'O CPF é usado para identificar sua conta. Você pode encontrá-lo no seu documento de identidade.',
-    side: 'bottom',
-    align: 'start',
+    tooltipSide: 'bottom',
+    tooltipAlign: 'start',
     helperText: 'Somente números, sem pontos ou traços',
     type: 'text',
-    maxLength: 11,
   },
   render: (args) => (
     <div className='storybook__container'>

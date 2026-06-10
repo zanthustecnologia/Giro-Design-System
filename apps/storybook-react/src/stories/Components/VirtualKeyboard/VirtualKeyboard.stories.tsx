@@ -12,7 +12,6 @@ const meta: Meta<typeof VirtualKeyboard> = {
     controls: {
       sort: 'alpha',
     },
-    layout: 'centered',
   },
   argTypes: {
     variant: {

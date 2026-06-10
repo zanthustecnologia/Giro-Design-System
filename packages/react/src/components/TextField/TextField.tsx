@@ -20,13 +20,13 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
       type = 'text',
       onChange,
       disabled = false,
-      maxLength = 30,
+      maxLength,
       required = false,
       helperText,
       tooltip = false,
       tooltipText,
-      side = 'bottom',
-	    align = 'start',
+      tooltipSide = 'bottom',
+	    tooltipAlign = 'start',
       errorMessage,
       error,
       id,
@@ -144,8 +144,8 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
             required={required}
             tooltip={tooltip}
             tooltipText={tooltipText}
-            side={side}
-            align={align}
+            side={tooltipSide}
+            align={tooltipAlign}
             error={hasError}
             disabled={disabled}
           >
