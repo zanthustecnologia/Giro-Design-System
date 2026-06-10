@@ -118,6 +118,15 @@ const meta: Meta<typeof TextField> = {
       ],
       description: 'Layout do teclado virtual',
     },
+    disableAutoComplete: {
+      control: 'boolean',
+      description: 'Habilita ou desabilita o autocomplete nativo do browser',
+    },
+    attachedToVirtualKeyboard: {
+      table: {
+        disable: true,
+      },
+    },
   },
 };
 

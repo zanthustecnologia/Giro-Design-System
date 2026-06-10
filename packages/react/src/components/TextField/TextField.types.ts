@@ -91,6 +91,9 @@ export interface TextFieldProps extends Omit<
 
   /** Escala visual aplicada ao componente */
   scale?: Scale;
+
+  /** Desabilita o autocomplete nativo do browser (padrão: false) */
+  disableAutoComplete?: boolean;
 }
 
 /**

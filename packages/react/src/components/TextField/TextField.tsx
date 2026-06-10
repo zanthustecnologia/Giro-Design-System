@@ -38,6 +38,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
       persistIcon = false,
       virtualKeyboard,
       attachedToVirtualKeyboard,
+      disableAutoComplete = false,
       ...rest
     },
     ref
@@ -172,6 +173,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
               aria-required={required}
               aria-describedby={helperId}
               inputMode={(virtualKeyboard === 'default' || virtualKeyboard === 'numeric') ? 'none' : rest.inputMode}
+              autoComplete={(disableAutoComplete || virtualKeyboard === 'default' || virtualKeyboard === 'numeric') ? 'off' : rest.autoComplete}
               className={clsx({
                 [styles.inputWithIcon]: showCustomIcon || showClearIcon,
               })}
