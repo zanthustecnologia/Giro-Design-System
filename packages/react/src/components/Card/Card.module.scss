@@ -1,0 +1,12 @@
+.card {
+  width: 100%;
+  margin: var(--spacing-0);
+  padding: var(--spacing-16);
+  border: var(--border-width-1) solid var(--color-neutral-high-dark);
+  border-radius: var(--border-radius-8);
+}
+
+.card--interactive:hover {
+  border: var(--border-width-1) solid var(--color-brand-primary-default);
+  cursor: pointer;
+}
