@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { unstable_OneTimePasswordField as OneTimePasswordField } from 'radix-ui';
+import { unstable_OneTimePasswordField as OneTimePasswordFieldRadix } from 'radix-ui';
 import React from 'react';
 
 import styles from './OneTimePassword.module.scss';
@@ -28,7 +28,7 @@ const OneTimePassword: React.FC<OneTimePasswordProps> = ({
 
   return (
     <div id={id} className={clsx(styles.container, className)}>
-      <OneTimePasswordField.Root
+      <OneTimePasswordFieldRadix.Root
         className={styles.inputGroup}
         validationType={validationType}
         value={value}
@@ -44,7 +44,7 @@ const OneTimePassword: React.FC<OneTimePasswordProps> = ({
         data-error={hasError || undefined}
       >
         {Array.from({ length: validLength }, (_, i) => (
-          <OneTimePasswordField.Input
+          <OneTimePasswordFieldRadix.Input
             key={i}
             className={clsx(
               styles.input,
@@ -53,8 +53,8 @@ const OneTimePassword: React.FC<OneTimePasswordProps> = ({
             )}
           />
         ))}
-        <OneTimePasswordField.HiddenInput />
-      </OneTimePasswordField.Root>
+        <OneTimePasswordFieldRadix.HiddenInput />
+      </OneTimePasswordFieldRadix.Root>
 
       {hasError && errorMessage && (
         <span className={styles.errorMessage}>{errorMessage}</span>
