@@ -28,8 +28,8 @@ type Story = StoryObj<typeof Card>;
 export const Default: Story = {
   render: (args) => (
     <Card {...args}>
-      <h2>Título do Card</h2>
-      <p>Este é um exemplo de conteúdo dentro do Card. O componente aplica padding interno, borda e bordas arredondadas com base nos tokens do design system.</p>
+      <h2 style={{ margin: 0 }}>Título do Card</h2>
+      <p style={{ marginBottom: 0 }}>Este é um exemplo de conteúdo dentro do Card. O componente aplica padding interno, borda e bordas arredondadas com base nos tokens do design system.</p>
     </Card>
   ),
 };
@@ -40,8 +40,8 @@ export const Interativo: Story = {
   },
   render: (args) => (
     <Card {...args}>
-      <h2>Título do Card</h2>
-      <p>Passe o mouse sobre o card para ver o efeito de hover interativo.</p>
+      <h2 style={{ margin: 0 }}>Título do Card</h2>
+      <p style={{ marginBottom: 0 }}>Passe o mouse sobre o card para ver o efeito de hover interativo.</p>
     </Card>
   ),
 };
@@ -50,20 +50,10 @@ export const ComConteudoCustomizado: Story = {
   render: () => (
     <div style={{ maxWidth: '360px' }}>
       <Card>
-        <h3>Informações do usuário</h3>
-        <p><strong>Nome:</strong> João da Silva</p>
-        <p><strong>E-mail:</strong> joao.silva@exemplo.com</p>
-        <p><strong>Cargo:</strong> Desenvolvedor Front-end</p>
-      </Card>
-    </div>
-  ),
-};
-
-export const ComClasseCustomizada: Story = {
-  render: () => (
-    <div style={{ maxWidth: '360px' }}>
-      <Card className="custom-card">
-        <p>Card com classe CSS customizada aplicada ao elemento raiz.</p>
+        <h3 style={{ margin: 0 }}>Informações do usuário</h3>
+        <p style={{ marginBottom: 0 }}><strong>Nome:</strong> João da Silva</p>
+        <p style={{ marginBottom: 0 }}><strong>E-mail:</strong> joao.silva@exemplo.com</p>
+        <p style={{ marginBottom: 0 }}><strong>Cargo:</strong> Desenvolvedor Front-end</p>
       </Card>
     </div>
   ),
