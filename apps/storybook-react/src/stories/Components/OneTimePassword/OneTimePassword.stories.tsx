@@ -1,5 +1,4 @@
 import { OneTimePassword } from '@giro-ds/react';
-import React, { useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
@@ -136,35 +135,4 @@ export const Alfanumerico: Story = {
       <OneTimePassword {...args} />
     </div>
   ),
-};
-
-export const QuatroCampos: Story = {
-  args: {
-    length: 4,
-    validationType: 'numeric',
-  },
-  render: (args) => (
-    <div className="storybook__container">
-      <OneTimePassword {...args} />
-    </div>
-  ),
-};
-
-export const Controlado: Story = {
-  render: () => {
-    const [value, setValue] = useState('');
-    return (
-      <div className="storybook__container" style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-        <OneTimePassword
-          length={6}
-          validationType="numeric"
-          value={value}
-          onValueChange={setValue}
-        />
-        <span style={{ fontSize: '12px', color: '#666' }}>
-          Valor atual: <strong>{value || '—'}</strong>
-        </span>
-      </div>
-    );
-  },
 };
