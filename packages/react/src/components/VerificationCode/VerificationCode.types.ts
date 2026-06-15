@@ -1,13 +1,13 @@
 import { BaseProps } from '../../types/common.types';
 
-/** Tipos de validação suportados pelo OneTimePassword */
+/** Tipos de validação suportados pelo VerificationCode */
 export type OTPValidationType = 'numeric' | 'alphanumeric' | 'alpha';
 
 /**
- * Props do componente OneTimePassword
+ * Props do componente VerificationCode
  * @example
  * ```tsx
- * <OneTimePassword
+ * <VerificationCode
  *   length={6}
  *   validationType="numeric"
  *   onValueChange={(v) => console.log(v)}
@@ -15,7 +15,7 @@ export type OTPValidationType = 'numeric' | 'alphanumeric' | 'alpha';
  * ```
  * @example
  * ```tsx
- * <OneTimePassword
+ * <VerificationCode
  *   length={4}
  *   name="otp"
  *   autoSubmit
@@ -25,7 +25,7 @@ export type OTPValidationType = 'numeric' | 'alphanumeric' | 'alpha';
  * />
  * ```
  */
-export interface OneTimePasswordProps extends BaseProps {
+export interface VerificationCodeProps extends BaseProps {
   /** Número de campos/dígitos (padrão: 6) */
   length?: number;
 

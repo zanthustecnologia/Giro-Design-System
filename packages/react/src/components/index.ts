@@ -84,8 +84,8 @@ export { type TooltipProps } from './Tooltip/Tooltip.types';
 export { default as Switch } from './Switch';
 export { type SwitchProps } from './Switch/Switch.types';
 
-export { default as OneTimePassword } from './OneTimePassword';
-export { type OneTimePasswordProps } from './OneTimePassword/OneTimePassword.types';
+export { default as VerificationCode } from './VerificationCode';
+export { type VerificationCodeProps } from './VerificationCode/VerificationCode.types';
 
 export { default as VirtualKeyboard } from './VirtualKeyboard';
 export { type VirtualKeyboardProps, type VirtualKeyboardVariant } from './VirtualKeyboard/VirtualKeyboard.type';

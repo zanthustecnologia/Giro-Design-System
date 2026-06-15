@@ -2,11 +2,11 @@ import clsx from 'clsx';
 import { unstable_OneTimePasswordField as OneTimePasswordFieldRadix } from 'radix-ui';
 import React from 'react';
 
-import styles from './OneTimePassword.module.scss';
+import styles from './VerificationCode.module.scss';
 
-import type { OneTimePasswordProps } from './OneTimePassword.types';
+import type { VerificationCodeProps } from './VerificationCode.types';
 
-const OneTimePassword: React.FC<OneTimePasswordProps> = ({
+const VerificationCode: React.FC<VerificationCodeProps> = ({
   length = 6,
   validationType = 'numeric',
   value,
@@ -61,4 +61,4 @@ const OneTimePassword: React.FC<OneTimePasswordProps> = ({
   );
 };
 
-export default OneTimePassword;
+export default VerificationCode;

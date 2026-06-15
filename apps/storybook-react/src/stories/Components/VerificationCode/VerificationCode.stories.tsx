@@ -1,12 +1,12 @@
-import { OneTimePassword } from '@giro-ds/react';
+import { VerificationCode } from '@giro-ds/react';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
-type Story = StoryObj<typeof OneTimePassword>;
+type Story = StoryObj<typeof VerificationCode>;
 
-const meta: Meta<typeof OneTimePassword> = {
-  title: 'Components/OneTimePassword',
-  component: OneTimePassword,
+const meta: Meta<typeof VerificationCode> = {
+  title: 'Components/VerificationCode',
+  component: VerificationCode,
   parameters: {
     docs: {
       description: {
@@ -85,7 +85,7 @@ export const Default: Story = {
   },
   render: (args) => (
     <div className="storybook__container">
-      <OneTimePassword {...args} />
+      <VerificationCode {...args} />
     </div>
   ),
 };
@@ -99,7 +99,7 @@ export const ComErro: Story = {
   },
   render: (args) => (
     <div className="storybook__container">
-      <OneTimePassword {...args} />
+      <VerificationCode {...args} />
     </div>
   ),
 };
@@ -113,7 +113,7 @@ export const Desabilitado: Story = {
   },
   render: (args) => (
     <div className="storybook__container">
-      <OneTimePassword {...args} />
+      <VerificationCode {...args} />
     </div>
   ),
 };
@@ -125,7 +125,7 @@ export const Alfanumerico: Story = {
   },
   render: (args) => (
     <div className="storybook__container">
-      <OneTimePassword {...args} />
+      <VerificationCode {...args} />
     </div>
   ),
 };
