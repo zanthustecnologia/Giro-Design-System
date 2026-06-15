@@ -174,7 +174,7 @@ export const ApenasIcone: Story = {
 };
 
 export const Escalas: StoryFn<ButtonProps> = () => (
-  <div style={{ display: 'flex', gap: '40px', alignItems: 'center' }}>
+  <div style={{ display: 'flex', gap: '60px', alignItems: 'center' }}>
     <Button scale={1}>Scale 1.0</Button>
     <Button scale={1.5}>Scale 1.5</Button>
     <Button scale={2}>Scale 2.0</Button>

@@ -193,7 +193,7 @@ export const ModoEnter: Story = {
 
 export const Escalas: Story = {
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '56px', width: '360px' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '80px', width: '360px' }}>
       <Search placeholder="Scale 1.0" scale={1} />
       <Search placeholder="Scale 1.5" scale={1.5} />
       <Search placeholder="Scale 2.0" scale={2} />
