@@ -41,8 +41,7 @@ const meta: Meta<typeof OneTimePassword> = {
       description: 'Desabilita o campo',
     },
     readOnly: {
-      control: 'boolean',
-      description: 'Define o campo como somente leitura',
+      table: { disable: true },
     },
     autoSubmit: {
       control: 'boolean',
