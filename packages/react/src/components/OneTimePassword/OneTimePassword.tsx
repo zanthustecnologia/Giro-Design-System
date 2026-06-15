@@ -14,7 +14,6 @@ const OneTimePassword: React.FC<OneTimePasswordProps> = ({
   onValueChange,
   autoSubmit = false,
   onAutoSubmit,
-  placeholder,
   name,
   form,
   hasError = false,
@@ -36,7 +35,6 @@ const OneTimePassword: React.FC<OneTimePasswordProps> = ({
         onValueChange={onValueChange}
         autoSubmit={autoSubmit}
         onAutoSubmit={onAutoSubmit}
-        placeholder={placeholder}
         name={name}
         form={form}
         disabled={disabled}

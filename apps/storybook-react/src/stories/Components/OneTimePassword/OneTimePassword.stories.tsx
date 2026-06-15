@@ -11,7 +11,7 @@ const meta: Meta<typeof OneTimePassword> = {
     docs: {
       description: {
         component:
-          'O One-Time Password é um campo de entrada para códigos de uso único (OTP), construído sobre o primitivo Radix UI. Suporta validação numérica e alfanumérica, estados de erro e desabilitado, e integração nativa com formulários.',
+          'O One-Time Password é um campo de entrada para códigos de uso único (OTP), construído sobre o primitivo Radix UI. Suporta validação numérica, alfanumérica e alfabética, estados de erro e desabilitado, e integração nativa com formulários.',
       },
     },
     controls: {
@@ -25,12 +25,8 @@ const meta: Meta<typeof OneTimePassword> = {
     },
     validationType: {
       control: { type: 'select' },
-      options: ['numeric', 'alphanumeric'],
+      options: ['numeric', 'alphanumeric', 'alpha'],
       description: 'Tipo de entrada aceita pelo campo',
-    },
-    placeholder: {
-      control: 'text',
-      description: 'Placeholder exibido nos inputs vazios',
     },
     hasError: {
       control: 'boolean',
@@ -87,7 +83,6 @@ export const Default: Story = {
     validationType: 'numeric',
     disabled: false,
     hasError: false,
-    placeholder: '○',
   },
   render: (args) => (
     <div className="storybook__container">
@@ -128,7 +123,6 @@ export const Alfanumerico: Story = {
   args: {
     length: 6,
     validationType: 'alphanumeric',
-    placeholder: '—',
   },
   render: (args) => (
     <div className="storybook__container">

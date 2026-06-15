@@ -62,12 +62,6 @@ describe('OneTimePassword', () => {
       expect(container.firstChild).toHaveClass('custom-otp');
     });
 
-    it('renderiza sem erros ao receber a prop placeholder', () => {
-      // O Radix OTP trata placeholder internamente sem expor atributo DOM nos inputs.
-      // Verifica apenas que o componente renderiza corretamente com a prop.
-      render(<OneTimePassword length={4} placeholder="·" />);
-      expect(getVisibleInputs()).toHaveLength(4);
-    });
   });
 
   describe('Estado de erro', () => {

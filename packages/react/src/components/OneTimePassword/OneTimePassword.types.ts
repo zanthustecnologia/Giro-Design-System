@@ -1,7 +1,7 @@
 import { BaseProps } from '../../types/common.types';
 
 /** Tipos de validação suportados pelo OneTimePassword */
-export type OTPValidationType = 'numeric' | 'alphanumeric';
+export type OTPValidationType = 'numeric' | 'alphanumeric' | 'alpha';
 
 /**
  * Props do componente OneTimePassword
@@ -46,9 +46,6 @@ export interface OneTimePasswordProps extends BaseProps {
 
   /** Callback chamado ao completar (quando autoSubmit está ativo) */
   onAutoSubmit?: (value: string) => void;
-
-  /** Placeholder exibido nos inputs vazios */
-  placeholder?: string;
 
   /** Nome do campo para envio em formulários */
   name?: string;
