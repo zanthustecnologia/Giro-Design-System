@@ -1,4 +1,4 @@
-import { BaseProps } from '../../types/common.types';
+import { BaseProps } from '../../../types/common.types';
 
 /** Tipos de entrada suportados pelo VerificationCode */
 export type InputType = 'numeric' | 'alpha' | 'alphanumeric';
