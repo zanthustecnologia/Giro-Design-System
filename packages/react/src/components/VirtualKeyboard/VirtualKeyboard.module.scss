@@ -135,8 +135,8 @@
   bottom: var(--spacing-0);
   left: var(--spacing-0);
   right: var(--spacing-0);
-  background-color: transparent;
-  backdrop-filter: blur(20px);
+  background-color: var(--color-neutral-high-default);
+  // backdrop-filter: blur(20px);
   border-top: var(--border-width-1) solid var(--color-neutral-high-dark);
   transform: translateY(100%);
   transition: transform 0.25s ease-out;
@@ -149,8 +149,8 @@
     font-family: var(--font-family-primary);
     border-radius: var(--border-radius-none);
     font-weight: var(--font-weight-medium);
-    background-color: transparent;
-    backdrop-filter: blur(10px);
+  background-color: var(--color-neutral-high-default);
+    // backdrop-filter: blur(20px);
     box-shadow: none;
 
     :global(.hg-button) {
