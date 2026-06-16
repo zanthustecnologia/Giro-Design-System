@@ -249,6 +249,27 @@
   position: relative;
 }
 
+.keyPreview {
+  position: fixed;
+  transform: translate(-50%, calc(-100% - 8px));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 44px;
+  padding: var(--spacing-4);
+  border-radius: var(--border-radius-8);
+  border: var(--border-width-1) solid var(--color-neutral-medium-default);
+  background: var(--color-neutral-high-default);
+  box-shadow: 0 6px 16px rgba(17, 17, 25, 0.12);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-24);
+  font-weight: var(--font-weight-medium);
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+}
+
 .accentMenu {
   position: fixed;
   transform: translate(-50%, calc(-100% - 8px));

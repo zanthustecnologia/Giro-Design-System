@@ -99,6 +99,9 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
   const valueRef = useRef(value);
   const [iconSlots, setIconSlots] = useState<HTMLElement[]>([]);
 
+  type KeyPreviewState = { char: string; top: number; left: number } | null;
+  const [keyPreview, setKeyPreview] = useState<KeyPreviewState>(null);
+
   useEffect(() => {
     valueRef.current = value;
   }, [value]);
@@ -348,6 +351,15 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
       heldAccentKeyRef.current = null;
       longPressTriggeredRef.current = false;
 
+      if (sourceKey && !sourceKey.startsWith('{') && window.innerWidth <= 600) {
+        const buttonRect = buttonEl.getBoundingClientRect();
+        setKeyPreview({
+          char: sourceKey,
+          top: buttonRect.top - 4,
+          left: buttonRect.left + buttonRect.width / 2,
+        });
+      }
+
       if (!sourceKey || sourceKey.startsWith('{')) return;
 
       const accentOptions = ACCENT_OPTIONS[sourceKey.toLowerCase()];
@@ -361,7 +373,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
         const buttonRect = buttonEl.getBoundingClientRect();
         const isUpperCaseKey = sourceKey === sourceKey.toUpperCase();
         longPressTriggeredRef.current = true;
-
+        setKeyPreview(null);
         accentButtonRef.current = buttonEl;
         setAccentMenu({
           sourceKey,
@@ -384,6 +396,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
     const longPressTriggered = longPressTriggeredRef.current;
     const baseLayout = type === 'numeric' ? 'abc' : 'default';
 
+    setKeyPreview(null);
     isKeyboardInteractingRef.current = false;
     clearLongPressTimeout();
 
@@ -624,6 +637,17 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
           return createPortal(createElement(Icon), slot, `icon-${key}`);
         });
       })()}
+
+      {keyPreview && typeof document !== 'undefined' && createPortal(
+        <div
+          className={styles.keyPreview}
+          style={{ top: keyPreview.top, left: keyPreview.left }}
+          aria-hidden
+        >
+          {keyPreview.char}
+        </div>,
+        document.body
+      )}
 
       {accentMenu && (
         typeof document !== 'undefined' &&
