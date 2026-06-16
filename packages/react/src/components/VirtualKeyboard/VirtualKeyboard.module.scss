@@ -251,16 +251,16 @@
 
 .keyPreview {
   position: fixed;
-  transform: translate(-50%, calc(-100% - 8px));
+  transform: translate(-50%, calc(-100%));
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 30px;
-  height: 44px;
+  width: 50px;
+  height: 50px;
   padding: var(--spacing-4);
   border-radius: var(--border-radius-8);
   border: var(--border-width-1) solid var(--color-neutral-medium-default);
-  background: var(--color-neutral-high-default);
+  background: var(--color-neutral-high-medium);
   box-shadow: 0 6px 16px rgba(17, 17, 25, 0.12);
   font-family: var(--font-family-primary);
   font-size: var(--font-size-24);
@@ -272,25 +272,25 @@
 
 .accentMenu {
   position: fixed;
-  transform: translate(-50%, calc(-100% - 8px));
+  transform: translate(-50%, calc(-100%));
   display: inline-flex;
   align-items: center;
   gap: var(--spacing-4);
   padding: var(--spacing-4);
   border-radius: var(--border-radius-8);
   border: var(--border-width-1) solid var(--color-neutral-medium-default);
-  background: var(--color-neutral-high-default);
+  background: var(--color-neutral-high-medium);
   box-shadow: 0 6px 16px rgba(17, 17, 25, 0.12);
 }
 
 .accentOption {
-  min-width: 44px;
-  height: 44px;
+  min-width: 50px;
+  height: 50px;
   padding: 0 var(--spacing-8);
   border: none;
   border-radius: var(--border-radius-8);
   font-family: var(--font-family-primary);
-  font-size: var(--font-size-16);
+  font-size: var(--font-size-24);
   background: none;
   font-weight: var(--font-weight-medium);
   cursor: pointer;
