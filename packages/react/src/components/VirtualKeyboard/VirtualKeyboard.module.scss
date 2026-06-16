@@ -259,10 +259,10 @@
   height: 50px;
   padding: var(--spacing-4);
   border-radius: var(--border-radius-8);
-  border: var(--border-width-1) solid var(--color-neutral-medium-default);
-  border-bottom: var(--border-width-2) solid var(--color-neutral-medium-default);
+  border: var(--border-width-1) solid var(--color-neutral-low-light);
+  border-top: none;
   background: var(--color-neutral-high-medium);
-  box-shadow: 0 6px 16px rgba(17, 17, 25, 0.12);
+  box-shadow: none;
   font-family: var(--font-family-primary);
   font-size: var(--font-size-24);
   font-weight: var(--font-weight-medium);
@@ -279,10 +279,10 @@
   gap: var(--spacing-4);
   padding: var(--spacing-4);
   border-radius: var(--border-radius-8);
-  border: var(--border-width-1) solid var(--color-neutral-medium-default);
-  border-bottom: var(--border-width-2) solid var(--color-neutral-medium-default);
+  border: var(--border-width-1) solid var(--color-neutral-low-light);
+  border-top: none;
   background: var(--color-neutral-high-medium);
-  box-shadow: 0 6px 16px rgba(17, 17, 25, 0.12);
+  box-shadow: none;
 }
 
 .accentOption {
