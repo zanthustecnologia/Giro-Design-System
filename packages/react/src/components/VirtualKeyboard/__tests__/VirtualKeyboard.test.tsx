@@ -178,9 +178,9 @@ describe('VirtualKeyboard', () => {
       expect(screen.getByTestId('display-bksp')).not.toHaveTextContent('Apagar');
     });
 
-    it('deve manter texto "Apagar" na tecla {bksp} no modo native', async () => {
+    it('deve exibir apenas ícone na tecla {bksp} no modo native', async () => {
       render(<VirtualKeyboard variant="native" type="default" />);
-      expect(await screen.findByTestId('display-bksp')).toHaveTextContent('Apagar');
+      expect(await screen.findByTestId('display-bksp')).not.toHaveTextContent('Apagar');
     });
   });
 
