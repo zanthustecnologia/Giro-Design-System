@@ -283,3 +283,29 @@
     outline-offset: 1px;
   }
 }
+
+@media (max-width: 600px) {
+  .container {
+    .textFieldContainer {
+      padding: var(--spacing-4);
+      background-color: var(--color-neutral-high-default);
+    }
+    .keyboardWrapper {
+      padding: var(--spacing-4);
+    }
+
+    :global(.hg-theme-default) {
+      :global(.hg-button) {
+        padding: var(--spacing-4);
+      }
+    }
+  }
+
+  .overlay {
+    :global(.hg-theme-default) {
+      :global(.hg-button) {
+        padding: var(--spacing-4);
+      }
+    }
+  }
+}
