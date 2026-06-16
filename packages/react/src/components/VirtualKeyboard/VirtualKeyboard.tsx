@@ -188,15 +188,6 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
     };
   }, [variant, targetRef, scheduleHideIfBlurred, scrollTargetIntoView]);
 
-  /**
-   * iOS Safari blur na tecla: ao tocar um elemento não-focável, o iOS agenda o blur
-   * do input ativo. O `preventMouseDownDefault` do react-simple-keyboard só atua
-   * no `mousedown`, mas no iOS (com PointerEvent) o key press ocorre via `pointerdown`.
-   *
-   * `preventDefault()` no `touchstart` impede o iOS de desfocar o input. Os pointer
-   * events (usados pelo react-simple-keyboard para detectar teclas) não são afetados,
-   * pois touch events e pointer events são independentes no iOS 13+.
-   */
   useEffect(() => {
     if (variant !== 'native') return;
 
@@ -347,11 +338,20 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
       const buttonEl = (event.target as HTMLElement).closest('.hg-button') as HTMLButtonElement | null;
       if (!buttonEl || !keyboardWrapper.contains(buttonEl)) return;
 
+      /**
+       * iOS WebKit (13+) toma a decisão de blur durante o `pointerdown`, antes de
+       * gerar o `touchstart`. Chamar `preventDefault()` aqui (fase de captura, antes
+       * de qualquer handler de bubble) sinaliza ao WebKit para não alterar o foco.
+       * O `preventDefault()` não interrompe a propagação: o `onpointerdown` do
+       * react-simple-keyboard (bubble) ainda dispara e registra o key press normalmente.
+       */
+      event.preventDefault();
+
       const sourceKey = buttonEl.getAttribute('data-skbtn') ?? '';
       heldAccentKeyRef.current = null;
       longPressTriggeredRef.current = false;
 
-      if (sourceKey && !sourceKey.startsWith('{') && window.innerWidth <= 600) {
+      if (sourceKey && !sourceKey.startsWith('{')) {
         const buttonRect = buttonEl.getBoundingClientRect();
         setKeyPreview({
           char: sourceKey,
