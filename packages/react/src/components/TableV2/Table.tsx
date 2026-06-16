@@ -231,8 +231,6 @@ const TableV2 = <T,>({
               <Search
                 value={pendingSearch}
                 virtualKeyboard={header.virtualKeyboard}
-                virtualKeyboardType={header.virtualKeyboardType}
-                virtualKeyboardMaxLength={header.virtualKeyboardMaxLength}
                 searchMode={header?.searchMode ?? "on-enter"}
                 onChange={(e) => {
                   setPendingSearch(e.target.value);

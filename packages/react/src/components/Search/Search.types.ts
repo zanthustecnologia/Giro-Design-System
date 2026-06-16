@@ -79,14 +79,8 @@ export interface SearchProps extends BaseProps, NativeInputProps {
   /** Classe CSS opcional */
   className?: string;
 
-  /** Habilita o teclado virtual */
-  virtualKeyboard?: boolean;
-
-  /** Variante do teclado virtual (padrão: 'default') */
-  virtualKeyboardType?: VirtualKeyboardType;
-
-  /** Comprimento máximo permitido pelo teclado virtual */
-  virtualKeyboardMaxLength?: number;
+  /** Tipo do teclado virtual (padrão: undefined = desabilitado) */
+  virtualKeyboard?: VirtualKeyboardType;
 
   /** Escala visual aplicada ao componente */
   scale?: Scale;

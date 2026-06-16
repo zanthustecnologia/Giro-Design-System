@@ -59,10 +59,10 @@ export interface TextFieldProps extends Omit<
   tooltipText?: string;
   
   /** Lado onde o tooltip aparece */
-  side?: Side;
+  tooltipSide?: Side;
   
   /** Alinhamento do tooltip */
-  align?: Align;
+  tooltipAlign?: Align;
   
   /**
    * Mensagem de erro exibida no campo.
@@ -83,19 +83,17 @@ export interface TextFieldProps extends Omit<
   /** Classe CSS opcional */
   className?: string;
 
-  /** Habilita o teclado virtual */
-  virtualKeyboard?: boolean;
+  /** Tipo do teclado virtual (padrão: undefined = desabilitado) */ 
+  virtualKeyboard?: VirtualKeyboardType;
 
-  /** Tipo do teclado virtual (padrão: 'default') */
-  virtualKeyboardType?: VirtualKeyboardType;
-
-  /** Comprimento máximo permitido pelo teclado virtual */
-  virtualKeyboardMaxLength?: number;
-
-  /** Aplica variação visual para uso acoplado ao VirtualKeyboard no modo fixed */
+  /** Aplica variação visual para uso acoplado ao VirtualKeyboard no modo fixed, essa prop é de uso exclusivo do VirtualKeyboard no modo fixed */
   attachedToVirtualKeyboard?: boolean;
+
   /** Escala visual aplicada ao componente */
   scale?: Scale;
+
+  /** Desabilita o autocomplete nativo do browser (padrão: false) */
+  disableAutoComplete?: boolean;
 }
 
 /**

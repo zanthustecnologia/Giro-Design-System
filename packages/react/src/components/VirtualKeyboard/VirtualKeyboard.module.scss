@@ -4,6 +4,21 @@
   vertical-align: middle;
 }
 
+@mixin space {
+  flex: 7.8;
+}
+
+@mixin blankSpace {
+  flex: 1;
+  opacity: 0;
+  pointer-events: none;
+  cursor: default;
+}
+
+@mixin buttonFlex {
+  flex: 1 0 0;
+}
+
 .container {
   font-family: var(--font-family-primary);
   width: 100%;
@@ -47,16 +62,10 @@
     }
   }
 
-  &.disabled {
-    pointer-events: none;
-    opacity: 0.4;
-    cursor: not-allowed;
-  }
-
   &.layout--numeric {
     :global(.hg-layout-default) {
       :global(.hg-button) {
-        flex: 1 0 0;
+        @include buttonFlex;
         border-radius: var(--border-radius-16);
       }
     }
@@ -68,33 +77,27 @@
     :global(.hg-layout-alt2),
     :global(.hg-layout-emoticon) {
       :global(.hg-button[data-skbtn="{//}"]) {
-        flex: 1;
-        opacity: 0;
-        pointer-events: none;
-        cursor: default;
+        @include blankSpace;
       }
 
       :global(.hg-button[data-skbtn="{space}"]) {
-        flex: 7.8;
+        @include space;
       }
     }
   }
 
   &.layout--default {
     :global(.hg-button[data-skbtn="{//}"]) {
-      flex: 1;
-      opacity: 0;
-      pointer-events: none;
-      cursor: default;
+      @include blankSpace;
     }
 
     :global(.hg-button[data-skbtn="{space}"]) {
-      flex: 7.8;
+      @include space;
     }
 
     :global(.hg-layout-numbers) {
       :global(.hg-button) {
-        flex: 1 0 0;
+        @include buttonFlex;
         border-radius: var(--border-radius-8);
       }
     }
@@ -190,16 +193,10 @@
     transform: translateY(0);
   }
 
-  &.disabled {
-    pointer-events: none;
-    opacity: 0.4;
-    cursor: not-allowed;
-  }
-
   &.layout--numeric {
     :global(.hg-layout-default) {
       :global(.hg-button) {
-        flex: 1 0 0;
+        @include buttonFlex;
       }
     }
 
@@ -210,33 +207,27 @@
     :global(.hg-layout-alt2),
     :global(.hg-layout-emoticon) {
       :global(.hg-button[data-skbtn="{//}"]) {
-        flex: 1;
-        opacity: 0;
-        pointer-events: none;
-        cursor: default;
+        @include blankSpace;
       }
 
       :global(.hg-button[data-skbtn="{space}"]) {
-        flex: 7.8;
+        @include space;
       }
     }
   }
 
   &.layout--default {
     :global(.hg-button[data-skbtn="{//}"]) {
-      flex: 1;
-      opacity: 0;
-      pointer-events: none;
-      cursor: default;
+      @include blankSpace;
     }
 
     :global(.hg-button[data-skbtn="{space}"]) {
-      flex: 7.8;
+      @include space;
     }
 
     :global(.hg-layout-numbers) {
       :global(.hg-button) {
-        flex: 1 0 0;
+        @include buttonFlex;
       }
     }
   }

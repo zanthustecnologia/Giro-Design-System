@@ -28,16 +28,11 @@ const meta: Meta<typeof Search> = {
     onClick: { control: false },
     onMouseDown: { control: false },
     virtualKeyboard: {
-      control: 'boolean',
-      description: 'Exibe o teclado virtual ao clicar no campo'
-    },
-    virtualKeyboardType: {
       control: 'select',
       options: [
-        'default', 'numeric',
+        'default', 'numeric', 'none',
       ],
       description: 'Layout do teclado virtual',
-      if: { arg: 'virtualKeyboard', truthy: true },
     },
     scale: {
       control: { type: 'select' },
@@ -130,11 +125,10 @@ export const ComoGatilho: Story = {
   },
 };
 
-export const WithVirtualKeyboard: Story = {
+export const ComTecladoVirtual: Story = {
   args: {
     placeholder: 'Clique aqui para abrir o teclado...',
-    virtualKeyboard: true,
-    virtualKeyboardType: 'default',
+    virtualKeyboard: 'default',
     disabled: false,
   },
   render: (args) => {
