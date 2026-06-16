@@ -362,12 +362,11 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
 
       if (!sourceKey || sourceKey.startsWith('{')) return;
 
+      heldAccentKeyRef.current = sourceKey;
+      clearLongPressTimeout();
+
       const accentOptions = ACCENT_OPTIONS[sourceKey.toLowerCase()];
       if (!accentOptions) return;
-
-      heldAccentKeyRef.current = sourceKey;
-
-      clearLongPressTimeout();
 
       longPressTimeoutRef.current = setTimeout(() => {
         const buttonRect = buttonEl.getBoundingClientRect();
