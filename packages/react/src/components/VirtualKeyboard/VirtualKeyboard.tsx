@@ -85,6 +85,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
 
   const [isOpen, setIsOpen] = useState(variant !== 'native');
   const hideTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const scrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const longPressTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const suppressNextInputRef = useRef<string | null>(null);
   const heldAccentKeyRef = useRef<string | null>(null);
@@ -97,6 +98,9 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
   const accentMenuOpenRef = useRef(false);
   const valueRef = useRef(value);
   const [iconSlots, setIconSlots] = useState<HTMLElement[]>([]);
+
+  type KeyPreviewState = { char: string; top: number; left: number } | null;
+  const [keyPreview, setKeyPreview] = useState<KeyPreviewState>(null);
 
   useEffect(() => {
     valueRef.current = value;
@@ -139,6 +143,19 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
     }, 150);
   }, [variant, targetRef]);
 
+  const scrollTargetIntoView = useCallback(() => {
+    const targetEl = targetRef?.current;
+    if (!targetEl) return;
+
+    const keyboardHeight = keyboardWrapperRef.current?.offsetHeight ?? 0;
+    const rect = targetEl.getBoundingClientRect();
+    const visibleBottom = window.innerHeight - keyboardHeight - 8;
+
+    if (rect.bottom > visibleBottom) {
+      window.scrollBy({ top: rect.bottom - visibleBottom, behavior: 'smooth' });
+    }
+  }, [targetRef]);
+
   useEffect(() => {
     if (variant !== 'native') return;
 
@@ -151,7 +168,9 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
 
     const handleFocus = () => {
       if (hideTimeoutRef.current !== null) clearTimeout(hideTimeoutRef.current);
+      if (scrollTimeoutRef.current !== null) clearTimeout(scrollTimeoutRef.current);
       setIsOpen(true);
+      scrollTimeoutRef.current = setTimeout(scrollTargetIntoView, 50);
     };
 
     const handleBlur = () => {
@@ -165,8 +184,37 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
       el.removeEventListener('focus', handleFocus);
       el.removeEventListener('blur', handleBlur);
       if (hideTimeoutRef.current !== null) clearTimeout(hideTimeoutRef.current);
+      if (scrollTimeoutRef.current !== null) clearTimeout(scrollTimeoutRef.current);
     };
-  }, [variant, targetRef, scheduleHideIfBlurred]);
+  }, [variant, targetRef, scheduleHideIfBlurred, scrollTargetIntoView]);
+
+  /**
+   * iOS Safari blur na tecla: ao tocar um elemento não-focável, o iOS agenda o blur
+   * do input ativo. O `preventMouseDownDefault` do react-simple-keyboard só atua
+   * no `mousedown`, mas no iOS (com PointerEvent) o key press ocorre via `pointerdown`.
+   *
+   * `preventDefault()` no `touchstart` impede o iOS de desfocar o input. Os pointer
+   * events (usados pelo react-simple-keyboard para detectar teclas) não são afetados,
+   * pois touch events e pointer events são independentes no iOS 13+.
+   */
+  useEffect(() => {
+    if (variant !== 'native') return;
+
+    const wrapper = keyboardWrapperRef.current;
+    if (!wrapper) return;
+
+    const preventIOSBlur = (event: TouchEvent) => {
+      if ((event.target as HTMLElement).closest('.hg-button')) {
+        event.preventDefault();
+      }
+    };
+
+    wrapper.addEventListener('touchstart', preventIOSBlur, { passive: false });
+
+    return () => {
+      wrapper.removeEventListener('touchstart', preventIOSBlur);
+    };
+  }, [variant]);
 
   useEffect(() => {
     setLayoutName('default');
@@ -303,20 +351,28 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
       heldAccentKeyRef.current = null;
       longPressTriggeredRef.current = false;
 
+      if (sourceKey && !sourceKey.startsWith('{') && window.innerWidth <= 600) {
+        const buttonRect = buttonEl.getBoundingClientRect();
+        setKeyPreview({
+          char: sourceKey,
+          top: buttonRect.top - 4,
+          left: buttonRect.left + buttonRect.width / 2,
+        });
+      }
+
       if (!sourceKey || sourceKey.startsWith('{')) return;
+
+      heldAccentKeyRef.current = sourceKey;
+      clearLongPressTimeout();
 
       const accentOptions = ACCENT_OPTIONS[sourceKey.toLowerCase()];
       if (!accentOptions) return;
-
-      heldAccentKeyRef.current = sourceKey;
-
-      clearLongPressTimeout();
 
       longPressTimeoutRef.current = setTimeout(() => {
         const buttonRect = buttonEl.getBoundingClientRect();
         const isUpperCaseKey = sourceKey === sourceKey.toUpperCase();
         longPressTriggeredRef.current = true;
-
+        setKeyPreview(null);
         accentButtonRef.current = buttonEl;
         setAccentMenu({
           sourceKey,
@@ -339,6 +395,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
     const longPressTriggered = longPressTriggeredRef.current;
     const baseLayout = type === 'numeric' ? 'abc' : 'default';
 
+    setKeyPreview(null);
     isKeyboardInteractingRef.current = false;
     clearLongPressTimeout();
 
@@ -579,6 +636,17 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
           return createPortal(createElement(Icon), slot, `icon-${key}`);
         });
       })()}
+
+      {keyPreview && typeof document !== 'undefined' && createPortal(
+        <div
+          className={styles.keyPreview}
+          style={{ top: keyPreview.top, left: keyPreview.left }}
+          aria-hidden
+        >
+          {keyPreview.char}
+        </div>,
+        document.body
+      )}
 
       {accentMenu && (
         typeof document !== 'undefined' &&
