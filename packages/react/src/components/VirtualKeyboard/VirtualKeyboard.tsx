@@ -85,6 +85,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
 
   const [isOpen, setIsOpen] = useState(variant !== 'native');
   const hideTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const scrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const longPressTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const suppressNextInputRef = useRef<string | null>(null);
   const heldAccentKeyRef = useRef<string | null>(null);
@@ -139,6 +140,19 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
     }, 150);
   }, [variant, targetRef]);
 
+  const scrollTargetIntoView = useCallback(() => {
+    const targetEl = targetRef?.current;
+    if (!targetEl) return;
+
+    const keyboardHeight = keyboardWrapperRef.current?.offsetHeight ?? 0;
+    const rect = targetEl.getBoundingClientRect();
+    const visibleBottom = window.innerHeight - keyboardHeight - 8;
+
+    if (rect.bottom > visibleBottom) {
+      window.scrollBy({ top: rect.bottom - visibleBottom, behavior: 'smooth' });
+    }
+  }, [targetRef]);
+
   useEffect(() => {
     if (variant !== 'native') return;
 
@@ -151,7 +165,9 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
 
     const handleFocus = () => {
       if (hideTimeoutRef.current !== null) clearTimeout(hideTimeoutRef.current);
+      if (scrollTimeoutRef.current !== null) clearTimeout(scrollTimeoutRef.current);
       setIsOpen(true);
+      scrollTimeoutRef.current = setTimeout(scrollTargetIntoView, 50);
     };
 
     const handleBlur = () => {
@@ -165,8 +181,9 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
       el.removeEventListener('focus', handleFocus);
       el.removeEventListener('blur', handleBlur);
       if (hideTimeoutRef.current !== null) clearTimeout(hideTimeoutRef.current);
+      if (scrollTimeoutRef.current !== null) clearTimeout(scrollTimeoutRef.current);
     };
-  }, [variant, targetRef, scheduleHideIfBlurred]);
+  }, [variant, targetRef, scheduleHideIfBlurred, scrollTargetIntoView]);
 
   useEffect(() => {
     setLayoutName('default');
