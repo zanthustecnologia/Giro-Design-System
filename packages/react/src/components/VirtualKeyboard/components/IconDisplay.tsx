@@ -31,7 +31,7 @@ const SHARED_DISPLAY: Record<string, string> = {
   '{shift}':          iconSlot('shift'),
   '{shiftactivated}': iconSlot('shiftactivated'),
   '{enter}':          'Enter',
-  '{bksp}':           `${iconSlot('bksp')} Apagar`,
+  '{bksp}':           iconSlot('bksp'),
   '{altright}':       '.?123',
   '{downkeyboard}':   iconSlot('downkeyboard'),
   '{space}':          ' ',
