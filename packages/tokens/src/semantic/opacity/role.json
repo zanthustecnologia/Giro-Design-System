@@ -1,0 +1,24 @@
+{
+  "opacity": {
+    "hover": {
+      "value": "{opacity.8}",
+      "type": "number"
+    },
+    "pressed": {
+      "value": "{opacity.12}",
+      "type": "number"
+    },
+    "overlay": {
+      "value": "{opacity.24}",
+      "type": "number"
+    },
+    "disabled": {
+      "value": "{opacity.32}",
+      "type": "number"
+    },
+    "scrim": {
+      "value": "{opacity.48}",
+      "type": "number"
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "color": {
+    "text": {
+      "primary": {
+        "value": "{color.neutral.900}",
+        "type": "color"
+      },
+      "secondary": {
+        "value": "{color.neutral.800}",
+        "type": "color"
+      },
+      "placeholder": {
+        "value": "{color.neutral.700}",
+        "type": "color"
+      },
+      "disabled": {
+        "value": "{color.neutral.600}",
+        "type": "color"
+      },
+      "inverse": {
+        "value": "{color.neutral.0}",
+        "type": "color"
+      },
+      "brand": {
+        "value": "{color.brand.primary.500}",
+        "type": "color"
+      },
+      "onBrand": {
+        "value": "{color.neutral.0}",
+        "type": "color"
+      },
+      "onSecondary": {
+        "value": "{color.neutral.900}",
+        "type": "color"
+      },
+      "success": {
+        "value": "{color.feedback.success.700}",
+        "type": "color"
+      },
+      "onSuccess": {
+        "value": "{color.neutral.0}",
+        "type": "color"
+      },
+      "alert": {
+        "value": "{color.feedback.alert.700}",
+        "type": "color"
+      },
+      "onAlert": {
+        "value": "{color.neutral.0}",
+        "type": "color"
+      }
+    }
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "shadow": {
+    "none": {
+      "value": {
+        "color": "#00000000",
+        "offsetX": "0px",
+        "offsetY": "0px",
+        "blur": "0px",
+        "spread": "0px"
+      },
+      "type": "shadow"
+    },
+    "sm": {
+      "value": {
+        "color": "#00000014",
+        "offsetX": "0px",
+        "offsetY": "1px",
+        "blur": "2px",
+        "spread": "0px"
+      },
+      "type": "shadow"
+    },
+    "md": {
+      "value": {
+        "color": "#0000001f",
+        "offsetX": "0px",
+        "offsetY": "4px",
+        "blur": "12px",
+        "spread": "0px"
+      },
+      "type": "shadow"
+    },
+    "lg": {
+      "value": {
+        "color": "#00000024",
+        "offsetX": "0px",
+        "offsetY": "8px",
+        "blur": "24px",
+        "spread": "0px"
+      },
+      "type": "shadow"
+    }
+  }
+}

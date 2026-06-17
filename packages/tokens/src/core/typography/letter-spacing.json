@@ -1,0 +1,18 @@
+{
+  "font": {
+    "letterSpacing": {
+      "tight": {
+        "value": "-0.02em",
+        "type": "letterSpacing"
+      },
+      "normal": {
+        "value": "0em",
+        "type": "letterSpacing"
+      },
+      "wide": {
+        "value": "0.02em",
+        "type": "letterSpacing"
+      }
+    }
+  }
+}

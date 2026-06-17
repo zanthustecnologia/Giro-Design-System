@@ -1,0 +1,34 @@
+{
+  "border": {
+    "width": {
+      "none": {
+        "value": "0px",
+        "type": "borderWidth"
+      },
+      "1": {
+        "value": "1px",
+        "type": "borderWidth"
+      },
+      "2": {
+        "value": "2px",
+        "type": "borderWidth"
+      },
+      "4": {
+        "value": "4px",
+        "type": "borderWidth"
+      },
+      "6": {
+        "value": "6px",
+        "type": "borderWidth"
+      },
+      "8": {
+        "value": "8px",
+        "type": "borderWidth"
+      },
+      "12": {
+        "value": "12px",
+        "type": "borderWidth"
+      }
+    }
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "font": {
+    "lineHeight": {
+      "2": {
+        "value": "2px",
+        "type": "lineHeight"
+      },
+      "4": {
+        "value": "4px",
+        "type": "lineHeight"
+      },
+      "6": {
+        "value": "6px",
+        "type": "lineHeight"
+      },
+      "8": {
+        "value": "8px",
+        "type": "lineHeight"
+      },
+      "12": {
+        "value": "12px",
+        "type": "lineHeight"
+      },
+      "16": {
+        "value": "16px",
+        "type": "lineHeight"
+      },
+      "20": {
+        "value": "20px",
+        "type": "lineHeight"
+      },
+      "24": {
+        "value": "24px",
+        "type": "lineHeight"
+      },
+      "28": {
+        "value": "28px",
+        "type": "lineHeight"
+      },
+      "32": {
+        "value": "32px",
+        "type": "lineHeight"
+      },
+      "40": {
+        "value": "40px",
+        "type": "lineHeight"
+      },
+      "48": {
+        "value": "48px",
+        "type": "lineHeight"
+      },
+      "56": {
+        "value": "56px",
+        "type": "lineHeight"
+      },
+      "64": {
+        "value": "64px",
+        "type": "lineHeight"
+      },
+      "72": {
+        "value": "72px",
+        "type": "lineHeight"
+      },
+      "96": {
+        "value": "96px",
+        "type": "lineHeight"
+      }
+    }
+  }
+}
