@@ -14,16 +14,16 @@ import type { VirtualKeyboardProps } from './VirtualKeyboard.type';
 const LONG_PRESS_DELAY_MS = 400;
 
 const ACCENT_OPTIONS: Record<string, string[]> = {
-  a: ['á', 'à', 'â', 'ã', 'ä', 'å', 'æ'],
-  e: ['é', 'è', 'ê', 'ë'],
-  i: ['í', 'ì', 'î', 'ï'],
-  o: ['ó', 'ò', 'ô', 'õ', 'ö', 'ø', 'œ', 'ð'],
-  u: ['ú', 'ù', 'û', 'ü'],
-  y: ['ý', 'ÿ'],
-  n: ['ñ'],
-  c: ['ç'],
-  '?': ['¿'],
-  '!': ['¡'],
+  a: ['a', 'á', 'à', 'â', 'ã', 'ä', 'å', 'æ', '@', 'ª'],
+  e: ['e', 'é', 'è', 'ê', 'ë', 'ę', 'ē', 'ė', '€'],
+  i: ['i', 'í', 'ì', 'î', 'ï', 'ī', 'į', 'ı'],
+  o: ['o', 'ó', 'ò', 'ô', 'õ', 'ö', 'ø', 'œ', 'ð', 'º', 'ō'],
+  u: ['u', 'ú', 'ù', 'û', 'ü', 'ū', 'ů', 'ű'],
+  y: ['y', 'ý', 'ÿ', 'ŷ', 'ȳ'],
+  n: ['n', 'ñ'],
+  c: ['c', 'ç'],
+  '?': ['?','¿'],
+  '!': ['!','¡'],
 };
 
 type AccentMenuState = {
@@ -338,13 +338,6 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
       const buttonEl = (event.target as HTMLElement).closest('.hg-button') as HTMLButtonElement | null;
       if (!buttonEl || !keyboardWrapper.contains(buttonEl)) return;
 
-      /**
-       * iOS WebKit (13+) toma a decisão de blur durante o `pointerdown`, antes de
-       * gerar o `touchstart`. Chamar `preventDefault()` aqui (fase de captura, antes
-       * de qualquer handler de bubble) sinaliza ao WebKit para não alterar o foco.
-       * O `preventDefault()` não interrompe a propagação: o `onpointerdown` do
-       * react-simple-keyboard (bubble) ainda dispara e registra o key press normalmente.
-       */
       event.preventDefault();
 
       const sourceKey = buttonEl.getAttribute('data-skbtn') ?? '';

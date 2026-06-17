@@ -24,7 +24,7 @@ export const ICON_KEY_MAP: Record<string, ElementType> = {
 const SHARED_DISPLAY: Record<string, string> = {
   '{capslock}':       iconSlot('capslock'),
   '{numbers}':        '123',
-  '{abc}':            'ABC',
+  '{abc}':            'Abc',
   '{alt}':            '.?!',
   '{alt2}':           '#+=',
   '{emoticon}':       iconSlot('emoji'),
@@ -35,7 +35,7 @@ const SHARED_DISPLAY: Record<string, string> = {
   '{altright}':       '.?123',
   '{downkeyboard}':   iconSlot('downkeyboard'),
   '{space}':          ' ',
-  '{default}':        'ABC',
+  '{default}':        'Abc',
 };
 
 export const LAYOUT_DISPLAY: Partial<Record<VirtualKeyboardType, Record<string, string>>> = {
