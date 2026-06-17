@@ -442,6 +442,7 @@
 
 // ─── Media queries — keyPreview e accentOption (portais para document.body) ───
 // Portados fora de qualquer container, precisam de @media.
+// accentOption e keyPreview mantém um tamanho mínimo de 44px — mínimo de alvo de toque (WCAG 2.5.5)
 
 @media (max-width: 768px) {
   .keyPreview {
@@ -470,14 +471,12 @@
 }
 
 @media (max-width: 390px) {
-  // keyPreview mantém tamanho perceptível acima da tecla (38px)
   .keyPreview {
     width: 44px;
     height: 44px;
     font-size: var(--font-size-18);
   }
 
-  // accentOption mantém 44px — mínimo de alvo de toque (WCAG 2.5.5)
   .accentOption {
     min-width: 44px;
     height: 44px;
@@ -487,14 +486,12 @@
 }
 
 @media (max-width: 360px) {
-  // keyPreview permanece maior que a tecla (34px) para cumprir o papel de "zoom"
   .keyPreview {
-    width: 42px;
-    height: 42px;
+    width: 44px;
+    height: 44px;
     font-size: var(--font-size-16);
   }
 
-  // accentOption não desce abaixo de 44px para preservar o alvo de toque
   .accentOption {
     min-width: 44px;
     height: 44px;
