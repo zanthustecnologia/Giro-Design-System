@@ -355,7 +355,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
       heldAccentKeyRef.current = null;
       longPressTriggeredRef.current = false;
 
-      if (sourceKey && !sourceKey.startsWith('{')) {
+      if (sourceKey && !sourceKey.startsWith('{') && type !== 'numeric' && containerWidth <= 768) {
         const buttonRect = buttonEl.getBoundingClientRect();
         setKeyPreview({
           char: sourceKey,
@@ -391,7 +391,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
         suppressNextInputRef.current = sourceKey;
       }, LONG_PRESS_DELAY_MS);
     },
-    [clearLongPressTimeout]
+    [clearLongPressTimeout, type, containerWidth]
   );
 
   const handleLongPressEnd = useCallback(() => {
