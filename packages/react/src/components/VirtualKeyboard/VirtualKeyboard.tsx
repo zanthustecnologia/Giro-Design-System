@@ -101,6 +101,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
 
   type KeyPreviewState = { char: string; top: number; left: number } | null;
   const [keyPreview, setKeyPreview] = useState<KeyPreviewState>(null);
+  const [containerWidth, setContainerWidth] = useState<number>(Infinity);
 
   useEffect(() => {
     valueRef.current = value;
@@ -265,6 +266,16 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
       setAccentMenuOffsetX(nextOffset);
     }
   }, [accentMenu, accentMenuOffsetX]);
+
+  useEffect(() => {
+    const wrapper = keyboardWrapperRef.current;
+    if (!wrapper) return;
+    const ro = new ResizeObserver((entries) => {
+      setContainerWidth(entries[0]?.contentRect.width ?? Infinity);
+    });
+    ro.observe(wrapper);
+    return () => ro.disconnect();
+  }, []);
 
   useEffect(() => {
     if (!keyboardWrapperRef.current) return;
@@ -576,6 +587,14 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
     [maxLength, onChange, syncKeyboardInput]
   );
 
+  const portalSizes = useMemo(() => {
+    if (containerWidth <= 360) return { preview: 42, option: 44, fontSize: 'var(--font-size-16)' as const };
+    if (containerWidth <= 390) return { preview: 44, option: 44, fontSize: 'var(--font-size-18)' as const };
+    if (containerWidth <= 480) return { preview: 46, option: 46, fontSize: 'var(--font-size-20)' as const };
+    if (containerWidth <= 768) return { preview: 48, option: 48, fontSize: undefined };
+    return { preview: 50, option: 50, fontSize: undefined };
+  }, [containerWidth]);
+
   const keyboardDisplay = useMemo(() => {
     const baseDisplay = LAYOUT_DISPLAY[visualType];
     if (!baseDisplay) return baseDisplay;
@@ -633,7 +652,13 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
       {keyPreview && typeof document !== 'undefined' && createPortal(
         <div
           className={styles.keyPreview}
-          style={{ top: keyPreview.top, left: keyPreview.left }}
+          style={{
+            top: keyPreview.top,
+            left: keyPreview.left,
+            width: portalSizes.preview,
+            height: portalSizes.preview,
+            ...(portalSizes.fontSize ? { fontSize: portalSizes.fontSize } : {}),
+          }}
           aria-hidden
         >
           {keyPreview.char}
@@ -659,6 +684,11 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
                 key={`${accentMenu.sourceKey}-${option}`}
                 type="button"
                 className={styles.accentOption}
+                style={{
+                  minWidth: portalSizes.option,
+                  height: portalSizes.option,
+                  ...(portalSizes.fontSize ? { fontSize: portalSizes.fontSize } : {}),
+                }}
                 onPointerDown={(event) => {
                   event.preventDefault();
                   event.stopPropagation();
