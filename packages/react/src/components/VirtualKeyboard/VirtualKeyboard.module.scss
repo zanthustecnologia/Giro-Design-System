@@ -307,19 +307,13 @@
   }
 }
 
-@media (max-width: 600px) {
+// ─── Tablets e phones grandes em landscape (≤ 768px) ────────────────────────
+@media (max-width: 768px) {
   .container {
-    .textFieldContainer {
-      padding: var(--spacing-4);
-      background-color: var(--color-neutral-high-default);
-    }
-    .keyboardWrapper {
-      padding: var(--spacing-4);
-    }
-
     :global(.hg-theme-default) {
       :global(.hg-button) {
-        padding: var(--spacing-4);
+        height: 42px;
+        margin: var(--spacing-3);
       }
     }
   }
@@ -327,8 +321,158 @@
   .overlay {
     :global(.hg-theme-default) {
       :global(.hg-button) {
-        padding: var(--spacing-4);
+        height: 42px;
+        margin: var(--spacing-3);
       }
     }
+  }
+
+  .keyPreview {
+    width: 46px;
+    height: 46px;
+  }
+
+  .accentOption {
+    min-width: 46px;
+    height: 46px;
+  }
+}
+
+// ─── Phones grandes (≤ 480px) — Galaxy S Ultra, iPhone Plus/Pro Max ─────────
+@media (max-width: 480px) {
+  .container {
+    .textFieldContainer {
+      padding: var(--spacing-4);
+    }
+
+    .keyboardWrapper {
+      padding: var(--spacing-2) var(--spacing-4) var(--spacing-4);
+    }
+
+    :global(.hg-theme-default) {
+      :global(.hg-button) {
+        height: 40px;
+        font-size: var(--font-size-18);
+        margin: var(--spacing-3);
+      }
+    }
+  }
+
+  .overlay {
+    padding: var(--spacing-3) var(--spacing-2);
+
+    :global(.hg-theme-default) {
+      :global(.hg-button) {
+        height: 40px;
+        font-size: var(--font-size-18);
+        margin: var(--spacing-3);
+      }
+    }
+  }
+
+  .keyPreview {
+    width: 44px;
+    height: 44px;
+    font-size: var(--font-size-20);
+  }
+
+  .accentOption {
+    min-width: 44px;
+    height: 44px;
+    font-size: var(--font-size-20);
+  }
+}
+
+// ─── Phones médios (≤ 390px) — iPhone 14/15, Galaxy S22/S23 ─────────────────
+@media (max-width: 390px) {
+  .container {
+    .textFieldContainer {
+      padding: var(--spacing-4) var(--spacing-4) var(--spacing-2);
+    }
+
+    .keyboardWrapper {
+      padding: var(--spacing-2) var(--spacing-2) var(--spacing-4);
+    }
+
+    :global(.hg-theme-default) {
+      :global(.hg-button) {
+        height: 38px;
+        font-size: var(--font-size-16);
+        margin: var(--spacing-2);
+      }
+    }
+  }
+
+  .overlay {
+    padding: var(--spacing-2);
+
+    :global(.hg-theme-default) {
+      :global(.hg-button) {
+        height: 38px;
+        font-size: var(--font-size-16);
+        margin: var(--spacing-2);
+      }
+    }
+  }
+
+  .keyPreview {
+    width: 40px;
+    height: 40px;
+    font-size: var(--font-size-18);
+  }
+
+  .accentOption {
+    min-width: 40px;
+    height: 40px;
+    padding: 0 var(--spacing-4);
+    font-size: var(--font-size-18);
+  }
+}
+
+// ─── Phones pequenos (≤ 360px) — iPhone SE, Moto G, Galaxy A ─────────────────
+@media (max-width: 360px) {
+  .container {
+    .textFieldContainer {
+      padding: var(--spacing-2) var(--spacing-2) var(--spacing-2);
+    }
+
+    .keyboardWrapper {
+      padding: var(--spacing-2);
+    }
+
+    :global(.hg-theme-default) {
+      :global(.hg-button) {
+        height: 34px;
+        font-size: var(--font-size-14);
+        margin: var(--spacing-2);
+        border-radius: var(--border-radius-6);
+      }
+    }
+  }
+
+  .overlay {
+    padding: var(--spacing-2) var(--spacing-2) var(--spacing-4);
+
+    :global(.hg-theme-default) {
+      :global(.hg-button) {
+        height: 34px;
+        font-size: var(--font-size-14);
+        margin: var(--spacing-2);
+        border-radius: var(--border-radius-6);
+      }
+    }
+  }
+
+  .keyPreview {
+    width: 36px;
+    height: 36px;
+    font-size: var(--font-size-16);
+  }
+
+  .accentOption {
+    min-width: 36px;
+    height: 36px;
+    padding: 0 var(--spacing-4);
+    font-size: var(--font-size-16);
   }
 }
