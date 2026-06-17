@@ -17,7 +17,7 @@ const ACCENT_OPTIONS: Record<string, string[]> = {
   a: ['a', 'á', 'à', 'â', 'ã', 'ä', 'å', 'æ', '@', 'ª'],
   e: ['e', 'é', 'è', 'ê', 'ë', 'ę', 'ē', 'ė', '€'],
   i: ['i', 'í', 'ì', 'î', 'ï', 'ī', 'į', 'ı'],
-  o: ['o', 'ó', 'ò', 'ô', 'õ', 'ö', 'ø', 'œ', 'ð', 'º', 'ō'],
+  o: ['o', 'ó', 'ò', 'ô', 'õ', 'ö','ō', 'ø', 'œ', 'º'],
   u: ['u', 'ú', 'ù', 'û', 'ü', 'ū', 'ů', 'ű'],
   y: ['y', 'ý', 'ÿ', 'ŷ', 'ȳ'],
   n: ['n', 'ñ'],
@@ -679,24 +679,31 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
             role="listbox"
             aria-label={`Opcoes de acento para ${accentMenu.sourceKey}`}
           >
-            {accentMenu.options.map((option) => (
-              <button
-                key={`${accentMenu.sourceKey}-${option}`}
-                type="button"
-                className={styles.accentOption}
-                style={{
-                  minWidth: portalSizes.option,
-                  height: portalSizes.option,
-                  ...(portalSizes.fontSize ? { fontSize: portalSizes.fontSize } : {}),
-                }}
-                onPointerDown={(event) => {
-                  event.preventDefault();
-                  event.stopPropagation();
-                }}
-                onClick={() => handleAccentSelect(option)}
-              >
-                {option}
-              </button>
+            {Array.from(
+              { length: Math.ceil(accentMenu.options.length / 5) },
+              (_, rowIndex) => accentMenu.options.slice(rowIndex * 5, rowIndex * 5 + 5)
+            ).map((rowOptions, rowIndex) => (
+              <div key={rowIndex} className={styles.accentMenuRow}>
+                {rowOptions.map((option) => (
+                  <button
+                    key={`${accentMenu.sourceKey}-${option}`}
+                    type="button"
+                    className={styles.accentOption}
+                    style={{
+                      minWidth: portalSizes.option,
+                      height: portalSizes.option,
+                      ...(portalSizes.fontSize ? { fontSize: portalSizes.fontSize } : {}),
+                    }}
+                    onPointerDown={(event) => {
+                      event.preventDefault();
+                      event.stopPropagation();
+                    }}
+                    onClick={() => handleAccentSelect(option)}
+                  >
+                    {option}
+                  </button>
+                ))}
+              </div>
             ))}
           </div>,
           document.body
