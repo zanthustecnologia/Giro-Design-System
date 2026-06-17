@@ -197,7 +197,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
             )}
           </div>
 
-          {(errorMessage || inputError || helperText) && (  
+          {((error && errorMessage) || inputError || helperText) && (  
             <span
               id={helperId}
               className={styles.helperText}
