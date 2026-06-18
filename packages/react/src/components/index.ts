@@ -31,6 +31,9 @@ export { type DialogProps } from './Dialog/Dialog.types';
 export { default as Drawer } from './Drawer';
 export { type DrawerProps } from './Drawer/Drawer.types';
 
+export { default as FileUpload } from './FileUpload';
+export { type FileUploadProps } from './FileUpload/FileUpload.type';
+
 export { default as Filter } from './Filter';
 export { type FilterProps } from './Filter/Filter.types';
 
