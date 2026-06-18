@@ -6,8 +6,6 @@
   width: 100%;
 }
 
-// ─── Drop Zone ───────────────────────────────────────────────────────────────
-
 .dropZone {
   display: flex;
   flex-direction: column;
@@ -53,8 +51,6 @@
   opacity: 0.5;
 }
 
-// ─── Estado vazio ─────────────────────────────────────────────────────────────
-
 .emptyState {
   display: flex;
   flex-direction: column;
@@ -83,8 +79,6 @@
   text-align: center;
 }
 
-// ─── Estado alert (ícone de aviso) ──────────────────────────────────────────
-
 .alertIcon {
   color: var(--color-feedback-alert-default);
   display: flex;
@@ -104,8 +98,6 @@
   font-weight: var(--font-weight-medium);
 }
 
-// ─── Lista de arquivos (preenchido) ──────────────────────────────────────────
-
 .fileList {
   display: flex;
   flex-wrap: wrap;
@@ -113,8 +105,6 @@
   width: 100%;
   justify-content: flex-start;
 }
-
-// ─── Thumbnail ───────────────────────────────────────────────────────────────
 
 .thumb {
   position: relative;
@@ -204,8 +194,6 @@
     outline: var(--border-width-2) solid var(--color-brand-primary-default);
   }
 }
-
-// ─── Helper text ─────────────────────────────────────────────────────────────
 
 .helperText {
   font-size: var(--font-size-12);

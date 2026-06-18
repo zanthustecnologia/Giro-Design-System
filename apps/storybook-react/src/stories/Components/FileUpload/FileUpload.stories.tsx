@@ -152,30 +152,6 @@ export const ArquivoUnico: Story = {
 };
 ArquivoUnico.storyName = 'Arquivo único';
 
-// ─── Controlado ──────────────────────────────────────────────────────────────
-
-export const Controlado: Story = {
-  args: {
-    multiple: true,
-    helperText: 'Arquivos selecionados exibidos abaixo.',
-  },
-  render: (args) => {
-    const [files, setFiles] = useState<File[]>([]);
-    return (
-      <div style={{ width: '400px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
-        <FileUpload {...args} value={files} onChange={setFiles} />
-        {files.length > 0 && (
-          <ul style={{ margin: 0, paddingLeft: '16px', fontSize: '13px' }}>
-            {files.map((f, i) => (
-              <li key={i}>{f.name} ({(f.size / 1024).toFixed(1)} KB)</li>
-            ))}
-          </ul>
-        )}
-      </div>
-    );
-  },
-};
-
 // ─── Com limite de tamanho ────────────────────────────────────────────────────
 
 export const ComLimiteDeTamanho: Story = {

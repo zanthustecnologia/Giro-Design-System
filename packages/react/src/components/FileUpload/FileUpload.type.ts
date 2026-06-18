@@ -1,6 +1,12 @@
 import React from 'react';
 
-export interface FileUploadProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'value'> {
+export interface FileUploadProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'value' | 'accept' | 'multiple'> {
+
+  /** Tipos de arquivo aceitos pelo seletor nativo (ex: "image/*", ".pdf,.docx") */
+  accept?: string;
+
+  /** Permite selecionar múltiplos arquivos */
+  multiple?: boolean;
   /** Lista controlada de arquivos */
   value?: File[];
 

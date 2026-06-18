@@ -52,7 +52,6 @@ const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
     const isControlled = value !== undefined;
     const files = isControlled ? value : internalFiles;
 
-    // Revoga URLs ao desmontar para evitar memory leak
     useEffect(() => {
       return () => {
         objectUrls.forEach((url) => URL.revokeObjectURL(url));
@@ -108,7 +107,6 @@ const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
       (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
           processFiles(e.target.files);
-          // Reseta o input para permitir selecionar o mesmo arquivo novamente
           e.target.value = '';
         }
       },
@@ -172,7 +170,6 @@ const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
     const isError = error || !!errorMessage;
     const displayedHelper = isError ? errorMessage || helperText : helperText;
 
-    // Ref unificada: externa + interna
     const setRefs = useCallback(
       (node: HTMLInputElement | null) => {
         (inputRef as React.MutableRefObject<HTMLInputElement | null>).current = node;
@@ -187,7 +184,6 @@ const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
         id={componentId}
         className={clsx(styles.container, className)}
       >
-        {/* Input oculto */}
         <input
           ref={setRefs}
           id={inputId}
@@ -202,7 +198,6 @@ const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
           {...rest}
         />
 
-        {/* Zona de Drop */}
         <div
           role="button"
           tabIndex={disabled ? -1 : 0}
@@ -265,7 +260,6 @@ const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
                       </div>
                     )}
 
-                    {/* Overlay com botão de remoção */}
                     <div className={styles.thumbOverlay}>
                       <button
                         type="button"
@@ -290,7 +284,6 @@ const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
           )}
         </div>
 
-        {/* Helper / Error text */}
         {displayedHelper && (
           <span
             id={helperId}
