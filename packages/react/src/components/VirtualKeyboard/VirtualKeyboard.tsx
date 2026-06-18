@@ -95,7 +95,6 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
   const keyboardInstanceRef = useRef<{ setInput: (value: string) => void } | null>(null);
   const accentMenuRef = useRef<HTMLDivElement | null>(null);
   const accentButtonRef = useRef<HTMLButtonElement | null>(null);
-  const accentMenuOpenRef = useRef(false);
   const valueRef = useRef(value);
   const [iconSlots, setIconSlots] = useState<HTMLElement[]>([]);
 
@@ -332,12 +331,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
   }, [layoutName, type, closeAccentMenu, clearLongPressTimeout]);
 
   useEffect(() => {
-    accentMenuOpenRef.current = !!accentMenu;
-  }, [accentMenu]);
-
-  useEffect(() => {
     const updateAccentPosition = () => {
-      if (!accentMenuOpenRef.current) return;
       const btn = accentButtonRef.current;
       if (!btn) return;
       const rect = btn.getBoundingClientRect();
