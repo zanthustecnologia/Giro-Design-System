@@ -1,0 +1,224 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  align-self: stretch;
+  width: 100%;
+}
+
+// ─── Drop Zone ───────────────────────────────────────────────────────────────
+
+.dropZone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  min-height: 120px;
+  padding: var(--spacing-24) var(--spacing-16);
+  border-radius: var(--border-radius-8);
+  border: var(--border-width-1) dashed var(--color-neutral-high-dark);
+  background-color: var(--color-neutral-high-default);
+  cursor: pointer;
+  box-sizing: border-box;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+  outline: none;
+  gap: var(--spacing-8);
+
+  &:hover:not(.disabled):not(.alert) {
+    border-color: var(--color-neutral-low-dark);
+  }
+
+  &:focus-visible:not(.disabled) {
+    border-style: solid;
+    outline: var(--border-width-2) solid var(--color-brand-primary-default);
+    outline-offset: 2px;
+  }
+}
+
+.dragging {
+  border-color: var(--color-brand-primary-default);
+  background-color: color-mix(in srgb, var(--color-brand-primary-default) 8%, transparent);
+}
+
+.alert {
+  border-color: var(--color-feedback-alert-default);
+  border-style: solid;
+}
+
+.disabled {
+  cursor: not-allowed;
+  border-color: var(--color-neutral-high-dark);
+  background-color: var(--color-neutral-high-default);
+  opacity: 0.5;
+}
+
+// ─── Estado vazio ─────────────────────────────────────────────────────────────
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-8);
+  pointer-events: none;
+}
+
+.uploadIcon {
+  color: var(--color-neutral-low-medium);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.uploadText {
+  font-size: var(--font-size-14);
+  color: var(--color-neutral-low-medium);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-regular);
+  text-align: center;
+}
+
+// ─── Estado alert (ícone de aviso) ──────────────────────────────────────────
+
+.alertIcon {
+  color: var(--color-feedback-alert-default);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.alertText {
+  font-size: var(--font-size-14);
+  color: var(--color-feedback-alert-default);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-medium);
+}
+
+// ─── Lista de arquivos (preenchido) ──────────────────────────────────────────
+
+.fileList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-8);
+  width: 100%;
+  justify-content: flex-start;
+}
+
+// ─── Thumbnail ───────────────────────────────────────────────────────────────
+
+.thumb {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  border-radius: var(--border-radius-8);
+  overflow: hidden;
+  flex-shrink: 0;
+  background-color: var(--color-neutral-high-dark);
+
+  &:hover .thumbOverlay {
+    opacity: 1;
+  }
+}
+
+.thumbImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: var(--border-radius-8);
+}
+
+.thumbFile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  gap: var(--spacing-8);
+  padding: var(--spacing-8);
+  box-sizing: border-box;
+
+  svg {
+    width: 24px;
+    height: 24px;
+    color: var(--color-neutral-low-medium);
+    flex-shrink: 0;
+  }
+}
+
+.thumbFileName {
+  font-size: var(--font-size-10);
+  color: var(--color-neutral-low-default);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-regular);
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+  display: block;
+}
+
+.thumbOverlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  border-radius: var(--border-radius-8);
+}
+
+.removeButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: none;
+  background-color: var(--color-neutral-high-default);
+  color: var(--color-neutral-low-default);
+  cursor: pointer;
+  padding: 0;
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  &:focus-visible {
+    outline: var(--border-width-2) solid var(--color-brand-primary-default);
+  }
+}
+
+// ─── Helper text ─────────────────────────────────────────────────────────────
+
+.helperText {
+  font-size: var(--font-size-12);
+  color: var(--color-neutral-low-medium);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-regular);
+  padding-top: var(--spacing-8);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  text-align: left;
+  display: block;
+
+  &.errorText {
+    color: var(--color-feedback-alert-default);
+  }
+}
