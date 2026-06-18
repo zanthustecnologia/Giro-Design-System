@@ -22,6 +22,8 @@
 .container {
   font-family: var(--font-family-primary);
   width: 100%;
+  container-type: inline-size;
+  container-name: vkeyboard;
 
   :global(.hg-theme-default) {
     font-family: var(--font-family-primary);
@@ -275,7 +277,8 @@
   position: fixed;
   transform: translate(-50%, calc(-100%));
   display: inline-flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: stretch;
   gap: var(--spacing-4);
   padding: var(--spacing-4);
   border-radius: var(--border-radius-8);
@@ -283,6 +286,12 @@
   border-top: none;
   background: var(--color-neutral-high-medium);
   box-shadow: none;
+}
+
+.accentMenuRow {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
 }
 
 .accentOption {
@@ -307,28 +316,186 @@
   }
 }
 
-@media (max-width: 600px) {
-  .container {
-    .textFieldContainer {
-      padding: var(--spacing-4);
-      background-color: var(--color-neutral-high-default);
-    }
-    .keyboardWrapper {
-      padding: var(--spacing-4);
-    }
+// ─── Container queries — modo fixed (respondem à largura do .container) ──────
+// Funcionam tanto no Storybook quanto em dispositivos reais.
 
-    :global(.hg-theme-default) {
-      :global(.hg-button) {
-        padding: var(--spacing-4);
-      }
+@container vkeyboard (max-width: 768px) {
+  :global(.hg-theme-default) {
+    :global(.hg-button) {
+      height: 42px;
+      margin: 3px;
     }
   }
+}
 
+@container vkeyboard (max-width: 480px) {
+  .textFieldContainer {
+    padding: var(--spacing-4);
+  }
+
+  .keyboardWrapper {
+    padding: 2px var(--spacing-4) var(--spacing-4);
+  }
+
+  :global(.hg-theme-default) {
+    :global(.hg-button) {
+      height: 40px;
+      font-size: var(--font-size-18);
+      margin: 3px;
+    }
+  }
+}
+
+@container vkeyboard (max-width: 390px) {
+  .textFieldContainer {
+    padding: var(--spacing-4) var(--spacing-4) 2px;
+  }
+
+  .keyboardWrapper {
+    padding: 2px 2px var(--spacing-4);
+  }
+
+  :global(.hg-theme-default) {
+    :global(.hg-button) {
+      height: 38px;
+      font-size: var(--font-size-16);
+      margin: 2px;
+    }
+  }
+}
+
+@container vkeyboard (max-width: 360px) {
+  .textFieldContainer {
+    padding: 2px;
+  }
+
+  .keyboardWrapper {
+    padding: 2px;
+  }
+
+  :global(.hg-theme-default) {
+    :global(.hg-button) {
+      height: 34px;
+      font-size: var(--font-size-14);
+      margin: 2px;
+      border-radius: var(--border-radius-4);
+    }
+  }
+}
+
+// ─── Media queries — modo native overlay (respondem ao viewport) ──────────────
+// O overlay é position:fixed e portado para document.body, por isso usa @media.
+
+@media (max-width: 768px) {
   .overlay {
     :global(.hg-theme-default) {
       :global(.hg-button) {
-        padding: var(--spacing-4);
+        height: 42px;
+        margin: 3px;
       }
     }
+  }
+}
+
+@media (max-width: 480px) {
+  .overlay {
+    padding: 3px 2px;
+
+    :global(.hg-theme-default) {
+      :global(.hg-button) {
+        height: 40px;
+        font-size: var(--font-size-18);
+        margin: 3px;
+      }
+    }
+  }
+}
+
+@media (max-width: 390px) {
+  .overlay {
+    padding: 2px;
+
+    :global(.hg-theme-default) {
+      :global(.hg-button) {
+        height: 38px;
+        font-size: var(--font-size-16);
+        margin: 2px;
+      }
+    }
+  }
+}
+
+@media (max-width: 360px) {
+  .overlay {
+    padding: 2px 2px var(--spacing-4);
+
+    :global(.hg-theme-default) {
+      :global(.hg-button) {
+        height: 34px;
+        font-size: var(--font-size-14);
+        margin: 2px;
+        border-radius: var(--border-radius-4);
+      }
+    }
+  }
+}
+
+// ─── Media queries — keyPreview e accentOption (portais para document.body) ───
+// Portados fora de qualquer container, precisam de @media.
+// accentOption e keyPreview mantém um tamanho mínimo de 44px — mínimo de alvo de toque (WCAG 2.5.5)
+
+@media (max-width: 768px) {
+  .keyPreview {
+    width: 48px;
+    height: 48px;
+  }
+
+  .accentOption {
+    min-width: 48px;
+    height: 48px;
+  }
+}
+
+@media (max-width: 480px) {
+  .keyPreview {
+    width: 46px;
+    height: 46px;
+    font-size: var(--font-size-20);
+  }
+
+  .accentOption {
+    min-width: 46px;
+    height: 46px;
+    font-size: var(--font-size-20);
+  }
+}
+
+@media (max-width: 390px) {
+  .keyPreview {
+    width: 44px;
+    height: 44px;
+    font-size: var(--font-size-18);
+  }
+
+  .accentOption {
+    min-width: 44px;
+    height: 44px;
+    padding: 0 var(--spacing-4);
+    font-size: var(--font-size-18);
+  }
+}
+
+@media (max-width: 360px) {
+  .keyPreview {
+    width: 44px;
+    height: 44px;
+    font-size: var(--font-size-16);
+  }
+
+  .accentOption {
+    min-width: 44px;
+    height: 44px;
+    padding: 0 var(--spacing-4);
+    font-size: var(--font-size-16);
   }
 }

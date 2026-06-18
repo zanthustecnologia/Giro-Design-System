@@ -14,16 +14,16 @@ import type { VirtualKeyboardProps } from './VirtualKeyboard.type';
 const LONG_PRESS_DELAY_MS = 400;
 
 const ACCENT_OPTIONS: Record<string, string[]> = {
-  a: ['á', 'à', 'â', 'ã', 'ä', 'å', 'æ'],
-  e: ['é', 'è', 'ê', 'ë'],
-  i: ['í', 'ì', 'î', 'ï'],
-  o: ['ó', 'ò', 'ô', 'õ', 'ö', 'ø', 'œ', 'ð'],
-  u: ['ú', 'ù', 'û', 'ü'],
-  y: ['ý', 'ÿ'],
-  n: ['ñ'],
-  c: ['ç'],
-  '?': ['¿'],
-  '!': ['¡'],
+  a: ['a', 'á', 'à', 'â', 'ã', 'ä', 'å', 'æ', '@', 'ª'],
+  e: ['e', 'é', 'è', 'ê', 'ë', 'ę', 'ē', 'ė', '€'],
+  i: ['i', 'í', 'ì', 'î', 'ï', 'ī', 'į', 'ı'],
+  o: ['o', 'ó', 'ò', 'ô', 'õ', 'ö','ō', 'ø', 'œ', 'º'],
+  u: ['u', 'ú', 'ù', 'û', 'ü', 'ū', 'ů', 'ű'],
+  y: ['y', 'ý', 'ÿ', 'ŷ', 'ȳ'],
+  n: ['n', 'ñ'],
+  c: ['c', 'ç'],
+  '?': ['?','¿'],
+  '!': ['!','¡'],
 };
 
 type AccentMenuState = {
@@ -101,6 +101,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
 
   type KeyPreviewState = { char: string; top: number; left: number } | null;
   const [keyPreview, setKeyPreview] = useState<KeyPreviewState>(null);
+  const [containerWidth, setContainerWidth] = useState<number>(Infinity);
 
   useEffect(() => {
     valueRef.current = value;
@@ -267,6 +268,16 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
   }, [accentMenu, accentMenuOffsetX]);
 
   useEffect(() => {
+    const wrapper = keyboardWrapperRef.current;
+    if (!wrapper) return;
+    const ro = new ResizeObserver((entries) => {
+      setContainerWidth(entries[0]?.contentRect.width ?? Infinity);
+    });
+    ro.observe(wrapper);
+    return () => ro.disconnect();
+  }, []);
+
+  useEffect(() => {
     if (!keyboardWrapperRef.current) return;
 
     const container = keyboardWrapperRef.current;
@@ -338,20 +349,13 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
       const buttonEl = (event.target as HTMLElement).closest('.hg-button') as HTMLButtonElement | null;
       if (!buttonEl || !keyboardWrapper.contains(buttonEl)) return;
 
-      /**
-       * iOS WebKit (13+) toma a decisão de blur durante o `pointerdown`, antes de
-       * gerar o `touchstart`. Chamar `preventDefault()` aqui (fase de captura, antes
-       * de qualquer handler de bubble) sinaliza ao WebKit para não alterar o foco.
-       * O `preventDefault()` não interrompe a propagação: o `onpointerdown` do
-       * react-simple-keyboard (bubble) ainda dispara e registra o key press normalmente.
-       */
       event.preventDefault();
 
       const sourceKey = buttonEl.getAttribute('data-skbtn') ?? '';
       heldAccentKeyRef.current = null;
       longPressTriggeredRef.current = false;
 
-      if (sourceKey && !sourceKey.startsWith('{')) {
+      if (sourceKey && !sourceKey.startsWith('{') && type !== 'numeric' && containerWidth <= 768) {
         const buttonRect = buttonEl.getBoundingClientRect();
         setKeyPreview({
           char: sourceKey,
@@ -387,7 +391,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
         suppressNextInputRef.current = sourceKey;
       }, LONG_PRESS_DELAY_MS);
     },
-    [clearLongPressTimeout]
+    [clearLongPressTimeout, type, containerWidth]
   );
 
   const handleLongPressEnd = useCallback(() => {
@@ -583,6 +587,14 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
     [maxLength, onChange, syncKeyboardInput]
   );
 
+  const portalSizes = useMemo(() => {
+    if (containerWidth <= 360) return { preview: 42, option: 44, fontSize: 'var(--font-size-16)' as const };
+    if (containerWidth <= 390) return { preview: 44, option: 44, fontSize: 'var(--font-size-18)' as const };
+    if (containerWidth <= 480) return { preview: 46, option: 46, fontSize: 'var(--font-size-20)' as const };
+    if (containerWidth <= 768) return { preview: 48, option: 48, fontSize: undefined };
+    return { preview: 50, option: 50, fontSize: undefined };
+  }, [containerWidth]);
+
   const keyboardDisplay = useMemo(() => {
     const baseDisplay = LAYOUT_DISPLAY[visualType];
     if (!baseDisplay) return baseDisplay;
@@ -640,7 +652,13 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
       {keyPreview && typeof document !== 'undefined' && createPortal(
         <div
           className={styles.keyPreview}
-          style={{ top: keyPreview.top, left: keyPreview.left }}
+          style={{
+            top: keyPreview.top,
+            left: keyPreview.left,
+            width: portalSizes.preview,
+            height: portalSizes.preview,
+            ...(portalSizes.fontSize ? { fontSize: portalSizes.fontSize } : {}),
+          }}
           aria-hidden
         >
           {keyPreview.char}
@@ -661,19 +679,31 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
             role="listbox"
             aria-label={`Opcoes de acento para ${accentMenu.sourceKey}`}
           >
-            {accentMenu.options.map((option) => (
-              <button
-                key={`${accentMenu.sourceKey}-${option}`}
-                type="button"
-                className={styles.accentOption}
-                onPointerDown={(event) => {
-                  event.preventDefault();
-                  event.stopPropagation();
-                }}
-                onClick={() => handleAccentSelect(option)}
-              >
-                {option}
-              </button>
+            {Array.from(
+              { length: Math.ceil(accentMenu.options.length / 5) },
+              (_, rowIndex) => accentMenu.options.slice(rowIndex * 5, rowIndex * 5 + 5)
+            ).map((rowOptions, rowIndex) => (
+              <div key={rowIndex} className={styles.accentMenuRow}>
+                {rowOptions.map((option) => (
+                  <button
+                    key={`${accentMenu.sourceKey}-${option}`}
+                    type="button"
+                    className={styles.accentOption}
+                    style={{
+                      minWidth: portalSizes.option,
+                      height: portalSizes.option,
+                      ...(portalSizes.fontSize ? { fontSize: portalSizes.fontSize } : {}),
+                    }}
+                    onPointerDown={(event) => {
+                      event.preventDefault();
+                      event.stopPropagation();
+                    }}
+                    onClick={() => handleAccentSelect(option)}
+                  >
+                    {option}
+                  </button>
+                ))}
+              </div>
             ))}
           </div>,
           document.body
