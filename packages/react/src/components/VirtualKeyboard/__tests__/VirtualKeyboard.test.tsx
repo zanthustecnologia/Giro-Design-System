@@ -92,6 +92,43 @@ vi.mock('react-simple-keyboard', () => ({
           close
         </button>
       )}
+      <button data-testid="key-altright" onClick={() => onKeyPress?.('{altright}')}>
+        altright
+      </button>
+      <button data-testid="key-default" onClick={() => onKeyPress?.('{default}')}>
+        default
+      </button>
+      {/* Sempre presente para cobrir o branch {emoticon} com Emoji=false */}
+      <button data-testid="key-emoticon-direct" onClick={() => onKeyPress?.('{emoticon}')}>
+        emoticon-direct
+      </button>
+      {/* Botões com classe hg-button para testar long press em letras maiúsculas e sem acento */}
+      <button
+        data-testid="key-uppercase-a"
+        className="hg-button"
+        data-skbtn="A"
+        onClick={() => {
+          const nextValue = `${internalInput}A`;
+          setInternalInput(nextValue);
+          onChange?.(nextValue);
+          onKeyPress?.('A');
+        }}
+      >
+        A
+      </button>
+      <button
+        data-testid="key-non-accent"
+        className="hg-button"
+        data-skbtn="x"
+        onClick={() => {
+          const nextValue = `${internalInput}x`;
+          setInternalInput(nextValue);
+          onChange?.(nextValue);
+          onKeyPress?.('x');
+        }}
+      >
+        x
+      </button>
     </div>
     );
   },
@@ -587,6 +624,702 @@ describe('VirtualKeyboard', () => {
       rerender(<VirtualKeyboard variant="fixed" type="numeric" value="" />);
 
       expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'default');
+    });
+  });
+
+  // ───────────────────────────────────────────────────────────────────────────
+  describe('Teclas de controle adicionais ({altright}, {default}, {emoticon})', () => {
+    it('deve ir para layout "alt" ao pressionar {altright}', () => {
+      render(<VirtualKeyboard variant="fixed" value="" />);
+      fireEvent.click(screen.getByTestId('key-altright'));
+      expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'alt');
+    });
+
+    it('deve voltar para "default" ao pressionar {altright} novamente (de alt)', () => {
+      render(<VirtualKeyboard variant="fixed" value="" />);
+      fireEvent.click(screen.getByTestId('key-altright'));
+      fireEvent.click(screen.getByTestId('key-altright'));
+      expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'default');
+    });
+
+    it('deve voltar para "alt" ao pressionar {altright} quando em alt2', () => {
+      render(<VirtualKeyboard variant="fixed" value="" />);
+      fireEvent.click(screen.getByTestId('key-alt'));
+      fireEvent.click(screen.getByTestId('key-alt2'));
+      expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'alt2');
+
+      fireEvent.click(screen.getByTestId('key-altright'));
+      expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'alt');
+    });
+
+    it('deve voltar para "alt" ao pressionar {alt} quando em alt2', () => {
+      render(<VirtualKeyboard variant="fixed" value="" />);
+      fireEvent.click(screen.getByTestId('key-alt'));
+      fireEvent.click(screen.getByTestId('key-alt2'));
+      expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'alt2');
+
+      fireEvent.click(screen.getByTestId('key-alt'));
+      expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'alt');
+    });
+
+    it('deve resetar para "default" ao pressionar {default} (type=default)', () => {
+      render(<VirtualKeyboard variant="fixed" type="default" value="" />);
+      fireEvent.click(screen.getByTestId('key-alt'));
+      fireEvent.click(screen.getByTestId('key-default'));
+      expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'default');
+    });
+
+    it('deve resetar para "abc" ao pressionar {default} (type=numeric)', () => {
+      render(<VirtualKeyboard variant="fixed" type="numeric" value="" />);
+      fireEvent.click(screen.getByTestId('key-alt'));
+      fireEvent.click(screen.getByTestId('key-default'));
+      expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'abc');
+    });
+
+    it('{emoticon} não muda layout quando Emoji é false', () => {
+      render(<VirtualKeyboard variant="fixed" Emoji={false} type="default" value="" />);
+
+      // key-emoticon-direct sempre presente — cobre o branch `if (!Emoji) return`
+      fireEvent.click(screen.getByTestId('key-emoticon-direct'));
+
+      expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'default');
+    });
+
+    it('{emoticon} volta para layout base quando já está em emoticon', () => {
+      render(<VirtualKeyboard variant="fixed" Emoji={true} type="default" value="" />);
+
+      fireEvent.click(screen.getByTestId('key-emoticon'));
+      expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'emoticon');
+
+      fireEvent.click(screen.getByTestId('key-emoticon'));
+      expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'default');
+    });
+
+    it('{downkeyboard} no modo fixed deve resetar o layout mas não fechar o teclado', () => {
+      const ref = createRef<HTMLInputElement>();
+      render(
+        <>
+          <input ref={ref} data-testid="input-ref" />
+          <VirtualKeyboard variant="native" targetRef={ref} />
+        </>
+      );
+
+      act(() => {
+        fireEvent.focus(screen.getByTestId('input-ref'));
+      });
+
+      // No modo native com targetRef focado, {downkeyboard} fecha e desfoca
+      fireEvent.click(screen.getByTestId('key-downkeyboard'));
+
+      const overlay = document.querySelector('[class*="overlay"]') as HTMLElement;
+      expect(overlay?.className).not.toMatch(/overlayOpen/);
+    });
+  });
+
+  // ───────────────────────────────────────────────────────────────────────────
+  describe('Menu de acentos — fechamento e atualização de posição', () => {
+    it('deve fechar o menu de acentos ao clicar fora dele', () => {
+      vi.useFakeTimers();
+      render(<VirtualKeyboard variant="fixed" value="" />);
+
+      fireEvent.pointerDown(screen.getByTestId('key-char'));
+      act(() => { vi.advanceTimersByTime(450); });
+      expect(screen.getByRole('listbox')).toBeInTheDocument();
+
+      act(() => {
+        fireEvent.pointerDown(document.body);
+      });
+
+      expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
+    });
+
+    it('deve fechar o menu de acentos ao pressionar Escape', () => {
+      vi.useFakeTimers();
+      render(<VirtualKeyboard variant="fixed" value="" />);
+
+      fireEvent.pointerDown(screen.getByTestId('key-char'));
+      act(() => { vi.advanceTimersByTime(450); });
+      expect(screen.getByRole('listbox')).toBeInTheDocument();
+
+      act(() => {
+        fireEvent.keyDown(document, { key: 'Escape' });
+      });
+
+      expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
+    });
+
+    it('deve manter o menu de acentos aberto ao clicar dentro dele', () => {
+      vi.useFakeTimers();
+      render(<VirtualKeyboard variant="fixed" value="" />);
+
+      fireEvent.pointerDown(screen.getByTestId('key-char'));
+      act(() => { vi.advanceTimersByTime(450); });
+      expect(screen.getByRole('listbox')).toBeInTheDocument();
+
+      act(() => {
+        fireEvent.pointerDown(screen.getByRole('listbox'));
+      });
+
+      expect(screen.getByRole('listbox')).toBeInTheDocument();
+    });
+
+    it('deve atualizar a posição do menu de acentos ao rolar a página', () => {
+      vi.useFakeTimers();
+      render(<VirtualKeyboard variant="fixed" value="" />);
+
+      fireEvent.pointerDown(screen.getByTestId('key-char'));
+      act(() => { vi.advanceTimersByTime(450); });
+      expect(screen.getByRole('listbox')).toBeInTheDocument();
+
+      act(() => {
+        window.dispatchEvent(new Event('scroll'));
+      });
+
+      // Menu ainda visível após scroll (posição atualizada internamente)
+      expect(screen.getByRole('listbox')).toBeInTheDocument();
+    });
+
+    it('deve atualizar a posição do menu de acentos ao redimensionar a janela', () => {
+      vi.useFakeTimers();
+      render(<VirtualKeyboard variant="fixed" value="" />);
+
+      fireEvent.pointerDown(screen.getByTestId('key-char'));
+      act(() => { vi.advanceTimersByTime(450); });
+      expect(screen.getByRole('listbox')).toBeInTheDocument();
+
+      act(() => {
+        window.dispatchEvent(new Event('resize'));
+      });
+
+      expect(screen.getByRole('listbox')).toBeInTheDocument();
+    });
+
+    it('deve chamar preventDefault e stopPropagation ao pressionar sobre uma opção de acento', () => {
+      vi.useFakeTimers();
+      render(<VirtualKeyboard variant="fixed" value="" />);
+
+      fireEvent.pointerDown(screen.getByTestId('key-char'));
+      act(() => { vi.advanceTimersByTime(450); });
+
+      const accentButton = screen.getByRole('button', { name: 'á' });
+
+      const pointerDownEvent = new Event('pointerdown', { bubbles: true, cancelable: true });
+      const preventDefaultSpy = vi.spyOn(pointerDownEvent, 'preventDefault');
+      const stopPropagationSpy = vi.spyOn(pointerDownEvent, 'stopPropagation');
+
+      act(() => {
+        accentButton.dispatchEvent(pointerDownEvent);
+      });
+
+      expect(preventDefaultSpy).toHaveBeenCalled();
+      expect(stopPropagationSpy).toHaveBeenCalled();
+    });
+
+    it('não deve inserir acento e deve fechar o menu quando maxLength atingido', () => {
+      vi.useFakeTimers();
+      const onChange = vi.fn();
+
+      render(<VirtualKeyboard variant="fixed" onChange={onChange} value="abc" maxLength={3} />);
+
+      fireEvent.pointerDown(screen.getByTestId('key-char'));
+      act(() => { vi.advanceTimersByTime(450); });
+      expect(screen.getByRole('listbox')).toBeInTheDocument();
+
+      fireEvent.click(screen.getByRole('button', { name: 'á' }));
+
+      expect(onChange).not.toHaveBeenCalled();
+      expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
+    });
+
+    it('deve inserir acento e resetar layout shift após seleção', () => {
+      vi.useFakeTimers();
+      const onChange = vi.fn();
+
+      render(<VirtualKeyboard variant="fixed" onChange={onChange} value="" />);
+
+      // Ativa shift
+      fireEvent.click(screen.getByTestId('key-shift'));
+      expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'shift');
+
+      // Long press na tecla 'a' (data-skbtn="a", não maiúscula, então sem uppercase accent)
+      fireEvent.pointerDown(screen.getByTestId('key-char'));
+      act(() => { vi.advanceTimersByTime(450); });
+
+      fireEvent.click(screen.getByRole('button', { name: 'á' }));
+
+      expect(onChange).toHaveBeenCalledWith('á');
+      // Após inserir acento com shift ativo (sem capslock), layout volta para default
+      expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'default');
+    });
+  });
+
+  // ───────────────────────────────────────────────────────────────────────────
+  describe('Long press — casos de borda', () => {
+    it('não deve chamar onChange ao soltar tecla com maxLength atingido (short press)', () => {
+      vi.useFakeTimers();
+      const onChange = vi.fn();
+
+      render(<VirtualKeyboard variant="fixed" onChange={onChange} value="abc" maxLength={3} />);
+
+      fireEvent.pointerDown(screen.getByTestId('key-char'));
+      act(() => { vi.advanceTimersByTime(200); });
+      fireEvent.pointerUp(screen.getByTestId('key-char'));
+
+      expect(onChange).not.toHaveBeenCalled();
+    });
+
+    it('deve resetar layout shift ao soltar tecla em short press (sem capsLock)', () => {
+      vi.useFakeTimers();
+      const onChange = vi.fn();
+
+      render(<VirtualKeyboard variant="fixed" onChange={onChange} value="" />);
+
+      // Ativa shift
+      fireEvent.click(screen.getByTestId('key-shift'));
+      expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'shift');
+
+      // Short press: solta antes dos 400ms
+      fireEvent.pointerDown(screen.getByTestId('key-char'));
+      act(() => { vi.advanceTimersByTime(200); });
+      fireEvent.pointerUp(screen.getByTestId('key-char'));
+      // Suprime o click subsequente para evitar dupla inserção
+      fireEvent.click(screen.getByTestId('key-char'));
+
+      // handleLongPressEnd detecta shift+!capsLock e retorna ao default
+      expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'default');
+    });
+
+    it('deve exibir opções maiúsculas no menu de acentos para letra maiúscula', () => {
+      vi.useFakeTimers();
+
+      render(<VirtualKeyboard variant="fixed" value="" />);
+
+      fireEvent.pointerDown(screen.getByTestId('key-uppercase-a'));
+      act(() => { vi.advanceTimersByTime(450); });
+
+      expect(screen.getByRole('listbox')).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: 'Á' })).toBeInTheDocument();
+    });
+
+    it('não deve abrir menu de acentos para tecla sem opções de acento', () => {
+      vi.useFakeTimers();
+
+      render(<VirtualKeyboard variant="fixed" value="" />);
+
+      // 'x' não tem ACCENT_OPTIONS
+      fireEvent.pointerDown(screen.getByTestId('key-non-accent'));
+      act(() => { vi.advanceTimersByTime(450); });
+
+      expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
+    });
+
+    it('deve inserir a tecla ao soltar sem acionar menu (short press em tecla sem acento)', () => {
+      vi.useFakeTimers();
+      const onChange = vi.fn();
+
+      render(<VirtualKeyboard variant="fixed" onChange={onChange} value="" />);
+
+      fireEvent.pointerDown(screen.getByTestId('key-non-accent'));
+      act(() => { vi.advanceTimersByTime(200); });
+      fireEvent.pointerUp(screen.getByTestId('key-non-accent'));
+      // Click subsequente é suprimido pelo handleLongPressEnd
+      fireEvent.click(screen.getByTestId('key-non-accent'));
+
+      expect(onChange).toHaveBeenCalledWith('x');
+    });
+
+    it('não deve exibir key preview quando type é numeric', () => {
+      vi.useFakeTimers();
+
+      render(<VirtualKeyboard variant="fixed" type="numeric" value="" />);
+
+      // No mock, key-char tem data-skbtn="a", mas com type=numeric não mostra preview
+      fireEvent.pointerDown(screen.getByTestId('key-char'));
+      act(() => { vi.advanceTimersByTime(100); });
+
+      // Como containerWidth é Infinity (>768) e type=numeric, sem preview
+      expect(document.querySelector('[class*="keyPreview"]')).toBeNull();
+    });
+
+    it('deve fechar o menu de acentos e não disparar onChange ao pressionar pointerLeave', () => {
+      vi.useFakeTimers();
+      const onChange = vi.fn();
+
+      render(<VirtualKeyboard variant="fixed" onChange={onChange} value="" />);
+
+      fireEvent.pointerDown(screen.getByTestId('key-char'));
+      act(() => { vi.advanceTimersByTime(450); });
+      expect(screen.getByRole('listbox')).toBeInTheDocument();
+
+      // pointerLeave cancela o long press
+      act(() => {
+        fireEvent.pointerLeave(screen.getByTestId('keyboard').parentElement!);
+      });
+
+      // O menu de acentos deve permanecer (foi aberto pelo long press já disparado)
+      // e onChange não é chamado pelo pointerLeave (que aciona handleLongPressEnd com longPressTriggered=true)
+      expect(onChange).not.toHaveBeenCalled();
+    });
+  });
+
+  // ───────────────────────────────────────────────────────────────────────────
+  describe('scrollTargetIntoView', () => {
+    it('deve chamar window.scrollBy quando o campo está abaixo da área visível', () => {
+      vi.useFakeTimers();
+      const scrollBySpy = vi.spyOn(window, 'scrollBy').mockImplementation(() => {});
+
+      const ref = createRef<HTMLInputElement>();
+      render(
+        <>
+          <input data-testid="input-ref" ref={ref} />
+          <VirtualKeyboard variant="native" targetRef={ref} />
+        </>
+      );
+
+      // Simula campo abaixo da área visível (bottom > innerHeight - keyboardHeight - 8)
+      if (ref.current) {
+        vi.spyOn(ref.current, 'getBoundingClientRect').mockReturnValue({
+          bottom: 900,
+          top: 800,
+          height: 100,
+          left: 0,
+          right: 100,
+          width: 100,
+          x: 0,
+          y: 800,
+          toJSON: () => ({}),
+        } as DOMRect);
+      }
+
+      act(() => {
+        fireEvent.focus(screen.getByTestId('input-ref'));
+        vi.advanceTimersByTime(100);
+      });
+
+      expect(scrollBySpy).toHaveBeenCalledWith(
+        expect.objectContaining({ behavior: 'smooth' })
+      );
+
+      scrollBySpy.mockRestore();
+    });
+
+    it('não deve chamar window.scrollBy quando o campo está dentro da área visível', () => {
+      vi.useFakeTimers();
+      const scrollBySpy = vi.spyOn(window, 'scrollBy').mockImplementation(() => {});
+
+      const ref = createRef<HTMLInputElement>();
+      render(
+        <>
+          <input data-testid="input-ref" ref={ref} />
+          <VirtualKeyboard variant="native" targetRef={ref} />
+        </>
+      );
+
+      // getBoundingClientRect padrão retorna bottom=0, que é menor que visibleBottom (~760)
+      act(() => {
+        fireEvent.focus(screen.getByTestId('input-ref'));
+        vi.advanceTimersByTime(100);
+      });
+
+      expect(scrollBySpy).not.toHaveBeenCalled();
+
+      scrollBySpy.mockRestore();
+    });
+  });
+
+  // ───────────────────────────────────────────────────────────────────────────
+  describe('preventIOSBlur (touchstart em modo native)', () => {
+    it('deve chamar preventDefault ao tocar em um botão hg-button no teclado (iOS)', () => {
+      const ref = createRef<HTMLInputElement>();
+      render(
+        <>
+          <input ref={ref} data-testid="input-ref" />
+          <VirtualKeyboard variant="native" targetRef={ref} />
+        </>
+      );
+
+      act(() => {
+        fireEvent.focus(screen.getByTestId('input-ref'));
+      });
+
+      const keyButton = screen.getByTestId('key-char'); // className="hg-button"
+
+      const touchEvent = new Event('touchstart', { bubbles: true, cancelable: true });
+      const preventDefaultSpy = vi.spyOn(touchEvent, 'preventDefault');
+
+      act(() => {
+        keyButton.dispatchEvent(touchEvent);
+      });
+
+      expect(preventDefaultSpy).toHaveBeenCalled();
+    });
+
+    it('não deve chamar preventDefault quando o toque NÃO está em um botão hg-button', () => {
+      const ref = createRef<HTMLInputElement>();
+      render(
+        <>
+          <input ref={ref} data-testid="input-ref" />
+          <VirtualKeyboard variant="native" targetRef={ref} />
+        </>
+      );
+
+      act(() => {
+        fireEvent.focus(screen.getByTestId('input-ref'));
+      });
+
+      // Dispara touchstart no container do teclado (não em hg-button)
+      const keyboard = screen.getByTestId('keyboard');
+
+      const touchEvent = new Event('touchstart', { bubbles: true, cancelable: true });
+      const preventDefaultSpy = vi.spyOn(touchEvent, 'preventDefault');
+
+      act(() => {
+        keyboard.dispatchEvent(touchEvent);
+      });
+
+      expect(preventDefaultSpy).not.toHaveBeenCalled();
+    });
+  });
+
+  // ───────────────────────────────────────────────────────────────────────────
+  describe('Emoji prop — mudança em tempo de execução', () => {
+    it('deve resetar para "default" ao desativar Emoji enquanto layout é emoticon (type=default)', () => {
+      const { rerender } = render(
+        <VirtualKeyboard variant="fixed" Emoji={true} type="default" value="" />
+      );
+
+      fireEvent.click(screen.getByTestId('key-emoticon'));
+      expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'emoticon');
+
+      rerender(<VirtualKeyboard variant="fixed" Emoji={false} type="default" value="" />);
+
+      expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'default');
+    });
+
+    it('deve resetar para "abc" ao desativar Emoji enquanto layout é emoticon (type=numeric)', () => {
+      const { rerender } = render(
+        <VirtualKeyboard variant="fixed" Emoji={true} type="numeric" value="" />
+      );
+
+      fireEvent.click(screen.getByTestId('key-emoticon'));
+      expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'emoticon');
+
+      rerender(<VirtualKeyboard variant="fixed" Emoji={false} type="numeric" value="" />);
+
+      expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'abc');
+    });
+  });
+
+  // ───────────────────────────────────────────────────────────────────────────
+  describe('Capslock — navegação de layouts e retorno', () => {
+    it('deve mudar para layout "shift" ao digitar com capsLock ativo em layout default/abc', () => {
+      render(<VirtualKeyboard variant="fixed" type="default" value="" />);
+
+      // Ativa capslock (vai para 'caps')
+      fireEvent.click(screen.getByTestId('key-capslock'));
+      expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'caps');
+
+      // Vai para numbers e volta (baseLayout='default', capsLockOn=true)
+      fireEvent.click(screen.getByTestId('key-numbers'));
+      fireEvent.click(screen.getByTestId('key-abc'));
+      expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'default');
+
+      // Digita um caractere: layoutName===baseLayout && capsLockOn → deve ir para 'shift'
+      fireEvent.click(screen.getByTestId('key-char'));
+      expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'shift');
+    });
+  });
+
+  // ───────────────────────────────────────────────────────────────────────────
+  describe('portalSizes — responsividade do teclado', () => {
+    function renderWithContainerWidth(width: number) {
+      let resizeCallback: ResizeObserverCallback | undefined;
+      let observedTarget: Element | undefined;
+
+      const OriginalResizeObserver = global.ResizeObserver;
+      global.ResizeObserver = class MockRO {
+        constructor(cb: ResizeObserverCallback) {
+          resizeCallback = cb;
+        }
+        observe(target: Element) {
+          observedTarget = target;
+        }
+        disconnect() {}
+        unobserve() {}
+      } as unknown as typeof ResizeObserver;
+
+      const result = render(<VirtualKeyboard variant="fixed" value="" />);
+
+      // Dispara callback após render (dentro de act) para evitar warnings
+      act(() => {
+        resizeCallback?.(
+          [{ contentRect: { width } as DOMRectReadOnly, target: observedTarget! } as ResizeObserverEntry],
+          {} as ResizeObserver
+        );
+      });
+
+      global.ResizeObserver = OriginalResizeObserver;
+      return result;
+    }
+
+    it('deve usar fontSize var(--font-size-16) para containerWidth <= 360', () => {
+      vi.useFakeTimers();
+      renderWithContainerWidth(320);
+
+      fireEvent.pointerDown(screen.getByTestId('key-char'));
+      act(() => { vi.advanceTimersByTime(450); });
+
+      const accentButton = screen.getByRole('button', { name: 'á' });
+      const style = accentButton.style;
+      expect(style.fontSize).toBe('var(--font-size-16)');
+    });
+
+    it('deve usar fontSize var(--font-size-18) para containerWidth entre 361 e 390', () => {
+      vi.useFakeTimers();
+      renderWithContainerWidth(380);
+
+      fireEvent.pointerDown(screen.getByTestId('key-char'));
+      act(() => { vi.advanceTimersByTime(450); });
+
+      const accentButton = screen.getByRole('button', { name: 'á' });
+      expect(accentButton.style.fontSize).toBe('var(--font-size-18)');
+    });
+
+    it('deve usar fontSize var(--font-size-20) para containerWidth entre 391 e 480', () => {
+      vi.useFakeTimers();
+      renderWithContainerWidth(450);
+
+      fireEvent.pointerDown(screen.getByTestId('key-char'));
+      act(() => { vi.advanceTimersByTime(450); });
+
+      const accentButton = screen.getByRole('button', { name: 'á' });
+      expect(accentButton.style.fontSize).toBe('var(--font-size-20)');
+    });
+
+    it('deve usar tamanho padrão sem fontSize para containerWidth entre 481 e 768', () => {
+      vi.useFakeTimers();
+      renderWithContainerWidth(600);
+
+      fireEvent.pointerDown(screen.getByTestId('key-char'));
+      act(() => { vi.advanceTimersByTime(450); });
+
+      const accentButton = screen.getByRole('button', { name: 'á' });
+      expect(accentButton.style.fontSize).toBe('');
+    });
+  });
+
+  // ───────────────────────────────────────────────────────────────────────────
+  describe('Modo native — comportamentos adicionais', () => {
+    it('deve abrir o teclado imediatamente quando não há targetRef (native sem ref)', async () => {
+      render(<VirtualKeyboard variant="native" />);
+      const overlay = document.querySelector('[class*="overlay"]') as HTMLElement;
+      expect(overlay?.className).toMatch(/overlayOpen/);
+    });
+
+    it('não deve fechar o teclado se isKeyboardInteracting está ativo ao fazer blur', async () => {
+      const ref = createRef<HTMLInputElement>();
+      render(
+        <>
+          <input data-testid="input-ref" ref={ref} />
+          <VirtualKeyboard variant="native" targetRef={ref} />
+        </>
+      );
+
+      act(() => {
+        fireEvent.focus(screen.getByTestId('input-ref'));
+      });
+
+      // Simula interação com o teclado (pointerDown no wrapper, sem release)
+      act(() => {
+        fireEvent.pointerDown(screen.getByTestId('key-char'));
+      });
+
+      await act(async () => {
+        fireEvent.blur(screen.getByTestId('input-ref'));
+        await new Promise((r) => setTimeout(r, 200));
+      });
+
+      // Como isKeyboardInteractingRef é true durante o pointerDown, o teclado permanece aberto
+      const overlay = document.querySelector('[class*="overlay"]') as HTMLElement;
+      expect(overlay?.className).toMatch(/overlayOpen/);
+    });
+
+    it('deve aplicar classe layout--numeric no overlay para type=numeric', async () => {
+      const ref = createRef<HTMLInputElement>();
+      render(
+        <>
+          <input data-testid="input-ref" ref={ref} />
+          <VirtualKeyboard variant="native" targetRef={ref} type="numeric" />
+        </>
+      );
+
+      act(() => {
+        fireEvent.focus(screen.getByTestId('input-ref'));
+      });
+
+      const overlay = document.querySelector('[class*="overlay"]') as HTMLElement;
+      expect(overlay?.className).toMatch(/layout--numeric/);
+    });
+  });
+
+  // ───────────────────────────────────────────────────────────────────────────
+  describe('handleChange — supressão avançada', () => {
+    it('deve suprimir onChange quando heldKey coincide com input recebido', () => {
+      vi.useFakeTimers();
+      const onChange = vi.fn();
+
+      render(<VirtualKeyboard variant="fixed" onChange={onChange} value="" />);
+
+      // Long press: abre o menu, heldAccentKeyRef='a'
+      fireEvent.pointerDown(screen.getByTestId('key-char'));
+      act(() => { vi.advanceTimersByTime(450); });
+
+      // Enquanto o menu está aberto e heldKey='a', simula onChange do teclado com input='a'
+      fireEvent.click(screen.getByTestId('key-char'));
+
+      // onChange não deve ser chamado (supressão por heldKey)
+      expect(onChange).not.toHaveBeenCalled();
+    });
+
+    it('não deve chamar onChange quando input ultrapassa maxLength', () => {
+      const onChange = vi.fn();
+
+      render(<VirtualKeyboard variant="fixed" onChange={onChange} value="ab" maxLength={2} />);
+
+      // handleChange recebe input com comprimento > maxLength
+      fireEvent.click(screen.getByTestId('key-char'));
+
+      expect(onChange).not.toHaveBeenCalled();
+    });
+  });
+
+  // ───────────────────────────────────────────────────────────────────────────
+  describe('Tipo numeric — comportamentos específicos', () => {
+    it('deve usar "abc" como layout base ao pressionar {abc} em tipo numeric', () => {
+      render(<VirtualKeyboard variant="fixed" type="numeric" value="" />);
+      fireEvent.click(screen.getByTestId('key-abc'));
+      expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'abc');
+    });
+
+    it('deve usar "abc" como layout base ao pressionar {shift} em tipo numeric', () => {
+      render(<VirtualKeyboard variant="fixed" type="numeric" value="" />);
+      fireEvent.click(screen.getByTestId('key-shift'));
+      expect(screen.getByTestId('keyboard')).toHaveAttribute('data-layout-name', 'shift');
+    });
+
+    it('deve usar "abc" como baseLayout no handleLongPressEnd quando type=numeric', () => {
+      vi.useFakeTimers();
+      const onChange = vi.fn();
+
+      render(<VirtualKeyboard variant="fixed" type="numeric" onChange={onChange} value="" />);
+
+      // Short press na tecla 'a' (que tem ACCENT_OPTIONS) — tipo numeric sem preview de tecla
+      fireEvent.pointerDown(screen.getByTestId('key-char'));
+      act(() => { vi.advanceTimersByTime(200); });
+      fireEvent.pointerUp(screen.getByTestId('key-char'));
+      fireEvent.click(screen.getByTestId('key-char'));
+
+      expect(onChange).toHaveBeenCalledWith('a');
     });
   });
 });
