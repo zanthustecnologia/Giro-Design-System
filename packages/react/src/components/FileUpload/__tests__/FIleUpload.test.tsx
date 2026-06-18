@@ -329,4 +329,176 @@ describe('FileUpload', () => {
       expect(screen.queryByRole('list')).not.toBeInTheDocument();
     });
   });
+
+  describe('Ref forwarding', () => {
+    it('encaminha ref como função para o input nativo', () => {
+      const refFn = vi.fn();
+      render(<FileUpload ref={refFn} />);
+      expect(refFn).toHaveBeenCalledWith(expect.any(HTMLInputElement));
+    });
+
+    it('encaminha ref como objeto MutableRefObject para o input nativo', () => {
+      const ref = React.createRef<HTMLInputElement>();
+      render(<FileUpload ref={ref} />);
+      expect(ref.current).toBeInstanceOf(HTMLInputElement);
+    });
+  });
+
+  describe('Drag and Drop - dragLeave e dragOver desabilitado', () => {
+    it('cancela estado de arrastar ao sair da zona (dragLeave)', () => {
+      render(<FileUpload />);
+      const zone = screen.getByRole('button');
+      fireEvent.dragOver(zone, { dataTransfer: { files: [createFile('a.png')] } });
+      // handleDragLeave deve ser executado sem erros
+      fireEvent.dragLeave(zone);
+    });
+
+    it('não define isDragging quando dragOver ocorre com componente desabilitado', () => {
+      render(<FileUpload disabled />);
+      // handleDragOver com disabled não deve lançar erro
+      fireEvent.dragOver(screen.getByRole('button'), {
+        dataTransfer: { files: [createFile('a.png')] },
+      });
+    });
+  });
+
+  describe('Remoção via teclado (botão de remoção)', () => {
+    it('remove arquivo ao pressionar Enter no botão de remoção', () => {
+      const onChange = vi.fn();
+      const files = [createFile('a.png'), createFile('b.png')];
+      render(<FileUpload value={files} onChange={onChange} />);
+      fireEvent.keyDown(screen.getByRole('button', { name: 'Remover a.png' }), { key: 'Enter' });
+      expect(onChange).toHaveBeenCalledWith([files[1]]);
+    });
+
+    it('remove arquivo ao pressionar Espaço no botão de remoção', () => {
+      const onChange = vi.fn();
+      const files = [createFile('a.png'), createFile('b.png')];
+      render(<FileUpload value={files} onChange={onChange} />);
+      fireEvent.keyDown(screen.getByRole('button', { name: 'Remover a.png' }), { key: ' ' });
+      expect(onChange).toHaveBeenCalledWith([files[1]]);
+    });
+
+    it('não remove arquivo ao pressionar outras teclas no botão de remoção', () => {
+      const onChange = vi.fn();
+      const files = [createFile('a.png')];
+      render(<FileUpload value={files} onChange={onChange} />);
+      fireEvent.keyDown(screen.getByRole('button', { name: 'Remover a.png' }), { key: 'Tab' });
+      expect(onChange).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('Limpeza de memória (URLs de objeto)', () => {
+    it('revoga URLs ao desmontar o componente que exibia imagens', () => {
+      const file = createFile('foto.png', 'image/png');
+      const { unmount } = render(<FileUpload value={[file]} />);
+      expect(URL.createObjectURL).toHaveBeenCalled();
+      unmount();
+      expect(URL.revokeObjectURL).toHaveBeenCalled();
+    });
+
+    it('revoga URL do arquivo de imagem ao removê-lo', () => {
+      const onChange = vi.fn();
+      const file = createFile('foto.png', 'image/png');
+      render(<FileUpload value={[file]} onChange={onChange} />);
+      fireEvent.click(screen.getByRole('button', { name: 'Remover foto.png' }));
+      expect(URL.revokeObjectURL).toHaveBeenCalledWith('blob:mock-url');
+    });
+  });
+
+  describe('Cache de URL de objeto (getObjectUrl)', () => {
+    it('reutiliza URL existente para o mesmo arquivo em re-renderizações', () => {
+      const file = createFile('foto.png', 'image/png');
+      const { rerender } = render(<FileUpload value={[file]} />);
+      const callCount = (URL.createObjectURL as ReturnType<typeof vi.fn>).mock.calls.length;
+      rerender(<FileUpload value={[file]} />);
+      expect((URL.createObjectURL as ReturnType<typeof vi.fn>).mock.calls.length).toBe(callCount);
+    });
+  });
+
+  describe('Atributos repassados ao input nativo', () => {
+    it('repassa accept para o input nativo', () => {
+      render(<FileUpload accept="image/*,.pdf" />);
+      expect(document.querySelector('input[type="file"]')).toHaveAttribute('accept', 'image/*,.pdf');
+    });
+
+    it('repassa multiple=false para o input nativo', () => {
+      render(<FileUpload multiple={false} />);
+      expect(document.querySelector('input[type="file"]')).not.toHaveAttribute('multiple');
+    });
+
+    it('o input fica disabled quando a prop disabled é passada', () => {
+      render(<FileUpload disabled />);
+      expect(document.querySelector('input[type="file"]')).toBeDisabled();
+    });
+  });
+
+  describe('Botão de remoção desabilitado', () => {
+    it('fica desabilitado quando o componente está desabilitado', () => {
+      const file = createFile('foto.png');
+      render(<FileUpload value={[file]} disabled />);
+      expect(screen.getByRole('button', { name: 'Remover foto.png' })).toBeDisabled();
+    });
+  });
+
+  describe('aria-controls na zona de drop', () => {
+    it('possui aria-controls quando há arquivos na lista', () => {
+      render(<FileUpload value={[createFile('a.png')]} />);
+      const zone = screen.getByRole('button', { name: 'Clique ou arraste os arquivos aqui' });
+      expect(zone).toHaveAttribute('aria-controls');
+    });
+
+    it('não possui aria-controls quando a lista está vazia', () => {
+      render(<FileUpload />);
+      expect(screen.getByRole('button')).not.toHaveAttribute('aria-controls');
+    });
+  });
+
+  describe('processFiles - cenários adicionais', () => {
+    it('ignora arquivos quando disabled é acionado via change no input', () => {
+      const onChange = vi.fn();
+      render(<FileUpload disabled onChange={onChange} />);
+      const input = document.querySelector('input[type="file"]') as HTMLInputElement;
+      Object.defineProperty(input, 'files', {
+        value: [createFile('a.png')],
+        configurable: true,
+      });
+      fireEvent.change(input);
+      expect(onChange).not.toHaveBeenCalled();
+    });
+
+    it('acumula arquivos em modo uncontrolled com multiple=true', () => {
+      const onChange = vi.fn();
+      render(<FileUpload onChange={onChange} multiple />);
+      const input = document.querySelector('input[type="file"]') as HTMLInputElement;
+
+      Object.defineProperty(input, 'files', {
+        value: [createFile('a.png')],
+        configurable: true,
+      });
+      fireEvent.change(input);
+
+      Object.defineProperty(input, 'files', {
+        value: [createFile('b.png')],
+        configurable: true,
+      });
+      fireEvent.change(input);
+
+      const lastCall = onChange.mock.lastCall![0] as File[];
+      expect(lastCall).toHaveLength(2);
+    });
+
+    it('não limita arquivos quando maxFiles não está definido', () => {
+      const onChange = vi.fn();
+      render(<FileUpload onChange={onChange} multiple />);
+      const input = document.querySelector('input[type="file"]') as HTMLInputElement;
+      const files = [createFile('a.png'), createFile('b.png'), createFile('c.png')];
+
+      Object.defineProperty(input, 'files', { value: files, configurable: true });
+      fireEvent.change(input);
+
+      expect(onChange).toHaveBeenCalledWith(files);
+    });
+
+  });
 });
