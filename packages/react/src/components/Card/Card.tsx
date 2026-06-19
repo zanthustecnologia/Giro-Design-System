@@ -3,9 +3,9 @@ import styles from './Card.module.scss'
 
 import type { CardProps } from './Card.types';
 
-export default function Card({ children, className, interactiveCard }: CardProps) {
+export default function Card({ children, className, hoverable }: CardProps) {
   return (
-    <main className={clsx(styles['card'], interactiveCard && styles['card--interactive'], className)}>
+    <main className={clsx(styles['card'], hoverable && styles['card--hoverable'], className)}>
         {children}
     </main>
   )

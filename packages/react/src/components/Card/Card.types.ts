@@ -17,5 +17,5 @@ export interface CardProps {
   className?: string;
 
   /** Define se o card é interativo, aplicando estilos de hover e cursor pointer */
-  interactiveCard?: boolean;
+  hoverable?: boolean;
 }

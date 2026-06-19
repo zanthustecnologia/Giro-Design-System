@@ -13,7 +13,7 @@ const meta: Meta<typeof Card> = {
     },
   },
   argTypes: {
-    interactiveCard: {
+    hoverable: {
       control: { type: 'boolean' },
     },
     children: { table: { disable: true } },
@@ -36,7 +36,7 @@ export const Default: Story = {
 
 export const Interativo: Story = {
   args: {
-    interactiveCard: true,
+    hoverable: true,
   },
   render: (args) => (
     <Card {...args}>
