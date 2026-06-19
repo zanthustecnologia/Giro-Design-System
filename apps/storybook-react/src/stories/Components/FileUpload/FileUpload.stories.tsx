@@ -34,6 +34,10 @@ const meta: Meta<typeof FileUpload> = {
       control: 'text',
       description: 'Mensagem exibida no helperText quando em estado de erro',
     },
+    alertErrorMessage: {
+      control: 'text',
+      description: 'Mensagem de erro exibida abaixo do icone de erro',
+    },
     helperText: {
       control: 'text',
       description: 'Texto auxiliar exibido abaixo da zona de drop',

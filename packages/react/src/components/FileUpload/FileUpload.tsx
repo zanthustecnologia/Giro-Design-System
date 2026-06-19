@@ -34,6 +34,7 @@ const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
       accept,
       multiple = true,
       instructionText = 'Clique ou arraste os arquivos aqui',
+      alertErrorMessage,
       ...rest
     },
     ref
@@ -232,7 +233,9 @@ const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
               <span className={styles.alertIcon}>
                 <Warning24Regular />
               </span>
-              <span className={styles.alertText}>Alert text</span>
+              {alertErrorMessage && (
+                <span className={styles.alertText}>{alertErrorMessage}</span>
+              )}
             </div>
           )}
 
