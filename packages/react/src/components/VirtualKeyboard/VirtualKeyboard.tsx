@@ -196,18 +196,17 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
     const wrapper = keyboardWrapperRef.current;
     if (!wrapper) return;
 
-    const preventIOSBlur = (event: TouchEvent) => {
-      if ((event.target as HTMLElement).closest('.hg-button')) {
-        event.preventDefault();
-      }
-    };
+     const preventIOSBlur = (event: TouchEvent) => {
+      const targetEl = event.target as HTMLElement;
+      const isButton = !!targetEl.closest('.hg-button');
+     };
 
     wrapper.addEventListener('touchstart', preventIOSBlur, { passive: false });
 
     return () => {
-      wrapper.removeEventListener('touchstart', preventIOSBlur);
-    };
-  }, [variant]);
+    wrapper.removeEventListener('touchstart', preventIOSBlur);
+  };
+}, [variant]);
 
   useEffect(() => {
     setLayoutName('default');
