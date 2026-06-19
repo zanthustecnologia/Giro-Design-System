@@ -95,12 +95,13 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
   const keyboardInstanceRef = useRef<{ setInput: (value: string) => void } | null>(null);
   const accentMenuRef = useRef<HTMLDivElement | null>(null);
   const accentButtonRef = useRef<HTMLButtonElement | null>(null);
-  const accentMenuOpenRef = useRef(false);
   const valueRef = useRef(value);
   const [iconSlots, setIconSlots] = useState<HTMLElement[]>([]);
 
   type KeyPreviewState = { char: string; top: number; left: number } | null;
   const [keyPreview, setKeyPreview] = useState<KeyPreviewState>(null);
+  const [keyPreviewOffsetX, setKeyPreviewOffsetX] = useState(0);
+  const keyPreviewRef = useRef<HTMLDivElement | null>(null);
   const [containerWidth, setContainerWidth] = useState<number>(Infinity);
 
   useEffect(() => {
@@ -195,18 +196,17 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
     const wrapper = keyboardWrapperRef.current;
     if (!wrapper) return;
 
-    const preventIOSBlur = (event: TouchEvent) => {
-      if ((event.target as HTMLElement).closest('.hg-button')) {
-        event.preventDefault();
-      }
-    };
+     const preventIOSBlur = (event: TouchEvent) => {
+      const targetEl = event.target as HTMLElement;
+      const isButton = !!targetEl.closest('.hg-button');
+     };
 
     wrapper.addEventListener('touchstart', preventIOSBlur, { passive: false });
 
     return () => {
-      wrapper.removeEventListener('touchstart', preventIOSBlur);
-    };
-  }, [variant]);
+    wrapper.removeEventListener('touchstart', preventIOSBlur);
+  };
+}, [variant]);
 
   useEffect(() => {
     setLayoutName('default');
@@ -249,6 +249,23 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
       document.removeEventListener('keydown', handleEscape);
     };
   }, [accentMenu, closeAccentMenu]);
+
+  useLayoutEffect(() => {
+    if (!keyPreview || !keyPreviewRef.current) return;
+
+    const margin = 8;
+    const rect = keyPreviewRef.current.getBoundingClientRect();
+    if (rect.width <= 0 || rect.height <= 0) return;
+
+    const minCenter = margin + rect.width / 2;
+    const maxCenter = window.innerWidth - margin - rect.width / 2;
+    const clampedCenter = Math.min(maxCenter, Math.max(minCenter, keyPreview.left));
+    const nextOffset = clampedCenter - keyPreview.left;
+
+    if (Math.abs(nextOffset - keyPreviewOffsetX) > 0.5) {
+      setKeyPreviewOffsetX(nextOffset);
+    }
+  }, [keyPreview, keyPreviewOffsetX]);
 
   useLayoutEffect(() => {
     if (!accentMenu || !accentMenuRef.current) return;
@@ -313,12 +330,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
   }, [layoutName, type, closeAccentMenu, clearLongPressTimeout]);
 
   useEffect(() => {
-    accentMenuOpenRef.current = !!accentMenu;
-  }, [accentMenu]);
-
-  useEffect(() => {
     const updateAccentPosition = () => {
-      if (!accentMenuOpenRef.current) return;
       const btn = accentButtonRef.current;
       if (!btn) return;
       const rect = btn.getBoundingClientRect();
@@ -357,6 +369,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
 
       if (sourceKey && !sourceKey.startsWith('{') && type !== 'numeric' && containerWidth <= 768) {
         const buttonRect = buttonEl.getBoundingClientRect();
+        setKeyPreviewOffsetX(0);
         setKeyPreview({
           char: sourceKey,
           top: buttonRect.top - 4,
@@ -651,10 +664,11 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
 
       {keyPreview && typeof document !== 'undefined' && createPortal(
         <div
+          ref={keyPreviewRef}
           className={styles.keyPreview}
           style={{
             top: keyPreview.top,
-            left: keyPreview.left,
+            left: keyPreview.left + keyPreviewOffsetX,
             width: portalSizes.preview,
             height: portalSizes.preview,
             ...(portalSizes.fontSize ? { fontSize: portalSizes.fontSize } : {}),
