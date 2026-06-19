@@ -41,7 +41,6 @@ const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
   ) => {
     const generatedId = useId();
     const componentId = id || generatedId;
-    const inputId = `${componentId}-input`;
     const helperId = `${componentId}-helper`;
     const listId = `${componentId}-list`;
 
@@ -187,7 +186,6 @@ const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
       >
         <input
           ref={setRefs}
-          id={inputId}
           type="file"
           accept={accept}
           multiple={multiple}
