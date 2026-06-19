@@ -25,6 +25,12 @@ export interface FileUploadProps extends Omit<React.InputHTMLAttributes<HTMLInpu
   /** Mensagem de erro exibida abaixo do icone de erro, caso não tenha a mensagem não ira aparecer nada */
   alertErrorMessage?: string;
 
+  /** Mensagem exibida quando um arquivo excede o tamanho máximo (maxSize) */
+  maxSizeErrorMessage?: string;
+
+  /** Mensagem exibida quando a quantidade de arquivos excede o limite (maxFiles) */
+  maxFilesErrorMessage?: string;
+
   /** Tamanho máximo em bytes por arquivo */
   maxSize?: number;
 
