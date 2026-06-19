@@ -248,36 +248,36 @@ const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
                 const isImage = file.type.startsWith('image/');
                 return (
                   <li key={`${file.name}-${index}`} className={styles.thumb}>
-                    {isImage ? (
-                      <img
-                        src={getObjectUrl(file)}
-                        alt={file.name}
-                        className={styles.thumbImage}
-                      />
-                    ) : (
-                      <div className={styles.thumbFile} aria-hidden="true">
-                        <Document24Regular />
-                        <span className={styles.thumbFileName}>{file.name}</span>
-                      </div>
-                    )}
-
-                    <div className={styles.thumbOverlay}>
-                      <button
-                        type="button"
-                        className={styles.removeButton}
-                        aria-label={`Remover ${file.name}`}
-                        disabled={disabled}
-                        onClick={(e) => handleRemove(e, index)}
-                        onKeyDown={(e) => {
-                          if (e.key === 'Enter' || e.key === ' ') {
-                            e.preventDefault();
-                            handleRemove(e, index);
-                          }
-                        }}
-                      >
-                        <Dismiss16Regular aria-hidden="true" />
-                      </button>
+                    <div className={styles.thumbClip}>
+                      {isImage ? (
+                        <img
+                          src={getObjectUrl(file)}
+                          alt={file.name}
+                          className={styles.thumbImage}
+                        />
+                      ) : (
+                        <div className={styles.thumbFile} aria-hidden="true">
+                          <Document24Regular />
+                          <span className={styles.thumbFileName}>{file.name}</span>
+                        </div>
+                      )}
                     </div>
+
+                    <button
+                      type="button"
+                      className={styles.removeButton}
+                      aria-label={`Remover ${file.name}`}
+                      disabled={disabled}
+                      onClick={(e) => handleRemove(e, index)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault();
+                          handleRemove(e, index);
+                        }
+                      }}
+                    >
+                      <Dismiss16Regular aria-hidden="true" />
+                    </button>
                   </li>
                 );
               })}
