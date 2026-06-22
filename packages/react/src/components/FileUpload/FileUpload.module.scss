@@ -60,10 +60,13 @@
 }
 
 .uploadIcon {
-  color: var(--color-neutral-low-medium);
   display: flex;
-  align-items: center;
-  justify-content: center;
+  padding: 10px;
+  align-items: flex-start;
+  gap: 10px;
+  border-radius: 100%;
+  background: var(--color-neutral-high-medium);
+  color: var(--color-neutral-low-dark);
 
   svg {
     width: 24px;
@@ -75,7 +78,8 @@
   font-size: var(--font-size-14);
   color: var(--color-neutral-low-medium);
   font-family: var(--font-family-primary);
-  font-weight: var(--font-weight-regular);
+  font-weight: var(--font-weight-bold);
+  line-height: normal;
   text-align: center;
 }
 
@@ -173,20 +177,19 @@
 
 .removeButton {
   position: absolute;
-  top: 4px;
-  right: 4px;
-  z-index: 1;
+  top: 8px;
+  right: 8px;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
   border: none;
   background-color: var(--color-neutral-low-dark);
   color: var(--color-neutral-high-default);
   cursor: pointer;
-  padding: 0;
+  padding: var(--spacing-4);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.15s ease;
@@ -194,10 +197,6 @@
   svg {
     width: 12px;
     height: 12px;
-  }
-
-  &:hover:not(:disabled) {
-    background-color: var(--color-feedback-alert-default);
   }
 
   &:focus-visible {

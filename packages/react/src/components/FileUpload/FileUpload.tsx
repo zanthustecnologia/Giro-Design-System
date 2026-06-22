@@ -1,8 +1,8 @@
 import {
-  ArrowUpload24Regular,
   Document24Regular,
   Dismiss16Regular,
   Warning24Regular,
+  DocumentAdd24Regular,
 } from '@fluentui/react-icons';
 import clsx from 'clsx';
 import React, {
@@ -237,7 +237,7 @@ const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
           {!hasFiles && !isError && (
             <div className={styles.emptyState} aria-hidden="true">
               <span className={styles.uploadIcon}>
-                <ArrowUpload24Regular />
+                <DocumentAdd24Regular />
               </span>
               <span className={styles.uploadText}>{instructionText}</span>
             </div>
