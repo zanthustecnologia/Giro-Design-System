@@ -132,7 +132,7 @@ export const Escalas: Story = {
     const [selectedC, setSelectedC] = useState<Date | undefined>();
 
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '56px', alignItems: 'flex-start' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '200px', alignItems: 'flex-start' }}>
         <Calendar onDaySelect={(d) => setSelectedA(d)} selected={selectedA ?? null} scale={1} />
         <Calendar onDaySelect={(d) => setSelectedB(d)} selected={selectedB ?? null} scale={1.5} />
         <Calendar onDaySelect={(d) => setSelectedC(d)} selected={selectedC ?? null} scale={2} />

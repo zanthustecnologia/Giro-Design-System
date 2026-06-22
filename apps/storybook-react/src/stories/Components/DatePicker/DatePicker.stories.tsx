@@ -164,7 +164,7 @@ export const AlinhamentoDireita: Story = {
 
 export const Escalas: Story = {
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '64px', alignItems: 'flex-start' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '96px', alignItems: 'flex-start' }}>
       <DatePicker label="Scale 1.0" helperText="Exemplo" datePickerScale={1} calendarScale={1} />
       <DatePicker label="Scale 1.5" helperText="Exemplo" datePickerScale={1.5} calendarScale={1.5} />
       <DatePicker label="Scale 2.0" helperText="Exemplo" datePickerScale={2} calendarScale={2} />

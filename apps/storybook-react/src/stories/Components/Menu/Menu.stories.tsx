@@ -244,7 +244,7 @@ export const ScrollInfinito: Story = {
 
 export const Escalas: Story = {
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '40px', alignItems: 'flex-start' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '80px', alignItems: 'flex-start' }}>
       <Menu items={acoesItens} dropdownScale={1} buttonScale={1}>
         <Button variant="outlined">Menu 1.0 / Botão 1.0</Button>
       </Menu>

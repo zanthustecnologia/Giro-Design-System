@@ -19,6 +19,12 @@
   font-weight: var(--font-weight-regular);
   font-family: var(--font-family-primary);
 
+  &::after {
+    content: '';
+    position: absolute;
+    inset: -11px;
+  }
+
   &[data-state='checked'],
   &[data-state='indeterminate'] {
     background-color: var(--color-brand-primary-default);
