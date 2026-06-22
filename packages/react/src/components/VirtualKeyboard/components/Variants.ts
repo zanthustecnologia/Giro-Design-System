@@ -41,13 +41,13 @@ const SHARED_LAYOUTS = {
     '1 2 3 4 5 6 7 8 9 0',
     `- / : ; ( ) $ & @ "`,
     '{alt2} . , ? ! ´ {bksp}',
-    '{default} {emoticon} {space} {downkeyboard} {enter}',
+    '{default} {emoticon} {space} {enter}',
   ],
   alt2: [
     '[ ] { } # % ^ * + =',
     '_ \\ | ~ < > ¢ £ ¥ •',
     `{alt} . , ? ! ' {bksp}`,
-    '{default} {emoticon} {space} {downkeyboard} {enter}',
+    '{default} {emoticon} {space} {enter}',
   ],
   emoticon: [
     '😀 😊 😅 😂 🙂 😉 😍 😛 😠 😎 {bksp}',
