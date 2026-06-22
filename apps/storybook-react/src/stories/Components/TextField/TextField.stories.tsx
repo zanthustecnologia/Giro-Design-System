@@ -258,7 +258,7 @@ export const ComTecladoVirtual: Story = {
 };
 export const Escalas: Story = {
   render: () => (
-    <div className='storybook__container' style={{ display: 'flex', flexDirection: 'column', gap: '40px', alignItems: 'flex-start' }}>
+    <div className='storybook__container' style={{ display: 'flex', flexDirection: 'column', gap: '80px', alignItems: 'flex-start' }}>
       <TextField label="Scale 1.0" placeholder="Texto" scale={1} />
       <TextField label="Scale 1.5" placeholder="Texto" scale={1.5} />
       <TextField label="Scale 2.0" placeholder="Texto" scale={2} />

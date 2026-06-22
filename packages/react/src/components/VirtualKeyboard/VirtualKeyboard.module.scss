@@ -22,6 +22,8 @@
 .container {
   font-family: var(--font-family-primary);
   width: 100%;
+  container-type: inline-size;
+  container-name: vkeyboard;
 
   :global(.hg-theme-default) {
     font-family: var(--font-family-primary);
@@ -135,8 +137,8 @@
   bottom: var(--spacing-0);
   left: var(--spacing-0);
   right: var(--spacing-0);
-  background-color: transparent;
-  backdrop-filter: blur(20px);
+  background-color: var(--color-neutral-high-default);
+  // backdrop-filter: blur(20px);
   border-top: var(--border-width-1) solid var(--color-neutral-high-dark);
   transform: translateY(100%);
   transition: transform 0.25s ease-out;
@@ -149,8 +151,8 @@
     font-family: var(--font-family-primary);
     border-radius: var(--border-radius-none);
     font-weight: var(--font-weight-medium);
-    background-color: transparent;
-    backdrop-filter: blur(10px);
+    background-color: var(--color-neutral-high-default);
+    // backdrop-filter: blur(20px);
     box-shadow: none;
 
     :global(.hg-button) {
@@ -168,7 +170,6 @@
       justify-content: center;
       align-items: center;
       gap: var(--spacing-6);
-      flex-shrink: 0;
       box-shadow: none;
 
       svg {
@@ -249,27 +250,57 @@
   position: relative;
 }
 
-.accentMenu {
+.keyPreview {
   position: fixed;
-  transform: translate(-50%, calc(-100% - 8px));
+  transform: translate(-50%, calc(-100%));
   display: inline-flex;
   align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  padding: var(--spacing-4);
+  border-radius: var(--border-radius-8);
+  border: var(--border-width-1) solid var(--color-neutral-low-light);
+  border-top: none;
+  background: var(--color-neutral-high-medium);
+  box-shadow: none;
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-24);
+  font-weight: var(--font-weight-medium);
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.accentMenu {
+  position: fixed;
+  transform: translate(-50%, calc(-100%));
+  display: inline-flex;
+  flex-direction: column;
+  align-items: stretch;
   gap: var(--spacing-4);
   padding: var(--spacing-4);
   border-radius: var(--border-radius-8);
-  border: var(--border-width-1) solid var(--color-neutral-medium-default);
-  background: var(--color-neutral-high-default);
-  box-shadow: 0 6px 16px rgba(17, 17, 25, 0.12);
+  border: var(--border-width-1) solid var(--color-neutral-low-light);
+  border-top: none;
+  background: var(--color-neutral-high-medium);
+  box-shadow: none;
+}
+
+.accentMenuRow {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
 }
 
 .accentOption {
-  min-width: 44px;
-  height: 44px;
+  min-width: 50px;
+  height: 50px;
   padding: 0 var(--spacing-8);
   border: none;
   border-radius: var(--border-radius-8);
   font-family: var(--font-family-primary);
-  font-size: var(--font-size-16);
+  font-size: var(--font-size-24);
   background: none;
   font-weight: var(--font-weight-medium);
   cursor: pointer;
@@ -281,5 +312,189 @@
   &:focus-visible {
     outline: 2px solid var(--color-primary-default);
     outline-offset: 1px;
+  }
+}
+
+// ─── Container queries — modo fixed (respondem à largura do .container) ──────
+// Funcionam tanto no Storybook quanto em dispositivos reais.
+
+@container vkeyboard (max-width: 768px) {
+  :global(.hg-theme-default) {
+    :global(.hg-button) {
+      height: 42px;
+      margin: 3px;
+    }
+  }
+}
+
+@container vkeyboard (max-width: 480px) {
+  .textFieldContainer {
+    padding: var(--spacing-4);
+  }
+
+  .keyboardWrapper {
+    padding: 2px var(--spacing-4) var(--spacing-4);
+  }
+
+  :global(.hg-theme-default) {
+    :global(.hg-button) {
+      height: 40px;
+      font-size: var(--font-size-18);
+      margin: 3px;
+    }
+  }
+}
+
+@container vkeyboard (max-width: 390px) {
+  .textFieldContainer {
+    padding: var(--spacing-4) var(--spacing-4) 2px;
+  }
+
+  .keyboardWrapper {
+    padding: 2px 2px var(--spacing-4);
+  }
+
+  :global(.hg-theme-default) {
+    :global(.hg-button) {
+      height: 38px;
+      font-size: var(--font-size-16);
+      margin: 2px;
+    }
+  }
+}
+
+@container vkeyboard (max-width: 360px) {
+  .textFieldContainer {
+    padding: 2px;
+  }
+
+  .keyboardWrapper {
+    padding: 2px;
+  }
+
+  :global(.hg-theme-default) {
+    :global(.hg-button) {
+      height: 34px;
+      font-size: var(--font-size-14);
+      margin: 2px;
+      border-radius: var(--border-radius-4);
+    }
+  }
+}
+
+// ─── Media queries — modo native overlay (respondem ao viewport) ──────────────
+// O overlay é position:fixed e portado para document.body, por isso usa @media.
+
+@media (max-width: 768px) {
+  .overlay {
+    :global(.hg-theme-default) {
+      :global(.hg-button) {
+        height: 42px;
+        margin: 3px;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .overlay {
+    padding: 3px 2px;
+
+    :global(.hg-theme-default) {
+      :global(.hg-button) {
+        height: 40px;
+        font-size: var(--font-size-18);
+        margin: 3px;
+      }
+    }
+  }
+}
+
+@media (max-width: 390px) {
+  .overlay {
+    padding: 2px;
+
+    :global(.hg-theme-default) {
+      :global(.hg-button) {
+        height: 38px;
+        font-size: var(--font-size-16);
+        margin: 2px;
+      }
+    }
+  }
+}
+
+@media (max-width: 360px) {
+  .overlay {
+    padding: 2px 2px var(--spacing-4);
+
+    :global(.hg-theme-default) {
+      :global(.hg-button) {
+        height: 34px;
+        font-size: var(--font-size-14);
+        margin: 2px;
+        border-radius: var(--border-radius-4);
+      }
+    }
+  }
+}
+
+// ─── Media queries — keyPreview e accentOption (portais para document.body) ───
+// Portados fora de qualquer container, precisam de @media.
+// accentOption e keyPreview mantém um tamanho mínimo de 44px — mínimo de alvo de toque (WCAG 2.5.5)
+
+@media (max-width: 768px) {
+  .keyPreview {
+    width: 48px;
+    height: 48px;
+  }
+
+  .accentOption {
+    min-width: 48px;
+    height: 48px;
+  }
+}
+
+@media (max-width: 480px) {
+  .keyPreview {
+    width: 46px;
+    height: 46px;
+    font-size: var(--font-size-20);
+  }
+
+  .accentOption {
+    min-width: 46px;
+    height: 46px;
+    font-size: var(--font-size-20);
+  }
+}
+
+@media (max-width: 390px) {
+  .keyPreview {
+    width: 44px;
+    height: 44px;
+    font-size: var(--font-size-18);
+  }
+
+  .accentOption {
+    min-width: 44px;
+    height: 44px;
+    padding: 0 var(--spacing-4);
+    font-size: var(--font-size-18);
+  }
+}
+
+@media (max-width: 360px) {
+  .keyPreview {
+    width: 44px;
+    height: 44px;
+    font-size: var(--font-size-16);
+  }
+
+  .accentOption {
+    min-width: 44px;
+    height: 44px;
+    padding: 0 var(--spacing-4);
+    font-size: var(--font-size-16);
   }
 }

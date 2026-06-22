@@ -14,16 +14,16 @@ import type { VirtualKeyboardProps } from './VirtualKeyboard.type';
 const LONG_PRESS_DELAY_MS = 400;
 
 const ACCENT_OPTIONS: Record<string, string[]> = {
-  a: ['á', 'à', 'â', 'ã', 'ä', 'å', 'æ'],
-  e: ['é', 'è', 'ê', 'ë'],
-  i: ['í', 'ì', 'î', 'ï'],
-  o: ['ó', 'ò', 'ô', 'õ', 'ö', 'ø', 'œ', 'ð'],
-  u: ['ú', 'ù', 'û', 'ü'],
-  y: ['ý', 'ÿ'],
-  n: ['ñ'],
-  c: ['ç'],
-  '?': ['¿'],
-  '!': ['¡'],
+  a: ['a', 'á', 'à', 'â', 'ã', 'ä', 'å', 'æ', '@', 'ª'],
+  e: ['e', 'é', 'è', 'ê', 'ë', 'ę', 'ē', 'ė', '€'],
+  i: ['i', 'í', 'ì', 'î', 'ï', 'ī', 'į', 'ı'],
+  o: ['o', 'ó', 'ò', 'ô', 'õ', 'ö','ō', 'ø', 'œ', 'º'],
+  u: ['u', 'ú', 'ù', 'û', 'ü', 'ū', 'ů', 'ű'],
+  y: ['y', 'ý', 'ÿ', 'ŷ', 'ȳ'],
+  n: ['n', 'ñ'],
+  c: ['c', 'ç'],
+  '?': ['?','¿'],
+  '!': ['!','¡'],
 };
 
 type AccentMenuState = {
@@ -85,6 +85,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
 
   const [isOpen, setIsOpen] = useState(variant !== 'native');
   const hideTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const scrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const longPressTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const suppressNextInputRef = useRef<string | null>(null);
   const heldAccentKeyRef = useRef<string | null>(null);
@@ -94,9 +95,14 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
   const keyboardInstanceRef = useRef<{ setInput: (value: string) => void } | null>(null);
   const accentMenuRef = useRef<HTMLDivElement | null>(null);
   const accentButtonRef = useRef<HTMLButtonElement | null>(null);
-  const accentMenuOpenRef = useRef(false);
   const valueRef = useRef(value);
   const [iconSlots, setIconSlots] = useState<HTMLElement[]>([]);
+
+  type KeyPreviewState = { char: string; top: number; left: number } | null;
+  const [keyPreview, setKeyPreview] = useState<KeyPreviewState>(null);
+  const [keyPreviewOffsetX, setKeyPreviewOffsetX] = useState(0);
+  const keyPreviewRef = useRef<HTMLDivElement | null>(null);
+  const [containerWidth, setContainerWidth] = useState<number>(Infinity);
 
   useEffect(() => {
     valueRef.current = value;
@@ -139,6 +145,19 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
     }, 150);
   }, [variant, targetRef]);
 
+  const scrollTargetIntoView = useCallback(() => {
+    const targetEl = targetRef?.current;
+    if (!targetEl) return;
+
+    const keyboardHeight = keyboardWrapperRef.current?.offsetHeight ?? 0;
+    const rect = targetEl.getBoundingClientRect();
+    const visibleBottom = window.innerHeight - keyboardHeight - 8;
+
+    if (rect.bottom > visibleBottom) {
+      window.scrollBy({ top: rect.bottom - visibleBottom, behavior: 'smooth' });
+    }
+  }, [targetRef]);
+
   useEffect(() => {
     if (variant !== 'native') return;
 
@@ -151,7 +170,9 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
 
     const handleFocus = () => {
       if (hideTimeoutRef.current !== null) clearTimeout(hideTimeoutRef.current);
+      if (scrollTimeoutRef.current !== null) clearTimeout(scrollTimeoutRef.current);
       setIsOpen(true);
+      scrollTimeoutRef.current = setTimeout(scrollTargetIntoView, 50);
     };
 
     const handleBlur = () => {
@@ -165,8 +186,28 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
       el.removeEventListener('focus', handleFocus);
       el.removeEventListener('blur', handleBlur);
       if (hideTimeoutRef.current !== null) clearTimeout(hideTimeoutRef.current);
+      if (scrollTimeoutRef.current !== null) clearTimeout(scrollTimeoutRef.current);
     };
-  }, [variant, targetRef, scheduleHideIfBlurred]);
+  }, [variant, targetRef, scheduleHideIfBlurred, scrollTargetIntoView]);
+
+  useEffect(() => {
+    if (variant !== 'native') return;
+
+    const wrapper = keyboardWrapperRef.current;
+    if (!wrapper) return;
+
+     const preventIOSBlur = (event: TouchEvent) => {
+      const targetEl = event.target as HTMLElement;
+      const isButton = !!targetEl.closest('.hg-button');
+      event.preventDefault();
+     };
+
+    wrapper.addEventListener('touchstart', preventIOSBlur, { passive: false });
+
+    return () => {
+    wrapper.removeEventListener('touchstart', preventIOSBlur);
+  };
+}, [variant]);
 
   useEffect(() => {
     setLayoutName('default');
@@ -211,6 +252,23 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
   }, [accentMenu, closeAccentMenu]);
 
   useLayoutEffect(() => {
+    if (!keyPreview || !keyPreviewRef.current) return;
+
+    const margin = 8;
+    const rect = keyPreviewRef.current.getBoundingClientRect();
+    if (rect.width <= 0 || rect.height <= 0) return;
+
+    const minCenter = margin + rect.width / 2;
+    const maxCenter = window.innerWidth - margin - rect.width / 2;
+    const clampedCenter = Math.min(maxCenter, Math.max(minCenter, keyPreview.left));
+    const nextOffset = clampedCenter - keyPreview.left;
+
+    if (Math.abs(nextOffset - keyPreviewOffsetX) > 0.5) {
+      setKeyPreviewOffsetX(nextOffset);
+    }
+  }, [keyPreview, keyPreviewOffsetX]);
+
+  useLayoutEffect(() => {
     if (!accentMenu || !accentMenuRef.current) return;
 
     const margin = 8;
@@ -226,6 +284,16 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
       setAccentMenuOffsetX(nextOffset);
     }
   }, [accentMenu, accentMenuOffsetX]);
+
+  useEffect(() => {
+    const wrapper = keyboardWrapperRef.current;
+    if (!wrapper) return;
+    const ro = new ResizeObserver((entries) => {
+      setContainerWidth(entries[0]?.contentRect.width ?? Infinity);
+    });
+    ro.observe(wrapper);
+    return () => ro.disconnect();
+  }, []);
 
   useEffect(() => {
     if (!keyboardWrapperRef.current) return;
@@ -263,12 +331,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
   }, [layoutName, type, closeAccentMenu, clearLongPressTimeout]);
 
   useEffect(() => {
-    accentMenuOpenRef.current = !!accentMenu;
-  }, [accentMenu]);
-
-  useEffect(() => {
     const updateAccentPosition = () => {
-      if (!accentMenuOpenRef.current) return;
       const btn = accentButtonRef.current;
       if (!btn) return;
       const rect = btn.getBoundingClientRect();
@@ -299,24 +362,35 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
       const buttonEl = (event.target as HTMLElement).closest('.hg-button') as HTMLButtonElement | null;
       if (!buttonEl || !keyboardWrapper.contains(buttonEl)) return;
 
+      event.preventDefault();
+
       const sourceKey = buttonEl.getAttribute('data-skbtn') ?? '';
       heldAccentKeyRef.current = null;
       longPressTriggeredRef.current = false;
 
+      if (sourceKey && !sourceKey.startsWith('{') && type !== 'numeric' && containerWidth <= 768) {
+        const buttonRect = buttonEl.getBoundingClientRect();
+        setKeyPreviewOffsetX(0);
+        setKeyPreview({
+          char: sourceKey,
+          top: buttonRect.top - 4,
+          left: buttonRect.left + buttonRect.width / 2,
+        });
+      }
+
       if (!sourceKey || sourceKey.startsWith('{')) return;
+
+      heldAccentKeyRef.current = sourceKey;
+      clearLongPressTimeout();
 
       const accentOptions = ACCENT_OPTIONS[sourceKey.toLowerCase()];
       if (!accentOptions) return;
-
-      heldAccentKeyRef.current = sourceKey;
-
-      clearLongPressTimeout();
 
       longPressTimeoutRef.current = setTimeout(() => {
         const buttonRect = buttonEl.getBoundingClientRect();
         const isUpperCaseKey = sourceKey === sourceKey.toUpperCase();
         longPressTriggeredRef.current = true;
-
+        setKeyPreview(null);
         accentButtonRef.current = buttonEl;
         setAccentMenu({
           sourceKey,
@@ -331,7 +405,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
         suppressNextInputRef.current = sourceKey;
       }, LONG_PRESS_DELAY_MS);
     },
-    [clearLongPressTimeout]
+    [clearLongPressTimeout, type, containerWidth]
   );
 
   const handleLongPressEnd = useCallback(() => {
@@ -339,6 +413,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
     const longPressTriggered = longPressTriggeredRef.current;
     const baseLayout = type === 'numeric' ? 'abc' : 'default';
 
+    setKeyPreview(null);
     isKeyboardInteractingRef.current = false;
     clearLongPressTimeout();
 
@@ -526,6 +601,14 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
     [maxLength, onChange, syncKeyboardInput]
   );
 
+  const portalSizes = useMemo(() => {
+    if (containerWidth <= 360) return { preview: 42, option: 44, fontSize: 'var(--font-size-16)' as const };
+    if (containerWidth <= 390) return { preview: 44, option: 44, fontSize: 'var(--font-size-18)' as const };
+    if (containerWidth <= 480) return { preview: 46, option: 46, fontSize: 'var(--font-size-20)' as const };
+    if (containerWidth <= 768) return { preview: 48, option: 48, fontSize: undefined };
+    return { preview: 50, option: 50, fontSize: undefined };
+  }, [containerWidth]);
+
   const keyboardDisplay = useMemo(() => {
     const baseDisplay = LAYOUT_DISPLAY[visualType];
     if (!baseDisplay) return baseDisplay;
@@ -580,6 +663,24 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
         });
       })()}
 
+      {keyPreview && typeof document !== 'undefined' && createPortal(
+        <div
+          ref={keyPreviewRef}
+          className={styles.keyPreview}
+          style={{
+            top: keyPreview.top,
+            left: keyPreview.left + keyPreviewOffsetX,
+            width: portalSizes.preview,
+            height: portalSizes.preview,
+            ...(portalSizes.fontSize ? { fontSize: portalSizes.fontSize } : {}),
+          }}
+          aria-hidden
+        >
+          {keyPreview.char}
+        </div>,
+        document.body
+      )}
+
       {accentMenu && (
         typeof document !== 'undefined' &&
         createPortal(
@@ -593,19 +694,31 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
             role="listbox"
             aria-label={`Opcoes de acento para ${accentMenu.sourceKey}`}
           >
-            {accentMenu.options.map((option) => (
-              <button
-                key={`${accentMenu.sourceKey}-${option}`}
-                type="button"
-                className={styles.accentOption}
-                onPointerDown={(event) => {
-                  event.preventDefault();
-                  event.stopPropagation();
-                }}
-                onClick={() => handleAccentSelect(option)}
-              >
-                {option}
-              </button>
+            {Array.from(
+              { length: Math.ceil(accentMenu.options.length / 5) },
+              (_, rowIndex) => accentMenu.options.slice(rowIndex * 5, rowIndex * 5 + 5)
+            ).map((rowOptions, rowIndex) => (
+              <div key={rowIndex} className={styles.accentMenuRow}>
+                {rowOptions.map((option) => (
+                  <button
+                    key={`${accentMenu.sourceKey}-${option}`}
+                    type="button"
+                    className={styles.accentOption}
+                    style={{
+                      minWidth: portalSizes.option,
+                      height: portalSizes.option,
+                      ...(portalSizes.fontSize ? { fontSize: portalSizes.fontSize } : {}),
+                    }}
+                    onPointerDown={(event) => {
+                      event.preventDefault();
+                      event.stopPropagation();
+                    }}
+                    onClick={() => handleAccentSelect(option)}
+                  >
+                    {option}
+                  </button>
+                ))}
+              </div>
             ))}
           </div>,
           document.body

@@ -1,0 +1,91 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as CardStories from './Card.stories';
+import { Card } from '@giro-ds/react';
+import { UsageGuidelines } from '../../../internal-components/mdx/UsageGuidelines/UsageGuidelines';
+import { ComponentRules } from '../../../internal-components/mdx/Rules/Rules';
+import { Footer } from '../../../internal-components/mdx/Footer/Footer';
+
+<Meta of={CardStories} />
+
+# Card
+
+O Card é um componente de layout que agrupa conteúdos relacionados em um contêiner visual delimitado por borda e espaçamento interno. Utiliza tokens do design system para garantir consistência visual em toda a aplicação.
+
+<Canvas of={CardStories.Default} />
+
+<div style={{ marginTop: '48px' }} />
+
+## Importação
+
+```js
+import { Card } from '@giro-ds/react';
+```
+
+<div style={{ marginTop: '48px' }} />
+
+## Uso
+
+<UsageGuidelines
+  guidelines={[
+    <>
+      Use o Card para agrupar conteúdos relacionados, como informações de um usuário, detalhes de um produto ou seções de formulário. O Card serve como contêiner visual que delimita e organiza o conteúdo.
+    </>,
+    <>
+      O Card aceita qualquer conteúdo como <code>children</code>, permitindo composição livre com outros componentes do design system, como textos, botões e inputs.
+    </>,
+    <>
+      Utilize a prop <code>className</code> apenas para ajustes pontuais de layout que não possam ser resolvidos com o espaçamento padrão do componente. Evite sobrescrever tokens visuais como borda e border-radius.
+    </>,
+  ]}
+/>
+
+<div style={{ marginTop: '48px' }} />
+
+## O que fazer e não fazer
+
+<ComponentRules
+  rules={[
+    {
+      positive: {
+        component: (
+          <Card>
+            <p>Conteúdo agrupado e relacionado dentro do Card.</p>
+          </Card>
+        ),
+        description: "Use o Card para agrupar conteúdos relacionados, aproveitando o espaçamento e a borda definidos pelos tokens do design system."
+      },
+      negative: {
+        component: (
+          <Card>
+            <Card>
+              <p>Card aninhado</p>
+            </Card>
+          </Card>
+        ),
+        description: "Evite aninhar Cards. Isso cria redundância visual e foge dos padrões de layout esperados pelo design system."
+      },
+    },
+    {
+      positive: {
+        component: (
+          <Card>
+            <p>Conteúdo com espaçamento interno padrão.</p>
+          </Card>
+        ),
+        description: "Permita que o Card gerencie o padding interno por conta própria, sem adicionar espaçamentos extras no conteúdo filho."
+      },
+      negative: {
+        component: (
+          <Card>
+            <div style={{ padding: '32px' }}>
+              <p>Espaçamento duplicado</p>
+            </div>
+          </Card>
+        ),
+        description: "Evite adicionar padding extra dentro do Card. Isso duplica o espaçamento e quebra a consistência visual definida pelos tokens."
+      },
+    },
+  ]}
+/>
+
+<Footer />

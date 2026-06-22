@@ -194,7 +194,7 @@ export const Interativo: Story = {
 
 export const Escalas: Story = {
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '28px', alignItems: 'flex-start' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '64px', alignItems: 'flex-start' }}>
       <Chips scale={1}>Scale 1.0</Chips>
       <Chips scale={1.5}>Scale 1.5</Chips>
       <Chips scale={2}>Scale 2.0</Chips>

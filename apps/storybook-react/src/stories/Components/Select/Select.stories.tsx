@@ -326,7 +326,7 @@ ComFilhos.args = {
 };
 
 export const Escalas: StoryFn<SelectProps> = () => (
-  <div style={{ display: 'flex', flexDirection: 'column', gap: '56px', alignItems: 'flex-start', width: 420 }}>
+  <div style={{ display: 'flex', flexDirection: 'column', gap: '80px', alignItems: 'flex-start', width: 420 }}>
     <Select items={mockItems} variant="text" label="Scale 1.0" placeholder="Selecione" scale={1} />
     <Select items={mockItems} variant="text" label="Scale 1.5" placeholder="Selecione" scale={1.5} />
     <Select items={mockItems} variant="text" label="Scale 2.0" placeholder="Selecione" scale={2} />
