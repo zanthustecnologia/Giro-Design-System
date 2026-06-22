@@ -1,5 +1,86 @@
 # @giro-ds/react
 
+## [10.0.0] - 2026-06-22
+
+### Added
+
+#### Card
+
+Novo componente contêiner visual para agrupar conteúdos relacionados. Utiliza tokens do design system para borda, border-radius e espaçamento interno. Aceita `children` (obrigatório), `className` opcional e a prop `interactiveCard` (boolean) que aplica efeito de hover e cursor pointer.
+
+#### VirtualKeyboard
+
+Adiciona responsividade mobile com breakpoints em 360px, 390px, 480px e 768px. No modo `fixed`, utiliza container queries; no modo `native`, utiliza media queries. Em telas ≤ 768px, exibe `keyPreview` (letra pressionada acima da tecla). O menu de acentos foi reorganizado em linhas de 5, com mais opções por tecla. Adiciona scroll automático do campo alvo ao abrir o teclado no modo `native`.
+
+#### TextField
+
+Adiciona a prop `disableAutoComplete` para controle do autocompletar do navegador.
+
+### Changed
+
+#### TextField, TextArea, Search, TableV2
+
+Unifica a API do teclado virtual: as props `virtualKeyboard: boolean`, `virtualKeyboardType` e `virtualKeyboardMaxLength` são substituídas por uma única prop `virtualKeyboard?: VirtualKeyboardType` (`'default' | 'numeric' | 'none' | undefined`). O `maxLength` agora é usado diretamente no lugar de `virtualKeyboardMaxLength`.
+
+Guia de migração:
+
+```tsx
+// Antes
+<TextField
+  virtualKeyboard={true}
+  virtualKeyboardType="default"
+  virtualKeyboardMaxLength={50}
+  side="bottom"
+  align="start"
+/>
+
+// Depois
+<TextField
+  virtualKeyboard="default"
+  maxLength={50}
+  tooltipSide="bottom"
+  tooltipAlign="start"
+/>
+
+// Para desabilitar, omita a prop ou passe undefined
+<TextField />
+```
+
+#### TextField
+
+Renomeia as props de tooltip para evitar conflito com atributos HTML nativos.
+
+| Antes | Depois |
+|---|---|
+| `side` | `tooltipSide` |
+| `align` | `tooltipAlign` |
+
+Remove o valor padrão `30` da prop `maxLength`, que agora é `number | undefined`.
+
+#### VirtualKeyboard
+
+Refatora o SCSS com extração de mixins (`space`, `blankSpace`, `buttonFlex`). Remove estilos `.disabled` duplicados. O modo `fixed` agora repassa `disableAutoComplete` ao `TextField` interno. Remove `backdrop-filter: blur`, substituído por cor sólida.
+
+### Removed
+
+#### TextField, TextArea, Search, TableV2
+
+Remove as props `virtualKeyboardType` e `virtualKeyboardMaxLength`, incorporadas à nova API unificada de `virtualKeyboard`.
+
+### Fixed
+
+#### Checkbox
+
+Amplia a área de clique interativa adicionando pseudo-elemento `::after` com `position: absolute` e `inset: -11px`.
+
+#### VirtualKeyboard
+
+Corrige o fechamento indevido do teclado no iOS. Corrige a exibição de `errorMessage`, que agora só aparece quando `error` também é `true`.
+
+#### Stories de Escalas (Button, Calendar, Checkbox, Chips, DatePicker, Menu, Quantity, Radio, Search, Select, Switch, TextField)
+
+Corrige valores de `gap` nas stories de Escalas para evitar sobreposição visual entre itens em escala maior.
+
 ## [9.1.0]
 
 ### Added
