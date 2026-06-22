@@ -12,7 +12,6 @@ const meta: Meta<typeof VirtualKeyboard> = {
     controls: {
       sort: 'alpha',
     },
-    layout: 'centered',
   },
   argTypes: {
     variant: {
@@ -150,4 +149,125 @@ export const SemEmoji: Story = {
     Emoji: false,
   },
   render: (args) => <KeyboardWrapper {...args} />,
+};
+
+const BREAKPOINTS = [
+  { label: '≤ 360px', subtitle: 'iPhone SE · Moto G · Galaxy A', width: 360 },
+  { label: '≤ 390px', subtitle: 'iPhone 14/15 · Galaxy S22/S23', width: 390 },
+  { label: '≤ 480px', subtitle: 'iPhone Pro Max · Galaxy Ultra', width: 480 },
+  { label: '≤ 768px', subtitle: 'Tablet · Landscape', width: 768 },
+];
+
+const DeviceFrame = ({
+  label,
+  subtitle,
+  width,
+  type,
+}: {
+  label: string;
+  subtitle: string;
+  width: number;
+  type: 'default' | 'numeric';
+}) => {
+  const [value, setValue] = useState('');
+
+  return (
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: 8,
+        flex: '0 0 auto',
+      }}
+    >
+      <div
+        style={{
+          fontSize: 12,
+          fontWeight: 700,
+          fontFamily: 'monospace',
+          color: '#1a1a1a',
+          textAlign: 'center',
+        }}
+      >
+        {label}
+      </div>
+      <div
+        style={{
+          fontSize: 10,
+          color: '#666',
+          fontFamily: 'sans-serif',
+          textAlign: 'center',
+          marginBottom: 4,
+        }}
+      >
+        {subtitle}
+      </div>
+      <div
+        style={{
+          width,
+          border: '2px solid #ccc',
+          borderRadius: 12,
+          overflow: 'hidden',
+          boxSizing: 'border-box',
+        }}
+      >
+        <VirtualKeyboard
+          variant="fixed"
+          type={type}
+          value={value}
+          onChange={setValue}
+          textFieldPlaceholder="Digite aqui..."
+        />
+      </div>
+    </div>
+  );
+};
+
+export const ResponsividadeMobile: Story = {
+  parameters: {
+    layout: 'fullscreen',
+    controls: { disable: true },
+    viewport: { disable: true },
+  },
+  render: () => (
+    <div
+      style={{
+        padding: 24,
+        backgroundColor: '#f5f5f5',
+        minHeight: '100vh',
+        boxSizing: 'border-box',
+      }}
+    >
+      <h2
+        style={{
+          fontFamily: 'sans-serif',
+          fontSize: 16,
+          fontWeight: 600,
+          marginBottom: 4,
+          color: '#1a1a1a',
+        }}
+      >
+        VirtualKeyboard — Responsive Mobile Breakpoints
+      </h2>
+      <p
+        style={{
+          fontFamily: 'sans-serif',
+          fontSize: 12,
+          color: '#666',
+          marginBottom: 24,
+        }}
+      >
+        Cada coluna simula a largura máxima do breakpoint correspondente. Clique no campo para abrir o teclado.
+      </p>
+
+      <div style={{ overflowX: 'auto' }}>
+        <div style={{ display: 'flex', gap: 32, alignItems: 'flex-start', width: 'max-content' }}>
+          {BREAKPOINTS.map((bp) => (
+            <DeviceFrame key={bp.width} {...bp} type="default" />
+          ))}
+        </div>
+      </div>
+    </div>
+  ),
 };

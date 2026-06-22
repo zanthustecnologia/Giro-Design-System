@@ -195,7 +195,7 @@ export const SelecionarTodos: Story = {
 
 export const Escalas: Story = {
   render: () => (
-    <div style={{ display: 'flex', gap: '40px', alignItems: 'center' }}>
+    <div style={{ display: 'flex', gap: '60px', alignItems: 'center' }}>
       <Checkbox label="Scale 1.0" scale={1} />
       <Checkbox label="Scale 1.5" scale={1.5} />
       <Checkbox label="Scale 2.0" scale={2} />

@@ -116,11 +116,7 @@ export interface TableV2HeaderProps {
   /** Items de filtro (Status, Data de início, etc.) */
   filterItems?: FilterItem[];
   /** Habilita o teclado virtual */
-  virtualKeyboard?: boolean;
-  /** Tipo do teclado virtual (padrão: 'default') */
-  virtualKeyboardType?: VirtualKeyboardType;
-  /** Comprimento máximo permitido pelo teclado virtual */
-  virtualKeyboardMaxLength?: number;
+  virtualKeyboard?: VirtualKeyboardType;
   /** Modo de busca: 'instant' chama onSearchChange a cada tecla; 'on-enter' chama apenas ao pressionar Enter (padrão) */
   searchMode?: 'instant' | 'on-enter';
   /**

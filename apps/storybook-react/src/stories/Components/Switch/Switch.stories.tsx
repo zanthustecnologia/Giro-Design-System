@@ -79,7 +79,7 @@ export const Controlado: Story = {
 
 export const Escalas: Story = {
   render: () => (
-    <div style={{ display: 'flex', gap: '40px', alignItems: 'center' }}>
+    <div style={{ display: 'flex', gap: '60px', alignItems: 'center' }}>
       <Switch scale={1} />
       <Switch scale={1.5} />
       <Switch scale={2} />

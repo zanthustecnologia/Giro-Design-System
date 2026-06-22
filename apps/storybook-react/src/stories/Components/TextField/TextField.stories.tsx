@@ -34,15 +34,15 @@ const meta: Meta<typeof TextField> = {
       control: 'boolean',
       description: 'Estado desabilitado do campo'
     },
-    side: {
+    tooltipSide: {
       control: 'select',
       options: ['top','bottom', 'left', 'right'],
       description: 'Posição do tooltip'
     },
-    align: {
+    tooltipAlign: {
       control: 'select',
       options: ['start', 'center', 'end'],
-      description: 'Posição do tooltip'
+      description: 'Alinhamento do tooltip'
     },
     type: {
       control: 'select',
@@ -112,16 +112,20 @@ const meta: Meta<typeof TextField> = {
       }
     },
     virtualKeyboard: {
-      control: 'boolean',
-      description: 'Exibe o teclado virtual ao clicar no campo'
-    },
-    virtualKeyboardType: {
       control: 'select',
       options: [
-        'default', 'numeric',
+        'default', 'numeric', 'none',
       ],
       description: 'Layout do teclado virtual',
-      if: { arg: 'virtualKeyboard', truthy: true },
+    },
+    disableAutoComplete: {
+      control: 'boolean',
+      description: 'Habilita ou desabilita o autocomplete nativo do browser',
+    },
+    attachedToVirtualKeyboard: {
+      table: {
+        disable: true,
+      },
     },
   },
 };
@@ -132,7 +136,6 @@ export const Default: Story = {
   args: {
     placeholder: 'Ex.: João da Silva',
     disabled: false,
-    maxLength: 100,
     className: '',
     required: false,
     tooltip: true,
@@ -148,7 +151,7 @@ export const Default: Story = {
   ),
 };
 
-export const WithIcon: Story = {
+export const ComIcone: Story = {
   args: {
     placeholder: 'Ex.: joao@empresa.com',
     label: 'Email',
@@ -163,17 +166,16 @@ export const WithIcon: Story = {
   ),
 };
 
-export const WithTooltip: Story = {
+export const ComTooltip: Story = {
   args: {
     label: 'CPF',
     placeholder: 'Ex.: 000 000 000-00',
     tooltip: true,
     tooltipText: 'O CPF é usado para identificar sua conta. Você pode encontrá-lo no seu documento de identidade.',
-    side: 'bottom',
-    align: 'start',
+    tooltipSide: 'bottom',
+    tooltipAlign: 'start',
     helperText: 'Somente números, sem pontos ou traços',
     type: 'text',
-    maxLength: 11,
   },
   render: (args) => (
     <div className='storybook__container'>
@@ -233,12 +235,11 @@ export const DiferentesIcones: Story = {
   ),
 };
 
-export const WithVirtualKeyboard: Story = {
+export const ComTecladoVirtual: Story = {
   args: {
     label: 'Campo de texto',
     placeholder: 'Clique aqui para abrir o teclado...',
-    virtualKeyboard: true,
-    virtualKeyboardType: 'default',
+    virtualKeyboard: 'default',
     disabled: false,
   },
   render: (args) => {
@@ -257,7 +258,7 @@ export const WithVirtualKeyboard: Story = {
 };
 export const Escalas: Story = {
   render: () => (
-    <div className='storybook__container' style={{ display: 'flex', flexDirection: 'column', gap: '40px', alignItems: 'flex-start' }}>
+    <div className='storybook__container' style={{ display: 'flex', flexDirection: 'column', gap: '80px', alignItems: 'flex-start' }}>
       <TextField label="Scale 1.0" placeholder="Texto" scale={1} />
       <TextField label="Scale 1.5" placeholder="Texto" scale={1.5} />
       <TextField label="Scale 2.0" placeholder="Texto" scale={2} />

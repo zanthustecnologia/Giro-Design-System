@@ -20,13 +20,13 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
       type = 'text',
       onChange,
       disabled = false,
-      maxLength = 30,
+      maxLength,
       required = false,
       helperText,
       tooltip = false,
       tooltipText,
-      side = 'bottom',
-	    align = 'start',
+      tooltipSide = 'bottom',
+	    tooltipAlign = 'start',
       errorMessage,
       error,
       id,
@@ -36,10 +36,9 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
       onFocus,
       name,
       persistIcon = false,
-      virtualKeyboard = false,
-      virtualKeyboardType,
-      virtualKeyboardMaxLength,
-      attachedToVirtualKeyboard = false,
+      virtualKeyboard,
+      attachedToVirtualKeyboard,
+      disableAutoComplete = false,
       ...rest
     },
     ref
@@ -146,8 +145,8 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
             required={required}
             tooltip={tooltip}
             tooltipText={tooltipText}
-            side={side}
-            align={align}
+            side={tooltipSide}
+            align={tooltipAlign}
             error={hasError}
             disabled={disabled}
           >
@@ -173,7 +172,8 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
               aria-invalid={hasError}
               aria-required={required}
               aria-describedby={helperId}
-              inputMode={virtualKeyboard ? 'none' : rest.inputMode}
+              inputMode={(virtualKeyboard === 'default' || virtualKeyboard === 'numeric') ? 'none' : rest.inputMode}
+              autoComplete={(disableAutoComplete || virtualKeyboard === 'default' || virtualKeyboard === 'numeric') ? 'off' : rest.autoComplete}
               className={clsx({
                 [styles.inputWithIcon]: showCustomIcon || showClearIcon,
               })}
@@ -197,7 +197,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
             )}
           </div>
 
-          {(errorMessage || inputError || helperText) && (  
+          {((error && errorMessage) || inputError || helperText) && (  
             <span
               id={helperId}
               className={styles.helperText}
@@ -208,13 +208,13 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
           )}
         </div>
 
-        {virtualKeyboard && (
+        {(virtualKeyboard === 'default' || virtualKeyboard === 'numeric') && (
           <div className="virtualKeyboardWrapper">
             <VirtualKeyboard
               variant="native"
-              type={virtualKeyboardType}
+              type={virtualKeyboard}
               value={inputValue}
-              maxLength={maxLength ?? virtualKeyboardMaxLength}
+              maxLength={maxLength}
               targetRef={inputRef}
               onChange={(val) => {
                 if (!disabled && (!maxLength || val.length <= maxLength)) {

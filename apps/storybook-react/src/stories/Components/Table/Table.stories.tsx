@@ -36,47 +36,7 @@ const statusColor: Record<string, 'success' | 'alert' | 'brand' | 'neutral'> = {
   Expirada: 'neutral',
 };
 
-const tipoColor: Record<string, 'success' | 'alert' | 'brand' | 'neutral'> = {
-  Desconto: 'success',
-  'Frete Grátis': 'brand',
-  Cashback: 'neutral',
-};
-
 // --- Colunas ---
-const colunas = [
-  { key: 'nome', label: 'Nome' },
-  {
-    key: 'tipo',
-    label: 'Tipo',
-    render: (row: any) => (
-      <Chips label={row.tipo} title={row.tipo} type={tipoColor[row.tipo] ?? 'neutral'} />
-    ),
-  },
-  {
-    key: 'status',
-    label: 'Status',
-    render: (row: any) => (
-      <Chips label={row.status} title={row.status} type={statusColor[row.status] ?? 'neutral'} />
-    ),
-  },
-  {
-    key: 'actions',
-    label: '',
-    render: (row: any) => (
-      <Menu
-        items={[
-          { id: 'edit', text: 'Editar' },
-          { id: 'pause', text: row.status === 'Ativa' ? 'Pausar' : 'Ativar' },
-          { id: 'delete', text: 'Excluir' },
-        ]}
-        onItemSelect={(item: any) => console.log(item.text, row.nome)}
-      >
-        <Button variant="text" iconOnly icon={<MoreVertical16Regular />} tooltipText="Mais ações" />
-      </Menu>
-    ),
-  },
-];
-
 const colunasComData = [
   { key: 'nome', label: 'Nome' },
   { key: 'inicio', label: 'Início' },
@@ -84,7 +44,7 @@ const colunasComData = [
     key: 'status',
     label: 'Status',
     render: (row: any) => (
-      <Chips label={row.status} title={row.status} type={statusColor[row.status] ?? 'neutral'} />
+      <Chips variant={statusColor[row.status] ?? 'neutral'}>{row.status}</Chips>
     ),
   },
   {
@@ -126,7 +86,7 @@ const colunasCompletas = [
     key: 'status',
     label: 'Status',
     render: (row: any) => (
-      <Chips label={row.status} title={row.status} type={statusColor[row.status] ?? 'neutral'} />
+      <Chips variant={statusColor[row.status] ?? 'neutral'}>{row.status}</Chips>
     ),
   },
   {
@@ -178,7 +138,7 @@ export const ComBuscaEFiltros: StoryFn = () => {
       ],
       selectedIds: selectedStatus,
       onSelectionChange: (ids) => { setSelectedStatus(ids); setPage(1); },
-      position: 'left',
+      side: 'left',
     },
     {
       id: 'inicio',
@@ -188,7 +148,7 @@ export const ComBuscaEFiltros: StoryFn = () => {
       onDateSelect: (date: Date) => { setDataInicio(date); setPage(1); },
       minDate: new Date(2024, 0, 1),
       maxDate: new Date(2024, 11, 31),
-      position: 'left',
+      side: 'left',
     },
   ];
 
@@ -240,7 +200,7 @@ export const ComFiltroCalendario: StoryFn = () => {
     onDateSelect: (date: Date) => { setDataInicio(date); setPage(1); },
     minDate: new Date(2024, 0, 1),
     maxDate: new Date(2024, 11, 31),
-    position: 'left',
+    side: 'left',
   }];
 
   return (

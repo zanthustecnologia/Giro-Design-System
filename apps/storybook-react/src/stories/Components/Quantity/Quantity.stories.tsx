@@ -140,7 +140,7 @@ export const Controlado: Story = {
 
 export const Escalas: Story = {
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '48px', alignItems: 'flex-start' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '80px', alignItems: 'flex-start' }}>
       <ControlledWrapper value={1} scale={1} />
       <ControlledWrapper value={1} scale={1.5} />
       <ControlledWrapper value={1} scale={2} />

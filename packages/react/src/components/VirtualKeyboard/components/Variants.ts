@@ -12,42 +12,42 @@ const removeKeyFromLayout = (layout: Record<string, string[]>, key: string) =>
   ) as Record<string, string[]>;
 
 const QWERTY_LOWERCASE = [
-  '{//} 1 2 3 4 5 6 7 8 9 0 {//}',
-  '{//} q w e r t y u i o p {//}',
-  'a s d f g h j k l ç {bksp}',
-  '{shift} z x c v b n m , . {shift}',
-  '{numbers} {alt} {space} {downkeyboard} {enter}',
+  '1 2 3 4 5 6 7 8 9 0',
+  'q w e r t y u i o p',
+  'a s d f g h j k l ç',
+  '{shift} z x c v b n m {bksp}',
+  '{numbers} {alt} {space} . {enter}',
 ];
 
 const NUMPAD = ['1 2 3', '4 5 6', '7 8 9', '{bksp} 0 {abc}'];
 
 const SHARED_LAYOUTS = {
   shift: [
-    '{//} 1 2 3 4 5 6 7 8 9 0 {//}',
-    '{//} Q W E R T Y U I O P {//}',
-    'A S D F G H J K L Ç {bksp}',
-    '{capslock} Z X C V B N M , . {capslock}',
-    '{numbers} {alt} {emoticon} {space} {downkeyboard} {enter}',
+    '1 2 3 4 5 6 7 8 9 0',
+    'Q W E R T Y U I O P',
+    'A S D F G H J K L Ç',
+    '{capslock} Z X C V B N M {bksp}',
+    '{numbers} {alt} {emoticon} {space} . {enter}',
   ],
   caps: [
-    '{//} 1 2 3 4 5 6 7 8 9 0 {//}',
-    '{//} Q W E R T Y U I O P {//}',
-    'A S D F G H J K L Ç {bksp}',
-    '{shiftactivated} Z X C V B N M , . {shiftactivated}',
-    '{numbers} {alt} {emoticon} {space} {downkeyboard} {enter}',
+    '1 2 3 4 5 6 7 8 9 0',
+    'Q W E R T Y U I O P',
+    'A S D F G H J K L Ç',
+    '{shiftactivated} Z X C V B N M {bksp}',
+    '{numbers} {alt} {emoticon} {space} . {enter}',
   ],
   numbers: NUMPAD,
   alt: [
     '1 2 3 4 5 6 7 8 9 0',
     `- / : ; ( ) $ & @ "`,
     '{alt2} . , ? ! ´ {bksp}',
-    '{default} {emoticon} {space} {downkeyboard} {enter}',
+    '{default} {emoticon} {space} {enter}',
   ],
   alt2: [
     '[ ] { } # % ^ * + =',
     '_ \\ | ~ < > ¢ £ ¥ •',
     `{alt} . , ? ! ' {bksp}`,
-    '{default} {emoticon} {space} {downkeyboard} {enter}',
+    '{default} {emoticon} {space} {enter}',
   ],
   emoticon: [
     '😀 😊 😅 😂 🙂 😉 😍 😛 😠 😎 {bksp}',

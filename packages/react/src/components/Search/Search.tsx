@@ -26,9 +26,7 @@ const Search = React.forwardRef<HTMLInputElement, SearchProps>(
       id,
       scale = 1,
       className,
-      virtualKeyboard = false,
-      virtualKeyboardType,
-      virtualKeyboardMaxLength,
+      virtualKeyboard,
       'data-testid': testId,
       ...rest
     },
@@ -135,7 +133,7 @@ const Search = React.forwardRef<HTMLInputElement, SearchProps>(
           onBlur={handleBlur}
           data-testid={testId}
           {...rest}
-          inputMode={virtualKeyboard ? 'none' : rest.inputMode}
+          inputMode={(virtualKeyboard === 'default' || virtualKeyboard === 'numeric') ? 'none' : rest.inputMode}
           className={clsx({ [styles.inputWithClearIcon]: currentValue && currentValue.length > 0 })}  
         />
         {currentValue && currentValue.length > 0 && (
@@ -148,12 +146,11 @@ const Search = React.forwardRef<HTMLInputElement, SearchProps>(
           </span>
         )}
 
-        {virtualKeyboard && (
+        {(virtualKeyboard === 'default' || virtualKeyboard === 'numeric') && (
           <div className="virtualKeyboardWrapper">
             <VirtualKeyboard
               variant="native"
-              type={virtualKeyboardType}
-              maxLength={virtualKeyboardMaxLength}
+              type={virtualKeyboard}
               value={currentValue || ''}
               targetRef={inputRef}
               onChange={(val) => {

@@ -96,16 +96,11 @@ const meta: Meta<typeof TextArea> = {
       }
     },
     virtualKeyboard: {
-      control: 'boolean',
-      description: 'Exibe o teclado virtual ao clicar no campo'
-    },
-    virtualKeyboardType: {
       control: 'select',
       options: [
-        'default', 'numeric',
+        'default', 'numeric', 'none',
       ],
       description: 'Layout do teclado virtual',
-      if: { arg: 'virtualKeyboard', truthy: true },
     },
   },
 };
@@ -145,12 +140,11 @@ export const Desabilitado: Story = {
   ),
 };
 
-export const WithVirtualKeyboard: Story = {
+export const ComTecladoVirtual: Story = {
   args: {
     label: 'Comentário',
     placeholder: 'Clique aqui para abrir o teclado...',
-    virtualKeyboard: true,
-    virtualKeyboardType: 'default',
+    virtualKeyboard: 'default',
     disabled: false,
   },
   render: (args) => {
@@ -168,7 +162,7 @@ export const WithVirtualKeyboard: Story = {
   },
 };
 
-export const Required: Story = {
+export const Obrigatorio: Story = {
   args: {
     placeholder: 'Campo obrigatório',
     label: 'Nome ',
