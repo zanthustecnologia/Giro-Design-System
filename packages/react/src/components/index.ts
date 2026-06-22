@@ -13,6 +13,9 @@ export { type CalendarProps } from './Calendar/Calendar.types';
 export { default as Callout } from './Callout';
 export { type CalloutProps} from './Callout/Callout.types';
 
+export { default as Card } from './Card';
+export { type CardProps} from './Card/Card.types';
+
 export { default as Checkbox } from './Checkbox';
 export { type CheckboxProps } from './Checkbox/Checkbox.types'
 
