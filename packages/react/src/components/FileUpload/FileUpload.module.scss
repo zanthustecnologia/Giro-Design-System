@@ -30,7 +30,7 @@
   &:focus-visible:not(.disabled) {
     border-style: solid;
     outline: var(--border-width-2) solid var(--color-brand-primary-default);
-    outline-offset: 2px;
+    outline-offset: var(--border-width-2);
   }
 }
 
@@ -61,9 +61,9 @@
 
 .uploadIcon {
   display: flex;
-  padding: 10px;
+  padding: var(--spacing-12);
   align-items: flex-start;
-  gap: 10px;
+  gap: var(--spacing-12);
   border-radius: 100%;
   background: var(--color-neutral-high-medium);
   color: var(--color-neutral-low-dark);
@@ -105,18 +105,19 @@
 .fileList {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: var(--spacing-8);
   list-style: none;
-  margin: 0;
-  padding: var(--spacing-16) var(--spacing-8) var(--spacing-8);
+  margin: var(--spacing-0);
+  padding: var(--spacing-0);
   width: 100%;
   box-sizing: border-box;
 }
 
 .thumb {
   position: relative;
-  width: 80px;
-  height: 80px;
+  width: 75px;
+  height: 75px;
   flex-shrink: 0;
 
   &:hover .removeButton {
@@ -177,8 +178,8 @@
 
 .removeButton {
   position: absolute;
-  top: 8px;
-  right: 8px;
+  top: var(--spacing-8);
+  right: var(--spacing-8);
   display: flex;
   align-items: flex-start;
   justify-content: center;
