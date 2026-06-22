@@ -7,6 +7,7 @@ export interface FileUploadProps extends Omit<React.InputHTMLAttributes<HTMLInpu
 
   /** Permite selecionar múltiplos arquivos */
   multiple?: boolean;
+
   /** Lista controlada de arquivos */
   value?: File[];
 
@@ -23,7 +24,7 @@ export interface FileUploadProps extends Omit<React.InputHTMLAttributes<HTMLInpu
   errorMessage?: string;
 
   /** Mensagem de erro exibida abaixo do icone de erro, caso não tenha a mensagem não ira aparecer nada */
-  alertErrorMessage?: string;
+  descriptionErrorMessage?: string;
 
   /** Mensagem exibida quando um arquivo excede o tamanho máximo (maxSize) */
   maxSizeErrorMessage?: string;
@@ -32,10 +33,10 @@ export interface FileUploadProps extends Omit<React.InputHTMLAttributes<HTMLInpu
   maxFilesErrorMessage?: string;
 
   /** Tamanho máximo em bytes por arquivo */
-  maxSize?: number;
+  maxFileSize?: number;
 
   /** Número máximo de arquivos permitidos (exige multiple=true para mais de 1) */
-  maxFiles?: number;
+  maxFilesQuantity?: number;
 
   /** Quando true, o componente está desabilitado */
   disabled?: boolean;
@@ -47,5 +48,5 @@ export interface FileUploadProps extends Omit<React.InputHTMLAttributes<HTMLInpu
   id?: string;
 
   /** Texto de instrução exibido na zona vazia */
-  instructionText?: string;
+  description?: string;
 }

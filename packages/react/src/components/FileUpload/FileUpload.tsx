@@ -26,15 +26,15 @@ const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
       helperText,
       error = false,
       errorMessage,
-      maxSize,
-      maxFiles,
+      maxFileSize,
+      maxFilesQuantity,
       disabled = false,
       className,
       id,
       accept,
       multiple = true,
-      instructionText = 'Clique ou arraste os arquivos aqui',
-      alertErrorMessage,
+      description = 'Clique ou arraste os arquivos aqui',
+      descriptionErrorMessage,
       maxSizeErrorMessage = 'Um ou mais arquivos excedem o tamanho máximo permitido.',
       maxFilesErrorMessage = 'Número máximo de arquivos atingido.',
       ...rest
@@ -91,7 +91,7 @@ const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
 
         const all = Array.from(incoming);
         const newFiles = all.filter((file) => {
-          if (maxSize && file.size > maxSize) return false;
+          if (maxFileSize && file.size > maxFileSize) return false;
           return true;
         });
 
@@ -106,9 +106,9 @@ const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
           : newFiles.slice(0, 1);
 
         const limited =
-          maxFiles && multiple ? merged.slice(0, maxFiles) : merged;
+          maxFilesQuantity && multiple ? merged.slice(0, maxFilesQuantity) : merged;
 
-        if (maxFiles && multiple && merged.length > maxFiles) {
+        if (maxFilesQuantity && multiple && merged.length > maxFilesQuantity) {
           setFilesError(maxFilesErrorMessage);
         } else {
           setFilesError(null);
@@ -117,7 +117,7 @@ const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
         if (!isControlled) setInternalFiles(limited);
         onChange?.(limited);
       },
-      [disabled, files, isControlled, maxFiles, maxFilesErrorMessage, maxSize, maxSizeErrorMessage, multiple, onChange]
+      [disabled, files, isControlled, maxFilesQuantity, maxFilesErrorMessage, maxFileSize, maxSizeErrorMessage, multiple, onChange]
     );
 
     const handleInputChange = useCallback(
@@ -217,7 +217,7 @@ const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
         <div
           role="button"
           tabIndex={disabled ? -1 : 0}
-          aria-label={instructionText}
+          aria-label={description}
           aria-disabled={disabled}
           aria-describedby={displayedHelper ? helperId : undefined}
           aria-controls={hasFiles ? listId : undefined}
@@ -239,7 +239,7 @@ const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
               <span className={styles.uploadIcon}>
                 <DocumentAdd24Regular />
               </span>
-              <span className={styles.uploadText}>{instructionText}</span>
+              <span className={styles.uploadText}>{description}</span>
             </div>
           )}
 
@@ -248,8 +248,8 @@ const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
               <span className={styles.alertIcon}>
                 <Warning24Regular />
               </span>
-              {alertErrorMessage && (
-                <span className={styles.alertText}>{alertErrorMessage}</span>
+              {descriptionErrorMessage && (
+                <span className={styles.alertText}>{descriptionErrorMessage}</span>
               )}
             </div>
           )}
