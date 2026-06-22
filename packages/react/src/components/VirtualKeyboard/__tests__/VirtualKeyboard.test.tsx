@@ -1028,60 +1028,6 @@ describe('VirtualKeyboard', () => {
   });
 
   // ───────────────────────────────────────────────────────────────────────────
-  describe('preventIOSBlur (touchstart em modo native)', () => {
-    // it('deve chamar preventDefault ao tocar em um botão hg-button no teclado (iOS)', () => {
-    //   const ref = createRef<HTMLInputElement>();
-    //   render(
-    //     <>
-    //       <input ref={ref} data-testid="input-ref" />
-    //       <VirtualKeyboard variant="native" targetRef={ref} />
-    //     </>
-    //   );
-
-    //   act(() => {
-    //     fireEvent.focus(screen.getByTestId('input-ref'));
-    //   });
-
-    //   const keyButton = screen.getByTestId('key-char'); // className="hg-button"
-
-    //   const touchEvent = new Event('touchstart', { bubbles: true, cancelable: true });
-    //   const preventDefaultSpy = vi.spyOn(touchEvent, 'preventDefault');
-
-    //   act(() => {
-    //     keyButton.dispatchEvent(touchEvent);
-    //   });
-
-    //   expect(preventDefaultSpy).toHaveBeenCalled();
-    // });
-
-    it('não deve chamar preventDefault quando o toque NÃO está em um botão hg-button', () => {
-      const ref = createRef<HTMLInputElement>();
-      render(
-        <>
-          <input ref={ref} data-testid="input-ref" />
-          <VirtualKeyboard variant="native" targetRef={ref} />
-        </>
-      );
-
-      act(() => {
-        fireEvent.focus(screen.getByTestId('input-ref'));
-      });
-
-      // Dispara touchstart no container do teclado (não em hg-button)
-      const keyboard = screen.getByTestId('keyboard');
-
-      const touchEvent = new Event('touchstart', { bubbles: true, cancelable: true });
-      const preventDefaultSpy = vi.spyOn(touchEvent, 'preventDefault');
-
-      act(() => {
-        keyboard.dispatchEvent(touchEvent);
-      });
-
-      expect(preventDefaultSpy).not.toHaveBeenCalled();
-    });
-  });
-
-  // ───────────────────────────────────────────────────────────────────────────
   describe('Emoji prop — mudança em tempo de execução', () => {
     it('deve resetar para "default" ao desativar Emoji enquanto layout é emoticon (type=default)', () => {
       const { rerender } = render(

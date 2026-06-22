@@ -94,9 +94,9 @@ describe('Card', () => {
       expect(mainElement?.className).not.toMatch(/card--interactive/);
     });
 
-    it('não deve aplicar a classe card--interactive quando interactiveCard é false', () => {
+    it('não deve aplicar a classe card--interactive quando hoverable é false', () => {
       const { container } = render(
-        <Card interactiveCard={false}>
+        <Card hoverable={false}>
           <div>Conteúdo</div>
         </Card>
       );
@@ -104,26 +104,26 @@ describe('Card', () => {
       expect(mainElement?.className).not.toMatch(/card--interactive/);
     });
 
-    it('deve aplicar a classe card--interactive quando interactiveCard é true', () => {
+    it('deve aplicar a classe card--interactive quando hoverable é true', () => {
       const { container } = render(
-        <Card interactiveCard={true}>
+        <Card hoverable={true}>
           <div>Conteúdo</div>
         </Card>
       );
       const mainElement = container.querySelector('main');
-      expect(mainElement?.className).toMatch(/card--interactive/);
+      expect(mainElement?.className).toMatch(/card--hoverable/);
     });
 
-    it('deve manter a classe base ao usar interactiveCard', () => {
+    it('deve manter a classe base ao usar hoverable', () => {
       const { container } = render(
-        <Card interactiveCard={true}>
+        <Card hoverable={true}>
           <div>Conteúdo</div>
         </Card>
       );
       const mainElement = container.querySelector('main');
       const classes = mainElement?.className || '';
       expect(classes).toMatch(/card/);
-      expect(classes).toMatch(/card--interactive/);
+      expect(classes).toMatch(/card--hoverable/);
     });
   });
 
