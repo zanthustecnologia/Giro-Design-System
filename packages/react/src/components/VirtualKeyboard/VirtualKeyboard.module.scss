@@ -65,7 +65,8 @@
   }
 
   &.layout--numeric {
-    :global(.hg-layout-default) {
+    :global(.hg-layout-default),
+    :global(.hg-layout-numbers) {
       :global(.hg-button) {
         @include buttonFlex;
         border-radius: var(--border-radius-16);
@@ -195,7 +196,8 @@
   }
 
   &.layout--numeric {
-    :global(.hg-layout-default) {
+    :global(.hg-layout-default),
+    :global(.hg-layout-numbers) {
       :global(.hg-button) {
         @include buttonFlex;
       }
