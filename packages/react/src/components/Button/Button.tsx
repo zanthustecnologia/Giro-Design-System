@@ -7,6 +7,10 @@ import styles from './Button.module.scss';
 
 import type { ButtonProps } from './Button.types';
 
+type ButtonStyle = React.CSSProperties & {
+  '--button-scale'?: string;
+};
+
 const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(({
   as,
   children,
@@ -21,6 +25,7 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPro
   onClick,
   size = 'lg',
   scale = 1,
+  style,
   className,
   type = 'button',
   id,
@@ -57,6 +62,15 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPro
 
   const Component = getComponent();
 
+  const normalizedScale = useMemo(() => {
+    return typeof scale === 'number' && Number.isFinite(scale) && scale > 0 ? scale : 1;
+  }, [scale]);
+
+  const buttonStyle = useMemo<ButtonStyle>(() => ({
+    ...style,
+    '--button-scale': String(normalizedScale),
+  }), [style, normalizedScale]);
+
   const hasContent = useMemo(() => {
     return children && React.Children.count(children) > 0;
   }, [children]);
@@ -67,19 +81,13 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPro
       'Forneça um ícone via `icon={<MeuIcone />}`.'
     );
   }
-  const resolvedIcon = icon;
 
-  const scaleClass = {
-    1: 'scale-1-0',
-    1.5: 'scale-1-5',
-    2: 'scale-2-0',
-  }[scale];
+  const resolvedIcon = icon;
 
   const buttonClasses = clsx(
     styles.button,
     styles[`button-${variant}`],
     styles[`button-${size}`],
-    scaleClass,
     {
       [styles['disabled']]: disabled,
       [styles['buttonLoading']]: loading,
@@ -94,8 +102,10 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPro
 
   const getAriaLabel = () => {
     if (ariaLabel) return ariaLabel;
+
     if (iconOnly) {
       if (tooltipText) return tooltipText;
+
       if (process.env.NODE_ENV !== 'production') {
         console.warn(
           '[Button] Botões icon-only precisam de uma prop `ariaLabel` descritiva. ' +
@@ -103,8 +113,10 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPro
           'Forneça `ariaLabel` ou `tooltipText` para nomear o botão.'
         );
       }
+
       return undefined;
     }
+
     return undefined;
   };
 
@@ -113,6 +125,7 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPro
       e.preventDefault();
       return;
     }
+
     onClick?.(e);
   };
 
@@ -124,6 +137,7 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPro
         </span>
       );
     }
+
     if (loading) {
       return (
         <>
@@ -138,12 +152,14 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPro
               )}
             </span>
           )}
+
           <span className={styles.buttonLoadingSpinner} aria-hidden="true">
             <SpinnerIos16Regular aria-hidden="true" />
           </span>
         </>
       );
     }
+
     return (
       <>
         {resolvedIcon && (iconPosition === 'left' || iconPosition === 'both') && (
@@ -151,7 +167,9 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPro
             {resolvedIcon}
           </span>
         )}
+
         {children}
+
         {resolvedIcon && (iconPosition === 'right' || iconPosition === 'both') && (
           <span className={styles.buttonIconRight} aria-hidden="true">
             {resolvedIcon}
@@ -165,6 +183,7 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPro
     ref,
     id: componentId,
     className: buttonClasses,
+    style: buttonStyle,
     'aria-label': getAriaLabel(),
     'aria-disabled': disabled,
     'aria-busy': loading || undefined,
@@ -178,6 +197,7 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPro
       if (disabled || loading) {
         return { role: 'link' };
       }
+
       return {
         href,
         target: external || target === '_blank' ? '_blank' : target,
@@ -191,10 +211,12 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPro
           to: disabled ? undefined : to,
         };
       }
+
       return {
         href: disabled ? undefined : to,
       };
     }
+
     if (Component === 'button') {
       return {
         type,
@@ -229,4 +251,5 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPro
 });
 
 Button.displayName = 'Button';
+
 export default Button;
