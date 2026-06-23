@@ -1,6 +1,6 @@
-
 .search {
   display: flex;
+  font-family: var(--font-family-primary);
   align-items: center;
   justify-content: center;
   position: relative;
@@ -37,8 +37,9 @@
     outline: var(--spacing-0);
     overflow: hidden;
     background-color: transparent;
-    font-size: var(--font-size-16);
-    font-weight: var(--font-weight-regular);
+    font-size: inherit;
+    font-weight: inherit;
+    font-family: inherit;
     &.disabled {
       color: var(--color-neutral-high-medium);
       cursor: not-allowed;
@@ -50,6 +51,7 @@
     
     &::placeholder {
       color: var(--color-neutral-low-medium);
+      font-family: inherit;
     }
 
     &:-webkit-autofill,

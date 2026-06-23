@@ -1,10 +1,12 @@
 .container {
   display: flex;
+  font-family: var(--font-family-primary);
   flex-direction: column;
   align-items: flex-start;
   align-self: stretch;
   position: relative;
   height: 70px;
+  font-weight: var(--font-weight-regular);
 }
 
 .inputWrapper {
@@ -53,11 +55,13 @@
     overflow: hidden;
     box-sizing: border-box;
     background-color: transparent;
+    font-family: inherit;
+    font-weight: inherit;
 
     &::placeholder {
       color: var(--color-neutral-low-medium);
-      font-family: var(--font-family-primary);
-      font-weight: var(--font-weight-regular);
+      font-family: inherit;
+      font-weight: inherit;
       font-size: var(--font-size-16);
     }
 
@@ -105,7 +109,6 @@
 .helperText {
   font-size: var(--font-size-12);
   color: var(--color-neutral-low-medium);
-  font-family: var(--font-family-primary);
   padding-top: var(--spacing-8);
   max-width: 100%;
   word-wrap: break-word;
@@ -114,6 +117,8 @@
   text-align: left;
   overflow: hidden;
   display: block;
+  font-weight: inherit;
+  font-family: inherit;
 
   &:empty::after {
     content: '\00A0';
