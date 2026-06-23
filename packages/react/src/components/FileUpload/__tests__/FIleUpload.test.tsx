@@ -8,7 +8,7 @@ vi.mock('@fluentui/react-icons', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@fluentui/react-icons')>();
   return {
     ...actual,
-    ArrowUpload24Regular: () => <svg data-testid="icon-upload" />,
+    DocumentAdd24Regular: () => <svg data-testid="icon-upload" />,
     Document24Regular: () => <svg data-testid="icon-document" />,
     Dismiss16Regular: () => <svg data-testid="icon-dismiss" />,
     Warning24Regular: () => <svg data-testid="icon-warning" />,
@@ -57,7 +57,7 @@ describe('FileUpload', () => {
     });
 
     it('exibe texto de instrução personalizado', () => {
-      render(<FileUpload instructionText="Solte os arquivos aqui" />);
+      render(<FileUpload description="Solte os arquivos aqui" />);
       expect(screen.getByText('Solte os arquivos aqui')).toBeInTheDocument();
     });
 
@@ -79,7 +79,7 @@ describe('FileUpload', () => {
     });
 
     it('zona de drop possui aria-label com o texto de instrução', () => {
-      render(<FileUpload instructionText="Arraste arquivos" />);
+      render(<FileUpload description="Arraste arquivos" />);
       expect(screen.getByRole('button', { name: 'Arraste arquivos' })).toBeInTheDocument();
     });
 
@@ -195,7 +195,7 @@ describe('FileUpload', () => {
 
     it('respeita maxSize e ignora arquivos acima do limite', () => {
       const onChange = vi.fn();
-      render(<FileUpload onChange={onChange} maxSize={500} />);
+      render(<FileUpload onChange={onChange} maxFileSize={500} />);
       const input = document.querySelector('input[type="file"]') as HTMLInputElement;
       const bigFile = createFile('grande.png', 'image/png', 1024);
 
@@ -207,7 +207,7 @@ describe('FileUpload', () => {
 
     it('respeita maxFiles e limita a quantidade de arquivos', () => {
       const onChange = vi.fn();
-      render(<FileUpload onChange={onChange} multiple maxFiles={2} />);
+      render(<FileUpload onChange={onChange} multiple maxFilesQuantity={2} />);
       const input = document.querySelector('input[type="file"]') as HTMLInputElement;
       const files = [createFile('a.png'), createFile('b.png'), createFile('c.png')];
 
@@ -484,7 +484,7 @@ describe('FileUpload', () => {
       });
       fireEvent.change(input);
 
-      const lastCall = onChange.mock.lastCall![0] as File[];
+      const lastCall = onChange.mock.lastCall?.[0] as File[];
       expect(lastCall).toHaveLength(2);
     });
 
@@ -512,13 +512,13 @@ describe('FileUpload', () => {
     it('trunca nome longo preservando extensão', () => {
       const file = createFile('relatorio-mensal-muito-longo-2026.pdf', 'application/pdf');
       render(<FileUpload value={[file]} />);
-      expect(screen.getByText('relatorio-mensa... .pdf')).toBeInTheDocument();
+      expect(screen.getByText('relatorio-m....pdf')).toBeInTheDocument();
     });
 
     it('trunca nome longo sem extensão', () => {
       const file = createFile('arquivo-muito-longo-sem-extensao', 'text/plain');
       render(<FileUpload value={[file]} />);
-      expect(screen.getByText('arquivo-muito-lo...')).toBeInTheDocument();
+      expect(screen.getByText('arquivo-muito-l...')).toBeInTheDocument();
     });
 
     it('mantém aria-label do botão de remoção com nome completo', () => {
