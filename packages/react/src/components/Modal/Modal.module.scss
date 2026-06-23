@@ -78,6 +78,15 @@
   font-size: var(--font-size-16);
 }
 
+.modalFooter {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-8);
+  padding: var(--spacing-24);
+  padding-top: var(--spacing-0);
+  flex-shrink: var(--spacing-0);
+}
+
 @keyframes overlayShow {
   from {
     opacity: 0;
