@@ -16,13 +16,13 @@
   flex-direction: row;
 }
 .requiredLabel {
-  color: var(--color-neutral-low-default);
+  color: var(--color-brand-primary-default);
   margin-left: var(--spacing-4);
 }
 .infoIcon {
   display: inline-flex;
   line-height: 0;
-  color: var(--color-neutral-low-default);
+  color: var(--color-brand-primary-default);
 }
 .errorIcon {
   display: inline-flex;
