@@ -18,6 +18,24 @@ import styles from './FileUpload.module.scss';
 
 import type { FileUploadProps } from './FileUpload.type';
 
+/**
+ * Trunca o nome do arquivo para no máximo 2 linhas (~18 caracteres no thumb de 75px).
+ * Quando truncado, preserva a extensão: "nometruncado... .pdf"
+ */
+function truncateFileName(fileName: string, maxChars = 18): string {
+  if (fileName.length <= maxChars) return fileName;
+  const lastDot = fileName.lastIndexOf('.');
+  const hasExtension = lastDot > 0 && lastDot < fileName.length - 1;
+  const baseName = hasExtension ? fileName.substring(0, lastDot) : fileName;
+  const extension = hasExtension ? fileName.substring(lastDot) : '';
+  const reserved = 3 + extension.length; // "..."
+  const available = maxChars - reserved;
+  if (available <= 1) {
+    return fileName.substring(0, maxChars - 3) + '...';
+  }
+  return baseName.substring(0, available) + '...' + extension;
+}
+
 const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
   (
     {
@@ -270,12 +288,13 @@ const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
                         <img
                           src={getObjectUrl(file)}
                           alt={file.name}
+                          title={file.name}
                           className={styles.thumbImage}
                         />
                       ) : (
-                        <div className={styles.thumbFile} aria-hidden="true">
+                        <div className={styles.thumbFile} aria-hidden="true" title={file.name}>
                           <Document24Regular />
-                          <span className={styles.thumbFileName}>{file.name}</span>
+                          <span className={styles.thumbFileName}>{truncateFileName(file.name)}</span>
                         </div>
                       )}
                     </div>

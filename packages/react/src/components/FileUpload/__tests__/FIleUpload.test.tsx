@@ -501,4 +501,30 @@ describe('FileUpload', () => {
     });
 
   });
+
+  describe('Truncagem de nome de arquivo', () => {
+    it('exibe nome completo quando cabe em 18 caracteres', () => {
+      const file = createFile('relatorio.pdf', 'application/pdf');
+      render(<FileUpload value={[file]} />);
+      expect(screen.getByText('relatorio.pdf')).toBeInTheDocument();
+    });
+
+    it('trunca nome longo preservando extensão', () => {
+      const file = createFile('relatorio-mensal-muito-longo-2026.pdf', 'application/pdf');
+      render(<FileUpload value={[file]} />);
+      expect(screen.getByText('relatorio-mensa... .pdf')).toBeInTheDocument();
+    });
+
+    it('trunca nome longo sem extensão', () => {
+      const file = createFile('arquivo-muito-longo-sem-extensao', 'text/plain');
+      render(<FileUpload value={[file]} />);
+      expect(screen.getByText('arquivo-muito-lo...')).toBeInTheDocument();
+    });
+
+    it('mantém aria-label do botão de remoção com nome completo', () => {
+      const file = createFile('relatorio-mensal-muito-longo-2026.pdf', 'application/pdf');
+      render(<FileUpload value={[file]} />);
+      expect(screen.getByRole('button', { name: 'Remover relatorio-mensal-muito-longo-2026.pdf' })).toBeInTheDocument();
+    });
+  });
 });

@@ -169,11 +169,13 @@
   font-family: var(--font-family-primary);
   font-weight: var(--font-weight-regular);
   text-align: center;
-  word-break: break-word;
-  overflow-wrap: break-word;
-  line-height: normal;
   max-width: 100%;
-  display: block;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  word-break: break-word;
 }
 
 .removeButton {
