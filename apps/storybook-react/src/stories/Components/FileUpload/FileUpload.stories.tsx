@@ -1,5 +1,5 @@
 import { FileUpload } from '@giro-ds/react';
-import React, { useState } from 'react';
+import React from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
@@ -22,6 +22,14 @@ const meta: Meta<typeof FileUpload> = {
       control: 'text',
       description: 'Tipos de arquivo aceitos (ex: "image/*", ".pdf,.docx")',
     },
+    description: {
+      control: 'text',
+      description: 'Texto de instrução exibido na zona vazia',
+    },
+    descriptionErrorMessage: {
+      control: 'text',
+      description: 'Mensagem de erro exibida abaixo do ícone de alerta',
+    },
     disabled: {
       control: 'boolean',
       description: 'Desabilita interações com o componente',
@@ -32,27 +40,19 @@ const meta: Meta<typeof FileUpload> = {
     },
     errorMessage: {
       control: 'text',
-      description: 'Mensagem exibida no helperText quando em estado de erro',
-    },
-    alertErrorMessage: {
-      control: 'text',
-      description: 'Mensagem de erro exibida abaixo do icone de erro',
+      description: 'Mensagem exibida no helperText quando em estado de erro. Também usada internamente para erros de tamanho/quantidade.',
     },
     helperText: {
       control: 'text',
       description: 'Texto auxiliar exibido abaixo da zona de drop',
     },
-    instructionText: {
-      control: 'text',
-      description: 'Texto de instrução exibido na zona vazia',
-    },
-    maxFiles: {
-      control: 'number',
-      description: 'Quantidade máxima de arquivos permitidos',
-    },
-    maxSize: {
+    maxFileSize: {
       control: 'number',
       description: 'Tamanho máximo por arquivo em bytes',
+    },
+    maxFilesQuantity: {
+      control: 'number',
+      description: 'Quantidade máxima de arquivos permitidos',
     },
     multiple: {
       control: 'boolean',
@@ -161,7 +161,7 @@ ArquivoUnico.storyName = 'Arquivo único';
 export const ComLimiteDeTamanho: Story = {
   args: {
     multiple: true,
-    maxSize: 2 * 1024 * 1024, // 2 MB
+    maxFileSize: 2 * 1024 * 1024, // 2 MB
     helperText: 'Arquivos acima de 2 MB são ignorados automaticamente.',
   },
   render: (args) => (
@@ -177,7 +177,7 @@ ComLimiteDeTamanho.storyName = 'Com limite de tamanho';
 export const ComMaximoDeArquivos: Story = {
   args: {
     multiple: true,
-    maxFiles: 3,
+    maxFilesQuantity: 3,
     helperText: 'Máximo de 3 arquivos.',
   },
   render: (args) => (
