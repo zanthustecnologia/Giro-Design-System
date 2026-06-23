@@ -20,17 +20,12 @@ export interface FileUploadProps extends Omit<React.InputHTMLAttributes<HTMLInpu
   /** Sinaliza estado de erro */
   error?: boolean;
 
-  /** Mensagem de erro exibida no helperText quando em estado de erro */
+  /** Mensagem de erro exibida no helperText quando em estado de erro.
+   * Também é usada internamente para exibir erros de tamanho (maxFileSize) e quantidade (maxFilesQuantity). */
   errorMessage?: string;
 
   /** Mensagem de erro exibida abaixo do icone de erro, caso não tenha a mensagem não ira aparecer nada */
   descriptionErrorMessage?: string;
-
-  /** Mensagem exibida quando um arquivo excede o tamanho máximo (maxSize) */
-  maxSizeErrorMessage?: string;
-
-  /** Mensagem exibida quando a quantidade de arquivos excede o limite (maxFiles) */
-  maxFilesErrorMessage?: string;
 
   /** Tamanho máximo em bytes por arquivo */
   maxFileSize?: number;

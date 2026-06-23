@@ -18,10 +18,6 @@ import styles from './FileUpload.module.scss';
 
 import type { FileUploadProps } from './FileUpload.type';
 
-/**
- * Trunca o nome do arquivo para no máximo 2 linhas (~18 caracteres no thumb de 75px).
- * Quando truncado, preserva a extensão: "nometruncado... .pdf"
- */
 function truncateFileName(fileName: string, maxChars = 18): string {
   if (fileName.length <= maxChars) return fileName;
   const lastDot = fileName.lastIndexOf('.');
@@ -52,9 +48,7 @@ const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
       accept,
       multiple = true,
       description = 'Clique ou arraste os arquivos aqui',
-      descriptionErrorMessage,
-      maxSizeErrorMessage = 'Um ou mais arquivos excedem o tamanho máximo permitido.',
-      maxFilesErrorMessage = 'Número máximo de arquivos atingido.',
+      descriptionErrorMessage = 'Falha ao subir um ou mais arquivos.',
       ...rest
     },
     ref
@@ -68,8 +62,7 @@ const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
     const [internalFiles, setInternalFiles] = useState<File[]>([]);
     const [isDragging, setIsDragging] = useState(false);
     const [objectUrls, setObjectUrls] = useState<Map<string, string>>(new Map());
-    const [sizeError, setSizeError] = useState<string | null>(null);
-    const [filesError, setFilesError] = useState<string | null>(null);
+    const [internalError, setInternalError] = useState<string | null>(null);
 
     const isControlled = value !== undefined;
     const files = isControlled ? value : internalFiles;
@@ -108,34 +101,29 @@ const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
         if (disabled) return;
 
         const all = Array.from(incoming);
-        const newFiles = all.filter((file) => {
+        const validFiles = all.filter((file) => {
           if (maxFileSize && file.size > maxFileSize) return false;
           return true;
         });
 
-        if (all.length !== newFiles.length) {
-          setSizeError(maxSizeErrorMessage);
-        } else {
-          setSizeError(null);
-        }
-
         const merged = multiple
-          ? [...files, ...newFiles]
-          : newFiles.slice(0, 1);
+          ? [...files, ...validFiles]
+          : validFiles.slice(0, 1);
 
         const limited =
           maxFilesQuantity && multiple ? merged.slice(0, maxFilesQuantity) : merged;
-
-        if (maxFilesQuantity && multiple && merged.length > maxFilesQuantity) {
-          setFilesError(maxFilesErrorMessage);
+        if (all.length !== validFiles.length) {
+          setInternalError('Um ou mais arquivos excedem o tamanho máximo permitido.');
+        } else if (maxFilesQuantity && multiple && merged.length > maxFilesQuantity) {
+          setInternalError(`Não é possível adicionar mais de ${maxFilesQuantity} arquivo(s).`);
         } else {
-          setFilesError(null);
+          setInternalError(null);
         }
 
         if (!isControlled) setInternalFiles(limited);
         onChange?.(limited);
       },
-      [disabled, files, isControlled, maxFilesQuantity, maxFilesErrorMessage, maxFileSize, maxSizeErrorMessage, multiple, onChange]
+      [disabled, files, isControlled, maxFilesQuantity, maxFileSize, multiple, onChange]
     );
 
     const handleInputChange = useCallback(
@@ -202,8 +190,8 @@ const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
     );
 
     const hasFiles = files.length > 0;
-    const isError = error || !!errorMessage || !!sizeError || !!filesError;
-    const displayedHelper = isError ? errorMessage || sizeError || filesError || helperText : helperText;
+    const isError = error || !!errorMessage || !!internalError;
+    const displayedHelper = isError ? errorMessage || internalError || helperText : helperText;
 
     const setRefs = useCallback(
       (node: HTMLInputElement | null) => {
