@@ -32,6 +32,22 @@ function truncateFileName(fileName: string, maxChars = 18): string {
   return baseName.substring(0, available) + '...' + extension;
 }
 
+function matchesAccept(file: File, accept?: string): boolean {
+  if (!accept) return true;
+  const types = accept.split(',').map((t) => t.trim().toLowerCase());
+  const fileName = file.name.toLowerCase();
+  const fileType = file.type.toLowerCase();
+  return types.some((type) => {
+    if (type.startsWith('.')) {
+      return fileName.endsWith(type);
+    }
+    if (type.endsWith('/*')) {
+      return fileType.startsWith(type.slice(0, -1));
+    }
+    return fileType === type;
+  });
+}
+
 const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
   (
     {
@@ -103,6 +119,7 @@ const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
         const all = Array.from(incoming);
         const validFiles = all.filter((file) => {
           if (maxFileSize && file.size > maxFileSize) return false;
+          if (!matchesAccept(file, accept)) return false;
           return true;
         });
 
@@ -112,9 +129,22 @@ const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
 
         const limited =
           maxFilesQuantity && multiple ? merged.slice(0, maxFilesQuantity) : merged;
-        if (all.length !== validFiles.length) {
+
+        // Prioridade de erro: tipo > tamanho > quantidade
+        const hasTypeError = all.some((file) => !matchesAccept(file, accept));
+        const hasSizeError = all.some(
+          (file) => maxFileSize && file.size > maxFileSize
+        );
+        const hasQuantityError =
+          maxFilesQuantity && multiple && merged.length > maxFilesQuantity;
+
+        if (hasTypeError && hasSizeError) {
+          setInternalError('Um ou mais arquivos possuem tipo ou tamanho inválido.');
+        } else if (hasTypeError) {
+          setInternalError('Um ou mais arquivos não são do tipo aceito.');
+        } else if (hasSizeError) {
           setInternalError('Um ou mais arquivos excedem o tamanho máximo permitido.');
-        } else if (maxFilesQuantity && multiple && merged.length > maxFilesQuantity) {
+        } else if (hasQuantityError) {
           setInternalError(`Não é possível adicionar mais de ${maxFilesQuantity} arquivo(s).`);
         } else {
           setInternalError(null);
@@ -123,7 +153,7 @@ const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
         if (!isControlled) setInternalFiles(limited);
         onChange?.(limited);
       },
-      [disabled, files, isControlled, maxFilesQuantity, maxFileSize, multiple, onChange]
+      [disabled, files, isControlled, maxFilesQuantity, maxFileSize, multiple, onChange, accept]
     );
 
     const handleInputChange = useCallback(
