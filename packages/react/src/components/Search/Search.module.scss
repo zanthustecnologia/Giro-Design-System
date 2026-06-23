@@ -83,9 +83,17 @@
   &ClearIcon {
     position: absolute;
     right: var(--spacing-16);
-    width: 16px;
-    height: 16px;
+    width: 30px;
+    height: 30px;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+      background: var(--color-neutral-high-medium);
+      border-radius: var(--border-radius-circular);
+    }
   }
 
   &:hover {
