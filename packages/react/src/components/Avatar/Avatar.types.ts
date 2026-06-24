@@ -20,8 +20,8 @@ export interface AvatarProps extends Omit<BaseProps, 'disabled'> {
   size?: Size;
   /** URL da imagem do avatar. Quando fornecido, exibe a imagem; caso contrário, mostra o ícone */
   src?: string;
-  /** Texto alternativo da imagem do avatar, usado como as iniciais do nome */
-  initialLetters?: string;
+  /** Texto alternativo exibido no fallback (ex.: iniciais). Limitado a no máximo 2 caracteres */
+  text?: string;
   /** Classe CSS opcional */
   className?: string;
 }
