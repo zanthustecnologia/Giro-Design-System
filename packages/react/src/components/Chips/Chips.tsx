@@ -45,6 +45,16 @@ const Chips: React.FC<ChipsProps> = ({
 
   const isInteractive = typeof rest.onClick === 'function';
 
+  const { onKeyDown: userOnKeyDown, ...otherRest } = rest;
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    userOnKeyDown?.(e);
+    if (!e.defaultPrevented && isInteractive && !disabled && (e.key === 'Enter' || e.key === ' ')) {
+      e.preventDefault();
+      rest.onClick?.(e as unknown as React.MouseEvent<HTMLDivElement>);
+    }
+  };
+
   return (
     <div
       className={chipsClass}
@@ -52,7 +62,8 @@ const Chips: React.FC<ChipsProps> = ({
       style={colorStyle}
       role={isInteractive ? 'button' : undefined}
       tabIndex={isInteractive ? (disabled ? -1 : 0) : undefined}
-      {...rest}
+      onKeyDown={handleKeyDown}
+      {...otherRest}
     >
       {leftIcon && (
         <span className={styles.iconLeft} aria-hidden="true">
@@ -61,7 +72,7 @@ const Chips: React.FC<ChipsProps> = ({
       )}
       <span className={styles.title}>{children}</span>
       {rightIcon && (
-        <span className={styles.iconRight}>
+        <span className={styles.iconRight} aria-hidden="true">
           {rightIcon}
         </span>
       )}

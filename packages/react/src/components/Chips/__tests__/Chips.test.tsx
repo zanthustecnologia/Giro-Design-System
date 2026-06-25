@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { describe, it, expect, vi } from 'vitest';
@@ -103,6 +103,12 @@ describe('Chips', () => {
       const iconSpan = screen.getByTestId('mock-icon').parentElement;
       expect(iconSpan).toHaveAttribute('aria-hidden', 'true');
     });
+
+    it('rightIcon tem aria-hidden="true"', () => {
+      render(<Chips rightIcon={<MockIcon />}>Com ícone</Chips>);
+      const iconSpan = screen.getByTestId('mock-icon').parentElement;
+      expect(iconSpan).toHaveAttribute('aria-hidden', 'true');
+    });
   });
 
   describe('Estado disabled', () => {
@@ -200,6 +206,38 @@ describe('Chips', () => {
       await userEvent.click(screen.getByText('Clicável'));
       expect(handleClick).toHaveBeenCalledTimes(1);
     });
+
+    it('chama onClick ao pressionar Enter', () => {
+      const handleClick = vi.fn();
+      render(<Chips onClick={handleClick}>Interativo</Chips>);
+      const el = screen.getByText('Interativo');
+      fireEvent.keyDown(el, { key: 'Enter' });
+      expect(handleClick).toHaveBeenCalledTimes(1);
+    });
+
+    it('chama onClick ao pressionar Space', () => {
+      const handleClick = vi.fn();
+      render(<Chips onClick={handleClick}>Interativo</Chips>);
+      const el = screen.getByText('Interativo');
+      fireEvent.keyDown(el, { key: ' ' });
+      expect(handleClick).toHaveBeenCalledTimes(1);
+    });
+
+    it('NÃO chama onClick ao pressionar Enter quando disabled', () => {
+      const handleClick = vi.fn();
+      render(<Chips onClick={handleClick} disabled>Desabilitado</Chips>);
+      const el = screen.getByText('Desabilitado');
+      fireEvent.keyDown(el, { key: 'Enter' });
+      expect(handleClick).not.toHaveBeenCalled();
+    });
+
+    it('NÃO chama onClick ao pressionar tecla não suportada', () => {
+      const handleClick = vi.fn();
+      render(<Chips onClick={handleClick}>Interativo</Chips>);
+      const el = screen.getByText('Interativo');
+      fireEvent.keyDown(el, { key: 'Escape' });
+      expect(handleClick).not.toHaveBeenCalled();
+    });
   });
 
   describe('Props adicionais', () => {
@@ -220,6 +258,33 @@ describe('Chips', () => {
       );
       const el = container.firstChild as HTMLElement;
       expect(el.style.marginTop).toBe('8px');
+    });
+  });
+
+  describe('Acessibilidade', () => {
+    it('aplica aria-label quando fornecido', () => {
+      const { container } = render(
+        <Chips aria-label="Filtrar por categoria">Design</Chips>
+      );
+      const el = container.firstChild as HTMLElement;
+      expect(el).toHaveAttribute('aria-label', 'Filtrar por categoria');
+    });
+
+    it('aplica aria-label em chip interativo', () => {
+      const { container } = render(
+        <Chips onClick={() => {}} aria-label="Remover filtro">
+          Design
+        </Chips>
+      );
+      const el = container.firstChild as HTMLElement;
+      expect(el).toHaveAttribute('aria-label', 'Remover filtro');
+      expect(el).toHaveAttribute('role', 'button');
+    });
+
+    it('não define aria-label quando não é fornecido', () => {
+      const { container } = render(<Chips>Texto</Chips>);
+      const el = container.firstChild as HTMLElement;
+      expect(el).not.toHaveAttribute('aria-label');
     });
   });
 });
