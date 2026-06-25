@@ -1,28 +1,29 @@
 .container {
+  --checkbox-scale: 1;
   display: flex;
   align-items: center;
-  gap: var(--spacing-8);
+  gap: calc(var(--spacing-8) * var(--checkbox-scale, 1));
 }
 
 .root {
   all: unset;
   position: relative;
-  width: 18px;
-  height: 18px;
+  width: calc(18px * var(--checkbox-scale, 1));
+  height: calc(18px * var(--checkbox-scale, 1));
   align-items: center;
   border: var(--border-width-2) solid var(--color-neutral-low-dark);
-  border-radius: var(--border-radius-4);
+  border-radius: calc(var(--border-radius-4) * var(--checkbox-scale, 1));
   display: flex;
   justify-content: center;
   flex-shrink: 0;
-  font-size: var(--font-size-16);
+  font-size: calc(var(--font-size-16) * var(--checkbox-scale, 1));
   font-weight: var(--font-weight-regular);
   font-family: var(--font-family-primary);
 
   &::after {
     content: '';
     position: absolute;
-    inset: -11px;
+    inset: calc(-11px * var(--checkbox-scale, 1));
   }
 
   &[data-state='checked'],
@@ -52,15 +53,15 @@
 }
 .indicator {
   position: absolute;
-  width: 18px;
-  height: 18px;
+  width: calc(18px * var(--checkbox-scale, 1));
+  height: calc(18px * var(--checkbox-scale, 1));
   display: flex;
   align-items: center;
   justify-content: center;
 }
 .wrapperCheckbox {
-  width: 40px;
-  height: 40px;
+  width: calc(40px * var(--checkbox-scale, 1));
+  height: calc(40px * var(--checkbox-scale, 1));
   transition: all 0.1s ease-in-out;
   display: flex;
   justify-content: center;
@@ -100,7 +101,7 @@
 
 .label {
   color: var(--color-neutral-low-default);
-  font-size: var(--font-size-16);
+  font-size: calc(var(--font-size-16) * var(--checkbox-scale, 1));
   font-family: var(--font-family-primary);
   font-weight: var(--font-weight-regular);
   line-height: 1;

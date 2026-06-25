@@ -27,20 +27,20 @@ import Checkbox from '../Checkbox';
 describe('Checkbox', () => {
   it('aplica escala 1.0 por padrão', () => {
     const { container } = render(<Checkbox label="Scale" />);
-    const wrapper = container.querySelector('.scale-1-0');
-    expect(wrapper).toBeInTheDocument();
+    const wrapper = container.querySelector('[style*="--checkbox-scale"]') as HTMLElement;
+    expect(wrapper.style.getPropertyValue('--checkbox-scale')).toBe('1');
   });
 
   it('aplica escala 1.5 quando informado', () => {
     const { container } = render(<Checkbox label="Scale" scale={1.5} />);
-    const wrapper = container.querySelector('.scale-1-5');
-    expect(wrapper).toBeInTheDocument();
+    const wrapper = container.querySelector('[style*="--checkbox-scale"]') as HTMLElement;
+    expect(wrapper.style.getPropertyValue('--checkbox-scale')).toBe('1.5');
   });
 
   it('aplica escala 2.0 quando informado', () => {
     const { container } = render(<Checkbox label="Scale" scale={2} />);
-    const wrapper = container.querySelector('.scale-2-0');
-    expect(wrapper).toBeInTheDocument();
+    const wrapper = container.querySelector('[style*="--checkbox-scale"]') as HTMLElement;
+    expect(wrapper.style.getPropertyValue('--checkbox-scale')).toBe('2');
   });
 
   it('renders the label and control', () => {

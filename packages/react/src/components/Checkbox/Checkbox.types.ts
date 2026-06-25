@@ -42,6 +42,9 @@ export interface CheckboxProps extends BaseProps {
   /** Classe CSS opcional */
   className?: string;
 
+  /** Estilo inline passado ao container */
+  style?: React.CSSProperties;
+
   /** Escala visual aplicada ao componente */
   scale?: Scale;
 }
