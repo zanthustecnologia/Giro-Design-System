@@ -15,21 +15,17 @@ const Radio: React.FC<RadioGroupProps> = ({
   orientation = 'vertical',
   scale = 1,
   className,
+  style,
   ...rest
 }) => {
   const generatedId = useId();
   const componentId = id || generatedId;
 
-  const scaleClass = {
-    1: 'scale-1-0',
-    1.5: 'scale-1-5',
-    2: 'scale-2-0',
-  }[scale];
-
   return (
     <RadioGroup.Root
       id={componentId}
-      className={clsx(styles.root, scaleClass, className)}
+      className={clsx(styles.root, className)}
+      style={{ '--radio-scale': scale, ...style } as React.CSSProperties}
       defaultValue={defaultValue}
       onValueChange={onValueChange}
       name={name}

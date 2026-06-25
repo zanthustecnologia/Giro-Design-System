@@ -1,6 +1,7 @@
 .root {
+  --radio-scale: 1;
   display: flex;
-  gap: var(--spacing-8);
+  gap: calc(var(--spacing-8) * var(--radio-scale, 1));
   &[data-orientation='vertical'] {
     flex-direction: column;
   }
@@ -11,7 +12,7 @@
 
 .wrapper {
   display: flex;
-  min-height: 40px;
+  min-height: calc(40px * var(--radio-scale, 1));
   align-items: center;
   cursor: pointer;
 
@@ -22,7 +23,7 @@
 
   &:has(.item:focus-visible) .itemWrapper {
     background-color: var(--color-neutral-high-dark);
-    outline-offset: var(--border-width-2);
+    outline-offset: calc(var(--border-width-2) * var(--radio-scale, 1));
   }
 
   &:has(.item[data-disabled='true']) {
@@ -41,12 +42,12 @@
 }
 
 .itemWrapper {
-  width: 40px;
-  height: 40px;
+  width: calc(40px * var(--radio-scale, 1));
+  height: calc(40px * var(--radio-scale, 1));
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: var(--border-radius-circular);
+  border-radius: calc(var(--border-radius-circular) * var(--radio-scale, 1));
 
   &:hover{
   background-color: var(--color-neutral-high-medium);
@@ -59,10 +60,10 @@
 
 .item {
   border: var(--border-width-2) solid var(--color-neutral-low-dark);
-  border-radius: var(--border-radius-12);
-  padding: var(--spacing-8);
-  width: 20px;
-  height: 20px;
+  border-radius: calc(var(--border-radius-12) * var(--radio-scale, 1));
+  padding: calc(var(--spacing-8) * var(--radio-scale, 1));
+  width: calc(20px * var(--radio-scale, 1));
+  height: calc(20px * var(--radio-scale, 1));
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -108,17 +109,17 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 10px;
-    height: 10px;
-    border-radius: var(--border-radius-circular);
+    width: calc(10px * var(--radio-scale, 1));
+    height: calc(10px * var(--radio-scale, 1));
+    border-radius: calc(var(--border-radius-circular) * var(--radio-scale, 1));
     background-color: var(--color-brand-primary-default);
   }
 }
 
 .labelText {
-  margin-left: var(--spacing-8);
+  margin-left: calc(var(--spacing-8) * var(--radio-scale, 1));
   font-family: var(--font-family-primary);
-  font-size: var(--font-size-16);
+  font-size: calc(var(--font-size-16) * var(--radio-scale, 1));
   color: var(--color-neutral-low-default);
   font-weight: var(--font-weight-regular);
   cursor: pointer;
