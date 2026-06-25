@@ -19,16 +19,9 @@ const Chips: React.FC<ChipsProps> = ({
   ...rest
 }) => {
 
-  const scaleClass = {
-    1: 'scale-1-0',
-    1.5: 'scale-1-5',
-    2: 'scale-2-0',
-  }[scale];
-
   const chipsClass = clsx(
     styles.chips,
     styles[variant],
-    scaleClass,
     {
       [styles.disabled]: disabled,
       [styles.hasLeftIcon]: leftIcon,
@@ -38,6 +31,7 @@ const Chips: React.FC<ChipsProps> = ({
   );
 
   const colorStyle = {
+    '--chips-scale': scale,
     ...(!disabled && backgroundColor && { '--chips-bg': `var(--${backgroundColor})` }),
     ...(!disabled && textColor && { '--chips-text': `var(--${textColor})` }),
     ...style,

@@ -1,15 +1,15 @@
-
 .chips {
+  --chips-scale: 1;
   --chips-bg: var(--color-neutral-high-medium);
   --chips-text: var(--color-neutral-low-default);
 
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: var(--spacing-8) var(--spacing-16);
-  border-radius: var(--border-radius-pill);
+  padding: calc(var(--spacing-8) * var(--chips-scale, 1)) calc(var(--spacing-16) * var(--chips-scale, 1));
+  border-radius: calc(var(--border-radius-pill) * var(--chips-scale, 1));
   font-family: var(--font-family-primary);
-  font-size: var(--font-size-14);
+  font-size: calc(var(--font-size-14) * var(--chips-scale, 1));
   font-weight: var(--font-weight-medium);
   background-color: var(--chips-bg);
   color: var(--chips-text);
@@ -24,7 +24,7 @@
   align-items: center;
   justify-content: center;
   color: inherit;
-  padding: 0 var(--spacing-8);
+  padding: var(--spacing-0) calc(var(--spacing-8) * var(--chips-scale, 1));
 }
 
 .iconRight {
@@ -32,19 +32,19 @@
   align-items: center;
   justify-content: center;
   color: inherit;
-  padding: var(--spacing-0) var(--spacing-8);
+  padding: var(--spacing-0) calc(var(--spacing-8) * var(--chips-scale, 1));
 }
 
 .hasLeftIcon {
-  padding: var(--spacing-8) var(--spacing-16) var(--spacing-8) var(--spacing-0);
+  padding: calc(var(--spacing-8) * var(--chips-scale, 1)) calc(var(--spacing-16) * var(--chips-scale, 1)) calc(var(--spacing-8) * var(--chips-scale, 1)) var(--spacing-0);
 }
 
 .hasRightIcon {
-  padding: var(--spacing-8) var(--spacing-0) var(--spacing-8) var(--spacing-16);
+  padding: calc(var(--spacing-8) * var(--chips-scale, 1)) var(--spacing-0) calc(var(--spacing-8) * var(--chips-scale, 1)) calc(var(--spacing-16) * var(--chips-scale, 1));
 }
 
 .hasLeftIcon.hasRightIcon {
-  padding: var(--spacing-8) var(--spacing-0);
+  padding: calc(var(--spacing-8) * var(--chips-scale, 1)) var(--spacing-0);
 }
 
 .brand {
