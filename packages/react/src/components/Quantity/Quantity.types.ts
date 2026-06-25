@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { Size, BaseProps, Scale } from '../../types/common.types';
 
 /**
@@ -21,7 +22,7 @@ import { Size, BaseProps, Scale } from '../../types/common.types';
  * />
  * ```
  */
-export interface QuantityProps extends BaseProps {
+export interface QuantityProps extends BaseProps, Omit<React.HTMLAttributes<HTMLDivElement>, 'size' | 'onChange'>  {
   /** Valor do componente */
   value?: number;
   
