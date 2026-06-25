@@ -3,6 +3,40 @@ import React from 'react';
 import { Size, BaseProps, Variant, Position, Scale } from '../../types/common.types';
 
 /**
+ * Props base compartilhadas por todas as configurações de tooltip do botão.
+ */
+interface BaseTooltipConfig {
+  /** Lado em que o tooltip será exibido */
+  tooltipSide?: 'top' | 'bottom' | 'left' | 'right';
+  /** Alinhamento do tooltip */
+  tooltipAlign?: 'start' | 'center' | 'end';
+}
+
+/**
+ * Configuração de tooltip com texto.
+ * Exibe um tooltip ao redor do botão — útil especialmente para botões icon-only.
+ */
+interface WithTooltip extends BaseTooltipConfig {
+  /** Texto do tooltip exibido no hover */
+  tooltipText: string;
+}
+
+/**
+ * Configuração sem tooltip.
+ */
+interface WithoutTooltip {
+  tooltipText?: never;
+  tooltipSide?: never;
+  tooltipAlign?: never;
+}
+
+/**
+ * Union type representando a configuração de tooltip do botão.
+ * Pode ter tooltip com texto (e opcionalmente side/align) ou sem tooltip.
+ */
+export type ButtonTooltipConfig = WithTooltip | WithoutTooltip;
+
+/**
  * Props base do Button, independentes da variante iconOnly/icon.
  * `target`, `rel`, `type` e `onClick` são declarados aqui para garantir
  * que o destructuring funcione em todos os modos (button | a | custom).
@@ -53,15 +87,6 @@ type ButtonOwnPropsBase = {
   /** Estado de carregamento (exibe spinner) */
   loading?: boolean;
 
-  /** Texto do tooltip exibido quando o botão é apenas ícone */
-  tooltipText?: string;
-
-  /** Lado em que o tooltip será exibido */
-  tooltipSide?: 'top' | 'bottom' | 'left' | 'right';
-
-  /** Alinhamento do tooltip */
-  tooltipAlign?: 'start' | 'center' | 'end';
-
   /**
    * Classe CSS adicional para customização. Use com moderação e prefira as variantes e estilos pré-definidos do design system.
    */
@@ -69,7 +94,7 @@ type ButtonOwnPropsBase = {
 
   /** Handler de clique; tipado em HTMLElement para ser compatível com todos os modos */
   onClick?: React.MouseEventHandler<HTMLElement>;
-} & BaseProps;
+} & BaseProps & ButtonTooltipConfig;
 
 /**
  * Props próprias do componente Button.

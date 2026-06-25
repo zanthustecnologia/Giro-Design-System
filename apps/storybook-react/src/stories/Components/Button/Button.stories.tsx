@@ -82,6 +82,19 @@ const meta: Meta<typeof Button> = {
     },
     tooltipText: {
       control: { type: 'text' },
+      description: 'Texto do tooltip. Quando informado, `tooltipSide` e `tooltipAlign` ficam disponíveis para posicionamento.',
+    },
+    tooltipSide: {
+      control: { type: 'select' },
+      options: ['top', 'bottom', 'left', 'right'],
+      description: 'Lado em que o tooltip será exibido. Requer `tooltipText`.',
+      if: { arg: 'tooltipText', truthy: true },
+    },
+    tooltipAlign: {
+      control: { type: 'select' },
+      options: ['start', 'center', 'end'],
+      description: 'Alinhamento do tooltip. Requer `tooltipText`.',
+      if: { arg: 'tooltipText', truthy: true },
     },
   },
 } as Meta<ButtonProps>;
