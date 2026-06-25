@@ -69,17 +69,10 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPro
   }
   const resolvedIcon = icon;
 
-  const scaleClass = {
-    1: 'scale-1-0',
-    1.5: 'scale-1-5',
-    2: 'scale-2-0',
-  }[scale];
-
   const buttonClasses = clsx(
     styles.button,
     styles[`button-${variant}`],
     styles[`button-${size}`],
-    scaleClass,
     {
       [styles['disabled']]: disabled,
       [styles['buttonLoading']]: loading,
@@ -161,6 +154,8 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPro
     );
   };
 
+  const { style: externalStyle, ...otherRest } = rest as Record<string, unknown> & { style?: React.CSSProperties };
+
   const baseProps = {
     ref,
     id: componentId,
@@ -170,7 +165,11 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPro
     'aria-busy': loading || undefined,
     tabIndex: disabled || loading ? -1 : 0,
     onClick: handleClick,
-    ...rest,
+    ...otherRest,
+    style: {
+      '--button-scale': scale,
+      ...externalStyle,
+    } as React.CSSProperties,
   };
 
   const getNavigationProps = () => {

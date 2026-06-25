@@ -1,49 +1,50 @@
 @mixin buttonSize($height, $padding-x, $min-width) {
-  height: $height;
-  padding: var(--spacing-0) $padding-x;
-  min-width: $min-width;
+  height: calc(#{$height} * var(--button-scale, 1));
+  padding: var(--spacing-0) calc(#{$padding-x} * var(--button-scale, 1));
+  min-width: calc(#{$min-width} * var(--button-scale, 1));
 }
 
 @mixin buttonIconPadding($left-padding, $right-padding) {
   &.buttonIconPosition-left {
-    padding: var(--spacing-0) $right-padding var(--spacing-0) $left-padding;
+    padding: var(--spacing-0) calc(#{$right-padding} * var(--button-scale, 1)) var(--spacing-0) calc(#{$left-padding} * var(--button-scale, 1));
   }
   
   &.buttonIconPosition-right {
-    padding: var(--spacing-0) $left-padding var(--spacing-0) $right-padding;
+    padding: var(--spacing-0) calc(#{$left-padding} * var(--button-scale, 1)) var(--spacing-0) calc(#{$right-padding} * var(--button-scale, 1));
   }
   &.buttonIconPosition-both {
-    padding: var(--spacing-0) $left-padding ;
+    padding: var(--spacing-0) calc(#{$left-padding} * var(--button-scale, 1));
   }
 }
 
 @mixin iconOnlySize($size) {
   padding: var(--spacing-0);
-  width: $size;
-  height: $size;
-  min-width: $size;
-  max-width: $size;
-  min-height: $size;
-  max-height: $size;
+  width: calc(#{$size} * var(--button-scale, 1));
+  height: calc(#{$size} * var(--button-scale, 1));
+  min-width: calc(#{$size} * var(--button-scale, 1));
+  max-width: calc(#{$size} * var(--button-scale, 1));
+  min-height: calc(#{$size} * var(--button-scale, 1));
+  max-height: calc(#{$size} * var(--button-scale, 1));
   flex-shrink: 0;
 }
 
 @mixin iconSize($size: 16px) {
   svg {
-    width: $size;
-    height: $size;
+    width: calc(#{$size} * var(--button-scale, 1));
+    height: calc(#{$size} * var(--button-scale, 1));
     flex-shrink: 0;
   }
 }
 
 .button {
+  --button-scale: 1;
   position: relative;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  gap: var(--spacing-8);
-  border-radius: var(--border-radius-8);
+  gap: calc(var(--spacing-8) * var(--button-scale, 1));
+  border-radius: calc(var(--border-radius-8) * var(--button-scale, 1));
   box-shadow: none;
   padding: var(--spacing-0) var(--spacing-24);
   text-align: center;
@@ -56,7 +57,7 @@
   box-sizing: border-box;
   
   font-family: var(--font-family-primary);
-  font-size: var(--font-size-14);
+  font-size: calc(var(--font-size-14) * var(--button-scale, 1));
   font-style: normal;
   font-weight: var(--font-weight-medium);
   text-decoration: none;
@@ -98,25 +99,25 @@
 }
 
 .button.button-text.button-lg {
-  padding: var(--spacing-0) var(--spacing-12);
+  padding: var(--spacing-0) calc(var(--spacing-12) * var(--button-scale, 1));
   
   &.buttonWithIcon {
     @include buttonIconPadding(var(--spacing-8), var(--spacing-12));
     
     &.buttonNoContent {
-      padding: var(--spacing-0) var(--spacing-16);
+      padding: var(--spacing-0) calc(var(--spacing-16) * var(--button-scale, 1));
     }
   }
 }
 
 .button.button-text.button-sm {
-  padding: var(--spacing-0) var(--spacing-8);
+  padding: var(--spacing-0) calc(var(--spacing-8) * var(--button-scale, 1));
   
   &.buttonWithIcon {
     @include buttonIconPadding(var(--spacing-4), var(--spacing-8));
     
     &.buttonNoContent {
-      padding: var(--spacing-0) var(--spacing-8);
+      padding: var(--spacing-0) calc(var(--spacing-8) * var(--button-scale, 1));
     }
   }
 }
@@ -130,8 +131,8 @@
 }
 
 .buttonIconOnly span {
-  width: 16px;
-  height: 16px;
+  width: calc(16px * var(--button-scale, 1));
+  height: calc(16px * var(--button-scale, 1));
 }
 
 .buttonIconLeft,
@@ -141,8 +142,8 @@
 }
 
 .button svg {
-  width: 16px;
-  height: 16px;
+  width: calc(16px * var(--button-scale, 1));
+  height: calc(16px * var(--button-scale, 1));
   flex-shrink: 0;
 }
 
@@ -174,8 +175,8 @@
 
 .button.button-filled:focus-visible,
 .button.button-filled[data-state="open"] {
-  outline: var(--border-width-4) solid var(--color-neutral-high-dark);
-  outline-offset: var(--border-width-2);
+  outline: calc(var(--border-width-4) * var(--button-scale, 1)) solid var(--color-neutral-high-dark);
+  outline-offset: calc(var(--border-width-2) * var(--button-scale, 1));
 }
 
 .button.button-filled:active {
@@ -204,8 +205,8 @@
 
 .button.button-outlined:focus-visible,
 .button.button-outlined[data-state="open"] {
-  outline: var(--border-width-4) solid var(--color-neutral-high-dark);
-  outline-offset: var(--border-width-2);
+  outline: calc(var(--border-width-4) * var(--button-scale, 1)) solid var(--color-neutral-high-dark);
+  outline-offset: calc(var(--border-width-2) * var(--button-scale, 1));
   color: var(--color-brand-primary-default);
   background-color: var(--color-neutral-high-default);
 }
@@ -235,8 +236,8 @@
 
 .button.button-text:focus-visible,
 .button.button-text[data-state="open"] {
-  outline: var(--border-width-4) solid var(--color-neutral-high-dark);
-  outline-offset: var(--border-width-2);
+  outline: calc(var(--border-width-4) * var(--button-scale, 1)) solid var(--color-neutral-high-dark);
+  outline-offset: calc(var(--border-width-2) * var(--button-scale, 1));
   color: var(--color-brand-primary-default);
   background-color: transparent;
 }
@@ -275,7 +276,7 @@
     &.buttonIconPosition-right,
     &.buttonIconPosition-both,
     &.buttonNoContent {
-      padding: var(--spacing-0) var(--spacing-24);
+      padding: var(--spacing-0) calc(var(--spacing-24) * var(--button-scale, 1));
     }
   }
 }
@@ -288,7 +289,7 @@
     &.buttonIconPosition-right,
     &.buttonIconPosition-both,
     &.buttonNoContent {
-      padding: var(--spacing-0) var(--spacing-16);
+      padding: var(--spacing-0) calc(var(--spacing-16) * var(--button-scale, 1));
     }
   }
 }
@@ -296,7 +297,7 @@
 .buttonContentHidden {
   display: flex;
   align-items: center;
-  gap: var(--spacing-8);
+  gap: calc(var(--spacing-8) * var(--button-scale, 1));
   opacity: 0;
   pointer-events: none;
 

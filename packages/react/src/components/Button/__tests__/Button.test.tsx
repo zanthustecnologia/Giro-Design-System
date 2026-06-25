@@ -72,20 +72,20 @@ describe('Button', () => {
   describe('Escala', () => {
     it('deve aplicar escala 1.0 por padrão', () => {
       const { container } = render(<Button>Botão</Button>);
-      const button = container.querySelector('.scale-1-0');
-      expect(button).toBeInTheDocument();
+      const button = container.querySelector('button, a');
+      expect(button).toHaveAttribute('style', expect.stringContaining('--button-scale: 1'));
     });
 
     it('deve aplicar escala 1.5 quando informado', () => {
       const { container } = render(<Button scale={1.5}>Botão</Button>);
-      const button = container.querySelector('.scale-1-5');
-      expect(button).toBeInTheDocument();
+      const button = container.querySelector('button, a');
+      expect(button).toHaveAttribute('style', expect.stringContaining('--button-scale: 1.5'));
     });
 
     it('deve aplicar escala 2.0 quando informado', () => {
       const { container } = render(<Button scale={2}>Botão</Button>);
-      const button = container.querySelector('.scale-2-0');
-      expect(button).toBeInTheDocument();
+      const button = container.querySelector('button, a');
+      expect(button).toHaveAttribute('style', expect.stringContaining('--button-scale: 2'));
     });
   });
 

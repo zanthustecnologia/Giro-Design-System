@@ -50,12 +50,6 @@ const DatePicker: React.FC<DatePickerProps> = ({
     ? `${helperText} • ${externalError}`
     : externalError || helperText || '';
 
-  const scaleClass = {
-    1: 'scale-1-0',
-    1.5: 'scale-1-5',
-    2: 'scale-2-0',
-  }[datePickerScale];
-
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       const target = event.target as Element;
@@ -182,7 +176,12 @@ const DatePicker: React.FC<DatePickerProps> = ({
   };
 
   return (
-    <div ref={wrapperRef} className={clsx(styles.datePicker, scaleClass, className)} {...rest}>
+    <div
+      ref={wrapperRef}
+      className={clsx(styles.datePicker, className)}
+      style={{ '--datepicker-scale': datePickerScale } as React.CSSProperties}
+      {...rest}
+    >
         <Popover
           open={showCalendar}
           onOpenChange={setShowCalendar}

@@ -602,7 +602,7 @@ describe('Menu', () => {
       );
 
       const trigger = screen.getByRole('button', { name: 'Abrir Menu' });
-      expect(trigger.className).toMatch(/scale-2-0/);
+      expect(trigger).toHaveAttribute('style', expect.stringContaining('--button-scale: 2'));
     });
   });
 
