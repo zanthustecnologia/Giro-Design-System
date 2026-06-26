@@ -194,7 +194,9 @@ const Select: React.FC<SelectProps> = ({
               ) : (
                 <SelectRadix.Value placeholder={placeholder} className={styles.placeholder}>{displayText}</SelectRadix.Value>
               )}
-              {state.isOpen ? <ChevronUp16Regular /> : <ChevronDown16Regular />}
+              <div className={styles.triggerIcon}>
+                {state.isOpen ? <ChevronUp16Regular /> : <ChevronDown16Regular />}
+              </div>
             </SelectRadix.Trigger>
 
             {!state.isOpen && helperText && !state.hasError && (
