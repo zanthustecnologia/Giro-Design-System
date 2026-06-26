@@ -21,7 +21,7 @@ type SelectionState = Record<string, boolean>;
 
 const Simple: React.FC<FilterProps> = ({
   items,
-  type = 'multiple',
+  filterType = 'multiple',
   selectedIds,
   onApplyFilter,
   placeholder = 'Selecionar...',
@@ -98,13 +98,13 @@ const Simple: React.FC<FilterProps> = ({
     (itemId: string, item: FilterItem) => {
       if (item.disabled) return;
       setTempSelectedItems((prev) => {
-        if (type === 'multiple') {
+        if (filterType === 'multiple') {
           return { ...prev, [itemId]: !prev[itemId] };
         }
         return prev[itemId] ? {} : { [itemId]: true };
       });
     },
-    [type]
+    [filterType]
   );
 
   const handleApplyFilter = useCallback(() => {
@@ -143,7 +143,7 @@ const Simple: React.FC<FilterProps> = ({
   }, [items, searchQuery]);
 
   const buttonDisplayText = useMemo(() => {
-    if (type === 'calendar' && selectedDate) {
+    if (filterType === 'calendar' && selectedDate) {
       return selectedDate.toLocaleDateString(
         locale === 'pt-br' ? 'pt-BR' : 'en-US'
       );
@@ -151,7 +151,7 @@ const Simple: React.FC<FilterProps> = ({
     if (!selectedIds?.length) return buttonText;
     const firstItem = items?.find((item) => item.id === selectedIds[0]);
     return firstItem?.text || selectedIds[0];
-  }, [type, selectedDate, selectedIds, items, buttonText, locale]);
+  }, [filterType, selectedDate, selectedIds, items, buttonText, locale]);
 
   const getBadgeValue = useCallback(() => {
     if (!selectedIds || selectedIds.length <= 1) return null;
@@ -165,7 +165,7 @@ const Simple: React.FC<FilterProps> = ({
       variant={variant}
       disabled={disabled}
       icon={
-        type === 'calendar' ? <Calendar16Regular /> : <ChevronDownRegular />
+        filterType === 'calendar' ? <Calendar16Regular /> : <ChevronDownRegular />
       }
       iconPosition="right"
       size="lg"
@@ -183,7 +183,7 @@ const Simple: React.FC<FilterProps> = ({
   );
 
   const popoverContent =
-    type === 'calendar' ? (
+    filterType === 'calendar' ? (
       <Calendar
         currentDate={currentCalendarDate}
         selected={selectedDate}
@@ -212,7 +212,7 @@ const Simple: React.FC<FilterProps> = ({
         <ul
           className={styles.list}
           role="listbox"
-          aria-multiselectable={type === 'multiple'}
+          aria-multiselectable={filterType === 'multiple'}
         >
           {filteredItems.length > 0 ? (
             filteredItems.map((item, index) => {
@@ -237,7 +237,7 @@ const Simple: React.FC<FilterProps> = ({
                     }
                   }}
                 >
-                  {type === 'multiple' && (
+                  {filterType === 'multiple' && (
                     <Checkbox
                       checked={isSelected}
                       disabled={item.disabled}
