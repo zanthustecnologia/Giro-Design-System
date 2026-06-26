@@ -258,6 +258,7 @@ const Quantity: React.FC<QuantityProps> = ({
         disabled={disabled || isMinValue}
         aria-label={decrementAriaLabel}
         tooltipText='Diminuir'
+        scale={scale}
       />
 
       <input
@@ -289,6 +290,7 @@ const Quantity: React.FC<QuantityProps> = ({
         aria-label={incrementAriaLabel}
         icon={<Add16Regular />}
         tooltipText='Aumentar'
+        scale={scale}
       />
 
     </div>
