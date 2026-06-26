@@ -144,6 +144,9 @@ export interface SelectProps extends BaseProps {
   /** Estado de busca em andamento */
   isSearching?: boolean;
 
+  /** Estilos CSS inline */
+  style?: React.CSSProperties;
+
   /** Classe CSS opcional */
   className?: string;
 
