@@ -91,6 +91,9 @@ interface CalendarBaseProps extends Omit<BaseProps, 'disabled'> {
 
   /** Escala visual aplicada ao componente */
   scale?: Scale;
+
+  /** Estilo CSS inline opcional */
+  style?: React.CSSProperties;
 }
 
 export type CalendarProps = CalendarBaseProps;

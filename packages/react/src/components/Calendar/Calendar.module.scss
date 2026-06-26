@@ -5,12 +5,12 @@
 .root {
   position: relative; 
   box-sizing: border-box;
-  border-radius: var(--border-radius-8);
-  box-shadow: 0px 2px 16px 0px rgba(0, 0, 0, 0.20);
-  padding: var(--spacing-24);
+  border-radius: calc(var(--border-radius-8) * var(--calendar-scale, 1));
+  box-shadow: 0px calc(2px * var(--calendar-scale, 1)) calc(16px * var(--calendar-scale, 1)) 0px rgba(0, 0, 0, 0.20);
+  padding: calc(var(--spacing-24) * var(--calendar-scale, 1));
   background-color: var(--color-neutral-high-default);
-  min-width: 320px;
-  min-height: 320px;
+  min-width: calc(320px * var(--calendar-scale, 1));
+  min-height: calc(320px * var(--calendar-scale, 1));
 }
 
 .root * {
@@ -18,28 +18,28 @@
 }
 
 .day {
-  width: 36px;
-  height: 36px;
+  width: calc(36px * var(--calendar-scale, 1));
+  height: calc(36px * var(--calendar-scale, 1));
   text-align: center;
   vertical-align: middle;
 }
 
 .day_button {
   background: none;
-  padding: var(--spacing-0);
-  margin: var(--spacing-0);
+  padding: calc(var(--spacing-0) * var(--calendar-scale, 1));
+  margin: calc(var(--spacing-0) * var(--calendar-scale, 1));
   cursor: pointer;
   font: inherit;
   color: var(--color-neutral-low-default);
   justify-content: center;
   align-items: center;
   display: inline-flex;
-  width: 36px;
-  height: 36px;
-  border: var(--border-width-2) solid transparent;
+  width: calc(36px * var(--calendar-scale, 1));
+  height: calc(36px * var(--calendar-scale, 1));
+  border: calc(var(--border-width-2) * var(--calendar-scale, 1)) solid transparent;
   border-radius: var(--border-radius-circular);
   font-weight: var(--font-weight-regular);
-  font-size: var(--font-size-12);
+  font-size: calc(var(--font-size-12) * var(--calendar-scale, 1));
 }
 
 .day_button:disabled {
@@ -47,7 +47,7 @@
 }
 
 .day_button:hover, .day_button:focus {
-  border: var(--border-width-2) solid var(--color-neutral-high-medium);
+  border: calc(var(--border-width-2) * var(--calendar-scale, 1)) solid var(--color-neutral-high-medium);
   background-color: var(--color-neutral-high-medium);
 }
 
@@ -64,8 +64,8 @@
 .button_previous {
   border: var(--border-width-none);
   background: none;
-  padding: var(--spacing-0);
-  margin: var(--spacing-0);
+  padding: calc(var(--spacing-0) * var(--calendar-scale, 1));
+  margin: calc(var(--spacing-0) * var(--calendar-scale, 1));
   cursor: pointer;
   font: inherit;
   color: inherit;
@@ -76,8 +76,8 @@
   justify-content: center;
   position: relative;
   appearance: none;
-  width: 16px;
-  height: 16px;
+  width: calc(16px * var(--calendar-scale, 1));
+  height: calc(16px * var(--calendar-scale, 1));
 
   &:hover,
   &:focus-visible {
@@ -87,7 +87,7 @@
 }
 
 .button_previous {
-  margin-right: var(--spacing-24);
+  margin-right: calc(var(--spacing-24) * var(--calendar-scale, 1));
 }
 
 .button_next:disabled,
@@ -101,6 +101,8 @@
 .chevron {
   display: inline-block;
   fill: var(--color-neutral-low-default);
+  width: 1em;
+  height: 1em;
 }
 
 .root[dir="rtl"] .nav .chevron {
@@ -112,18 +114,18 @@
   position: relative;
   display: inline-flex;
   align-items: center;
-  gap: var(--spacing-8);
+  gap: calc(var(--spacing-8) * var(--calendar-scale, 1));
 }
 
 .dropdown {
   opacity: 0;
   appearance: none;
   position: absolute;
-  inset-block-start: var(--spacing-0);
-  inset-block-end: var(--spacing-0);
-  inset-inline-start: var(--spacing-0);
+  inset-block-start: calc(var(--spacing-0) * var(--calendar-scale, 1));
+  inset-block-end: calc(var(--spacing-0) * var(--calendar-scale, 1));
+  inset-inline-start: calc(var(--spacing-0) * var(--calendar-scale, 1));
   width: 100%;
-  padding: var(--spacing-8);
+  padding: calc(var(--spacing-8) * var(--calendar-scale, 1));
   cursor: inherit;
   border: var(--border-width-none);
   line-height: inherit;
@@ -142,13 +144,13 @@
 .month_caption {
   display: flex;
   align-content: center;
-  height: 22px;
-  width: 272px;
+  height: calc(22px * var(--calendar-scale, 1));
+  width: calc(272px * var(--calendar-scale, 1));
   line-height: 130%;
   text-transform: capitalize;
   font-weight: var(--font-weight-regular);
-  font-size: var(--font-size-16);
-  margin-bottom: var(--spacing-8);
+  font-size: calc(var(--font-size-16) * var(--calendar-scale, 1));
+  margin-bottom: calc(var(--spacing-8) * var(--calendar-scale, 1));
 }
 
 .root[data-nav-layout="around"] .month,
@@ -158,24 +160,24 @@
 
 .root[data-nav-layout="around"] .month_caption {
   justify-content: center;
-  margin-inline-start: var(--spacing-32);
-  margin-inline-end: var(--spacing-32);
+  margin-inline-start: calc(var(--spacing-32) * var(--calendar-scale, 1));
+  margin-inline-end: calc(var(--spacing-32) * var(--calendar-scale, 1));
   position: relative;
 }
 
 .root[data-nav-layout="around"] .button_previous {
   position: absolute;
-  inset-inline-start: var(--spacing-0);
-  top: var(--spacing-0);
-  height: 22px;
+  inset-inline-start: calc(var(--spacing-0) * var(--calendar-scale, 1));
+  top: calc(var(--spacing-0) * var(--calendar-scale, 1));
+  height: calc(22px * var(--calendar-scale, 1));
   display: inline-flex;
 }
 
 .root[data-nav-layout="around"] .button_next {
   position: absolute;
-  inset-inline-end: var(--spacing-0);
-  top: var(--spacing-0);
-  height: 22px;
+  inset-inline-end: calc(var(--spacing-0) * var(--calendar-scale, 1));
+  top: calc(var(--spacing-0) * var(--calendar-scale, 1));
+  height: calc(22px * var(--calendar-scale, 1));
   display: inline-flex;
   justify-content: center;
 }
@@ -184,42 +186,42 @@
   position: relative;
   display: flex;
   flex-wrap: wrap;
-  gap: var(--spacing-32);
+  gap: calc(var(--spacing-32) * var(--calendar-scale, 1));
   max-width: fit-content;
 }
 
 .month_grid {
   border-collapse: collapse;
-  width: 272px;
+  width: calc(272px * var(--calendar-scale, 1));
 }
 
 .nav {
   position: absolute;
-  inset-block-start: var(--spacing-0);
-  inset-inline-end: var(--spacing-0);
+  inset-block-start: calc(var(--spacing-0) * var(--calendar-scale, 1));
+  inset-inline-end: calc(var(--spacing-0) * var(--calendar-scale, 1));
   display: flex;
   align-items: center;
-  height: 22px;
+  height: calc(22px * var(--calendar-scale, 1));
 }
 
 .weekday {
   opacity: 0.75;
-  padding: var(--spacing-8) var(--spacing-0);
+  padding: calc(var(--spacing-8) * var(--calendar-scale, 1)) calc(var(--spacing-0) * var(--calendar-scale, 1));
   font-weight: var(--font-weight-medium);
-  font-size: var(--font-size-12);
+  font-size: calc(var(--font-size-12) * var(--calendar-scale, 1));
   text-align: center;
   text-transform: capitalize;
-  height: 40px;
-  width: 36px;
+  height: calc(40px * var(--calendar-scale, 1));
+  width: calc(36px * var(--calendar-scale, 1));
 }
 
 .week_number {
   opacity: 0.75;
   font-weight: var(--font-weight-regular);
-  font-size: var(--font-size-12);
-  height: 44px;
-  width: 44px;
-  border: var(--border-width-2) solid transparent;
+  font-size: calc(var(--font-size-12) * var(--calendar-scale, 1));
+  height: calc(44px * var(--calendar-scale, 1));
+  width: calc(44px * var(--calendar-scale, 1));
+  border: calc(var(--border-width-2) * var(--calendar-scale, 1)) solid transparent;
   border-radius: var(--border-radius-circular);
   text-align: center;
 }
@@ -229,7 +231,7 @@
 }
 
 .selected .day_button {
-  border: var(--border-width-2) solid var(--color-brand-primary-default);
+  border: calc(var(--border-width-2) * var(--calendar-scale, 1)) solid var(--color-brand-primary-default);
   background-color: var(--color-brand-primary-default);
   color: var(--color-neutral-high-default);
 }
@@ -389,6 +391,7 @@
 /* ─────────────────────────── SCSS do modo grid do ano e dos meses ─────────────────────────────────────────── */
 
 .calendar_grid_wrapper {
+  --calendar-scale: 1;
   position: relative;
   display: inline-block;
 }
@@ -396,17 +399,17 @@
 .caption_grid_btn {
   display: flex;
   align-items: center;
-  gap: var(--spacing-8);
+  gap: calc(var(--spacing-8) * var(--calendar-scale, 1));
   height: 100%;
   background: none;
   border: var(--border-width-none);
-  padding: var(--spacing-0) var(--border-width-2);
-  margin: var(--spacing-0);
+  padding: calc(var(--spacing-0) * var(--calendar-scale, 1)) calc(var(--border-width-2) * var(--calendar-scale, 1));
+  margin: calc(var(--spacing-0) * var(--calendar-scale, 1));
   cursor: pointer;
   font: inherit;
   color: var(--color-neutral-low-default);
   font-weight: var(--font-weight-regular);
-  font-size: var(--font-size-16);
+  font-size: calc(var(--font-size-16) * var(--calendar-scale, 1));
   font-family: var(--font-family-primary);
   border-radius: var(--border-radius-pill);
   text-transform: capitalize;
@@ -432,12 +435,12 @@
   display: flex;
   align-items: center;
   height: 100%;
-  padding: var(--spacing-0) var(--border-width-2);
+  padding: calc(var(--spacing-0) * var(--calendar-scale, 1)) calc(var(--border-width-2) * var(--calendar-scale, 1));
   font: inherit;
   color: var(--color-neutral-low-default);
   font-weight: var(--font-weight-regular);
   font-family: var(--font-family-primary);
-  font-size: var(--font-size-16);
+  font-size: calc(var(--font-size-16) * var(--calendar-scale, 1));
   text-transform: capitalize;
   line-height: 130%;
 }
@@ -446,24 +449,24 @@
   position: absolute;
   inset: 0;
   background-color: var(--color-neutral-high-default);
-  border-radius: var(--border-radius-8);
-  padding: var(--spacing-24) var(--spacing-0);
+  border-radius: calc(var(--border-radius-8) * var(--calendar-scale, 1));
+  padding: calc(var(--spacing-24) * var(--calendar-scale, 1)) calc(var(--spacing-0) * var(--calendar-scale, 1));
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-16);
+  gap: calc(var(--spacing-16) * var(--calendar-scale, 1));
 }
 
 .gridOverlayCaption {
   position: relative;
   display: flex;
   align-content: center;
-  height: 22px;
+  height: calc(22px * var(--calendar-scale, 1));
   line-height: 130%;
   text-transform: capitalize;
   font-weight: var(--font-weight-regular);
-  font-size: var(--font-size-16);
+  font-size: calc(var(--font-size-16) * var(--calendar-scale, 1));
   flex-shrink: 0;
-  padding: var(--spacing-0) var(--spacing-24);
+  padding: calc(var(--spacing-0) * var(--calendar-scale, 1)) calc(var(--spacing-24) * var(--calendar-scale, 1));
 }
 
 .gridOverlayCaption .caption_grid_btn {
@@ -476,20 +479,20 @@
 
 .gridOverlayYearsNav {
   position: absolute;
-  inset-block-start: var(--spacing-0);
-  inset-inline-end: var(--spacing-0);
+  inset-block-start: calc(var(--spacing-0) * var(--calendar-scale, 1));
+  inset-inline-end: calc(var(--spacing-0) * var(--calendar-scale, 1));
   display: flex;
   align-items: center;
-  height: 22px;
-  padding-right: var(--spacing-24);
-  gap: var(--spacing-24);
+  height: calc(22px * var(--calendar-scale, 1));
+  padding-right: calc(var(--spacing-24) * var(--calendar-scale, 1));
+  gap: calc(var(--spacing-24) * var(--calendar-scale, 1));
 }
 
 .gridCells {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: var(--spacing-8);
-  padding: var(--spacing-4);
+  gap: calc(var(--spacing-8) * var(--calendar-scale, 1));
+  padding: calc(var(--spacing-4) * var(--calendar-scale, 1));
   flex: 1;
   align-content: start;
 }
@@ -502,18 +505,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 72px;
-  height: 36px;
+  width: calc(72px * var(--calendar-scale, 1));
+  height: calc(36px * var(--calendar-scale, 1));
   border-radius: var(--border-radius-pill);
-  border: var(--border-width-2) solid transparent;
+  border: calc(var(--border-width-2) * var(--calendar-scale, 1)) solid transparent;
   background: none;
   cursor: pointer;
   font: inherit;
-  font-size: var(--font-size-14);
+  font-size: calc(var(--font-size-14) * var(--calendar-scale, 1));
   text-transform: capitalize;
   color: var(--color-neutral-low-default);
-  padding: var(--spacing-0);
-  margin: var(--spacing-0);
+  padding: calc(var(--spacing-0) * var(--calendar-scale, 1));
+  margin: calc(var(--spacing-0) * var(--calendar-scale, 1));
 
   &:hover:not(:disabled) {
     background-color: var(--color-neutral-high-medium);
@@ -546,7 +549,7 @@
   cursor: pointer;
   font: inherit;
   color: var(--color-neutral-low-default);
-  padding: var(--spacing-0);
+  padding: calc(var(--spacing-0) * var(--calendar-scale, 1));
   flex-shrink: 0;
 
   &:disabled {
@@ -556,11 +559,25 @@
 }
 
 .chevronNavBtnPrev {
-  width: 16px;
-  height: 16px;
+  width: calc(16px * var(--calendar-scale, 1));
+  height: calc(16px * var(--calendar-scale, 1));
 }
 
 .chevronNavBtnNext {
-  width: 16px;
-  height: 16px;
+  width: calc(16px * var(--calendar-scale, 1));
+  height: calc(16px * var(--calendar-scale, 1));
+}
+
+
+/* ─────────────────────────── Chevron icon scaling ─────────────────────────────────────────── */
+
+.chevron_wrapper {
+  display: inline-flex;
+  font-size: calc(16px * var(--calendar-scale, 1));
+  flex-shrink: 0;
+
+  svg {
+    width: 1em;
+    height: 1em;
+  }
 }

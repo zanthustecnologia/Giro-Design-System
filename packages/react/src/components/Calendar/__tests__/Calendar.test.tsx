@@ -36,6 +36,7 @@ vi.mock("../Calendar.module.scss", () => ({
     gridCell: "gridCell",
     gridCellActive: "gridCellActive",
     gridNavBtn: "gridNavBtn",
+    chevron_wrapper: "chevron_wrapper",
   },
 }));
 
@@ -88,20 +89,23 @@ describe("Calendar", () => {
 
   it("aplica escala 1.0 por padrão", () => {
     const { container } = render(<Calendar />);
-    const wrapper = container.querySelector('.scale-1-0');
-    expect(wrapper).toBeInTheDocument();
+    const wrapper = container.querySelector(".calendar_grid_wrapper");
+    expect(wrapper).not.toBeNull();
+    expect(wrapper!.style.getPropertyValue("--calendar-scale")).toBe("1");
   });
 
   it("aplica escala 1.5 quando informado", () => {
     const { container } = render(<Calendar scale={1.5} />);
-    const wrapper = container.querySelector('.scale-1-5');
-    expect(wrapper).toBeInTheDocument();
+    const wrapper = container.querySelector(".calendar_grid_wrapper");
+    expect(wrapper).not.toBeNull();
+    expect(wrapper!.style.getPropertyValue("--calendar-scale")).toBe("1.5");
   });
 
   it("aplica escala 2.0 quando informado", () => {
     const { container } = render(<Calendar scale={2} />);
-    const wrapper = container.querySelector('.scale-2-0');
-    expect(wrapper).toBeInTheDocument();
+    const wrapper = container.querySelector(".calendar_grid_wrapper");
+    expect(wrapper).not.toBeNull();
+    expect(wrapper!.style.getPropertyValue("--calendar-scale")).toBe("2");
   });
 
   it("passa mode='single' para o DayPicker", () => {
