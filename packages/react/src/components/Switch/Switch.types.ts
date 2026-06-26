@@ -1,3 +1,5 @@
+import * as React from 'react';
+
 import { BaseProps, Scale } from '../../types/common.types';
 
 /**
@@ -37,6 +39,9 @@ export interface SwitchProps extends BaseProps {
 
   /** Classe CSS opcional */
   className?: string;
+
+  /** Estilo inline passado ao container */
+  style?: React.CSSProperties;
 
   /** Escala visual aplicada ao componente */
   scale?: Scale;

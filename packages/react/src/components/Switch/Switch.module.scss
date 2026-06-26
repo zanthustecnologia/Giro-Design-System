@@ -1,15 +1,16 @@
 .container {
+	--switch-scale: 1;
 	display: flex;
 	align-items: center;
 }
 
 .switchRoot {
-	width: 54px;
-	height: 34px;
+	width: calc(54px * var(--switch-scale, 1));
+	height: calc(34px * var(--switch-scale, 1));
 	background-color: var(--color-neutral-high-light);
-	border-radius: var(--border-radius-pill);
+	border-radius: calc(var(--border-radius-pill) * var(--switch-scale, 1));
 	box-shadow: none;
-	padding: var(--spacing-4);
+	padding: calc(var(--spacing-4) * var(--switch-scale, 1));
 	outline: var(--border-width-1) solid var(--color-neutral-high-dark);
 	border: none;
 	position: relative;
@@ -19,7 +20,7 @@
 	}
 	&:focus {
 		background-color: var(--color-neutral-high-light);
-		outline: var(--border-width-2) solid var(--color-brand-primary-light);
+		outline: calc(var(--border-width-2) * var(--switch-scale, 1)) solid var(--color-brand-primary-light);
 		box-shadow: none;
 	}
 	&[data-state="checked"] {
@@ -33,7 +34,7 @@
 		box-shadow: none;
 	}
 	&[data-state="checked"]:focus {
-		outline: var(--border-width-2) solid var(--color-brand-primary-light);
+		outline: calc(var(--border-width-2) * var(--switch-scale, 1)) solid var(--color-brand-primary-light);
 		box-shadow: none;
 	}
 	&:disabled {
@@ -48,21 +49,21 @@
 
 .switchThumb {
 	display: block;
-	width: 22px;
-	height: 22px;
+	width: calc(22px * var(--switch-scale, 1));
+	height: calc(22px * var(--switch-scale, 1));
 	background-color: var(--color-neutral-low-medium);
-	border-radius: var(--border-radius-circular);
+	border-radius: calc(var(--border-radius-circular) * var(--switch-scale, 1));
 	border: none;
 	box-shadow: none;
 	transition: transform 100ms;
 	will-change: transform;
 	&:focus {
-		outline: var(--border-width-2) solid var(--color-brand-primary-light);
+		outline: calc(var(--border-width-2) * var(--switch-scale, 1)) solid var(--color-brand-primary-light);
 	}
 	&[data-state="checked"] {
-		transform: translateX(20px);
-		width: 26px;
-		height: 26px;
+		transform: translateX(calc(20px * var(--switch-scale, 1)));
+		width: calc(26px * var(--switch-scale, 1));
+		height: calc(26px * var(--switch-scale, 1));
 		background-color: var(--color-neutral-high-default);
 	}
 }
