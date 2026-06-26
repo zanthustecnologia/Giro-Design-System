@@ -1,6 +1,6 @@
 import { Dismiss16Regular } from '@fluentui/react-icons';
 import clsx from 'clsx';
-import React, { useState, useCallback, useId, forwardRef, useEffect } from 'react';
+import React, { useState, useCallback, useId, useMemo, forwardRef, useEffect } from 'react';
 
 import useInputKeyboardValue from '../../hooks/useInputKeyboardValue';
 import VirtualKeyboard from '../VirtualKeyboard';
@@ -14,6 +14,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
   (
     {
       className,
+      style,
       value,
       label,
       placeholder,
@@ -123,24 +124,20 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
         ? `${componentId}-helper`
         : undefined;
 
-    const scaleClass = {
-      1: 'scale-1-0',
-      1.5: 'scale-1-5',
-      2: 'scale-2-0',
-    }[scale];
+    const containerStyle = useMemo(() => ({ '--textfield-scale': scale } as React.CSSProperties), [scale]);
 
-    const containerClass = clsx(styles.container, scaleClass, {
-      [styles.disabled]: disabled,
-      [styles.error]: hasError && !disabled,
-      [styles.errorWithMessage]: Boolean(error) && Boolean(errorMessage) && !disabled,
+    const containerClass = clsx(styles.container, {
       [styles.attachedToVirtualKeyboard]: attachedToVirtualKeyboard,
+      [styles.disabled]: disabled,
+      [styles.error]: error,
+      [styles.errorWithMessage]: !!errorMessage,
       [className!]: className,
     });
 
     return (
-      <div className={containerClass}>
+      <div className={containerClass} style={{ ...containerStyle, ...style }}>
         {label && (
-          <LabelComponent
+          <LabelComponent scale={scale}
             htmlFor={componentId}
             required={required}
             tooltip={tooltip}
@@ -192,7 +189,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
                 aria-label="Limpar campo"
                 tabIndex={-1}
               >
-                <Dismiss16Regular />
+                <span className={styles.clearButtonIcon}><Dismiss16Regular /></span>
               </button>
             )}
           </div>

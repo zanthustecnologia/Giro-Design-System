@@ -83,6 +83,9 @@ export interface TextFieldProps extends Omit<
   /** Classe CSS opcional */
   className?: string;
 
+  /** Estilo CSS inline opcional */
+  style?: React.CSSProperties;
+
   /** Tipo do teclado virtual (padrão: undefined = desabilitado) */ 
   virtualKeyboard?: VirtualKeyboardType;
 
