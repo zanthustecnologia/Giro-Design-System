@@ -63,12 +63,9 @@ export interface DatePickerProps extends BaseProps {
   /** ID para testes automatizados */
   'data-testid'?: string;
 
-  /** Classe CSS opcional */
-  className?: string;
+  /** Estilo CSS inline aplicado ao wrapper */
+  style?: React.CSSProperties;
 
-  /** Escala visual aplicada ao componente */
-  datePickerScale?: Scale;
-
-  /** Escala visual aplicada ao calendário */
-  calendarScale?: Scale;
+  /** Escala visual aplicada ao DatePicker, TextField e Calendar internos */
+  scale?: Scale;
 }

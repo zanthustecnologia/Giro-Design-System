@@ -1,6 +1,6 @@
 import { Calendar16Regular } from '@fluentui/react-icons';
 import clsx from 'clsx';
-import React, { useState, useEffect, useRef, useCallback, useId, KeyboardEvent } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useId, useMemo, KeyboardEvent } from 'react';
 
 import Calendar from '../Calendar/Calendar';
 import Popover from '../Popover';
@@ -25,13 +25,18 @@ const DatePicker: React.FC<DatePickerProps> = ({
   minDate,
   maxDate,
   'data-testid': testId,
-  datePickerScale = 1,
-  calendarScale = 1,
+  scale = 1,
   className,
+  style,
   ...rest
 }) => {
   const fieldId = useId();
   const calendarId = `${fieldId}-calendar`;
+
+  const containerStyle = useMemo<React.CSSProperties>(
+    () => ({ '--datepicker-scale': scale } as React.CSSProperties),
+    [scale]
+  );
 
   const isControlled = value !== undefined;
   const [internalDate, setInternalDate] = useState<Date | null>(defaultValue || null);
@@ -179,7 +184,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
     <div
       ref={wrapperRef}
       className={clsx(styles.datePicker, className)}
-      style={{ '--datepicker-scale': datePickerScale } as React.CSSProperties}
+      style={{ ...containerStyle, ...style }}
       {...rest}
     >
         <Popover
@@ -214,6 +219,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
               required={required}
               label={label}
               disabled={disabled}
+              scale={scale}
               id={fieldId}
               data-testid={testId}
               placeholder={locale === 'en-us' ? 'MM/DD/YYYY' : 'DD/MM/YYYY'}
@@ -234,7 +240,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
               format={locale === 'en-us' ? 'mm/dd/yyyy' : 'dd/mm/yyyy'}
               minDate={minDate}
               maxDate={maxDate}
-              scale={calendarScale}
+              scale={scale}
               id={calendarId}
               onClear={() => {
                 handleDateChange(null);

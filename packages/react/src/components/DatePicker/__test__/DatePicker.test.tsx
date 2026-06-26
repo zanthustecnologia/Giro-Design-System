@@ -276,13 +276,13 @@ describe('DatePicker', () => {
     });
 
     it('aplica escala 1.5 quando informado', () => {
-      const { container } = render(<DatePicker datePickerScale={1.5} />);
+      const { container } = render(<DatePicker scale={1.5} />);
       const wrapper = container.querySelector('.datePicker') ?? container.firstElementChild;
       expect(wrapper).toHaveAttribute('style', expect.stringContaining('--datepicker-scale: 1.5'));
     });
 
     it('aplica escala 2.0 quando informado', () => {
-      const { container } = render(<DatePicker datePickerScale={2} />);
+      const { container } = render(<DatePicker scale={2} />);
       const wrapper = container.querySelector('.datePicker') ?? container.firstElementChild;
       expect(wrapper).toHaveAttribute('style', expect.stringContaining('--datepicker-scale: 2'));
     });

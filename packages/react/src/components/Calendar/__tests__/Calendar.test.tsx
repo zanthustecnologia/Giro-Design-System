@@ -89,21 +89,21 @@ describe("Calendar", () => {
 
   it("aplica escala 1.0 por padrão", () => {
     const { container } = render(<Calendar />);
-    const wrapper = container.querySelector(".calendar_grid_wrapper");
+    const wrapper = container.querySelector(".calendar_grid_wrapper") as HTMLElement | null;
     expect(wrapper).not.toBeNull();
     expect(wrapper!.style.getPropertyValue("--calendar-scale")).toBe("1");
   });
 
   it("aplica escala 1.5 quando informado", () => {
     const { container } = render(<Calendar scale={1.5} />);
-    const wrapper = container.querySelector(".calendar_grid_wrapper");
+    const wrapper = container.querySelector(".calendar_grid_wrapper") as HTMLElement | null;
     expect(wrapper).not.toBeNull();
     expect(wrapper!.style.getPropertyValue("--calendar-scale")).toBe("1.5");
   });
 
   it("aplica escala 2.0 quando informado", () => {
     const { container } = render(<Calendar scale={2} />);
-    const wrapper = container.querySelector(".calendar_grid_wrapper");
+    const wrapper = container.querySelector(".calendar_grid_wrapper") as HTMLElement | null;
     expect(wrapper).not.toBeNull();
     expect(wrapper!.style.getPropertyValue("--calendar-scale")).toBe("2");
   });
@@ -255,5 +255,4 @@ describe("Calendar", () => {
     await user.click(screen.getByRole("button", { name: "Fechar seleção de ano" }));
     expect(screen.queryByRole("dialog")).toBeNull();
   });
-
 });
