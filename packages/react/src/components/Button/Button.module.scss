@@ -30,8 +30,8 @@
 
 @mixin iconSize($size: 16px) {
   svg {
-    width: calc(#{$size} * var(--button-scale, 1));
-    height: calc(#{$size} * var(--button-scale, 1));
+    width: 1em;
+    height: 1em;
     flex-shrink: 0;
   }
 }
@@ -131,19 +131,21 @@
 }
 
 .buttonIconOnly span {
-  width: calc(16px * var(--button-scale, 1));
-  height: calc(16px * var(--button-scale, 1));
+  font-size: calc(16px * var(--button-scale, 1));
+  width: 1em;
+  height: 1em;
 }
 
 .buttonIconLeft,
 .buttonIconRight,
 .buttonIconOnly {
+  font-size: calc(16px * var(--button-scale, 1));
   @include iconSize(16px);
 }
 
 .button svg {
-  width: calc(16px * var(--button-scale, 1));
-  height: calc(16px * var(--button-scale, 1));
+  width: 1em;
+  height: 1em;
   flex-shrink: 0;
 }
 
@@ -300,6 +302,7 @@
   gap: calc(var(--spacing-8) * var(--button-scale, 1));
   opacity: 0;
   pointer-events: none;
+  font-size: calc(16px * var(--button-scale, 1));
 
   @include iconSize(16px);
 }
@@ -310,6 +313,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: calc(16px * var(--button-scale, 1));
 
   @include iconSize(16px);
 

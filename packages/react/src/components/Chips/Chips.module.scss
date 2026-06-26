@@ -25,6 +25,12 @@
   justify-content: center;
   color: inherit;
   padding: var(--spacing-0) calc(var(--spacing-8) * var(--chips-scale, 1));
+  font-size: calc(16px * var(--chips-scale, 1));
+
+  svg {
+    width: 1em;
+    height: 1em;
+  }
 }
 
 .iconRight {
@@ -33,6 +39,12 @@
   justify-content: center;
   color: inherit;
   padding: var(--spacing-0) calc(var(--spacing-8) * var(--chips-scale, 1));
+  font-size: calc(16px * var(--chips-scale, 1));
+
+  svg {
+    width: 1em;
+    height: 1em;
+  }
 }
 
 .hasLeftIcon {
