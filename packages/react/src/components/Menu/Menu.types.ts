@@ -117,12 +117,9 @@ export interface MenuProps extends BaseProps {
   /** Callback executado quando o menu abre/fecha: (open) => void */
   onOpenChange?: (open: boolean) => void;
 
-  /** Classe CSS opcional */
-  className?: string;
+  /** Escala visual aplicada ao menu (dropdown e trigger) */
+  scale?: Scale;
 
-  /** Escala visual aplicada ao conteúdo do menu */
-  dropdownScale?: Scale;
-
-  /** Escala visual aplicada ao botão/trigger quando ele aceitar a prop `scale` */
-  buttonScale?: Scale;
+  /** Estilo CSS inline aplicado ao conteúdo do menu */
+  style?: React.CSSProperties;
 }

@@ -555,8 +555,8 @@ describe('Menu', () => {
       await user.click(screen.getByText('Abrir Menu'));
 
       await waitFor(() => {
-        const content = document.querySelector('.scale-1-0');
-        expect(content).toBeInTheDocument();
+        const content = screen.getByRole('menu');
+        expect(content.style.getPropertyValue('--menu-scale')).toBe('1');
       });
     });
 
@@ -564,7 +564,7 @@ describe('Menu', () => {
       const user = userEvent.setup();
 
       render(
-        <Menu items={mockItems} dropdownScale={1.5}>
+        <Menu items={mockItems} scale={1.5}>
           <button>Abrir Menu</button>
         </Menu>
       );
@@ -572,8 +572,8 @@ describe('Menu', () => {
       await user.click(screen.getByText('Abrir Menu'));
 
       await waitFor(() => {
-        const content = document.querySelector('.scale-1-5');
-        expect(content).toBeInTheDocument();
+        const content = screen.getByRole('menu');
+        expect(content.style.getPropertyValue('--menu-scale')).toBe('1.5');
       });
     });
 
@@ -581,7 +581,7 @@ describe('Menu', () => {
       const user = userEvent.setup();
 
       render(
-        <Menu items={mockItems} dropdownScale={2}>
+        <Menu items={mockItems} scale={2}>
           <button>Abrir Menu</button>
         </Menu>
       );
@@ -589,14 +589,14 @@ describe('Menu', () => {
       await user.click(screen.getByText('Abrir Menu'));
 
       await waitFor(() => {
-        const content = document.querySelector('.scale-2-0');
-        expect(content).toBeInTheDocument();
+        const content = screen.getByRole('menu');
+        expect(content.style.getPropertyValue('--menu-scale')).toBe('2');
       });
     });
 
-    it('aplica buttonScale no trigger quando o children é Button', () => {
+    it('aplica scale no trigger quando o children é Button', () => {
       render(
-        <Menu items={mockItems} buttonScale={2}>
+        <Menu items={mockItems} scale={2}>
           <Button>Abrir Menu</Button>
         </Menu>
       );
