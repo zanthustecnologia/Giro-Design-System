@@ -79,6 +79,9 @@ export interface SearchProps extends BaseProps, NativeInputProps {
   /** Classe CSS opcional */
   className?: string;
 
+  /** Estilo inline passado ao container */
+  style?: React.CSSProperties;
+
   /** Tipo do teclado virtual (padrão: undefined = desabilitado) */
   virtualKeyboard?: VirtualKeyboardType;
 
