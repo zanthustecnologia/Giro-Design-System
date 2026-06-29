@@ -68,7 +68,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
   Emoji = false,
   className,
   id,
-  textFieldPlaceholder = 'Digite aqui...',
+  placeholder = 'Digite aqui...',
   helperText,
   error,
   errorMessage,
@@ -757,7 +757,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
       {variant === 'fixed' && (
         <div className={styles.textFieldContainer}>
           <TextField
-            placeholder={textFieldPlaceholder}
+            placeholder={placeholder}
             value={value}
             onChange={onChange}
             helperText={helperText}

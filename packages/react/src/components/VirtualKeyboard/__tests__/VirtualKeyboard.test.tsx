@@ -172,7 +172,7 @@ describe('VirtualKeyboard', () => {
   // ───────────────────────────────────────────────────────────────────────────
   describe('Modo fixed', () => {
     it('deve renderizar TextField com placeholder no modo fixed', () => {
-      render(<VirtualKeyboard variant="fixed" textFieldPlaceholder="Escreva algo" />);
+      render(<VirtualKeyboard variant="fixed" placeholder="Escreva algo" />);
       expect(screen.getByPlaceholderText('Escreva algo')).toBeInTheDocument();
     });
 
