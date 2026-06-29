@@ -497,7 +497,7 @@ export const ComFiltroCombinado: StoryFn = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
 
-  const appliedFilterCount = appliedStatus.length + appliedTipo.length;
+  const activeCount = appliedStatus.length + appliedTipo.length;
 
   const dadosFiltrados = useMemo(() => {
     let result = promocoes;
@@ -549,7 +549,7 @@ export const ComFiltroCombinado: StoryFn = () => {
             {
               type: 'combined' as const,
               buttonText: 'Filtros',
-              appliedFilterCount,
+              activeCount,
               title: 'Filtrar promoções',
               drawerWidth: '320px',
               onApply: handleApply,

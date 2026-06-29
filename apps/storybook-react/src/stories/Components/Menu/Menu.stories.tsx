@@ -3,9 +3,6 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Menu, Button } from '@giro-ds/react';
 import type { MenuProps } from '@giro-ds/react';
 import {
-  Delete16Regular,
-  Settings16Regular,
-  Person16Regular,
   Edit16Regular,
   Eye16Regular,
   Archive16Regular,

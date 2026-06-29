@@ -1,5 +1,3 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import { useState } from 'react';
 import {
   CheckmarkCircleRegular,
   DismissCircleRegular,
@@ -7,7 +5,10 @@ import {
   LockClosedRegular,
 } from '@fluentui/react-icons';
 import { Chips, DatePicker, Filter, Select } from '@giro-ds/react';
+import { useState } from 'react';
+
 import type { FilterProps } from '@giro-ds/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta: Meta<typeof Filter> = {
   title: 'Components/Filter',
@@ -55,7 +56,7 @@ const meta: Meta<typeof Filter> = {
         defaultValue: { summary: 'outlined' },
       },
     },
-    type: {
+    filterType: {
       control: 'select',
       options: ['multiple', 'single', 'calendar'],
       description: 'Tipo do filtro',
@@ -138,7 +139,6 @@ const FilterTemplate = (args: FilterProps) => {
 
   const handleApplyFilter = (selectedIds: string[]) => {
     setAppliedFilters(selectedIds);
-    console.log('✅ Filtros APLICADOS e GUARDADOS:', selectedIds);
   };
 
   return (
@@ -155,7 +155,7 @@ export const Default: Story = {
   args: {
     items: statusItems,
     buttonText: 'Status',
-    type: 'multiple',
+    filterType: 'multiple',
     side: 'bottom',
     align: 'start',
     variant: 'outlined',
@@ -168,7 +168,7 @@ export const ComBusca: Story = {
   args: {
     items: categoryItems,
     buttonText: 'Categoria',
-    type: 'multiple',
+    filterType: 'multiple',
     enableSearch: true,
     side: 'bottom',
     align: 'start',
@@ -191,7 +191,7 @@ export const ComIcones: Story = {
   },
   args: {
     buttonText: 'Status',
-    type: 'single',
+    filterType: 'single',
     side: 'bottom',
     align: 'start',
     variant: 'outlined',
@@ -204,7 +204,7 @@ export const Desabilitado: Story = {
   args: {
     items: statusItems,
     buttonText: 'Status',
-    type: 'multiple',
+    filterType: 'multiple',
     disabled: true,
     side: 'bottom',
     align: 'start',
@@ -227,7 +227,7 @@ export const FiltroCalendario: Story = {
     return (
       <div style={{ padding: '2rem' }}>
         <Filter
-          type="calendar"
+          filterType="calendar"
           buttonText={selectedDate ? selectedDate.toLocaleDateString('pt-BR') : 'Selecionar Data'}
           selectedDate={selectedDate}
           onDateSelect={handleDateSelect}
@@ -254,7 +254,7 @@ export const MultiplosFiltros: Story = {
             buttonText='Status'
             selectedIds={statusFilters}
             onApplyFilter={setStatusFilters}
-            type="multiple"
+            filterType="multiple"
             variant="outlined"
           />
           <Filter
@@ -262,7 +262,7 @@ export const MultiplosFiltros: Story = {
             buttonText='Categoria'
             selectedIds={categoryFilters}
             onApplyFilter={setCategoryFilters}
-            type="multiple"
+            filterType="multiple"
             variant="outlined"
             enableSearch={true}
           />
@@ -458,7 +458,7 @@ export const PosicaoDireita: Story = {
   args: {
     items: categoryItems,
     buttonText: 'Categoria',
-    type: 'multiple',
+    filterType: 'multiple',
     side: 'bottom',
     align: 'end',
     variant: 'outlined',
