@@ -1,10 +1,10 @@
 import clsx from 'clsx';
 import React, { useState, useCallback, useId, forwardRef, useEffect } from 'react';
 
-import useInputKeyboardValue from '../../hooks/useInputKeyboardValue';
-import VirtualKeyboard from '../VirtualKeyboard';
 import styles from './TextArea.module.scss';
+import useInputKeyboardValue from '../../hooks/useInputKeyboardValue';
 import LabelComponent from '../../shared/Label';
+import VirtualKeyboard from '../VirtualKeyboard';
 
 import type { TextAreaProps } from './TextArea.types';
 
@@ -30,7 +30,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
       onFocus,
       name,
       resize = 'vertical',
-      showCharCount = false,
+      charCount = false,
       height,
       virtualKeyboard,
       ...rest
@@ -145,7 +145,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
               {displayHelperText}
             </span>
 
-            {showCharCount && maxLength && (
+            {charCount && maxLength && (
               <span className={styles.charCount}>
                 {textareaValue.length}/{maxLength}
               </span>

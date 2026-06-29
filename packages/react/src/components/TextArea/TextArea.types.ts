@@ -69,7 +69,7 @@ interface TextAreaPropsBase extends Omit<
   resize?: 'none' | 'vertical' | 'both';
 
   /** Exibe contador de caracteres (requer maxLength) */
-  showCharCount?: boolean;
+  charCount?: boolean;
 
   /** Altura do textarea em pixels */
   height?: number;
