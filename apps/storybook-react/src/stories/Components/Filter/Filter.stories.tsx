@@ -294,7 +294,7 @@ export const FiltrosCombinados: Story = {
       diferenca: [] as string[],
     });
 
-    const activeCount = [
+    const appliedFilterCount = [
       applied.dataInicio !== null,
       applied.dataFim !== null,
       applied.pdv !== '',
@@ -332,7 +332,7 @@ export const FiltrosCombinados: Story = {
           buttonText="Filtrar"
           title="Filtrar"
           variant="outlined"
-          activeCount={activeCount}
+          appliedFilterCount={appliedFilterCount}
           onApply={handleApply}
           onClear={handleClear}
         >

@@ -81,7 +81,7 @@ const colunasCompletas = [
     header: 'Avatar',
     cell: ({ row }) => {
       const initials = row.original.nome.split(' ').map((w) => w[0]).slice(0, 2).join('');
-      return <Avatar initialLetters={initials} size="sm" />;
+      return <Avatar text={initials} size="sm" />;
     },
   }),
   col.accessor('id', {
@@ -119,12 +119,12 @@ const colunasCompletas = [
   col.display({
     id: 'actions',
     header: '',
+    size: 40,
     meta: { align: 'center' },
     cell: ({ row }) => (
       <Menu
         items={[
           { id: 'edit', text: 'Editar' },
-          { id: 'pause', text: row.original.status === 'Ativa' ? 'Pausar' : 'Ativar' },
           { id: 'delete', text: 'Excluir' },
         ]}
         onItemSelect={(item) => console.warn(item.text, row.original.nome)}
@@ -414,7 +414,9 @@ export const ComBuscaEFiltros: StoryFn = () => {
     },
     {
       id: 'inicio',
-      buttonText: dataInicio ? `A partir de ${dataInicio.toLocaleDateString('pt-BR')}` : 'Data de início',
+      buttonText: dataInicio
+        ? `A partir de ${dataInicio.toLocaleDateString('pt-BR')}`
+        : 'Data de início',
       type: 'calendar' as const,
       selectedDate: dataInicio,
       onDateSelect: (date: Date) => { setDataInicio(date); setCurrentPage(1); },
@@ -495,18 +497,18 @@ export const ComFiltroCombinado: StoryFn = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
 
-  const activeCount = appliedStatus.length + appliedTipo.length;
+  const appliedFilterCount = appliedStatus.length + appliedTipo.length;
 
   const dadosFiltrados = useMemo(() => {
     let result = promocoes;
     if (appliedStatus.length > 0) {
       result = result.filter((p) =>
-        appliedStatus.includes(p.status.toLowerCase().replace(' ', '-'))
+        appliedStatus.includes(p.status.toLowerCase().replace(' ', '-')),
       );
     }
     if (appliedTipo.length > 0) {
       result = result.filter((p) =>
-        appliedTipo.includes(p.tipo.toLowerCase().replace(' ', '-'))
+        appliedTipo.includes(p.tipo.toLowerCase().replace(' ', '-')),
       );
     }
     return result;
@@ -547,7 +549,7 @@ export const ComFiltroCombinado: StoryFn = () => {
             {
               type: 'combined' as const,
               buttonText: 'Filtros',
-              activeCount,
+              appliedFilterCount,
               title: 'Filtrar promoções',
               drawerWidth: '320px',
               onApply: handleApply,
@@ -659,7 +661,7 @@ export const SomenteFiltros: StoryFn = () => {
       buttonText: dataInicio
         ? `A partir de ${dataInicio.toLocaleDateString('pt-BR')}`
         : 'Data de início',
-      type: 'calendar',
+      type: 'calendar' as const,
       selectedDate: dataInicio,
       onDateSelect: (date: Date) => { setDataInicio(date); setCurrentPage(1); },
       onClear: () => { setDataInicio(null); setCurrentPage(1); },
@@ -673,7 +675,9 @@ export const SomenteFiltros: StoryFn = () => {
       <TableV2
         columns={colunasCompletas}
         data={paginatedData}
-        header={{ filterItems }}
+        header={{
+          filterItems,
+        }}
         footer={{
           totalItems: dadosFiltrados.length,
           defaultPageSize: 5,
@@ -892,31 +896,9 @@ export const AcoesEmMassa: StoryFn = () => {
           onClear: () => setSelected([]),
           actions: [
             {
-              label: 'Ativar',
+              label: 'Ativar selecionadas',
               variant: 'filled',
-              onClick: () =>
-                console.warn(
-                  'Ativar:',
-                  selected.map((r) => r.nome),
-                ),
-            },
-            {
-              label: 'Pausar',
-              variant: 'outlined',
-              onClick: () =>
-                console.warn(
-                  'Pausar:',
-                  selected.map((r) => r.nome),
-                ),
-            },
-            {
-              label: 'Excluir',
-              variant: 'outlined',
-              onClick: () =>
-                console.warn(
-                  'Excluir:',
-                  selected.map((r) => r.nome),
-                ),
+              onClick: () => console.warn('Ativar:', selected.map((r) => r.nome)),
             },
           ],
         }}

@@ -20,11 +20,6 @@ const meta: Meta<typeof VirtualKeyboard> = {
       description:
         'Modo de exibicao do teclado. `native` aparece ao focar no campo referenciado por `targetRef` e permite fechar pelo botao {downkeyboard}. `fixed` exibe o teclado sempre visivel com um TextField proprio acima e sem o botao {downkeyboard}.',
     },
-    textFieldPlaceholder: {
-      control: 'text',
-      description: 'Placeholder do TextField interno. Disponivel apenas no modo `fixed`.',
-      if: { arg: 'variant', eq: 'fixed' },
-    },
     helperText: {
       control: 'text',
       description: 'Helper text do TextField interno. Disponivel apenas no modo `fixed`.',
@@ -110,7 +105,7 @@ export const ModoFixed: Story = {
     variant: 'fixed',
     type: 'default',
     Emoji: false,
-    textFieldPlaceholder: 'Digite aqui...',
+    placeholder: 'Digite aqui...',
   },
   render: (args) => <KeyboardWrapper {...args} />,
 };
@@ -217,7 +212,7 @@ const DeviceFrame = ({
           type={type}
           value={value}
           onChange={setValue}
-          textFieldPlaceholder="Digite aqui..."
+          placeholder="Digite aqui..."
         />
       </div>
     </div>

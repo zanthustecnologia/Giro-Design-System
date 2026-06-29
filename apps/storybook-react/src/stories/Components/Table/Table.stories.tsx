@@ -68,7 +68,7 @@ const colunasCompletas = [
     label: 'Avatar',
     render: (row: any) => {
       const initials = row.nome.split(' ').map((w: string) => w[0]).slice(0, 2).join('');
-      return <Avatar initialLetters={initials} size="sm" />;
+      return <Avatar text={initials} size="sm" />;
     },
   },
   { key: 'nome', label: 'Nome' },
