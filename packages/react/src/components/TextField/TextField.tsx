@@ -23,10 +23,9 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
       maxLength,
       required = false,
       helperText,
-      tooltip = false,
       tooltipText,
       tooltipSide = 'bottom',
-	    tooltipAlign = 'start',
+      tooltipAlign = 'start',
       errorMessage,
       error,
       id,
@@ -143,7 +142,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
           <LabelComponent
             htmlFor={componentId}
             required={required}
-            tooltip={tooltip}
+            tooltip={!!tooltipText}
             tooltipText={tooltipText}
             side={tooltipSide}
             align={tooltipAlign}

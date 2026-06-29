@@ -20,10 +20,9 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
       maxLength,
       required = false,
       helperText,
-      tooltip = false,
       tooltipText,
-      side = 'bottom',
-      align = 'start',
+      tooltipSide = 'bottom',
+      tooltipAlign = 'start',
       errorMessage,
       error,
       id,
@@ -104,10 +103,10 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
           <LabelComponent
             htmlFor={componentId}
             required={required}
-            tooltip={tooltip}
+            tooltip={!!tooltipText}
             tooltipText={tooltipText}
-            side={side}
-            align={align}
+            side={tooltipSide}
+            align={tooltipAlign}
             error={hasError}
             disabled={disabled}
           >
