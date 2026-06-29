@@ -1,5 +1,5 @@
-import { Popover as PopoverRadix } from "radix-ui";
 import clsx from "clsx";
+import { Popover as PopoverRadix } from "radix-ui";
 import * as React from "react";
 
 import styles from "./Popover.module.scss";
