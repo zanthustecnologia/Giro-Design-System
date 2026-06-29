@@ -19,7 +19,7 @@ interface BaseFilterItem {
 }
 
 interface CheckboxFilterItem extends BaseFilterItem {
-  type: 'multiple' | 'single';
+  filterType: 'multiple' | 'single';
   items: FilterListItem[];
   selectedIds?: string[];
   onSelectionChange?: (selectedIds: string[]) => void;
@@ -28,7 +28,7 @@ interface CheckboxFilterItem extends BaseFilterItem {
 }
 
 interface CalendarFilterItem extends BaseFilterItem {
-  type: 'calendar';
+  filterType: 'calendar';
   selectedDate?: Date | null;
   onDateSelect?: (date: Date) => void;
   onClear?: () => void;
@@ -41,11 +41,11 @@ interface CalendarFilterItem extends BaseFilterItem {
 export type FilterItem = CheckboxFilterItem | CalendarFilterItem;
 
 const isCalendarFilter = (filter: FilterItem): filter is CalendarFilterItem => {
-  return filter.type === 'calendar';
+  return filter.filterType === 'calendar';
 };
 
 const isCheckboxFilter = (filter: FilterItem): filter is CheckboxFilterItem => {
-  return filter.type === 'multiple' || filter.type === 'single';
+  return filter.filterType === 'multiple' || filter.filterType === 'single';
 };
 
 export interface TableHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -145,7 +145,7 @@ const TableHeader: React.FC<TableHeaderProps> = ({
                         <Filter
                           key={filterItem.id || index}
                           {...commonProps}
-                          type="calendar"
+                          filterType="calendar"
                           selectedDate={filterItem.selectedDate}
                           onDateSelect={filterItem.onDateSelect}
                           onClearDate={filterItem.onClear}
@@ -161,7 +161,7 @@ const TableHeader: React.FC<TableHeaderProps> = ({
                         <Filter
                           key={filterItem.id || index}
                           {...commonProps}
-                          type={filterItem.type}
+                          filterType={filterItem.filterType}
                           items={filterItem.items}
                           selectedIds={filterItem.selectedIds}
                           onApplyFilter={filterItem.onSelectionChange}
