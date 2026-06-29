@@ -129,7 +129,7 @@ export const ComBuscaEFiltros: StoryFn = () => {
     {
       id: 'status',
       buttonText: selectedStatus.length > 0 ? `Status (${selectedStatus.length})` : 'Status',
-      type: 'multiple',
+      filterType: 'multiple',
       items: [
         { id: 'ativa', text: 'Ativa' },
         { id: 'inativa', text: 'Inativa' },
@@ -143,7 +143,7 @@ export const ComBuscaEFiltros: StoryFn = () => {
     {
       id: 'inicio',
       buttonText: dataInicio ? `A partir de ${dataInicio.toLocaleDateString('pt-BR')}` : 'Data de início',
-      type: 'calendar',
+      filterType: 'calendar',
       selectedDate: dataInicio,
       onDateSelect: (date: Date) => { setDataInicio(date); setPage(1); },
       minDate: new Date(2024, 0, 1),
@@ -195,7 +195,7 @@ export const ComFiltroCalendario: StoryFn = () => {
   const filters: FilterItem[] = [{
     id: 'inicio',
     buttonText: dataInicio ? `A partir de ${dataInicio.toLocaleDateString('pt-BR')}` : 'Data de início',
-    type: 'calendar',
+    filterType: 'calendar',
     selectedDate: dataInicio,
     onDateSelect: (date: Date) => { setDataInicio(date); setPage(1); },
     minDate: new Date(2024, 0, 1),
