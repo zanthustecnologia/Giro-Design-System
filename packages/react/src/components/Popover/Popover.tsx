@@ -42,7 +42,7 @@ const Popover: React.FC<PopoverProps> = ({
           onInteractOutside={asAnchor ? (e) => e.preventDefault() : undefined}
         >
           {content}
-          {showArrow && <PopoverRadix.Arrow />}
+          {showArrow && <PopoverRadix.Arrow className={styles.Arrow} />}
         </PopoverRadix.Content>
       </PopoverRadix.Portal>
     </PopoverRadix.Root>
