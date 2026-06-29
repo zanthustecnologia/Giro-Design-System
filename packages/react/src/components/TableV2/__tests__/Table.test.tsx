@@ -56,11 +56,11 @@ vi.mock('../../Search/Search', () => ({
 }));
 
 vi.mock('../../Filter/Filter', () => ({
-  default: ({ buttonText, type, mode, activeCount }: any) => (
-    <button data-testid={mode === 'combined' ? 'filter-combined' : `filter-${type}`}>
+  default: ({ buttonText, filterType, mode, appliedFilterCount }: any) => (
+    <button data-testid={mode === 'combined' ? 'filter-combined' : `filter-${filterType}`}>
       {buttonText}
-      {mode === 'combined' && activeCount > 0 && (
-        <span data-testid="filter-combined-badge">{activeCount}</span>
+      {mode === 'combined' && appliedFilterCount > 0 && (
+        <span data-testid="filter-combined-badge">{appliedFilterCount}</span>
       )}
     </button>
   ),
