@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, it, expect, vi } from 'vitest';
 import Button from '../Button';
@@ -402,6 +402,131 @@ describe('Button', () => {
       );
       const button = container.querySelector('[class*="buttonNoContent"]');
       expect(button).toBeInTheDocument();
+    });
+  });
+
+  describe('Loading com ícones', () => {
+    const TestIcon = () => <svg data-testid="loading-icon" />;
+
+    it('deve renderizar spinner e manter ícone esquerdo durante loading', () => {
+      const { container } = render(
+        <Button loading icon={<TestIcon />} iconPosition="left">
+          Carregando
+        </Button>
+      );
+      const hiddenContent = container.querySelector('[class*="buttonContentHidden"]');
+      expect(hiddenContent).toBeInTheDocument();
+      const iconLeft = hiddenContent?.querySelector('[class*="buttonIconLeft"]');
+      expect(iconLeft).toBeInTheDocument();
+      const spinner = container.querySelector('[class*="buttonLoadingSpinner"]');
+      expect(spinner).toBeInTheDocument();
+    });
+
+    it('deve renderizar spinner e manter ícone direito durante loading', () => {
+      const { container } = render(
+        <Button loading icon={<TestIcon />} iconPosition="right">
+          Carregando
+        </Button>
+      );
+      const hiddenContent = container.querySelector('[class*="buttonContentHidden"]');
+      expect(hiddenContent).toBeInTheDocument();
+      const iconRight = hiddenContent?.querySelector('[class*="buttonIconRight"]');
+      expect(iconRight).toBeInTheDocument();
+      const spinner = container.querySelector('[class*="buttonLoadingSpinner"]');
+      expect(spinner).toBeInTheDocument();
+    });
+
+    it('deve renderizar spinner e manter ícones em ambos os lados durante loading', () => {
+      const { container } = render(
+        <Button loading icon={<TestIcon />} iconPosition="both">
+          Carregando
+        </Button>
+      );
+      const hiddenContent = container.querySelector('[class*="buttonContentHidden"]');
+      expect(hiddenContent).toBeInTheDocument();
+      const iconLeft = hiddenContent?.querySelector('[class*="buttonIconLeft"]');
+      const iconRight = hiddenContent?.querySelector('[class*="buttonIconRight"]');
+      expect(iconLeft).toBeInTheDocument();
+      expect(iconRight).toBeInTheDocument();
+      const spinner = container.querySelector('[class*="buttonLoadingSpinner"]');
+      expect(spinner).toBeInTheDocument();
+    });
+
+    it('deve renderizar apenas spinner quando iconOnly com loading', () => {
+      const { container } = render(
+        <Button iconOnly loading icon={<TestIcon />} ariaLabel="Carregando" />
+      );
+      const spinner = container.querySelector('[class*="buttonLoadingSpinner"]');
+      expect(spinner).toBeInTheDocument();
+      const hiddenContent = container.querySelector('[class*="buttonContentHidden"]');
+      expect(hiddenContent).not.toBeInTheDocument();
+    });
+  });
+
+  describe('Click prevenido durante loading', () => {
+    it('não deve chamar onClick quando em loading', () => {
+      const handleClick = vi.fn();
+      render(<Button loading onClick={handleClick}>Botão</Button>);
+
+      fireEvent.click(screen.getByRole('button'));
+      expect(handleClick).not.toHaveBeenCalled();
+    });
+
+    it('deve ter tabIndex -1 quando em loading', () => {
+      render(<Button loading>Botão</Button>);
+      expect(screen.getByRole('button')).toHaveAttribute('tabIndex', '-1');
+    });
+
+    it('deve ter aria-busy="true" quando em loading', () => {
+      render(<Button loading>Botão</Button>);
+      expect(screen.getByRole('button')).toHaveAttribute('aria-busy', 'true');
+    });
+  });
+
+  describe('Renderização com as + to (roteador customizado)', () => {
+    it('deve renderizar com componente customizado e prop to', () => {
+      const CustomLink = ({ children, to, ...props }: any) => (
+        <a data-custom-link="true" href={to} {...props}>{children}</a>
+      );
+      const { container } = render(
+        <Button as={CustomLink} to="/dashboard">Dashboard</Button>
+      );
+      const link = container.querySelector('[data-custom-link="true"]');
+      expect(link).toBeInTheDocument();
+      expect(link).toHaveAttribute('href', '/dashboard');
+    });
+
+    it('não deve passar to quando disabled com componente customizado', () => {
+      const CustomLink = ({ children, to, ...props }: any) => (
+        <a data-custom-link="true" href={to} {...props}>{children}</a>
+      );
+      const { container } = render(
+        <Button as={CustomLink} to="/dashboard" disabled>Dashboard</Button>
+      );
+      const link = container.querySelector('[data-custom-link="true"]');
+      expect(link).toBeInTheDocument();
+      expect(link).not.toHaveAttribute('href');
+    });
+  });
+
+  describe('Tooltip wrapper', () => {
+    const TestIcon = () => <svg data-testid="tooltip-icon" />;
+
+    it('deve envolver botão icon-only com Tooltip quando tooltipText é fornecido', () => {
+      const { container } = render(
+        <Button iconOnly icon={<TestIcon />} tooltipText="Ajuda" ariaLabel="Ajuda" />
+      );
+      const tooltipTrigger = container.querySelector('[data-state]');
+      expect(tooltipTrigger).toBeInTheDocument();
+      expect(screen.getByTestId('tooltip-icon')).toBeInTheDocument();
+    });
+
+    it('não deve envolver com Tooltip quando está em loading', () => {
+      const { container } = render(
+        <Button iconOnly loading icon={<TestIcon />} tooltipText="Carregando" ariaLabel="Carregando" />
+      );
+      const tooltipTrigger = container.querySelector('[data-state]');
+      expect(tooltipTrigger).not.toBeInTheDocument();
     });
   });
 });
