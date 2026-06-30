@@ -12,6 +12,7 @@
     border: none;
     text-align: center;
     color: var(--color-neutral-low-default);
+    background: transparent;
     font-family: var(--font-family-primary);
     font-size: scale(var(--font-size-16));
     padding-right: scale(var(--spacing-8));
@@ -86,6 +87,7 @@
 
   .quantityInput {
     color: var(--color-neutral-low-light);
+    background: transparent;
     cursor: not-allowed;
   }
 }

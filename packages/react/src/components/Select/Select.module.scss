@@ -261,7 +261,7 @@ $select-icon-size: 16px;
   width: scale($select-icon-size);
   height: scale($select-icon-size);
   margin-right: scale(var(--spacing-16));
-  flex-shrink: 0;
+  flex-shrink: var(--font-size-0);
   font-size: scale($select-icon-size);
   svg {
     width: 1em;
@@ -322,10 +322,10 @@ $select-icon-size: 16px;
 }
 @media (prefers-contrast: high) {
   .trigger {
-    border-width: 2px;
+    border-width: var(--border-width-2);
   }
   .item:hover {
-    outline: 2px solid currentColor;
+    outline: var(--border-width-2) solid currentColor;
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -364,7 +364,7 @@ $select-icon-size: 16px;
   align-items: center;
   margin-left: auto;
   padding-left: scale(var(--spacing-8));
-  flex-shrink: 0;
+  flex-shrink: var(--spacing-0);
   color: var(--color-neutral-low-default);
   font-size: scale($select-icon-size);
   svg {

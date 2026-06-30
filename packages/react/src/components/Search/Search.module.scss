@@ -21,7 +21,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-shrink: 0;
+    flex-shrink: var(--font-size-0);
     color: var(--color-brand-primary-default);
     font-size: scale(var(--font-size-16));
     svg { width: 1em; height: 1em; }
