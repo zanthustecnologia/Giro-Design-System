@@ -1,7 +1,7 @@
 import * as React from 'react';
 import type { ComponentPropsWithoutRef } from 'react';
 
-import { BaseProps, Scale } from '../../types/common.types';
+import { ScalableProps, Scale } from '../../types/common.types';
 import type { VirtualKeyboardType } from '../VirtualKeyboard/VirtualKeyboard.type';
 
 /**
@@ -31,7 +31,7 @@ type NativeInputProps = Omit<
   'value' | 'defaultValue' | 'onChange' | 'onClick' | 'onMouseDown' 
 >;
 
-export interface SearchProps extends BaseProps, NativeInputProps {
+export interface SearchProps extends ScalableProps, NativeInputProps {
   /** Placeholder do campo de busca */
   placeholder?: string;
   
@@ -76,12 +76,6 @@ export interface SearchProps extends BaseProps, NativeInputProps {
   /** ID para testes automatizados */
   'data-testid'?: string;
 
-  /** Classe CSS opcional */
-  className?: string;
-
   /** Tipo do teclado virtual (padrão: undefined = desabilitado) */
   virtualKeyboard?: VirtualKeyboardType;
-
-  /** Escala visual aplicada ao componente */
-  scale?: Scale;
 }

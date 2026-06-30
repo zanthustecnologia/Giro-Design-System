@@ -1,4 +1,5 @@
-import { Size, BaseProps, Scale } from '../../types/common.types';
+import * as React from 'react';
+import { Size, ScalableProps, Scale } from '../../types/common.types';
 
 /**
  * Props do componente Quantity
@@ -21,7 +22,7 @@ import { Size, BaseProps, Scale } from '../../types/common.types';
  * />
  * ```
  */
-export interface QuantityProps extends BaseProps {
+export interface QuantityProps extends ScalableProps, Omit<React.HTMLAttributes<HTMLDivElement>, 'size' | 'onChange'>  {
   /** Valor do componente */
   value?: number;
   
@@ -62,10 +63,4 @@ export interface QuantityProps extends BaseProps {
 
   /** Aria label para a entrada de quantidade. Padrão: 'Quantidade' */
   inputAriaLabel?: string;
-
-  /** Classe CSS opcional */
-  className?: string;
-
-  /** Escala visual aplicada ao componente */
-  scale?: Scale;
 }
