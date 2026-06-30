@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ReactElement } from 'react';
 
-import { BaseProps, Scale } from '../../types/common.types';
+import { ScalableProps } from '../../types/common.types';
 
 /**
  * Representa um item do menu (suporta subitens aninhados)
@@ -70,7 +70,7 @@ export interface DefaultMenuItemProps {
  * />
  * ```
  */
-export interface MenuProps extends BaseProps {
+export interface MenuProps extends ScalableProps {
   /** Array de itens do menu */
   items: MenuItemProps[];
   
@@ -116,10 +116,4 @@ export interface MenuProps extends BaseProps {
   
   /** Callback executado quando o menu abre/fecha: (open) => void */
   onOpenChange?: (open: boolean) => void;
-
-  /** Escala visual aplicada ao menu (dropdown e trigger) */
-  scale?: Scale;
-
-  /** Estilo CSS inline aplicado ao conteúdo do menu */
-  style?: React.CSSProperties;
 }

@@ -63,19 +63,19 @@ describe('Radio', () => {
   it('aplica escala 1.0 por padrão', () => {
     const { container } = render(<Radio items={items} />);
     const root = container.firstChild as HTMLElement;
-    expect(root.style.getPropertyValue('--radio-scale')).toBe('1');
+    expect(root.style.getPropertyValue('--giro-scale')).toBe('1');
   });
 
   it('aplica escala 1.5 quando informado', () => {
     const { container } = render(<Radio items={items} scale={1.5} />);
     const root = container.firstChild as HTMLElement;
-    expect(root.style.getPropertyValue('--radio-scale')).toBe('1.5');
+    expect(root.style.getPropertyValue('--giro-scale')).toBe('1.5');
   });
 
   it('aplica escala 2.0 quando informado', () => {
     const { container } = render(<Radio items={items} scale={2} />);
     const root = container.firstChild as HTMLElement;
-    expect(root.style.getPropertyValue('--radio-scale')).toBe('2');
+    expect(root.style.getPropertyValue('--giro-scale')).toBe('2');
   });
 
   it('renders all items', () => {

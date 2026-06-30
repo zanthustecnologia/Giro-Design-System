@@ -167,7 +167,7 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPro
     onClick: handleClick,
     ...otherRest,
     style: {
-      '--button-scale': scale,
+      '--giro-scale': scale,
       ...externalStyle,
     } as React.CSSProperties,
   };

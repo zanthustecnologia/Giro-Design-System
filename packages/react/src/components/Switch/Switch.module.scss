@@ -1,16 +1,18 @@
+@use '../../styles/mixins/scale' as *;
+
 .container {
-	--switch-scale: 1;
+	--giro-scale: 1;
 	display: flex;
 	align-items: center;
 }
 
 .switchRoot {
-	width: calc(54px * var(--switch-scale, 1));
-	height: calc(34px * var(--switch-scale, 1));
+	width: scale(54px);
+	height: scale(34px);
 	background-color: var(--color-neutral-high-light);
-	border-radius: calc(var(--border-radius-pill) * var(--switch-scale, 1));
+	border-radius: scale(var(--border-radius-pill));
 	box-shadow: none;
-	padding: calc(var(--spacing-4) * var(--switch-scale, 1));
+	padding: scale(var(--spacing-4));
 	outline: var(--border-width-1) solid var(--color-neutral-high-dark);
 	border: none;
 	position: relative;
@@ -20,7 +22,7 @@
 	}
 	&:focus {
 		background-color: var(--color-neutral-high-light);
-		outline: calc(var(--border-width-2) * var(--switch-scale, 1)) solid var(--color-brand-primary-light);
+		outline: scale(var(--border-width-2)) solid var(--color-brand-primary-light);
 		box-shadow: none;
 	}
 	&[data-state="checked"] {
@@ -34,7 +36,7 @@
 		box-shadow: none;
 	}
 	&[data-state="checked"]:focus {
-		outline: calc(var(--border-width-2) * var(--switch-scale, 1)) solid var(--color-brand-primary-light);
+		outline: scale(var(--border-width-2)) solid var(--color-brand-primary-light);
 		box-shadow: none;
 	}
 	&:disabled {
@@ -49,21 +51,21 @@
 
 .switchThumb {
 	display: block;
-	width: calc(22px * var(--switch-scale, 1));
-	height: calc(22px * var(--switch-scale, 1));
+	width: scale(22px);
+	height: scale(22px);
 	background-color: var(--color-neutral-low-medium);
-	border-radius: calc(var(--border-radius-circular) * var(--switch-scale, 1));
+	border-radius: scale(var(--border-radius-circular));
 	border: none;
 	box-shadow: none;
 	transition: transform 100ms;
 	will-change: transform;
 	&:focus {
-		outline: calc(var(--border-width-2) * var(--switch-scale, 1)) solid var(--color-brand-primary-light);
+		outline: scale(var(--border-width-2)) solid var(--color-brand-primary-light);
 	}
 	&[data-state="checked"] {
-		transform: translateX(calc(20px * var(--switch-scale, 1)));
-		width: calc(26px * var(--switch-scale, 1));
-		height: calc(26px * var(--switch-scale, 1));
+		transform: translateX(scale(20px));
+		width: scale(26px);
+		height: scale(26px);
 		background-color: var(--color-neutral-high-default);
 	}
 }

@@ -106,7 +106,7 @@ const Select: React.FC<SelectProps> = ({
 
   const containerStyle = useMemo(() => ({
     maxWidth: maxWidth ? `${maxWidth}px` : undefined,
-    '--select-scale': scale,
+    '--giro-scale': scale,
   } as React.CSSProperties), [maxWidth, scale]);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -219,7 +219,7 @@ const Select: React.FC<SelectProps> = ({
         <SelectRadix.Portal>
           <SelectRadix.Content
             className={styles.content}
-            style={{ '--select-scale': scale } as React.CSSProperties}
+            style={{ '--giro-scale': scale } as React.CSSProperties}
             position="popper"
             side="bottom"
             sideOffset={8}

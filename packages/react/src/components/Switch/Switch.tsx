@@ -19,7 +19,7 @@ const Switch: React.FC<SwitchProps> = ({
 	return (
 		<div
 			className={clsx(styles.container, className)}
-			style={{ '--switch-scale': scale, ...style } as React.CSSProperties}
+			style={{ '--giro-scale': scale, ...style } as React.CSSProperties}
 		>
 			<SwitchRadix.Root  
 				className={styles.switchRoot} 

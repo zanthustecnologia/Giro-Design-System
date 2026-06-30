@@ -1,7 +1,7 @@
 import { ChevronRight16Filled } from '@fluentui/react-icons';
 import clsx from 'clsx';
 import { DropdownMenu } from 'radix-ui';
-import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 
 import Search from '../Search';
 import MenuItem from './components/MenuItem';
@@ -41,10 +41,7 @@ const Menu: React.FC<MenuProps> = ({
 
   const maxHeightStyle = typeof maxHeight === 'number' ? `${maxHeight}px` : maxHeight;
 
-  const containerStyle = useMemo<React.CSSProperties>(
-    () => ({ '--menu-scale': scale } as React.CSSProperties),
-    [scale]
-  );
+  const containerStyle = { '--giro-scale': scale } as React.CSSProperties;
 
   const triggerWithScale = React.isValidElement(children)
     ? React.cloneElement(children as React.ReactElement<any>, {

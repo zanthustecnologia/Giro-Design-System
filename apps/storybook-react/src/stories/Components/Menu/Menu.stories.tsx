@@ -30,16 +30,6 @@ const meta: Meta<typeof Menu> = {
   },
   argTypes: {
     search: { control: 'boolean' },
-    dropdownScale: {
-      control: { type: 'select' },
-      options: [1, 1.5, 2],
-      description: 'Escala visual do menu (dropdown e trigger).',
-    },
-    buttonScale: {
-      control: { type: 'select' },
-      options: [1, 1.5, 2],
-      description: 'Escala aplicada ao Button trigger do menu',
-    },
     align: {
       control: { type: 'select' },
       options: ['start', 'end', 'center'],
@@ -144,8 +134,6 @@ export const Default: Story = {
   args: {
     search: false,
     align: 'start',
-    dropdownScale: 1,
-    buttonScale: 1,
     scale: 1,
   },
 };

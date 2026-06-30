@@ -25,7 +25,7 @@ const Radio: React.FC<RadioGroupProps> = ({
     <RadioGroup.Root
       id={componentId}
       className={clsx(styles.root, className)}
-      style={{ '--radio-scale': scale, ...style } as React.CSSProperties}
+      style={{ '--giro-scale': scale, ...style } as React.CSSProperties}
       defaultValue={defaultValue}
       onValueChange={onValueChange}
       name={name}

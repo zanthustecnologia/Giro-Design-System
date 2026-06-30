@@ -33,7 +33,7 @@ const LabelComponent = ({
   scale = 1,
 }: LabelProps) => {
   const containerStyle = {
-    '--label-scale': scale,
+    '--giro-scale': scale,
   } as React.CSSProperties;
 
   const container = (

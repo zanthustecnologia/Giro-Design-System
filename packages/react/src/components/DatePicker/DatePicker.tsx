@@ -1,6 +1,6 @@
 import { Calendar16Regular } from '@fluentui/react-icons';
 import clsx from 'clsx';
-import React, { useState, useEffect, useRef, useCallback, useId, useMemo, KeyboardEvent } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useId, KeyboardEvent } from 'react';
 
 import Calendar from '../Calendar/Calendar';
 import Popover from '../Popover';
@@ -33,10 +33,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
   const fieldId = useId();
   const calendarId = `${fieldId}-calendar`;
 
-  const containerStyle = useMemo<React.CSSProperties>(
-    () => ({ '--datepicker-scale': scale } as React.CSSProperties),
-    [scale]
-  );
+  const containerStyle = { '--giro-scale': scale } as React.CSSProperties;
 
   const isControlled = value !== undefined;
   const [internalDate, setInternalDate] = useState<Date | null>(defaultValue || null);

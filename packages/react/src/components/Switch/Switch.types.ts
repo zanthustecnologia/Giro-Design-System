@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { BaseProps, Scale } from '../../types/common.types';
+import { ScalableProps, Scale } from '../../types/common.types';
 
 /**
  * Props do componente Switch
@@ -21,7 +21,7 @@ import { BaseProps, Scale } from '../../types/common.types';
  * />
  * ```
  */
-export interface SwitchProps extends BaseProps {
+export interface SwitchProps extends ScalableProps {
   /** Estado inicial (modo não controlado) */
   defaultChecked?: boolean;
   
@@ -36,13 +36,4 @@ export interface SwitchProps extends BaseProps {
   
   /** Estado atual (modo controlado) */
   checked?: boolean;
-
-  /** Classe CSS opcional */
-  className?: string;
-
-  /** Estilo inline passado ao container */
-  style?: React.CSSProperties;
-
-  /** Escala visual aplicada ao componente */
-  scale?: Scale;
 }

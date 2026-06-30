@@ -1,29 +1,31 @@
+@use '../../styles/mixins/scale' as *;
+
 .container {
-  --checkbox-scale: 1;
+  --giro-scale: 1;
   display: flex;
   align-items: center;
-  gap: calc(var(--spacing-8) * var(--checkbox-scale, 1));
+  gap: scale(var(--spacing-8));
 }
 
 .root {
   all: unset;
   position: relative;
-  width: calc(18px * var(--checkbox-scale, 1));
-  height: calc(18px * var(--checkbox-scale, 1));
+  width: scale(18px);
+  height: scale(18px);
   align-items: center;
   border: var(--border-width-2) solid var(--color-neutral-low-dark);
-  border-radius: calc(var(--border-radius-4) * var(--checkbox-scale, 1));
+  border-radius: scale(var(--border-radius-4));
   display: flex;
   justify-content: center;
   flex-shrink: 0;
-  font-size: calc(var(--font-size-16) * var(--checkbox-scale, 1));
+  font-size: scale(var(--font-size-16));
   font-weight: var(--font-weight-regular);
   font-family: var(--font-family-primary);
 
   &::after {
     content: '';
     position: absolute;
-    inset: calc(-11px * var(--checkbox-scale, 1));
+    inset: scale(-11px);
   }
 
   &[data-state='checked'],
@@ -53,12 +55,12 @@
 }
 .indicator {
   position: absolute;
-  width: calc(18px * var(--checkbox-scale, 1));
-  height: calc(18px * var(--checkbox-scale, 1));
+  width: scale(18px);
+  height: scale(18px);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: calc(12px * var(--checkbox-scale, 1));
+  font-size: scale(var(--font-size-12));
 
   svg {
     width: 1em;
@@ -66,8 +68,8 @@
   }
 }
 .wrapperCheckbox {
-  width: calc(40px * var(--checkbox-scale, 1));
-  height: calc(40px * var(--checkbox-scale, 1));
+  width: scale(40px);
+  height: scale(40px);
   transition: all 0.1s ease-in-out;
   display: flex;
   justify-content: center;
@@ -107,7 +109,7 @@
 
 .label {
   color: var(--color-neutral-low-default);
-  font-size: calc(var(--font-size-16) * var(--checkbox-scale, 1));
+  font-size: scale(var(--font-size-16));
   font-family: var(--font-family-primary);
   font-weight: var(--font-weight-regular);
   line-height: 1;

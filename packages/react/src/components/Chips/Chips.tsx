@@ -31,7 +31,7 @@ const Chips: React.FC<ChipsProps> = ({
   );
 
   const colorStyle = {
-    '--chips-scale': scale,
+    '--giro-scale': scale,
     ...(!disabled && backgroundColor && { '--chips-bg': `var(--${backgroundColor})` }),
     ...(!disabled && textColor && { '--chips-text': `var(--${textColor})` }),
     ...style,

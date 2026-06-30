@@ -272,19 +272,19 @@ describe('DatePicker', () => {
     it('aplica escala 1.0 por padrão', () => {
       const { container } = render(<DatePicker />);
       const wrapper = container.querySelector('.datePicker') ?? container.firstElementChild;
-      expect(wrapper).toHaveAttribute('style', expect.stringContaining('--datepicker-scale: 1'));
+      expect(wrapper).toHaveAttribute('style', expect.stringContaining('--giro-scale: 1'));
     });
 
     it('aplica escala 1.5 quando informado', () => {
       const { container } = render(<DatePicker scale={1.5} />);
       const wrapper = container.querySelector('.datePicker') ?? container.firstElementChild;
-      expect(wrapper).toHaveAttribute('style', expect.stringContaining('--datepicker-scale: 1.5'));
+      expect(wrapper).toHaveAttribute('style', expect.stringContaining('--giro-scale: 1.5'));
     });
 
     it('aplica escala 2.0 quando informado', () => {
       const { container } = render(<DatePicker scale={2} />);
       const wrapper = container.querySelector('.datePicker') ?? container.firstElementChild;
-      expect(wrapper).toHaveAttribute('style', expect.stringContaining('--datepicker-scale: 2'));
+      expect(wrapper).toHaveAttribute('style', expect.stringContaining('--giro-scale: 2'));
     });
 
     it('renderiza com label personalizado', () => {

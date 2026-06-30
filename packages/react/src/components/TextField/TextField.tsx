@@ -1,6 +1,6 @@
 import { Dismiss16Regular } from '@fluentui/react-icons';
 import clsx from 'clsx';
-import React, { useState, useCallback, useId, useMemo, forwardRef, useEffect } from 'react';
+import React, { useState, useCallback, useId, forwardRef, useEffect } from 'react';
 
 import useInputKeyboardValue from '../../hooks/useInputKeyboardValue';
 import VirtualKeyboard from '../VirtualKeyboard';
@@ -124,7 +124,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
         ? `${componentId}-helper`
         : undefined;
 
-    const containerStyle = useMemo(() => ({ '--textfield-scale': scale } as React.CSSProperties), [scale]);
+    const containerStyle = { '--giro-scale': scale } as React.CSSProperties;
 
     const containerClass = clsx(styles.container, {
       [styles.attachedToVirtualKeyboard]: attachedToVirtualKeyboard,

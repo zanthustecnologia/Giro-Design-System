@@ -245,7 +245,7 @@ const Quantity: React.FC<QuantityProps> = ({
   return (
     <div
       className={clsx(styles.quantity, { [styles.disabled]: disabled }, className)}
-      style={{ '--quantity-scale': scale, ...style } as React.CSSProperties}
+      style={{ '--giro-scale': scale, ...style } as React.CSSProperties}
       {...rest}
     >
       <Button

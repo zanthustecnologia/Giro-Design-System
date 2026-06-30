@@ -1,4 +1,4 @@
-import type { BaseProps, Locale, Scale } from '../../types/common.types';
+import type { ScalableProps, Locale, Scale } from '../../types/common.types';
 import type { Matcher } from 'react-day-picker';
 
 // ---------------------------------------------------------------------------
@@ -12,7 +12,7 @@ export type DateFormat = 'dd/mm/yyyy' | 'mm/dd/yyyy' | (string & {});
 // Props do componente Calendar
 // ---------------------------------------------------------------------------
 
-interface CalendarBaseProps extends Omit<BaseProps, 'disabled'> {
+interface CalendarBaseProps extends Omit<ScalableProps, 'disabled'> {
   // --- Seleção ----------------------------------------------------------
 
   /** Data selecionada atualmente (usada pelo DatePicker). */
@@ -88,12 +88,6 @@ interface CalendarBaseProps extends Omit<BaseProps, 'disabled'> {
   // --- Estilização -----------------------------------------------------
   /** Substitui os `classNames` padrão do react-day-picker. */
   classNames?: Partial<Record<string, string>>;
-
-  /** Escala visual aplicada ao componente */
-  scale?: Scale;
-
-  /** Estilo CSS inline opcional */
-  style?: React.CSSProperties;
 }
 
 export type CalendarProps = CalendarBaseProps;

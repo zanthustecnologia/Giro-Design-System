@@ -5,7 +5,7 @@ import {
   ChevronUp16Regular,
 } from "@fluentui/react-icons";
 import clsx from "clsx";
-import { createContext, useContext, useState, useMemo } from "react";
+import { createContext, useContext, useState } from "react";
 import { DayPicker } from "react-day-picker";
 import { enUS, ptBR } from "react-day-picker/locale";
 
@@ -205,10 +205,7 @@ const Calendar = ({
     "aria-label": ariaLabel,
   };
 
-  const containerStyle = useMemo<React.CSSProperties>(
-    () => ({ '--calendar-scale': scale } as React.CSSProperties),
-    [scale]
-  );
+  const containerStyle = { '--giro-scale': scale } as React.CSSProperties;
 
   return (
     <GridCtx.Provider value={gridCtxValue}>

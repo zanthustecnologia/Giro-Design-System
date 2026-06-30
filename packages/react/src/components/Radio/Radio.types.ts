@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { BaseProps, Scale } from '../../types/common.types';
+import { ScalableProps, Scale } from '../../types/common.types';
 
 /**
  * Props de um item individual de rádio
@@ -46,7 +46,7 @@ export interface RadioProps {
  * />
  * ```
  */
-export interface RadioGroupProps extends BaseProps, Omit<React.HTMLAttributes<HTMLDivElement>, 'defaultValue' | 'dir'> {
+export interface RadioGroupProps extends ScalableProps, Omit<React.HTMLAttributes<HTMLDivElement>, 'defaultValue' | 'dir'> {
   
   /** Array de itens de rádio */
   items: RadioProps[];
@@ -65,7 +65,4 @@ export interface RadioGroupProps extends BaseProps, Omit<React.HTMLAttributes<HT
   
   /** Orientação do layout dos radio buttons */
   orientation?: "horizontal" | "vertical";
-
-  /** Escala visual aplicada ao grupo */
-  scale?: Scale;
 }

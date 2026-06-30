@@ -1,25 +1,27 @@
+@use '../../styles/mixins/scale' as *;
+
 .quantity {
-  --quantity-scale: 1;
+  --giro-scale: 1;
 
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: calc(var(--spacing-8) * var(--quantity-scale, 1));
+  gap: scale(var(--spacing-8));
 
   .quantityInput {
     border: none;
     text-align: center;
     color: var(--color-neutral-low-default);
     font-family: var(--font-family-primary);
-    font-size: calc(var(--font-size-16) * var(--quantity-scale, 1));
-    padding-right: calc(var(--spacing-8) * var(--quantity-scale, 1));
-    padding-left: calc(var(--spacing-8) * var(--quantity-scale, 1));
+    font-size: scale(var(--font-size-16));
+    padding-right: scale(var(--spacing-8));
+    padding-left: scale(var(--spacing-8));
 
     &::placeholder {
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: calc(var(--font-size-16) * var(--quantity-scale, 1));
+      font-size: scale(var(--font-size-16));
       font-weight: var(--font-weight-regular);
       color: var(--color-neutral-low-medium);
     }
@@ -52,27 +54,27 @@
 
 // Variações de tamanho
 .quantity--sm {
-  gap: calc(var(--spacing-4) * var(--quantity-scale, 1));
+  gap: scale(var(--spacing-4));
 
   .quantityInput {
 
-    font-size: calc(var(--font-size-14) * var(--quantity-scale, 1));
+    font-size: scale(var(--font-size-14));
 
     &::placeholder {
-      font-size: calc(var(--font-size-14) * var(--quantity-scale, 1));
+      font-size: scale(var(--font-size-14));
     }
   }
 }
 
 .quantity--lg {
-  gap: calc(var(--spacing-8) * var(--quantity-scale, 1));
+  gap: scale(var(--spacing-8));
 
   .quantityInput {
 
-    font-size: calc(var(--font-size-16) * var(--quantity-scale, 1));
+    font-size: scale(var(--font-size-16));
 
     &::placeholder {
-      font-size: calc(var(--font-size-16) * var(--quantity-scale, 1));
+      font-size: scale(var(--font-size-16));
     }
   }
 }
@@ -92,12 +94,12 @@
 .quantityInput {
   &:focus {
     outline: var(--border-width-2) solid var(--color-brand-primary-default);
-    outline-offset: calc(var(--spacing-4) * var(--quantity-scale, 1));
+    outline-offset: scale(var(--spacing-4));
     border-radius: var(--border-radius-4);
   }
 
   &:focus-visible {
     outline: var(--border-width-2) solid var(--color-brand-primary-default);
-    outline-offset: calc(var(--spacing-4) * var(--quantity-scale, 1));
+    outline-offset: scale(var(--spacing-4));
   }
 }

@@ -93,7 +93,7 @@ const Search = React.forwardRef<HTMLInputElement, SearchProps>(
           { [styles.disabled]: disabled },
           className
         )}
-        style={{ '--search-scale': scale, ...style } as React.CSSProperties}
+        style={{ '--giro-scale': scale, ...style } as React.CSSProperties}
         onClick={onClick} 
         onMouseDown={onMouseDown}
         role={onClick || onMouseDown ? "button" : undefined}

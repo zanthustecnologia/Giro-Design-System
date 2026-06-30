@@ -24,20 +24,20 @@ describe('Search', () => {
 
     it('deve aplicar escala 1.0 por padrão', () => {
       const { container } = render(<Search />);
-      const wrapper = container.querySelector('[style*="--search-scale"]') as HTMLElement;
-      expect(wrapper.style.getPropertyValue('--search-scale')).toBe('1');
+      const wrapper = container.querySelector('[style*="--giro-scale"]') as HTMLElement;
+      expect(wrapper.style.getPropertyValue('--giro-scale')).toBe('1');
     });
 
     it('deve aplicar escala 1.5 quando informado', () => {
       const { container } = render(<Search scale={1.5} />);
-      const wrapper = container.querySelector('[style*="--search-scale"]') as HTMLElement;
-      expect(wrapper.style.getPropertyValue('--search-scale')).toBe('1.5');
+      const wrapper = container.querySelector('[style*="--giro-scale"]') as HTMLElement;
+      expect(wrapper.style.getPropertyValue('--giro-scale')).toBe('1.5');
     });
 
     it('deve aplicar escala 2.0 quando informado', () => {
       const { container } = render(<Search scale={2} />);
-      const wrapper = container.querySelector('[style*="--search-scale"]') as HTMLElement;
-      expect(wrapper.style.getPropertyValue('--search-scale')).toBe('2');
+      const wrapper = container.querySelector('[style*="--giro-scale"]') as HTMLElement;
+      expect(wrapper.style.getPropertyValue('--giro-scale')).toBe('2');
     });
 
     it('deve renderizar com placeholder padrão', () => {

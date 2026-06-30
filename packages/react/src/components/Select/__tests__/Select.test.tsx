@@ -249,7 +249,7 @@ describe('Select Component', () => {
       );
 
       const wrapper = container.querySelector('[data-testid="select"]') as HTMLElement;
-      expect(wrapper.style.getPropertyValue('--select-scale')).toBe('1');
+      expect(wrapper.style.getPropertyValue('--giro-scale')).toBe('1');
     });
 
     it('aplica escala 1.5 quando informado', () => {
@@ -263,7 +263,7 @@ describe('Select Component', () => {
       );
 
       const wrapper = container.querySelector('[data-testid="select"]') as HTMLElement;
-      expect(wrapper.style.getPropertyValue('--select-scale')).toBe('1.5');
+      expect(wrapper.style.getPropertyValue('--giro-scale')).toBe('1.5');
     });
 
     it('aplica escala 2.0 quando informado', () => {
@@ -277,7 +277,7 @@ describe('Select Component', () => {
       );
 
       const wrapper = container.querySelector('[data-testid="select"]') as HTMLElement;
-      expect(wrapper.style.getPropertyValue('--select-scale')).toBe('2');
+      expect(wrapper.style.getPropertyValue('--giro-scale')).toBe('2');
     });
 
     it('renderiza com label', () => {

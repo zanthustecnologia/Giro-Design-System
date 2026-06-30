@@ -1,22 +1,24 @@
+@use '../../styles/mixins/scale' as *;
+
 .datePicker {
-  --datepicker-scale: 1;
+  --giro-scale: 1;
   display: flex;
   flex-direction: column;
-  margin-bottom: calc(var(--spacing-8) * var(--datepicker-scale, 1));
+  margin-bottom: scale(var(--spacing-8));
   position: relative;
 }
 
 .textfieldContainer {
   width: 100%;
-  max-width: calc(280px * var(--datepicker-scale, 1));
+  max-width: scale(280px);
   
   @media (max-width: 360px) {
     max-width: 100%;
-    min-width: calc(280px * var(--datepicker-scale, 1));
+    min-width: scale(280px);
   }
   
   @media (max-width: 768px) {
-    max-width: calc(320px * var(--datepicker-scale, 1));
+    max-width: scale(320px);
   }
 }
 

@@ -1,15 +1,17 @@
+@use '../../styles/mixins/scale' as *;
+
 .chips {
-  --chips-scale: 1;
+  --giro-scale: 1;
   --chips-bg: var(--color-neutral-high-medium);
   --chips-text: var(--color-neutral-low-default);
 
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: calc(var(--spacing-8) * var(--chips-scale, 1)) calc(var(--spacing-16) * var(--chips-scale, 1));
-  border-radius: calc(var(--border-radius-pill) * var(--chips-scale, 1));
+  padding: scale(var(--spacing-8)) scale(var(--spacing-16));
+  border-radius: scale(var(--border-radius-pill));
   font-family: var(--font-family-primary);
-  font-size: calc(var(--font-size-14) * var(--chips-scale, 1));
+  font-size: scale(var(--font-size-14));
   font-weight: var(--font-weight-medium);
   background-color: var(--chips-bg);
   color: var(--chips-text);
@@ -24,8 +26,8 @@
   align-items: center;
   justify-content: center;
   color: inherit;
-  padding: var(--spacing-0) calc(var(--spacing-8) * var(--chips-scale, 1));
-  font-size: calc(16px * var(--chips-scale, 1));
+  padding: var(--spacing-0) scale(var(--spacing-8));
+  font-size: scale(var(--font-size-16));
 
   svg {
     width: 1em;
@@ -38,8 +40,8 @@
   align-items: center;
   justify-content: center;
   color: inherit;
-  padding: var(--spacing-0) calc(var(--spacing-8) * var(--chips-scale, 1));
-  font-size: calc(16px * var(--chips-scale, 1));
+  padding: var(--spacing-0) scale(var(--spacing-8));
+  font-size: scale(var(--font-size-16));
 
   svg {
     width: 1em;
@@ -48,15 +50,15 @@
 }
 
 .hasLeftIcon {
-  padding: calc(var(--spacing-8) * var(--chips-scale, 1)) calc(var(--spacing-16) * var(--chips-scale, 1)) calc(var(--spacing-8) * var(--chips-scale, 1)) var(--spacing-0);
+  padding: scale(var(--spacing-8)) scale(var(--spacing-16)) scale(var(--spacing-8)) var(--spacing-0);
 }
 
 .hasRightIcon {
-  padding: calc(var(--spacing-8) * var(--chips-scale, 1)) var(--spacing-0) calc(var(--spacing-8) * var(--chips-scale, 1)) calc(var(--spacing-16) * var(--chips-scale, 1));
+  padding: scale(var(--spacing-8)) var(--spacing-0) scale(var(--spacing-8)) scale(var(--spacing-16));
 }
 
 .hasLeftIcon.hasRightIcon {
-  padding: calc(var(--spacing-8) * var(--chips-scale, 1)) var(--spacing-0);
+  padding: scale(var(--spacing-8)) var(--spacing-0);
 }
 
 .brand {

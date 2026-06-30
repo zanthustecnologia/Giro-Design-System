@@ -47,22 +47,22 @@ describe('Quantity', () => {
       expect(screen.getByRole('spinbutton')).toHaveAttribute('id', 'campo-qty');
     });
 
-    it('aplica --quantity-scale: 1 por padrão', () => {
+    it('aplica --giro-scale: 1 por padrão', () => {
       const { container } = render(<Quantity />);
       const wrapper = container.firstChild as HTMLElement;
-      expect(wrapper.style.getPropertyValue('--quantity-scale')).toBe('1');
+      expect(wrapper.style.getPropertyValue('--giro-scale')).toBe('1');
     });
 
-    it('aplica --quantity-scale: 1.5 quando informado', () => {
+    it('aplica --giro-scale: 1.5 quando informado', () => {
       const { container } = render(<Quantity scale={1.5} />);
       const wrapper = container.firstChild as HTMLElement;
-      expect(wrapper.style.getPropertyValue('--quantity-scale')).toBe('1.5');
+      expect(wrapper.style.getPropertyValue('--giro-scale')).toBe('1.5');
     });
 
-    it('aplica --quantity-scale: 2 quando informado', () => {
+    it('aplica --giro-scale: 2 quando informado', () => {
       const { container } = render(<Quantity scale={2} />);
       const wrapper = container.firstChild as HTMLElement;
-      expect(wrapper.style.getPropertyValue('--quantity-scale')).toBe('2');
+      expect(wrapper.style.getPropertyValue('--giro-scale')).toBe('2');
     });
   });
 

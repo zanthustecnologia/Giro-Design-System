@@ -556,7 +556,7 @@ describe('Menu', () => {
 
       await waitFor(() => {
         const content = screen.getByRole('menu');
-        expect(content.style.getPropertyValue('--menu-scale')).toBe('1');
+        expect(content.style.getPropertyValue('--giro-scale')).toBe('1');
       });
     });
 
@@ -573,7 +573,7 @@ describe('Menu', () => {
 
       await waitFor(() => {
         const content = screen.getByRole('menu');
-        expect(content.style.getPropertyValue('--menu-scale')).toBe('1.5');
+        expect(content.style.getPropertyValue('--giro-scale')).toBe('1.5');
       });
     });
 
@@ -590,7 +590,7 @@ describe('Menu', () => {
 
       await waitFor(() => {
         const content = screen.getByRole('menu');
-        expect(content.style.getPropertyValue('--menu-scale')).toBe('2');
+        expect(content.style.getPropertyValue('--giro-scale')).toBe('2');
       });
     });
 
@@ -602,7 +602,7 @@ describe('Menu', () => {
       );
 
       const trigger = screen.getByRole('button', { name: 'Abrir Menu' });
-      expect(trigger).toHaveAttribute('style', expect.stringContaining('--button-scale: 2'));
+      expect(trigger).toHaveAttribute('style', expect.stringContaining('--giro-scale: 2'));
     });
   });
 

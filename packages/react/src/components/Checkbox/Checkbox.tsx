@@ -25,7 +25,7 @@ const Checkbox: React.FC<CheckboxProps> = ({
   return (
     <div
       className={clsx(styles.container, className)}
-      style={{ '--checkbox-scale': scale, ...style } as React.CSSProperties}
+      style={{ '--giro-scale': scale, ...style } as React.CSSProperties}
     >
       <div
         className={clsx(styles.wrapperCheckbox, {

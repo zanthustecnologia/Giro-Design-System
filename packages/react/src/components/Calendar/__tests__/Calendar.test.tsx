@@ -91,21 +91,21 @@ describe("Calendar", () => {
     const { container } = render(<Calendar />);
     const wrapper = container.querySelector(".calendar_grid_wrapper") as HTMLElement | null;
     expect(wrapper).not.toBeNull();
-    expect(wrapper!.style.getPropertyValue("--calendar-scale")).toBe("1");
+    expect(wrapper!.style.getPropertyValue("--giro-scale")).toBe("1");
   });
 
   it("aplica escala 1.5 quando informado", () => {
     const { container } = render(<Calendar scale={1.5} />);
     const wrapper = container.querySelector(".calendar_grid_wrapper") as HTMLElement | null;
     expect(wrapper).not.toBeNull();
-    expect(wrapper!.style.getPropertyValue("--calendar-scale")).toBe("1.5");
+    expect(wrapper!.style.getPropertyValue("--giro-scale")).toBe("1.5");
   });
 
   it("aplica escala 2.0 quando informado", () => {
     const { container } = render(<Calendar scale={2} />);
     const wrapper = container.querySelector(".calendar_grid_wrapper") as HTMLElement | null;
     expect(wrapper).not.toBeNull();
-    expect(wrapper!.style.getPropertyValue("--calendar-scale")).toBe("2");
+    expect(wrapper!.style.getPropertyValue("--giro-scale")).toBe("2");
   });
 
   it("passa mode='single' para o DayPicker", () => {
