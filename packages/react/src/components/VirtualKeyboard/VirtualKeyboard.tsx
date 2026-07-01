@@ -73,6 +73,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
   error,
   errorMessage,
   targetRef,
+  textFieldScale = 1,
 }) => {
   const [layoutName, setLayoutName] = useState<string>('default');
   const [capsLockOn, setCapsLockOn] = useState(false);
@@ -768,6 +769,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
             maxLength={maxLength}
             attachedToVirtualKeyboard
             className={styles.textFieldWrapper}
+            scale={textFieldScale}
           />
         </div>
       )}

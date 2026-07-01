@@ -65,6 +65,9 @@ export interface VirtualKeyboardProps extends Omit<BaseProps, 'disabled'> {
   /** Placeholder do TextField exibido no modo `fixed` */
   textFieldPlaceholder?: string;
 
+  /** Escala do TextField exibido no modo `fixed` */
+  textFieldScale?: 1 | 1.5 | 2;
+
   /** Texto de ajuda do TextField exibido no modo `fixed` */
   helperText?: string;
 
