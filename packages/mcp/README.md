@@ -179,3 +179,13 @@ pnpm --filter @giro-ds/mcp build
 ```
 
 Run these commands whenever a component or token is added or changed.
+
+O único passo manual necessário no futuro é rodar os scripts sempre que o pacote React ou os tokens evoluírem:
+# Quando componentes mudarem
+pnpm --filter @giro-ds/mcp generate
+
+# Quando tokens mudarem (após build do @giro-ds/tokens)
+pnpm --filter @giro-ds/mcp generate:tokens
+
+# Após qualquer geração
+pnpm --filter @giro-ds/mcp build

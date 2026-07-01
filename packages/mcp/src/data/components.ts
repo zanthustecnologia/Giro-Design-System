@@ -158,22 +158,6 @@ export const COMPONENTS: ComponentMetadata[] = [
     ],
   },
   {
-    name: 'Dropdown',
-    description: 'Menu suspenso de seleção baseado em Radix UI com suporte a grupos, ícones e ações customizadas.',
-    category: 'Components',
-    props: [
-      { name: 'trigger', type: 'React.ReactNode', required: true, description: 'Elemento que abre o dropdown ao ser clicado' },
-      { name: 'children', type: 'React.ReactNode', required: true, description: 'Itens do menu (use DropdownItem, DropdownGroup)' },
-      { name: 'disabled', type: 'boolean', required: false, defaultValue: 'false', description: 'Desabilita o dropdown' },
-    ],
-    examples: [
-      `<Dropdown trigger={<Button>Ações</Button>}>
-  <DropdownItem onClick={handleEdit}>Editar</DropdownItem>
-  <DropdownItem onClick={handleDelete}>Excluir</DropdownItem>
-</Dropdown>`,
-    ],
-  },
-  {
     name: 'Menu',
     description: 'Menu de navegação lateral ou horizontal com itens, grupos e indicador de item ativo.',
     category: 'Components',

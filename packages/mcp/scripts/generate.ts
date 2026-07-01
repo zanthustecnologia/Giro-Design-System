@@ -2,14 +2,14 @@
  * generate.ts — Auto-generates src/data/components.ts from .types.ts source files
  * Run: pnpm --filter @giro-ds/mcp generate
  */
-import { Project, InterfaceDeclaration, JSDocableNode, PropertySignature } from 'ts-morph';
+import { Project, InterfaceDeclaration, JSDocableNode, PropertySignature, Node } from 'ts-morph';
 import * as path from 'path';
 import * as fs from 'fs';
 import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-const COMPONENTS_DIR = path.resolve(__dirname, '../../../react/src/components');
+const COMPONENTS_DIR = path.resolve(__dirname, '../../react/src/components');
 const OUTPUT_FILE = path.resolve(__dirname, '../src/data/components.generated.ts');
 
 const SKIP_DIRS = ['.deprecated'];
@@ -46,9 +46,11 @@ function extractExamples(node: JSDocableNode): string[] {
     for (const tag of doc.getTags()) {
       if (tag.getTagName() === 'example') {
         const text = tag.getText()
-          .replace(/^@example\s*/, '')
-          .replace(/```tsx?\n?/, '')
-          .replace(/```$/, '')
+          .replace(/\r\n/g, '\n')          // normalize Windows line endings
+          .replace(/^@example\s*/m, '')    // remove @example prefix
+          .replace(/^\s*\*\s?/gm, '')      // strip JSDoc * prefixes from each line
+          .replace(/^```tsx?\n/, '')       // remove opening code fence
+          .replace(/\n```\s*$/, '')        // remove closing code fence
           .trim();
         if (text) examples.push(text);
       }
@@ -78,8 +80,21 @@ function parseComponent(typesFile: string, componentName: string): ComponentEntr
   project.addSourceFileAtPath(typesFile);
   const sourceFile = project.getSourceFile(typesFile)!;
 
-  // Find the main Props interface (ComponentNameProps)
-  const propsInterface = sourceFile.getInterface(`${componentName}Props`) as InterfaceDeclaration | undefined;
+  // 1. Try interface ComponentNameProps directly
+  let propsInterface = sourceFile.getInterface(`${componentName}Props`) as InterfaceDeclaration | undefined;
+
+  // 2. If not found as interface, try type alias and resolve to its target interface
+  if (!propsInterface) {
+    const typeAlias = sourceFile.getTypeAlias(`${componentName}Props`);
+    if (typeAlias) {
+      const typeNode = typeAlias.getTypeNode();
+      if (typeNode && Node.isTypeReference(typeNode)) {
+        const refName = typeNode.getTypeName().getText();
+        propsInterface = sourceFile.getInterface(refName) as InterfaceDeclaration | undefined;
+      }
+    }
+  }
+
   if (!propsInterface) return null;
 
   const description = extractJsDocComment(propsInterface as unknown as JSDocableNode);
@@ -133,8 +148,17 @@ function main() {
     .map(d => d.name);
 
   for (const componentName of componentDirs) {
-    const typesFile = path.join(COMPONENTS_DIR, componentName, `${componentName}.types.ts`);
-    if (!fs.existsSync(typesFile)) continue;
+    // Try multiple naming conventions for the types file
+    const typesFileCandidates = [
+      path.join(COMPONENTS_DIR, componentName, `${componentName}.types.ts`),
+      path.join(COMPONENTS_DIR, componentName, `${componentName}.type.ts`),
+      // Fallback: first *.types.ts or *.type.ts file in the directory
+      ...fs.readdirSync(path.join(COMPONENTS_DIR, componentName))
+        .filter(f => /\.types?\.ts$/.test(f) && !f.includes('.test.') && !f.includes('.spec.'))
+        .map(f => path.join(COMPONENTS_DIR, componentName, f)),
+    ];
+    const typesFile = typesFileCandidates.find(f => fs.existsSync(f));
+    if (!typesFile) continue;
 
     try {
       const entry = parseComponent(typesFile, componentName);
