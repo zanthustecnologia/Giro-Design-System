@@ -2,7 +2,7 @@ import React from 'react';
 
 import { ScalableProps, Side, Align, Scale } from '../../types/common.types';
 
-import type { VirtualKeyboardType } from '../VirtualKeyboard/VirtualKeyboard.type';
+import type { VirtualKeyboardType } from '../VirtualKeyboard/VirtualKeyboard.types';
 
 /** Tipos de input suportados pelo TextField */
 export type TextFieldType = 'text' | 'email' | 'password' | 'number' | 'tel' | 'url';

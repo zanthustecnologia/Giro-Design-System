@@ -9,7 +9,7 @@ import { LAYOUT_DISPLAY, ICON_KEY_MAP } from './components/IconDisplay';
 import { NATIVE_LAYOUT_KEYS, SHIFT_TOGGLES, getNativeLayout } from './components/Variants';
 import styles from './VirtualKeyboard.module.scss';
 
-import type { VirtualKeyboardProps } from './VirtualKeyboard.type';
+import type { VirtualKeyboardProps } from './VirtualKeyboard.types';
 
 const LONG_PRESS_DELAY_MS = 400;
 

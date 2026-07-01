@@ -1,4 +1,4 @@
-import type { VirtualKeyboardType } from '../VirtualKeyboard.type';
+import type { VirtualKeyboardType } from '../VirtualKeyboard.types';
 
 const EMOTICON_KEY = '{emoticon}';
 const DOWN_KEYBOARD_KEY = '{downkeyboard}';

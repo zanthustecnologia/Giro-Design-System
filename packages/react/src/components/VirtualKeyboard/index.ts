@@ -1,2 +1,2 @@
 export { default } from './VirtualKeyboard';
-export type { VirtualKeyboardProps, VirtualKeyboardVariant } from './VirtualKeyboard.type';
+export type { VirtualKeyboardProps, VirtualKeyboardVariant } from './VirtualKeyboard.types';
