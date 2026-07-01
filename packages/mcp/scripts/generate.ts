@@ -75,6 +75,30 @@ function deriveKeywords(name: string, description: string): string[] {
   return [...new Set(words)];
 }
 
+function collectAllProperties(iface: InterfaceDeclaration): PropertySignature[] {
+  const seen = new Set<string>();
+  const result: PropertySignature[] = [];
+  const sameFile = iface.getSourceFile();
+
+  function collect(i: InterfaceDeclaration) {
+    for (const prop of i.getProperties()) {
+      if (!seen.has(prop.getName())) {
+        seen.add(prop.getName());
+        result.push(prop);
+      }
+    }
+    // Only recurse into base interfaces declared in the SAME FILE (avoids node_modules explosion)
+    for (const base of i.getBaseDeclarations()) {
+      if (Node.isInterfaceDeclaration(base) && base.getSourceFile() === sameFile) {
+        collect(base as InterfaceDeclaration);
+      }
+    }
+  }
+
+  collect(iface);
+  return result;
+}
+
 function parseComponent(typesFile: string, componentName: string): ComponentEntry | null {
   const project = new Project({ skipAddingFilesFromTsConfig: true });
   project.addSourceFileAtPath(typesFile);
@@ -100,7 +124,7 @@ function parseComponent(typesFile: string, componentName: string): ComponentEntr
   const description = extractJsDocComment(propsInterface as unknown as JSDocableNode);
   const examples = extractExamples(propsInterface as unknown as JSDocableNode);
 
-  const props: PropEntry[] = propsInterface.getProperties().map((prop) => {
+  const props: PropEntry[] = collectAllProperties(propsInterface).map((prop) => {
     const propDescription = extractJsDocComment(prop as unknown as JSDocableNode);
     const typeText = getTypeText(prop);
     const isOptional = prop.hasQuestionToken();

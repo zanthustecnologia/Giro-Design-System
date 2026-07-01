@@ -1767,6 +1767,24 @@ export const COMPONENTS: ComponentMetadata[] = [
         "type": "(row: T, index: number) => {\r\n    onClick?: () => void;\r\n    onDoubleClick?: () => void;\r\n    className?: string;\r\n  }",
         "required": false,
         "description": "Eventos e classe aplicados por linha"
+      },
+      {
+        "name": "emptyIcon",
+        "type": "ReactNode",
+        "required": false,
+        "description": "Ícone exibido no estado vazio"
+      },
+      {
+        "name": "emptyTitle",
+        "type": "ReactNode",
+        "required": false,
+        "description": "Título exibido no estado vazio"
+      },
+      {
+        "name": "emptyText",
+        "type": "ReactNode",
+        "required": false,
+        "description": "Texto descritivo exibido no estado vazio"
       }
     ],
     "examples": [
