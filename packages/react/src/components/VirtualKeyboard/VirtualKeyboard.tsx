@@ -626,7 +626,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
   const keyboardEl = activeLayout ? (
     <div
       ref={keyboardWrapperRef}
-      className={styles.keyboardWrapper}
+      className={clsx(styles.keyboardWrapper, type === 'numeric' && layoutName === 'default' && styles.keyboardNumpadActive)}
       onPointerDownCapture={handleLongPressStart}
       onPointerUpCapture={handleLongPressEnd}
       onPointerLeave={handleLongPressEnd}

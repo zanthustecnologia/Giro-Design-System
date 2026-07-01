@@ -65,10 +65,42 @@
   }
 
   &.layout--numeric {
+    // Em modo fixed, o container precisa preencher a altura do pai para a cadeia de height: 100% funcionar
+    &.mode--fixed {
+      height: 100%;
+    }
+
+    // Altura adaptativa ao container — hg-theme-default precisa preencher o keyboardWrapper
+    :global(.hg-theme-default) {
+      height: 100%;
+    }
+
     :global(.hg-layout-default) {
+      // Distribui as 4 linhas do numpad proporcionalmente na altura disponível
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+
+      // .hg-rows é o intermediário entre .hg-theme-default e .hg-row —
+      // precisa ser flex column para repassar o espaço disponível
+      :global(.hg-rows) {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+      }
+
+      :global(.hg-row) {
+        flex: 1;
+        min-height: 44px;
+        // max-height: 80px
+      }
+
       :global(.hg-button) {
         @include buttonFlex;
         border-radius: var(--border-radius-16);
+        height: auto;
+        // max-height: 80px;
       }
     }
 
@@ -120,6 +152,12 @@
 
     .keyboardWrapper {
       padding: 0 var(--spacing-4) var(--spacing-4);
+    }
+
+    // Quando o numpad está ativo, o wrapper preenche o espaço restante do container
+    .keyboardNumpadActive {
+      flex: 1;
+      min-height: 0;
     }
 
     :global(.hg-theme-default) {
@@ -198,6 +236,14 @@
     :global(.hg-layout-default) {
       :global(.hg-button) {
         @include buttonFlex;
+        height: auto;
+        max-height: 80px;
+      }
+
+      :global(.hg-row) {
+        flex: 1 0 auto;
+        min-height: calc(44px + 2 * var(--spacing-4));
+        max-height: calc(80px + 2 * var(--spacing-4));
       }
     }
 
