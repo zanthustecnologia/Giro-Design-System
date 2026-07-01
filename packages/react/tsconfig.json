@@ -12,6 +12,7 @@
     "resolveJsonModule": true,
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
+    "baseUrl": ".",
     "types": ["node", "vitest/globals", "@testing-library/jest-dom"],
     "paths": {
       "@/*": ["src/*"],
