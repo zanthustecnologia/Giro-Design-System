@@ -1,5 +1,63 @@
 # @giro-ds/react
 
+## 11.1.0
+
+### Added
+
+#### VirtualKeyboard
+
+Adiciona as props `showEnterKey` e `textFieldScale`. A prop `showEnterKey` permite ocultar a tecla Enter do layout, sendo util em contextos de busca ou campos single-line. A prop `textFieldScale` repassa a escala para o `TextField` interno exibido no modo `fixed`, garantindo consistencia visual quando o componente e usado em diferentes escalas.
+
+### Fixed
+
+#### VirtualKeyboard
+
+Corrige o comportamento das teclas do numpad em modo `fixed`, que agora preenchem proporcionalmente o espaco disponivel no container em vez de manter altura fixa.
+
+## 11.0.0
+
+### Major Changes
+
+- ac7ff8f: ## [11.0.0]
+
+  ### Changed
+
+  #### Scale system (todos os componentes)
+
+  O sistema de escala foi refatorado em todos os componentes. O mecanismo anterior aplicava `transform: scale()` via classes CSS globais (`.scale-1-0`, `.scale-1-5`, `.scale-2-0`) passadas no `className`. O novo mecanismo injeta CSS custom properties (`--component-scale`) via prop `style` com `useMemo`, eliminando os efeitos colaterais de `transform: scale()` sobre dropdowns, tooltips e elementos posicionados via portal (Radix UI).
+
+  Todos os componentes continuam aceitando `scale?: 1 | 1.5 | 2`.
+
+  #### Menu
+
+  A prop `scale` unifica o comportamento antes dividido entre `dropdownScale` e `buttonScale`. O valor é aplicado simultaneamente ao trigger e ao dropdown.
+
+  #### DatePicker
+
+  A prop `scale` unifica o comportamento antes dividido entre `datePickerScale` e `calendarScale`. O valor é aplicado simultaneamente ao campo e ao calendário interno.
+
+  ### Removed
+
+  #### Menu
+
+  Remove as props `dropdownScale` e `buttonScale` em favor da prop unificada `scale`. Remove também a prop `className` duplicada, que já estava disponível via `BaseProps`.
+
+  | Antes                                          | Depois               |
+  | ---------------------------------------------- | -------------------- |
+  | `<Menu dropdownScale={1.5} buttonScale={1.5}>` | `<Menu scale={1.5}>` |
+
+  #### DatePicker
+
+  Remove as props `datePickerScale` e `calendarScale` em favor da prop unificada `scale`. Remove também a prop `className` duplicada, que já estava disponível via `BaseProps`.
+
+  | Antes                                                  | Depois                     |
+  | ------------------------------------------------------ | -------------------------- |
+  | `<DatePicker datePickerScale={2} calendarScale={2} />` | `<DatePicker scale={2} />` |
+
+  #### global.scss
+
+  Remove as classes `.scale-1-0`, `.scale-1-5` e `.scale-2-0`. A escala agora é controlada exclusivamente via CSS custom property `--component-scale` injetada por `style`.
+
 ## [10.0.0] - 2026-06-22
 
 ### Added
@@ -50,9 +108,9 @@ Guia de migração:
 
 Renomeia as props de tooltip para evitar conflito com atributos HTML nativos.
 
-| Antes | Depois |
-|---|---|
-| `side` | `tooltipSide` |
+| Antes   | Depois         |
+| ------- | -------------- |
+| `side`  | `tooltipSide`  |
 | `align` | `tooltipAlign` |
 
 Remove o valor padrão `30` da prop `maxLength`, que agora é `number | undefined`.

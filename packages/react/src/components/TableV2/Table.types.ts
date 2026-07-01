@@ -1,6 +1,6 @@
 import type { Side, Align, Locale, Variant } from '../../types/common.types';
 import type { FilterItem as FilterDropdownItem } from '../Filter';
-import type { VirtualKeyboardType } from '../VirtualKeyboard/VirtualKeyboard.type';
+import type { VirtualKeyboardType } from '../VirtualKeyboard/VirtualKeyboard.types';
 import type { ColumnDef, RowData } from '@tanstack/react-table';
 import type { ReactNode, ReactElement } from 'react';
 

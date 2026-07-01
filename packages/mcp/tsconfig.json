@@ -6,7 +6,6 @@
     "outDir": "dist",
     "rootDir": "src",
     "strict": true,
-    "noImplicitAny": false,
     "declaration": true,
     "skipLibCheck": true,
     "resolveJsonModule": true

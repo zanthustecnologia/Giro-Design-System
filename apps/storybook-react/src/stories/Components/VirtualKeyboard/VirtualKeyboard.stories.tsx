@@ -135,7 +135,7 @@ export const ShiftECapsLock: Story = {
 
 export const Numerico: Story = {
   args: {
-    variant: 'native',
+    variant: 'fixed',
     type: 'numeric',
     Emoji: false,
   },
