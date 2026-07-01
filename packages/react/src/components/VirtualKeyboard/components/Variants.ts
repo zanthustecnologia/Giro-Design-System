@@ -2,6 +2,7 @@ import type { VirtualKeyboardType } from '../VirtualKeyboard.type';
 
 const EMOTICON_KEY = '{emoticon}';
 const DOWN_KEYBOARD_KEY = '{downkeyboard}';
+const ENTER_KEY = '{enter}';
 
 const removeKeyFromLayout = (layout: Record<string, string[]>, key: string) =>
   Object.fromEntries(
@@ -77,7 +78,8 @@ export const getNativeLayout = (
   type: VirtualKeyboardType,
   Emoji = true,
   showDownKeyboardButton = true,
-  isFixed = false
+  isFixed = false,
+  showEnterKey = true
 ): Record<string, string[]> | null => {
   const layout = NATIVE_LAYOUTS[type] ?? NATIVE_LAYOUTS.default ?? null;
 
@@ -91,6 +93,10 @@ export const getNativeLayout = (
 
   if (!showDownKeyboardButton) {
     computedLayout = removeKeyFromLayout(computedLayout, DOWN_KEYBOARD_KEY);
+  }
+
+  if (!showEnterKey) {
+    computedLayout = removeKeyFromLayout(computedLayout, ENTER_KEY);
   }
 
   if (isFixed) {

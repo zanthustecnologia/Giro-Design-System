@@ -68,6 +68,12 @@ export interface VirtualKeyboardProps extends Omit<BaseProps, 'disabled'> {
   /** Escala do TextField exibido no modo `fixed` */
   textFieldScale?: 1 | 1.5 | 2;
 
+  /**
+   * Controla a exibição da tecla Enter no teclado.
+   * @default true
+   */
+  showEnterKey?: boolean;
+
   /** Texto de ajuda do TextField exibido no modo `fixed` */
   helperText?: string;
 

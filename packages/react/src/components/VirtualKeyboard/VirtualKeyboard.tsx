@@ -74,13 +74,14 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
   errorMessage,
   targetRef,
   textFieldScale = 1,
+  showEnterKey = true,
 }) => {
   const [layoutName, setLayoutName] = useState<string>('default');
   const [capsLockOn, setCapsLockOn] = useState(false);
   const [accentMenu, setAccentMenu] = useState<AccentMenuState | null>(null);
   const [accentMenuOffsetX, setAccentMenuOffsetX] = useState(0);
   const [activeLayout, setActiveLayout] = useState<Record<string, string[]> | null>(
-    getNativeLayout(type, Emoji, variant === 'native', variant === 'fixed')
+    getNativeLayout(type, Emoji, variant === 'native', variant === 'fixed', showEnterKey)
   );
   const visualType = NATIVE_LAYOUT_KEYS.has(type) ? type : 'default';
 
@@ -214,8 +215,8 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
     setLayoutName('default');
     setCapsLockOn(false);
 
-    setActiveLayout(getNativeLayout(type, Emoji, variant === 'native', variant === 'fixed'));
-  }, [type, Emoji, variant]);
+    setActiveLayout(getNativeLayout(type, Emoji, variant === 'native', variant === 'fixed', showEnterKey));
+  }, [type, Emoji, variant, showEnterKey]);
 
   useEffect(() => {
     if (!Emoji && layoutName === 'emoticon') {
