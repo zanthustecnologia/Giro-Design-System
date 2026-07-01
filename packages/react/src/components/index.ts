@@ -91,7 +91,7 @@ export { default as VerificationCode } from './VerificationCode';
 export { type VerificationCodeProps } from './VerificationCode/VerificationCode.types';
 
 export { default as VirtualKeyboard } from './VirtualKeyboard';
-export { type VirtualKeyboardProps, type VirtualKeyboardVariant } from './VirtualKeyboard/VirtualKeyboard.type';
+export { type VirtualKeyboardProps, type VirtualKeyboardVariant } from './VirtualKeyboard/VirtualKeyboard.types';
 
 // Hooks
 export { default as useApiSimulation } from '../hooks/ApiSimulation';
