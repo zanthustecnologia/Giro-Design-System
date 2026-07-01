@@ -1,6 +1,6 @@
 {
   "name": "@giro-ds/mcp",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Model Context Protocol (MCP) server for Giro Design System — enables AI tools to access component metadata, design tokens and migration guides.",
   "license": "MIT",
   "private": false,
