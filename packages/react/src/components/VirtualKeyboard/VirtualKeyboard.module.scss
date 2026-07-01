@@ -75,7 +75,8 @@
       height: 100%;
     }
 
-    :global(.hg-layout-default) {
+    :global(.hg-layout-default),
+    :global(.hg-layout-numbers) {
       // Distribui as 4 linhas do numpad proporcionalmente na altura disponível
       height: 100%;
       display: flex;
@@ -158,6 +159,10 @@
     .keyboardNumpadActive {
       flex: 1;
       min-height: 0;
+
+      :global(.hg-theme-default) {
+        height: 100%;
+      }
     }
 
     :global(.hg-theme-default) {
@@ -233,7 +238,8 @@
   }
 
   &.layout--numeric {
-    :global(.hg-layout-default) {
+    :global(.hg-layout-default),
+    :global(.hg-layout-numbers) {
       :global(.hg-button) {
         @include buttonFlex;
         height: auto;
