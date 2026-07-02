@@ -301,6 +301,17 @@ class GiroTokens {
     static const spaceStackLg = '0';
     static const spaceStackXl = '0';
     static const spaceStack2xl = '0';
+    static const avatarRadius = '0';
+    static const avatarBackground = '0';
+    static const avatarColor = '0';
+    static const avatarFontWeight = '0';
+    static const avatarFontFamily = '0';
+    static const avatarSmSize = '0';
+    static const avatarSmFontSize = '0';
+    static const avatarSmIconSize = '0';
+    static const avatarLgSize = '0';
+    static const avatarLgFontSize = '0';
+    static const avatarLgIconSize = '0';
     static const buttonFilledBackgroundDefault = '0';
     static const buttonFilledBackgroundHover = '0';
     static const buttonFilledBackgroundPressed = '0';

@@ -2,6 +2,17 @@
  * Do not edit directly, this file was auto-generated.
  */
 :root {
+  --avatar-radius: var(--radius-round);
+  --avatar-background: var(--color-surface-sunken);
+  --avatar-color: var(--color-text-primary);
+  --avatar-font-weight: var(--font-weight-label);
+  --avatar-font-family: var(--font-family-body);
+  --avatar-sm-size: var(--size-component-sm);
+  --avatar-sm-font-size: var(--font-size-label-sm);
+  --avatar-sm-icon-size: var(--size-16);
+  --avatar-lg-size: var(--size-component-lg);
+  --avatar-lg-font-size: var(--font-size-body-lg);
+  --avatar-lg-icon-size: var(--size-24);
   --button-filled-background-default: var(--color-interactive-primary-default);
   --button-filled-background-hover: var(--color-interactive-primary-hover);
   --button-filled-background-pressed: var(--color-interactive-primary-pressed);
