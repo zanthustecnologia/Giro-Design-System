@@ -2,25 +2,25 @@
 
 @mixin buttonSize($height, $padding-x, $min-width) {
   height: scale($height);
-  padding: var(--spacing-0) scale($padding-x);
+  padding: 0 scale($padding-x);
   min-width: scale($min-width);
 }
 
 @mixin buttonIconPadding($left-padding, $right-padding) {
   &.buttonIconPosition-left {
-    padding: var(--spacing-0) scale($right-padding) var(--spacing-0) scale($left-padding);
+    padding: 0 scale($right-padding) 0 scale($left-padding);
   }
   
   &.buttonIconPosition-right {
-    padding: var(--spacing-0) scale($left-padding) var(--spacing-0) scale($right-padding);
+    padding: 0 scale($left-padding) 0 scale($right-padding);
   }
   &.buttonIconPosition-both {
-    padding: var(--spacing-0) scale($left-padding);
+    padding: 0 scale($left-padding);
   }
 }
 
 @mixin iconOnlySize($size) {
-  padding: var(--spacing-0);
+  padding: 0;
   width: scale($size);
   height: scale($size);
   min-width: scale($size);
