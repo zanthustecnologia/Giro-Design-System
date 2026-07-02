@@ -13,4 +13,6 @@ import React from 'react';
 export interface ContainerProps {
   /** Conteúdo a ser renderizado dentro do container */
   children: React.ReactNode;
+  /** Classe CSS customizada aplicada ao elemento raiz do container */
+  className?: string;
 }

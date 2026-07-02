@@ -59,9 +59,12 @@ export interface ListItemProps extends BaseProps {
   /** Valor do input (para variantes checkbox/radio) */
   value?: string;
   
-  /** Define se deve mostrar o subtexto */
+  /** Controla a visibilidade do subtexto explicitamente, independentemente de `subText` estar preenchido */
   showSubText?: boolean;
   
-  /** Estado de hover */
+  /** Força o estado visual de hover no item (útil para controle externo de foco/seleção) */
   hovered?: boolean;
+
+  /** Classe CSS opcional */
+  className?: string;
 }

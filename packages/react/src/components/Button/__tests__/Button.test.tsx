@@ -69,6 +69,26 @@ describe('Button', () => {
     });
   });
 
+  describe('Escala', () => {
+    it('deve aplicar escala 1.0 por padrão', () => {
+      const { container } = render(<Button>Botão</Button>);
+      const button = container.querySelector('button, a');
+      expect(button).toHaveAttribute('style', expect.stringContaining('--giro-scale: 1'));
+    });
+
+    it('deve aplicar escala 1.5 quando informado', () => {
+      const { container } = render(<Button scale={1.5}>Botão</Button>);
+      const button = container.querySelector('button, a');
+      expect(button).toHaveAttribute('style', expect.stringContaining('--giro-scale: 1.5'));
+    });
+
+    it('deve aplicar escala 2.0 quando informado', () => {
+      const { container } = render(<Button scale={2}>Botão</Button>);
+      const button = container.querySelector('button, a');
+      expect(button).toHaveAttribute('style', expect.stringContaining('--giro-scale: 2'));
+    });
+  });
+
   describe('Tipos de botão', () => {
     it('deve ter type="button" por padrão', () => {
       render(<Button>Botão</Button>);

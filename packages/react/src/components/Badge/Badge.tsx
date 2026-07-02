@@ -1,85 +1,67 @@
 import clsx from 'clsx';
-import React, { ReactNode, useId } from 'react';
+import React, { useId } from 'react';
+
 import styles from './Badge.module.scss';
-import type { BadgeProps, BadgeType, BadgeValue } from './Badge.types';
+
+import type { BadgeProps } from './Badge.types';
+
+const getDisplayValue = (value: BadgeProps['badgeValue']): string => {
+  if (value === null || value === undefined) return '';
+  if (typeof value === 'string') {
+    const parsed = Number(value);
+    if (isFinite(parsed) && parsed > 0 && String(parsed) === value) {
+      return parsed > 99 ? '99+' : value;
+    }
+    return value;
+  }
+  if (!isFinite(value) || value <= 0) return '';
+  return value > 99 ? '99+' : String(value);
+};
 
 const Badge: React.FC<BadgeProps> = ({
   children,
   badgeValue = null,
-  type = 'notification',
   className,
   id,
+  filterVariant = false,
   'aria-label': ariaLabel,
+  ...rest
 }) => {
-  const isEmpty = badgeValue === null || badgeValue === undefined || badgeValue === '';
-  const componentId = id || useId();
-
-  const getDisplayValue = (inputValue: BadgeValue): string | number => {
-    if (inputValue === null || inputValue === undefined) return '';
-
-    if (typeof inputValue === 'number') {
-      if (!isFinite(inputValue)) return '';
-      if (inputValue < 0) return 0; 
-      if (inputValue === 0) return ''; 
-
-      return inputValue > 99 ? `${99}+` : inputValue;
-    }
-
-    // ✅ Sanitizar strings
-    const sanitized = String(inputValue).trim();
-    return sanitized.length > 10 ? `${sanitized.slice(0, 7)}...` : sanitized;
-  };
-
+  const generatedId = useId();
+  const componentId = id || generatedId;
   const displayValue = getDisplayValue(badgeValue);
+  const isEmpty = displayValue === '';
 
-  if (type === 'notification') {
+  if (children) {
     return (
-      <div
-        className={clsx(styles['zds-badge__container'])}
-      >
+      <div className={styles.badgeContainer} {...rest}>
+        <div data-testid="badge-content">{children}</div>
         <div
           id={componentId}
-          className={clsx(styles['zds-badge'], {
-            [styles['zds-badge__small']]: Number(badgeValue) <= 10,
-            [styles['zds-badge__large']]: Number(badgeValue) > 10,
+          className={clsx(styles.badge, {
+            [styles['badge__empty']]: isEmpty,
+            [styles['badge__flex']]: displayValue.length >= 2,
           }, className)}
-          data-testid="badge-notification"
+          data-testid="badge"
         >
-          {!isEmpty && (
-            <span
-              className={styles['zds-badge__value']}
-              aria-hidden={ariaLabel ? 'true' : 'false'}
-            >
-              {displayValue}
-            </span>
-          )}
+          {!isEmpty && <span aria-hidden={!!ariaLabel}>{displayValue}</span>}
         </div>
-        {children && (
-          <div className={styles['zds-badge__content']} data-testid="badge-content">
-            {children}
-          </div>
-        )}
       </div>
     );
   }
 
   return (
-    <div
-      className={clsx(styles['zds-badge__container'])}
-    >
+    <div className={styles.badgeContainer}>
       <div
-        className={clsx(styles['zds-badge__status'], {
-          [styles['zds-badge__status__empty']]: isEmpty,
+        className={clsx(styles['badge__status'], {
+          [styles['badge__status__empty']]: isEmpty,
+          [styles['badge__status__flex']]: displayValue.length >= 2,
+          [styles['badge__status__filterBadge']]: filterVariant,
         }, className)}
-        data-testid="badge-status"
+        data-testid="badge"
       >
         {!isEmpty && (
-          <span
-            className={styles['zds-badge__status-value']}
-            aria-hidden={ariaLabel ? 'true' : 'false'}
-          >
-            {displayValue}
-          </span>
+          <span aria-hidden={!!ariaLabel}>{displayValue}</span>
         )}
       </div>
     </div>

@@ -1,4 +1,4 @@
-import { Locale, BaseProps, Side, Align } from '../../types/common.types';
+import { Locale, ScalableProps, Side, Align } from '../../types/common.types';
 
 /**
  * Props do componente DatePicker
@@ -23,7 +23,7 @@ import { Locale, BaseProps, Side, Align } from '../../types/common.types';
  * />
  * ```
  */
-export interface DatePickerProps extends BaseProps {
+export interface DatePickerProps extends ScalableProps {
   /** Idioma para formatação da data */
   locale?: Locale;
   
@@ -62,5 +62,4 @@ export interface DatePickerProps extends BaseProps {
   
   /** ID para testes automatizados */
   'data-testid'?: string;
-
 }

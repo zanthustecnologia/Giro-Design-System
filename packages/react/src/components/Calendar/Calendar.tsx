@@ -4,6 +4,7 @@ import {
   ChevronRight16Regular,
   ChevronUp16Regular,
 } from "@fluentui/react-icons";
+import clsx from "clsx";
 import { createContext, useContext, useState } from "react";
 import { DayPicker } from "react-day-picker";
 import { enUS, ptBR } from "react-day-picker/locale";
@@ -32,7 +33,7 @@ const CustomChevron = ({
   orientation?: ChevronOrientation;
 }) => {
   const Icon = FLUENT_CHEVRON_MAP[orientation];
-  return <Icon className={className} aria-hidden />;
+  return <span className={styles.chevron_wrapper}><Icon className={className} aria-hidden /></span>;
 };
 
 type GridView = "days" | "months" | "years";
@@ -65,9 +66,10 @@ const GridMonthCaption = ({ calendarMonth, displayIndex: _displayIndex, ...divPr
       >
         {yearLabel}
         {view !== "days" ? (
-          <ChevronUp16Regular className={styles.caption_year_chevron} aria-hidden />
+          <span className={styles.chevron_wrapper}>
+                      <ChevronUp16Regular className={styles.caption_year_chevron} aria-hidden /></span>
         ) : (
-          <ChevronDown16Regular className={styles.caption_year_chevron} aria-hidden />
+          <span className={styles.chevron_wrapper}><ChevronDown16Regular className={styles.caption_year_chevron} aria-hidden /></span>
         )}
       </button>
     </div>
@@ -91,8 +93,12 @@ const Calendar = ({
   format: _format,
   locale = "pt-br",
   autoFocus,
+  className,
+  style,
+  scale = 1,
   id,
   "aria-label": ariaLabel,
+  ...rest
 }: CalendarProps) => {
   const animate = true;
 
@@ -199,12 +205,15 @@ const Calendar = ({
     "aria-label": ariaLabel,
   };
 
+  const containerStyle = { '--giro-scale': scale } as React.CSSProperties;
+
   return (
     <GridCtx.Provider value={gridCtxValue}>
-      <div className={styles.calendar_grid_wrapper}>
+      <div className={clsx(styles.calendar_grid_wrapper, className)} style={{ ...containerStyle, ...style }}>
         <DayPicker
           id={id}
           {...sharedDayPickerProps}
+          {...rest}
           captionLayout="label"
           month={resolvedDisplayMonth}
           onMonthChange={handleMonthChange}
@@ -230,10 +239,12 @@ const Calendar = ({
                     aria-label="Fechar seleção de mês"
                   >
                     {displayedYear}
-                    <ChevronUp16Regular
+                    <span className={styles.chevron_wrapper}>
+                      <ChevronUp16Regular
                       className={styles.caption_year_chevron}
                       aria-hidden
-                    />
+                      />
+                    </span>
                   </button>
                 </div>
                 <div className={styles.gridCells}>
@@ -264,10 +275,12 @@ const Calendar = ({
                     aria-label="Fechar seleção de ano"
                   >
                     {displayedYear}
-                    <ChevronUp16Regular
+                    <span className={styles.chevron_wrapper}>
+                      <ChevronUp16Regular
                       className={styles.caption_year_chevron}
                       aria-hidden
-                    />
+                      />
+                    </span>
                   </button>
                   <div className={styles.gridOverlayYearsNav}>
                     <button
@@ -277,7 +290,7 @@ const Calendar = ({
                       onClick={() => setYearPageStart((s) => s - YEARS_PER_PAGE)}
                       aria-label="Anos anteriores"
                     >
-                      <ChevronLeft16Regular className={styles.chevronNavBtnPrev} aria-hidden />
+                      <span className={styles.chevron_wrapper}><ChevronLeft16Regular className={styles.chevronNavBtnPrev} aria-hidden /></span>
                     </button>
                     <button
                       type="button"
@@ -286,7 +299,7 @@ const Calendar = ({
                       onClick={() => setYearPageStart((s) => s + YEARS_PER_PAGE)}
                       aria-label="Próximos anos"
                     >
-                      <ChevronRight16Regular className={styles.chevronNavBtnNext} aria-hidden />
+                      <span className={styles.chevron_wrapper}><ChevronRight16Regular className={styles.chevronNavBtnNext} aria-hidden /></span>
                     </button>
                   </div>
                 </div>

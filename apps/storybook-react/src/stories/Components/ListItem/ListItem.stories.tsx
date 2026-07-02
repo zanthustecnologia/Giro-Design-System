@@ -8,7 +8,12 @@ const meta: Meta<typeof ListItem> = {
     title: 'Components/ListItem',
     component: ListItem,
     parameters: {
-        layout: 'centered'
+        docs: {
+          description: {
+            component: 'O ListItem é um item de lista interativo que pode ser usado com texto simples, ícone, checkbox ou radio. Suporta texto descritivo, estado desabilitado e responde a interações de mouse e teclado.',
+          },
+        },
+        // layout: 'centered'
     },
       argTypes: {
         variant: {

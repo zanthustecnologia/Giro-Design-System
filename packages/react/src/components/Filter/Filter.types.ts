@@ -3,14 +3,19 @@ import { ReactNode, ReactElement } from 'react';
 import { Variant, BaseProps, Locale, Side, Align } from '../../types/common.types';
 
 export interface FilterItem {
-  id?: string;
+  /** Identificador único do item (usado em `selectedIds` e `onApplyFilter`) */
+  id?: BaseProps['id'];
+  /** Texto principal exibido no item */
   text: string;
+  /** Texto secundário exibido abaixo do texto principal */
   subText?: string;
+  /** Ícone exibido à esquerda do texto */
   icon?: ReactNode;
-  disabled?: boolean;
+  /** Desabilita o item, impedindo sua seleção */
+  disabled?: BaseProps['disabled'];
 }
 
-export type FilterType = 'text' | 'checkbox' | 'icon' | 'calendar';
+export type FilterType = 'single' | 'multiple' | 'calendar';
 
 /**
  * Props do componente Filter
@@ -18,7 +23,7 @@ export type FilterType = 'text' | 'checkbox' | 'icon' | 'calendar';
  * ```tsx
  * <Filter 
  *   items={filterItems}
- *   type="checkbox"
+ *   type="multiple"
  *   placeholder="Filtrar por categoria"
  *   onApplyFilter={(ids) => handleFilter(ids)}
  *   buttonText="Filtros"
@@ -93,4 +98,37 @@ export interface FilterProps extends BaseProps {
   
   /** Idioma do calendário */
   locale?: Locale;
+
+  /** Classe CSS opcional */
+  className?: BaseProps['className'];
+
+  /**
+   * Modo de exibição do filtro
+   * - `'simple'`: filtro simples com popover (padrão)
+   * - `'combined'`: filtro combinado com painel lateral onde o conteúdo é composto via children
+   */
+  mode?: 'simple' | 'combined';
+
+  // ─── Props exclusivas do modo combined ─────────────────────────────────────
+
+  /** Largura do painel lateral no modo combined (ex: '400px', '50vw'). Quando omitido, usa o tamanho padrão do Drawer */
+  drawerWidth?: string;
+
+  /** Título do painel lateral (padrão: 'Filtrar') */
+  title?: string;
+
+  /** Número de filtros ativos exibido como badge no botão */
+  activeCount?: number;
+
+  /** Conteúdo customizado no cabeçalho do Drawer */
+  drawerHeaderContent?: ReactNode;
+
+  /** Conteúdo do painel lateral no modo combined */
+  children?: ReactNode;
+
+  /** Callback ao aplicar no modo combined: () => void */
+  onApply?: () => void;
+
+  /** Callback ao limpar no modo combined: () => void */
+  onClear?: () => void;
 }

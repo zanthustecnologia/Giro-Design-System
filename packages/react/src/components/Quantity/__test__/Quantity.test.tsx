@@ -46,6 +46,24 @@ describe('Quantity', () => {
       render(<Quantity id="campo-qty" />);
       expect(screen.getByRole('spinbutton')).toHaveAttribute('id', 'campo-qty');
     });
+
+    it('aplica --giro-scale: 1 por padrão', () => {
+      const { container } = render(<Quantity />);
+      const wrapper = container.firstChild as HTMLElement;
+      expect(wrapper.style.getPropertyValue('--giro-scale')).toBe('1');
+    });
+
+    it('aplica --giro-scale: 1.5 quando informado', () => {
+      const { container } = render(<Quantity scale={1.5} />);
+      const wrapper = container.firstChild as HTMLElement;
+      expect(wrapper.style.getPropertyValue('--giro-scale')).toBe('1.5');
+    });
+
+    it('aplica --giro-scale: 2 quando informado', () => {
+      const { container } = render(<Quantity scale={2} />);
+      const wrapper = container.firstChild as HTMLElement;
+      expect(wrapper.style.getPropertyValue('--giro-scale')).toBe('2');
+    });
   });
 
   describe('Acessibilidade', () => {

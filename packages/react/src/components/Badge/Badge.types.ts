@@ -1,45 +1,31 @@
 import { ReactNode } from 'react';
 
-import {BaseProps} from '../../types';
-
-/** Tipos de badge suportados */
-export type BadgeType = 'notification' | 'status';
-
-/** Valores possíveis para exibição no badge */
-export type BadgeValue = number | string | null;
+import { BaseProps } from '../../types';
 
 /**
  * Props do componente Badge
  * @example
  * ```tsx
- * <Badge type="notification" badgeValue={5}>
+ * // Modo overlay: badge flutua sobre o children
+ * <Badge badgeValue={5}>
  *   <IconButton icon={<BellIcon />} />
  * </Badge>
  * ```
  * @example
  * ```tsx
- * <Badge 
- *   type="status" 
- *   badgeValue="novo"
- *   aria-label="Novo item disponível"
- * >
- *   <Avatar icon={<UserIcon />} />
- * </Badge>
+ * // Modo inline: badge standalone ao lado de outros elementos
+ * <Badge badgeValue="+3" aria-label="3 novos itens" />
  * ```
  */
 export interface BadgeProps extends BaseProps {
-  /** Tipo de badge (notificação ou status) */
-  type: BadgeType;
-  
-  /** Conteúdo a ser envolvido pelo badge */
+  /** Conteúdo a ser envolvido pelo badge. Quando presente, o badge é posicionado sobre o children (modo overlay). */
   children?: ReactNode;
-  
-  /** Valor a ser exibido no badge (número, texto ou null) */
-  badgeValue?: BadgeValue;
-  
-  /** Valor máximo a ser exibido (ex: 99+ quando badgeValue > maxValue) */
-  maxValue?: number;
-  
+  /** Valor exibido no badge — aceita número ou string formatada (ex: "+3") */
+  badgeValue?: number | string | null;
   /** Label acessível para leitores de tela */
   'aria-label'?: string;
+  /** Quando `true`, aplica a variante de cor do Filter (fundo azul em vez do padrão vermelho) */
+  filterVariant?: boolean;
+  /** Classe CSS opcional */
+  className?: string;
 }

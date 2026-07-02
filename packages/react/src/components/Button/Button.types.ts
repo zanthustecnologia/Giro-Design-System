@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Size, BaseProps, Variant, Position } from '../../types/common.types';
+import { Size, ScalableProps, Variant, Position } from '../../types/common.types';
 
 /**
  * Props base do Button, independentes da variante iconOnly/icon.
@@ -59,9 +59,14 @@ type ButtonOwnPropsBase = {
   /** Alinhamento do tooltip */
   tooltipAlign?: 'start' | 'center' | 'end';
 
+  /**
+   * Classe CSS adicional para customização. Use com moderação e prefira as variantes e estilos pré-definidos do design system.
+   */
+  className?: string;
+
   /** Handler de clique; tipado em HTMLElement para ser compatível com todos os modos */
   onClick?: React.MouseEventHandler<HTMLElement>;
-} & BaseProps;
+} & ScalableProps;
 
 /**
  * Props próprias do componente Button.

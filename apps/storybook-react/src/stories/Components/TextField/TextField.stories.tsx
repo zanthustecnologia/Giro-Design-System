@@ -1,7 +1,8 @@
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-import { TextField } from '@giro-ds/react';
 import { Mail16Regular, Clock16Regular, ArrowUpload16Regular } from '@fluentui/react-icons';
+import { TextField } from '@giro-ds/react';
+import React, { useState } from 'react';
+
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 type Story = StoryObj<typeof TextField>;
 
@@ -9,10 +10,15 @@ const meta: Meta<typeof TextField> = {
   title: 'Components/TextField',
   component: TextField,
   parameters: {
+    docs: {
+      description: {
+        component: 'O Text Field é um campo de entrada de texto que suporta validação, ícones e feedback visual de estado. Pode ser usado para capturar texto livre, e-mail, senha, número, telefone ou URL.',
+      },
+    },
     controls: {
       sort: 'alpha'
     },
-    layout: 'centered',
+    // layout: 'centered',
   },
   
   argTypes: {
@@ -28,15 +34,15 @@ const meta: Meta<typeof TextField> = {
       control: 'boolean',
       description: 'Estado desabilitado do campo'
     },
-    side: {
+    tooltipSide: {
       control: 'select',
       options: ['top','bottom', 'left', 'right'],
       description: 'Posição do tooltip'
     },
-    align: {
+    tooltipAlign: {
       control: 'select',
       options: ['start', 'center', 'end'],
-      description: 'Posição do tooltip'
+      description: 'Alinhamento do tooltip'
     },
     type: {
       control: 'select',
@@ -75,6 +81,11 @@ const meta: Meta<typeof TextField> = {
       control: 'boolean',
       description: 'Campo obrigatório'
     },
+    scale: {
+      control: { type: 'select' },
+      options: [1, 1.5, 2],
+      description: 'Escala visual do componente'
+    },
     className: {
       table: {
         disable: true,
@@ -99,7 +110,23 @@ const meta: Meta<typeof TextField> = {
       table: {
         disable: true
       }
-    }
+    },
+    virtualKeyboard: {
+      control: 'select',
+      options: [
+        'default', 'numeric', 'none',
+      ],
+      description: 'Layout do teclado virtual',
+    },
+    disableAutoComplete: {
+      control: 'boolean',
+      description: 'Habilita ou desabilita o autocomplete nativo do browser',
+    },
+    attachedToVirtualKeyboard: {
+      table: {
+        disable: true,
+      },
+    },
   },
 };
 
@@ -109,13 +136,13 @@ export const Default: Story = {
   args: {
     placeholder: 'Ex.: João da Silva',
     disabled: false,
-    maxLength: 100,
     className: '',
     required: false,
     tooltip: true,
     helperText: 'Optional support text',
     label: 'Label',
-    tooltipText: 'Tooltip text'
+    tooltipText: 'Tooltip text',
+    scale: 1,
   },
   render: (args) => (
     <div className='storybook__container'>
@@ -145,11 +172,10 @@ export const ComTooltip: Story = {
     placeholder: 'Ex.: 000 000 000-00',
     tooltip: true,
     tooltipText: 'O CPF é usado para identificar sua conta. Você pode encontrá-lo no seu documento de identidade.',
-    side: 'bottom',
-    align: 'start',
+    tooltipSide: 'bottom',
+    tooltipAlign: 'start',
     helperText: 'Somente números, sem pontos ou traços',
     type: 'text',
-    maxLength: 11,
   },
   render: (args) => (
     <div className='storybook__container'>
@@ -158,7 +184,7 @@ export const ComTooltip: Story = {
   ),
 };
 
-export const Disabled: Story = {
+export const Desabilitado: Story = {
   args: {
     placeholder: 'Ex.: João da Silva',
     label: 'Campo desabilitado',
@@ -172,7 +198,7 @@ export const Disabled: Story = {
   ),
 };
 
-export const Required: Story = {
+export const Obrigatorio: Story = {
   args: {
     placeholder: 'Ex.: João da Silva',
     label: 'Nome',
@@ -185,8 +211,9 @@ export const Required: Story = {
     </div>
   ),
 };
+Obrigatorio.storyName = 'Obrigatório';
 
-export const WithDifferentIcons: Story = {
+export const DiferentesIcones: Story = {
   render: () => (
     <div className='storybook__container' style={{ display: 'flex', gap: '16px', flexDirection: 'column' }}>
       <TextField 
@@ -204,6 +231,37 @@ export const WithDifferentIcons: Story = {
         placeholder="Ex.: relatorio-2024.pdf" 
         icon={<ArrowUpload16Regular />}
       />
+    </div>
+  ),
+};
+
+export const ComTecladoVirtual: Story = {
+  args: {
+    label: 'Campo de texto',
+    placeholder: 'Clique aqui para abrir o teclado...',
+    virtualKeyboard: 'default',
+    disabled: false,
+  },
+  render: (args) => {
+    const [value, setValue] = useState('');
+    return (
+      <div style={{ width: '420px' }}>
+        <TextField
+          {...args}
+          value={value}
+          onChange={setValue}
+          helperText="Clique no campo para abrir o teclado virtual"
+        />
+      </div>
+    );
+  },
+};
+export const Escalas: Story = {
+  render: () => (
+    <div className='storybook__container' style={{ display: 'flex', flexDirection: 'column', gap: '80px', alignItems: 'flex-start' }}>
+      <TextField label="Scale 1.0" placeholder="Texto" scale={1} />
+      <TextField label="Scale 1.5" placeholder="Texto" scale={1.5} />
+      <TextField label="Scale 2.0" placeholder="Texto" scale={2} />
     </div>
   ),
 };

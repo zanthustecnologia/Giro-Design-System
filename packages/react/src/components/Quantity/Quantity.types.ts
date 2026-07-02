@@ -1,4 +1,5 @@
-import { Size, BaseProps } from '../../types/common.types';
+import * as React from 'react';
+import { Size, ScalableProps, Scale } from '../../types/common.types';
 
 /**
  * Props do componente Quantity
@@ -16,12 +17,12 @@ import { Size, BaseProps } from '../../types/common.types';
  *   value={1}
  *   decimal={true}
  *   decimalPlaces={2}
- *   step={0.5}
+ *   valueIncrement={0.5}
  *   disabled={false}
  * />
  * ```
  */
-export interface QuantityProps extends BaseProps {
+export interface QuantityProps extends ScalableProps, Omit<React.HTMLAttributes<HTMLDivElement>, 'size' | 'onChange'>  {
   /** Valor do componente */
   value?: number;
   
@@ -54,12 +55,12 @@ export interface QuantityProps extends BaseProps {
   /** Valor máximo permitido */
   maxValue?: number;
 
-  /** Aria label for the decrement button. Default: 'Decrease quantity' */
+  /** Aria label para o botão de decremento. Padrão: 'Diminuir quantidade' */
   decrementAriaLabel?: string;
 
-  /** Aria label for the increment button. Default: 'Increase quantity' */
+  /** Aria label para o botão de incremento. Padrão: 'Aumentar quantidade' */
   incrementAriaLabel?: string;
 
-  /** Aria label for the quantity input. Default: 'Quantity' */
+  /** Aria label para a entrada de quantidade. Padrão: 'Quantidade' */
   inputAriaLabel?: string;
 }

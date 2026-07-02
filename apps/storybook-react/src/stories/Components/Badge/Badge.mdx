@@ -1,0 +1,99 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as BadgeStories from './Badge.stories';
+import { Badge } from '@giro-ds/react';
+import { UsageGuidelines } from '../../../internal-components/mdx/UsageGuidelines/UsageGuidelines';
+import { ComponentRules } from '../../../internal-components/mdx/Rules/Rules';
+import { Footer } from '../../../internal-components/mdx/Footer/Footer';
+
+<Meta of={BadgeStories} />
+
+# Badge
+
+Badge é um indicador visual sobreposto a um elemento para comunicar notificações, contagens ou estados.
+
+<Canvas of={BadgeStories.Default} />
+
+## Importação
+
+```js
+import { Badge } from '@giro-ds/react';
+```
+
+## Propriedades
+
+<Controls />
+
+## Uso
+
+<UsageGuidelines
+  guidelines={[
+    <>
+      Passe <code>children</code> para o Badge quando quiser sobrepor o indicador a outro elemento (modo overlay).
+    </>,
+    <>
+      Use o Badge sem <code>children</code> quando precisar de um indicador standalone ao lado de outros elementos (modo inline).
+    </>,
+    <>
+      Quando <code>badgeValue</code> for <code>null</code>, <code>0</code> ou negativo no modo overlay, o badge não é exibido. No modo inline, é exibido como ponto.
+    </>,
+    <>
+      Valores numéricos acima de 99 são automaticamente exibidos como <code>99+</code>.
+    </>,
+    <>
+      Use <code>filterVariant</code> no modo inline para aplicar a cor da marca (usado em filtros).
+    </>,
+  ]}
+/>
+
+## Variações
+
+### Sobreposição (com children)
+
+<Canvas of={BadgeStories.Sobreposição} />
+
+### Inline (sem children)
+
+<Canvas of={BadgeStories.Inline} />
+
+## O que fazer e não fazer
+
+<ComponentRules
+  rules={[
+    {
+      positive: {
+        component: (
+          <Badge badgeValue={5}>
+            <div style={{ width: 40, height: 40, borderRadius: 8, backgroundColor: '#e0e0e0' }} />
+          </Badge>
+        ),
+        description: 'Use o Badge sobre um elemento interativo para indicar quantidade de itens pendentes.',
+      },
+      negative: {
+        component: (
+          <Badge badgeValue={5} />
+        ),
+        description: 'Evite usar o Badge sem children quando a intenção é sobrepor um elemento. Use children para o modo overlay.',
+      },
+    },
+    {
+      positive: {
+        component: (
+          <Badge badgeValue={99}>
+            <div style={{ width: 40, height: 40, borderRadius: 8, backgroundColor: '#e0e0e0' }} />
+          </Badge>
+        ),
+        description: 'Valores até 99 são exibidos diretamente.',
+      },
+      negative: {
+        component: (
+          <Badge badgeValue={9999}>
+            <div style={{ width: 40, height: 40, borderRadius: 8, backgroundColor: '#e0e0e0' }} />
+          </Badge>
+        ),
+        description: 'Não exiba valores muito grandes. Valores acima de 99 são truncados para "99+".',
+      },
+    },
+  ]}
+/>
+
+<Footer />

@@ -1,3 +1,5 @@
+import React from 'react';
+
 /** Tamanho do componente: 'sm' (pequeno) ou 'lg' (grande) */
 export type Size = 'sm' | 'lg';
 
@@ -16,6 +18,8 @@ export type Align = 'start' | 'center' | 'end';
 /** Posição horizontal de um elemento secundário: 'right' (direita), 'left' (esquerda) ou 'both' (ambos os lados) */
 export type Position = 'right' | 'left' | 'both';
 
+export type Scale = 1 | 1.5 | 2;
+
 /** Localidade do componente: 'pt-br' (Português do Brasil) ou 'en-us' (Inglês dos EUA) */
 export type Locale = 'pt-br' | 'en-us';
 
@@ -28,3 +32,16 @@ export interface BaseProps {
   /** Quando `true`, desabilita interações com o componente */
   disabled?: boolean;
 }
+
+/** Props para componentes que suportam escala visual (1, 1.5 ou 2) */
+export interface ScalableProps extends BaseProps {
+  /** Escala visual do componente */
+  scale?: Scale;
+  /** Estilos CSS inline adicionais */
+  style?: React.CSSProperties;
+}
+
+/** CSS custom properties injetadas via style para controle de escala */
+export type ScaleCSSProperties = React.CSSProperties & {
+  '--giro-scale'?: Scale;
+};

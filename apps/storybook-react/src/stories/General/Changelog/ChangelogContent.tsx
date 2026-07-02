@@ -19,6 +19,10 @@ const SECTION_TYPES: Record<string, Section['type']> = {
   'Major Changes': 'major',
   'Minor Changes': 'minor',
   'Patch Changes': 'patch',
+  'Added': 'minor',
+  'Changed': 'minor',
+  'Removed': 'major',
+  'Fixed': 'patch',
 };
 
 function parseChangelog(raw: string, packageName: string): VersionEntry[] {
@@ -28,10 +32,10 @@ function parseChangelog(raw: string, packageName: string): VersionEntry[] {
 
   for (const block of versionBlocks) {
     const lines = block.split('\n');
-    const versionMatch = lines[0].match(/^## (.+)/);
+    const versionMatch = lines[0].match(/^## (?:\[?)(\d+\.\d+\.\d+)/);
     if (!versionMatch) continue;
 
-    const version = versionMatch[1].trim();
+    const version = versionMatch[1];
     const rest = lines.slice(1).join('\n');
     const sectionBlocks = rest.split(/\n(?=### )/);
     const sections: Section[] = [];
@@ -67,10 +71,40 @@ function renderInline(text: string): string {
     .replace(/`([^`]+)`/g, '<code>$1</code>');
 }
 
+function renderTable(rows: string[], baseKey: number): React.ReactNode {
+  const dataRows = rows.filter(r => !r.match(/^\|[\s\-:|]+\|$/));
+  if (dataRows.length === 0) return null;
+
+  const headers = dataRows[0].split('|').filter(Boolean).map(h => h.trim());
+  const body = dataRows.slice(1);
+
+  return (
+    <table key={baseKey} className={styles.table}>
+      <thead>
+        <tr>
+          {headers.map((h, i) => (
+            <th key={i} dangerouslySetInnerHTML={{ __html: renderInline(h) }} />
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {body.map((row, ri) => (
+          <tr key={ri}>
+            {row.split('|').filter(Boolean).map((cell, ci) => (
+              <td key={ci} dangerouslySetInnerHTML={{ __html: renderInline(cell.trim()) }} />
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+}
+
 function RawContent({ content }: { content: string }) {
   const lines = content.split('\n');
   const elements: React.ReactNode[] = [];
   let i = 0;
+  let key = 0;
 
   while (i < lines.length) {
     const line = lines[i];
@@ -87,29 +121,109 @@ function RawContent({ content }: { content: string }) {
       }
       i++;
       elements.push(
-        <pre key={i} className={styles.codeBlock}><code>{codeLines.join('\n')}</code></pre>
+        <pre key={key++} className={styles.codeBlock}><code>{codeLines.join('\n')}</code></pre>
       );
       continue;
     }
 
-    // Bullet at any indent level
-    const bulletMatch = line.match(/^(\s*)- (.*)/);
-    if (bulletMatch) {
-      const indent = bulletMatch[1].length;
-      const text = bulletMatch[2].replace(/^[a-f0-9]{7,}: /, '');
+    // Table row
+    if (line.trimStart().startsWith('|')) {
+      const tableRows: string[] = [line];
+      i++;
+      while (i < lines.length && lines[i].trimStart().startsWith('|')) {
+        tableRows.push(lines[i]);
+        i++;
+      }
+      const tbl = renderTable(tableRows, key);
+      if (tbl) elements.push(tbl);
+      key += tableRows.length + 1;
+      continue;
+    }
+
+    // #### Scope heading (conventional format: Added/Changed/Removed/Fixed)
+    const headingMatch = line.match(/^#### (.+)/);
+    if (headingMatch) {
       elements.push(
-        <div key={i} className={styles.bulletItem} style={{ paddingLeft: `${indent * 10}px` }}>
-          <span dangerouslySetInnerHTML={{ __html: renderInline(text) }} />
-        </div>
+        <span key={key++} className={styles.scopeHeading}
+          dangerouslySetInnerHTML={{ __html: renderInline(headingMatch[1].trim()) }}
+        />
       );
       i++;
       continue;
     }
 
-    // Plain / indented text
-    const indent = line.match(/^(\s*)/)?.[1].length ?? 0;
+    // Bullet (legacy format: Major/Minor/Patch Changes)
+    const bulletMatch = line.match(/^(\s*)- (.*)/);
+    if (bulletMatch) {
+      const indent = bulletMatch[1].length;
+      const text = bulletMatch[2].replace(/^[a-f0-9]{7,}: /, '');
+
+      // Collect sub-items (indented bullets, code fences, continuation text)
+      const sub: React.ReactNode[] = [];
+      let j = i + 1;
+
+      while (j < lines.length) {
+        const nl = lines[j];
+        if (!nl.trim()) { j++; continue; }
+
+        const subMatch = nl.match(/^(\s*)- /);
+        if (subMatch && subMatch[1].length > indent) {
+          const subText = nl.slice(subMatch[0].length).replace(/^[a-f0-9]{7,}: /, '');
+          sub.push(
+            <div key={key++} className={styles.detailLine}>
+              <span dangerouslySetInnerHTML={{ __html: renderInline(subText) }} />
+            </div>
+          );
+          j++;
+          continue;
+        }
+
+        if (nl.trimStart().startsWith('```')) {
+          const cl: string[] = [];
+          j++;
+          while (j < lines.length && !lines[j].trimStart().startsWith('```')) {
+            cl.push(lines[j]);
+            j++;
+          }
+          j++;
+          sub.push(
+            <pre key={key++} className={styles.codeBlock}><code>{cl.join('\n')}</code></pre>
+          );
+          continue;
+        }
+
+        const nlIndent = nl.match(/^(\s*)/)?.[1].length ?? 0;
+        if (nlIndent > indent) {
+          sub.push(
+            <p key={key++} className={styles.continuationText}
+              dangerouslySetInnerHTML={{ __html: renderInline(nl.trim()) }}
+            />
+          );
+          j++;
+          continue;
+        }
+
+        break;
+      }
+
+      elements.push(
+        <div key={key++} className={indent === 0 ? styles.changeEntry : styles.detailLine}
+          style={indent > 0 ? { paddingLeft: `${indent * 10}px` } : undefined}>
+          <span dangerouslySetInnerHTML={{ __html: renderInline(text) }} />
+        </div>
+      );
+
+      if (sub.length > 0) {
+        elements.push(<div key={key++} className={styles.subGroup}>{sub}</div>);
+      }
+
+      i = j;
+      continue;
+    }
+
+    // Plain paragraph
     elements.push(
-      <p key={i} className={styles.paragraph} style={{ paddingLeft: `${indent * 10}px` }}
+      <p key={key++} className={styles.paragraph}
         dangerouslySetInnerHTML={{ __html: renderInline(line.trim()) }}
       />
     );

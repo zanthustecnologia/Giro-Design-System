@@ -61,4 +61,8 @@ export interface ToastProps extends
    * @default 'Info'
    */
   iconType?: 'Info' | 'Success' | 'Alert';
+
+  /** Classe CSS opcional */
+  className?: string;
+
 }

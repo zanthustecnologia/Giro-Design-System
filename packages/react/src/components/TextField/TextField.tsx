@@ -2,6 +2,8 @@ import { Dismiss16Regular } from '@fluentui/react-icons';
 import clsx from 'clsx';
 import React, { useState, useCallback, useId, forwardRef, useEffect } from 'react';
 
+import useInputKeyboardValue from '../../hooks/useInputKeyboardValue';
+import VirtualKeyboard from '../VirtualKeyboard';
 import styles from './TextField.module.scss';
 import { validateInput } from './utils';
 import LabelComponent from '../../shared/Label';
@@ -12,28 +14,33 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
   (
     {
       className,
+      style,
       value,
       label,
       placeholder,
       type = 'text',
       onChange,
       disabled = false,
-      maxLength = 30,
+      maxLength,
       required = false,
       helperText,
       tooltip = false,
       tooltipText,
-      side = 'bottom',
-	    align = 'start',
+      tooltipSide = 'bottom',
+	    tooltipAlign = 'start',
       errorMessage,
       error,
       id,
       icon,
+      scale = 1,
       onBlur,
       onFocus,
       name,
       persistIcon = false,
-      ...inputProps
+      virtualKeyboard,
+      attachedToVirtualKeyboard,
+      disableAutoComplete = false,
+      ...rest
     },
     ref
   ) => {
@@ -44,6 +51,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
     const [inputValue, setInputValue] = useState(normalizeValue(value));
     const [inputError, setInputError] = useState('');
     const [isFocused, setIsFocused] = useState(false);
+    const { internalRef: inputRef, setRefs: setInputRefs } = useInputKeyboardValue(ref);
     const generatedId = useId();
     const componentId = id || generatedId;
 
@@ -51,7 +59,6 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
       const newValue = normalizeValue(value);
       setInputValue(newValue);
       
-      // Reavaliar erro quando valor muda externamente (ex: DatePicker atualiza o campo)
       if (inputError) {
         const validationError = validateInput({
           value: newValue,
@@ -117,22 +124,26 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
         ? `${componentId}-helper`
         : undefined;
 
+    const containerStyle = { '--giro-scale': scale } as React.CSSProperties;
+
     const containerClass = clsx(styles.container, {
+      [styles.attachedToVirtualKeyboard]: attachedToVirtualKeyboard,
       [styles.disabled]: disabled,
-      [styles.error]: hasError && !disabled,
+      [styles.error]: error,
+      [styles.errorWithMessage]: !!errorMessage,
       [className!]: className,
     });
 
     return (
-      <div className={containerClass}>
+      <div className={containerClass} style={{ ...containerStyle, ...style }}>
         {label && (
-          <LabelComponent
+          <LabelComponent scale={scale}
             htmlFor={componentId}
             required={required}
             tooltip={tooltip}
             tooltipText={tooltipText}
-            side={side}
-            align={align}
+            side={tooltipSide}
+            align={tooltipAlign}
             error={hasError}
             disabled={disabled}
           >
@@ -143,8 +154,8 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
         <div className={styles.inputWrapper}>
           <div className={styles.inputContainer}>
             <input
-              {...inputProps}
-              ref={ref}
+              {...rest}
+                ref={setInputRefs}
               id={componentId}
               name={name}
               type={type}
@@ -158,6 +169,8 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
               aria-invalid={hasError}
               aria-required={required}
               aria-describedby={helperId}
+              inputMode={(virtualKeyboard === 'default' || virtualKeyboard === 'numeric') ? 'none' : rest.inputMode}
+              autoComplete={(disableAutoComplete || virtualKeyboard === 'default' || virtualKeyboard === 'numeric') ? 'off' : rest.autoComplete}
               className={clsx({
                 [styles.inputWithIcon]: showCustomIcon || showClearIcon,
               })}
@@ -176,19 +189,39 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
                 aria-label="Limpar campo"
                 tabIndex={-1}
               >
-                <Dismiss16Regular />
+                <span className={styles.clearButtonIcon}><Dismiss16Regular /></span>
               </button>
             )}
           </div>
 
-          <span
-            id={helperId}
-            className={styles.helperText}
-            aria-live={hasError ? 'polite' : undefined}
-          >
-            {displayHelperText}
-          </span>
+          {((error && errorMessage) || inputError || helperText) && (  
+            <span
+              id={helperId}
+              className={styles.helperText}
+              aria-live={hasError ? 'polite' : undefined}
+            >
+              {displayHelperText}
+            </span>
+          )}
         </div>
+
+        {(virtualKeyboard === 'default' || virtualKeyboard === 'numeric') && (
+          <div className="virtualKeyboardWrapper">
+            <VirtualKeyboard
+              variant="native"
+              type={virtualKeyboard}
+              value={inputValue}
+              maxLength={maxLength}
+              targetRef={inputRef}
+              onChange={(val) => {
+                if (!disabled && (!maxLength || val.length <= maxLength)) {
+                  setInputValue(val);
+                  onChange?.(val);
+                }
+              }}
+            />
+          </div>
+        )}
       </div>
     );
   }

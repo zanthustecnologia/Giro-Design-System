@@ -16,6 +16,7 @@ interface LabelProps {
   align?: "start" | "center" | "end";
   error?: boolean;
   disabled?: boolean;
+  scale?: number;
 }
 
 const LabelComponent = ({
@@ -28,23 +29,31 @@ const LabelComponent = ({
 	align = 'start',
   className,
   error = false,
-  disabled = false
-}: LabelProps) => (
-  <div className={clsx(styles.labelContainer, disabled && styles.disabledContainer)}>
-    <Label.Root
-      className={clsx(
-        styles.wrapperLabel,
-        error && !disabled && styles.errorLabel,
-        disabled && styles.disabledLabel,
-        className
-      )}
-      htmlFor={htmlFor}
+  disabled = false,
+  scale = 1,
+}: LabelProps) => {
+  const containerStyle = {
+    '--giro-scale': scale,
+  } as React.CSSProperties;
+
+  const container = (
+    <div
+      className={clsx(styles.labelContainer, disabled && styles.disabledContainer)}
+      style={containerStyle}
     >
-      {children}
-      {required && <span className={styles.requiredLabel}>*</span>}
-    </Label.Root>
-    {tooltip && (
-      <Tooltip side={side} align={align} text={tooltipText || ''}>
+      <Label.Root
+        className={clsx(
+          styles.wrapperLabel,
+          error && !disabled && styles.errorLabel,
+          disabled && styles.disabledLabel,
+          className
+        )}
+        htmlFor={htmlFor}
+      >
+        {children}
+        {required && <span className={styles.requiredLabel}>*</span>}
+      </Label.Root>
+      {tooltip && (
         <span
           className={
             disabled ? styles.disabledIcon : error ?
@@ -53,9 +62,19 @@ const LabelComponent = ({
         >
           <Info12Regular />
         </span>
+      )}
+    </div>
+  );
+
+  if (tooltip) {
+    return (
+      <Tooltip side={side} align={align} text={tooltipText || ''}>
+        {container}
       </Tooltip>
-    )}
-  </div>
-);
+    );
+  }
+
+  return container;
+};
 
 export default LabelComponent;

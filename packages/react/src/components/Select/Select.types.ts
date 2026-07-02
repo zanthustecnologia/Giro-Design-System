@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { ReactNode } from 'react';
 
-import { Side, Align, BaseProps } from '../../types/common.types';
+import { Side, Align, ScalableProps, Scale } from '../../types/common.types';
 
 /**
  * Representa um item do select
  */
-export interface SelectItemProps extends BaseProps {
+export interface SelectItemProps extends ScalableProps {
   
   /** Texto principal do item */
   text: ReactNode;
@@ -68,7 +68,7 @@ export type SelectVariant = 'text' | 'icon' | 'checkbox';
  * />
  * ```
  */
-export interface SelectProps extends BaseProps {
+export interface SelectProps extends ScalableProps {
   /** Array de itens do select */
   items: SelectItemProps[];
   

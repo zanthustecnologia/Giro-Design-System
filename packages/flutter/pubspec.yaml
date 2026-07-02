@@ -1,7 +1,15 @@
 name: flutter_giro
 description: Giro Design System - Flutter Components Library with Material 3 support
-version: 0.3.0
-homepage: https://github.com/zanthus/design-system-monorepo
+version: 0.4.0
+homepage: https://github.com/zanthustecnologia/Giro-Design-System
+repository: https://github.com/zanthustecnologia/Giro-Design-System/tree/developer/packages/flutter
+issue_tracker: https://github.com/zanthustecnologia/Giro-Design-System/issues
+
+topics:
+  - design-system
+  - ui-components
+  - material3
+  - widgets
 
 environment:
   sdk: '>=3.0.0 <4.0.0'

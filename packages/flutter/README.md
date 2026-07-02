@@ -82,12 +82,12 @@ Todos os componentes Material 3 puros do Flutter, organizados por categoria:
 
 ## Installation
 
-Add to your `pubspec.yaml`:
+Run this command:
 
-```yaml
-dependencies:
-  zanthus_flutter:
-    path: ../packages/components-flutter
+With Flutter:
+
+```bash
+flutter pub add flutter_giro
 ```
 
 ## Usage

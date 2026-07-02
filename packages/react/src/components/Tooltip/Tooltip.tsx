@@ -1,4 +1,5 @@
 import { Tooltip as TooltipRadix} from "radix-ui";
+import clsx from 'clsx';
 import React from 'react';
 
 import styles from './Tooltip.module.scss';
@@ -12,6 +13,7 @@ const Tooltip: React.FC<TooltipProps> = ({
 	align = 'start',
 	maxWidth,
 	sideOffset = 10,
+	className,
 	...rest
 }) => {
 	return (
@@ -24,7 +26,7 @@ const Tooltip: React.FC<TooltipProps> = ({
 				</TooltipRadix.Trigger>
 				<TooltipRadix.Portal>
 					<TooltipRadix.Content
-						className={styles.tooltipContent}
+					className={clsx(styles.tooltipContent, className)}
 						side={side}
 						align={align}
 						sideOffset={sideOffset}

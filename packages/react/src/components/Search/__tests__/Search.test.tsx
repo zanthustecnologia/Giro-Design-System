@@ -4,17 +4,40 @@ import { describe, it, expect, vi } from 'vitest';
 import { createRef } from 'react';
 import Search from '../Search';
 
-// Mock dos ícones do Fluent UI
-vi.mock('@fluentui/react-icons', () => ({
-  Search16Regular: () => <span data-testid="search-icon">🔍</span>,
-  Dismiss16Regular: () => <span data-testid="dismiss-icon">×</span>,
-}));
+// Mock parcial dos ícones do Fluent UI
+vi.mock('@fluentui/react-icons', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@fluentui/react-icons')>();
+
+  return {
+    ...actual,
+    Search16Regular: () => <span data-testid="search-icon">🔍</span>,
+    Dismiss16Regular: () => <span data-testid="dismiss-icon">×</span>,
+  };
+});
 
 describe('Search', () => {
   describe('Renderização básica', () => {
     it('deve renderizar o componente de busca', () => {
       render(<Search />);
       expect(screen.getByRole('textbox')).toBeInTheDocument();
+    });
+
+    it('deve aplicar escala 1.0 por padrão', () => {
+      const { container } = render(<Search />);
+      const wrapper = container.querySelector('[style*="--giro-scale"]') as HTMLElement;
+      expect(wrapper.style.getPropertyValue('--giro-scale')).toBe('1');
+    });
+
+    it('deve aplicar escala 1.5 quando informado', () => {
+      const { container } = render(<Search scale={1.5} />);
+      const wrapper = container.querySelector('[style*="--giro-scale"]') as HTMLElement;
+      expect(wrapper.style.getPropertyValue('--giro-scale')).toBe('1.5');
+    });
+
+    it('deve aplicar escala 2.0 quando informado', () => {
+      const { container } = render(<Search scale={2} />);
+      const wrapper = container.querySelector('[style*="--giro-scale"]') as HTMLElement;
+      expect(wrapper.style.getPropertyValue('--giro-scale')).toBe('2');
     });
 
     it('deve renderizar com placeholder padrão', () => {
@@ -393,6 +416,107 @@ describe('Search', () => {
       
       expect(input).toHaveAttribute('name', 'search-field');
       expect(input).toHaveAttribute('autoComplete', 'off');
+    });
+  });
+
+  describe('searchMode', () => {
+    describe('modo instant (padrão)', () => {
+      it('deve chamar onSearch a cada mudança de valor', () => {
+        const onSearch = vi.fn();
+        render(<Search onSearch={onSearch} />);
+
+        fireEvent.change(screen.getByRole('textbox'), { target: { value: 'a' } });
+        fireEvent.change(screen.getByRole('textbox'), { target: { value: 'ab' } });
+
+        expect(onSearch).toHaveBeenCalledTimes(2);
+        expect(onSearch).toHaveBeenNthCalledWith(1, 'a');
+        expect(onSearch).toHaveBeenNthCalledWith(2, 'ab');
+      });
+
+      it('não deve chamar onSearch ao pressionar Enter no modo instant', () => {
+        const onSearch = vi.fn();
+        render(<Search searchMode="instant" onSearch={onSearch} />);
+
+        fireEvent.keyDown(screen.getByRole('textbox'), { key: 'Enter' });
+
+        expect(onSearch).not.toHaveBeenCalled();
+      });
+
+      it('não deve chamar onSearch quando disabled', () => {
+        const onSearch = vi.fn();
+        render(<Search disabled onSearch={onSearch} />);
+
+        fireEvent.change(screen.getByRole('textbox'), { target: { value: 'teste' } });
+
+        expect(onSearch).not.toHaveBeenCalled();
+      });
+    });
+
+    describe('modo on-enter', () => {
+      it('não deve chamar onSearch ao digitar', () => {
+        const onSearch = vi.fn();
+        render(<Search searchMode="on-enter" onSearch={onSearch} />);
+
+        fireEvent.change(screen.getByRole('textbox'), { target: { value: 'teste' } });
+
+        expect(onSearch).not.toHaveBeenCalled();
+      });
+
+      it('deve chamar onSearch ao pressionar Enter com o valor atual', () => {
+        const onSearch = vi.fn();
+        render(<Search searchMode="on-enter" value="notebook" onChange={vi.fn()} onSearch={onSearch} />);
+
+        fireEvent.keyDown(screen.getByRole('textbox'), { key: 'Enter' });
+
+        expect(onSearch).toHaveBeenCalledTimes(1);
+        expect(onSearch).toHaveBeenCalledWith('notebook');
+      });
+
+      it('não deve chamar onSearch ao pressionar outra tecla', () => {
+        const onSearch = vi.fn();
+        render(<Search searchMode="on-enter" value="notebook" onChange={vi.fn()} onSearch={onSearch} />);
+
+        fireEvent.keyDown(screen.getByRole('textbox'), { key: 'Tab' });
+        fireEvent.keyDown(screen.getByRole('textbox'), { key: 'a' });
+
+        expect(onSearch).not.toHaveBeenCalled();
+      });
+
+      it('deve chamar onSearch com string vazia quando campo está vazio e Enter é pressionado', () => {
+        const onSearch = vi.fn();
+        render(<Search searchMode="on-enter" onSearch={onSearch} />);
+
+        fireEvent.keyDown(screen.getByRole('textbox'), { key: 'Enter' });
+
+        expect(onSearch).toHaveBeenCalledWith('');
+      });
+
+      it('ainda deve chamar onChange ao digitar no modo on-enter', () => {
+        const onChange = vi.fn();
+        render(<Search searchMode="on-enter" value="" onChange={onChange} />);
+
+        fireEvent.change(screen.getByRole('textbox'), { target: { value: 'teste' } });
+
+        expect(onChange).toHaveBeenCalledTimes(1);
+      });
+
+      it('ainda deve chamar onKeyDown ao pressionar Enter', () => {
+        const onKeyDown = vi.fn();
+        render(<Search searchMode="on-enter" onKeyDown={onKeyDown} />);
+
+        fireEvent.keyDown(screen.getByRole('textbox'), { key: 'Enter' });
+
+        expect(onKeyDown).toHaveBeenCalledTimes(1);
+      });
+
+      it('não deve chamar onSearch quando disabled', () => {
+        const onSearch = vi.fn();
+        render(<Search disabled searchMode="on-enter" value="teste" onChange={vi.fn()} onSearch={onSearch} />);
+
+        fireEvent.keyDown(screen.getByRole('textbox'), { key: 'Enter' });
+
+        expect(onSearch).not.toHaveBeenCalled();
+      });
     });
   });
 });

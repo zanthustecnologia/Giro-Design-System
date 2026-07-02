@@ -7,13 +7,23 @@ const meta: Meta<typeof Checkbox> = {
   component: Checkbox,
   title: 'Components/Checkbox',
   parameters:{
-    layout: 'centered'
+    docs: {
+      description: {
+        component: 'Checkbox é um controle de formulário que permite ao usuário selecionar ou desmarcar uma opção de forma independente. Use-o quando o usuário precisar confirmar uma escolha binária ou selecionar múltiplos itens de uma lista.',
+      },
+    },
+    // layout: 'centered'
   },
   argTypes:{
     disabled: { control: 'boolean' },
     label: { control: 'text' },
     onCheckedChange: { action: 'checked changed' },
-    indeterminate: { control: 'boolean'}
+    indeterminate: { control: 'boolean'},
+    scale: {
+      control: { type: 'select' },
+      options: [1, 1.5, 2],
+      description: 'Escala visual do componente.',
+    },
   },
 }
 export default meta;
@@ -28,10 +38,11 @@ export const Default: Story = {
     label: 'Checkbox',
     disabled: false,
     indeterminate: false,
+    scale: 1,
 
   }   
 }
-export const Unchecked: Story = {
+export const Desmarcado: Story = {
   args: {
     label: 'Opção desmarcada',
     disabled: false,
@@ -39,7 +50,7 @@ export const Unchecked: Story = {
   },
 };
 
-export const Checked: Story = {
+export const Marcado: Story = {
   args: {
     label: 'Opção marcada',
     defaultChecked: true,
@@ -48,7 +59,7 @@ export const Checked: Story = {
   },
 };
 
-export const Indeterminate: Story = {
+export const Indeterminado: Story = {
   args: {
     label: 'Seleção parcial',
     defaultChecked: true,
@@ -57,7 +68,7 @@ export const Indeterminate: Story = {
   },
 };
 
-export const Disabled: Story = {
+export const Desabilitado: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
       <Checkbox label="Desmarcado e desabilitado" disabled />
@@ -66,7 +77,7 @@ export const Disabled: Story = {
   ),
 };
 
-export const SelectAll: Story = {
+export const SelecionarTodos: Story = {
   render: (args) => {
 
     // Estado dos 3 checkboxes individuais
@@ -180,4 +191,14 @@ export const SelectAll: Story = {
       </div>
     );
   },
+};
+
+export const Escalas: Story = {
+  render: () => (
+    <div style={{ display: 'flex', gap: '60px', alignItems: 'center' }}>
+      <Checkbox label="Scale 1.0" scale={1} />
+      <Checkbox label="Scale 1.5" scale={1.5} />
+      <Checkbox label="Scale 2.0" scale={2} />
+    </div>
+  ),
 };
