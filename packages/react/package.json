@@ -1,6 +1,6 @@
 {
   "name": "@giro-ds/react",
-  "version": "10.0.0",
+  "version": "11.1.0",
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"

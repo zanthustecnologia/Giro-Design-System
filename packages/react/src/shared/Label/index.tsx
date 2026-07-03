@@ -16,6 +16,7 @@ interface LabelProps {
   align?: "start" | "center" | "end";
   error?: boolean;
   disabled?: boolean;
+  scale?: number;
 }
 
 const LabelComponent = ({
@@ -28,10 +29,18 @@ const LabelComponent = ({
 	align = 'start',
   className,
   error = false,
-  disabled = false
+  disabled = false,
+  scale = 1,
 }: LabelProps) => {
+  const containerStyle = {
+    '--giro-scale': scale,
+  } as React.CSSProperties;
+
   const container = (
-    <div className={clsx(styles.labelContainer, disabled && styles.disabledContainer)}>
+    <div
+      className={clsx(styles.labelContainer, disabled && styles.disabledContainer)}
+      style={containerStyle}
+    >
       <Label.Root
         className={clsx(
           styles.wrapperLabel,

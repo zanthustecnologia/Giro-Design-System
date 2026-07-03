@@ -23,9 +23,9 @@ const Menu: React.FC<MenuProps> = ({
   selectedItems,
   onOpenChange,
   align = 'start',
-  dropdownScale = 1,
-  buttonScale,
+  scale = 1,
   className,
+  style,
   maxHeight = 400,
   ...rest
 }) => {
@@ -41,15 +41,11 @@ const Menu: React.FC<MenuProps> = ({
 
   const maxHeightStyle = typeof maxHeight === 'number' ? `${maxHeight}px` : maxHeight;
 
-  const scaleClass = {
-    1: 'scale-1-0',
-    1.5: 'scale-1-5',
-    2: 'scale-2-0',
-  }[dropdownScale];
+  const containerStyle = { '--giro-scale': scale } as React.CSSProperties;
 
-  const triggerWithScale = React.isValidElement(children) && buttonScale
+  const triggerWithScale = React.isValidElement(children)
     ? React.cloneElement(children as React.ReactElement<any>, {
-      scale: (children as React.ReactElement<any>).props?.scale ?? buttonScale,
+      scale: (children as React.ReactElement<any>).props?.scale ?? scale,
     })
     : children;
 
@@ -227,7 +223,8 @@ const Menu: React.FC<MenuProps> = ({
       <DropdownMenu.Trigger asChild>{triggerWithScale}</DropdownMenu.Trigger>
       <DropdownMenu.Portal>
         <DropdownMenu.Content
-          className={clsx(styles.content, scaleClass, className)}
+          className={clsx(styles.content, className)}
+          style={{ ...containerStyle, ...style }}
           sideOffset={8}
           align={align}
           onPointerDown={() => { closedByPointerRef.current = true; }}
