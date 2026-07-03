@@ -25,6 +25,7 @@
   border: var(--border-width-1) solid var(--color-neutral-high-dark);
   background-color: var(--color-neutral-high-default);
   box-sizing: border-box;
+  overflow: hidden;
 
   &:hover {
     border: var(--border-width-1) solid var(--color-neutral-low-dark);
@@ -59,6 +60,15 @@
       font-family: var(--font-family-primary);
       font-weight: var(--font-weight-regular);
       font-size: var(--font-size-16);
+    }
+
+    &:-webkit-autofill,
+    &:-webkit-autofill:hover,
+    &:-webkit-autofill:focus {
+      -webkit-box-shadow: 0 0 0 1000px var(--color-neutral-high-default) inset;
+      box-shadow: 0 0 0 1000px var(--color-neutral-high-default) inset;
+      -webkit-text-fill-color: var(--color-neutral-low-default);
+      transition: background-color 5000s ease-in-out 0s;
     }
 
     &[type='number'] {
@@ -159,6 +169,15 @@
 
       &::placeholder {
         color: var(--color-neutral-high-dark);
+      }
+
+      &:-webkit-autofill,
+      &:-webkit-autofill:hover,
+      &:-webkit-autofill:focus {
+        -webkit-box-shadow: 0 0 0 1000px var(--color-neutral-high-default) inset;
+        box-shadow: 0 0 0 1000px var(--color-neutral-high-default) inset;
+        -webkit-text-fill-color: var(--color-neutral-high-dark);
+        transition: background-color 5000s ease-in-out 0s;
       }
     }
   }
