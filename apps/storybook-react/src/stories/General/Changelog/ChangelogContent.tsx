@@ -1,6 +1,6 @@
 import React from 'react';
 import { Chips } from '@giro-ds/react';
-import { reactChangelog, tokensChangelog, utilitiesChangelog, tagDates } from 'virtual:changelogs';
+import { changelogs, tagDates } from 'virtual:changelogs';
 import styles from './Changelog.module.scss';
 
 type Section = {
@@ -13,6 +13,7 @@ type VersionEntry = {
   packageName: string;
   version: string;
   sections: Section[];
+  inlineDate?: string;
 };
 
 const SECTION_TYPES: Record<string, Section['type']> = {
@@ -32,10 +33,11 @@ function parseChangelog(raw: string, packageName: string): VersionEntry[] {
 
   for (const block of versionBlocks) {
     const lines = block.split('\n');
-    const versionMatch = lines[0].match(/^## (?:\[?)(\d+\.\d+\.\d+)/);
+    const versionMatch = lines[0].match(/^## (?:\[?)(\d+\.\d+\.\d+)(?:\])?(?:\s+-\s+(\d{4}-\d{2}-\d{2}))?/);
     if (!versionMatch) continue;
 
     const version = versionMatch[1];
+    const inlineDate = versionMatch[2] as string | undefined;
     const rest = lines.slice(1).join('\n');
     const sectionBlocks = rest.split(/\n(?=### )/);
     const sections: Section[] = [];
@@ -55,7 +57,7 @@ function parseChangelog(raw: string, packageName: string): VersionEntry[] {
     }
 
     if (sections.length > 0) {
-      entries.push({ packageName, version, sections });
+      entries.push({ packageName, version, sections, inlineDate });
     }
   }
 
@@ -245,18 +247,21 @@ function formatDate(iso: string): string {
   return `${parseInt(day)} de ${months[parseInt(month) - 1]} de ${year}`;
 }
 
-const PACKAGE_CHIP_TYPE: Record<string, 'brand' | 'success' | 'neutral'> = {
+const PACKAGE_CHIP_TYPE: Record<string, 'brand' | 'success' | 'neutral' | 'alert'> = {
   '@giro-ds/react': 'brand',
   '@giro-ds/tokens': 'success',
   '@giro-ds/utilities': 'neutral',
+  '@giro-ds/mcp': 'alert',
 };
 
+function getChipType(packageName: string): 'brand' | 'success' | 'neutral' | 'alert' {
+  return PACKAGE_CHIP_TYPE[packageName] ?? 'neutral';
+}
+
 export function ChangelogContent() {
-  const all = [
-    ...parseChangelog(reactChangelog, '@giro-ds/react'),
-    ...parseChangelog(tokensChangelog, '@giro-ds/tokens'),
-    ...parseChangelog(utilitiesChangelog, '@giro-ds/utilities'),
-  ];
+  const all = Object.entries(changelogs).flatMap(([name, content]) =>
+    parseChangelog(content, name)
+  );
 
   const grouped = all.reduce<Record<string, VersionEntry[]>>((acc, entry) => {
     if (!acc[entry.version]) acc[entry.version] = [];
@@ -264,9 +269,25 @@ export function ChangelogContent() {
     return acc;
   }, {});
 
-  const sortedVersions = Object.keys(grouped).sort(
-    (a, b) => semverToNum(b) - semverToNum(a)
-  );
+  const sortedVersions = Object.keys(grouped).sort((a, b) => {
+    const pickDate = (version: string, entries: VersionEntry[]) =>
+      entries
+        .map(e => tagDates[`${e.packageName}@${version}`] ?? e.inlineDate)
+        .filter((d): d is string => !!d)
+        .sort()
+        .reverse()[0];
+
+    const dateA = pickDate(a, grouped[a]);
+    const dateB = pickDate(b, grouped[b]);
+
+    if (dateA && dateB) {
+      const diff = dateB.localeCompare(dateA);
+      return diff !== 0 ? diff : semverToNum(b) - semverToNum(a);
+    }
+    if (dateA) return -1;
+    if (dateB) return 1;
+    return semverToNum(b) - semverToNum(a);
+  });
 
   const latestVersion = sortedVersions[0];
 
@@ -278,7 +299,8 @@ export function ChangelogContent() {
         const isLatest = version === latestVersion;
 
         // Date: most recent release date across packages in this version
-        const date = ['@giro-ds/react', '@giro-ds/tokens', '@giro-ds/utilities'].map((pkg) => tagDates[`${pkg}@${version}`])
+        const date = entries
+          .map(e => tagDates[`${e.packageName}@${version}`] ?? e.inlineDate)
           .filter(Boolean)
           .sort()
           .reverse()[0];
@@ -324,7 +346,7 @@ export function ChangelogContent() {
                         <div className={styles.sectionHeader}>
                           <span className={styles.sectionLabel}>{section.label}</span>
                           {sectionIndex === 0 && (
-                            <Chips variant={PACKAGE_CHIP_TYPE[entry.packageName]}>
+                            <Chips variant={getChipType(entry.packageName)}>
                               {entry.packageName}
                             </Chips>
                           )}

@@ -121,6 +121,31 @@ const config = {
     const readChangelog = (pkg) =>
       fs.readFileSync(path.resolve(__dirname, `../../../packages/${pkg}/CHANGELOG.md`), 'utf-8');
 
+    // Auto-descobre todos os pacotes em packages/* que têm CHANGELOG.md
+    const packagesRoot = path.resolve(__dirname, '../../../packages');
+    const changelogsData = {};
+    for (const dir of fs.readdirSync(packagesRoot, { withFileTypes: true })) {
+      if (!dir.isDirectory()) continue;
+      const changelogPath = path.resolve(packagesRoot, dir.name, 'CHANGELOG.md');
+      if (!fs.existsSync(changelogPath)) continue;
+
+      let packageName = null;
+      const pkgJsonPath = path.resolve(packagesRoot, dir.name, 'package.json');
+      if (fs.existsSync(pkgJsonPath)) {
+        try { packageName = JSON.parse(fs.readFileSync(pkgJsonPath, 'utf-8')).name; } catch {}
+      }
+      if (!packageName) {
+        const pubspecPath = path.resolve(packagesRoot, dir.name, 'pubspec.yaml');
+        if (fs.existsSync(pubspecPath)) {
+          const m = fs.readFileSync(pubspecPath, 'utf-8').match(/^name:\s*(.+)/m);
+          if (m) packageName = m[1].trim();
+        }
+      }
+      if (!packageName) packageName = dir.name;
+
+      try { changelogsData[packageName] = fs.readFileSync(changelogPath, 'utf-8'); } catch {}
+    }
+
     // Lê datas dos git tags (ex: "@giro-ds/react@4.0.0" -> "2026-03-17")
     const getTagDates = async () => {
       try {
@@ -149,9 +174,7 @@ const config = {
       load(id) {
         if (id === '\0virtual:changelogs') {
           return [
-            `export const reactChangelog = ${JSON.stringify(readChangelog('react'))};`,
-            `export const tokensChangelog = ${JSON.stringify(readChangelog('tokens'))};`,
-            `export const utilitiesChangelog = ${JSON.stringify(readChangelog('utilities'))};`,
+            `export const changelogs = ${JSON.stringify(changelogsData)};`,
             `export const tagDates = ${JSON.stringify(tagDatesData)};`,
           ].join('\n');
         }
