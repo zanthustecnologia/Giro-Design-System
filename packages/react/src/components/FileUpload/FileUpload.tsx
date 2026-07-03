@@ -18,7 +18,7 @@ import styles from './FileUpload.module.scss';
 
 import type { FileUploadProps } from './FileUpload.type';
 
-function truncateFileName(fileName: string, maxChars = 18): string {
+const truncateFileName = (fileName: string, maxChars = 18): string => {
   if (fileName.length <= maxChars) return fileName;
   const lastDot = fileName.lastIndexOf('.');
   const hasExtension = lastDot > 0 && lastDot < fileName.length - 1;
@@ -32,7 +32,7 @@ function truncateFileName(fileName: string, maxChars = 18): string {
   return baseName.substring(0, available) + '...' + extension;
 }
 
-function matchesAccept(file: File, accept?: string): boolean {
+const matchesAccept = (file: File, accept?: string): boolean => {
   if (!accept) return true;
   const types = accept.split(',').map((t) => t.trim().toLowerCase());
   const fileName = file.name.toLowerCase();
