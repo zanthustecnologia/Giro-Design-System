@@ -1,7 +1,11 @@
 import { z } from 'zod';
+import { readFileSync, existsSync } from 'fs';
+import { resolve, extname, basename } from 'path';
 import type { ToolResult } from '../types.js';
 import { COMPONENTS, COMPONENT_NAMES } from '../data/react/components.js';
 import { TOKENS } from '../data/react/tokens.js';
+import { DEPRECATED_PROPS } from '../data/react/migration.js';
+import type { PropDeprecation } from '../data/migration.js';
 
 // ── Schemas ──────────────────────────────────────────────────────────────────
 
@@ -179,4 +183,192 @@ export async function handleReviewCss({ code }: { code: string }): Promise<ToolR
       },
     ],
   };
+}
+
+// ── review-giro-file ─────────────────────────────────────────────────────────
+
+export const reviewFileSchema = {
+  filePath: z
+    .string()
+    .describe(
+      'Absolute or relative path to a .tsx, .jsx, .ts, .js, .css or .scss file to review and auto-fix',
+    ),
+};
+
+/** Prop renames that are safe to apply automatically (simple identifier → identifier). */
+function buildSafeRenames(deprecations: PropDeprecation[]): Array<{ from: string; to: string; component: string; since: string }> {
+  return deprecations
+    .filter((d) => /^\w+$/.test(d.prop) && d.replacement && /^\w+$/.test(d.replacement))
+    .map((d) => ({ from: d.prop, to: d.replacement!, component: d.component, since: d.since }));
+}
+
+/** Apply auto-fixable changes to source code. Returns fixed code and a log of applied changes. */
+function applyAutoFixes(
+  code: string,
+  deprecations: PropDeprecation[],
+): { fixed: string; appliedFixes: string[] } {
+  let fixed = code;
+  const appliedFixes: string[] = [];
+
+  // Build a lookup of valid props per component so we don't rename to a prop that doesn't exist
+  const componentPropMap = new Map(
+    COMPONENTS.map((c) => [c.name, new Set(c.props.map((p) => p.name))]),
+  );
+
+  for (const { from, to, component, since } of buildSafeRenames(deprecations)) {
+    // Only apply the rename if the target prop actually exists in the current component API
+    const knownProps = componentPropMap.get(component);
+    if (!knownProps?.has(to)) continue;
+
+    const regex = new RegExp(`(?<=[\\s<])${from}=`, 'g');
+    const updated = fixed.replace(regex, `${to}=`);
+    if (updated !== fixed) {
+      appliedFixes.push(
+        `\`${from}\` → \`${to}\` (${component}, deprecated since ${since})`,
+      );
+      fixed = updated;
+    }
+  }
+
+  return { fixed, appliedFixes };
+}
+
+/** Collect CSS issues from source code (reuses the same detection logic as review-giro-css). */
+function collectCssIssues(code: string): string[] {
+  const issues: string[] = [];
+  const valueToToken = new Map<string, string>();
+  for (const token of TOKENS) valueToToken.set(token.value.toLowerCase(), token.name);
+
+  const hexMatches = [...code.matchAll(/#([0-9a-fA-F]{3,8})\b/g)];
+  for (const match of hexMatches) {
+    const raw = match[0];
+    const token = valueToToken.get(raw.toLowerCase());
+    if (token) {
+      issues.push(`🔄 \`${raw}\` tem token exato: \`var(${token})\``);
+    } else {
+      const nearby = TOKENS.filter((t) => t.category.startsWith('color')).slice(0, 2);
+      issues.push(`⚠️ Cor hardcoded \`${raw}\` sem token exato. Verifique: ${nearby.map((t) => `\`var(${t.name})\``).join(', ')}`);
+    }
+  }
+
+  const pxMatches = [...code.matchAll(/:\s*(\d+(?:\.\d+)?px)\b/g)];
+  for (const match of pxMatches) {
+    const raw = match[1];
+    const token = valueToToken.get(raw.toLowerCase());
+    if (token) {
+      issues.push(`🔄 \`${raw}\` tem token exato: \`var(${token})\``);
+    } else {
+      const px = parseFloat(raw);
+      const nearby = TOKENS.filter(
+        (t) => (t.category === 'spacing' || t.category === 'border-radius') && Math.abs(parseFloat(t.value) - px) <= 4,
+      ).slice(0, 2);
+      if (nearby.length) issues.push(`⚠️ Valor hardcoded \`${raw}\`. Próximos tokens: ${nearby.map((t) => `\`var(${t.name})\` (${t.value})`).join(', ')}`);
+    }
+  }
+
+  return issues;
+}
+
+export async function handleReviewFile({
+  filePath,
+}: {
+  filePath: string;
+}): Promise<ToolResult> {
+  // Resolve path relative to cwd
+  const absPath = resolve(process.cwd(), filePath);
+
+  if (!existsSync(absPath)) {
+    return {
+      content: [{ type: 'text', text: `Arquivo não encontrado: \`${absPath}\`` }],
+    };
+  }
+
+  const allowed = ['.tsx', '.jsx', '.ts', '.js', '.css', '.scss'];
+  if (!allowed.includes(extname(absPath))) {
+    return {
+      content: [{ type: 'text', text: `Extensão não suportada. Arquivos aceitos: ${allowed.join(', ')}` }],
+    };
+  }
+
+  const originalCode = readFileSync(absPath, 'utf-8');
+  const fileName = basename(absPath);
+
+  // 1. Auto-fix deprecated props
+  const { fixed: fixedCode, appliedFixes } = applyAutoFixes(originalCode, DEPRECATED_PROPS);
+
+  // 2. Detect component usage issues on the FIXED code so already-corrected props aren't re-reported
+  const codeToAnalyze = fixedCode;
+  const usageIssues: string[] = [];
+  const usedComponents = COMPONENTS.filter((c) =>
+    new RegExp(`<${c.name}[\\s/>]`).test(codeToAnalyze),
+  );
+
+  for (const c of usedComponents) {
+    const knownProps = new Set(c.props.map((p) => p.name));
+    const requiredProps = c.props.filter((p) => p.required);
+    const matches = [...codeToAnalyze.matchAll(new RegExp(`<${c.name}([^>]*)`, 'g'))];
+
+    for (const match of matches) {
+      const propsStr = match[1] ?? '';
+      const usedPropNames = [...propsStr.matchAll(/(\w+)=/g)].map((m) => m[1]);
+
+      for (const propName of usedPropNames) {
+        if (!knownProps.has(propName) && !['className', 'style', 'ref', 'key', 'id'].includes(propName)) {
+          usageIssues.push(`❌ \`<${c.name}>\`: prop \`${propName}\` não existe na API`);
+        }
+      }
+
+      for (const req of requiredProps) {
+        if (!propsStr.includes(req.name)) {
+          usageIssues.push(`⚠️ \`<${c.name}>\`: prop obrigatória \`${req.name}\` (${req.type}) parece ausente`);
+        }
+      }
+    }
+  }
+
+  // 3. Detect CSS issues (on original — values haven't been auto-fixed)
+  const cssIssues = collectCssIssues(originalCode);
+
+  // ── Build response ──────────────────────────────────────────────────────────
+  const remainingIssues = usageIssues.length + cssIssues.length;
+  const hasChanges = appliedFixes.length > 0;
+
+  const summaryParts = [];
+  if (hasChanges) summaryParts.push(`${appliedFixes.length} corrigido(s) automaticamente`);
+  if (remainingIssues > 0) summaryParts.push(`${remainingIssues} requer(em) atenção manual`);
+  if (!hasChanges && remainingIssues === 0) summaryParts.push('nenhum problema encontrado');
+  const summaryLine = summaryParts.join(' · ');
+
+  const autoFixSection = hasChanges
+    ? `\n\n## Corrigido automaticamente\n\n${appliedFixes.map((f) => `- ${f}`).join('\n')}`
+    : '';
+
+  const usageSection =
+    usageIssues.length > 0
+      ? `\n\n## Uso de componentes\n\n${usageIssues.join('\n')}`
+      : '';
+
+  const cssSection =
+    cssIssues.length > 0
+      ? `\n\n## Valores hardcoded\n\n${cssIssues.join('\n')}`
+      : '';
+
+  const noIssues =
+    !hasChanges && usageIssues.length === 0 && cssIssues.length === 0
+      ? '\n\n✅ Nenhum problema encontrado.'
+      : '';
+
+  const codeSection = hasChanges
+    ? `\n\n## Código corrigido\n\n\`\`\`tsx\n${fixedCode}\n\`\`\``
+    : '';
+
+  const text =
+    `# Giro DS — Review: ${fileName}\n\n**${summaryLine}**` +
+    autoFixSection +
+    usageSection +
+    cssSection +
+    noIssues +
+    codeSection;
+
+  return { content: [{ type: 'text', text }] };
 }

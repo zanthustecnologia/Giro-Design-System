@@ -22,8 +22,10 @@ import {
 import {
   reviewUsageSchema,
   reviewCssSchema,
+  reviewFileSchema,
   handleReviewUsage,
   handleReviewCss,
+  handleReviewFile,
 } from './tools/review.js';
 import {
   generateComponentSchema,
@@ -101,6 +103,13 @@ server.tool(
   'Audits CSS, SCSS, or inline style objects for hardcoded values that should be Giro DS design tokens (colors, spacing, border-radius, typography). Returns token suggestions for each match.',
   reviewCssSchema,
   handleReviewCss,
+);
+
+server.tool(
+  'review-giro-file',
+  'Reads a .tsx/.jsx/.ts/.js/.css/.scss file, detects all Giro DS issues (invalid props, missing required props, hardcoded CSS values, deprecated patterns) and returns a corrected version of the file with safe auto-fixes applied.',
+  reviewFileSchema,
+  handleReviewFile,
 );
 
 // ── Generation ───────────────────────────────────────────────────────────────

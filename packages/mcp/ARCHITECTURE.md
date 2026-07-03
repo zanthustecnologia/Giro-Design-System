@@ -11,7 +11,7 @@ O servidor roda como um processo Node.js via stdio e é declarado no `.vscode/mc
 ## Stack
 
 | Tecnologia | Versão | Papel |
-|-----------|--------|-------|
+| ----------- | ------ | ------- |
 | TypeScript | ^5.7.3 | Linguagem principal |
 | `@modelcontextprotocol/sdk` | ^1.28.0 | Protocolo MCP (McpServer, StdioServerTransport) |
 | `ts-morph` | ^27.0.2 | Extração de props dos arquivos `.types.ts` do React |
@@ -24,7 +24,7 @@ O servidor roda como um processo Node.js via stdio e é declarado no `.vscode/mc
 
 ## Estrutura de pastas atual
 
-```
+```text
 packages/mcp/
   src/
     index.ts              ← Entrypoint thin: só registra as 12 tools
@@ -69,7 +69,7 @@ packages/mcp/
 
 ## Fluxo de dados
 
-```
+```text
 packages/react/src/components/**/*.types.ts
         ↓ scripts/extract-react.ts (ts-morph)
 src/data/components.generated.ts
@@ -99,7 +99,7 @@ dist/index.js (executável publicado no npm)
 ## As 12 tools expostas
 
 | Tool | Arquivo handler | Descrição |
-|------|----------------|-----------|
+| ------ | ---------------- | ----------- |
 | `list-giro-components` | `tools/components.ts` | Lista todos os 30 componentes React |
 | `get-giro-component-metadata` | `tools/components.ts` | Props, tipos e exemplos de um componente |
 | `get-giro-component-examples` | `tools/components.ts` | Exemplos de uso de um componente |
@@ -139,12 +139,14 @@ pnpm --filter @giro-ds/mcp build
 ```
 
 O script `extract-react.ts` usa ts-morph para:
+
 1. Localizar o arquivo `*.types.ts` de cada componente em `packages/react/src/components/`
 2. Encontrar a interface `ComponentNameProps` (ou type alias que aponta para ela)
 3. Extrair todas as props com JSDoc — incluindo props herdadas de interfaces no mesmo arquivo
 4. Exportar para `src/data/components.generated.ts`
 
 **Comportamento especial:**
+
 - Button não é gerado automaticamente (seu `ButtonProps` é uma union type complexa). O fallback estático em `components.ts` é usado.
 - `collectAllProperties()` em `extract-react.ts` resolve herança de interfaces **do mesmo arquivo** (ex: `TableV2Props extends EmptyStateProps`). Herança cross-file (ex: `ScalableProps` de `common.types.ts`) é ignorada intencionalmente para evitar poluição de props de bibliotecas externas.
 
@@ -219,6 +221,7 @@ Os handlers em `tools/components.ts` passam a consultar o canônico primeiro, co
 **O que fazer:**
 
 Adicionar `platform?: 'react' | 'flutter'` nas tools:
+
 - `get-giro-component-metadata`
 - `get-giro-component-examples`
 - `generate-giro-component`
@@ -279,6 +282,7 @@ Começar com 5 recipes dos padrões mais usados. Expandir conforme demanda real 
 ### Fase 6 — Flutter como segundo adapter
 
 **Pré-requisitos:**
+
 - `packages/flutter/lib/components/` estar organizado com arquivos de tipos Dart legíveis
 - Decidir a estratégia de extração: parser manual em TypeScript, Dart Analysis Server, ou JSON intermediário gerado por um script Dart
 
@@ -296,7 +300,7 @@ Começar com 5 recipes dos padrões mais usados. Expandir conforme demanda real 
 ### Critérios de sucesso
 
 | Fase | Critério verificável |
-|------|---------------------|
+| ------ | --------------------- |
 | ✅ Fase 1 | `index.ts` < 60 linhas, lógica em `tools/` e `lib/` |
 | ✅ Fase 2 | Dados React isolados em `data/react/` |
 | Fase 3 | Modelo canônico com 30 componentes |

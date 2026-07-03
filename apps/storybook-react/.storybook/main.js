@@ -77,7 +77,9 @@ const config = {
       'react-dom',
       '@fluentui/react-icons',
       'react-day-picker',
-      'date-fns'
+      'date-fns',
+      '@tanstack/react-table',
+      'react-simple-keyboard',
     ];
 
     // 2) Força uma ÚNICA instância de React (evita múltiplos Reacts no monorepo)
