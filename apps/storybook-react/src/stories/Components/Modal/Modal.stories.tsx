@@ -154,7 +154,7 @@ export const ComFooter: Story = {
           onClose={() => setIsOpen(false)}
           title="Confirmar ação"
           footer={
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '8px' }}>
               <Button variant="outlined" onClick={() => setIsOpen(false)}>
                 Cancelar
               </Button>
