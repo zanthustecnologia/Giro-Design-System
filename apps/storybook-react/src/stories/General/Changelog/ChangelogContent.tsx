@@ -142,6 +142,30 @@ function RawContent({ content }: { content: string }) {
       continue;
     }
 
+    // ## Sub-version heading (e.g. "## [11.0.0]" inside Major Changes)
+    const h2Match = line.match(/^## (.+)/);
+    if (h2Match) {
+      elements.push(
+        <span key={key++} className={styles.subVersionHeading}
+          dangerouslySetInnerHTML={{ __html: renderInline(h2Match[1].trim()) }}
+        />
+      );
+      i++;
+      continue;
+    }
+
+    // ### Sub-section heading (e.g. "### Changed" inside Major Changes)
+    const h3Match = line.match(/^### (.+)/);
+    if (h3Match) {
+      elements.push(
+        <span key={key++} className={styles.subSectionHeading}
+          dangerouslySetInnerHTML={{ __html: renderInline(h3Match[1].trim()) }}
+        />
+      );
+      i++;
+      continue;
+    }
+
     // #### Scope heading (conventional format: Added/Changed/Removed/Fixed)
     const headingMatch = line.match(/^#### (.+)/);
     if (headingMatch) {
@@ -196,12 +220,32 @@ function RawContent({ content }: { content: string }) {
 
         const nlIndent = nl.match(/^(\s*)/)?.[1].length ?? 0;
         if (nlIndent > indent) {
-          sub.push(
-            <p key={key++} className={styles.continuationText}
-              dangerouslySetInnerHTML={{ __html: renderInline(nl.trim()) }}
-            />
-          );
-          j++;
+          const trimmed = nl.trim();
+          if (trimmed.startsWith('#### ')) {
+            sub.push(<span key={key++} className={styles.scopeHeading} dangerouslySetInnerHTML={{ __html: renderInline(trimmed.slice(5)) }} />);
+            j++;
+          } else if (trimmed.startsWith('### ')) {
+            sub.push(<span key={key++} className={styles.subSectionHeading} dangerouslySetInnerHTML={{ __html: renderInline(trimmed.slice(4)) }} />);
+            j++;
+          } else if (trimmed.startsWith('## ')) {
+            sub.push(<span key={key++} className={styles.subVersionHeading} dangerouslySetInnerHTML={{ __html: renderInline(trimmed.slice(3)) }} />);
+            j++;
+          } else if (trimmed.startsWith('|')) {
+            const tableRows: string[] = [trimmed];
+            j++;
+            while (j < lines.length) {
+              const next = lines[j].trim();
+              if (next.startsWith('|')) { tableRows.push(next); j++; }
+              else if (!next) { j++; break; }
+              else { break; }
+            }
+            const tbl = renderTable(tableRows, key);
+            if (tbl) sub.push(tbl);
+            key += tableRows.length + 1;
+          } else {
+            sub.push(<p key={key++} className={styles.continuationText} dangerouslySetInnerHTML={{ __html: renderInline(trimmed) }} />);
+            j++;
+          }
           continue;
         }
 
@@ -258,104 +302,105 @@ function getChipType(packageName: string): 'brand' | 'success' | 'neutral' | 'al
   return PACKAGE_CHIP_TYPE[packageName] ?? 'neutral';
 }
 
+const PACKAGE_ORDER = ['@giro-ds/react', '@giro-ds/tokens', '@giro-ds/utilities', '@giro-ds/mcp'];
+
 export function ChangelogContent() {
   const all = Object.entries(changelogs).flatMap(([name, content]) =>
     parseChangelog(content, name)
   );
 
-  const grouped = all.reduce<Record<string, VersionEntry[]>>((acc, entry) => {
-    if (!acc[entry.version]) acc[entry.version] = [];
-    acc[entry.version].push(entry);
+  // Latest version per package
+  const latestPerPackage = all.reduce<Record<string, string>>((acc, entry) => {
+    if (!acc[entry.packageName] || semverToNum(entry.version) > semverToNum(acc[entry.packageName])) {
+      acc[entry.packageName] = entry.version;
+    }
     return acc;
   }, {});
 
-  const sortedVersions = Object.keys(grouped).sort((a, b) => {
-    const pickDate = (version: string, entries: VersionEntry[]) =>
-      entries
-        .map(e => tagDates[`${e.packageName}@${version}`] ?? e.inlineDate)
-        .filter((d): d is string => !!d)
-        .sort()
-        .reverse()[0];
+  // Get date for an entry
+  const getEntryDate = (entry: VersionEntry): string | undefined =>
+    tagDates[`${entry.packageName}@${entry.version}`] ?? entry.inlineDate;
 
-    const dateA = pickDate(a, grouped[a]);
-    const dateB = pickDate(b, grouped[b]);
+  // Group by date
+  const grouped = all.reduce<Record<string, VersionEntry[]>>((acc, entry) => {
+    const date = getEntryDate(entry) ?? 'undated';
+    if (!acc[date]) acc[date] = [];
+    acc[date].push(entry);
+    return acc;
+  }, {});
 
-    if (dateA && dateB) {
-      const diff = dateB.localeCompare(dateA);
-      return diff !== 0 ? diff : semverToNum(b) - semverToNum(a);
-    }
-    if (dateA) return -1;
-    if (dateB) return 1;
-    return semverToNum(b) - semverToNum(a);
+  // Sort dates descending (undated at end)
+  const sortedDates = Object.keys(grouped).sort((a, b) => {
+    if (a === 'undated') return 1;
+    if (b === 'undated') return -1;
+    return b.localeCompare(a);
   });
-
-  const latestVersion = sortedVersions[0];
 
   return (
     <div className={styles.changelog}>
-      {sortedVersions.map((version) => {
-        const entries = grouped[version];
-
-        const isLatest = version === latestVersion;
-
-        // Date: most recent release date across packages in this version
-        const date = entries
-          .map(e => tagDates[`${e.packageName}@${version}`] ?? e.inlineDate)
-          .filter(Boolean)
-          .sort()
-          .reverse()[0];
-
-        // Change counts
-        const counts = { major: 0, minor: 0, patch: 0 };
-        entries.forEach((e) =>
-          e.sections.forEach((s) => { counts[s.type]++; })
-        );
+      {sortedDates.map((date) => {
+        const entries = [...grouped[date]].sort((a, b) => {
+          const pkgA = PACKAGE_ORDER.indexOf(a.packageName);
+          const pkgB = PACKAGE_ORDER.indexOf(b.packageName);
+          const pkgDiff =
+            (pkgA === -1 ? PACKAGE_ORDER.length : pkgA) -
+            (pkgB === -1 ? PACKAGE_ORDER.length : pkgB);
+          if (pkgDiff !== 0) return pkgDiff;
+          return semverToNum(b.version) - semverToNum(a.version);
+        });
 
         return (
-          <div key={version} className={styles.versionGroup}>
-            <div className={styles.versionHeadingBtn}>
-              <div className={styles.versionLeft}>
-                <span className={styles.versionNumber}>v{version}</span>
-                {isLatest && <span className={styles.latestBadge}>Mais recente</span>}
-                {date && <span className={styles.versionDate}>{formatDate(date)}</span>}
-              </div>
-              <div className={styles.versionRight}>
-                {counts.major > 0 && (
-                  <span className={`${styles.countChip} ${styles.countMajor}`}>
-                    {counts.major} breaking
-                  </span>
-                )}
-                {counts.minor > 0 && (
-                  <span className={`${styles.countChip} ${styles.countMinor}`}>
-                    {counts.minor} {counts.minor === 1 ? 'feature' : 'features'}
-                  </span>
-                )}
-                {counts.patch > 0 && (
-                  <span className={`${styles.countChip} ${styles.countPatch}`}>
-                    {counts.patch} {counts.patch === 1 ? 'fix' : 'fixes'}
-                  </span>
-                )}
-              </div>
+          <div key={date} className={styles.dateGroup}>
+            <div className={styles.dateHeading}>
+              {date === 'undated' ? 'Sem data de release' : formatDate(date)}
+              {date === sortedDates[0] && <span className={styles.latestBadge}>Mais recente</span>}
             </div>
 
             <div className={styles.cards}>
-                {entries.map((entry) => (
-                  <div key={entry.packageName} className={styles.entry}>
-                    {entry.sections.map((section, sectionIndex) => (
-                      <div key={section.type} className={`${styles.section} ${styles[section.type]}`}>
-                        <div className={styles.sectionHeader}>
-                          <span className={styles.sectionLabel}>{section.label}</span>
-                          {sectionIndex === 0 && (
-                            <Chips variant={getChipType(entry.packageName)}>
-                              {entry.packageName}
-                            </Chips>
-                          )}
-                        </div>
-                        <RawContent content={section.rawContent} />
+              {entries.map((entry) => {
+                const isLatest = latestPerPackage[entry.packageName] === entry.version;
+                const counts = { major: 0, minor: 0, patch: 0 };
+                entry.sections.forEach(s => { counts[s.type]++; });
+
+                return (
+                  <div key={`${entry.packageName}@${entry.version}`} className={styles.entry}>
+                    <div className={styles.entryHeader}>
+                      <div className={styles.entryHeaderLeft}>
+                        <Chips variant={getChipType(entry.packageName)}>
+                          {entry.packageName}
+                        </Chips>
+                        <span className={styles.entryVersion}>v{entry.version}</span>
                       </div>
-                    ))}
+                      <div className={styles.entryHeaderRight}>
+                        {counts.major > 0 && (
+                          <span className={`${styles.countChip} ${styles.countMajor}`}>
+                            {counts.major} breaking
+                          </span>
+                        )}
+                        {counts.minor > 0 && (
+                          <span className={`${styles.countChip} ${styles.countMinor}`}>
+                            {counts.minor} {counts.minor === 1 ? 'feature' : 'features'}
+                          </span>
+                        )}
+                        {counts.patch > 0 && (
+                          <span className={`${styles.countChip} ${styles.countPatch}`}>
+                            {counts.patch} {counts.patch === 1 ? 'fix' : 'fixes'}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className={styles.sections}>
+                      {entry.sections.map((section) => (
+                        <div key={section.label} className={`${styles.section} ${styles[section.type]}`}>
+                          <span className={styles.sectionLabel}>{section.label}</span>
+                          <RawContent content={section.rawContent} />
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                ))}
+                );
+              })}
             </div>
           </div>
         );
