@@ -1,47 +1,98 @@
 {
   "calendar": {
-    "background":  { "value": "{color.surface.default}",           "type": "color" },
-    "color":       { "value": "{color.text.primary}",              "type": "color" },
-    "radius":      { "value": "{radius.sm}",                       "type": "borderRadius" },
-    "padding":     { "value": "{space.inset.lg}",                  "type": "dimension" },
-    "fontFamily":  { "value": "{font.family.body}",                "type": "fontFamily" },
-    "fontWeight":  { "value": "{font.weight.body}",                "type": "fontWeight" },
+    "background":  { 
+      "value": "{color.surface.default}",           
+      "type": "color" },
+    "color":       { 
+      "value": "{color.text.primary}",              
+      "type": "color" },
+    "radius":      { 
+      "value": "{radius.sm}",                       
+      "type": "borderRadius" },
+    "padding":     { 
+      "value": "{space.inset.lg}",                  
+      "type": "dimension" },
+    "fontFamily":  { 
+      "value": "{font.family.body}",                
+      "type": "fontFamily" },
+    "fontWeight":  { 
+      "value": "{font.weight.body}",                
+      "type": "fontWeight" },
     "weekday": {
-      "fontWeight": { "value": "{font.weight.label}",              "type": "fontWeight" },
-      "fontSize":   { "value": "{font.size.label.sm}",             "type": "fontSize" }
+      "fontWeight": { 
+        "value": "{font.weight.label}",              
+        "type": "fontWeight" },
+      "fontSize":   { 
+        "value": "{font.size.label.sm}",             
+        "type": "fontSize" }
     },
     "day": {
-      "size":        { "value": "{size.component.md}",             "type": "dimension" },
-      "radius":      { "value": "{radius.round}",                  "type": "borderRadius" },
-      "borderWidth": { "value": "{border.width.medium}",           "type": "borderWidth" },
-      "fontSize":    { "value": "{font.size.label.sm}",            "type": "fontSize" }
+      "size":        { 
+        "value": "{size.component.md}",             
+        "type": "dimension" },
+      "radius":      { 
+        "value": "{radius.round}",                  
+        "type": "borderRadius" },
+      "borderWidth": { 
+        "value": "{border.width.medium}",           
+        "type": "borderWidth" },
+      "fontSize": { 
+        "value": "{font.size.label.sm}",            
+        "type": "fontSize" }
     },
     "caption": {
-      "fontSize": { "value": "{font.size.label.lg}",               "type": "fontSize" }
+      "fontSize": { 
+        "value": "{font.size.label.lg}",               
+        "type": "fontSize" }
     },
     "nav": {
-      "size": { "value": "{size.16}",                              "type": "dimension" }
+      "size": { 
+        "value": "{size.16}",                              
+        "type": "dimension" }
     },
     "selected": {
-      "background": { "value": "{color.interactive.primary.default}", "type": "color" },
-      "color":      { "value": "{color.text.inverse}",               "type": "color" }
+      "background": { 
+        "value": "{color.interactive.primary.default}", 
+        "type": "color" },
+      "color": { 
+        "value": "{color.text.inverse}",               
+        "type": "color" 
+      }
     },
     "today": {
-      "color": { "value": "{color.text.brand}",                    "type": "color" }
+      "color": { 
+        "value": "{color.text.brand}",                    
+        "type": "color" }
     },
     "hover": {
-      "background": { "value": "{color.surface.sunken}",           "type": "color" }
+      "background": { 
+        "value": "{color.surface.sunken}",           
+        "type": "color" }
     },
     "cell": {
-      "radius":   { "value": "{radius.full}",                      "type": "borderRadius" },
-      "fontSize": { "value": "{font.size.label.md}",               "type": "fontSize" }
+      "radius":   { 
+        "value": "{radius.full}",                      
+        "type": "borderRadius" },
+      "fontSize": { 
+        "value": "{font.size.label.md}",               
+        "type": "fontSize" }
     },
     "gap": {
-      "xs": { "value": "{space.gap.2xs}", "type": "dimension" },
-      "sm": { "value": "{space.gap.xs}",  "type": "dimension" },
-      "md": { "value": "{space.gap.md}",  "type": "dimension" },
-      "lg": { "value": "{space.gap.lg}",  "type": "dimension" },
-      "xl": { "value": "{space.gap.xl}",  "type": "dimension" }
+      "xs": { 
+        "value": "{space.gap.2xs}", 
+        "type": "dimension" },
+      "sm": { 
+        "value": "{space.gap.xs}",  
+        "type": "dimension" },
+      "md": { 
+        "value": "{space.gap.md}",  
+        "type": "dimension" },
+      "lg": { 
+        "value": "{space.gap.lg}",  
+        "type": "dimension" },
+      "xl": { 
+        "value": "{space.gap.xl}",  
+        "type": "dimension" }
     }
   }
 }
