@@ -1,5 +1,5 @@
 import React from 'react';
-import { Meta, StoryFn } from '@storybook/react';
+import { Meta, StoryFn } from '@storybook/react-vite';
 import { Badge, Avatar } from '@giro-ds/react';
 import type { BadgeProps } from '@giro-ds/react';
 

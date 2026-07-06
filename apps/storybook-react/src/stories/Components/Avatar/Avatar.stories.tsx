@@ -3,7 +3,7 @@ import { Avatar } from "@giro-ds/react";
 import React from "react";
 
 import type { AvatarProps } from "@giro-ds/react";
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta: Meta<AvatarProps> = {
   title: "Components/Avatar",
