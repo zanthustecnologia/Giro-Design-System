@@ -1,19 +1,41 @@
 {
   "avatar": {
-    "radius":     { "value": "{radius.round}",         "type": "borderRadius" },
-    "background": { "value": "{color.surface.sunken}",  "type": "color" },
-    "color":      { "value": "{color.text.primary}",    "type": "color" },
-    "fontWeight": { "value": "{font.weight.label}",     "type": "fontWeight" },
-    "fontFamily": { "value": "{font.family.body}",      "type": "fontFamily" },
+    "radius":     { 
+      "value": "{radius.round}",         
+      "type": "borderRadius" },
+    "background": { 
+      "value": "{color.surface.sunken}",  
+      "type": "color" },
+    "color":      { 
+      "value": "{color.text.primary}",    
+      "type": "color" },
+    "fontWeight": { 
+      "value": "{font.weight.label}",     
+      "type": "fontWeight" },
+    "fontFamily": { 
+      "value": "{font.family.body}",      
+      "type": "fontFamily" },
     "sm": {
-      "size":     { "value": "{size.component.sm}",     "type": "dimension" },
-      "fontSize": { "value": "{font.size.label.sm}",    "type": "fontSize" },
-      "iconSize": { "value": "{size.16}",               "type": "dimension" }
+      "size":     { 
+        "value": "{size.component.sm}",     
+        "type": "dimension" },
+      "fontSize": { 
+        "value": "{font.size.label.sm}",    
+        "type": "fontSize" },
+      "iconSize": { 
+        "value": "{size.16}",               
+        "type": "dimension" }
     },
     "lg": {
-      "size":     { "value": "{size.component.lg}",     "type": "dimension" },
-      "fontSize": { "value": "{font.size.body.lg}",     "type": "fontSize" },
-      "iconSize": { "value": "{size.24}",               "type": "dimension" }
+      "size":     { 
+        "value": "{size.component.lg}",     
+        "type": "dimension" },
+      "fontSize": { 
+        "value": "{font.size.body.lg}",     
+        "type": "fontSize" },
+      "iconSize": { 
+        "value": "{size.24}",               
+        "type": "dimension" }
     }
   }
 }
