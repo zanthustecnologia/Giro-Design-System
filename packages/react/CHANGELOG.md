@@ -6,13 +6,15 @@
 
 #### VirtualKeyboard
 
-Adiciona as props `showEnterKey` e `textFieldScale`. A prop `showEnterKey` permite ocultar a tecla Enter do layout, sendo util em contextos de busca ou campos single-line. A prop `textFieldScale` repassa a escala para o `TextField` interno exibido no modo `fixed`, garantindo consistencia visual quando o componente e usado em diferentes escalas.
+Adiciona as props: 
+`showEnterKey` que permite ocultar a tecla Enter; 
+`textFieldScale` repassa a escala para o `TextField` interno exibido no modo `fixed`. 
 
 ### Fixed
 
 #### VirtualKeyboard
 
-Corrige o comportamento das teclas do numpad em modo `fixed`, que agora preenchem proporcionalmente o espaco disponivel no container em vez de manter altura fixa.
+Corrige o comportamento das teclas do numpad em modo `fixed`.
 
 ## 11.0.0
 
