@@ -152,6 +152,10 @@ ThemeData applyGiroTheme(ThemeData base) {
       ),
     ),
 
+    bottomSheetTheme: const BottomSheetThemeData(
+      backgroundColor: GiroTokens.colorNeutralHighDefault,
+    ),
+
     chipTheme: ChipThemeData(
       backgroundColor: GiroChipTokens.backgroundColor,
       selectedColor: GiroChipTokens.selectedColor,
