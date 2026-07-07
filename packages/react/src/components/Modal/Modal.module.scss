@@ -78,6 +78,11 @@
   font-size: var(--font-size-16);
 }
 
+.modalFooter {
+  padding: var(--spacing-24);
+  padding-top: var(--spacing-0);
+}
+
 @keyframes overlayShow {
   from {
     opacity: 0;

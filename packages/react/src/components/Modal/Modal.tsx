@@ -51,7 +51,7 @@ const Modal: React.FC<ModalProps> = ({
           aria-labelledby={id ? `${id}-title` : 'modal-title'}
           tabIndex={-1}
         >
-          <div className={styles.modalHeader}>
+          <header className={styles.modalHeader}>
             {title && (
               <Dialog.Title
                 className={styles.modalTitle}
@@ -72,12 +72,12 @@ const Modal: React.FC<ModalProps> = ({
                 tooltipText='Fechar'
               />
             </Dialog.Close>
-          </div>
-          <div className={styles.modalBody}>
+          </header>
+          <section className={styles.modalBody}>
             {children}
-          </div>
+          </section>
           {footer && (
-            <div className={styles.modalFooter}>{footer}</div>
+            <footer className={styles.modalFooter}>{footer}</footer>
           )}
         </Dialog.Content>
       </Dialog.Portal>
