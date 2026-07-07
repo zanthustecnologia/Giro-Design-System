@@ -25,13 +25,15 @@ const DatePicker: React.FC<DatePickerProps> = ({
   minDate,
   maxDate,
   'data-testid': testId,
-  datePickerScale = 1,
-  calendarScale = 1,
+  scale = 1,
   className,
+  style,
   ...rest
 }) => {
   const fieldId = useId();
   const calendarId = `${fieldId}-calendar`;
+
+  const containerStyle = { '--giro-scale': scale } as React.CSSProperties;
 
   const isControlled = value !== undefined;
   const [internalDate, setInternalDate] = useState<Date | null>(defaultValue || null);
@@ -49,12 +51,6 @@ const DatePicker: React.FC<DatePickerProps> = ({
   const combinedHelperText = externalError && helperText
     ? `${helperText} • ${externalError}`
     : externalError || helperText || '';
-
-  const scaleClass = {
-    1: 'scale-1-0',
-    1.5: 'scale-1-5',
-    2: 'scale-2-0',
-  }[datePickerScale];
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -182,7 +178,12 @@ const DatePicker: React.FC<DatePickerProps> = ({
   };
 
   return (
-    <div ref={wrapperRef} className={clsx(styles.datePicker, scaleClass, className)} {...rest}>
+    <div
+      ref={wrapperRef}
+      className={clsx(styles.datePicker, className)}
+      style={{ ...containerStyle, ...style }}
+      {...rest}
+    >
         <Popover
           open={showCalendar}
           onOpenChange={setShowCalendar}
@@ -215,6 +216,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
               required={required}
               label={label}
               disabled={disabled}
+              scale={scale}
               id={fieldId}
               data-testid={testId}
               placeholder={locale === 'en-us' ? 'MM/DD/YYYY' : 'DD/MM/YYYY'}
@@ -235,7 +237,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
               format={locale === 'en-us' ? 'mm/dd/yyyy' : 'dd/mm/yyyy'}
               minDate={minDate}
               maxDate={maxDate}
-              scale={calendarScale}
+              scale={scale}
               id={calendarId}
               onClear={() => {
                 handleDateChange(null);

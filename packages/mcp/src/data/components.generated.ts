@@ -32,10 +32,16 @@ export const COMPONENTS: ComponentMetadata[] = [
         "type": "string",
         "required": false,
         "description": "Texto alternativo da imagem do avatar, usado como as iniciais do nome"
+      },
+      {
+        "name": "className",
+        "type": "string",
+        "required": false,
+        "description": "Classe CSS opcional"
       }
     ],
     "examples": [
-      "* \r\n * // Avatar com ícone\r\n * <Avatar icon={<UserIcon />} size=\"lg\" />\r\n * \r\n * // Avatar com imagem\r\n * <Avatar src=\"https://example.com/avatar.jpg\" icon={<UserIcon />} size=\"sm\" />\r\n * ```"
+      "// Avatar com ícone\n<Avatar icon={<UserIcon />} size=\"lg\" />\n\n// Avatar com imagem\n<Avatar src=\"https://example.com/avatar.jpg\" icon={<UserIcon />} size=\"sm\" />"
     ],
     "keywords": [
       "avatar",
@@ -49,172 +55,42 @@ export const COMPONENTS: ComponentMetadata[] = [
     "category": "Components",
     "props": [
       {
-        "name": "type",
-        "type": "BadgeType",
-        "required": true,
-        "description": "Tipo de badge (notificação ou status)"
-      },
-      {
         "name": "children",
         "type": "ReactNode",
         "required": false,
-        "description": "Conteúdo a ser envolvido pelo badge"
+        "description": "Conteúdo a ser envolvido pelo badge. Quando presente, o badge é posicionado sobre o children (modo overlay)."
       },
       {
         "name": "badgeValue",
-        "type": "BadgeValue",
+        "type": "number | string | null",
         "required": false,
-        "description": "Valor a ser exibido no badge (número, texto ou null)"
-      },
-      {
-        "name": "maxValue",
-        "type": "number",
-        "required": false,
-        "description": "Valor máximo a ser exibido (ex: 99+ quando badgeValue > maxValue)"
+        "description": "Valor exibido no badge — aceita número ou string formatada (ex: \"+3\")"
       },
       {
         "name": "'aria-label'",
         "type": "string",
         "required": false,
         "description": "Label acessível para leitores de tela"
+      },
+      {
+        "name": "filterVariant",
+        "type": "boolean",
+        "required": false,
+        "description": "Quando `true`, aplica a variante de cor do Filter (fundo azul em vez do padrão vermelho)"
+      },
+      {
+        "name": "className",
+        "type": "string",
+        "required": false,
+        "description": "Classe CSS opcional"
       }
     ],
     "examples": [
-      "* \r\n * <Badge type=\"notification\" badgeValue={5}>\r\n *   <IconButton icon={<BellIcon />} />\r\n * </Badge>\r\n * ```\r\n *",
-      "* \r\n * <Badge \r\n *   type=\"status\" \r\n *   badgeValue=\"novo\"\r\n *   aria-label=\"Novo item disponível\"\r\n * >\r\n *   <Avatar icon={<UserIcon />} />\r\n * </Badge>\r\n * ```"
+      "// Modo overlay: badge flutua sobre o children\n<Badge badgeValue={5}>\n  <IconButton icon={<BellIcon />} />\n</Badge>",
+      "// Modo inline: badge standalone ao lado de outros elementos\n<Badge badgeValue=\"+3\" aria-label=\"3 novos itens\" />"
     ],
     "keywords": [
       "badge",
-      "props",
-      "componente"
-    ]
-  },
-  {
-    "name": "Button",
-    "description": "Props do componente Button",
-    "category": "Components",
-    "props": [
-      {
-        "name": "as",
-        "type": "React.ElementType",
-        "required": false,
-        "description": "Elemento customizado a ser renderizado (ex: 'a', Link do React Router)"
-      },
-      {
-        "name": "children",
-        "type": "React.ReactNode",
-        "required": false,
-        "description": "Conteúdo do botão"
-      },
-      {
-        "name": "variant",
-        "type": "Variant",
-        "required": false,
-        "description": "Variante visual do botão"
-      },
-      {
-        "name": "iconOnly",
-        "type": "boolean",
-        "required": false,
-        "description": "Define se o botão exibe apenas ícone (sem texto)"
-      },
-      {
-        "name": "iconPosition",
-        "type": "Position",
-        "required": false,
-        "description": "Posição do ícone em relação ao texto"
-      },
-      {
-        "name": "href",
-        "type": "string",
-        "required": false,
-        "description": "URL de destino quando usado como link (renderiza <a>)"
-      },
-      {
-        "name": "to",
-        "type": "string",
-        "required": false,
-        "description": "Rota de destino para roteadores (ex: React Router)"
-      },
-      {
-        "name": "external",
-        "type": "boolean",
-        "required": false,
-        "description": "Define se o link abre em nova aba"
-      },
-      {
-        "name": "target",
-        "type": "string",
-        "required": false,
-        "description": "Atributo target do HTML para links"
-      },
-      {
-        "name": "rel",
-        "type": "string",
-        "required": false,
-        "description": "Atributo rel do HTML para links"
-      },
-      {
-        "name": "type",
-        "type": "'button' | 'submit' | 'reset'",
-        "required": false,
-        "description": "Tipo HTML do botão"
-      },
-      {
-        "name": "size",
-        "type": "Size",
-        "required": false,
-        "description": "Tamanho do botão"
-      },
-      {
-        "name": "icon",
-        "type": "React.ReactNode",
-        "required": false,
-        "description": "Ícone a ser exibido no botão"
-      },
-      {
-        "name": "fullWidth",
-        "type": "boolean",
-        "required": false,
-        "description": "Define se o botão ocupa 100% da largura do container"
-      },
-      {
-        "name": "ariaLabel",
-        "type": "string",
-        "required": false,
-        "description": "Label acessível para leitores de tela"
-      },
-      {
-        "name": "loading",
-        "type": "boolean",
-        "required": false,
-        "description": "Estado de carregamento (exibe spinner)"
-      },
-      {
-        "name": "tooltipText",
-        "type": "string",
-        "required": false,
-        "description": "Texto do tooltip exibido quando o botão é apenas ícone"
-      },
-      {
-        "name": "tooltipSide",
-        "type": "'top' | 'bottom' | 'left' | 'right'",
-        "required": false,
-        "description": "Lado em que o tooltip será exibido"
-      },
-      {
-        "name": "tooltipAlign",
-        "type": "'start' | 'center' | 'end'",
-        "required": false,
-        "description": "Alinhamento do tooltip"
-      }
-    ],
-    "examples": [
-      "* \r\n * <Button variant=\"filled\" size=\"lg\" onClick={handleClick}>\r\n *   Clique aqui\r\n * </Button>\r\n * ```\r\n *",
-      "* \r\n * <Button \r\n *   variant=\"outlined\" \r\n *   icon={<Icon />} \r\n *   iconPosition=\"left\"\r\n *   loading={isLoading}\r\n * >\r\n *   Salvar\r\n * </Button>\r\n * ```"
-    ],
-    "keywords": [
-      "button",
       "props",
       "componente"
     ]
@@ -231,12 +107,6 @@ export const COMPONENTS: ComponentMetadata[] = [
         "description": "Data selecionada atualmente (usada pelo DatePicker)."
       },
       {
-        "name": "selectedDate",
-        "type": "Date | null",
-        "required": false,
-        "description": "Data selecionada atualmente (usada pelo Filter)."
-      },
-      {
         "name": "currentDate",
         "type": "Date | null",
         "required": false,
@@ -246,7 +116,7 @@ export const COMPONENTS: ComponentMetadata[] = [
         "name": "defaultMonth",
         "type": "Date",
         "required": false,
-        "defaultValue": "currentMonth",
+        "defaultValue": "currentDate",
         "description": "Mês inicial padrão exibido quando não controlado."
       },
       {
@@ -260,13 +130,6 @@ export const COMPONENTS: ComponentMetadata[] = [
         "type": "Date",
         "required": false,
         "description": "Último mês navegável."
-      },
-      {
-        "name": "numberOfMonths",
-        "type": "number",
-        "required": false,
-        "defaultValue": "1",
-        "description": "Número de meses exibidos simultaneamente."
       },
       {
         "name": "onDaySelect",
@@ -305,12 +168,6 @@ export const COMPONENTS: ComponentMetadata[] = [
         "description": "Dias desabilitados — aceita qualquer `Matcher` do react-day-picker\r\n(Date, DateRange, DateBefore, DateAfter, DayOfWeek, função…)."
       },
       {
-        "name": "hidden",
-        "type": "Matcher | Matcher[]",
-        "required": false,
-        "description": "Dias ocultados — aceita qualquer `Matcher` do react-day-picker."
-      },
-      {
         "name": "format",
         "type": "DateFormat",
         "required": false,
@@ -321,55 +178,7 @@ export const COMPONENTS: ComponentMetadata[] = [
         "type": "Locale",
         "required": false,
         "defaultValue": "'pt-br'",
-        "description": "Locale da interface — aceita os códigos internos do design system."
-      },
-      {
-        "name": "captionLayout",
-        "type": "'dropdown' | 'label' | 'dropdown-months' | 'dropdown-years'",
-        "required": false,
-        "description": "Layout do cabeçalho do calendário.\r\n- `'label'` — exibe mês/ano como texto (padrão).\r\n- `'dropdown'` — exibe dropdowns para mês e ano.\r\n- `'dropdown-months'` — dropdown apenas para mês.\r\n- `'dropdown-years'` — dropdown apenas para ano."
-      },
-      {
-        "name": "reverseYears",
-        "type": "boolean",
-        "required": false,
-        "description": "Inverte a ordem dos anos no dropdown."
-      },
-      {
-        "name": "fixedWeeks",
-        "type": "boolean",
-        "required": false,
-        "description": "Sempre exibe 6 semanas por mês, preenchendo com dias do mês seguinte."
-      },
-      {
-        "name": "showOutsideDays",
-        "type": "boolean",
-        "required": false,
-        "description": "Exibe os dias pertencentes ao mês anterior/próximo."
-      },
-      {
-        "name": "showWeekNumber",
-        "type": "boolean",
-        "required": false,
-        "description": "Exibe a coluna com o número da semana."
-      },
-      {
-        "name": "hideNavigation",
-        "type": "boolean",
-        "required": false,
-        "description": "Oculta os botões de navegação (sem desabilitar a navegação)."
-      },
-      {
-        "name": "disableNavigation",
-        "type": "boolean",
-        "required": false,
-        "description": "Desabilita a navegação entre meses."
-      },
-      {
-        "name": "navLayout",
-        "type": "'after' | 'around'",
-        "required": false,
-        "description": "Posicionamento dos botões de navegação.\r\n- `'around'` — um botão de cada lado do caption.\r\n- `'after'` — ambos após o caption."
+        "description": "Idioma da interface — aceita os códigos internos do design system."
       },
       {
         "name": "'aria-label'",
@@ -378,70 +187,16 @@ export const COMPONENTS: ComponentMetadata[] = [
         "description": "Atributo `aria-label` para o elemento raiz."
       },
       {
-        "name": "'aria-labelledby'",
-        "type": "string",
-        "required": false,
-        "description": "Atributo `aria-labelledby` para o elemento raiz."
-      },
-      {
         "name": "autoFocus",
         "type": "boolean",
         "required": false,
         "description": "Foca automaticamente o primeiro dia selecionado ou hoje."
       },
       {
-        "name": "role",
-        "type": "'application' | 'dialog'",
-        "required": false,
-        "description": "Atributo `role` do elemento raiz (`'application'` ou `'dialog'`)."
-      },
-      {
-        "name": "title",
-        "type": "string",
-        "required": false,
-        "description": "Atributo `title` do elemento raiz."
-      },
-      {
-        "name": "animate",
-        "type": "boolean",
-        "required": false,
-        "description": "Anima a transição entre meses."
-      },
-      {
-        "name": "timeZone",
-        "type": "string",
-        "required": false,
-        "description": "Fuso horário IANA usado nos cálculos de datas."
-      },
-      {
-        "name": "style",
-        "type": "React.CSSProperties",
-        "required": false,
-        "description": "Estilos inline para o elemento raiz."
-      },
-      {
         "name": "classNames",
         "type": "Partial<Record<string, string>>",
         "required": false,
         "description": "Substitui os `classNames` padrão do react-day-picker."
-      },
-      {
-        "name": "modifiers",
-        "type": "Record<string, Matcher | Matcher[] | undefined>",
-        "required": false,
-        "description": "Modificadores customizados para dias específicos."
-      },
-      {
-        "name": "modifiersClassNames",
-        "type": "Record<string, string>",
-        "required": false,
-        "description": "ClassNames aplicadas aos dias que correspondem aos `modifiers`."
-      },
-      {
-        "name": "footer",
-        "type": "React.ReactNode",
-        "required": false,
-        "description": "Rodapé do calendário — exibido como live region para acessibilidade."
       }
     ],
     "examples": [],
@@ -455,36 +210,99 @@ export const COMPONENTS: ComponentMetadata[] = [
     "category": "Components",
     "props": [
       {
-        "name": "type",
-        "type": "TextVariant",
+        "name": "variant",
+        "type": "Exclude<TextVariant, 'color'>",
         "required": false,
-        "description": "Tipo visual do callout"
+        "description": "Variante semântica do callout"
       },
       {
         "name": "title",
-        "type": "string | null",
+        "type": "React.ReactNode",
         "required": false,
-        "description": "Título principal do callout (texto em destaque)"
+        "description": "Título principal do callout"
       },
       {
         "name": "text",
-        "type": "string",
-        "required": false,
-        "description": "Texto descritivo do callout"
+        "type": "React.ReactNode",
+        "required": true,
+        "description": "Conteúdo descritivo do callout"
       },
       {
         "name": "icon",
         "type": "React.ReactNode",
         "required": false,
         "description": "Ícone a ser exibido no callout"
+      },
+      {
+        "name": "onDismiss",
+        "type": "() => void",
+        "required": false,
+        "description": "Callback chamado ao clicar no botão de fechar."
+      },
+      {
+        "name": "dismiss",
+        "type": "boolean",
+        "required": false,
+        "description": "Exibe o botão de fechar. Requer onDismiss."
+      },
+      {
+        "name": "backgroundColor",
+        "type": "string",
+        "required": false,
+        "description": "Nome do token de cor de fundo (sem `--`). Sobrescreve a cor da variante."
+      },
+      {
+        "name": "textColor",
+        "type": "string",
+        "required": false,
+        "description": "Nome do token de cor do texto e ícone (sem `--`). Sobrescreve a cor padrão."
+      },
+      {
+        "name": "className",
+        "type": "string",
+        "required": false,
+        "description": "Classe CSS opcional"
       }
     ],
     "examples": [
-      "* \r\n * <Callout \r\n *   type=\"success\" \r\n *   title=\"Sucesso!\"\r\n *   text=\"Operação realizada com sucesso\"\r\n *   icon={<CheckIcon />}\r\n * />\r\n * ```\r\n *",
-      "* \r\n * <Callout \r\n *   type=\"alert\"\r\n *   title=\"Atenção\"\r\n *   text=\"Verifique os campos obrigatórios\"\r\n * />\r\n * ```"
+      "<Callout\n  variant=\"success\"\n  title=\"Sucesso!\"\n  text=\"Operação realizada com sucesso\"\n  icon={<CheckIcon />}\n/>",
+      "<Callout\n  variant=\"alert\"\n  title=\"Atenção\"\n  text=\"Verifique os campos obrigatórios\"\n  dismiss\n  onDismiss={() => setVisible(false)}\n/>"
     ],
     "keywords": [
       "callout",
+      "props",
+      "componente"
+    ]
+  },
+  {
+    "name": "Card",
+    "description": "Props do componente Card",
+    "category": "Components",
+    "props": [
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": true,
+        "description": "Conteúdo a ser renderizado dentro do card"
+      },
+      {
+        "name": "className",
+        "type": "string",
+        "required": false,
+        "description": "Classe CSS customizada aplicada ao elemento raiz do card"
+      },
+      {
+        "name": "hoverable",
+        "type": "boolean",
+        "required": false,
+        "description": "Define se o card é interativo, aplicando estilos de hover e cursor pointer"
+      }
+    ],
+    "examples": [
+      "<Card>\n  <h1>Conteúdo da página</h1>\n  <p>Texto dentro do card</p>\n</Card>"
+    ],
+    "keywords": [
+      "card",
       "props",
       "componente"
     ]
@@ -526,8 +344,8 @@ export const COMPONENTS: ComponentMetadata[] = [
       }
     ],
     "examples": [
-      "* \r\n * <Checkbox \r\n *   label=\"Aceito os termos\"\r\n *   checked={accepted}\r\n *   onCheckedChange={setAccepted}\r\n * />\r\n * ```\r\n *",
-      "* \r\n * <Checkbox \r\n *   label=\"Selecionar todos\"\r\n *   indeterminate={someSelected}\r\n *   onCheckedChange={handleSelectAll}\r\n *   disabled={isLoading}\r\n * />\r\n * ```"
+      "<Checkbox \n  label=\"Aceito os termos\"\n  checked={accepted}\n  onCheckedChange={setAccepted}\n/>",
+      "<Checkbox \n  label=\"Selecionar todos\"\n  indeterminate={someSelected}\n  onCheckedChange={handleSelectAll}\n  disabled={isLoading}\n/>"
     ],
     "keywords": [
       "checkbox",
@@ -541,16 +359,28 @@ export const COMPONENTS: ComponentMetadata[] = [
     "category": "Components",
     "props": [
       {
-        "name": "type",
-        "type": "TextVariant",
+        "name": "variant",
+        "type": "Exclude<TextVariant, 'color'>",
         "required": false,
-        "description": "Tipo visual do chip"
+        "description": "Variante semântica do chip. Define o preset de cor de fundo."
       },
       {
-        "name": "title",
+        "name": "backgroundColor",
         "type": "string",
+        "required": false,
+        "description": "Token CSS para a cor de fundo. Ex: 'color-brand-secondary-medium'. Sobrescreve o variant."
+      },
+      {
+        "name": "textColor",
+        "type": "string",
+        "required": false,
+        "description": "Token CSS para a cor do texto e ícones. Ex: 'color-brand-secondary-dark'. Sobrescreve o variant."
+      },
+      {
+        "name": "children",
+        "type": "React.ReactNode",
         "required": true,
-        "description": "Texto a ser exibido dentro do chip"
+        "description": "Conteúdo exibido dentro do chip"
       },
       {
         "name": "leftIcon",
@@ -566,8 +396,8 @@ export const COMPONENTS: ComponentMetadata[] = [
       }
     ],
     "examples": [
-      "* \r\n * <Chips \r\n *   type=\"success\"\r\n *   title=\"Ativo\"\r\n *   leftIcon={<CheckIcon />}\r\n * />\r\n * ```\r\n *",
-      "* \r\n * <Chips \r\n *   type=\"brand\"\r\n *   title=\"Novo\"\r\n *   rightIcon={<CloseIcon />}\r\n *   disabled={false}\r\n * />\r\n * ```"
+      "<Chips variant=\"success\" leftIcon={<CheckIcon />}>\n  Ativo\n</Chips>",
+      "<Chips\n  backgroundColor=\"color-brand-secondary-medium\"\n  textColor=\"color-brand-secondary-dark\"\n>\n  Alerta\n</Chips>"
     ],
     "keywords": [
       "chips",
@@ -585,10 +415,16 @@ export const COMPONENTS: ComponentMetadata[] = [
         "type": "React.ReactNode",
         "required": true,
         "description": "Conteúdo a ser renderizado dentro do container"
+      },
+      {
+        "name": "className",
+        "type": "string",
+        "required": false,
+        "description": "Classe CSS customizada aplicada ao elemento raiz do container"
       }
     ],
     "examples": [
-      "* \r\n * <Container>\r\n *   <h1>Conteúdo da página</h1>\r\n *   <p>Texto dentro do container</p>\r\n * </Container>\r\n * ```"
+      "<Container>\n  <h1>Conteúdo da página</h1>\n  <p>Texto dentro do container</p>\n</Container>"
     ],
     "keywords": [
       "container",
@@ -605,13 +441,19 @@ export const COMPONENTS: ComponentMetadata[] = [
         "name": "locale",
         "type": "Locale",
         "required": false,
-        "description": "Locale para formatação da data"
+        "description": "Idioma para formatação da data"
       },
       {
-        "name": "calendarPosition",
-        "type": "Position",
+        "name": "calendarSide",
+        "type": "Side",
         "required": false,
         "description": "Posição do calendário em relação ao campo"
+      },
+      {
+        "name": "calendarAlign",
+        "type": "Exclude<Align, 'center'>",
+        "required": false,
+        "description": "Alinhamento do calendário em relação ao campo"
       },
       {
         "name": "helperText",
@@ -675,8 +517,8 @@ export const COMPONENTS: ComponentMetadata[] = [
       }
     ],
     "examples": [
-      "* \r\n * <DatePicker \r\n *   label=\"Data de nascimento\"\r\n *   value={birthDate}\r\n *   onChange={setBirthDate}\r\n *   locale=\"pt-br\"\r\n * />\r\n * ```\r\n *",
-      "* \r\n * <DatePicker \r\n *   label=\"Data de início\"\r\n *   required\r\n *   helperText=\"Selecione a data de início do projeto\"\r\n *   minDate={new Date()}\r\n *   calendarPosition=\"right\"\r\n *   error={errorMessage}\r\n * />\r\n * ```"
+      "<DatePicker \n  label=\"Data de nascimento\"\n  value={birthDate}\n  onChange={setBirthDate}\n  locale=\"pt-br\"\n/>",
+      "<DatePicker \n  label=\"Data de início\"\n  required\n  helperText=\"Selecione a data de início do projeto\"\n  minDate={new Date()}\n  calendarSide=\"right\"\n  error={errorMessage}\n/>"
     ],
     "keywords": [
       "datepicker",
@@ -692,20 +534,20 @@ export const COMPONENTS: ComponentMetadata[] = [
       {
         "name": "show",
         "type": "boolean",
-        "required": true,
-        "description": "Conteúdo customizado do diálogo"
+        "required": false,
+        "description": "Controla a visibilidade do Dialog"
       },
       {
         "name": "title",
         "type": "string",
         "required": false,
-        "description": "Título exibido no cabeçalho do diálogo"
+        "description": "Título exibido no cabeçalho do Dialog"
       },
       {
         "name": "bodyContent",
         "type": "ReactNode",
         "required": false,
-        "description": "Texto ou conteúdo do corpo do diálogo"
+        "description": "Texto ou conteúdo do corpo do Dialog"
       },
       {
         "name": "textPrimaryAction",
@@ -730,10 +572,16 @@ export const COMPONENTS: ComponentMetadata[] = [
         "type": "() => void",
         "required": false,
         "description": "Função chamada ao executar a ação secundária"
+      },
+      {
+        "name": "className",
+        "type": "string",
+        "required": false,
+        "description": "Classe CSS opcional"
       }
     ],
     "examples": [
-      "* <Dialog\r\n *   title=\"Confirmar ação\"\r\n *   bodyContent=\"Tem certeza que deseja continuar?\"\r\n *   textConfirm=\"Confirmar\"\r\n *   textCancel=\"Cancelar\"\r\n * />"
+      "<Dialog\n  title=\"Confirmar ação\"\n  bodyContent=\"Tem certeza que deseja continuar?\"\n  textPrimaryAction=\"Confirmar\"\n  textSecondaryAction=\"Cancelar\"\n/>"
     ],
     "keywords": [
       "dialog",
@@ -751,6 +599,12 @@ export const COMPONENTS: ComponentMetadata[] = [
         "type": "ReactNode",
         "required": false,
         "description": "Conteúdo a ser exibido dentro do drawer"
+      },
+      {
+        "name": "headerContent",
+        "type": "ReactNode",
+        "required": false,
+        "description": "Conteúdo customizado do cabeçalho"
       },
       {
         "name": "customWidth",
@@ -799,120 +653,26 @@ export const COMPONENTS: ComponentMetadata[] = [
         "type": "boolean",
         "required": false,
         "description": "Define se o drawer fecha ao pressionar ESC"
+      },
+      {
+        "name": "className",
+        "type": "string",
+        "required": false,
+        "description": "Classe CSS opcional"
+      },
+      {
+        "name": "footer",
+        "type": "ReactNode",
+        "required": false,
+        "description": "Conteúdo fixo exibido abaixo da área rolável, sem acompanhar o scroll"
       }
     ],
     "examples": [
-      "* \r\n * <Drawer \r\n *   isOpen={isDrawerOpen}\r\n *   onClose={handleClose}\r\n *   title=\"Menu\"\r\n * >\r\n *   <nav>\r\n *     <a href=\"/home\">Home</a>\r\n *     <a href=\"/about\">Sobre</a>\r\n *   </nav>\r\n * </Drawer>\r\n * ```\r\n *",
-      "* \r\n * <Drawer \r\n *   isOpen={showDrawer}\r\n *   onClose={() => setShowDrawer(false)}\r\n *   title=\"Configurações\"\r\n *   customWidth=\"400px\"\r\n *   closeOnOverlayClick={true}\r\n *   closeOnEscape={true}\r\n * >\r\n *   <Settings />\r\n * </Drawer>\r\n * ```"
+      "<Drawer \n  isOpen={isDrawerOpen}\n  onClose={handleClose}\n  title=\"Menu\"\n>\n  <nav>\n    <a href=\"/home\">Home</a>\n    <a href=\"/about\">Sobre</a>\n  </nav>\n</Drawer>",
+      "<Drawer \n  isOpen={showDrawer}\n  onClose={() => setShowDrawer(false)}\n  title=\"Configurações\"\n  customWidth=\"400px\"\n  closeOnOverlayClick={true}\n  closeOnEscape={true}\n>\n  <Settings />\n</Drawer>"
     ],
     "keywords": [
       "drawer",
-      "props",
-      "componente"
-    ]
-  },
-  {
-    "name": "Dropdown",
-    "description": "Props do componente Dropdown",
-    "category": "Components",
-    "props": [
-      {
-        "name": "position",
-        "type": "'top' | 'bottom'",
-        "required": false,
-        "description": "Força posição do dropdown: 'top' abre para cima, 'bottom' para baixo (detecção automática se não especificado)"
-      },
-      {
-        "name": "items",
-        "type": "DropdownItem[]",
-        "required": true,
-        "description": "Array de itens para o dropdown"
-      },
-      {
-        "name": "type",
-        "type": "DropdownType",
-        "required": false,
-        "description": "Tipo do dropdown"
-      },
-      {
-        "name": "applySearch",
-        "type": "boolean",
-        "required": false,
-        "description": "Habilita campo de busca"
-      },
-      {
-        "name": "placeholder",
-        "type": "string",
-        "required": false,
-        "description": "Placeholder do campo de busca"
-      },
-      {
-        "name": "onSelectionChange",
-        "type": "(selectedIds: string[]) => void",
-        "required": false,
-        "description": "Callback executado quando a seleção muda: (selectedIds) => void"
-      },
-      {
-        "name": "showSubText",
-        "type": "boolean",
-        "required": false,
-        "description": "Controla exibição do subtexto dos itens"
-      },
-      {
-        "name": "defaultSelectedIds",
-        "type": "string[]",
-        "required": false,
-        "description": "IDs dos itens selecionados por padrão"
-      },
-      {
-        "name": "initialItemsSelected",
-        "type": "Record<string, boolean>",
-        "required": false,
-        "description": "Estado inicial dos itens selecionados (objeto chave-valor)"
-      },
-      {
-        "name": "width",
-        "type": "string | number",
-        "required": false,
-        "description": "Largura do dropdown"
-      },
-      {
-        "name": "maxWidth",
-        "type": "string | number",
-        "required": false,
-        "description": "Largura máxima do dropdown"
-      },
-      {
-        "name": "minWidth",
-        "type": "string | number",
-        "required": false,
-        "description": "Largura mínima do dropdown"
-      },
-      {
-        "name": "maxHeight",
-        "type": "string | number",
-        "required": false,
-        "description": "Altura máxima do dropdown"
-      },
-      {
-        "name": "filter",
-        "type": "boolean",
-        "required": false,
-        "description": "Define se o componente está sendo usado para filtro"
-      },
-      {
-        "name": "infiniteScroll",
-        "type": "{\r\n    /** Status atual do carregamento */\r\n    status: 'idle' | 'loading' | 'succeeded' | 'failed';\r\n    /** Página atual */\r\n    page: number;\r\n    /** Última página disponível */\r\n    lastPage: number;\r\n    /** Callback executado para carregar próxima página: () => void */\r\n    onLoadMore: () => void;\r\n    /** Threshold para trigger do scroll infinito (0-1) */\r\n    threshold?: number;\r\n    /** Margem para trigger do scroll infinito */\r\n    rootMargin?: string;\r\n    /** Modo de debug */\r\n    debug?: boolean;\r\n  }",
-        "required": false,
-        "description": "Configurações para paginação infinita"
-      }
-    ],
-    "examples": [
-      "* \r\n * <Dropdown \r\n *   items={[\r\n *     { text: 'Opção 1', icon: <Icon1 /> },\r\n *     { text: 'Opção 2', icon: <Icon2 /> }\r\n *   ]}\r\n *   type=\"text\"\r\n *   placeholder=\"Selecione uma opção\"\r\n * />\r\n * ```\r\n *",
-      "* \r\n * <Dropdown \r\n *   items={items}\r\n *   type=\"checkbox\"\r\n *   applySearch={true}\r\n *   onSelectionChange={(ids) => console.log(ids)}\r\n *   defaultSelectedIds={['1', '2']}\r\n *   maxHeight=\"300px\"\r\n * />\r\n * ```"
-    ],
-    "keywords": [
-      "dropdown",
       "props",
       "componente"
     ]
@@ -924,13 +684,13 @@ export const COMPONENTS: ComponentMetadata[] = [
     "props": [
       {
         "name": "items",
-        "type": "DropdownItem[]",
+        "type": "FilterItem[]",
         "required": false,
         "description": "Array de itens para filtros do tipo dropdown"
       },
       {
         "name": "type",
-        "type": "DropdownType | 'calendar'",
+        "type": "FilterType",
         "required": false,
         "description": "Tipo do filtro (dropdown ou calendário)"
       },
@@ -989,10 +749,16 @@ export const COMPONENTS: ComponentMetadata[] = [
         "description": "Callback executado ao fechar o filtro: () => void"
       },
       {
-        "name": "position",
-        "type": "Position",
+        "name": "side",
+        "type": "Side",
         "required": false,
-        "description": "Posição do dropdown em relação ao botão"
+        "description": "Posição do popover em relação ao botão"
+      },
+      {
+        "name": "align",
+        "type": "Exclude<Align, 'center'>",
+        "required": false,
+        "description": "Alinhamento do popover em relação ao botão"
       },
       {
         "name": "selectedDate",
@@ -1028,12 +794,66 @@ export const COMPONENTS: ComponentMetadata[] = [
         "name": "locale",
         "type": "Locale",
         "required": false,
-        "description": "Locale do calendário"
+        "description": "Idioma do calendário"
+      },
+      {
+        "name": "className",
+        "type": "BaseProps['className']",
+        "required": false,
+        "description": "Classe CSS opcional"
+      },
+      {
+        "name": "mode",
+        "type": "'simple' | 'combined'",
+        "required": false,
+        "description": "Modo de exibição do filtro\r\n- `'simple'`: filtro simples com popover (padrão)\r\n- `'combined'`: filtro combinado com painel lateral onde o conteúdo é composto via children"
+      },
+      {
+        "name": "drawerWidth",
+        "type": "string",
+        "required": false,
+        "description": "Largura do painel lateral no modo combined (ex: '400px', '50vw'). Quando omitido, usa o tamanho padrão do Drawer"
+      },
+      {
+        "name": "title",
+        "type": "string",
+        "required": false,
+        "description": "Título do painel lateral (padrão: 'Filtrar')"
+      },
+      {
+        "name": "activeCount",
+        "type": "number",
+        "required": false,
+        "description": "Número de filtros ativos exibido como badge no botão"
+      },
+      {
+        "name": "drawerHeaderContent",
+        "type": "ReactNode",
+        "required": false,
+        "description": "Conteúdo customizado no cabeçalho do Drawer"
+      },
+      {
+        "name": "children",
+        "type": "ReactNode",
+        "required": false,
+        "description": "Conteúdo do painel lateral no modo combined"
+      },
+      {
+        "name": "onApply",
+        "type": "() => void",
+        "required": false,
+        "description": "Callback ao aplicar no modo combined: () => void"
+      },
+      {
+        "name": "onClear",
+        "type": "() => void",
+        "required": false,
+        "description": "Callback ao limpar no modo combined: () => void"
       }
     ],
     "examples": [
-      "* \r\n * <Filter \r\n *   items={filterItems}\r\n *   type=\"checkbox\"\r\n *   placeholder=\"Filtrar por categoria\"\r\n *   onApplyFilter={(ids) => handleFilter(ids)}\r\n *   buttonText=\"Filtros\"\r\n * />\r\n * ```\r\n *",
-      "* \r\n * <Filter \r\n *   type=\"calendar\"\r\n *   selectedDate={selectedDate}\r\n *   onDateSelect={handleDateSelect}\r\n *   minDate={new Date('2024-01-01')}\r\n *   locale=\"pt-br\"\r\n *   icon={<CalendarIcon />}\r\n * />\r\n * ```"
+      "<Filter \n  items={filterItems}\n  type=\"multiple\"\n  placeholder=\"Filtrar por categoria\"\n  onApplyFilter={(ids) => handleFilter(ids)}\n  buttonText=\"Filtros\"\n/>",
+      "<Filter \n  type=\"calendar\"\n  selectedDate={selectedDate}\n  onDateSelect={handleDateSelect}\n  minDate={new Date('2024-01-01')}\n  locale=\"pt-br\"\n  icon={<CalendarIcon />}\n/>"
     ],
     "keywords": [
       "filter",
@@ -1110,18 +930,24 @@ export const COMPONENTS: ComponentMetadata[] = [
         "name": "showSubText",
         "type": "boolean",
         "required": false,
-        "description": "Define se deve mostrar o subtexto"
+        "description": "Controla a visibilidade do subtexto explicitamente, independentemente de `subText` estar preenchido"
       },
       {
         "name": "hovered",
         "type": "boolean",
         "required": false,
-        "description": "Estado de hover"
+        "description": "Força o estado visual de hover no item (útil para controle externo de foco/seleção)"
+      },
+      {
+        "name": "className",
+        "type": "string",
+        "required": false,
+        "description": "Classe CSS opcional"
       }
     ],
     "examples": [
-      "* \r\n * <ListItem \r\n *   variant=\"text\"\r\n *   text=\"Item da lista\"\r\n *   subText=\"Descrição do item\"\r\n *   onClick={handleClick}\r\n * />\r\n * ```\r\n *",
-      "* \r\n * <ListItem \r\n *   variant=\"checkbox\"\r\n *   text=\"Aceitar termos\"\r\n *   checked={isChecked}\r\n *   onChange={setIsChecked}\r\n *   disabled={false}\r\n * />\r\n * ```"
+      "<ListItem \n  variant=\"text\"\n  text=\"Item da lista\"\n  subText=\"Descrição do item\"\n  onClick={handleClick}\n/>",
+      "<ListItem \n  variant=\"checkbox\"\n  text=\"Aceitar termos\"\n  checked={isChecked}\n  onChange={setIsChecked}\n  disabled={false}\n/>"
     ],
     "keywords": [
       "listitem",
@@ -1130,21 +956,276 @@ export const COMPONENTS: ComponentMetadata[] = [
     ]
   },
   {
+    "name": "Menu",
+    "description": "Props do componente Menu",
+    "category": "Components",
+    "props": [
+      {
+        "name": "items",
+        "type": "MenuItemProps[]",
+        "required": true,
+        "description": "Array de itens do menu"
+      },
+      {
+        "name": "children",
+        "type": "ReactElement",
+        "required": false,
+        "description": "Elemento trigger customizado para abrir o menu"
+      },
+      {
+        "name": "type",
+        "type": "'text' | 'icon'",
+        "required": false,
+        "description": "Tipo de visualização dos itens do menu.\r\n- `'text'` (padrão): exibe texto e ícone lado a lado\r\n- `'icon'`: exibe apenas ícones, sem texto"
+      },
+      {
+        "name": "onItemSelect",
+        "type": "(items: MenuItemProps) => void",
+        "required": false,
+        "description": "Callback executado quando um item é selecionado: (item) => void"
+      },
+      {
+        "name": "selectedItems",
+        "type": "MenuItemProps[]",
+        "required": false,
+        "description": "Array de itens selecionados"
+      },
+      {
+        "name": "search",
+        "type": "boolean",
+        "required": false,
+        "description": "Habilita campo de busca"
+      },
+      {
+        "name": "align",
+        "type": "'start' | 'end' | 'center'",
+        "required": false,
+        "description": "Alinhamento do menu"
+      },
+      {
+        "name": "maxHeight",
+        "type": "number | string",
+        "required": false,
+        "description": "Altura máxima do menu"
+      },
+      {
+        "name": "enableInfiniteScroll",
+        "type": "boolean",
+        "required": false,
+        "description": "Habilita scroll infinito"
+      },
+      {
+        "name": "onScrollEnd",
+        "type": "() => void",
+        "required": false,
+        "description": "Callback executado ao chegar ao final do scroll: () => void"
+      },
+      {
+        "name": "isLoadingMore",
+        "type": "boolean",
+        "required": false,
+        "description": "Estado de carregamento de mais itens"
+      },
+      {
+        "name": "enableApiSearch",
+        "type": "boolean",
+        "required": false,
+        "description": "Habilita busca via API"
+      },
+      {
+        "name": "onApiSearch",
+        "type": "(searchTerm: string) => void",
+        "required": false,
+        "description": "Callback executado na busca via API: (searchTerm) => void"
+      },
+      {
+        "name": "onOpenChange",
+        "type": "(open: boolean) => void",
+        "required": false,
+        "description": "Callback executado quando o menu abre/fecha: (open) => void"
+      }
+    ],
+    "examples": [
+      "<Menu \n  items={[\n    { id: '1', text: 'Perfil', icon: <UserIcon /> },\n    { id: '2', text: 'Configurações', icon: <SettingsIcon /> }\n  ]}\n  onItemSelect={(item) => handleSelect(item)}\n>\n  <Button>Menu</Button>\n</Menu>",
+      "<Menu \n  items={menuItems}\n  type=\"icon\"\n  search={true}\n  enableInfiniteScroll={true}\n  onScrollEnd={loadMore}\n  maxHeight=\"400px\"\n  align=\"end\"\n/>"
+    ],
+    "keywords": [
+      "menu",
+      "props",
+      "componente"
+    ]
+  },
+  {
+    "name": "Modal",
+    "description": "Props do componente Modal",
+    "category": "Components",
+    "props": [
+      {
+        "name": "isOpen",
+        "type": "boolean",
+        "required": true,
+        "description": "Define se o modal está aberto"
+      },
+      {
+        "name": "onClose",
+        "type": "() => void",
+        "required": true,
+        "description": "Callback executado ao fechar o modal"
+      },
+      {
+        "name": "title",
+        "type": "string",
+        "required": false,
+        "description": "Título exibido no cabeçalho do modal"
+      },
+      {
+        "name": "children",
+        "type": "ReactNode",
+        "required": false,
+        "description": "Conteúdo a ser exibido dentro do modal"
+      },
+      {
+        "name": "headerContent",
+        "type": "ReactNode",
+        "required": false,
+        "description": "Conteúdo customizado no cabeçalho, exibido ao lado do título"
+      },
+      {
+        "name": "closeOnOverlayClick",
+        "type": "boolean",
+        "required": false,
+        "description": "Define se o modal fecha ao clicar no overlay (padrão: true)"
+      },
+      {
+        "name": "footer",
+        "type": "ReactNode",
+        "required": false,
+        "description": "Conteúdo do rodapé do modal"
+      },
+      {
+        "name": "customWidth",
+        "type": "string",
+        "required": false,
+        "description": "Largura customizada do modal (ex: '500px', '80%')"
+      },
+      {
+        "name": "fullscreen",
+        "type": "boolean",
+        "required": false,
+        "description": "Define se o modal ocupa toda a tela. Tem prioridade sobre customWidth"
+      },
+      {
+        "name": "className",
+        "type": "string",
+        "required": false,
+        "description": "Classe CSS opcional"
+      }
+    ],
+    "examples": [
+      "<Modal\n  isOpen={isModalOpen}\n  onClose={() => setIsModalOpen(false)}\n  title=\"Título do Modal\"\n>\n  <p>Conteúdo do modal</p>\n</Modal>",
+      "<Modal\n  isOpen={showModal}\n  onClose={handleClose}\n  title=\"Confirmar ação\"\n  closeOnOverlayClick={false}\n>\n  <MyForm />\n</Modal>"
+    ],
+    "keywords": [
+      "modal",
+      "props",
+      "componente"
+    ]
+  },
+  {
+    "name": "Popover",
+    "description": "",
+    "category": "Components",
+    "props": [
+      {
+        "name": "trigger",
+        "type": "React.ReactNode",
+        "required": true,
+        "description": "Elemento que aciona a abertura do popover (geralmente um botão ou ícone)"
+      },
+      {
+        "name": "content",
+        "type": "React.ReactNode",
+        "required": true,
+        "description": "Conteúdo exibido dentro do popover ao abrir"
+      },
+      {
+        "name": "align",
+        "type": "Align",
+        "required": false,
+        "defaultValue": "'center'",
+        "description": "Alinhamento do popover em relação ao trigger no eixo perpendicular ao `side`."
+      },
+      {
+        "name": "side",
+        "type": "Side",
+        "required": false,
+        "defaultValue": "'bottom'",
+        "description": "Lado em que o popover aparece em relação ao trigger."
+      },
+      {
+        "name": "sideOffset",
+        "type": "number",
+        "required": false,
+        "description": "Distância em pixels entre o conteúdo e o trigger"
+      },
+      {
+        "name": "open",
+        "type": "boolean",
+        "required": false,
+        "description": "Controla o estado de abertura em modo controlado"
+      },
+      {
+        "name": "onOpenChange",
+        "type": "(open: boolean) => void",
+        "required": false,
+        "description": "Callback chamado quando o estado de abertura muda"
+      },
+      {
+        "name": "asAnchor",
+        "type": "boolean",
+        "required": false,
+        "description": "Quando `true`, o trigger atua como âncora de posicionamento e o popover\r\né aberto/fechado exclusivamente via `open`/`onOpenChange` (modo DatePicker).\r\nQuando `false` (padrão), o trigger continua abrindo/fechando o popover\r\nnormalmente, mas o estado pode ser sincronizado via `open`/`onOpenChange`\r\n(modo Filter)."
+      },
+      {
+        "name": "onOpenAutoFocus",
+        "type": "(event: Event) => void",
+        "required": false,
+        "description": "Callback chamado quando o foco automático é ativado ao abrir o popover"
+      },
+      {
+        "name": "onCloseAutoFocus",
+        "type": "(event: Event) => void",
+        "required": false,
+        "description": "Callback chamado quando o foco automático é ativado ao fechar o popover"
+      },
+      {
+        "name": "showArrow",
+        "type": "boolean",
+        "required": false,
+        "description": "Quando `true`, exibe uma seta apontando para o trigger"
+      },
+      {
+        "name": "className",
+        "type": "string",
+        "required": false,
+        "description": "Classe CSS opcional"
+      }
+    ],
+    "examples": [],
+    "keywords": [
+      "popover"
+    ]
+  },
+  {
     "name": "Quantity",
     "description": "Props do componente Quantity",
     "category": "Components",
     "props": [
       {
-        "name": "defaultValue",
-        "type": "number",
-        "required": false,
-        "description": "Valor inicial (modo não controlado)"
-      },
-      {
         "name": "value",
         "type": "number",
         "required": false,
-        "description": "Valor atual (modo controlado)"
+        "description": "Valor do componente"
       },
       {
         "name": "onChange",
@@ -1171,15 +1252,51 @@ export const COMPONENTS: ComponentMetadata[] = [
         "description": "Número de casas decimais permitidas"
       },
       {
-        "name": "step",
+        "name": "valueIncrement",
         "type": "number",
         "required": false,
         "description": "Incremento/decremento ao clicar nos botões"
+      },
+      {
+        "name": "inputSize",
+        "type": "number",
+        "required": false,
+        "description": "Tamanho fixo do input, medido em caracteres (unidade CSS `ch`).\r\nO valor define quantos caracteres cabem visivelmente no campo sem necessidade de rolar.\r\nExemplo: `inputSize={4}` reserva espaço para 4 caracteres (\"9999\").\r\nSe omitido, o tamanho é ajustado automaticamente conforme o conteúdo digitado."
+      },
+      {
+        "name": "minValue",
+        "type": "number",
+        "required": false,
+        "description": "Valor mínimo permitido"
+      },
+      {
+        "name": "maxValue",
+        "type": "number",
+        "required": false,
+        "description": "Valor máximo permitido"
+      },
+      {
+        "name": "decrementAriaLabel",
+        "type": "string",
+        "required": false,
+        "description": "Aria label para o botão de decremento. Padrão: 'Diminuir quantidade'"
+      },
+      {
+        "name": "incrementAriaLabel",
+        "type": "string",
+        "required": false,
+        "description": "Aria label para o botão de incremento. Padrão: 'Aumentar quantidade'"
+      },
+      {
+        "name": "inputAriaLabel",
+        "type": "string",
+        "required": false,
+        "description": "Aria label para a entrada de quantidade. Padrão: 'Quantidade'"
       }
     ],
     "examples": [
-      "* \r\n * <Quantity \r\n *   value={quantity}\r\n *   onChange={setQuantity}\r\n *   size=\"lg\"\r\n * />\r\n * ```\r\n *",
-      "* \r\n * <Quantity \r\n *   defaultValue={1}\r\n *   decimal={true}\r\n *   decimalPlaces={2}\r\n *   step={0.5}\r\n *   disabled={false}\r\n * />\r\n * ```"
+      "<Quantity \n  value={quantity}\n  onChange={setQuantity}\n  size=\"lg\"\n/>",
+      "<Quantity \n  value={1}\n  decimal={true}\n  decimalPlaces={2}\n  valueIncrement={0.5}\n  disabled={false}\n/>"
     ],
     "keywords": [
       "quantity",
@@ -1215,6 +1332,12 @@ export const COMPONENTS: ComponentMetadata[] = [
         "type": "boolean",
         "required": false,
         "description": "Estado desabilitado do item"
+      },
+      {
+        "name": "className",
+        "type": "string",
+        "required": false,
+        "description": "Classe CSS opcional"
       }
     ],
     "examples": [],
@@ -1286,10 +1409,28 @@ export const COMPONENTS: ComponentMetadata[] = [
         "description": "Callback executado ao pressionar mouse no componente: (e) => void"
       },
       {
+        "name": "searchMode",
+        "type": "'instant' | 'on-enter'",
+        "required": false,
+        "description": "Modo de pesquisa:\r\n- `'instant'` (padrão): dispara a busca a cada tecla digitada\r\n- `'on-enter'`: dispara a busca somente ao pressionar Enter"
+      },
+      {
+        "name": "onSearch",
+        "type": "(value: string) => void",
+        "required": false,
+        "description": "Callback executado quando a busca é acionada.\r\n- No modo `'instant'`: chamado a cada mudança de valor\r\n- No modo `'on-enter'`: chamado somente ao pressionar Enter"
+      },
+      {
         "name": "'data-testid'",
         "type": "string",
         "required": false,
         "description": "ID para testes automatizados"
+      },
+      {
+        "name": "virtualKeyboard",
+        "type": "VirtualKeyboardType",
+        "required": false,
+        "description": "Tipo do teclado virtual (padrão: undefined = desabilitado)"
       }
     ],
     "examples": [],
@@ -1454,8 +1595,8 @@ export const COMPONENTS: ComponentMetadata[] = [
       }
     ],
     "examples": [
-      "* \r\n * <Select \r\n *   items={[\r\n *     { value: '1', text: 'Opção 1' },\r\n *     { value: '2', text: 'Opção 2' }\r\n *   ]}\r\n *   variant=\"text\"\r\n *   placeholder=\"Selecione uma opção\"\r\n *   onValueChange={(value) => console.log(value)}\r\n * />\r\n * ```\r\n *",
-      "* \r\n * <Select \r\n *   items={options}\r\n *   variant=\"checkbox\"\r\n *   multiple={true}\r\n *   search={true}\r\n *   label=\"Selecione múltiplas opções\"\r\n *   helperText=\"Você pode selecionar mais de uma\"\r\n *   required={true}\r\n * />\r\n * ```"
+      "<Select \n  items={[\n    { value: '1', text: 'Opção 1' },\n    { value: '2', text: 'Opção 2' }\n  ]}\n  variant=\"text\"\n  placeholder=\"Selecione uma opção\"\n  onValueChange={(value) => console.log(value)}\n/>",
+      "<Select \n  items={options}\n  variant=\"checkbox\"\n  multiple={true}\n  search={true}\n  label=\"Selecione múltiplas opções\"\n  helperText=\"Você pode selecionar mais de uma\"\n  required={true}\n/>"
     ],
     "keywords": [
       "select",
@@ -1484,13 +1625,13 @@ export const COMPONENTS: ComponentMetadata[] = [
         "name": "name",
         "type": "string",
         "required": false,
-        "description": "Nome do input"
+        "description": "Nome do input — associa o switch a um campo de formulário (HTML `name`)"
       },
       {
         "name": "value",
         "type": "string",
         "required": false,
-        "description": "Valor do input"
+        "description": "Valor enviado no formulário quando o switch está ativo (análogo ao `value` do `<input type=\"checkbox\">`)"
       },
       {
         "name": "checked",
@@ -1500,8 +1641,8 @@ export const COMPONENTS: ComponentMetadata[] = [
       }
     ],
     "examples": [
-      "* \r\n * <Switch \r\n *   checked={isEnabled}\r\n *   onCheckedChange={setIsEnabled}\r\n * />\r\n * ```\r\n *",
-      "* \r\n * <Switch \r\n *   defaultChecked={true}\r\n *   disabled={isLoading}\r\n *   onCheckedChange={(checked) => console.log(checked)}\r\n *   name=\"notifications\"\r\n * />\r\n * ```"
+      "<Switch \n  checked={isEnabled}\n  onCheckedChange={setIsEnabled}\n/>",
+      "<Switch \n  defaultChecked={true}\n  disabled={isLoading}\n  onCheckedChange={(checked) => console.log(checked)}\n  name=\"notifications\"\n/>"
     ],
     "keywords": [
       "switch",
@@ -1563,6 +1704,205 @@ export const COMPONENTS: ComponentMetadata[] = [
     ]
   },
   {
+    "name": "TableV2",
+    "description": "Props do componente TableV2.",
+    "category": "Components",
+    "props": [
+      {
+        "name": "columns",
+        "type": "ColumnDef<T, any>[]",
+        "required": true,
+        "description": "Definições das colunas da tabela"
+      },
+      {
+        "name": "data",
+        "type": "T[]",
+        "required": true,
+        "description": "Dados exibidos na tabela"
+      },
+      {
+        "name": "rowSelection",
+        "type": "TableV2RowSelectionProps<T>",
+        "required": false,
+        "description": "Configuração de seleção de linhas via checkbox.\r\nA presença deste objeto habilita a seleção. Use `disabled` para controlar\r\nlinhas específicas e `onRowChange` para reagir às mudanças."
+      },
+      {
+        "name": "enableSorting",
+        "type": "boolean",
+        "required": false,
+        "description": "Habilita ordenação de colunas ao clicar no cabeçalho"
+      },
+      {
+        "name": "bulkActions",
+        "type": "TableV2BulkActionsProps<T>",
+        "required": false,
+        "description": "Configuração das ações em massa exibidas quando há linhas selecionadas"
+      },
+      {
+        "name": "header",
+        "type": "TableV2HeaderProps",
+        "required": false,
+        "description": "Header acima da tabela com busca + filtros"
+      },
+      {
+        "name": "footer",
+        "type": "TableV2FooterProps",
+        "required": false,
+        "description": "Footer com paginação"
+      },
+      {
+        "name": "className",
+        "type": "string",
+        "required": false,
+        "description": "Classe CSS personalizada para o componente"
+      },
+      {
+        "name": "loading",
+        "type": "boolean",
+        "required": false,
+        "description": "Estado de carregamento — exibe skeleton animado no lugar da tabela"
+      },
+      {
+        "name": "onRow",
+        "type": "(row: T, index: number) => {\r\n    onClick?: () => void;\r\n    onDoubleClick?: () => void;\r\n    className?: string;\r\n  }",
+        "required": false,
+        "description": "Eventos e classe aplicados por linha"
+      },
+      {
+        "name": "emptyIcon",
+        "type": "ReactNode",
+        "required": false,
+        "description": "Ícone exibido no estado vazio"
+      },
+      {
+        "name": "emptyTitle",
+        "type": "ReactNode",
+        "required": false,
+        "description": "Título exibido no estado vazio"
+      },
+      {
+        "name": "emptyText",
+        "type": "ReactNode",
+        "required": false,
+        "description": "Texto descritivo exibido no estado vazio"
+      }
+    ],
+    "examples": [
+      "<TableV2\n  columns={columns}\n  data={data}\n  enableSorting\n  rowSelection={{ onRowChange: (rows, keys) => console.log(rows, keys) }}\n  loading={isLoading}\n/>"
+    ],
+    "keywords": [
+      "tablev",
+      "props",
+      "componente"
+    ]
+  },
+  {
+    "name": "TextArea",
+    "description": "Props do componente TextArea",
+    "category": "Components",
+    "props": [
+      {
+        "name": "value",
+        "type": "string",
+        "required": false,
+        "description": "Valor controlado do campo"
+      },
+      {
+        "name": "onChange",
+        "type": "(value: string) => void",
+        "required": false,
+        "description": "Callback executado quando o valor muda: (value) => void"
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "required": false,
+        "description": "Label do campo"
+      },
+      {
+        "name": "helperText",
+        "type": "string",
+        "required": false,
+        "description": "Texto de ajuda exibido abaixo do campo"
+      },
+      {
+        "name": "tooltip",
+        "type": "boolean",
+        "required": false,
+        "description": "Habilita tooltip"
+      },
+      {
+        "name": "tooltipText",
+        "type": "string",
+        "required": false,
+        "description": "Texto do tooltip"
+      },
+      {
+        "name": "side",
+        "type": "Side",
+        "required": false,
+        "description": "Lado onde o tooltip aparece"
+      },
+      {
+        "name": "align",
+        "type": "Align",
+        "required": false,
+        "description": "Alinhamento do tooltip"
+      },
+      {
+        "name": "errorMessage",
+        "type": "string",
+        "required": false,
+        "description": "Mensagem de erro exibida no campo.\r\nUsada tanto pela validação interna (required, etc.)\r\nquanto pelo controle externo via formulários (react-hook-form, formik, etc.)"
+      },
+      {
+        "name": "error",
+        "type": "boolean",
+        "required": false,
+        "description": "Sinaliza erro externo para controle via formulários (react-hook-form, formik, etc.)"
+      },
+      {
+        "name": "resize",
+        "type": "'none' | 'vertical' | 'both'",
+        "required": false,
+        "description": "Controla o redimensionamento do textarea"
+      },
+      {
+        "name": "showCharCount",
+        "type": "boolean",
+        "required": false,
+        "description": "Exibe contador de caracteres (requer maxLength)"
+      },
+      {
+        "name": "height",
+        "type": "number",
+        "required": false,
+        "description": "Altura do textarea em pixels"
+      },
+      {
+        "name": "className",
+        "type": "string",
+        "required": false,
+        "description": "Classe CSS opcional"
+      },
+      {
+        "name": "virtualKeyboard",
+        "type": "VirtualKeyboardType",
+        "required": false,
+        "description": "Tipo do teclado virtual (padrão: undefined = desabilitado)"
+      }
+    ],
+    "examples": [
+      "<TextArea\n  label=\"Descrição\"\n  value={description}\n  onChange={setDescription}\n  placeholder=\"Digite uma descrição\"\n/>",
+      "<TextArea\n  label=\"Comentário\"\n  required\n  maxLength={500}\n  showCharCount\n  helperText=\"Máximo de 500 caracteres\"\n  errorMessage={error}\n/>"
+    ],
+    "keywords": [
+      "textarea",
+      "props",
+      "componente"
+    ]
+  },
+  {
     "name": "TextField",
     "description": "Props do componente TextField",
     "category": "Components",
@@ -1610,13 +1950,13 @@ export const COMPONENTS: ComponentMetadata[] = [
         "description": "Texto do tooltip"
       },
       {
-        "name": "side",
+        "name": "tooltipSide",
         "type": "Side",
         "required": false,
         "description": "Lado onde o tooltip aparece"
       },
       {
-        "name": "align",
+        "name": "tooltipAlign",
         "type": "Align",
         "required": false,
         "description": "Alinhamento do tooltip"
@@ -1625,18 +1965,48 @@ export const COMPONENTS: ComponentMetadata[] = [
         "name": "errorMessage",
         "type": "string",
         "required": false,
-        "description": "Mensagem de erro a ser exibida"
+        "description": "Mensagem de erro exibida no campo.\r\nUsada tanto pela validação interna (required, formato, etc.)\r\nquanto pelo controle externo via formulários (react-hook-form, formik, etc.)"
+      },
+      {
+        "name": "error",
+        "type": "boolean",
+        "required": false,
+        "description": "Sinaliza erro externo para controle via formulários (react-hook-form, formik, etc.)"
       },
       {
         "name": "icon",
         "type": "React.ReactNode",
         "required": false,
         "description": "Ícone a ser exibido no campo"
+      },
+      {
+        "name": "persistIcon",
+        "type": "boolean",
+        "required": false,
+        "description": "Mantém o ícone visível mesmo quando o campo tem valor"
+      },
+      {
+        "name": "virtualKeyboard",
+        "type": "VirtualKeyboardType",
+        "required": false,
+        "description": "Tipo do teclado virtual (padrão: undefined = desabilitado)"
+      },
+      {
+        "name": "attachedToVirtualKeyboard",
+        "type": "boolean",
+        "required": false,
+        "description": "Aplica variação visual para uso acoplado ao VirtualKeyboard no modo fixed, essa prop é de uso exclusivo do VirtualKeyboard no modo fixed"
+      },
+      {
+        "name": "disableAutoComplete",
+        "type": "boolean",
+        "required": false,
+        "description": "Desabilita o autocomplete nativo do browser (padrão: false)"
       }
     ],
     "examples": [
-      "* \r\n * <TextField \r\n *   label=\"Email\"\r\n *   type=\"email\"\r\n *   value={email}\r\n *   onChange={setEmail}\r\n *   placeholder=\"Digite seu email\"\r\n * />\r\n * ```\r\n *",
-      "* \r\n * <TextField \r\n *   label=\"Senha\"\r\n *   type=\"password\"\r\n *   required\r\n *   helperText=\"Mínimo 8 caracteres\"\r\n *   errorMessage={error}\r\n *   tooltip={true}\r\n *   tooltipText=\"Deve conter letras e números\"\r\n *   icon={<LockIcon />}\r\n * />\r\n * ```"
+      "<TextField \n  label=\"Email\"\n  type=\"email\"\n  value={email}\n  onChange={setEmail}\n  placeholder=\"Digite seu email\"\n/>",
+      "<TextField \n  label=\"Senha\"\n  type=\"password\"\n  required\n  helperText=\"Mínimo 8 caracteres\"\n  errorMessage={error}\n  tooltip={true}\n  tooltipText=\"Deve conter letras e números\"\n  icon={<LockIcon />}\n/>"
     ],
     "keywords": [
       "textfield",
@@ -1688,10 +2058,16 @@ export const COMPONENTS: ComponentMetadata[] = [
         "required": false,
         "defaultValue": "'Info'",
         "description": "Tipo do ícone exibido automaticamente no toast.\r\n\r\n- `'Info'` → ícone informativo (`Info20Filled`)\r\n- `'Success'` → ícone de sucesso (`CheckmarkCircle20Filled`)\r\n- `'Alert'` → ícone de alerta/erro (`Warning20Filled`)\r\n\r\nIgnorado quando a prop `icon` for fornecida."
+      },
+      {
+        "name": "className",
+        "type": "string",
+        "required": false,
+        "description": "Classe CSS opcional"
       }
     ],
     "examples": [
-      "* \r\n * showToast({\r\n *   title: 'Sucesso!',\r\n *   iconType: 'Success',\r\n *   duration: 3000,\r\n * });\r\n * ```"
+      "showToast({\n  title: 'Sucesso!',\n  iconType: 'Success',\n  duration: 3000,\n});"
     ],
     "keywords": [
       "toast",
@@ -1725,25 +2101,27 @@ export const COMPONENTS: ComponentMetadata[] = [
         "name": "text",
         "type": "React.ReactNode",
         "required": true,
-        "description": ""
+        "description": "Conteúdo textual exibido dentro do tooltip"
       },
       {
         "name": "side",
         "type": "Side",
         "required": false,
-        "description": ""
+        "defaultValue": "'top'",
+        "description": "Lado em que o tooltip aparece em relação ao elemento filho."
       },
       {
         "name": "align",
         "type": "Align",
         "required": false,
-        "description": ""
+        "defaultValue": "'center'",
+        "description": "Alinhamento do tooltip em relação ao elemento filho."
       },
       {
         "name": "sideOffset",
         "type": "number",
         "required": false,
-        "description": ""
+        "description": "Deslocamento em pixels no eixo lateral (side) entre o tooltip e o elemento filho"
       },
       {
         "name": "alignOffset",
@@ -1762,6 +2140,12 @@ export const COMPONENTS: ComponentMetadata[] = [
         "type": "React.ReactNode",
         "required": true,
         "description": "Elemento que dispara o tooltip ao hover"
+      },
+      {
+        "name": "className",
+        "type": "string",
+        "required": false,
+        "description": "Classe CSS opcional"
       }
     ],
     "examples": [],
@@ -1806,11 +2190,100 @@ export const COMPONENTS: ComponentMetadata[] = [
       }
     ],
     "examples": [
-      "* \r\n * <VerificationCode \r\n *   length={6}\r\n *   inputType=\"numeric\"\r\n *   onComplete={(code) => handleVerification(code)}\r\n * />\r\n * ```\r\n *",
-      "* \r\n * <VerificationCode \r\n *   length={4}\r\n *   inputType=\"alphanumeric\"\r\n *   onComplete={handleCode}\r\n *   hasError={!!error}\r\n *   errorMessage=\"Código inválido\"\r\n *   disabled={isVerifying}\r\n * />\r\n * ```"
+      "<VerificationCode \n  length={6}\n  inputType=\"numeric\"\n  onComplete={(code) => handleVerification(code)}\n/>",
+      "<VerificationCode \n  length={4}\n  inputType=\"alphanumeric\"\n  onComplete={handleCode}\n  hasError={!!error}\n  errorMessage=\"Código inválido\"\n  disabled={isVerifying}\n/>"
     ],
     "keywords": [
       "verificationcode",
+      "props",
+      "componente"
+    ]
+  },
+  {
+    "name": "VirtualKeyboard",
+    "description": "Props do componente VirtualKeyboard",
+    "category": "Components",
+    "props": [
+      {
+        "name": "variant",
+        "type": "VirtualKeyboardVariant",
+        "required": false,
+        "defaultValue": "'native'",
+        "description": "Modo de exibição do teclado.\r\n- `native`: comporta-se como teclado nativo (acionamento por foco — futuramente implementado).\r\n- `fixed`: teclado fixo na tela com um TextField próprio acima."
+      },
+      {
+        "name": "value",
+        "type": "string",
+        "required": false,
+        "description": "Valor controlado do input vinculado ao teclado"
+      },
+      {
+        "name": "type",
+        "type": "VirtualKeyboardType",
+        "required": false,
+        "description": "Tipo do teclado (padrão: \"default\")"
+      },
+      {
+        "name": "onChange",
+        "type": "(value: string) => void",
+        "required": false,
+        "description": "Callback executado quando o valor do input muda: (value) => void"
+      },
+      {
+        "name": "onKeyPress",
+        "type": "(key: string) => void",
+        "required": false,
+        "description": "Callback executado quando uma tecla é pressionada: (key) => void"
+      },
+      {
+        "name": "maxLength",
+        "type": "number",
+        "required": false,
+        "description": "Limite máximo de caracteres"
+      },
+      {
+        "name": "Emoji",
+        "type": "boolean",
+        "required": false,
+        "description": "Controla a exibição do botão {emoticon} nos layouts suportados"
+      },
+      {
+        "name": "textFieldPlaceholder",
+        "type": "string",
+        "required": false,
+        "description": "Placeholder do TextField exibido no modo `fixed`"
+      },
+      {
+        "name": "helperText",
+        "type": "string",
+        "required": false,
+        "description": "Texto de ajuda do TextField exibido no modo `fixed`"
+      },
+      {
+        "name": "error",
+        "type": "boolean",
+        "required": false,
+        "description": "Sinaliza erro no TextField exibido no modo `fixed`"
+      },
+      {
+        "name": "errorMessage",
+        "type": "string",
+        "required": false,
+        "description": "Mensagem de erro do TextField exibido no modo `fixed`"
+      },
+      {
+        "name": "targetRef",
+        "type": "RefObject<HTMLInputElement | HTMLTextAreaElement | null>",
+        "required": false,
+        "description": "Ref para o campo de input que aciona o teclado no modo `native`.\r\nO teclado aparece ao focar no elemento referenciado e some ao perder o foco.\r\nSe omitido no modo `native`, o teclado permanece sempre visível."
+      }
+    ],
+    "examples": [
+      "// Modo fixed: teclado sempre visível com TextField próprio\n<VirtualKeyboard\n  variant=\"fixed\"\n  type=\"default\"\n  onChange={(value) => setValue(value)}\n/>",
+      "// Modo native: teclado gerenciado externamente (futuramente acionado por foco)\n<VirtualKeyboard\n  variant=\"native\"\n  type=\"numeric\"\n  value={pin}\n  onChange={setPin}\n  maxLength={4}\n/>"
+    ],
+    "keywords": [
+      "virtualkeyboard",
       "props",
       "componente"
     ]

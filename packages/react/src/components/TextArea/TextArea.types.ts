@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Side, Align } from '../../types/common.types';
 
-import type { VirtualKeyboardType } from '../VirtualKeyboard/VirtualKeyboard.type';
+import type { VirtualKeyboardType } from '../VirtualKeyboard/VirtualKeyboard.types';
 
 /**
  * Props do componente TextArea

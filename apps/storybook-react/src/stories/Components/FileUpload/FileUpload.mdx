@@ -1,0 +1,145 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as FileUploadStories from './FileUpload.stories';
+import { FileUpload } from '@giro-ds/react';
+import { UsageGuidelines } from '../../../internal-components/mdx/UsageGuidelines/UsageGuidelines';
+import { ComponentRules } from '../../../internal-components/mdx/Rules/Rules';
+import { Footer } from '../../../internal-components/mdx/Footer/Footer';
+
+<Meta of={FileUploadStories} name="Docs" />
+
+# File Upload
+
+Área de upload de arquivos que suporta clique e drag & drop. Exibe thumbnails para imagens e ícone de documento para outros tipos de arquivo. Pode ser usado de forma controlada ou não-controlada.
+
+<Canvas of={FileUploadStories.Default} />
+
+## Importação
+
+```js
+import { FileUpload } from '@giro-ds/react';
+```
+
+<div style={{ marginTop: '48px' }} />
+
+## Propriedades
+
+<Controls />
+
+<div style={{ marginTop: '48px' }} />
+
+## Variações
+
+### Sem helper text
+
+Quando não há texto auxiliar, a zona de drop ocupa toda a área sem espaço reservado abaixo.
+
+<Canvas of={FileUploadStories.SemHelperText} />
+
+### Desabilitado
+
+Use o estado desabilitado quando o upload não estiver disponível no contexto atual. O componente perde interatividade mas permanece visível.
+
+<Canvas of={FileUploadStories.Desabilitado} />
+
+### Com erro
+
+Exibe borda colorida e ícone de alerta quando há um problema com os arquivos selecionados. Use `errorMessage` para detalhar o motivo.
+
+<Canvas of={FileUploadStories.ComErro} />
+
+### Apenas imagens
+
+Defina `accept="image/*"` para restringir o seletor de arquivos a imagens. Thumbnails são exibidos automaticamente para arquivos de imagem.
+
+<Canvas of={FileUploadStories.ApenasImagens} />
+
+### Arquivo único
+
+Quando `multiple={false}`, cada nova seleção substitui o arquivo anterior.
+
+<Canvas of={FileUploadStories.ArquivoUnico} />
+
+### Com limite de tamanho
+
+Arquivos que excedem `maxSize` (em bytes) são silenciosamente ignorados na seleção e no drop.
+
+<Canvas of={FileUploadStories.ComLimiteDeTamanho} />
+
+### Com máximo de arquivos
+
+Use `maxFiles` para limitar a quantidade total de arquivos aceitos. Arquivos excedentes são descartados.
+
+<Canvas of={FileUploadStories.ComMaximoDeArquivos} />
+
+<div style={{ marginTop: '48px' }} />
+
+## Uso
+
+<UsageGuidelines
+  guidelines={[
+    <>
+      Use <code>helperText</code> para informar os formatos e o tamanho máximo aceitos. O usuário deve saber o que pode enviar antes de tentar.
+    </>,
+    <>
+      Use <code>accept</code> para restringir os tipos de arquivo no nível do sistema operacional. Isso reduz o risco de o usuário selecionar arquivos inválidos.
+    </>,
+    <>
+      Use <code>errorMessage</code> quando um arquivo inválido for enviado. A mensagem deve ser direta: informe o motivo (formato, tamanho) e o que o usuário deve fazer.
+    </>,
+    <>
+      Prefira o modo controlado com <code>value</code> e <code>onChange</code> ao integrar com formulários (react-hook-form, formik, etc.).
+    </>,
+    <>
+      Em contextos onde apenas um arquivo é esperado, defina <code>multiple={'{false}'}</code> explicitamente. Isso sinaliza a intenção e previne seleções acidentais.
+    </>,
+  ]}
+/>
+
+<div style={{ marginTop: '48px' }} />
+
+## O que fazer e não fazer
+
+<ComponentRules
+  rules={[
+    {
+      positive: {
+        component: (
+          <FileUpload
+            helperText="Formatos aceitos: PNG, JPG. Máximo: 2 MB por arquivo."
+            accept="image/png, image/jpeg"
+            maxSize={2 * 1024 * 1024}
+          />
+        ),
+        description: "Informe os formatos aceitos e o limite de tamanho no helperText. O usuário sabe o que pode enviar antes mesmo de selecionar o arquivo."
+      },
+      negative: {
+        component: (
+          <FileUpload />
+        ),
+        description: "Evite deixar a zona de drop sem contexto. Sem helperText, o usuário não sabe quais formatos ou tamanhos são aceitos."
+      }
+    },
+    {
+      positive: {
+        component: (
+          <FileUpload
+            error
+            errorMessage="Formato não suportado. Use PNG ou JPG."
+          />
+        ),
+        description: "Use uma mensagem de erro específica que indique o problema e oriente a correção."
+      },
+      negative: {
+        component: (
+          <FileUpload
+            error
+            errorMessage="Erro."
+          />
+        ),
+        description: "Evite mensagens de erro genéricas. O usuário precisa entender o que deu errado para corrigir."
+      }
+    }
+  ]}
+/>
+
+<Footer />

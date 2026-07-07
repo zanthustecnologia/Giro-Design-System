@@ -1,0 +1,26 @@
+// =============================================================================
+// Mixins e funções de escala — compartilhados por todos os componentes
+// =============================================================================
+
+/// Aplica a escala visual a qualquer valor CSS usando a variável unificada
+/// `--giro-scale`. O fallback padrão é `1` (sem escala).
+///
+/// @param {Number|String} $value - O valor base a ser escalado (ex: 44px, 16px, var(--spacing-8))
+/// @return {*} `calc(#{$value} * var(--giro-scale, 1))`
+@function scale($value) {
+  @return calc(#{$value} * var(--giro-scale, 1));
+}
+
+/// Mixin para ícones escaláveis que acompanham o `font-size` do container.
+/// O SVG usa `1em` em width/height para herdar o font-size automaticamente.
+///
+/// @param {Number|String} $base-size - Tamanho base do font-size (ex: 16px)
+@mixin scale-icon($base-size: 16px) {
+  font-size: scale($base-size);
+
+  svg {
+    width: 1em;
+    height: 1em;
+    flex-shrink: 0;
+  }
+}

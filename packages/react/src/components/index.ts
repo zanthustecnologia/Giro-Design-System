@@ -34,6 +34,9 @@ export { type DialogProps } from './Dialog/Dialog.types';
 export { default as Drawer } from './Drawer';
 export { type DrawerProps } from './Drawer/Drawer.types';
 
+export { default as FileUpload } from './FileUpload';
+export { type FileUploadProps } from './FileUpload/FileUpload.type';
+
 export { default as Filter } from './Filter';
 export { type FilterProps } from './Filter/Filter.types';
 
@@ -91,7 +94,7 @@ export { default as VerificationCode } from './VerificationCode';
 export { type VerificationCodeProps } from './VerificationCode/VerificationCode.types';
 
 export { default as VirtualKeyboard } from './VirtualKeyboard';
-export { type VirtualKeyboardProps, type VirtualKeyboardVariant } from './VirtualKeyboard/VirtualKeyboard.type';
+export { type VirtualKeyboardProps, type VirtualKeyboardVariant } from './VirtualKeyboard/VirtualKeyboard.types';
 
 // Hooks
 export { default as useApiSimulation } from '../hooks/ApiSimulation';

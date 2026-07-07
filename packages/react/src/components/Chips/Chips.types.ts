@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { BaseProps, TextVariant, Scale } from '../../types/common.types';
+import { ScalableProps, TextVariant, Scale } from '../../types/common.types';
 
 /**
  * Props do componente Chips
@@ -20,7 +20,7 @@ import { BaseProps, TextVariant, Scale } from '../../types/common.types';
  * </Chips>
  * ```
  */
-export interface ChipsProps extends BaseProps, Omit<React.HTMLAttributes<HTMLDivElement>, 'color'> {
+export interface ChipsProps extends ScalableProps, Omit<React.HTMLAttributes<HTMLDivElement>, 'color'> {
   /** Variante semântica do chip. Define o preset de cor de fundo. */
   variant?: Exclude<TextVariant, 'color'>;
 
@@ -38,13 +38,4 @@ export interface ChipsProps extends BaseProps, Omit<React.HTMLAttributes<HTMLDiv
 
   /** Ícone posicionado à direita do texto */
   rightIcon?: React.ReactNode;
-
-  /** Estilos inline adicionais */
-  style?: React.CSSProperties;
-
-  /** Classe CSS opcional */
-  className?: string;
-
-  /** Escala visual aplicada ao componente */
-  scale?: Scale;
 }

@@ -1,49 +1,52 @@
+@use '../../styles/mixins/scale' as *;
+
 @mixin buttonSize($height, $padding-x, $min-width) {
-  height: $height;
-  padding: var(--spacing-0) $padding-x;
-  min-width: $min-width;
+  height: scale($height);
+  padding: var(--spacing-0) scale($padding-x);
+  min-width: scale($min-width);
 }
 
 @mixin buttonIconPadding($left-padding, $right-padding) {
   &.buttonIconPosition-left {
-    padding: var(--spacing-0) $right-padding var(--spacing-0) $left-padding;
+    padding: var(--spacing-0) scale($right-padding) var(--spacing-0) scale($left-padding);
   }
   
   &.buttonIconPosition-right {
-    padding: var(--spacing-0) $left-padding var(--spacing-0) $right-padding;
+    padding: var(--spacing-0) scale($left-padding) var(--spacing-0) scale($right-padding);
   }
   &.buttonIconPosition-both {
-    padding: var(--spacing-0) $left-padding ;
+    padding: var(--spacing-0) scale($left-padding);
   }
 }
 
 @mixin iconOnlySize($size) {
   padding: var(--spacing-0);
-  width: $size;
-  height: $size;
-  min-width: $size;
-  max-width: $size;
-  min-height: $size;
-  max-height: $size;
+  width: scale($size);
+  height: scale($size);
+  min-width: scale($size);
+  max-width: scale($size);
+  min-height: scale($size);
+  max-height: scale($size);
   flex-shrink: 0;
 }
 
 @mixin iconSize($size: 16px) {
   svg {
-    width: $size;
-    height: $size;
+    width: 1em;
+    height: 1em;
     flex-shrink: 0;
   }
 }
 
 .button {
+  --giro-scale: 1;
   position: relative;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  gap: var(--spacing-8);
-  border-radius: var(--border-radius-8);
+  gap: scale(var(--spacing-8));
+  border-radius: scale(var(--border-radius-8));
   box-shadow: none;
   padding: var(--spacing-0) var(--spacing-24);
   text-align: center;
@@ -56,7 +59,7 @@
   box-sizing: border-box;
   
   font-family: var(--font-family-primary);
-  font-size: var(--font-size-14);
+  font-size: scale(var(--font-size-14));
   font-style: normal;
   font-weight: var(--font-weight-medium);
   text-decoration: none;
@@ -98,25 +101,25 @@
 }
 
 .button.button-text.button-lg {
-  padding: var(--spacing-0) var(--spacing-12);
+  padding: var(--spacing-0) scale(var(--spacing-12));
   
   &.buttonWithIcon {
     @include buttonIconPadding(var(--spacing-8), var(--spacing-12));
     
     &.buttonNoContent {
-      padding: var(--spacing-0) var(--spacing-16);
+      padding: var(--spacing-0) scale(var(--spacing-16));
     }
   }
 }
 
 .button.button-text.button-sm {
-  padding: var(--spacing-0) var(--spacing-8);
+  padding: var(--spacing-0) scale(var(--spacing-8));
   
   &.buttonWithIcon {
     @include buttonIconPadding(var(--spacing-4), var(--spacing-8));
     
     &.buttonNoContent {
-      padding: var(--spacing-0) var(--spacing-8);
+      padding: var(--spacing-0) scale(var(--spacing-8));
     }
   }
 }
@@ -130,19 +133,21 @@
 }
 
 .buttonIconOnly span {
-  width: 16px;
-  height: 16px;
+  font-size: scale(var(--font-size-16));
+  width: 1em;
+  height: 1em;
 }
 
 .buttonIconLeft,
 .buttonIconRight,
 .buttonIconOnly {
-  @include iconSize(16px);
+  font-size: scale(var(--font-size-16));
+  @include iconSize(var(--font-size-16));
 }
 
 .button svg {
-  width: 16px;
-  height: 16px;
+  width: 1em;
+  height: 1em;
   flex-shrink: 0;
 }
 
@@ -174,8 +179,8 @@
 
 .button.button-filled:focus-visible,
 .button.button-filled[data-state="open"] {
-  outline: var(--border-width-4) solid var(--color-neutral-high-dark);
-  outline-offset: var(--border-width-2);
+  outline: scale(var(--border-width-4)) solid var(--color-neutral-high-dark);
+  outline-offset: scale(var(--border-width-2));
 }
 
 .button.button-filled:active {
@@ -204,8 +209,8 @@
 
 .button.button-outlined:focus-visible,
 .button.button-outlined[data-state="open"] {
-  outline: var(--border-width-4) solid var(--color-neutral-high-dark);
-  outline-offset: var(--border-width-2);
+  outline: scale(var(--border-width-4)) solid var(--color-neutral-high-dark);
+  outline-offset: scale(var(--border-width-2));
   color: var(--color-brand-primary-default);
   background-color: var(--color-neutral-high-default);
 }
@@ -235,8 +240,8 @@
 
 .button.button-text:focus-visible,
 .button.button-text[data-state="open"] {
-  outline: var(--border-width-4) solid var(--color-neutral-high-dark);
-  outline-offset: var(--border-width-2);
+  outline: scale(var(--border-width-4)) solid var(--color-neutral-high-dark);
+  outline-offset: scale(var(--border-width-2));
   color: var(--color-brand-primary-default);
   background-color: transparent;
 }
@@ -275,7 +280,7 @@
     &.buttonIconPosition-right,
     &.buttonIconPosition-both,
     &.buttonNoContent {
-      padding: var(--spacing-0) var(--spacing-24);
+      padding: var(--spacing-0) scale(var(--spacing-24));
     }
   }
 }
@@ -288,7 +293,7 @@
     &.buttonIconPosition-right,
     &.buttonIconPosition-both,
     &.buttonNoContent {
-      padding: var(--spacing-0) var(--spacing-16);
+      padding: var(--spacing-0) scale(var(--spacing-16));
     }
   }
 }
@@ -296,11 +301,12 @@
 .buttonContentHidden {
   display: flex;
   align-items: center;
-  gap: var(--spacing-8);
+  gap: scale(var(--spacing-8));
   opacity: 0;
   pointer-events: none;
+  font-size: scale(var(--font-size-16));
 
-  @include iconSize(16px);
+  @include iconSize(var(--font-size-16));
 }
 
 .buttonLoadingSpinner {
@@ -309,8 +315,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: scale(var(--font-size-16));
 
-  @include iconSize(16px);
+  @include iconSize(var(--font-size-16));
 
   svg {
     transform-box: fill-box;

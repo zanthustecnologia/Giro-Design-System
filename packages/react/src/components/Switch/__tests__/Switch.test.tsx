@@ -38,20 +38,20 @@ describe("Switch component", () => {
 
   it("aplica escala 1.0 por padrão", () => {
     const { container } = render(<Switch />);
-    const wrapper = container.querySelector('.scale-1-0');
-    expect(wrapper).toBeInTheDocument();
+    const wrapper = container.querySelector('[style*="--giro-scale"]') as HTMLElement;
+    expect(wrapper.style.getPropertyValue('--giro-scale')).toBe('1');
   });
 
   it("aplica escala 1.5 quando informado", () => {
     const { container } = render(<Switch scale={1.5} />);
-    const wrapper = container.querySelector('.scale-1-5');
-    expect(wrapper).toBeInTheDocument();
+    const wrapper = container.querySelector('[style*="--giro-scale"]') as HTMLElement;
+    expect(wrapper.style.getPropertyValue('--giro-scale')).toBe('1.5');
   });
 
   it("aplica escala 2.0 quando informado", () => {
     const { container } = render(<Switch scale={2} />);
-    const wrapper = container.querySelector('.scale-2-0');
-    expect(wrapper).toBeInTheDocument();
+    const wrapper = container.querySelector('[style*="--giro-scale"]') as HTMLElement;
+    expect(wrapper.style.getPropertyValue('--giro-scale')).toBe('2');
   });
 
   it("is enabled by default", () => {
