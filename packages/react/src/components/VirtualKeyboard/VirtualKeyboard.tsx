@@ -64,6 +64,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
   value = '',
   onChange,
   onKeyPress,
+  onTypeChange,
   maxLength,
   Emoji = false,
   className,
@@ -129,6 +130,10 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
   useEffect(() => {
     syncKeyboardInput(value);
   }, [value, syncKeyboardInput]);
+
+  useEffect(() => {
+    onTypeChange?.(type);
+  }, [type, onTypeChange]);
 
   const scheduleHideIfBlurred = useCallback(() => {
     if (variant !== 'native') return;
