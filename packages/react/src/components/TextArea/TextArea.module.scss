@@ -1,9 +1,11 @@
 .container {
   display: flex;
+  font-family: var(--font-family-primary);
   flex-direction: column;
   align-items: flex-start;
   align-self: stretch;
   position: relative;
+  font-weight: var(--font-weight-regular);
 }
 
 .inputWrapper {
@@ -31,8 +33,8 @@
     outline: none;
     color: var(--color-neutral-low-default);
     font-size: var(--font-size-16);
-    font-family: var(--font-family-primary);
-    font-weight: var(--font-weight-regular);
+    font-family: inherit;
+    font-weight: inherit;
     line-height: 1.5;
     box-sizing: border-box;
     background-color: var(--color-neutral-high-default);
@@ -48,8 +50,8 @@
 
     &::placeholder {
       color: var(--color-neutral-low-medium);
-      font-family: var(--font-family-primary);
-      font-weight: var(--font-weight-regular);
+      font-family: inherit;
+      font-weight: inherit;
       font-size: var(--font-size-16);
     }
   }
@@ -65,7 +67,8 @@
 .helperText {
   font-size: var(--font-size-12);
   color: var(--color-neutral-low-medium);
-  font-family: var(--font-family-primary);
+  font-family: inherit;
+  font-weight: inherit;
   padding-top: var(--spacing-8);
   word-wrap: break-word;
   overflow-wrap: break-word;
@@ -83,7 +86,8 @@
 .charCount {
   font-size: var(--font-size-12);
   color: var(--color-neutral-low-medium);
-  font-family: var(--font-family-primary);
+  font-family: inherit;
+  font-weight: inherit;
   padding-top: var(--spacing-8);
   white-space: nowrap;
   flex-shrink: 0;
