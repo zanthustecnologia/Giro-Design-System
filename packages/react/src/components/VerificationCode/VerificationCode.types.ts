@@ -1,46 +1,64 @@
 import { BaseProps } from '../../types/common.types';
 
-/** Tipos de entrada suportados pelo VerificationCode */
-export type InputType = 'numeric' | 'alpha' | 'alphanumeric';
+/** Tipos de validação suportados pelo VerificationCode */
+export type OTPValidationType = 'numeric' | 'alphanumeric' | 'alpha';
 
 /**
  * Props do componente VerificationCode
  * @example
  * ```tsx
- * <VerificationCode 
+ * <VerificationCode
  *   length={6}
- *   inputType="numeric"
- *   onComplete={(code) => handleVerification(code)}
+ *   validationType="numeric"
+ *   onValueChange={(v) => console.log(v)}
  * />
  * ```
  * @example
  * ```tsx
- * <VerificationCode 
+ * <VerificationCode
  *   length={4}
- *   inputType="alphanumeric"
- *   onComplete={handleCode}
+ *   name="otp"
+ *   autoSubmit
+ *   onAutoSubmit={(v) => handleVerify(v)}
  *   hasError={!!error}
  *   errorMessage="Código inválido"
- *   disabled={isVerifying}
  * />
  * ```
  */
 export interface VerificationCodeProps extends BaseProps {
-  /** Número de dígitos do código (padrão: 6) */
+  /** Número de campos/dígitos (padrão: 6) */
   length?: number;
-  
-  /** Tipo de entrada permitida (padrão: "numeric") */
-  inputType?: InputType;
-  
-  /** Callback executado quando todos os campos são preenchidos: (value) => void */
-  onComplete?: (value: string) => void;
-  
+
+  /** Tipo de validação aceita pelo campo (padrão: 'numeric') */
+  validationType?: OTPValidationType;
+
+  /** Valor controlado do campo */
+  value?: string;
+
+  /** Valor inicial não controlado */
+  defaultValue?: string;
+
+  /** Callback chamado quando o valor muda */
+  onValueChange?: (value: string) => void;
+
+  /** Submete o formulário associado automaticamente ao completar */
+  autoSubmit?: boolean;
+
+  /** Callback chamado ao completar (quando autoSubmit está ativo) */
+  onAutoSubmit?: (value: string) => void;
+
+  /** Nome do campo para envio em formulários */
+  name?: string;
+
+  /** ID do formulário associado */
+  form?: string;
+
   /** Define se o campo está em estado de erro */
   hasError?: boolean;
-  
+
   /** Mensagem de erro exibida abaixo do componente */
   errorMessage?: string;
-  
-  /** Props adicionais passadas para os inputs */
-  [key: string]: any;
+
+  /** Define o campo como somente leitura */
+  readOnly?: boolean;
 }
