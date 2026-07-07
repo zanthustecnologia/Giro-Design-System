@@ -19,6 +19,7 @@ const Modal: React.FC<ModalProps> = ({
   id,
   footer,
   customWidth,
+  customHeight,
   fullscreen = false,
   ...rest
 }) => {
@@ -45,6 +46,7 @@ const Modal: React.FC<ModalProps> = ({
           id={id}
           style={{
             '--modal-custom-width': customWidth,
+            '--modal-custom-height': customHeight,
           } as React.CSSProperties}
           onInteractOutside={!closeOnOverlayClick ? (e) => e.preventDefault() : undefined}
           onOpenAutoFocus={handleOpenAutoFocus}
