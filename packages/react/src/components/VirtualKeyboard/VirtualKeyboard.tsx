@@ -514,8 +514,8 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
         });
         return;
       }
-      if (button === '{numbers}') { setLayoutName('numbers'); return; }
-      if (button === '{abc}')     { setLayoutName(baseLayout); return; }
+      if (button === '{numbers}') { setLayoutName('numbers'); onTypeChange?.('numeric'); return; }
+      if (button === '{abc}')     { setLayoutName(baseLayout); onTypeChange?.('default'); return; }
       if (button === '{alt}' || button === '{altright}') {
         setLayoutName((prev) => {
           if (prev === 'alt2') return 'alt';
@@ -570,6 +570,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
       layoutName,
       capsLockOn,
       onKeyPress,
+      onTypeChange,
       Emoji,
       variant,
       closeAccentMenu,
