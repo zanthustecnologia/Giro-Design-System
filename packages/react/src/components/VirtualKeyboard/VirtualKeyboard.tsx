@@ -64,6 +64,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
   value = '',
   onChange,
   onKeyPress,
+  onTypeChange,
   maxLength,
   Emoji = false,
   className,
@@ -75,13 +76,14 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
   targetRef,
   textFieldScale = 1,
   showEnterKey = true,
+  showTypeSwitchKey = true,
 }) => {
   const [layoutName, setLayoutName] = useState<string>('default');
   const [capsLockOn, setCapsLockOn] = useState(false);
   const [accentMenu, setAccentMenu] = useState<AccentMenuState | null>(null);
   const [accentMenuOffsetX, setAccentMenuOffsetX] = useState(0);
   const [activeLayout, setActiveLayout] = useState<Record<string, string[]> | null>(
-    getNativeLayout(type, Emoji, variant === 'native', variant === 'fixed', showEnterKey)
+    getNativeLayout(type, Emoji, variant === 'native', variant === 'fixed', showEnterKey, showTypeSwitchKey)
   );
   const visualType = NATIVE_LAYOUT_KEYS.has(type) ? type : 'default';
 
@@ -129,6 +131,10 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
   useEffect(() => {
     syncKeyboardInput(value);
   }, [value, syncKeyboardInput]);
+
+  useEffect(() => {
+    onTypeChange?.(type);
+  }, [type, onTypeChange]);
 
   const scheduleHideIfBlurred = useCallback(() => {
     if (variant !== 'native') return;
@@ -215,8 +221,8 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
     setLayoutName('default');
     setCapsLockOn(false);
 
-    setActiveLayout(getNativeLayout(type, Emoji, variant === 'native', variant === 'fixed', showEnterKey));
-  }, [type, Emoji, variant, showEnterKey]);
+    setActiveLayout(getNativeLayout(type, Emoji, variant === 'native', variant === 'fixed', showEnterKey, showTypeSwitchKey));
+  }, [type, Emoji, variant, showEnterKey, showTypeSwitchKey]);
 
   useEffect(() => {
     if (!Emoji && layoutName === 'emoticon') {
@@ -508,8 +514,8 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
         });
         return;
       }
-      if (button === '{numbers}') { setLayoutName('numbers'); return; }
-      if (button === '{abc}')     { setLayoutName(baseLayout); return; }
+      if (button === '{numbers}') { setLayoutName('numbers'); onTypeChange?.('numeric'); return; }
+      if (button === '{abc}')     { setLayoutName(baseLayout); onTypeChange?.('default'); return; }
       if (button === '{alt}' || button === '{altright}') {
         setLayoutName((prev) => {
           if (prev === 'alt2') return 'alt';
@@ -564,6 +570,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
       layoutName,
       capsLockOn,
       onKeyPress,
+      onTypeChange,
       Emoji,
       variant,
       closeAccentMenu,
@@ -628,7 +635,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
   const keyboardEl = activeLayout ? (
     <div
       ref={keyboardWrapperRef}
-      className={clsx(styles.keyboardWrapper, ((type === 'numeric' && layoutName === 'default') || layoutName === 'numbers') && styles.keyboardNumpadActive)}
+      className={clsx(styles.keyboardWrapper, ((type === 'numeric' && layoutName === 'default') || layoutName === 'numbers' || type === 'default') && styles.keyboardNumpadActive)}
       onPointerDownCapture={handleLongPressStart}
       onPointerUpCapture={handleLongPressEnd}
       onPointerLeave={handleLongPressEnd}
