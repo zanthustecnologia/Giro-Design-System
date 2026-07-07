@@ -48,4 +48,6 @@ export 'components/stepper/stepper.dart';
 export 'components/tabs/tabs.dart';
 export 'components/text_field/text_field.dart';
 export 'components/time_picker/time_picker.dart';
+export 'components/select/select_tokens.dart';
+export 'components/select/giro_select.dart';
 export 'components/tooltips/tooltips.dart';
