@@ -97,53 +97,56 @@ class _GiroSelectState<T> extends State<GiroSelect<T>> {
   }
 
   Widget _buildSingleSheet(BuildContext ctx) {
-    return Padding(
-      padding: EdgeInsets.only(
-        left: GiroSelectTokens.sheetPaddingHorizontal,
-        right: GiroSelectTokens.sheetPaddingHorizontal,
-        top: GiroSelectTokens.sheetPaddingTop,
-        bottom: GiroSelectTokens.sheetPaddingBottom +
-            MediaQuery.of(ctx).viewInsets.bottom,
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          ListView.separated(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: widget.items.length,
-            separatorBuilder: (_, __) =>
-                const SizedBox(height: GiroSelectTokens.itemSpacing),
-            itemBuilder: (_, index) {
-              final item = widget.items[index];
-              final isSelected = _selectedValues.contains(item.value);
-              return InkWell(
-                onTap: () {
-                  Navigator.pop(ctx);
-                  setState(() => _selectedValues = [item.value]);
-                  widget.onSelected?.call([item.value]);
-                },
-                borderRadius:
-                    BorderRadius.circular(GiroSelectTokens.borderRadius),
-                child: Container(
-                  height: GiroSelectTokens.itemHeight,
-                  decoration: BoxDecoration(
-                    color: isSelected
-                        ? GiroSelectTokens.itemSelectedColor
-                        : Colors.transparent,
+    return SafeArea(
+      child: Padding(
+        padding: EdgeInsets.only(
+          left: GiroSelectTokens.sheetPaddingHorizontal,
+          right: GiroSelectTokens.sheetPaddingHorizontal,
+          top: GiroSelectTokens.sheetPaddingTop,
+          bottom: GiroSelectTokens.sheetPaddingBottom +
+              MediaQuery.of(ctx).viewInsets.bottom,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Flexible(
+              child: ListView.separated(
+                shrinkWrap: true,
+                itemCount: widget.items.length,
+                separatorBuilder: (_, __) =>
+                    const SizedBox(height: GiroSelectTokens.itemSpacing),
+                itemBuilder: (_, index) {
+                  final item = widget.items[index];
+                  final isSelected = _selectedValues.contains(item.value);
+                  return InkWell(
+                    onTap: () {
+                      Navigator.pop(ctx);
+                      setState(() => _selectedValues = [item.value]);
+                      widget.onSelected?.call([item.value]);
+                    },
                     borderRadius:
                         BorderRadius.circular(GiroSelectTokens.borderRadius),
-                  ),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: GiroSelectTokens.sheetPaddingHorizontal,
-                  ),
-                  alignment: Alignment.centerLeft,
-                  child: _buildItemContent(item, isSelected),
-                ),
-              );
-            },
-          ),
-        ],
+                    child: Container(
+                      height: GiroSelectTokens.itemHeight,
+                      decoration: BoxDecoration(
+                        color: isSelected
+                            ? GiroSelectTokens.itemSelectedColor
+                            : Colors.transparent,
+                        borderRadius: BorderRadius.circular(
+                            GiroSelectTokens.borderRadius),
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: GiroSelectTokens.sheetPaddingHorizontal,
+                      ),
+                      alignment: Alignment.centerLeft,
+                      child: _buildItemContent(item, isSelected),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -152,93 +155,102 @@ class _GiroSelectState<T> extends State<GiroSelect<T>> {
     final localSelected = List<T>.from(_selectedValues);
     return StatefulBuilder(
       builder: (ctx, setSheetState) {
-        return Padding(
-          padding: EdgeInsets.only(
-            left: GiroSelectTokens.sheetPaddingHorizontal,
-            right: GiroSelectTokens.sheetPaddingHorizontal,
-            top: GiroSelectTokens.sheetPaddingTop,
-            bottom: GiroSelectTokens.sheetPaddingBottom +
-                MediaQuery.of(ctx).viewInsets.bottom,
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ListView.separated(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: widget.items.length,
-                separatorBuilder: (_, __) =>
-                    const SizedBox(height: GiroSelectTokens.itemSpacing),
-                itemBuilder: (_, index) {
-                  final item = widget.items[index];
-                  final isChecked = localSelected.contains(item.value);
-                  return InkWell(
-                    onTap: () {
-                      setSheetState(() {
-                        if (isChecked) {
-                          localSelected.remove(item.value);
-                        } else {
-                          localSelected.add(item.value);
-                        }
-                      });
-                      setState(
-                        () => _selectedValues = List<T>.from(localSelected),
-                      );
-                      widget.onSelected?.call(List<T>.from(localSelected));
-                    },
-                    borderRadius:
-                        BorderRadius.circular(GiroSelectTokens.borderRadius),
-                    child: Container(
-                      height: GiroSelectTokens.itemHeight,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: GiroSelectTokens.sheetPaddingHorizontal,
-                      ),
-                      child: Row(
-                        children: [
-                          IgnorePointer(
-                            child: Checkbox(
-                              value: isChecked,
-                              onChanged: (_) {},
-                              activeColor:
-                                  GiroSelectTokens.itemSelectedTextColor,
-                              materialTapTargetSize:
-                                  MaterialTapTargetSize.shrinkWrap,
-                              visualDensity: VisualDensity.compact,
-                            ),
+        return SafeArea(
+          child: Padding(
+            padding: EdgeInsets.only(
+              left: GiroSelectTokens.sheetPaddingHorizontal,
+              right: GiroSelectTokens.sheetPaddingHorizontal,
+              top: GiroSelectTokens.sheetPaddingTop,
+              bottom: GiroSelectTokens.sheetPaddingBottom +
+                  MediaQuery.of(ctx).viewInsets.bottom,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Flexible(
+                  child: ListView.separated(
+                    shrinkWrap: true,
+                    itemCount: widget.items.length,
+                    separatorBuilder: (_, __) =>
+                        const SizedBox(height: GiroSelectTokens.itemSpacing),
+                    itemBuilder: (_, index) {
+                      final item = widget.items[index];
+                      final isChecked = localSelected.contains(item.value);
+                      return InkWell(
+                        onTap: () {
+                          setSheetState(() {
+                            if (isChecked) {
+                              localSelected.remove(item.value);
+                            } else {
+                              localSelected.add(item.value);
+                            }
+                          });
+                          setState(
+                            () => _selectedValues = List<T>.from(localSelected),
+                          );
+                          widget.onSelected?.call(List<T>.from(localSelected));
+                        },
+                        borderRadius: BorderRadius.circular(
+                          GiroSelectTokens.borderRadius,
+                        ),
+                        child: Container(
+                          height: GiroSelectTokens.itemHeight,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: GiroSelectTokens.sheetPaddingHorizontal,
                           ),
-                          const SizedBox(width: GiroSelectTokens.itemIconGap),
-                          Expanded(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  item.label,
-                                  style: GoogleFonts.getFont(
-                                    GiroSelectTokens.fontFamily,
-                                    fontSize: GiroSelectTokens.inputFontSize,
-                                    color: GiroSelectTokens.itemTextColor,
-                                  ),
+                          child: Row(
+                            children: [
+                              IgnorePointer(
+                                child: Checkbox(
+                                  value: isChecked,
+                                  onChanged: (_) {},
+                                  activeColor:
+                                      GiroSelectTokens.itemSelectedTextColor,
+                                  materialTapTargetSize:
+                                      MaterialTapTargetSize.shrinkWrap,
+                                  visualDensity: VisualDensity.compact,
                                 ),
-                                if (item.subTitle != null)
-                                  Text(
-                                    item.subTitle!,
-                                    style: GoogleFonts.getFont(
-                                      GiroSelectTokens.fontFamily,
-                                      fontSize: GiroSelectTokens.subTextFontSize,
-                                      color: GiroSelectTokens.helperTextColor,
+                              ),
+                              const SizedBox(
+                                width: GiroSelectTokens.itemIconGap,
+                              ),
+                              Expanded(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      item.label,
+                                      style: GoogleFonts.getFont(
+                                        GiroSelectTokens.fontFamily,
+                                        fontSize:
+                                            GiroSelectTokens.inputFontSize,
+                                        color: GiroSelectTokens.itemTextColor,
+                                      ),
                                     ),
-                                  ),
-                              ],
-                            ),
+                                    if (item.subTitle != null)
+                                      Text(
+                                        item.subTitle!,
+                                        style: GoogleFonts.getFont(
+                                          GiroSelectTokens.fontFamily,
+                                          fontSize:
+                                              GiroSelectTokens.subTextFontSize,
+                                          color:
+                                              GiroSelectTokens.helperTextColor,
+                                        ),
+                                      ),
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ],
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
         );
       },
