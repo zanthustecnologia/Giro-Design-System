@@ -103,6 +103,10 @@
         height: auto;
         // max-height: 80px;
       }
+
+      :global(.hg-button[data-skbtn="{//}"]) {
+        @include blankSpace;
+      }
     }
 
     :global(.hg-layout-abc),
@@ -304,6 +308,10 @@
         flex: 1 0 auto;
         min-height: calc(44px + 2 * var(--spacing-4));
         max-height: calc(80px + 2 * var(--spacing-4));
+      }
+
+      :global(.hg-button[data-skbtn="{//}"]) {
+        @include blankSpace;
       }
     }
 

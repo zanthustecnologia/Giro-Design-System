@@ -12,6 +12,14 @@ const removeKeyFromLayout = (layout: Record<string, string[]>, key: string) =>
     ])
   ) as Record<string, string[]>;
 
+const replaceKeyWithBlank = (layout: Record<string, string[]>, key: string) =>
+  Object.fromEntries(
+    Object.entries(layout).map(([layoutName, rows]) => [
+      layoutName,
+      rows.map((row) => row.split(key).join('{//}')),
+    ])
+  ) as Record<string, string[]>;
+
 const QWERTY_LOWERCASE = [
   '1 2 3 4 5 6 7 8 9 0',
   'q w e r t y u i o p',
@@ -79,7 +87,8 @@ export const getNativeLayout = (
   Emoji = true,
   showDownKeyboardButton = true,
   isFixed = false,
-  showEnterKey = true
+  showEnterKey = true,
+  showTypeSwitchKey = true
 ): Record<string, string[]> | null => {
   const layout = NATIVE_LAYOUTS[type] ?? NATIVE_LAYOUTS.default ?? null;
 
@@ -97,6 +106,11 @@ export const getNativeLayout = (
 
   if (!showEnterKey) {
     computedLayout = removeKeyFromLayout(computedLayout, ENTER_KEY);
+  }
+
+  if (!showTypeSwitchKey) {
+    computedLayout = removeKeyFromLayout(computedLayout, '{numbers}');
+    computedLayout = replaceKeyWithBlank(computedLayout, '{abc}');
   }
 
   if (isFixed) {
