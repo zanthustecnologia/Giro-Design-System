@@ -13,6 +13,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
   width: var(--modal-custom-width, 800px);
+  height: var(--modal-custom-height, auto);
   max-height: 85vh;
   display: flex;
   flex-direction: column;
