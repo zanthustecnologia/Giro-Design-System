@@ -7,7 +7,12 @@ const meta: Meta<typeof Chips> = {
   title: 'Components/Chips',
   component: Chips,
   parameters: {
-    layout: 'centered'
+    docs: {
+      description: {
+        component: 'Chips são elementos compactos e em destaque usados para representar atributos, categorias, status ou filtros associados a um conteúdo. Eles comunicam informação de forma concisa e visual, sem a necessidade de ações do usuário.',
+      },
+    },
+    // layout: 'centered'
   },
   argTypes: {
     children: {
@@ -30,6 +35,11 @@ const meta: Meta<typeof Chips> = {
     textColor: {
       control: { type: 'text' },
       description: 'Token CSS para cor do texto e ícones sem o prefixo --. Ex: color-brand-secondary-dark',
+    },
+    scale: {
+      control: { type: 'select' },
+      options: [1, 1.5, 2],
+      description: 'Escala visual do componente.',
     },
     leftIcon: {
       control: { type: 'select' },
@@ -63,10 +73,11 @@ export const Default: Story = {
     children: 'Etiqueta',
     variant: 'neutral',
     disabled: false,
+    scale: 1,
   },
 };
 
-export const Variants: Story = {
+export const Variantes: Story = {
   render: () => (
     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
       <Chips variant="neutral">Neutro</Chips>
@@ -177,6 +188,16 @@ export const Interativo: Story = {
       >
         Desabilitado
       </Chips>
+    </div>
+  ),
+};
+
+export const Escalas: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '64px', alignItems: 'flex-start' }}>
+      <Chips scale={1}>Scale 1.0</Chips>
+      <Chips scale={1.5}>Scale 1.5</Chips>
+      <Chips scale={2}>Scale 2.0</Chips>
     </div>
   ),
 };

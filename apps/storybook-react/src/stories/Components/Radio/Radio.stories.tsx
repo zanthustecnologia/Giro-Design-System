@@ -6,7 +6,11 @@ const meta: Meta<typeof Radio> = {
   title: 'Components/Radio',
   component: Radio,
   parameters: {
-    layout: 'centered'
+    docs: {
+      description: {
+        component: 'Radio é um controle de formulário que permite ao usuário selecionar exatamente uma opção dentro de um grupo. Ao contrário do Checkbox, selecionar um item automaticamente desmarca os demais.',
+      },
+    },
   },
   args: {
     orientation: 'vertical',
@@ -24,6 +28,11 @@ const meta: Meta<typeof Radio> = {
     ariaLabel: {
       control: { type: 'text' },
     },
+    scale: {
+      control: { type: 'select' },
+      options: [1, 1.5, 2],
+      description: 'Escala visual do componente.',
+    },
     onValueChange: {
       action: 'valueChanged',
     },
@@ -32,6 +41,16 @@ const meta: Meta<typeof Radio> = {
     className: { table: { disable: true } },
     name: { table: { disable: true } },
   },
+};
+
+export const Escalas: Story = {
+  render: () => (
+    <div style={{ display: 'flex', gap: '100px', alignItems: 'center' }}>
+      <Radio items={basicItems} ariaLabel="Scale 1.0" scale={1} />
+      <Radio items={basicItems} ariaLabel="Scale 1.5" scale={1.5} />
+      <Radio items={basicItems} ariaLabel="Scale 2.0" scale={2} />
+    </div>
+  ),
 };
 
 export default meta;
@@ -77,7 +96,7 @@ export const ComItemDesabilitado: StoryFn = () => (
   />
 );
 
-export const MultiRadio: Story = {
+export const MultiplaSelecao: Story = {
   render: (args) => {
       const items = [
         { id: '1', value: '1', label: args.ariaLabel || 'Option 1' },
@@ -97,3 +116,4 @@ export const MultiRadio: Story = {
       );
   }
 }
+MultiplaSelecao.storyName = 'Múltipla Seleção';

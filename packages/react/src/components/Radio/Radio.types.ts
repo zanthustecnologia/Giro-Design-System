@@ -1,4 +1,6 @@
-import { BaseProps } from '../../types/common.types';
+import * as React from 'react';
+
+import { ScalableProps, Scale } from '../../types/common.types';
 
 /**
  * Props de um item individual de rádio
@@ -44,7 +46,7 @@ export interface RadioProps {
  * />
  * ```
  */
-export interface RadioGroupProps extends BaseProps {
+export interface RadioGroupProps extends ScalableProps, Omit<React.HTMLAttributes<HTMLDivElement>, 'defaultValue' | 'dir'> {
   
   /** Array de itens de rádio */
   items: RadioProps[];

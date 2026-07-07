@@ -1,5 +1,249 @@
 # @giro-ds/react
 
+## 11.2.0
+
+### Added
+
+#### VerificationCode
+
+Reescrito com `unstable_OneTimePasswordField` do Radix UI. Novas props: `validationType`, `value`, `defaultValue`, `autoSubmit`, `onValueChange`, `onAutoSubmit`, `name`, `form` e `readOnly`.
+
+#### FileUpload
+
+Novo componente de upload de arquivos com suporte a clique e drag & drop. Props de controle: `maxFileSize`, `maxFilesQuantity`, `accept`, `multiple`, `disabled`, `error`, `errorMessage` e `descriptionErrorMessage`. Suporta modo controlado (`value` + `onChange`) e exibe thumbnails para imagens.
+
+#### Modal
+
+Adiciona a prop `customHeight?: string` para definir a altura do modal via CSS variable `--modal-custom-height`.
+
+#### VirtualKeyboard
+
+Adiciona as props:
+`onTypeChange` disparado quando o tipo do teclado muda;
+`showTypeSwitchKey` que, quando `false`, remove a tecla de alternância do layout.
+O tipo `VirtualKeyboardType` passou a ser exportado pelo pacote.
+
+### Changed
+
+#### VerificationCode
+
+Renomeia props para alinhamento com Radix UI:
+`inputType` → `validationType`;
+`onComplete` → `onValueChange` / `onAutoSubmit`.
+Remove o spread de props arbitrárias (`[key: string]: any`) em favor de tipagem estrita.
+
+#### VirtualKeyboard
+
+Renomeia o callback de digitação:
+`onChange: (e: ChangeEvent) => void` → `onValueChange: (value: string) => void`.
+
+#### TextField
+
+`font-family` e `font-weight` passam a ser herdados pelo input, placeholder e helper text.
+O clear button foi ampliado de `16px` para `30px` e recebeu efeito de hover.
+
+#### TextArea
+
+`font-family` e `font-weight` passam a ser herdados pelo textarea, placeholder, helper text e contador de caracteres.
+
+#### Search
+
+`font-family` passa a ser herdado pelo input e placeholder.
+O clear button foi ampliado de `16px` para `30px` e recebeu efeito de hover.
+
+### Deprecated
+
+#### VerificationCode (implementação anterior)
+
+Movida para `src/components/.deprecated/VerificationCode`. Utilize o novo `VerificationCode` baseado em Radix UI.
+
+### Fixed
+
+#### Label
+
+Ajustes de CSS para correção de layout e alinhamento visual.
+
+#### TableV2
+
+Ajustes de CSS para correção de layout.
+
+## 11.1.0
+
+### Added
+
+#### VirtualKeyboard
+
+Adiciona as props: 
+`showEnterKey` que permite ocultar a tecla Enter; 
+`textFieldScale` repassa a escala para o `TextField` interno exibido no modo `fixed`. 
+
+### Fixed
+
+#### VirtualKeyboard
+
+Corrige o comportamento das teclas do numpad em modo `fixed`.
+
+## 11.0.0
+
+### Major Changes
+
+- ac7ff8f: ## [11.0.0]
+
+  ### Changed
+
+  #### Scale system (todos os componentes)
+
+  O sistema de escala foi refatorado em todos os componentes. O mecanismo anterior aplicava `transform: scale()` via classes CSS globais (`.scale-1-0`, `.scale-1-5`, `.scale-2-0`) passadas no `className`. O novo mecanismo injeta CSS custom properties (`--component-scale`) via prop `style` com `useMemo`, eliminando os efeitos colaterais de `transform: scale()` sobre dropdowns, tooltips e elementos posicionados via portal (Radix UI).
+
+  Todos os componentes continuam aceitando `scale?: 1 | 1.5 | 2`.
+
+  #### Menu
+
+  A prop `scale` unifica o comportamento antes dividido entre `dropdownScale` e `buttonScale`. O valor é aplicado simultaneamente ao trigger e ao dropdown.
+
+  #### DatePicker
+
+  A prop `scale` unifica o comportamento antes dividido entre `datePickerScale` e `calendarScale`. O valor é aplicado simultaneamente ao campo e ao calendário interno.
+
+  ### Removed
+
+  #### Menu
+
+  Remove as props `dropdownScale` e `buttonScale` em favor da prop unificada `scale`. Remove também a prop `className` duplicada, que já estava disponível via `BaseProps`.
+
+  | Antes                                          | Depois               |
+  | ---------------------------------------------- | -------------------- |
+  | `<Menu dropdownScale={1.5} buttonScale={1.5}>` | `<Menu scale={1.5}>` |
+
+  #### DatePicker
+
+  Remove as props `datePickerScale` e `calendarScale` em favor da prop unificada `scale`. Remove também a prop `className` duplicada, que já estava disponível via `BaseProps`.
+
+  | Antes                                                  | Depois                     |
+  | ------------------------------------------------------ | -------------------------- |
+  | `<DatePicker datePickerScale={2} calendarScale={2} />` | `<DatePicker scale={2} />` |
+
+  #### global.scss
+
+  Remove as classes `.scale-1-0`, `.scale-1-5` e `.scale-2-0`. A escala agora é controlada exclusivamente via CSS custom property `--component-scale` injetada por `style`.
+
+## [10.0.0] - 2026-06-22
+
+### Added
+
+#### Card
+
+Novo componente contêiner visual para agrupar conteúdos relacionados. Utiliza tokens do design system para borda, border-radius e espaçamento interno. Aceita `children` (obrigatório), `className` opcional e a prop `interactiveCard` (boolean) que aplica efeito de hover e cursor pointer.
+
+#### VirtualKeyboard
+
+Adiciona responsividade mobile com breakpoints em 360px, 390px, 480px e 768px. No modo `fixed`, utiliza container queries; no modo `native`, utiliza media queries. Em telas ≤ 768px, exibe `keyPreview` (letra pressionada acima da tecla). O menu de acentos foi reorganizado em linhas de 5, com mais opções por tecla. Adiciona scroll automático do campo alvo ao abrir o teclado no modo `native`.
+
+#### TextField
+
+Adiciona a prop `disableAutoComplete` para controle do autocompletar do navegador.
+
+### Changed
+
+#### TextField, TextArea, Search, TableV2
+
+Unifica a API do teclado virtual: as props `virtualKeyboard: boolean`, `virtualKeyboardType` e `virtualKeyboardMaxLength` são substituídas por uma única prop `virtualKeyboard?: VirtualKeyboardType` (`'default' | 'numeric' | 'none' | undefined`). O `maxLength` agora é usado diretamente no lugar de `virtualKeyboardMaxLength`.
+
+Guia de migração:
+
+```tsx
+// Antes
+<TextField
+  virtualKeyboard={true}
+  virtualKeyboardType="default"
+  virtualKeyboardMaxLength={50}
+  side="bottom"
+  align="start"
+/>
+
+// Depois
+<TextField
+  virtualKeyboard="default"
+  maxLength={50}
+  tooltipSide="bottom"
+  tooltipAlign="start"
+/>
+
+// Para desabilitar, omita a prop ou passe undefined
+<TextField />
+```
+
+#### TextField
+
+Renomeia as props de tooltip para evitar conflito com atributos HTML nativos.
+
+| Antes   | Depois         |
+| ------- | -------------- |
+| `side`  | `tooltipSide`  |
+| `align` | `tooltipAlign` |
+
+Remove o valor padrão `30` da prop `maxLength`, que agora é `number | undefined`.
+
+#### VirtualKeyboard
+
+Refatora o SCSS com extração de mixins (`space`, `blankSpace`, `buttonFlex`). Remove estilos `.disabled` duplicados. O modo `fixed` agora repassa `disableAutoComplete` ao `TextField` interno. Remove `backdrop-filter: blur`, substituído por cor sólida.
+
+### Removed
+
+#### TextField, TextArea, Search, TableV2
+
+Remove as props `virtualKeyboardType` e `virtualKeyboardMaxLength`, incorporadas à nova API unificada de `virtualKeyboard`.
+
+### Fixed
+
+#### Checkbox
+
+Amplia a área de clique interativa adicionando pseudo-elemento `::after` com `position: absolute` e `inset: -11px`.
+
+#### VirtualKeyboard
+
+Corrige o fechamento indevido do teclado no iOS. Corrige a exibição de `errorMessage`, que agora só aparece quando `error` também é `true`.
+
+#### Stories de Escalas (Button, Calendar, Checkbox, Chips, DatePicker, Menu, Quantity, Radio, Search, Select, Switch, TextField)
+
+Corrige valores de `gap` nas stories de Escalas para evitar sobreposição visual entre itens em escala maior.
+
+## [9.1.0]
+
+### Added
+
+#### VirtualKeyboard
+
+Novo componente para ambientes sem teclado físico, como totens, terminais e painéis de pagamento. Suporta dois modos: `fixed`, sempre visível com `TextField` próprio integrado, e `native`, que aparece ao focar no campo apontado por `targetRef` e se posiciona via `createPortal` como overlay na base da tela.
+
+Inclui 5 layouts nativos (`default`, `numeric`, `fullKeyboard`, `mobile`, `appleIOS`) e suporte a mais de 40 layouts de idioma via `simple-keyboard-layouts`. O comportamento de Shift e CapsLock é independente: CapsLock mantém maiúsculas continuamente enquanto Shift retorna ao layout padrão após a primeira tecla.
+
+#### Button, Chips, Quantity, TextField
+
+Adicionada a prop `scale?: 1 | 1.5 | 2` para controle da escala visual. A prop aplica classes CSS correspondentes ao fator de escala configurado.
+
+#### Menu
+
+Adicionadas as props `scale?: 1 | 1.5 | 2` e `buttonScale?: 1 | 1.5 | 2`. A prop `buttonScale` repassa a escala ao elemento de trigger quando compatível.
+
+#### TextField, TextArea, Search
+
+Adicionadas as props opcionais `virtualKeyboard`, `virtualKeyboardLayout` e `virtualKeyboardMaxLength` para integração com o `VirtualKeyboard`. Quando `virtualKeyboard` está ativo, o `inputMode` do campo é definido como `none`, suprimindo o teclado nativo do sistema operacional.
+
+#### TableV2
+
+Adicionadas as props opcionais `virtualKeyboard`, `virtualKeyboardLayout` e `virtualKeyboardMaxLength` em `TableV2HeaderProps`, repassadas ao `Search` interno da tabela.
+
+### Fixed
+
+#### TableV2
+
+Corrige a renderização do label estático "Filtros" que aparecia duplicado quando `filterItems` continha apenas itens do tipo `combined`. O label agora só é exibido quando existe ao menos um filtro que não seja do tipo `combined`.
+
+#### TextField
+
+Corrige o `<span>` de `helperText` e `errorMessage`, que era renderizado mesmo sem conteúdo, causando espaço invisível no layout. O elemento agora só é montado quando há texto a exibir.
+
 ## 9.0.0
 
 ### Major Changes

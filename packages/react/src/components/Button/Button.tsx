@@ -20,6 +20,7 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPro
   disabled = false,
   onClick,
   size = 'lg',
+  scale = 1,
   className,
   type = 'button',
   id,
@@ -153,6 +154,8 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPro
     );
   };
 
+  const { style: externalStyle, ...otherRest } = rest as Record<string, unknown> & { style?: React.CSSProperties };
+
   const baseProps = {
     ref,
     id: componentId,
@@ -162,7 +165,11 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPro
     'aria-busy': loading || undefined,
     tabIndex: disabled || loading ? -1 : 0,
     onClick: handleClick,
-    ...rest,
+    ...otherRest,
+    style: {
+      '--giro-scale': scale,
+      ...externalStyle,
+    } as React.CSSProperties,
   };
 
   const getNavigationProps = () => {

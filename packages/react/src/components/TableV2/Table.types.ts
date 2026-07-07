@@ -1,5 +1,6 @@
 import type { Side, Align, Locale, Variant } from '../../types/common.types';
 import type { FilterItem as FilterDropdownItem } from '../Filter';
+import type { VirtualKeyboardType } from '../VirtualKeyboard/VirtualKeyboard.types';
 import type { ColumnDef, RowData } from '@tanstack/react-table';
 import type { ReactNode, ReactElement } from 'react';
 
@@ -114,6 +115,8 @@ export interface TableV2HeaderProps {
   searchPlaceholder?: string;
   /** Items de filtro (Status, Data de início, etc.) */
   filterItems?: FilterItem[];
+  /** Habilita o teclado virtual */
+  virtualKeyboard?: VirtualKeyboardType;
   /** Modo de busca: 'instant' chama onSearchChange a cada tecla; 'on-enter' chama apenas ao pressionar Enter (padrão) */
   searchMode?: 'instant' | 'on-enter';
   /**

@@ -13,14 +13,19 @@ const Radio: React.FC<RadioGroupProps> = ({
   id,
   ariaLabel,
   orientation = 'vertical',
+  scale = 1,
   className,
+  style,
   ...rest
 }) => {
-  const componentId = id || useId();
+  const generatedId = useId();
+  const componentId = id || generatedId;
+
   return (
     <RadioGroup.Root
       id={componentId}
       className={clsx(styles.root, className)}
+      style={{ '--giro-scale': scale, ...style } as React.CSSProperties}
       defaultValue={defaultValue}
       onValueChange={onValueChange}
       name={name}

@@ -46,8 +46,10 @@ ButtonStyle _baseStyle({
     }),
 
     overlayColor: WidgetStateProperty.resolveWith((states) {
-      if (states.contains(WidgetState.hovered)) return hoverBg.withOpacity(0.12);
-      if (states.contains(WidgetState.pressed)) return pressedBg.withOpacity(0.16);
+      if (states.contains(WidgetState.hovered))
+        return hoverBg.withOpacity(0.12);
+      if (states.contains(WidgetState.pressed))
+        return pressedBg.withOpacity(0.16);
       return null;
     }),
 
@@ -269,7 +271,8 @@ ThemeData applyGiroTheme(ThemeData base) {
         if (states.contains(WidgetState.disabled)) return Colors.transparent;
         return GiroSwitchTokens.trackBorderColor;
       }),
-      trackOutlineWidth: WidgetStateProperty.all(GiroSwitchTokens.trackBorderWidth),
+      trackOutlineWidth:
+          WidgetStateProperty.all(GiroSwitchTokens.trackBorderWidth),
       overlayColor: WidgetStateProperty.resolveWith((states) {
         if (states.contains(WidgetState.disabled)) return Colors.transparent;
         if (states.contains(WidgetState.pressed)) {

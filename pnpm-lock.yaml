@@ -96,9 +96,6 @@ importers:
       '@giro-ds/version':
         specifier: workspace:*
         version: link:../../packages/version
-      '@tanstack/react-table':
-        specifier: ^8.21.3
-        version: 8.21.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react-router-dom:
         specifier: ^7.8.1
         version: 7.10.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -206,6 +203,9 @@ importers:
       react-router-dom:
         specifier: ^7.8.1
         version: 7.10.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react-simple-keyboard:
+        specifier: ^3.8.206
+        version: 3.8.206(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
     devDependencies:
       '@rollup/plugin-commonjs':
         specifier: ^26.0.0
@@ -5032,6 +5032,12 @@ packages:
     peerDependenciesMeta:
       react-dom:
         optional: true
+
+  react-simple-keyboard@3.8.206:
+    resolution: {integrity: sha512-1cbpxp7iBc5Z6CJUtsOGG3NpIVbFOV1uy9/LQLKm/+SrbH7Vgw2AY8deBlp/CiwVQN3bDYFt6EV19KaPUFjzbA==}
+    peerDependencies:
+      react: ^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+      react-dom: ^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
 
   react-style-singleton@2.2.3:
     resolution: {integrity: sha512-b6jSvxvVnyptAiLjbkWLE/lOnR4lfTtDAl+eUC7RZy+QQWc6wRzIV2CE6xBuMmDxc2qIihtDCZD5NPOFl7fRBQ==}
@@ -11094,6 +11100,11 @@ snapshots:
       react: 18.3.1
       set-cookie-parser: 2.7.2
     optionalDependencies:
+      react-dom: 18.3.1(react@18.3.1)
+
+  react-simple-keyboard@3.8.206(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+    dependencies:
+      react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
   react-style-singleton@2.2.3(@types/react@19.2.7)(react@18.3.1):

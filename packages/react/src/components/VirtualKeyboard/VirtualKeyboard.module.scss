@@ -1,0 +1,612 @@
+@mixin svg {
+  width: 1em;
+  height: 1em;
+  vertical-align: middle;
+}
+
+@mixin space {
+  flex: 7.8;
+}
+
+@mixin blankSpace {
+  flex: 1;
+  opacity: 0;
+  pointer-events: none;
+  cursor: default;
+}
+
+@mixin buttonFlex {
+  flex: 1 0 0;
+}
+
+.container {
+  font-family: var(--font-family-primary);
+  width: 100%;
+  container-type: inline-size;
+  container-name: vkeyboard;
+
+  :global(.hg-theme-default) {
+    font-family: var(--font-family-primary);
+    font-weight: var(--font-weight-medium);
+    background-color: var(--color-neutral-high-default);
+
+    :global(.hg-button) {
+      font-family: var(--font-family-primary);
+      font-weight: var(--font-weight-medium);
+      font-size: var(--font-size-20);
+      margin: var(--spacing-4);
+      height: 44px;
+      background-color: var(--color-neutral-high-medium);
+      border-radius: var(--border-radius-8);
+      box-shadow: none;
+      line-height: 1;
+
+      svg {
+        @include svg;
+      }
+
+      [data-icon-key] {
+        display: inline-flex;
+        align-items: center;
+        vertical-align: middle;
+      }
+    }
+
+    :global(.hg-button:active),
+    :global(.hg-button:focus),
+    :global(.hg-button.hg-activeButton) {
+      box-shadow: none;
+      border-bottom: none;
+    }
+    :global(.hg-button[data-skbtn="{enter}"]) {
+      background-color: var(--color-brand-primary-default);
+      color: var(--color-neutral-high-default);
+    }
+  }
+
+  &.layout--numeric {
+    // Em modo fixed, o container precisa preencher a altura do pai para a cadeia de height: 100% funcionar
+    &.mode--fixed {
+      height: 100%;
+    }
+
+    // Altura adaptativa ao container — hg-theme-default precisa preencher o keyboardWrapper
+    :global(.hg-theme-default) {
+      height: 100%;
+    }
+
+    :global(.hg-layout-default),
+    :global(.hg-layout-numbers) {
+      // Distribui as 4 linhas do numpad proporcionalmente na altura disponível
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+
+      // .hg-rows é o intermediário entre .hg-theme-default e .hg-row —
+      // precisa ser flex column para repassar o espaço disponível
+      :global(.hg-rows) {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+      }
+
+      :global(.hg-row) {
+        flex: 1;
+        min-height: 44px;
+        // max-height: 80px
+      }
+
+      :global(.hg-button) {
+        @include buttonFlex;
+        border-radius: var(--border-radius-16);
+        height: auto;
+        // max-height: 80px;
+      }
+
+      :global(.hg-button[data-skbtn="{//}"]) {
+        @include blankSpace;
+      }
+    }
+
+    :global(.hg-layout-abc),
+    :global(.hg-layout-shift),
+    :global(.hg-layout-caps),
+    :global(.hg-layout-alt),
+    :global(.hg-layout-alt2),
+    :global(.hg-layout-emoticon) {
+      :global(.hg-button[data-skbtn="{//}"]) {
+        @include blankSpace;
+      }
+
+      :global(.hg-button[data-skbtn="{space}"]) {
+        @include space;
+      }
+    }
+  }
+
+  &.layout--default {
+    // Em modo fixed, o container precisa preencher a altura do pai para a cadeia de height: 100% funcionar
+    &.mode--fixed {
+      height: 100%;
+    }
+
+    // Altura adaptativa ao container — hg-theme-default precisa preencher o keyboardWrapper
+    :global(.hg-theme-default) {
+      height: 100%;
+    }
+
+    :global(.hg-layout-default),
+    :global(.hg-layout-shift),
+    :global(.hg-layout-caps),
+    :global(.hg-layout-alt),
+    :global(.hg-layout-alt2),
+    :global(.hg-layout-abc),
+    :global(.hg-layout-emoticon) {
+      // Distribui as linhas do QWERTY proporcionalmente na altura disponível
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+
+      // .hg-rows é o intermediário entre .hg-theme-default e .hg-row —
+      // precisa ser flex column para repassar o espaço disponível
+      :global(.hg-rows) {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+      }
+
+      :global(.hg-row) {
+        flex: 1;
+        min-height: 44px;
+        // max-height: 80px
+      }
+
+      :global(.hg-button) {
+        @include buttonFlex;
+        height: auto;
+        // max-height: 60px;
+      }
+
+      :global(.hg-row) {
+        flex: 1 0 auto;
+        min-height: calc(44px + 2 * var(--spacing-4));
+        // max-height: 60px;
+      }
+
+      :global(.hg-button) {
+        @include buttonFlex;
+        height: auto;
+      }
+    }
+
+    :global(.hg-button[data-skbtn="{//}"]) {
+      @include blankSpace;
+    }
+
+    :global(.hg-button[data-skbtn="{space}"]) {
+      @include space;
+    }
+
+    :global(.hg-layout-numbers) {
+      :global(.hg-button) {
+        @include buttonFlex;
+      }
+    }
+  }
+
+  &.mode--fixed {
+    display: flex;
+    flex-direction: column;
+    border: var(--border-width-1) solid var(--color-neutral-high-medium);
+    border-radius: var(--border-radius-12);
+    overflow: hidden;
+    background-color: var(--color-neutral-high-default);
+
+    .textFieldContainer {
+      padding: var(--spacing-8);
+      background-color: var(--color-neutral-high-default);
+    }
+
+    .keyboardWrapper {
+      padding: 0 var(--spacing-4) var(--spacing-4);
+    }
+
+    // Quando o numpad está ativo, o wrapper preenche o espaço restante do container
+    .keyboardNumpadActive {
+      flex: 1;
+      min-height: 0;
+
+      :global(.hg-theme-default) {
+        height: 100%;
+      }
+    }
+
+    :global(.hg-theme-default) {
+      border-radius: var(--border-radius-none);
+    }
+
+    :global(.hg-button[data-skbtn="{enter}"]) {
+      flex: 2;
+    }
+  }
+}
+
+.overlay {
+  position: fixed;
+  bottom: var(--spacing-0);
+  left: var(--spacing-0);
+  right: var(--spacing-0);
+  background-color: var(--color-neutral-high-default);
+  // backdrop-filter: blur(20px);
+  border-top: var(--border-width-1) solid var(--color-neutral-high-dark);
+  transform: translateY(100%);
+  transition: transform 0.25s ease-out;
+  will-change: transform;
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-medium);
+  padding: var(--spacing-4);
+
+  :global(.hg-theme-default) {
+    font-family: var(--font-family-primary);
+    border-radius: var(--border-radius-none);
+    font-weight: var(--font-weight-medium);
+    background-color: var(--color-neutral-high-default);
+    // backdrop-filter: blur(20px);
+    box-shadow: none;
+
+    :global(.hg-button) {
+      font-family: var(--font-family-primary);
+      font-weight: var(--font-weight-medium);
+      font-size: var(--font-size-20);
+      background-color: var(--color-neutral-high-medium);
+      margin: var(--spacing-4);
+      height: 44px;
+      line-height: 1;
+      letter-spacing: normal;
+      border-radius: var(--border-radius-8);
+      display: inline-flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      gap: var(--spacing-6);
+      box-shadow: none;
+
+      svg {
+        @include svg;
+      }
+    }
+
+    :global(.hg-button:active),
+    :global(.hg-button:focus),
+    :global(.hg-button.hg-activeButton) {
+      box-shadow: none;
+      border-bottom: none;
+     }
+
+    :global(.hg-button[data-skbtn="{enter}"]) {
+      background-color: var(--color-brand-primary-default);
+      color: var(--color-neutral-high-default);
+    }
+  }
+
+  &.overlayOpen {
+    transform: translateY(0);
+  }
+
+  &.layout--numeric {
+    :global(.hg-layout-default),
+    :global(.hg-layout-numbers) {
+      :global(.hg-button) {
+        @include buttonFlex;
+        height: auto;
+        max-height: 80px;
+      }
+
+      :global(.hg-row) {
+        flex: 1 0 auto;
+        min-height: calc(44px + 2 * var(--spacing-4));
+        max-height: calc(80px + 2 * var(--spacing-4));
+      }
+
+      :global(.hg-button[data-skbtn="{//}"]) {
+        @include blankSpace;
+      }
+    }
+
+    :global(.hg-layout-abc),
+    :global(.hg-layout-shift),
+    :global(.hg-layout-caps),
+    :global(.hg-layout-alt),
+    :global(.hg-layout-alt2),
+    :global(.hg-layout-emoticon) {
+      :global(.hg-button[data-skbtn="{//}"]) {
+        @include blankSpace;
+      }
+
+      :global(.hg-button[data-skbtn="{space}"]) {
+        @include space;
+      }
+    }
+  }
+
+  &.layout--default {
+    :global(.hg-button[data-skbtn="{//}"]) {
+      @include blankSpace;
+    }
+
+    :global(.hg-button[data-skbtn="{space}"]) {
+      @include space;
+    }
+
+    :global(.hg-layout-numbers) {
+      :global(.hg-button) {
+        @include buttonFlex;
+      }
+    }
+  }
+}
+
+.textFieldContainer {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.textFieldWrapper {
+  width: 100%;
+  height: auto;
+  min-height: auto;
+  box-sizing: border-box;
+}
+
+.keyboardWrapper {
+  position: relative;
+}
+
+.keyPreview {
+  position: fixed;
+  transform: translate(-50%, calc(-100%));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  padding: var(--spacing-4);
+  border-radius: var(--border-radius-8);
+  border: var(--border-width-1) solid var(--color-neutral-low-light);
+  background: var(--color-neutral-high-medium);
+  box-shadow: none;
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-24);
+  font-weight: var(--font-weight-medium);
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.accentMenu {
+  position: fixed;
+  transform: translate(-50%, calc(-100%));
+  display: inline-flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--spacing-4);
+  padding: var(--spacing-4);
+  border-radius: var(--border-radius-8);
+  border: var(--border-width-1) solid var(--color-neutral-low-light);
+  background: var(--color-neutral-high-medium);
+  box-shadow: none;
+}
+
+.accentMenuRow {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
+}
+
+.accentOption {
+  min-width: 50px;
+  height: 50px;
+  padding: 0 var(--spacing-8);
+  border: none;
+  border-radius: var(--border-radius-8);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-24);
+  background: none;
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+
+  &:hover {
+    background: var(--color-neutral-high-light);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary-default);
+    outline-offset: 1px;
+  }
+}
+
+// ─── Container queries — modo fixed (respondem à largura do .container) ──────
+// Funcionam tanto no Storybook quanto em dispositivos reais.
+
+@container vkeyboard (max-width: 768px) {
+  :global(.hg-theme-default) {
+    :global(.hg-button) {
+      height: 42px;
+      margin: 3px;
+    }
+  }
+}
+
+@container vkeyboard (max-width: 480px) {
+  .textFieldContainer {
+    padding: var(--spacing-4);
+  }
+
+  .keyboardWrapper {
+    padding: 2px var(--spacing-4) var(--spacing-4);
+  }
+
+  :global(.hg-theme-default) {
+    :global(.hg-button) {
+      height: 40px;
+      font-size: var(--font-size-18);
+      margin: 3px;
+    }
+  }
+}
+
+@container vkeyboard (max-width: 390px) {
+  .textFieldContainer {
+    padding: var(--spacing-4) var(--spacing-4) 2px;
+  }
+
+  .keyboardWrapper {
+    padding: 2px 2px var(--spacing-4);
+  }
+
+  :global(.hg-theme-default) {
+    :global(.hg-button) {
+      height: 38px;
+      font-size: var(--font-size-16);
+      margin: 2px;
+    }
+  }
+}
+
+@container vkeyboard (max-width: 360px) {
+  .textFieldContainer {
+    padding: 2px;
+  }
+
+  .keyboardWrapper {
+    padding: 2px;
+  }
+
+  :global(.hg-theme-default) {
+    :global(.hg-button) {
+      height: 34px;
+      font-size: var(--font-size-14);
+      margin: 2px;
+      border-radius: var(--border-radius-4);
+    }
+  }
+}
+
+// ─── Media queries — modo native overlay (respondem ao viewport) ──────────────
+// O overlay é position:fixed e portado para document.body, por isso usa @media.
+
+@media (max-width: 768px) {
+  .overlay {
+    :global(.hg-theme-default) {
+      :global(.hg-button) {
+        height: 42px;
+        margin: 3px;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .overlay {
+    padding: 3px 2px;
+
+    :global(.hg-theme-default) {
+      :global(.hg-button) {
+        height: 40px;
+        font-size: var(--font-size-18);
+        margin: 3px;
+      }
+    }
+  }
+}
+
+@media (max-width: 390px) {
+  .overlay {
+    padding: 2px;
+
+    :global(.hg-theme-default) {
+      :global(.hg-button) {
+        height: 38px;
+        font-size: var(--font-size-16);
+        margin: 2px;
+      }
+    }
+  }
+}
+
+@media (max-width: 360px) {
+  .overlay {
+    padding: 2px 2px var(--spacing-4);
+
+    :global(.hg-theme-default) {
+      :global(.hg-button) {
+        height: 34px;
+        font-size: var(--font-size-14);
+        margin: 2px;
+        border-radius: var(--border-radius-4);
+      }
+    }
+  }
+}
+
+// ─── Media queries — keyPreview e accentOption (portais para document.body) ───
+// Portados fora de qualquer container, precisam de @media.
+// accentOption e keyPreview mantém um tamanho mínimo de 44px — mínimo de alvo de toque (WCAG 2.5.5)
+
+@media (max-width: 768px) {
+  .keyPreview {
+    width: 48px;
+    height: 48px;
+  }
+
+  .accentOption {
+    min-width: 48px;
+    height: 48px;
+  }
+}
+
+@media (max-width: 480px) {
+  .keyPreview {
+    width: 46px;
+    height: 46px;
+    font-size: var(--font-size-20);
+  }
+
+  .accentOption {
+    min-width: 46px;
+    height: 46px;
+    font-size: var(--font-size-20);
+  }
+}
+
+@media (max-width: 390px) {
+  .keyPreview {
+    width: 44px;
+    height: 44px;
+    font-size: var(--font-size-18);
+  }
+
+  .accentOption {
+    min-width: 44px;
+    height: 44px;
+    padding: 0 var(--spacing-4);
+    font-size: var(--font-size-18);
+  }
+}
+
+@media (max-width: 360px) {
+  .keyPreview {
+    width: 44px;
+    height: 44px;
+    font-size: var(--font-size-16);
+  }
+
+  .accentOption {
+    min-width: 44px;
+    height: 44px;
+    padding: 0 var(--spacing-4);
+    font-size: var(--font-size-16);
+  }
+}

@@ -1,6 +1,8 @@
 import clsx from 'clsx';
 import React, { useState, useCallback, useId, forwardRef, useEffect } from 'react';
 
+import useInputKeyboardValue from '../../hooks/useInputKeyboardValue';
+import VirtualKeyboard from '../VirtualKeyboard';
 import styles from './TextArea.module.scss';
 import LabelComponent from '../../shared/Label';
 
@@ -31,6 +33,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
       resize = 'vertical',
       showCharCount = false,
       height,
+      virtualKeyboard,
       ...rest
     },
     ref
@@ -41,6 +44,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
 
     const [textareaValue, setTextareaValue] = useState(normalizeValue(value));
     const [textareaError, setTextareaError] = useState('');
+    const { internalRef: textareaRef, setRefs: setTextareaRefs } = useInputKeyboardValue(ref);
     const generatedId = useId();
     const componentId = id || generatedId;
 
@@ -115,7 +119,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
           <div className={styles.inputContainer}>
             <textarea
               {...rest}
-              ref={ref}
+              ref={setTextareaRefs}
               id={componentId}
               name={name}
               value={textareaValue}
@@ -129,6 +133,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
               aria-required={required}
               aria-describedby={helperId}
               style={{ resize, height }}
+              inputMode={(virtualKeyboard === 'default' || virtualKeyboard === 'numeric') ? 'none' : rest.inputMode}
             />
           </div>
 
@@ -148,6 +153,24 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
             )}
           </div>
         </div>
+
+        {(virtualKeyboard === 'default' || virtualKeyboard === 'numeric') && (
+          <div className="virtualKeyboardWrapper">
+            <VirtualKeyboard
+              variant="native"
+              type={virtualKeyboard}
+              maxLength={maxLength}
+              value={textareaValue}
+              targetRef={textareaRef}
+              onChange={(val) => {
+                if (!disabled && (!maxLength || val.length <= maxLength)) {
+                  setTextareaValue(val);
+                  onChange?.(val);
+                }
+              }}
+            />
+          </div>
+        )}
       </div>
     );
   }

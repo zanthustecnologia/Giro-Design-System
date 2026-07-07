@@ -6,7 +6,12 @@ const meta: Meta<typeof Modal> = {
   title: 'Components/Modal',
   component: Modal,
   parameters: {
-    layout: 'centered',
+    docs: {
+      description: {
+        component: 'O Modal é uma janela sobreposta ao conteúdo da página que exibe informações ou formulários sem remover o usuário do contexto atual. Diferente do Dialog, aceita qualquer conteúdo livre no corpo e pode ser fechado pelo botão X, pela tecla Escape ou clicando no overlay.',
+      },
+    },
+    // layout: 'centered',
   },
   argTypes: {
     title: { control: 'text' },
@@ -14,6 +19,10 @@ const meta: Meta<typeof Modal> = {
     customWidth: {
       control: 'text',
       description: 'Largura customizada do modal (ex: \'500px\', \'80%\')',
+    },
+    customHeight: {
+      control: 'text',
+      description: 'Altura customizada do modal (ex: \'500px\', \'80%\')',
     },
     fullscreen: {
       control: 'boolean',
@@ -35,6 +44,7 @@ const ModalDemo = ({
   title = 'Título do Modal',
   closeOnOverlayClick = true,
   customWidth,
+  customHeight,
   fullscreen,
   children,
   headerContent,
@@ -52,6 +62,7 @@ const ModalDemo = ({
         title={title}
         closeOnOverlayClick={closeOnOverlayClick}
         customWidth={customWidth}
+        customHeight={customHeight}
         fullscreen={fullscreen}
         headerContent={headerContent}
         footer={footer}
@@ -68,6 +79,7 @@ export const Default: Story = {
       title={args.title}
       closeOnOverlayClick={args.closeOnOverlayClick}
       customWidth={args.customWidth}
+      customHeight={args.customHeight}
       fullscreen={args.fullscreen}
     >
       <p>Conteúdo interno do Modal. Qualquer elemento React pode ser inserido aqui.</p>
@@ -149,7 +161,7 @@ export const ComFooter: Story = {
           onClose={() => setIsOpen(false)}
           title="Confirmar ação"
           footer={
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '8px', flexShrink: 0, padding: '24px', paddingTop: '0' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '8px' }}>
               <Button variant="outlined" onClick={() => setIsOpen(false)}>
                 Cancelar
               </Button>
@@ -166,7 +178,7 @@ export const ComFooter: Story = {
   },
 };
 
-export const Fullscreen: Story = {
+export const TelaCheia: Story = {
   render: () => {
     const [isOpen, setIsOpen] = useState(false);
     return (

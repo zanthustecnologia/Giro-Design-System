@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { BaseProps } from '../../types/common.types';
+import { ScalableProps, Scale } from '../../types/common.types';
 
 /**
  * Props do componente Checkbox
@@ -22,7 +22,7 @@ import { BaseProps } from '../../types/common.types';
  * />
  * ```
  */
-export interface CheckboxProps extends BaseProps {
+export interface CheckboxProps extends ScalableProps {
   
   /** Label ou conteúdo a ser exibido ao lado do checkbox */
   label?: React.ReactNode;
@@ -38,7 +38,4 @@ export interface CheckboxProps extends BaseProps {
   
   /** Estado indeterminado (usado em selecionar todos com seleção parcial) */
   indeterminate?: boolean;
-
-  /** Classe CSS opcional */
-  className?: string;
 }

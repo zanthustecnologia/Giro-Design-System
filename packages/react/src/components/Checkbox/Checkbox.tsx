@@ -15,13 +15,18 @@ const Checkbox: React.FC<CheckboxProps> = ({
   checked,
   disabled,
   className,
+  style,
+  scale = 1,
   indeterminate = false,
   ...rest
 }) => {
   const componentId = id || React.useId();
 
   return (
-    <div className={clsx(styles.container, className)}>
+    <div
+      className={clsx(styles.container, className)}
+      style={{ '--giro-scale': scale, ...style } as React.CSSProperties}
+    >
       <div
         className={clsx(styles.wrapperCheckbox, {
           [styles.disabled]: disabled,

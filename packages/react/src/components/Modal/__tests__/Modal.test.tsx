@@ -339,6 +339,26 @@ describe('Modal', () => {
     });
   });
 
+  describe('customHeight', () => {
+    it('aplica --modal-custom-height no style quando customHeight é fornecido', () => {
+      render(<Modal {...defaultProps} isOpen customHeight="400px" />);
+      const content = screen.getByTestId('dialog-content');
+      expect(content).toHaveStyle({ '--modal-custom-height': '400px' });
+    });
+
+    it('não define --modal-custom-height quando customHeight não é fornecido', () => {
+      render(<Modal {...defaultProps} isOpen />);
+      const content = screen.getByTestId('dialog-content');
+      expect(content).toHaveStyle({ '--modal-custom-height': '' });
+    });
+
+    it('aceita valor percentual em customHeight', () => {
+      render(<Modal {...defaultProps} isOpen customHeight="80%" />);
+      const content = screen.getByTestId('dialog-content');
+      expect(content).toHaveStyle({ '--modal-custom-height': '80%' });
+    });
+  });
+
   describe('fullscreen', () => {
     it('aplica a classe ModalContent--fullscreen quando fullscreen=true', () => {
       render(<Modal {...defaultProps} isOpen fullscreen />);

@@ -3,6 +3,7 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Menu from '../Menu';
 import { MenuItemProps } from '../Menu.types';
+import Button from '../../Button/Button';
 
 // Mock dos ícones do Fluent UI
 vi.mock('@fluentui/react-icons', () => ({
@@ -540,6 +541,68 @@ describe('Menu', () => {
         const wrapper = document.querySelector('[style*="max-height"]');
         expect(wrapper).toHaveStyle({ maxHeight: '50vh' });
       });
+    });
+
+    it('aplica escala 1.0 por padrão', async () => {
+      const user = userEvent.setup();
+
+      render(
+        <Menu items={mockItems}>
+          <button>Abrir Menu</button>
+        </Menu>
+      );
+
+      await user.click(screen.getByText('Abrir Menu'));
+
+      await waitFor(() => {
+        const content = screen.getByRole('menu');
+        expect(content.style.getPropertyValue('--giro-scale')).toBe('1');
+      });
+    });
+
+    it('aplica escala 1.5 quando informado', async () => {
+      const user = userEvent.setup();
+
+      render(
+        <Menu items={mockItems} scale={1.5}>
+          <button>Abrir Menu</button>
+        </Menu>
+      );
+
+      await user.click(screen.getByText('Abrir Menu'));
+
+      await waitFor(() => {
+        const content = screen.getByRole('menu');
+        expect(content.style.getPropertyValue('--giro-scale')).toBe('1.5');
+      });
+    });
+
+    it('aplica escala 2.0 quando informado', async () => {
+      const user = userEvent.setup();
+
+      render(
+        <Menu items={mockItems} scale={2}>
+          <button>Abrir Menu</button>
+        </Menu>
+      );
+
+      await user.click(screen.getByText('Abrir Menu'));
+
+      await waitFor(() => {
+        const content = screen.getByRole('menu');
+        expect(content.style.getPropertyValue('--giro-scale')).toBe('2');
+      });
+    });
+
+    it('aplica scale no trigger quando o children é Button', () => {
+      render(
+        <Menu items={mockItems} scale={2}>
+          <Button>Abrir Menu</Button>
+        </Menu>
+      );
+
+      const trigger = screen.getByRole('button', { name: 'Abrir Menu' });
+      expect(trigger).toHaveAttribute('style', expect.stringContaining('--giro-scale: 2'));
     });
   });
 

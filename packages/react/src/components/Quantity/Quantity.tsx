@@ -16,7 +16,9 @@ const Quantity: React.FC<QuantityProps> = ({
   size = 'lg',
   id,
   valueIncrement = 1,
+  scale = 1,
   className,
+  style,
   inputSize,
   minValue = 0,
   maxValue = 9999,
@@ -241,7 +243,11 @@ const Quantity: React.FC<QuantityProps> = ({
   const inputId = id || uniqueId;
 
   return (
-    <div className={clsx(styles.quantity, { [styles.disabled]: disabled }, className)} {...rest}>
+    <div
+      className={clsx(styles.quantity, { [styles.disabled]: disabled }, className)}
+      style={{ '--giro-scale': scale, ...style } as React.CSSProperties}
+      {...rest}
+    >
       <Button
         variant='outlined'
         size={size}
@@ -252,6 +258,7 @@ const Quantity: React.FC<QuantityProps> = ({
         disabled={disabled || isMinValue}
         aria-label={decrementAriaLabel}
         tooltipText='Diminuir'
+        scale={scale}
       />
 
       <input
@@ -283,6 +290,7 @@ const Quantity: React.FC<QuantityProps> = ({
         aria-label={incrementAriaLabel}
         icon={<Add16Regular />}
         tooltipText='Aumentar'
+        scale={scale}
       />
 
     </div>

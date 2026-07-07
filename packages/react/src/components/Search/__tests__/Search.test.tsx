@@ -4,17 +4,40 @@ import { describe, it, expect, vi } from 'vitest';
 import { createRef } from 'react';
 import Search from '../Search';
 
-// Mock dos ícones do Fluent UI
-vi.mock('@fluentui/react-icons', () => ({
-  Search16Regular: () => <span data-testid="search-icon">🔍</span>,
-  Dismiss16Regular: () => <span data-testid="dismiss-icon">×</span>,
-}));
+// Mock parcial dos ícones do Fluent UI
+vi.mock('@fluentui/react-icons', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@fluentui/react-icons')>();
+
+  return {
+    ...actual,
+    Search16Regular: () => <span data-testid="search-icon">🔍</span>,
+    Dismiss16Regular: () => <span data-testid="dismiss-icon">×</span>,
+  };
+});
 
 describe('Search', () => {
   describe('Renderização básica', () => {
     it('deve renderizar o componente de busca', () => {
       render(<Search />);
       expect(screen.getByRole('textbox')).toBeInTheDocument();
+    });
+
+    it('deve aplicar escala 1.0 por padrão', () => {
+      const { container } = render(<Search />);
+      const wrapper = container.querySelector('[style*="--giro-scale"]') as HTMLElement;
+      expect(wrapper.style.getPropertyValue('--giro-scale')).toBe('1');
+    });
+
+    it('deve aplicar escala 1.5 quando informado', () => {
+      const { container } = render(<Search scale={1.5} />);
+      const wrapper = container.querySelector('[style*="--giro-scale"]') as HTMLElement;
+      expect(wrapper.style.getPropertyValue('--giro-scale')).toBe('1.5');
+    });
+
+    it('deve aplicar escala 2.0 quando informado', () => {
+      const { container } = render(<Search scale={2} />);
+      const wrapper = container.querySelector('[style*="--giro-scale"]') as HTMLElement;
+      expect(wrapper.style.getPropertyValue('--giro-scale')).toBe('2');
     });
 
     it('deve renderizar com placeholder padrão', () => {

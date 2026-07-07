@@ -2,6 +2,8 @@ import { Search16Regular, Dismiss16Regular } from '@fluentui/react-icons';
 import clsx from 'clsx';
 import React, { useState, useId } from 'react';
 
+import useInputKeyboardValue from '../../hooks/useInputKeyboardValue';
+import VirtualKeyboard from '../VirtualKeyboard';
 import styles from './Search.module.scss';
 
 import type { SearchProps } from './Search.types';
@@ -22,17 +24,22 @@ const Search = React.forwardRef<HTMLInputElement, SearchProps>(
       searchMode = 'instant',
       onSearch,
       id,
+      scale = 1,
       className,
-      'data-testid': testId, 
+      style,
+      virtualKeyboard,
+      'data-testid': testId,
       ...rest
     },
     ref
   ) => {
     const [internalValue, setInternalValue] = useState<string>('');
+    const { internalRef: inputRef, setRefs: setInputRefs } = useInputKeyboardValue(ref);
     const isControlled = value !== undefined && onChange !== undefined;
     const currentValue = isControlled ? value : internalValue;
     const generatedId = useId();
     const inputId = id || generatedId;
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
       if (disabled) return;
 
@@ -85,7 +92,8 @@ const Search = React.forwardRef<HTMLInputElement, SearchProps>(
           styles.search,
           { [styles.disabled]: disabled },
           className
-        )} 
+        )}
+        style={{ '--giro-scale': scale, ...style } as React.CSSProperties}
         onClick={onClick} 
         onMouseDown={onMouseDown}
         role={onClick || onMouseDown ? "button" : undefined}
@@ -107,7 +115,7 @@ const Search = React.forwardRef<HTMLInputElement, SearchProps>(
         </span>
 
         <input
-          ref={ref}
+          ref={setInputRefs}
           id={inputId}
           type="text"
           placeholder={placeholder}
@@ -120,6 +128,7 @@ const Search = React.forwardRef<HTMLInputElement, SearchProps>(
           onBlur={handleBlur}
           data-testid={testId}
           {...rest}
+          inputMode={(virtualKeyboard === 'default' || virtualKeyboard === 'numeric') ? 'none' : rest.inputMode}
           className={clsx({ [styles.inputWithClearIcon]: currentValue && currentValue.length > 0 })}  
         />
         {currentValue && currentValue.length > 0 && (
@@ -130,6 +139,29 @@ const Search = React.forwardRef<HTMLInputElement, SearchProps>(
           >
             <Dismiss16Regular />
           </span>
+        )}
+
+        {(virtualKeyboard === 'default' || virtualKeyboard === 'numeric') && (
+          <div className="virtualKeyboardWrapper">
+            <VirtualKeyboard
+              variant="native"
+              type={virtualKeyboard}
+              value={currentValue || ''}
+              targetRef={inputRef}
+              onChange={(val) => {
+                if (disabled) return;
+                if (isControlled) {
+                  const syntheticEvent = {
+                    target: { value: val },
+                    currentTarget: { value: val },
+                  } as React.ChangeEvent<HTMLInputElement>;
+                  onChange?.(syntheticEvent);
+                } else {
+                  setInternalValue(val);
+                }
+              }}
+            />
+          </div>
         )}
       </div>
     );

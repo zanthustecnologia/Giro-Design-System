@@ -152,7 +152,14 @@ type DefaultArgs = {
 const meta: Meta<DefaultArgs> = {
   title: 'Components/TableV2',
   component: TableV2 as unknown as React.ComponentType<DefaultArgs>,
-  parameters: { layout: 'centered' },
+  parameters: {
+    layout: 'centered',
+    docs: {
+      description: {
+        component: 'O TableV2 é a nova implementação da tabela, construída com TanStack Table. Oferece uma API declarativa baseada em `createColumnHelper`, com suporte a tipagem genérica, renderização customizada por célula e extensibilidade nativa da biblioteca.',
+      },
+    },
+  },
   argTypes: {
     rowSelection: {
       description:

@@ -37,29 +37,35 @@ export const COMPONENTS: ComponentMetadata[] = [
     description: 'Botão clicável com suporte a variantes, ícones, estado de loading, link externo e modo apenas-ícone com tooltip automático.',
     category: 'Components',
     props: [
-      { name: 'children', type: 'React.ReactNode', required: false, description: 'Conteúdo/label do botão' },
+      { name: 'children', type: 'React.ReactNode', required: false, description: 'Conteúdo do botão' },
       { name: 'variant', type: "'filled' | 'outlined' | 'text'", required: false, defaultValue: "'filled'", description: 'Variante visual do botão' },
       { name: 'size', type: "'sm' | 'lg'", required: false, defaultValue: "'lg'", description: 'Tamanho do botão' },
       { name: 'disabled', type: 'boolean', required: false, defaultValue: 'false', description: 'Desabilita o botão' },
       { name: 'loading', type: 'boolean', required: false, defaultValue: 'false', description: 'Exibe spinner de loading' },
       { name: 'fullWidth', type: 'boolean', required: false, defaultValue: 'false', description: 'Ocupa 100% da largura do container' },
-      { name: 'icon', type: 'React.ReactNode', required: false, description: 'Ícone exibido dentro do botão' },
-      { name: 'leftIcon', type: 'React.ReactNode', required: false, description: 'Ícone à esquerda do texto' },
-      { name: 'rightIcon', type: 'React.ReactNode', required: false, description: 'Ícone à direita do texto' },
-      { name: 'iconOnly', type: 'boolean', required: false, defaultValue: 'false', description: 'Renderiza apenas o ícone sem texto; exibe tooltip automaticamente com tooltipText' },
-      { name: 'tooltipText', type: 'string', required: false, description: 'Texto do tooltip quando iconOnly=true' },
+      { name: 'icon', type: 'React.ReactNode', required: false, description: 'Ícone exibido no botão — obrigatório quando iconOnly=true' },
+      { name: 'iconOnly', type: 'boolean', required: false, defaultValue: 'false', description: 'Renderiza apenas o ícone sem texto. Quando true, icon é obrigatório e tooltip é exibido automaticamente com tooltipText' },
+      { name: 'iconPosition', type: "'right' | 'left' | 'both'", required: false, description: 'Posição do ícone em relação ao texto' },
+      { name: 'tooltipText', type: 'string', required: false, description: 'Texto do tooltip (visível quando iconOnly=true)' },
       { name: 'tooltipSide', type: "'top' | 'bottom' | 'left' | 'right'", required: false, description: 'Lado do tooltip' },
       { name: 'tooltipAlign', type: "'start' | 'center' | 'end'", required: false, description: 'Alinhamento do tooltip' },
       { name: 'href', type: 'string', required: false, description: 'Renderiza como <a> quando fornecido' },
-      { name: 'to', type: 'string', required: false, description: 'Rota para React Router' },
-      { name: 'external', type: 'boolean', required: false, defaultValue: 'false', description: 'Abre o link em nova aba' },
+      { name: 'to', type: 'string', required: false, description: 'Rota de destino para roteadores (ex: React Router)' },
+      { name: 'external', type: 'boolean', required: false, defaultValue: 'false', description: 'Abre o link em nova aba (target="_blank")' },
+      { name: 'target', type: 'string', required: false, description: 'Atributo target HTML para links' },
+      { name: 'rel', type: 'string', required: false, description: 'Atributo rel HTML para links' },
       { name: 'as', type: 'React.ElementType', required: false, description: 'Elemento HTML ou componente customizado a renderizar' },
       { name: 'type', type: "'button' | 'submit' | 'reset'", required: false, defaultValue: "'button'", description: 'Tipo HTML do botão' },
-      { name: 'onClick', type: '(e: React.MouseEvent) => void', required: false, description: 'Handler de clique' },
+      { name: 'ariaLabel', type: 'string', required: false, description: 'Label acessível para leitores de tela' },
+      { name: 'className', type: 'string', required: false, description: 'Classes CSS adicionais' },
+      { name: 'id', type: 'string', required: false, description: 'Identificador único do elemento HTML' },
+      { name: 'scale', type: '1 | 1.5 | 2', required: false, description: 'Escala visual do componente' },
+      { name: 'style', type: 'React.CSSProperties', required: false, description: 'Estilos CSS inline adicionais' },
+      { name: 'onClick', type: 'React.MouseEventHandler<HTMLElement>', required: false, description: 'Handler de clique' },
     ],
     examples: [
       '<Button variant="filled" onClick={handleClick}>Confirmar</Button>',
-      '<Button variant="outlined" size="sm" leftIcon={<PlusCircle20Regular />}>Adicionar</Button>',
+      '<Button variant="outlined" size="sm" icon={<PlusCircle20Regular />} iconPosition="left">Adicionar</Button>',
       '<Button variant="text" loading={isLoading}>Salvar</Button>',
       '<Button iconOnly icon={<Edit20Regular />} tooltipText="Editar" />',
       '<Button href="https://example.com" external>Ver mais</Button>',
@@ -155,22 +161,6 @@ export const COMPONENTS: ComponentMetadata[] = [
 <Drawer isOpen={open} onClose={() => setOpen(false)} title="Detalhes">
   <p>Conteúdo do drawer</p>
 </Drawer>`,
-    ],
-  },
-  {
-    name: 'Dropdown',
-    description: 'Menu suspenso de seleção baseado em Radix UI com suporte a grupos, ícones e ações customizadas.',
-    category: 'Components',
-    props: [
-      { name: 'trigger', type: 'React.ReactNode', required: true, description: 'Elemento que abre o dropdown ao ser clicado' },
-      { name: 'children', type: 'React.ReactNode', required: true, description: 'Itens do menu (use DropdownItem, DropdownGroup)' },
-      { name: 'disabled', type: 'boolean', required: false, defaultValue: 'false', description: 'Desabilita o dropdown' },
-    ],
-    examples: [
-      `<Dropdown trigger={<Button>Ações</Button>}>
-  <DropdownItem onClick={handleEdit}>Editar</DropdownItem>
-  <DropdownItem onClick={handleDelete}>Excluir</DropdownItem>
-</Dropdown>`,
     ],
   },
   {

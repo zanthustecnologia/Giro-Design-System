@@ -36,6 +36,24 @@ describe("Switch component", () => {
     expect(screen.getByTestId("radix-thumb")).toBeDefined();
   });
 
+  it("aplica escala 1.0 por padrão", () => {
+    const { container } = render(<Switch />);
+    const wrapper = container.querySelector('[style*="--giro-scale"]') as HTMLElement;
+    expect(wrapper.style.getPropertyValue('--giro-scale')).toBe('1');
+  });
+
+  it("aplica escala 1.5 quando informado", () => {
+    const { container } = render(<Switch scale={1.5} />);
+    const wrapper = container.querySelector('[style*="--giro-scale"]') as HTMLElement;
+    expect(wrapper.style.getPropertyValue('--giro-scale')).toBe('1.5');
+  });
+
+  it("aplica escala 2.0 quando informado", () => {
+    const { container } = render(<Switch scale={2} />);
+    const wrapper = container.querySelector('[style*="--giro-scale"]') as HTMLElement;
+    expect(wrapper.style.getPropertyValue('--giro-scale')).toBe('2');
+  });
+
   it("is enabled by default", () => {
     render(<Switch />);
     expect(screen.getByTestId("radix-root").getAttribute("data-disabled")).toBe("false");

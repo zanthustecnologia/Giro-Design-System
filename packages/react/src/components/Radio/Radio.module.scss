@@ -1,6 +1,9 @@
+@use '../../styles/mixins/scale' as *;
+
 .root {
+  --giro-scale: 1;
   display: flex;
-  gap: var(--spacing-8);
+  gap: scale(var(--spacing-8));
   &[data-orientation='vertical'] {
     flex-direction: column;
   }
@@ -11,7 +14,7 @@
 
 .wrapper {
   display: flex;
-  min-height: 40px;
+  min-height: scale(40px);
   align-items: center;
   cursor: pointer;
 
@@ -22,7 +25,7 @@
 
   &:has(.item:focus-visible) .itemWrapper {
     background-color: var(--color-neutral-high-dark);
-    outline-offset: var(--border-width-2);
+    outline-offset: scale(var(--border-width-2));
   }
 
   &:has(.item[data-disabled='true']) {
@@ -41,12 +44,12 @@
 }
 
 .itemWrapper {
-  width: 40px;
-  height: 40px;
+  width: scale(40px);
+  height: scale(40px);
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: var(--border-radius-circular);
+  border-radius: scale(var(--border-radius-circular));
 
   &:hover{
   background-color: var(--color-neutral-high-medium);
@@ -59,10 +62,10 @@
 
 .item {
   border: var(--border-width-2) solid var(--color-neutral-low-dark);
-  border-radius: var(--border-radius-12);
-  padding: var(--spacing-8);
-  width: 20px;
-  height: 20px;
+  border-radius: scale(var(--border-radius-12));
+  padding: scale(var(--spacing-8));
+  width: scale(20px);
+  height: scale(20px);
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -108,17 +111,17 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 10px;
-    height: 10px;
-    border-radius: var(--border-radius-circular);
+    width: scale(10px);
+    height: scale(10px);
+    border-radius: scale(var(--border-radius-circular));
     background-color: var(--color-brand-primary-default);
   }
 }
 
 .labelText {
-  margin-left: var(--spacing-8);
+  margin-left: scale(var(--spacing-8));
   font-family: var(--font-family-primary);
-  font-size: var(--font-size-16);
+  font-size: scale(var(--font-size-16));
   color: var(--color-neutral-low-default);
   font-weight: var(--font-weight-regular);
   cursor: pointer;

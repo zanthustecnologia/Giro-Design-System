@@ -1,6 +1,8 @@
 import React from 'react';
 
-import { Side, Align } from '../../types/common.types';
+import { ScalableProps, Side, Align, Scale } from '../../types/common.types';
+
+import type { VirtualKeyboardType } from '../VirtualKeyboard/VirtualKeyboard.types';
 
 /** Tipos de input suportados pelo TextField */
 export type TextFieldType = 'text' | 'email' | 'password' | 'number' | 'tel' | 'url';
@@ -31,7 +33,7 @@ export type TextFieldType = 'text' | 'email' | 'password' | 'number' | 'tel' | '
  * />
  * ```
  */
-export interface TextFieldProps extends Omit<
+export interface TextFieldProps extends ScalableProps, Omit<
   React.InputHTMLAttributes<HTMLInputElement>, 
   'onChange' | 'value' | 'type'
 > {
@@ -57,10 +59,10 @@ export interface TextFieldProps extends Omit<
   tooltipText?: string;
   
   /** Lado onde o tooltip aparece */
-  side?: Side;
+  tooltipSide?: Side;
   
   /** Alinhamento do tooltip */
-  align?: Align;
+  tooltipAlign?: Align;
   
   /**
    * Mensagem de erro exibida no campo.
@@ -78,8 +80,14 @@ export interface TextFieldProps extends Omit<
   /** Mantém o ícone visível mesmo quando o campo tem valor */
   persistIcon?: boolean;
 
-  /** Classe CSS opcional */
-  className?: string;
+  /** Tipo do teclado virtual (padrão: undefined = desabilitado) */ 
+  virtualKeyboard?: VirtualKeyboardType;
+
+  /** Aplica variação visual para uso acoplado ao VirtualKeyboard no modo fixed, essa prop é de uso exclusivo do VirtualKeyboard no modo fixed */
+  attachedToVirtualKeyboard?: boolean;
+
+  /** Desabilita o autocomplete nativo do browser (padrão: false) */
+  disableAutoComplete?: boolean;
 }
 
 /**

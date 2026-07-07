@@ -13,6 +13,7 @@ const Chips: React.FC<ChipsProps> = ({
   disabled = false,
   backgroundColor,
   textColor,
+  scale = 1,
   className,
   style,
   ...rest
@@ -30,6 +31,7 @@ const Chips: React.FC<ChipsProps> = ({
   );
 
   const colorStyle = {
+    '--giro-scale': scale,
     ...(!disabled && backgroundColor && { '--chips-bg': `var(--${backgroundColor})` }),
     ...(!disabled && textColor && { '--chips-text': `var(--${textColor})` }),
     ...style,

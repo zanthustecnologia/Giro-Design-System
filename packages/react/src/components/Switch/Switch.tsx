@@ -10,10 +10,17 @@ const Switch: React.FC<SwitchProps> = ({
 	defaultChecked = false,
 	checked,
 	onCheckedChange,
+	scale = 1,
 	className,
+	style,
 	...rest
-}) => (
-		<div className={clsx(styles.container, className)}>
+}) => {
+
+	return (
+		<div
+			className={clsx(styles.container, className)}
+			style={{ '--giro-scale': scale, ...style } as React.CSSProperties}
+		>
 			<SwitchRadix.Root  
 				className={styles.switchRoot} 
 				disabled={disabled} 
@@ -25,6 +32,7 @@ const Switch: React.FC<SwitchProps> = ({
 				<SwitchRadix.Thumb className={styles.switchThumb} />
 			</SwitchRadix.Root>
 		</div>
-);
+	);
+};
 
 export default Switch;
