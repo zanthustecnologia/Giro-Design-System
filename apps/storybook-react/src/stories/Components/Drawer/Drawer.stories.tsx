@@ -1,5 +1,5 @@
 ﻿import React, { useState } from 'react';
-import type { Meta, StoryObj } from '@storybook/react-vite';
+import type { Meta, StoryObj } from '@storybook/react';
 import { Drawer, Button } from '@giro-ds/react';
 import { Filter16Regular } from '@fluentui/react-icons';
 

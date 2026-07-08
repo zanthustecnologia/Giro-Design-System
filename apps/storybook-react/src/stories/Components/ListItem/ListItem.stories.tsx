@@ -1,5 +1,5 @@
 ﻿import React, { JSX } from "react";
-import type { Meta, StoryObj } from '@storybook/react-vite';
+import type { Meta, StoryObj } from '@storybook/react';
 import { ListItem } from "@giro-ds/react";
 import type { ListItemProps } from "@giro-ds/react";
 import { UsbPlug20Regular } from "@fluentui/react-icons";

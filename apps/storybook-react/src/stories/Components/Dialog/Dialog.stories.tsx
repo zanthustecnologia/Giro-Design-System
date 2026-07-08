@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import type { Meta, StoryFn } from '@storybook/react-vite';
+import type { Meta, StoryFn } from '@storybook/react';
 import { Dialog, Button } from '@giro-ds/react';
 import type { DialogProps } from '@giro-ds/react';
 

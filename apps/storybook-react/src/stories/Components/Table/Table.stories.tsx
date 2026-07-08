@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import type { Meta, StoryFn } from '@storybook/react-vite';
+import type { Meta, StoryFn } from '@storybook/react';
 import { Table, TableHeader, TablePagination, Chips, Button, Menu, Avatar } from '@giro-ds/react';
 import type { FilterItem } from '@giro-ds/react';
 import { MoreVertical16Regular } from '@fluentui/react-icons';

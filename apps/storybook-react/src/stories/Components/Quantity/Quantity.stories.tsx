@@ -1,5 +1,5 @@
 ﻿import React, { useState } from 'react';
-import type { Meta, StoryObj } from '@storybook/react-vite';
+import type { Meta, StoryObj } from '@storybook/react';
 import { Quantity } from '@giro-ds/react';
 
 const ControlledWrapper = (args: React.ComponentProps<typeof Quantity>) => {

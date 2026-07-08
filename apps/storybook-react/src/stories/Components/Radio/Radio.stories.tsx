@@ -1,4 +1,4 @@
-import { Meta, StoryFn, StoryObj } from '@storybook/react-vite';
+import { Meta, StoryFn, StoryObj } from '@storybook/react';
 import { Radio } from '@giro-ds/react';
 import type { RadioGroupProps } from '@giro-ds/react';
 

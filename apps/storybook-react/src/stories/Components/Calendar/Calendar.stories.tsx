@@ -1,5 +1,5 @@
 import React, { JSX, useState } from 'react';
-import type { Meta, StoryObj } from '@storybook/react-vite';
+import type { Meta, StoryObj } from '@storybook/react';
 import { Calendar } from '@giro-ds/react';
 
 const meta: Meta<typeof Calendar> = {

@@ -1,5 +1,5 @@
 ﻿import React, { useState, useEffect } from 'react';
-import type { Meta, StoryObj } from '@storybook/react-vite';
+import type { Meta, StoryObj } from '@storybook/react';
 import { Menu, Button } from '@giro-ds/react';
 import type { MenuProps } from '@giro-ds/react';
 import {

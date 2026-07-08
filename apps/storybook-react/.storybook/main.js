@@ -1,9 +1,5 @@
-// This file has been automatically migrated to valid ESM format by Storybook.
 import { fileURLToPath } from 'url';
-import nodePath, { dirname } from 'path';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+import nodePath from 'path';
 
 // Diretório deste arquivo (.storybook/)
 const _dir = nodePath.dirname(fileURLToPath(import.meta.url));
@@ -15,7 +11,7 @@ const REACT_SRC = nodePath.resolve(REACT_PKG, 'src').split(nodePath.sep).join('/
 /** @type {import('@storybook/react-vite').StorybookConfig} */
 const config = {
   framework: {
-    name: getAbsolutePath("@storybook/react-vite"),
+    name: '@storybook/react-vite',
     options: {}
   },
 
@@ -26,12 +22,18 @@ const config = {
   ],
 
   // Addons recomendados
-  addons: [
-   getAbsolutePath("@storybook/addon-docs"),
-   getAbsolutePath("@storybook/addon-onboarding"),
-   getAbsolutePath("@storybook/addon-a11y"),
-   getAbsolutePath("storybook-addon-playground"),
- ],
+   addons: [
+    "@storybook/addon-docs",
+    "@storybook/addon-onboarding",
+    "@storybook/addon-a11y",
+    "storybook-addon-playground",
+  ]
+,
+
+  // Docs por autodocs (opcional, mas útil no DS)
+  docs: {
+    autodocs: 'tag'
+  },
 
   // Usa react-docgen-typescript para extrair JSDoc e tipos corretamente.
   // tsconfigPath aponta para packages/react/tsconfig.json para que o TypeScript
@@ -56,6 +58,7 @@ const config = {
       },
     },
   },
+
 
   // Configuração de arquivos estáticos (favicon, imagens, etc)
   staticDirs: ['../public'],
@@ -160,7 +163,3 @@ const config = {
 };
 
 export default config;
-
-function getAbsolutePath(value) {
-  return dirname(fileURLToPath(import.meta.resolve(`${value}/package.json`)));
-}

@@ -1,4 +1,4 @@
-import {Meta, StoryObj} from '@storybook/react-vite';
+import {Meta, StoryObj} from '@storybook/react';
 import { useEffect, useState } from 'react';
 import { Checkbox } from '@giro-ds/react';
 

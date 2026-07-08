@@ -2,7 +2,7 @@ import { ToastProvider, ToastContainer, useToast, Button } from '@giro-ds/react'
 import type { ToastProps } from '@giro-ds/react';
 import React from 'react';
 
-import type { Meta, StoryFn } from '@storybook/react-vite';
+import type { Meta, StoryFn } from '@storybook/react';
 
 const meta: Meta = {
   title: 'Components/Toast',
