@@ -19,13 +19,13 @@
   gap: scale(var(--spacing-8));
 }
 .requiredLabel {
-  color: var(--color-neutral-low-default);
+  color: var(--color-brand-primary-default);
   margin-left: scale(var(--spacing-4));
 }
 .infoIcon {
   display: inline-flex;
   line-height: 0;
-  color: var(--color-neutral-low-default);
+  color: var(--color-brand-primary-default);
   font-size: scale(var(--font-size-12));
   svg {
     width: 1em;

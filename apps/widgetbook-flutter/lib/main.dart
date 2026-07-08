@@ -28,6 +28,7 @@ import 'stories/selection_controls/selection_controls_story.dart';
 import 'stories/slider/slider_story.dart';
 import 'stories/snackbar/snackbar_story.dart';
 import 'stories/tabs/tabs_story.dart';
+import 'stories/select/select_story.dart';
 import 'stories/text_field/text_field_story.dart';
 import 'stories/time_picker/time_picker_story.dart';
 import 'stories/tooltips/tooltips_story.dart';
@@ -109,6 +110,7 @@ class WidgetbookApp extends StatelessWidget {
               name: 'Input',
               children: [
                 textFieldStory(),
+                selectStory(),
               ],
             ),
 

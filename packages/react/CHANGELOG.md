@@ -1,18 +1,87 @@
 # @giro-ds/react
 
+## 11.2.0
+
+### Added
+
+#### VerificationCode
+
+Reescrito com `unstable_OneTimePasswordField` do Radix UI. Novas props: `validationType`, `value`, `defaultValue`, `autoSubmit`, `onValueChange`, `onAutoSubmit`, `name`, `form` e `readOnly`.
+
+#### FileUpload
+
+Novo componente de upload de arquivos com suporte a clique e drag & drop. Props de controle: `maxFileSize`, `maxFilesQuantity`, `accept`, `multiple`, `disabled`, `error`, `errorMessage` e `descriptionErrorMessage`. Suporta modo controlado (`value` + `onChange`) e exibe thumbnails para imagens.
+
+#### Modal
+
+Adiciona a prop `customHeight?: string` para definir a altura do modal via CSS variable `--modal-custom-height`.
+
+#### VirtualKeyboard
+
+Adiciona as props:
+`onTypeChange` disparado quando o tipo do teclado muda;
+`showTypeSwitchKey` que, quando `false`, remove a tecla de alternância do layout.
+O tipo `VirtualKeyboardType` passou a ser exportado pelo pacote.
+
+### Changed
+
+#### VerificationCode
+
+Renomeia props para alinhamento com Radix UI:
+`inputType` → `validationType`;
+`onComplete` → `onValueChange` / `onAutoSubmit`.
+Remove o spread de props arbitrárias (`[key: string]: any`) em favor de tipagem estrita.
+
+#### VirtualKeyboard
+
+Renomeia o callback de digitação:
+`onChange: (e: ChangeEvent) => void` → `onValueChange: (value: string) => void`.
+
+#### TextField
+
+`font-family` e `font-weight` passam a ser herdados pelo input, placeholder e helper text.
+O clear button foi ampliado de `16px` para `30px` e recebeu efeito de hover.
+
+#### TextArea
+
+`font-family` e `font-weight` passam a ser herdados pelo textarea, placeholder, helper text e contador de caracteres.
+
+#### Search
+
+`font-family` passa a ser herdado pelo input e placeholder.
+O clear button foi ampliado de `16px` para `30px` e recebeu efeito de hover.
+
+### Deprecated
+
+#### VerificationCode (implementação anterior)
+
+Movida para `src/components/.deprecated/VerificationCode`. Utilize o novo `VerificationCode` baseado em Radix UI.
+
+### Fixed
+
+#### Label
+
+Ajustes de CSS para correção de layout e alinhamento visual.
+
+#### TableV2
+
+Ajustes de CSS para correção de layout.
+
 ## 11.1.0
 
 ### Added
 
 #### VirtualKeyboard
 
-Adiciona as props `showEnterKey` e `textFieldScale`. A prop `showEnterKey` permite ocultar a tecla Enter do layout, sendo util em contextos de busca ou campos single-line. A prop `textFieldScale` repassa a escala para o `TextField` interno exibido no modo `fixed`, garantindo consistencia visual quando o componente e usado em diferentes escalas.
+Adiciona as props: 
+`showEnterKey` que permite ocultar a tecla Enter; 
+`textFieldScale` repassa a escala para o `TextField` interno exibido no modo `fixed`. 
 
 ### Fixed
 
 #### VirtualKeyboard
 
-Corrige o comportamento das teclas do numpad em modo `fixed`, que agora preenchem proporcionalmente o espaco disponivel no container em vez de manter altura fixa.
+Corrige o comportamento das teclas do numpad em modo `fixed`.
 
 ## 11.0.0
 

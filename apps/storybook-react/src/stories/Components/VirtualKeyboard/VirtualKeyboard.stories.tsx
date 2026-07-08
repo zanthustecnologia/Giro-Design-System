@@ -51,6 +51,11 @@ const meta: Meta<typeof VirtualKeyboard> = {
       control: 'boolean',
       description: 'Exibe ou oculta o botao {emoticon} nos layouts suportados.',
     },
+    showTypeSwitchKey: {
+      control: 'boolean',
+      description:
+        'Exibe ou oculta a tecla de alternância entre os layouts default ("123") e numeric ("ABC"). Quando `false`, a tecla "123" é removida no layout default (a tecla espaço cresce) e a tecla "ABC" é substituída por espaço vazio no layout numeric.',
+    },
     maxLength: {
       control: 'number',
       description: 'Limite maximo de caracteres',
