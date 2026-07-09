@@ -251,8 +251,25 @@
   color: var(--color-neutral-high-default);
 }
 
+.range_middle {
+  background: linear-gradient(
+    to bottom,
+    transparent 25%,
+    var(--color-brand-primary-light) 25% 75%,
+    transparent 75%
+  );
+}
+
+.range_middle .day_button {
+  background-color: var(--color-brand-primary-default);
+  border: scale(var(--border-width-2)) solid var(--color-brand-primary-default);
+  color: var(--color-neutral-high-default);
+}
+
 .range_start {
-  background: linear-gradient(90deg, transparent 50%, var(--color-neutral-high-default) 50%);
+  background:
+    linear-gradient(to bottom, transparent 25%, var(--color-brand-primary-light) 25% 75%, transparent 75%)
+    right / 50% 100% no-repeat;
 }
 
 .range_start .day_button {
@@ -260,19 +277,10 @@
   color: var(--color-neutral-high-default);
 }
 
-.range_middle {
-  background-color: var(--color-neutral-high-default);
-}
-
-.range_middle .day_button {
-  border: unset;
-  border-radius: unset;
-  color: inherit;
-}
-
 .range_end {
-  background: linear-gradient(90deg, var(--color-neutral-high-default) 50%, transparent 50%);
-  color: var(--color-neutral-high-default);
+  background:
+    linear-gradient(to bottom, transparent 25%, var(--color-brand-primary-light) 25% 75%, transparent 75%)
+    left / 50% 100% no-repeat;
 }
 
 .range_end .day_button {

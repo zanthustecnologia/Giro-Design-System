@@ -1,6 +1,7 @@
 import React, { JSX, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Calendar } from '@giro-ds/react';
+import type { DateRange } from '@giro-ds/react';
 
 const meta: Meta<typeof Calendar> = {
   title: 'Components/Calendar',
@@ -17,6 +18,15 @@ const meta: Meta<typeof Calendar> = {
       control: { type: 'select' },
       options: [1, 1.5, 2],
       description: 'Escala visual do componente.',
+    },
+    numberOfMonths: {
+      control: { type: 'number', min: 1, max: 4 },
+      description: 'Quantidade de meses exibidos simultaneamente.',
+    },
+    mode: {
+      control: { type: 'radio' },
+      options: ['single', 'range'],
+      description: 'Modo de seleção de datas.',
     },
   },
 } satisfies Meta<typeof Calendar>;
@@ -48,25 +58,6 @@ export const ComDataSelecionada: Story = {
   parameters: {
     docs: {
       description: { story: 'Calendário com a data de hoje pré-selecionada.' },
-    },
-  },
-};
-
-export const ComDropdownNavegacao: Story = {
-  render: (args) => {
-    const [selected, setSelected] = useState<Date | undefined>();
-    return (
-      <Calendar
-        {...args}
-        captionLayout="dropdown"
-        onDaySelect={(d) => setSelected(d)}
-        selected={selected ?? null}
-      />
-    );
-  },
-  parameters: {
-    docs: {
-      description: { story: 'Cabeçalho com dropdowns de mês e ano para navegação rápida.' },
     },
   },
 };
@@ -109,6 +100,26 @@ export const MultiplosMeses: Story = {
   parameters: {
     docs: {
       description: { story: 'Dois meses exibidos lado a lado via `numberOfMonths={2}`.' },
+    },
+  },
+};
+
+export const SelecaoDeIntervalo: Story = {
+  render: (args) => {
+    const [range, setRange] = useState<DateRange | undefined>();
+    return (
+      <Calendar
+        {...args}
+        mode="range"
+        numberOfMonths={2}
+        selectedRange={range ?? null}
+        onRangeSelect={(r) => setRange(r)}
+      />
+    );
+  },
+  parameters: {
+    docs: {
+      description: { story: 'Seleção de intervalo de datas via `mode="range"`. Clique em um dia para definir o início e em outro para definir o fim.' },
     },
   },
 };
