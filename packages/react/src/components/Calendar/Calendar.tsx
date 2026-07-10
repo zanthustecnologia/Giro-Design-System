@@ -149,7 +149,20 @@ const Calendar = ({
     }
   };
 
-  const handleRangeSelect = (range: DateRange | undefined) => {
+  const handleRangeSelect = (range: DateRange | undefined, selectedDay: Date) => {
+    // Considera o range completo apenas quando from e to são datas distintas
+    const current = resolvedRange;
+    const isComplete =
+      current?.from != null &&
+      current?.to != null &&
+      current.from.getTime() !== current.to.getTime();
+
+    if (isComplete) {
+      const fresh: DateRange = { from: selectedDay, to: undefined };
+      setInternalRange(fresh);
+      onRangeSelect?.(fresh);
+      return;
+    }
     setInternalRange(range);
     onRangeSelect?.(range);
   };
