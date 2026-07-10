@@ -65,6 +65,42 @@ vi.mock("react-day-picker", () => {
         >
           Limpar
         </button>
+        <button
+          data-testid="range-start-button"
+          onClick={() =>
+            props.onSelect &&
+            props.onSelect(
+              { from: new Date(2026, 2, 10), to: new Date(2026, 2, 10) },
+              new Date(2026, 2, 10),
+            )
+          }
+        >
+          range-start
+        </button>
+        <button
+          data-testid="range-end-button"
+          onClick={() =>
+            props.onSelect &&
+            props.onSelect(
+              { from: new Date(2026, 2, 10), to: new Date(2026, 2, 20) },
+              new Date(2026, 2, 20),
+            )
+          }
+        >
+          range-end
+        </button>
+        <button
+          data-testid="range-reset-button"
+          onClick={() =>
+            props.onSelect &&
+            props.onSelect(
+              { from: new Date(2026, 2, 5), to: new Date(2026, 2, 5) },
+              new Date(2026, 2, 5),
+            )
+          }
+        >
+          range-reset
+        </button>
       </div>
     );
   };
@@ -254,5 +290,102 @@ describe("Calendar", () => {
     // Fecha via botão com aria-label específico
     await user.click(screen.getByRole("button", { name: "Fechar seleção de ano" }));
     expect(screen.queryByRole("dialog")).toBeNull();
+  });
+});
+
+describe("Calendar — Modo Range", () => {
+  const day5 = new Date(2026, 2, 5);
+  const day10 = new Date(2026, 2, 10);
+  const day20 = new Date(2026, 2, 20);
+
+  beforeEach(() => {
+    capturedProps = {};
+    vi.clearAllMocks();
+  });
+
+  it("passa mode='range' ao DayPicker", () => {
+    render(<Calendar mode="range" />);
+    expect(capturedProps.mode).toBe("range");
+  });
+
+  it("passa numberOfMonths ao DayPicker", () => {
+    render(<Calendar numberOfMonths={2} />);
+    expect(capturedProps.numberOfMonths).toBe(2);
+  });
+
+  it("inicia sem range selecionado", () => {
+    render(<Calendar mode="range" />);
+    expect(capturedProps.selected).toBeUndefined();
+  });
+
+  it("usa selectedRange controlado quando fornecido", () => {
+    const range = { from: day10, to: day20 };
+    render(<Calendar mode="range" selectedRange={range} />);
+    expect(capturedProps.selected).toEqual(range);
+  });
+
+  it("primeiro clique define from e to com a mesma data", async () => {
+    const user = userEvent.setup();
+    render(<Calendar mode="range" />);
+
+    await user.click(screen.getByTestId("range-start-button"));
+
+    expect(capturedProps.selected).toEqual({ from: day10, to: day10 });
+  });
+
+  it("segundo clique em data diferente completa o range", async () => {
+    const user = userEvent.setup();
+    render(<Calendar mode="range" />);
+
+    await user.click(screen.getByTestId("range-start-button"));
+    await user.click(screen.getByTestId("range-end-button"));
+
+    expect(capturedProps.selected).toEqual({ from: day10, to: day20 });
+  });
+
+  it("chama onRangeSelect ao iniciar seleção", async () => {
+    const user = userEvent.setup();
+    const onRangeSelect = vi.fn();
+    render(<Calendar mode="range" onRangeSelect={onRangeSelect} />);
+
+    await user.click(screen.getByTestId("range-start-button"));
+
+    expect(onRangeSelect).toHaveBeenCalledWith({ from: day10, to: day10 });
+  });
+
+  it("range incompleto (from = to) não reinicia no segundo clique", async () => {
+    const user = userEvent.setup();
+    render(<Calendar mode="range" />);
+
+    await user.click(screen.getByTestId("range-start-button"));
+    expect(capturedProps.selected).toEqual({ from: day10, to: day10 });
+
+    await user.click(screen.getByTestId("range-end-button"));
+    expect(capturedProps.selected).toEqual({ from: day10, to: day20 });
+  });
+
+  it("range completo (from ≠ to): clicar reinicia a seleção com novo from", async () => {
+    const user = userEvent.setup();
+    render(<Calendar mode="range" />);
+
+    await user.click(screen.getByTestId("range-start-button"));
+    await user.click(screen.getByTestId("range-end-button"));
+    expect(capturedProps.selected).toEqual({ from: day10, to: day20 });
+
+    await user.click(screen.getByTestId("range-reset-button"));
+    expect(capturedProps.selected).toEqual({ from: day5, to: undefined });
+  });
+
+  it("range completo: onRangeSelect recebe novo from ao reiniciar", async () => {
+    const user = userEvent.setup();
+    const onRangeSelect = vi.fn();
+    render(<Calendar mode="range" onRangeSelect={onRangeSelect} />);
+
+    await user.click(screen.getByTestId("range-start-button"));
+    await user.click(screen.getByTestId("range-end-button"));
+    onRangeSelect.mockClear();
+
+    await user.click(screen.getByTestId("range-reset-button"));
+    expect(onRangeSelect).toHaveBeenCalledWith({ from: day5, to: undefined });
   });
 });
