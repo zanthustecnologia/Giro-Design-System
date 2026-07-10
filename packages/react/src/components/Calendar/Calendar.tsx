@@ -89,7 +89,7 @@ const Calendar = ({
   onDaySelect,
   onRangeSelect,
   onDateChange,
-  onClear: _onClear,
+  onClear,
   minDate,
   maxDate,
   disabled,
@@ -146,12 +146,27 @@ const Calendar = ({
     setInternalSelected(date);
     if (date) {
       onDaySelect?.(date);
+    } else {
+      onClear?.();
     }
   };
 
   const handleRangeSelect = (range: DateRange | undefined, selectedDay: Date) => {
-    // Considera o range completo apenas quando from e to são datas distintas
     const current = resolvedRange;
+
+    // Desselecionar: apenas um dia marcado (to ausente ou to = from) e o usuário clicou nele
+    const isSingleDaySelected =
+      current?.from != null &&
+      (current.to == null || current.from.getTime() === current.to.getTime());
+
+    if (isSingleDaySelected && current?.from?.getTime() === selectedDay.getTime()) {
+      setInternalRange(undefined);
+      onRangeSelect?.(undefined);
+      onClear?.();
+      return;
+    }
+
+    // Range completo (from ≠ to): reinicia a seleção com o dia clicado
     const isComplete =
       current?.from != null &&
       current?.to != null &&
@@ -163,6 +178,7 @@ const Calendar = ({
       onRangeSelect?.(fresh);
       return;
     }
+
     setInternalRange(range);
     onRangeSelect?.(range);
   };

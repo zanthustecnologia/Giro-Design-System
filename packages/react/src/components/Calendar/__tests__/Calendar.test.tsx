@@ -196,6 +196,17 @@ describe("Calendar", () => {
     expect(capturedProps.selected).toBeUndefined();
   });
 
+  it("chama onClear ao desselecionar o dia clicado", async () => {
+    const user = userEvent.setup();
+    const onClear = vi.fn();
+    render(<Calendar onClear={onClear} />);
+
+    await user.click(screen.getByTestId("day-button"));
+    await user.click(screen.getByTestId("clear-button"));
+
+    expect(onClear).toHaveBeenCalledTimes(1);
+  });
+
   it("passa os classNames do módulo SCSS para o DayPicker", () => {
     render(<Calendar />);
     expect(capturedProps.classNames).toBeDefined();
@@ -387,5 +398,45 @@ describe("Calendar — Modo Range", () => {
 
     await user.click(screen.getByTestId("range-reset-button"));
     expect(onRangeSelect).toHaveBeenCalledWith({ from: day5, to: undefined });
+  });
+
+  it("clicar no único dia selecionado (from = to) desseleiona o range", async () => {
+    const user = userEvent.setup();
+    render(<Calendar mode="range" />);
+
+    await user.click(screen.getByTestId("range-start-button"));
+    expect(capturedProps.selected).toEqual({ from: day10, to: day10 });
+
+    // Clica no mesmo dia novamente
+    await user.click(screen.getByTestId("range-start-button"));
+    expect(capturedProps.selected).toBeUndefined();
+  });
+
+  it("após reiniciar range, clicar no from (to=undefined) desseleciona em um clique", async () => {
+    const user = userEvent.setup();
+    render(<Calendar mode="range" />);
+
+    // Completa o range
+    await user.click(screen.getByTestId("range-start-button")); // { from: d10, to: d10 }
+    await user.click(screen.getByTestId("range-end-button"));   // { from: d10, to: d20 }
+
+    // Reinicia clicando em day5 → { from: day5, to: undefined }
+    await user.click(screen.getByTestId("range-reset-button"));
+    expect(capturedProps.selected).toEqual({ from: day5, to: undefined });
+
+    // Clica em day5 novamente → deve desselecionar em UM clique
+    await user.click(screen.getByTestId("range-reset-button"));
+    expect(capturedProps.selected).toBeUndefined();
+  });
+
+  it("chama onClear ao desselecionar o único dia do range", async () => {
+    const user = userEvent.setup();
+    const onClear = vi.fn();
+    render(<Calendar mode="range" onClear={onClear} />);
+
+    await user.click(screen.getByTestId("range-start-button"));
+    await user.click(screen.getByTestId("range-start-button"));
+
+    expect(onClear).toHaveBeenCalledTimes(1);
   });
 });
