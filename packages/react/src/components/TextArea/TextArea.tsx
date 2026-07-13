@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import React, { useState, useCallback, useId, forwardRef, useEffect } from 'react';
+import React, { useState, useCallback, useId, useEffect } from 'react';
 
 import useInputKeyboardValue from '../../hooks/useInputKeyboardValue';
 import VirtualKeyboard from '../VirtualKeyboard';
@@ -8,36 +8,33 @@ import LabelComponent from '../../shared/Label';
 
 import type { TextAreaProps } from './TextArea.types';
 
-const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
-  (
-    {
-      className,
-      value,
-      label,
-      placeholder,
-      onChange,
-      disabled = false,
-      maxLength,
-      required = false,
-      helperText,
-      tooltip = false,
-      tooltipText,
-      side = 'bottom',
-      align = 'start',
-      errorMessage,
-      error,
-      id,
-      onBlur,
-      onFocus,
-      name,
-      resize = 'vertical',
-      showCharCount = false,
-      height,
-      virtualKeyboard,
-      ...rest
-    },
-    ref
-  ) => {
+const TextArea = ({
+  ref,
+  className,
+  value,
+  label,
+  placeholder,
+  onChange,
+  disabled = false,
+  maxLength,
+  required = false,
+  helperText,
+  tooltip = false,
+  tooltipText,
+  side = 'bottom',
+  align = 'start',
+  errorMessage,
+  error,
+  id,
+  onBlur,
+  onFocus,
+  name,
+  resize = 'vertical',
+  showCharCount = false,
+  height,
+  virtualKeyboard,
+  ...rest
+}: TextAreaProps & { ref?: React.Ref<HTMLTextAreaElement> }) => {
     const normalizeValue = (val: string | undefined): string => {
       return val === undefined || val === null ? '' : String(val);
     };
@@ -173,8 +170,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
         )}
       </div>
     );
-  }
-);
+};
 
 TextArea.displayName = 'TextArea';
 

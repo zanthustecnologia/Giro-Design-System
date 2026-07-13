@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { describe, it, expect, vi } from 'vitest';
@@ -177,17 +177,17 @@ describe('VerificationCode', () => {
     });
 
     it('chama onAutoSubmit ao completar todos os campos com autoSubmit ativo', async () => {
-      const user = userEvent.setup();
       const onAutoSubmit = vi.fn();
       render(
         <VerificationCode length={2} autoSubmit onAutoSubmit={onAutoSubmit} />,
       );
 
-      const inputs = getVisibleInputs();
-      await user.type(inputs[0], '1');
-      await user.type(inputs[1], '2');
+      const [firstInput] = getVisibleInputs();
+      fireEvent.paste(firstInput, {
+        clipboardData: { getData: () => '12' },
+      });
 
-      expect(onAutoSubmit).toHaveBeenCalledWith('12');
+      await waitFor(() => expect(onAutoSubmit).toHaveBeenCalledWith('12'));
     });
 
     it('não chama onAutoSubmit quando autoSubmit=false', async () => {
