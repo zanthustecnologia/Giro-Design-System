@@ -37,6 +37,7 @@ export default [
       '**/flutter/**',
       '**/src/styles/tokens.js',
       '**/tokens.js',
+      '**/__generated__/**',
     ],
   },
 
