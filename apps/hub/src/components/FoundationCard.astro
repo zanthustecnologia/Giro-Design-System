@@ -1,4 +1,6 @@
----
+﻿---
+import '../styles/foundation-card.css';
+
 interface Props {
   icon: string;
   title: string;
@@ -22,48 +24,3 @@ const isExternal = href.startsWith('http');
   <p class="foundation-card__description">{description}</p>
   <span class="foundation-card__link">{linkLabel} →</span>
 </a>
-
-<style>
-  .foundation-card {
-    background: var(--color-neutral-high-default);
-    border: var(--border-width-1) solid var(--color-neutral-high-medium);
-    border-radius: var(--border-radius-16);
-    padding: var(--spacing-32);
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-12);
-    text-decoration: none;
-    color: inherit;
-    transition: box-shadow 0.2s ease, border-color 0.2s ease;
-  }
-
-  .foundation-card:hover {
-    border-color: var(--color-brand-primary-light);
-    box-shadow: 0 4px 24px rgba(59, 69, 242, 0.08);
-  }
-
-  .foundation-card__icon {
-    font-size: 28px;
-    line-height: 1;
-  }
-
-  .foundation-card__title {
-    font-size: var(--font-size-18);
-    font-weight: var(--font-weight-bold);
-    color: var(--color-neutral-low-default);
-  }
-
-  .foundation-card__description {
-    font-size: var(--font-size-14);
-    color: var(--color-neutral-low-medium);
-    line-height: 1.6;
-    flex: 1;
-  }
-
-  .foundation-card__link {
-    font-size: var(--font-size-14);
-    font-weight: var(--font-weight-medium);
-    color: var(--color-brand-primary-default);
-    margin-top: var(--spacing-4);
-  }
-</style>
