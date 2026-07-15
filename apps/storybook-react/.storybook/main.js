@@ -30,11 +30,6 @@ const config = {
   ]
 ,
 
-  // Docs por autodocs (opcional, mas útil no DS)
-  docs: {
-    autodocs: 'tag'
-  },
-
   // Usa react-docgen-typescript para extrair JSDoc e tipos corretamente.
   // tsconfigPath aponta para packages/react/tsconfig.json para que o TypeScript
   // program inclua os source files com os aliases certos (@/, @components/, etc.).
@@ -76,8 +71,6 @@ const config = {
       'react',
       'react-dom',
       '@fluentui/react-icons',
-      'react-day-picker',
-      'date-fns'
     ];
 
     // 2) Força uma ÚNICA instância de React (evita múltiplos Reacts no monorepo)
@@ -108,6 +101,7 @@ const config = {
       ...(viteConfig.server.fs.allow || []),
       path.resolve(__dirname, '..'),          // raiz do app (src/, public/, etc.)
       path.resolve(__dirname, '../../../packages'),
+      path.resolve(__dirname, '../../../node_modules'), // addons pnpm virtual store
     ];
 
     // 6) Virtual module que expõe o conteúdo dos CHANGELOGs em build/dev time

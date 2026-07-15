@@ -11,9 +11,6 @@ import { PLAYGROUND_INTRO_CODE } from './playground-intro';
 const preview = {
   parameters: {
     // actions: { argTypesRegex: "^on[A-Z].*" },
-    docs: {
-      autodocs: true,
-    },
     controls: {
       matchers: {
         color: /(background|color)$/i,
@@ -48,11 +45,14 @@ const preview = {
     },
   },
 
+  initialGlobals: {
+    theme: 'light',
+  },
+
   globalTypes: {
     theme: {
       name: 'Theme',
       description: 'Tema global do design system',
-      defaultValue: 'light',
       toolbar: {
         icon: 'circlehollow',
         items: ['light', 'dark'],
