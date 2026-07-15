@@ -1,135 +1,145 @@
-# Migração React 18 → 19 — @giro-ds/react
+# Guia de Migração de Major do React — @giro-ds/react
+
+> Template reutilizável para atualizações de major version do React no monorepo.  
+> Preencha os campos `<versão-atual>` e `<versão-alvo>` antes de iniciar.
 
 ## Descrição da Tarefa
 
-Como desenvolvedor da equipe de front-end, queremos atualizar as bibliotecas desatualizadas do monorepo e ajustar as configurações de dependência do React nos pacotes internos, para que o projeto permaneça seguro, performático e os pacotes internos aceitem o React 18 e qualquer versão posterior (como o React 19) sem gerar conflitos de instalação (peer dependency resolution errors).
+Atualizar o React e ajustar as configurações de dependência dos pacotes internos do monorepo, garantindo que o projeto permaneça seguro e atualizado, sem gerar conflitos de instalação (peer dependency resolution errors) entre workspaces.
 
 ---
 
 ## Critérios de Aceite
 
 - [ ] **Mapeamento e Atualização:** Todas as principais bibliotecas do ecossistema do monorepo foram atualizadas para suas versões estáveis mais recentes (varredura de segurança/breaking changes).
-- [ ] **Compatibilidade do React:** O pacote `@giro-ds/react` (e outros pacotes compartilhados) deve aceitar React de forma abrangente nas `peerDependencies` (ex: `>=18.0.0`).
-- [ ] **Sem Duplicidade:** O processo de instalação (`pnpm install`) não deve gerar múltiplas instâncias do React no `node_modules` final.
-- [ ] **Sucesso no Build:** O comando de build global do monorepo (`turbo build`) deve rodar sem erros.
-- [ ] **Testes Passando:** A suíte de testes de todos os pacotes e aplicações deve passar com sucesso após as atualizações.
+- [ ] **Compatibilidade do React:** O pacote `@giro-ds/react` (e outros pacotes compartilhados) aceita a nova versão nas `peerDependencies` sem conflitos.
+- [ ] **Sem Duplicidade:** `pnpm install` não gera múltiplas instâncias do React no `node_modules` (verificar com `pnpm why react`).
+- [ ] **Storybook estável:** `pnpm dev:storybook` inicia sem erros de resolução de dependências.
+- [ ] **Sucesso no Build:** `turbo build` roda sem erros.
+- [ ] **Testes Passando:** `pnpm --filter @giro-ds/react test` — 100% passing.
+- [ ] **Changeset criado:** bump MAJOR registrado e `CHANGELOG.md` atualizado.
+- [ ] **Publicado:** versão MAJOR do `@giro-ds/react` publicada no NPM.
 
 ---
 
 ## Estado Atual
 
-| Item | Versão atual | Versão mais recente |
-|------|-------------|---------------------|
-| `react` (runtime) | **18.3.1** | 19.2.7 |
-| `@types/react` (root) | **19.2.7** | 19.2.7 |
-| `@types/react-dom` (root) | **19.2.3** | 19.2.3 |
+> Preencher ao iniciar a migração.
 
-> **Inconsistência pré-existente:** o `package.json` raiz já aponta `@types/react` v19, mas o runtime ainda é v18. O código já compila com os tipos do React 19 mas executa sobre React 18.
+| Item | Versão instalada | Versão alvo |
+|------|-----------------|-------------|
+| `react` (devDependencies) | | |
+| `react` (peerDependencies) | | |
+| `@types/react` (root) | | |
+| `@types/react-dom` (root) | | |
+| `apps/storybook-react` react | | |
+
+Listar dependências que bloqueiam (peer conflicts):
+
+```bash
+pnpm outdated --recursive
+pnpm why react
+```
 
 ---
 
 ## O que precisa mudar em `packages/react/package.json`
 
-### peerDependencies — configuração recomendada pelo card
+### peerDependencies — configuração recomendada
 
 ```json
 "peerDependencies": {
-  "react": ">=18.0.0",
-  "react-dom": ">=18.0.0"
+  "react": ">= <versão-mínima-suportada>.0.0",
+  "react-dom": ">= <versão-mínima-suportada>.0.0"
 }
 ```
 
-> Usar `>=18.0.0` é a forma mais segura: aceita React 18, 19 e versões futuras sem precisar atualizar o `package.json` a cada major.  
-> Alternativa mais restrita (se quiser controle por major): `"^18.0.0 || ^19.0.0"`
+> Usar `>=N.0.0` é a forma mais segura: aceita versões futuras sem precisar alterar o `package.json` a cada major.  
+> Alternativa controlada por major: `"^X.0.0 || ^Y.0.0"`
 
-### devDependencies — manter base de teste estável
+### devDependencies — atualizar para a versão alvo
 
 ```json
 "devDependencies": {
-  "react": "^18.3.0",
-  "react-dom": "^18.3.0"
+  "react": "^<versão-alvo>.0.0",
+  "react-dom": "^<versão-alvo>.0.0"
 }
 ```
 
-> As devDependencies permanecem em React 18 para garantir que os testes locais do pacote continuem passando enquanto a migração não é concluída end-to-end.
+> ⚠️ **Atenção:** nunca atualizar devDependencies para a nova versão sem também atualizar o Storybook e adicionar `pnpm.overrides` na raiz. Fazer só parte disso cria uma **combinação mista de peers** no pnpm (ex: `react-dom@18` runtime + `@types/react@19` tipos), o que impede que sub-dependências do Radix UI sejam instaladas corretamente pela pré-bundling do Vite.
+
+### pnpm.overrides na raiz — garantia de versão única (etapa obrigatória)
+
+```json
+// package.json (raiz do monorepo)
+"pnpm": {
+  "overrides": {
+    "react": "^<versão-alvo>.0.0",
+    "react-dom": "^<versão-alvo>.0.0"
+  }
+}
+```
+
+> Sem esse override, o pnpm pode resolver versões diferentes de React simultaneamente para pacotes distintos do workspace, gerando instâncias duplicadas e erros na pré-bundling do Vite. O override força que **todo o monorepo** use a mesma versão.
+
+---
+
+## ⚠️ Classificação da mudança (Breaking Change)
+
+Usar a checklist de [`giovani-guidelines.md`](../../../docs/react/giovani-guidelines.md) para determinar o tipo de bump:
+
+| Pergunta | Se SIM → |
+|----------|----------|
+| Removi/renomeei alguma prop ou API pública? | **MAJOR** 💥 |
+| Mudei comportamento padrão de algum componente? | **MAJOR** 💥 |
+| Adicionei nova funcionalidade sem quebrar compatibilidade? | **MINOR** ✨ |
+| Apenas corrigi bug ou warning de deprecação? | **PATCH** 🐛 |
+
+**Preencher a tabela de breaking changes para o MR:**
+
+| Componente/API | Antes | Depois |
+|---------------|-------|--------|
+| | | |
+
+> **Ação obrigatória:** atualizar `packages/react/CHANGELOG.md` com a breaking change antes de publicar. Ver [`rules/general.md`](../../../docs/react/rules/general.md) — "Changelog Obrigatório".
 
 ---
 
 ## O que pode quebrar
 
+> Preencher durante o mapeamento inicial (`pnpm outdated`, leitura dos changelogs da nova versão do React).
+
 ### 🔴 Alta Prioridade
 
-#### 1. `forwardRef` depreciado — 7 componentes, 15 arquivos
-
-Em React 19, `ref` é agora uma prop comum. O `forwardRef` continua funcionando mas gera **warning no console** em toda renderização.
-
-| Componente | Arquivo |
-|------------|---------|
-| `Button` | `Button/Button.tsx` |
-| `Search` | `Search/Search.tsx` |
-| `TextField` | `TextField/TextField.tsx` |
-| `TextArea` | `TextArea/TextArea.tsx` |
-| `FileUpload` | `FileUpload/FileUpload.tsx` |
-| `SelectItem` | `Select/components/SelectItem.tsx` |
-| `SelectField` *(deprecated)* | `.deprecated/SelectField/SelectField.tsx` |
-
-**Correção esperada:**
-
-```tsx
-// Antes (React 18 — forwardRef wrapper)
-const TextField = forwardRef<HTMLInputElement, TextFieldProps>((props, ref) => {
-  return <input ref={ref} {...props} />;
-});
-
-// Depois (React 19 — ref como prop normal)
-const TextField = ({ ref, ...props }: TextFieldProps & { ref?: React.Ref<HTMLInputElement> }) => {
-  return <input ref={ref} {...props} />;
-};
-```
-
----
-
-#### 2. `act()` nos testes — ~25+ usos no VirtualKeyboard
-
-React 19 alterou o batching automático de state updates e como o `act()` processa microtasks. Testes que misturam `act()` síncrono com atualizações assíncronas podem emitir warnings ou falhar silenciosamente.
-
-Arquivo afetado: `VirtualKeyboard/__tests__/VirtualKeyboard.test.tsx`
-
----
+| # | Área | Descrição | Arquivos afetados |
+|---|------|-----------|--------------------|
+| | | | |
 
 ### 🟡 Média Prioridade
 
-#### 3. `React.cloneElement` passando `ref` nos testes
-
-Em `Select/__tests__/Select.test.tsx` e `Dialog/__tests__/Dialog.test.tsx`, `cloneElement` é usado passando `ref` explicitamente. Em React 19, `ref` deixou de ser "especial" no `cloneElement` — pode gerar comportamento diferente ou warnings nos mocks.
-
-#### 4. Strict Mode mais rigoroso — VirtualKeyboard
-
-React 19 em Strict Mode faz double-invoke de efeitos de forma mais agressiva. O `VirtualKeyboard` usa `MutationObserver` + `useEffect` montado uma única vez (`[]`) para reinjetar ícones Fluent. Esse padrão pode ter comportamento imprevisível com o double-invoke do Strict Mode (observer registrado duas vezes, callbacks duplicados).
-
-#### 5. `React.FC` — 30+ componentes
-
-`React.FC` ainda existe no React 19 e não é removido, mas é considerado convenção legada. Não quebra, mas é recomendado migrar para tipagem explícita ao longo do tempo. Nenhuma ação urgente necessária.
+| # | Área | Descrição | Arquivos afetados |
+|---|------|-----------|--------------------|
+| | | | |
 
 ---
 
 ## Compatibilidade das Dependências
 
-| Dependência | Versão instalada | Suporte React 19 |
-|-------------|-----------------|------------------|
-| `react-simple-keyboard` | 3.8.206 | ✅ `^16 \|\| ^17 \|\| ^18 \|\| ^19` |
-| `@storybook/react` | 9.1.2 | ✅ `^16 \|\| ^17 \|\| ^18 \|\| ^19` |
-| `@testing-library/react` | 16.3.1 | ✅ `^18 \|\| ^19` |
-| `react-day-picker` | 9.14.0 | ✅ `>=16.8.0` |
-| `@radix-ui/*` (todas) | v1.x+ | ✅ suporta React 19 |
-| `@tanstack/react-table` | 8.21.3 | ✅ `>=16.8` |
-| `react-router-dom` | 7.10.1 | ✅ `>=18` |
-| `react-i18next` | 15.7.4 | ✅ `>=16.8.0` |
-| `react-loading-skeleton` | 3.5.0 | ✅ `>=16.8.0` |
-| `react-content-loader` | 7.1.1 | ✅ `>=18.0.0` |
-| `@fluentui/react-icons` | 2.0.316 | ✅ `>=16.8.0 <20.0.0` |
+> Preencher consultando o `peerDependencies` de cada pacote e os changelogs oficiais.
 
-> Todas as dependências de produção do `@giro-ds/react` são compatíveis com React 19. Nenhuma atualização de dependência é bloqueante para a migração.
+| Dependência | Versão instalada | Suporte versão alvo | Ação necessária |
+|-------------|-----------------|--------------------|-----------------|
+| `react-simple-keyboard` | | | |
+| `@storybook/react` | | | |
+| `@testing-library/react` | | | |
+| `react-day-picker` | | | |
+| `@radix-ui/*` | | | |
+| `@tanstack/react-table` | | | |
+| `react-router-dom` | | | |
+| `react-i18next` | | | |
+| `react-loading-skeleton` | | | |
+| `react-content-loader` | | | |
+| `@fluentui/react-icons` | | | |
 
 ---
 
@@ -149,77 +159,156 @@ Conforme orientação do card:
 
 ## Plano de Migração — Passo a Passo
 
-### Etapa 1 — Ajuste de peerDependencies (baixo risco, sem quebra)
+### Etapa 1 — Snapshot do estado atual e baseline
+
+```bash
+# Verificar o que está desatualizado
+pnpm outdated --recursive
+
+# Confirmar versões de react instaladas no workspace
+pnpm why react
+pnpm why react-dom
+
+# Rodar build e testes ANTES de qualquer mudança para registrar o baseline
+pnpm build
+pnpm --filter @giro-ds/react test
+pnpm --filter @giro-ds/react typecheck
+```
+
+Registrar quaisquer falhas pré-existentes. Não prosseguir até o baseline estar verde.
+
+---
+
+### Etapa 2 — Ajuste de peerDependencies
 
 Alterar `packages/react/package.json`:
 
 ```diff
  "peerDependencies": {
--  "react": "^18.3.1",
--  "react-dom": "^18.3.1"
-+  "react": ">=18.0.0",
-+  "react-dom": ">=18.0.0"
+-  "react": "^<versão-atual>.x",
+-  "react-dom": "^<versão-atual>.x"
++  "react": ">= <versão-mínima-suportada>.0.0",
++  "react-dom": ">= <versão-mínima-suportada>.0.0"
  },
- "devDependencies": {
-   ...
--  "react": "^18.3.1",
--  "react-dom": "^18.3.1"
-+  "react": "^18.3.0",
-+  "react-dom": "^18.3.0"
- }
 ```
 
 Rodar `pnpm install` e verificar ausência de warnings de peer dependency.
 
 ---
 
-### Etapa 2 — Verificar build e testes (estado baseline)
+### Etapa 3 — Atualizar React (devDependencies + pnpm.overrides + Storybook)
 
-```bash
-pnpm build            # build global via turbo
-pnpm test             # suite completa
-pnpm typecheck        # verificação TypeScript
-```
+> ⚠️ **Estas três sub-etapas devem ser feitas juntas, no mesmo commit.** Fazer apenas uma parte cria uma combinação mista de peers no pnpm (ex: `react-dom@18` runtime + `@types/react@19` tipos), que impede a instalação dos sub-pacotes do Radix UI e quebra a pré-bundling do Vite.
 
-Registrar quaisquer falhas pré-existentes antes de prosseguir.
-
----
-
-### Etapa 3 — Atualizar React para v19 (devDependencies)
+**3a. Atualizar `packages/react/package.json` — devDependencies:**
 
 ```diff
  "devDependencies": {
--  "react": "^18.3.0",
--  "react-dom": "^18.3.0"
-+  "react": "^19.0.0",
-+  "react-dom": "^19.0.0"
+-  "react": "^<versão-atual>.0.0",
+-  "react-dom": "^<versão-atual>.0.0"
++  "react": "^<versão-alvo>.0.0",
++  "react-dom": "^<versão-alvo>.0.0"
  }
 ```
 
-Rodar `pnpm install`, `pnpm build` e `pnpm test`. Esperado: warnings de `forwardRef` depreciado.
+**3b. Adicionar `pnpm.overrides` no `package.json` raiz:**
+
+```json
+"pnpm": {
+  "overrides": {
+    "react": "^<versão-alvo>.0.0",
+    "react-dom": "^<versão-alvo>.0.0"
+  }
+}
+```
+
+**3c. Atualizar `apps/storybook-react/package.json`:**
+
+```json
+"dependencies": {
+  "react": "^<versão-alvo>.0.0",
+  "react-dom": "^<versão-alvo>.0.0"
+}
+```
+
+E verificar que `apps/storybook-react/.storybook/main.js` contém aliases Vite para `react`/`react-dom` apontando para `apps/storybook-react/node_modules` — isso impede o Vite de resolver React pelo `packages/react/node_modules`.
+
+**3d. Rodar e validar:**
+
+```bash
+pnpm install
+pnpm why react    # deve mostrar apenas UMA versão
+pnpm dev:storybook  # deve iniciar sem erros de resolução de dependências
+```
 
 ---
 
-### Etapa 4 — Corrigir `forwardRef` nos 7 componentes afetados
+### Etapa 4 — Corrigir código depreciado
 
-Migrar `Button`, `Search`, `TextField`, `TextArea`, `FileUpload`, `SelectItem` e `SelectField` (deprecated) para aceitar `ref` como prop normal.
+Verificar no [blog oficial do React](https://react.dev/blog) e no changelog da versão alvo quais APIs foram depreciadas ou removidas. Corrigir todos os usos nos componentes mapeados na seção "O que pode quebrar".
+
+Exemplo de padrão de migração (adaptar conforme a API depreciada):
+
+```tsx
+// Antes
+const MyComponent = deprecatedAPI<Props>((props, param) => {
+  // ...
+});
+
+// Depois
+const MyComponent = ({ param, ...props }: Props) => {
+  // ...
+};
+```
 
 ---
 
-### Etapa 5 — Revisar testes
+### Etapa 5 — Revisar e corrigir testes
 
-- Converter `act()` síncronos problemáticos para `await act(async () => {...})` no `VirtualKeyboard.test.tsx`.
-- Revisar mocks que usam `cloneElement` com `ref` em `Select.test.tsx` e `Dialog.test.tsx`.
+- Verificar testes que usam APIs alteradas na nova versão do React.
+- Converter `act()` síncronos problemáticos para `await act(async () => {...})` quando necessário.
+- Executar a suite completa:
+
+```bash
+pnpm --filter @giro-ds/react test
+```
 
 ---
 
 ### Etapa 6 — Validação final
 
 ```bash
-pnpm build            # deve rodar sem erros
-pnpm test             # todos os testes devem passar
-pnpm typecheck        # sem erros de tipo
-pnpm storybook        # verificação visual manual
+pnpm build                             # build global via turbo — sem erros
+pnpm --filter @giro-ds/react test      # 100% passing
+pnpm --filter @giro-ds/react typecheck # sem erros de tipo
+pnpm dev:storybook                     # verificação visual — sem erros de resolução
 ```
 
-Testar `VirtualKeyboard` manualmente em Strict Mode para confirmar que o `MutationObserver` não duplica os ícones Fluent.
+---
+
+### Etapa 7 — Criar Changeset (MAJOR) e atualizar CHANGELOG
+
+A remoção de `forwardRef` é uma **breaking change** — exige bump **MAJOR** conforme [`giovani-guidelines.md`](../../../docs/react/giovani-guidelines.md) e [`rules/general.md`](../../../docs/react/rules/general.md).
+
+```bash
+pnpm changeset
+```
+
+No wizard:
+1. Selecionar `@giro-ds/react`
+2. Escolher **major**
+3. Descrever a breaking change de forma clara (exemplo):
+
+```
+BREAKING CHANGE: <descrever a API removida/alterada, os componentes afetados e
+o que o consumidor precisa fazer para migrar>.
+```
+
+Verificar que `packages/react/CHANGELOG.md` foi atualizado automaticamente pelo changeset.
+
+```bash
+pnpm changeset version   # aplica o bump de versão
+pnpm changeset publish   # publica no NPM
+```
+
+> Ver passo a passo completo em [`versioning-and-publishing.md`](../../../docs/react/versioning-and-publishing.md).
