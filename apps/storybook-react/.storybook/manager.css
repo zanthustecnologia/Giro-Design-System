@@ -93,3 +93,8 @@
   max-width: 100%;
   height: 56px;
 }
+
+/* SB 10: oculta o botão de context menu (quadrado escuro) que aparece no hover dos itens */
+[data-testid="context-menu"] {
+  display: none !important;
+}
