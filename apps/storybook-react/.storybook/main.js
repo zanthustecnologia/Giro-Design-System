@@ -24,7 +24,6 @@ const config = {
   // Addons recomendados
    addons: [
     "@storybook/addon-docs",
-    "@storybook/addon-onboarding",
     "@storybook/addon-a11y",
     "storybook-addon-playground",
   ]

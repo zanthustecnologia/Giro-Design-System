@@ -106,9 +106,6 @@ importers:
       '@storybook/addon-docs':
         specifier: 10.5.0
         version: 10.5.0(@types/react-dom@19.2.3(@types/react@19.2.7))(@types/react@19.2.7)(esbuild@0.27.4)(rollup@4.53.5)(storybook@10.5.0(@types/react@19.2.7)(prettier@3.7.4)(react@18.3.1))(vite@6.3.5(@types/node@24.10.4)(sass@1.97.0)(tsx@4.21.0)(yaml@2.8.2))
-      '@storybook/addon-onboarding':
-        specifier: 10.5.0
-        version: 10.5.0(storybook@10.5.0(@types/react@19.2.7)(prettier@3.7.4)(react@18.3.1))
       '@storybook/builder-vite':
         specifier: 10.5.0
         version: 10.5.0(esbuild@0.27.4)(rollup@4.53.5)(storybook@10.5.0(@types/react@19.2.7)(prettier@3.7.4)(react@18.3.1))(vite@6.3.5(@types/node@24.10.4)(sass@1.97.0)(tsx@4.21.0)(yaml@2.8.2))
@@ -2608,11 +2605,6 @@ packages:
     peerDependenciesMeta:
       react:
         optional: true
-
-  '@storybook/addon-onboarding@10.5.0':
-    resolution: {integrity: sha512-6FjupZnlcmEG0/e4fc1daeFxHC6HeJ6I2jw1bz+y5OEskWN5ADdF9U3C42RwlOIkJXMb+dFemM8A6uidUb/guA==}
-    peerDependencies:
-      storybook: ^10.5.0
 
   '@storybook/builder-vite@10.5.0':
     resolution: {integrity: sha512-KXlifNIThDgS84KqVAJXyilool8OLTWp6DGoO9h5bHM2IPLe7UcdKfOzMUBkQ807mWBk4aW1yGEekj7kC2dvmg==}
@@ -8568,10 +8560,6 @@ snapshots:
       storybook: 10.5.0(@types/react@19.2.7)(prettier@3.7.4)(react@18.3.1)
     optionalDependencies:
       react: 18.3.1
-
-  '@storybook/addon-onboarding@10.5.0(storybook@10.5.0(@types/react@19.2.7)(prettier@3.7.4)(react@18.3.1))':
-    dependencies:
-      storybook: 10.5.0(@types/react@19.2.7)(prettier@3.7.4)(react@18.3.1)
 
   '@storybook/builder-vite@10.5.0(esbuild@0.27.4)(rollup@4.53.5)(storybook@10.5.0(@types/react@19.2.7)(prettier@3.7.4)(react@18.3.1))(vite@6.3.5(@types/node@24.10.4)(sass@1.97.0)(tsx@4.21.0)(yaml@2.8.2))':
     dependencies:
