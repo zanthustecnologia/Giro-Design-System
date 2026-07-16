@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import introJs from 'intro.js';
 import type { IntroJs } from 'intro.js';
 import 'intro.js/introjs.css';
+import styles from './Tour.module.scss'; // eslint-disable-line @typescript-eslint/no-unused-vars
 
 import { TourProps } from './Tour.types';
 
@@ -31,6 +32,10 @@ const Tour: React.FC<TourProps> = ({
         position: step.position,
       })),
       startingStep: initialStep,
+      prevLabel: 'Voltar',
+      nextLabel: 'Próximo',
+      doneLabel: 'Concluir',
+      skipLabel: '✕',
     });
 
     if (onComplete) {

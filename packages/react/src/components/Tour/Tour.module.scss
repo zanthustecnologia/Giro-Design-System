@@ -1,1 +1,89 @@
 /* Sobrescritas de estilo do intro.js para integração com o design system */
+
+/* Base: usa .introjs-tooltipbuttons como pai para ganhar especificidade sobre o CSS do intro.js */
+:global(.introjs-tooltipbuttons .introjs-button) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 36px;
+  padding: var(--spacing-0) var(--spacing-16);
+  border-radius: var(--border-radius-8);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-14);
+  font-weight: var(--font-weight-medium);
+  font-style: normal;
+  text-decoration: none;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition:
+    background-color 0.3s ease-in-out,
+    color 0.3s ease-in-out,
+    border-color 0.3s ease-in-out;
+  box-shadow: none;
+  text-shadow: none;
+  background-image: none;
+}
+
+/* Botão Próximo e Concluir → filled (primário) */
+:global(.introjs-tooltipbuttons .introjs-nextbutton),
+:global(.introjs-tooltipbuttons .introjs-donebutton) {
+  background: var(--color-brand-primary-default);
+  color: var(--color-neutral-high-default);
+  border: none;
+
+  &:hover {
+    background: var(--color-brand-primary-medium);
+    color: var(--color-neutral-high-default);
+    border: none;
+  }
+
+  &:active {
+    background: var(--color-brand-primary-dark);
+    color: var(--color-neutral-high-default);
+    outline: none;
+  }
+
+  &:focus-visible {
+    outline: var(--border-width-4) solid var(--color-neutral-high-dark);
+    outline-offset: var(--border-width-2);
+  }
+}
+
+/* Botão Anterior → outlined */
+:global(.introjs-tooltipbuttons .introjs-prevbutton) {
+  background-color: var(--color-neutral-high-default);
+  color: var(--color-brand-primary-default);
+  border: var(--border-width-1) solid var(--color-neutral-high-dark);
+
+  &:hover {
+    background-color: var(--color-neutral-high-medium);
+    color: var(--color-brand-primary-default);
+  }
+
+  &:active {
+    background-color: var(--color-neutral-high-dark);
+    color: var(--color-brand-primary-default);
+    outline: none;
+  }
+
+  &:focus-visible {
+    outline: var(--border-width-4) solid var(--color-neutral-high-dark);
+    outline-offset: var(--border-width-2);
+  }
+}
+
+/* Estado desabilitado (Anterior no primeiro passo) */
+:global(.introjs-tooltipbuttons .introjs-disabled),
+:global(.introjs-tooltipbuttons .introjs-prevbutton.introjs-disabled) {
+  background-color: var(--color-neutral-high-default);
+  color: var(--color-neutral-high-dark);
+  border: var(--border-width-1) solid var(--color-neutral-high-medium);
+  cursor: not-allowed;
+  opacity: 0.5;
+
+  &:hover {
+    background-color: var(--color-neutral-high-default);
+    color: var(--color-neutral-high-dark);
+    border: var(--border-width-1) solid var(--color-neutral-high-medium);
+  }
+}
