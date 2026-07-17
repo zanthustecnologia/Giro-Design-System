@@ -11,26 +11,35 @@ const meta: Meta<typeof Onboarding> = {
     docs: {
       description: {
         component:
-          'O Onboarding exibe um guia passo a passo interativo na página, destacando elementos e exibindo instruções ao usuário. É ideal para onboarding e apresentação de novas funcionalidades.',
+          'O Onboarding suporta dois modos: **tour** (guia passo a passo) e **hint** (marcadores fixos clicáveis). É ideal para onboarding de novos usuários e apresentação de funcionalidades.',
       },
     },
   },
   argTypes: {
+    mode: {
+      control: 'select',
+      options: ['tour', 'hint'],
+      description: 'Modo de exibição do onboarding',
+    },
     isOpen: {
       control: 'boolean',
       description: 'Controla se o onboarding está ativo',
     },
     initialStep: {
       control: 'number',
-      description: 'Índice do passo inicial',
+      description: 'Índice do passo inicial (somente modo tour)',
     },
     steps: {
       control: false,
-      description: 'Lista de passos do onboarding',
+      description: 'Lista de passos (somente modo tour)',
+    },
+    hints: {
+      control: false,
+      description: 'Lista de hints (somente modo hint)',
     },
     onExit: {
       control: false,
-      description: 'Disparado quando o usuário encerra o onboarding antes de concluir',
+      description: 'Disparado quando o usuário encerra o tour antes de concluir',
     },
     onComplete: {
       control: false,
@@ -153,3 +162,52 @@ export const SemElementoAlvo: Story = {
   },
 };
 SemElementoAlvo.storyName = 'Sem elemento alvo';
+
+export const HintMode: Story = {
+  render: () => {
+    const [isOpen, setIsOpen] = useState(true);
+    return (
+      <div style={{ padding: '48px', display: 'flex', flexDirection: 'column', gap: '48px' }}>
+        <div style={{ display: 'flex', gap: '16px' }}>
+          <Button onClick={() => setIsOpen(true)}>Mostrar hints</Button>
+          <Button variant="outlined" onClick={() => setIsOpen(false)}>
+            Ocultar hints
+          </Button>
+        </div>
+        <div style={{ display: 'flex', gap: '32px', alignItems: 'flex-start' }}>
+          <Button id="hint-btn-salvar" variant="outlined">
+            Salvar
+          </Button>
+          <Button id="hint-btn-exportar" variant="outlined">
+            Exportar
+          </Button>
+          <Button id="hint-btn-configurar" variant="outlined">
+            Configurar
+          </Button>
+        </div>
+        <Onboarding
+          mode="hint"
+          isOpen={isOpen}
+          hints={[
+            {
+              element: '#hint-btn-salvar',
+              hint: 'Salva todas as alterações feitas no formulário.',
+              hintPosition: 'top-middle',
+            },
+            {
+              element: '#hint-btn-exportar',
+              hint: 'Exporta os dados em formato CSV ou PDF.',
+              hintPosition: 'middle-right',
+            },
+            {
+              element: '#hint-btn-configurar',
+              hint: 'Acesse as configurações avançadas do painel.',
+              hintPosition: 'bottom-middle',
+            },
+          ]}
+        />
+      </div>
+    );
+  },
+};
+HintMode.storyName = 'Modo Hint';

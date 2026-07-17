@@ -7,7 +7,10 @@ import { Footer } from '../../../internal-components/mdx/Footer/Footer';
 
 # Onboarding
 
-O Onboarding exibe um guia passo a passo interativo na página, destacando elementos e exibindo instruções ao usuário. É ideal para apresentação de novas funcionalidades e orientação de novos usuários.
+O Onboarding suporta dois modos de exibição:
+
+- **Tour** — guia passo a passo que destaca elementos sequencialmente
+- **Hint** — marcadores fixos e clicáveis distribuídos pela página
 
 <Canvas of={OnboardingStories.Default} />
 
@@ -27,15 +30,32 @@ import { Onboarding } from '@giro-ds/react';
 
 ## Exemplos
 
-### Múltiplas etapas
+### Múltiplas etapas (Tour)
 
 <Canvas of={OnboardingStories.MultiplasetapasPositionadas} />
 
-### Sem elemento alvo
+### Sem elemento alvo (Tour)
 
 Quando `element` é omitido no passo, o balão é exibido centralizado na tela.
 
 <Canvas of={OnboardingStories.SemElementoAlvo} />
+
+### Modo Hint
+
+Marcadores fixos clicáveis exibidos sobre elementos da página. Controlados pela prop `isOpen`.
+
+<Canvas of={OnboardingStories.HintMode} />
+
+```tsx
+<Onboarding
+  mode="hint"
+  isOpen={showHints}
+  hints={[
+    { element: '#btn-salvar', hint: 'Salva todas as alterações.', hintPosition: 'top-middle' },
+    { element: '#btn-exportar', hint: 'Exporta em CSV ou PDF.', hintPosition: 'top-middle' },
+  ]}
+/>
+```
 
 <div style={{ marginTop: '48px' }} />
 
@@ -44,19 +64,19 @@ Quando `element` é omitido no passo, o balão é exibido centralizado na tela.
 <UsageGuidelines
   guidelines={[
     <>
-      Use o Onboarding para apresentar novas funcionalidades ou guiar usuários durante o primeiro acesso. Evite usá-lo para substituir documentação permanente na interface.
+      Use o modo <strong>tour</strong> para apresentar novas funcionalidades de forma sequencial. Use o modo <strong>hint</strong> quando o usuário precisar de referências persistentes e não sequenciais.
     </>,
     <>
-      Mantenha cada passo com texto curto e objetivo. O usuário deve conseguir absorver a informação rapidamente antes de avançar.
+      Mantenha cada passo ou hint com texto curto e objetivo. O usuário deve absorver a informação rapidamente.
     </>,
     <>
-      Forneça sempre os callbacks <code>onExit</code> e <code>onComplete</code> para atualizar o estado que controla <code>isOpen</code>, garantindo que o onboarding feche corretamente.
+      No modo tour, forneça sempre os callbacks <code>onExit</code> e <code>onComplete</code> para atualizar o estado de <code>isOpen</code> e garantir que o guia feche corretamente.
     </>,
     <>
-      Prefira destacar elementos que realmente precisam de explicação. Onboardings longos ou com muitos passos tendem a ser ignorados pelo usuário.
+      No modo hint, use <code>isOpen</code> para controlar a visibilidade de todos os marcadores de uma vez. Combine com um botão de "Mostrar dicas" para dar controle ao usuário.
     </>,
     <>
-      Certifique-se de que os seletores passados em <code>element</code> existem no DOM antes de abrir o onboarding; caso contrário, o balão será renderizado sem âncora.
+      Certifique-se de que os seletores passados em <code>element</code> existem no DOM antes de ativar o onboarding.
     </>,
   ]}
 />
