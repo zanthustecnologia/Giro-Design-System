@@ -3,7 +3,7 @@ import introJs from 'intro.js';
 import type { IntroJs } from 'intro.js';
 import type { Hint } from 'intro.js/src/packages/hint/hint';
 import 'intro.js/introjs.css';
-import styles from './Onboarding.module.scss'; // eslint-disable-line @typescript-eslint/no-unused-vars
+import './Onboarding.module.scss';
 
 import { OnboardingProps } from './Onboarding.types';
 
@@ -27,10 +27,14 @@ const Onboarding: React.FC<OnboardingProps> = (props) => {
           hintPosition: h.hintPosition ?? 'top-middle',
         })),
       });
-      instance.render();
-      hintRef.current = instance;
+
+      const rafId = requestAnimationFrame(() => {
+        instance.render();
+        hintRef.current = instance;
+      });
 
       return () => {
+        cancelAnimationFrame(rafId);
         instance.destroy();
         hintRef.current = null;
       };
