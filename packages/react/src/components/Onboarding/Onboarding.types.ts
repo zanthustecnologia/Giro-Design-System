@@ -1,10 +1,10 @@
 import { BaseProps } from '@/types';
 
 /** Posições possíveis do balão de cada passo */
-export type TourStepPosition = 'top' | 'bottom' | 'left' | 'right' | 'auto';
+export type OnboardingStepPosition = 'top' | 'bottom' | 'left' | 'right' | 'auto';
 
-/** Definição de um passo do tour */
-export interface TourStep {
+/** Definição de um passo do onboarding */
+export interface OnboardingStep {
   /** Seletor CSS ou referência ao elemento alvo do passo. Se omitido, o balão é centralizado */
   element?: string | Element;
   /** Conteúdo do balão (texto ou HTML) */
@@ -12,15 +12,15 @@ export interface TourStep {
   /** Título exibido no topo do balão */
   title?: string;
   /** Posição do balão em relação ao elemento alvo */
-  position?: TourStepPosition;
+  position?: OnboardingStepPosition;
 }
 
-export interface TourProps extends BaseProps {
-  /** Lista de passos do tour */
-  steps: TourStep[];
-  /** Controla se o tour está ativo */
+export interface OnboardingProps extends BaseProps {
+  /** Lista de passos do onboarding */
+  steps: OnboardingStep[];
+  /** Controla se o onboarding está ativo */
   isOpen: boolean;
-  /** Disparado quando o usuário encerra o tour antes de concluir */
+  /** Disparado quando o usuário encerra o onboarding antes de concluir */
   onExit?: () => void;
   /** Disparado quando o usuário conclui todos os passos */
   onComplete?: () => void;

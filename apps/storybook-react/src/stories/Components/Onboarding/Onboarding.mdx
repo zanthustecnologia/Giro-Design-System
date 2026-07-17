@@ -1,0 +1,64 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as OnboardingStories from './Onboarding.stories';
+import { UsageGuidelines } from '../../../internal-components/mdx/UsageGuidelines/UsageGuidelines';
+import { Footer } from '../../../internal-components/mdx/Footer/Footer';
+
+<Meta of={OnboardingStories} />
+
+# Onboarding
+
+O Onboarding exibe um guia passo a passo interativo na página, destacando elementos e exibindo instruções ao usuário. É ideal para apresentação de novas funcionalidades e orientação de novos usuários.
+
+<Canvas of={OnboardingStories.Default} />
+
+## Importação
+
+```js
+import { Onboarding } from '@giro-ds/react';
+```
+
+<div style={{ marginTop: '48px' }} />
+
+## Propriedades
+
+<Controls />
+
+<div style={{ marginTop: '48px' }} />
+
+## Exemplos
+
+### Múltiplas etapas
+
+<Canvas of={OnboardingStories.MultiplasetapasPositionadas} />
+
+### Sem elemento alvo
+
+Quando `element` é omitido no passo, o balão é exibido centralizado na tela.
+
+<Canvas of={OnboardingStories.SemElementoAlvo} />
+
+<div style={{ marginTop: '48px' }} />
+
+## Uso
+
+<UsageGuidelines
+  guidelines={[
+    <>
+      Use o Onboarding para apresentar novas funcionalidades ou guiar usuários durante o primeiro acesso. Evite usá-lo para substituir documentação permanente na interface.
+    </>,
+    <>
+      Mantenha cada passo com texto curto e objetivo. O usuário deve conseguir absorver a informação rapidamente antes de avançar.
+    </>,
+    <>
+      Forneça sempre os callbacks <code>onExit</code> e <code>onComplete</code> para atualizar o estado que controla <code>isOpen</code>, garantindo que o onboarding feche corretamente.
+    </>,
+    <>
+      Prefira destacar elementos que realmente precisam de explicação. Onboardings longos ou com muitos passos tendem a ser ignorados pelo usuário.
+    </>,
+    <>
+      Certifique-se de que os seletores passados em <code>element</code> existem no DOM antes de abrir o onboarding; caso contrário, o balão será renderizado sem âncora.
+    </>,
+  ]}
+/>
+
+<Footer />

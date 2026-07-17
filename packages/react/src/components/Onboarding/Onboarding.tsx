@@ -2,11 +2,11 @@ import React, { useEffect, useRef } from 'react';
 import introJs from 'intro.js';
 import type { IntroJs } from 'intro.js';
 import 'intro.js/introjs.css';
-import styles from './Tour.module.scss'; // eslint-disable-line @typescript-eslint/no-unused-vars
+import styles from './Onboarding.module.scss'; // eslint-disable-line @typescript-eslint/no-unused-vars
 
-import { TourProps } from './Tour.types';
+import { OnboardingProps } from './Onboarding.types';
 
-const Tour: React.FC<TourProps> = ({
+const Onboarding: React.FC<OnboardingProps> = ({
   steps,
   isOpen,
   onExit,
@@ -58,4 +58,4 @@ const Tour: React.FC<TourProps> = ({
   return null;
 };
 
-export default Tour;
+export default Onboarding;

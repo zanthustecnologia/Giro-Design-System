@@ -1,24 +1,24 @@
 import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Tour, Button } from '@giro-ds/react';
+import { Onboarding, Button } from '@giro-ds/react';
 
-type Story = StoryObj<typeof Tour>;
+type Story = StoryObj<typeof Onboarding>;
 
-const meta: Meta<typeof Tour> = {
-  title: 'Components/Tour',
-  component: Tour,
+const meta: Meta<typeof Onboarding> = {
+  title: 'Components/Onboarding',
+  component: Onboarding,
   parameters: {
     docs: {
       description: {
         component:
-          'O Tour exibe um guia passo a passo interativo na página, destacando elementos e exibindo instruções ao usuário. É ideal para onboarding e apresentação de novas funcionalidades.',
+          'O Onboarding exibe um guia passo a passo interativo na página, destacando elementos e exibindo instruções ao usuário. É ideal para onboarding e apresentação de novas funcionalidades.',
       },
     },
   },
   argTypes: {
     isOpen: {
       control: 'boolean',
-      description: 'Controla se o tour está ativo',
+      description: 'Controla se o onboarding está ativo',
     },
     initialStep: {
       control: 'number',
@@ -26,11 +26,11 @@ const meta: Meta<typeof Tour> = {
     },
     steps: {
       control: false,
-      description: 'Lista de passos do tour',
+      description: 'Lista de passos do onboarding',
     },
     onExit: {
       control: false,
-      description: 'Disparado quando o usuário encerra o tour antes de concluir',
+      description: 'Disparado quando o usuário encerra o onboarding antes de concluir',
     },
     onComplete: {
       control: false,
@@ -46,22 +46,22 @@ export const Default: Story = {
     const [isOpen, setIsOpen] = useState(false);
     return (
       <div style={{ display: 'flex', gap: '16px', alignItems: 'center', padding: '32px' }}>
-        <Button id="tour-btn-start" onClick={() => setIsOpen(true)}>
-          Iniciar tour
+        <Button id="onboarding-btn-start" onClick={() => setIsOpen(true)}>
+          Iniciar onboarding
         </Button>
-        <Button id="tour-btn-action" variant="outlined">
+        <Button id="onboarding-btn-action" variant="outlined">
           Ação principal
         </Button>
-        <Tour
+        <Onboarding
           isOpen={isOpen}
           steps={[
             {
-              element: '#tour-btn-start',
+              element: '#onboarding-btn-start',
               title: 'Bem-vindo!',
-              intro: 'Este botão inicia o tour guiado pela interface.',
+              intro: 'Este botão inicia o guia interativo pela interface.',
             },
             {
-              element: '#tour-btn-action',
+              element: '#onboarding-btn-action',
               title: 'Ação principal',
               intro: 'Use este botão para executar a ação principal da página.',
             },
@@ -80,43 +80,43 @@ export const MultiplasetapasPositionadas: Story = {
     const [isOpen, setIsOpen] = useState(false);
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', padding: '32px' }}>
-        <Button id="tour-multi-start" onClick={() => setIsOpen(true)}>
-          Iniciar tour completo
+        <Button id="onboarding-multi-start" onClick={() => setIsOpen(true)}>
+          Iniciar onboarding completo
         </Button>
         <div style={{ display: 'flex', gap: '16px' }}>
-          <Button id="tour-multi-a" variant="outlined">
+          <Button id="onboarding-multi-a" variant="outlined">
             Funcionalidade A
           </Button>
-          <Button id="tour-multi-b" variant="outlined">
+          <Button id="onboarding-multi-b" variant="outlined">
             Funcionalidade B
           </Button>
-          <Button id="tour-multi-c" variant="outlined">
+          <Button id="onboarding-multi-c" variant="outlined">
             Funcionalidade C
           </Button>
         </div>
-        <Tour
+        <Onboarding
           isOpen={isOpen}
           steps={[
             {
-              element: '#tour-multi-start',
+              element: '#onboarding-multi-start',
               title: 'Passo 1 — Início',
-              intro: 'Clique aqui sempre que quiser reiniciar o tour.',
+              intro: 'Clique aqui sempre que quiser reiniciar o onboarding.',
               position: 'bottom',
             },
             {
-              element: '#tour-multi-a',
+              element: '#onboarding-multi-a',
               title: 'Passo 2 — Funcionalidade A',
               intro: 'Esta função faz X. Explore as opções disponíveis.',
               position: 'bottom',
             },
             {
-              element: '#tour-multi-b',
+              element: '#onboarding-multi-b',
               title: 'Passo 3 — Funcionalidade B',
               intro: 'Esta função faz Y. Pode ser usada em conjunto com A.',
               position: 'bottom',
             },
             {
-              element: '#tour-multi-c',
+              element: '#onboarding-multi-c',
               title: 'Passo 4 — Funcionalidade C',
               intro: 'Esta função finaliza o fluxo. Certifique-se de revisar antes.',
               position: 'bottom',
@@ -137,7 +137,7 @@ export const SemElementoAlvo: Story = {
     return (
       <div style={{ padding: '32px' }}>
         <Button onClick={() => setIsOpen(true)}>Abrir aviso centralizado</Button>
-        <Tour
+        <Onboarding
           isOpen={isOpen}
           steps={[
             {
