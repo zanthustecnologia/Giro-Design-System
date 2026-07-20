@@ -56,7 +56,7 @@ const meta: Meta<typeof Filter> = {
         defaultValue: { summary: 'outlined' },
       },
     },
-    filterType: {
+    type: {
       control: 'select',
       options: ['multiple', 'single', 'calendar'],
       description: 'Tipo do filtro',
@@ -155,7 +155,7 @@ export const Default: Story = {
   args: {
     items: statusItems,
     buttonText: 'Status',
-    filterType: 'multiple',
+    type: 'multiple',
     side: 'bottom',
     align: 'start',
     variant: 'outlined',
@@ -168,7 +168,7 @@ export const ComBusca: Story = {
   args: {
     items: categoryItems,
     buttonText: 'Categoria',
-    filterType: 'multiple',
+    type: 'multiple',
     enableSearch: true,
     side: 'bottom',
     align: 'start',
@@ -191,7 +191,7 @@ export const ComIcones: Story = {
   },
   args: {
     buttonText: 'Status',
-    filterType: 'single',
+    type: 'single',
     side: 'bottom',
     align: 'start',
     variant: 'outlined',
@@ -204,7 +204,7 @@ export const Desabilitado: Story = {
   args: {
     items: statusItems,
     buttonText: 'Status',
-    filterType: 'multiple',
+    type: 'multiple',
     disabled: true,
     side: 'bottom',
     align: 'start',
@@ -227,7 +227,7 @@ export const FiltroCalendario: Story = {
     return (
       <div style={{ padding: '2rem' }}>
         <Filter
-          filterType="calendar"
+          type="calendar"
           buttonText={selectedDate ? selectedDate.toLocaleDateString('pt-BR') : 'Selecionar Data'}
           selectedDate={selectedDate}
           onDateSelect={handleDateSelect}
@@ -254,7 +254,7 @@ export const MultiplosFiltros: Story = {
             buttonText='Status'
             selectedIds={statusFilters}
             onApplyFilter={setStatusFilters}
-            filterType="multiple"
+            type="multiple"
             variant="outlined"
           />
           <Filter
@@ -262,7 +262,7 @@ export const MultiplosFiltros: Story = {
             buttonText='Categoria'
             selectedIds={categoryFilters}
             onApplyFilter={setCategoryFilters}
-            filterType="multiple"
+            type="multiple"
             variant="outlined"
             enableSearch={true}
           />
@@ -458,7 +458,7 @@ export const PosicaoDireita: Story = {
   args: {
     items: categoryItems,
     buttonText: 'Categoria',
-    filterType: 'multiple',
+    type: 'multiple',
     side: 'bottom',
     align: 'end',
     variant: 'outlined',

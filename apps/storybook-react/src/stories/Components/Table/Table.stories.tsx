@@ -129,7 +129,7 @@ export const ComBuscaEFiltros: StoryFn = () => {
     {
       id: 'status',
       buttonText: selectedStatus.length > 0 ? `Status (${selectedStatus.length})` : 'Status',
-      filterType: 'multiple',
+      type: 'multiple',
       items: [
         { id: 'ativa', text: 'Ativa' },
         { id: 'inativa', text: 'Inativa' },
@@ -143,7 +143,7 @@ export const ComBuscaEFiltros: StoryFn = () => {
     {
       id: 'inicio',
       buttonText: dataInicio ? `A partir de ${dataInicio.toLocaleDateString('pt-BR')}` : 'Data de início',
-      filterType: 'calendar',
+      type: 'calendar',
       selectedDate: dataInicio,
       onDateSelect: (date: Date) => { setDataInicio(date); setPage(1); },
       minDate: new Date(2024, 0, 1),
@@ -195,7 +195,7 @@ export const ComFiltroCalendario: StoryFn = () => {
   const filters: FilterItem[] = [{
     id: 'inicio',
     buttonText: dataInicio ? `A partir de ${dataInicio.toLocaleDateString('pt-BR')}` : 'Data de início',
-    filterType: 'calendar',
+    type: 'calendar',
     selectedDate: dataInicio,
     onDateSelect: (date: Date) => { setDataInicio(date); setPage(1); },
     minDate: new Date(2024, 0, 1),
@@ -313,3 +313,4 @@ export const Vazia: StoryFn = () => (
     <Table columns={colunasCompletas} dataSource={[]} />
   </div>
 );
+
