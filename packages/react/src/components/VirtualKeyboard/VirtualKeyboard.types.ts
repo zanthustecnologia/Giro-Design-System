@@ -56,6 +56,15 @@ export interface VirtualKeyboardProps extends Omit<BaseProps, 'disabled'> {
   /** Callback executado quando uma tecla é pressionada: (key) => void */
   onKeyPress?: (key: string) => void;
 
+  /**
+   * Callback executado sempre que o `type` do teclado muda.
+   * Útil para que o consumidor saiba o tipo atual e possa reagir à mudança
+   * (ex.: buscar dados diferentes, ajustar layout, etc.).
+   *
+   * Sempre dispara na montagem inicial, servindo como fallback para consulta do tipo atual.
+   */
+  onTypeChange?: (type: VirtualKeyboardType) => void;
+
   /** Limite máximo de caracteres */
   maxLength?: number;
 
@@ -64,6 +73,23 @@ export interface VirtualKeyboardProps extends Omit<BaseProps, 'disabled'> {
 
   /** Placeholder do TextField exibido no modo `fixed` */
   placeholder?: string;
+
+  /** Escala do TextField exibido no modo `fixed` */
+  textFieldScale?: 1 | 1.5 | 2;
+
+  /**
+   * Controla a exibição da tecla Enter no teclado.
+   * @default true
+   */
+  showEnterKey?: boolean;
+
+  /**
+   * Controla a exibição da tecla de alternância entre os layouts default ("123") e numeric ("ABC").
+   * Quando `false`, a tecla "123" (no layout default) é removida — a tecla espaço cresce para ocupar o espaço —
+   * e a tecla "ABC" (no layout numeric) é substituída por um espaço vazio.
+   * @default true
+   */
+  showTypeSwitchKey?: boolean;
 
   /** Texto de ajuda do TextField exibido no modo `fixed` */
   helperText?: string;

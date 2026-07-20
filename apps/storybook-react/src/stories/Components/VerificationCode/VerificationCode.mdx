@@ -1,0 +1,38 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as VerificationCodeStories from './VerificationCode.stories';
+
+<Meta of={VerificationCodeStories} name="Docs" />
+
+# Verification Code
+
+O Verification Code é um campo de entrada para códigos de uso único (OTP), construído sobre o primitivo [Radix UI](https://www.radix-ui.com/primitives/docs/components/one-time-password-field). Suporta navegação por teclado, colagem, autofill de gerenciadores de senhas e integração nativa com formulários HTML.
+
+<Canvas of={VerificationCodeStories.Default} />
+
+## Importação
+
+```js
+import { VerificationCode } from '@giro-ds/react';
+```
+
+<div style={{ marginTop: '48px' }} />
+
+## Propriedades
+
+<Controls />
+
+<div style={{ marginTop: '48px' }} />
+
+## Exemplos
+
+### Estado de erro
+
+<Canvas of={VerificationCodeStories.ComErro} />
+
+### Desabilitado
+
+<Canvas of={VerificationCodeStories.Desabilitado} />
+
+### Alfanumérico
+
+<Canvas of={VerificationCodeStories.Alfanumerico} />

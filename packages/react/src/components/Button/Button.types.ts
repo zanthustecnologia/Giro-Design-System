@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Size, BaseProps, Variant, Position, Scale } from '../../types/common.types';
+import { Size, ScalableProps, Variant, Position } from '../../types/common.types';
 
 /**
  * Props base compartilhadas por todas as configurações de tooltip do botão.
@@ -75,9 +75,6 @@ type ButtonOwnPropsBase = {
   /** Tamanho do botão */
   size?: Size;
 
-  /** Escala visual aplicada ao botão */
-  scale?: Scale;
-
   /** Define se o botão ocupa 100% da largura do container */
   fullWidth?: boolean;
 
@@ -94,7 +91,7 @@ type ButtonOwnPropsBase = {
 
   /** Handler de clique; tipado em HTMLElement para ser compatível com todos os modos */
   onClick?: React.MouseEventHandler<HTMLElement>;
-} & BaseProps & ButtonTooltipConfig;
+} & ScalableProps & ButtonTooltipConfig;
 
 /**
  * Props próprias do componente Button.

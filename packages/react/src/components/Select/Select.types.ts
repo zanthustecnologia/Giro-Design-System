@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ReactNode } from 'react';
 
-import { BaseProps, Scale } from '../../types/common.types';
+import { BaseProps,ScalableProps, Scale } from '../../types/common.types';
 
 /**
  * Props base compartilhadas por todas as configurações de tooltip do select.
@@ -40,7 +40,7 @@ export type SelectTooltipConfig = WithTooltip | WithoutTooltip;
 /**
  * Representa um item do select
  */
-export interface SelectItemProps extends BaseProps {
+export interface SelectItemProps extends ScalableProps {
   
   /** Texto principal do item */
   text: ReactNode;
@@ -102,7 +102,7 @@ export type SelectVariant = 'text' | 'icon' | 'checkbox';
  * />
  * ```
  */
-interface SelectPropsBase extends BaseProps {
+interface SelectPropsBase extends ScalableProps {
   /** Array de itens do select */
   items: SelectItemProps[];
   
@@ -165,12 +165,6 @@ interface SelectPropsBase extends BaseProps {
   
   /** Estado de busca em andamento */
   isSearching?: boolean;
-
-  /** Classe CSS opcional */
-  className?: string;
-
-  /** Escala visual aplicada ao componente */
-  scale?: Scale;
 }
 
 /**

@@ -1,6 +1,8 @@
 import React from 'react';
 
-import type { VirtualKeyboardType } from '../VirtualKeyboard/VirtualKeyboard.type';
+import { Side, Align } from '../../types/common.types';
+
+import type { VirtualKeyboardType } from '../VirtualKeyboard/VirtualKeyboard.types';
 
 /**
  * Props base compartilhadas por todas as configurações de tooltip do TextArea.

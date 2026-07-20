@@ -27,8 +27,8 @@ const Select: React.FC<SelectProps> = ({
   search = false,
   errorMessage,
   disabled = false,
-  scale = 1,
   className,
+  style,
   'aria-label': ariaLabel,
   'data-testid': testId,
   tooltipText,
@@ -40,6 +40,7 @@ const Select: React.FC<SelectProps> = ({
   enableApiSearch = false,
   onApiSearch,
   isSearching = false,
+  scale = 1,
   ...rest
 }) => {
   const componentId = useId();
@@ -104,13 +105,8 @@ const Select: React.FC<SelectProps> = ({
 
   const containerStyle = useMemo(() => ({
     maxWidth: maxWidth ? `${maxWidth}px` : undefined,
-  }), [maxWidth]);
-
-  const scaleClass = {
-    1: 'scale-1-0',
-    1.5: 'scale-1-5',
-    2: 'scale-2-0',
-  }[scale];
+    '--giro-scale': scale,
+  } as React.CSSProperties), [maxWidth, scale]);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -161,8 +157,8 @@ const Select: React.FC<SelectProps> = ({
       {...rest}
     >
       <div
-        className={clsx(styles.container, scaleClass, className)}
-        style={containerStyle}
+        className={clsx(styles.container, className)}
+        style={{ ...containerStyle, ...style }}
         data-testid={testId}
       >
         <div className={styles.fieldContainer}>
@@ -176,6 +172,7 @@ const Select: React.FC<SelectProps> = ({
               align={tooltipAlign}
               error={state.hasError && state.touched}
               disabled={disabled}
+              scale={scale}
             >
               {label}
             </LabelComponent>
@@ -196,7 +193,9 @@ const Select: React.FC<SelectProps> = ({
               ) : (
                 <SelectRadix.Value placeholder={placeholder} className={styles.placeholder}>{displayText}</SelectRadix.Value>
               )}
-              {state.isOpen ? <ChevronUp16Regular /> : <ChevronDown16Regular />}
+              <div className={styles.triggerIcon}>
+                {state.isOpen ? <ChevronUp16Regular /> : <ChevronDown16Regular />}
+              </div>
             </SelectRadix.Trigger>
 
             {!state.isOpen && helperText && !state.hasError && (
@@ -219,6 +218,7 @@ const Select: React.FC<SelectProps> = ({
         <SelectRadix.Portal>
           <SelectRadix.Content
             className={styles.content}
+            style={{ '--giro-scale': scale } as React.CSSProperties}
             position="popper"
             side="bottom"
             sideOffset={8}
@@ -236,6 +236,7 @@ const Select: React.FC<SelectProps> = ({
                   onKeyDown={handleSearchKeyDown}
                   onClear={handleClear}
                   data-testid={`${testId}-search`}
+                  scale={scale}
                 />
               </div>
             )}

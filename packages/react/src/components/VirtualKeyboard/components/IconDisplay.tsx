@@ -7,7 +7,7 @@ import {
   Emoji20Regular
 } from '@fluentui/react-icons';
 
-import type { VirtualKeyboardType } from '../VirtualKeyboard.type';
+import type { VirtualKeyboardType } from '../VirtualKeyboard.types';
 import type { ElementType } from 'react';
 
 const iconSlot = (key: string): string => `<span data-icon-key="${key}"></span>`;

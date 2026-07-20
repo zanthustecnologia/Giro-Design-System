@@ -27,9 +27,12 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  render: () => {
+  render: (args) => {
     const [selected, setSelected] = useState<Date | undefined>();
-    return <Calendar onDaySelect={(d) => setSelected(d)} selected={selected ?? null} />;
+    return <Calendar {...args} onDaySelect={(d) => setSelected(d)} selected={selected ?? null} />;
+  },
+  args: {
+    scale: 1,
   },
   parameters: {
     docs: {
@@ -39,9 +42,9 @@ export const Default: Story = {
 };
 
 export const ComDataSelecionada: Story = {
-  render: () => {
+  render: (args) => {
     const [selected, setSelected] = useState<Date | undefined>(new Date());
-    return <Calendar onDaySelect={(d) => setSelected(d)} selected={selected ?? null} />;
+    return <Calendar {...args} onDaySelect={(d) => setSelected(d)} selected={selected ?? null} />;
   },
   parameters: {
     docs: {
@@ -51,7 +54,7 @@ export const ComDataSelecionada: Story = {
 };
 
 export const ComDropdownNavegacao: Story = {
-  render: () => {
+  render: (args) => {
     const [selected, setSelected] = useState<Date | undefined>();
     return (
       <Calendar
@@ -68,13 +71,14 @@ export const ComDropdownNavegacao: Story = {
 };
 
 export const ComRestricaoDeDatas: Story = {
-  render: () => {
+  render: (args) => {
     const today = new Date();
     const minDate = new Date(today.getFullYear(), today.getMonth(), 1);
     const maxDate = new Date(today.getFullYear(), today.getMonth() + 1, 0);
     const [selected, setSelected] = useState<Date | undefined>();
     return (
       <Calendar
+        {...args}
         minDate={minDate}
         maxDate={maxDate}
         onDaySelect={(d) => setSelected(d)}
@@ -90,10 +94,11 @@ export const ComRestricaoDeDatas: Story = {
 };
 
 export const MultiplosMeses: Story = {
-  render: () => {
+  render: (args) => {
     const [selected, setSelected] = useState<Date | undefined>();
     return (
       <Calendar
+        {...args}
         numberOfMonths={2}
         onDaySelect={(d) => setSelected(d)}
         selected={selected ?? null}
@@ -108,10 +113,11 @@ export const MultiplosMeses: Story = {
 };
 
 export const EmIngles: Story = {
-  render: () => {
+  render: (args) => {
     const [selected, setSelected] = useState<Date | undefined>();
     return (
       <Calendar
+        {...args}
         locale="en-us"
         onDaySelect={(d) => setSelected(d)}
         selected={selected ?? null}

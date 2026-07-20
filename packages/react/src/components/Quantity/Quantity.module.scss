@@ -1,22 +1,28 @@
+@use '../../styles/mixins/scale' as *;
+
 .quantity {
+  --giro-scale: 1;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--spacing-8);
+  gap: scale(var(--spacing-8));
 
   .quantityInput {
     border: none;
     text-align: center;
     color: var(--color-neutral-low-default);
+    background: transparent;
     font-family: var(--font-family-primary);
-    padding-right: var(--spacing-8);
-    padding-left: var(--spacing-8);
+    font-size: scale(var(--font-size-16));
+    padding-right: scale(var(--spacing-8));
+    padding-left: scale(var(--spacing-8));
 
     &::placeholder {
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: var(--font-size-16);
+      font-size: scale(var(--font-size-16));
       font-weight: var(--font-weight-regular);
       color: var(--color-neutral-low-medium);
     }
@@ -49,27 +55,27 @@
 
 // Variações de tamanho
 .quantity--sm {
-  gap: var(--spacing-4);
+  gap: scale(var(--spacing-4));
 
   .quantityInput {
 
-    font-size: var(--font-size-14);
+    font-size: scale(var(--font-size-14));
 
     &::placeholder {
-      font-size: var(--font-size-14);
+      font-size: scale(var(--font-size-14));
     }
   }
 }
 
 .quantity--lg {
-  gap: var(--spacing-8);
+  gap: scale(var(--spacing-8));
 
   .quantityInput {
 
-    font-size: var(--font-size-16);
+    font-size: scale(var(--font-size-16));
 
     &::placeholder {
-      font-size: var(--font-size-16);
+      font-size: scale(var(--font-size-16));
     }
   }
 }
@@ -81,6 +87,7 @@
 
   .quantityInput {
     color: var(--color-neutral-low-light);
+    background: transparent;
     cursor: not-allowed;
   }
 }
@@ -89,12 +96,12 @@
 .quantityInput {
   &:focus {
     outline: var(--border-width-2) solid var(--color-brand-primary-default);
-    outline-offset: var(--spacing-4);
+    outline-offset: scale(var(--spacing-4));
     border-radius: var(--border-radius-4);
   }
 
   &:focus-visible {
     outline: var(--border-width-2) solid var(--color-brand-primary-default);
-    outline-offset: var(--spacing-4);
+    outline-offset: scale(var(--spacing-4));
   }
 }

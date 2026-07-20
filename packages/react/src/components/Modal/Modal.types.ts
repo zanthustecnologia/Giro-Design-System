@@ -51,6 +51,9 @@ export interface ModalProps extends BaseProps {
   /** Largura customizada do modal (ex: '500px', '80%') */
   customWidth?: string;
 
+  /** Altura customizada do modal (ex: '500px', '80%') */
+  customHeight?: string;
+
   /** Define se o modal ocupa toda a tela. Tem prioridade sobre customWidth */
   fullscreen?: boolean;
 

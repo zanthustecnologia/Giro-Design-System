@@ -1,13 +1,22 @@
-import type { VirtualKeyboardType } from '../VirtualKeyboard.type';
+import type { VirtualKeyboardType } from '../VirtualKeyboard.types';
 
 const EMOTICON_KEY = '{emoticon}';
 const DOWN_KEYBOARD_KEY = '{downkeyboard}';
+const ENTER_KEY = '{enter}';
 
 const removeKeyFromLayout = (layout: Record<string, string[]>, key: string) =>
   Object.fromEntries(
     Object.entries(layout).map(([layoutName, rows]) => [
       layoutName,
       rows.map((row) => row.split(key).join(' ').replace(/\s+/g, ' ').trim()),
+    ])
+  ) as Record<string, string[]>;
+
+const replaceKeyWithBlank = (layout: Record<string, string[]>, key: string) =>
+  Object.fromEntries(
+    Object.entries(layout).map(([layoutName, rows]) => [
+      layoutName,
+      rows.map((row) => row.split(key).join('{//}')),
     ])
   ) as Record<string, string[]>;
 
@@ -77,7 +86,9 @@ export const getNativeLayout = (
   type: VirtualKeyboardType,
   Emoji = true,
   showDownKeyboardButton = true,
-  isFixed = false
+  isFixed = false,
+  showEnterKey = true,
+  showTypeSwitchKey = true
 ): Record<string, string[]> | null => {
   const layout = NATIVE_LAYOUTS[type] ?? NATIVE_LAYOUTS.default ?? null;
 
@@ -91,6 +102,15 @@ export const getNativeLayout = (
 
   if (!showDownKeyboardButton) {
     computedLayout = removeKeyFromLayout(computedLayout, DOWN_KEYBOARD_KEY);
+  }
+
+  if (!showEnterKey) {
+    computedLayout = removeKeyFromLayout(computedLayout, ENTER_KEY);
+  }
+
+  if (!showTypeSwitchKey) {
+    computedLayout = removeKeyFromLayout(computedLayout, '{numbers}');
+    computedLayout = replaceKeyWithBlank(computedLayout, '{abc}');
   }
 
   if (isFixed) {
