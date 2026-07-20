@@ -136,8 +136,8 @@ describe('Filter', () => {
       expect(screen.getByTestId('chevron-down-icon')).toBeInTheDocument();
     });
 
-    it('renderiza ícone de calendário quando filterType="calendar"', () => {
-      render(<Filter filterType="calendar" />);
+    it('renderiza ícone de calendário quando type="calendar"', () => {
+      render(<Filter type="calendar" />);
       expect(screen.getByTestId('calendar-icon')).toBeInTheDocument();
     });
   });
@@ -212,7 +212,7 @@ describe('Filter', () => {
 
     it('renderiza checkboxes para cada item no tipo multiple', async () => {
       const user = userEvent.setup();
-      render(<Filter items={mockItems} filterType="multiple" />);
+      render(<Filter items={mockItems} type="multiple" />);
 
       await user.click(screen.getByTestId('popover-trigger'));
       expect(screen.getAllByRole('checkbox')).toHaveLength(3);
@@ -220,7 +220,7 @@ describe('Filter', () => {
 
     it('não renderiza checkboxes no tipo single', async () => {
       const user = userEvent.setup();
-      render(<Filter items={mockItems} filterType="single" />);
+      render(<Filter items={mockItems} type="single" />);
 
       await user.click(screen.getByTestId('popover-trigger'));
       expect(screen.queryAllByRole('checkbox')).toHaveLength(0);
@@ -259,7 +259,7 @@ describe('Filter', () => {
         { id: 'i1', text: 'Home', icon: <span data-testid="home-icon">🏠</span> },
       ];
       const user = userEvent.setup();
-      render(<Filter items={itemsWithIcon} filterType="single" />);
+      render(<Filter items={itemsWithIcon} type="single" />);
 
       await user.click(screen.getByTestId('popover-trigger'));
       expect(screen.getByTestId('home-icon')).toBeInTheDocument();
@@ -272,7 +272,7 @@ describe('Filter', () => {
       const onApplyFilter = vi.fn();
       const user = userEvent.setup();
       render(
-        <Filter items={mockItems} filterType="multiple" onApplyFilter={onApplyFilter} />
+        <Filter items={mockItems} type="multiple" onApplyFilter={onApplyFilter} />
       );
 
       await user.click(screen.getByTestId('popover-trigger'));
@@ -286,7 +286,7 @@ describe('Filter', () => {
       const onApplyFilter = vi.fn();
       const user = userEvent.setup();
       render(
-        <Filter items={mockItems} filterType="multiple" onApplyFilter={onApplyFilter} />
+        <Filter items={mockItems} type="multiple" onApplyFilter={onApplyFilter} />
       );
 
       await user.click(screen.getByTestId('popover-trigger'));
@@ -301,7 +301,7 @@ describe('Filter', () => {
       const onApplyFilter = vi.fn();
       const user = userEvent.setup();
       render(
-        <Filter items={mockItems} filterType="multiple" onApplyFilter={onApplyFilter} />
+        <Filter items={mockItems} type="multiple" onApplyFilter={onApplyFilter} />
       );
 
       await user.click(screen.getByTestId('popover-trigger'));
@@ -316,7 +316,7 @@ describe('Filter', () => {
       const onApplyFilter = vi.fn();
       const user = userEvent.setup();
       render(
-        <Filter items={mockItems} filterType="single" onApplyFilter={onApplyFilter} />
+        <Filter items={mockItems} type="single" onApplyFilter={onApplyFilter} />
       );
 
       await user.click(screen.getByTestId('popover-trigger'));
@@ -331,7 +331,7 @@ describe('Filter', () => {
       const onApplyFilter = vi.fn();
       const user = userEvent.setup();
       render(
-        <Filter items={mockItems} filterType="multiple" onApplyFilter={onApplyFilter} />
+        <Filter items={mockItems} type="multiple" onApplyFilter={onApplyFilter} />
       );
 
       await user.click(screen.getByTestId('popover-trigger'));
@@ -348,7 +348,7 @@ describe('Filter', () => {
       render(
         <Filter
           items={mockItems}
-          filterType="multiple"
+          type="multiple"
           selectedIds={['item-1', 'item-2']}
         />
       );
@@ -364,7 +364,7 @@ describe('Filter', () => {
       const onApplyFilter = vi.fn();
       const user = userEvent.setup();
       render(
-        <Filter items={mockItems} filterType="multiple" onApplyFilter={onApplyFilter} />
+        <Filter items={mockItems} type="multiple" onApplyFilter={onApplyFilter} />
       );
 
       await user.click(screen.getByTestId('popover-trigger'));
@@ -443,7 +443,7 @@ describe('Filter', () => {
   describe('Simple - Tipo calendar', () => {
     it('exibe Calendar ao abrir o popover', async () => {
       const user = userEvent.setup();
-      render(<Filter filterType="calendar" />);
+      render(<Filter type="calendar" />);
 
       await user.click(screen.getByTestId('popover-trigger'));
       expect(screen.getByTestId('calendar')).toBeInTheDocument();
@@ -452,7 +452,7 @@ describe('Filter', () => {
     it('chama onDateSelect ao selecionar uma data', async () => {
       const onDateSelect = vi.fn();
       const user = userEvent.setup();
-      render(<Filter filterType="calendar" onDateSelect={onDateSelect} />);
+      render(<Filter type="calendar" onDateSelect={onDateSelect} />);
 
       await user.click(screen.getByTestId('popover-trigger'));
       await user.click(screen.getByTestId('calendar-select-day'));
@@ -462,7 +462,7 @@ describe('Filter', () => {
 
     it('fecha o popover ao selecionar uma data', async () => {
       const user = userEvent.setup();
-      render(<Filter filterType="calendar" onDateSelect={vi.fn()} />);
+      render(<Filter type="calendar" onDateSelect={vi.fn()} />);
 
       await user.click(screen.getByTestId('popover-trigger'));
       await user.click(screen.getByTestId('calendar-select-day'));
@@ -473,7 +473,7 @@ describe('Filter', () => {
     it('chama onClearDate ao limpar a data', async () => {
       const onClearDate = vi.fn();
       const user = userEvent.setup();
-      render(<Filter filterType="calendar" onClearDate={onClearDate} />);
+      render(<Filter type="calendar" onClearDate={onClearDate} />);
 
       await user.click(screen.getByTestId('popover-trigger'));
       await user.click(screen.getByTestId('calendar-clear'));
@@ -484,14 +484,14 @@ describe('Filter', () => {
     it('exibe data formatada no texto do botão quando selectedDate é fornecido', () => {
       // Usar new Date(ano, mês, dia) para evitar problemas de fuso horário
       const selectedDate = new Date(2024, 5, 15);
-      render(<Filter filterType="calendar" selectedDate={selectedDate} />);
+      render(<Filter type="calendar" selectedDate={selectedDate} />);
 
       expect(screen.getByText('15/06/2024')).toBeInTheDocument();
     });
 
     it('não renderiza a lista de itens no tipo calendar', async () => {
       const user = userEvent.setup();
-      render(<Filter filterType="calendar" items={mockItems} />);
+      render(<Filter type="calendar" items={mockItems} />);
 
       await user.click(screen.getByTestId('popover-trigger'));
       expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
@@ -504,7 +504,7 @@ describe('Filter', () => {
       render(
         <Filter
           items={mockItems}
-          filterType="multiple"
+          type="multiple"
           selectedIds={['item-1', 'item-2', 'item-3']}
         />
       );
@@ -513,7 +513,7 @@ describe('Filter', () => {
 
     it('não exibe badge quando apenas um item está selecionado', () => {
       render(
-        <Filter items={mockItems} filterType="multiple" selectedIds={['item-1']} />
+        <Filter items={mockItems} type="multiple" selectedIds={['item-1']} />
       );
       expect(screen.queryByTestId('badge')).not.toBeInTheDocument();
     });
@@ -522,7 +522,7 @@ describe('Filter', () => {
       render(
         <Filter
           items={mockItems}
-          filterType="multiple"
+          type="multiple"
           selectedIds={['item-1', 'item-2']}
         />
       );
@@ -691,3 +691,4 @@ describe('Filter', () => {
     });
   });
 });
+

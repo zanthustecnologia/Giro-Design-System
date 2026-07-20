@@ -46,7 +46,7 @@ export interface FilterProps extends BaseProps {
   items?: FilterItem[];
   
   /** Tipo do filtro (dropdown ou calendário) */
-  filterType?: FilterTypes;
+  type?: FilterTypes;
   
   /** IDs dos itens selecionados */
   selectedIds?: string[];

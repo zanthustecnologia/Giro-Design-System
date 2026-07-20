@@ -297,7 +297,7 @@ const TableV2 = <T,>({
                       <Filter
                         key={filterItem.id ?? index}
                         {...commonProps}
-                        filterType="calendar"
+                        type="calendar"
                         selectedDate={filterItem.selectedDate}
                         onDateSelect={filterItem.onDateSelect}
                         onClearDate={filterItem.onClear}
@@ -312,7 +312,7 @@ const TableV2 = <T,>({
                     <Filter
                       key={filterItem.id ?? index}
                       {...commonProps}
-                      filterType={filterItem.type}
+                      type={filterItem.type}
                       items={filterItem.items}
                       selectedIds={filterItem.selectedIds}
                       onApplyFilter={filterItem.onSelectionChange}
