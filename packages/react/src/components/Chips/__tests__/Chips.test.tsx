@@ -35,19 +35,19 @@ describe('Chips', () => {
     it('aplica escala 1.0 por padrão', () => {
       const { container } = render(<Chips>Escala</Chips>);
       const el = container.firstChild as HTMLElement;
-      expect(el.className).toMatch(/scale-1-0/);
+      expect(el.style.getPropertyValue('--giro-scale')).toBe('1');
     });
 
     it('aplica escala 1.5 quando informado', () => {
       const { container } = render(<Chips scale={1.5}>Escala</Chips>);
       const el = container.firstChild as HTMLElement;
-      expect(el.className).toMatch(/scale-1-5/);
+      expect(el.style.getPropertyValue('--giro-scale')).toBe('1.5');
     });
 
     it('aplica escala 2.0 quando informado', () => {
       const { container } = render(<Chips scale={2}>Escala</Chips>);
       const el = container.firstChild as HTMLElement;
-      expect(el.className).toMatch(/scale-2-0/);
+      expect(el.style.getPropertyValue('--giro-scale')).toBe('2');
     });
   });
 

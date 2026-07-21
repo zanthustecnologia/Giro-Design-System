@@ -69,7 +69,6 @@
   gap: var(--spacing-8);
   flex-wrap: wrap;
 }
-/* ─────────────────────────────────────────────────────────── */
 
 .tableContainer:has(+ .tablePagination) {
   border-radius: var(--spacing-8) var(--spacing-8) var(--border-radius-none)
@@ -134,6 +133,11 @@
   height: 44px;
   vertical-align: middle;
   white-space: nowrap;
+  div {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-8);
+  }
 }
 
 .tableBody .tableRow:hover {

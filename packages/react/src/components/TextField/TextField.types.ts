@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { Scale } from '../../types/common.types';
+import { ScalableProps, Side, Align, Scale } from '../../types/common.types';
 
-import type { VirtualKeyboardType } from '../VirtualKeyboard/VirtualKeyboard.type';
+import type { VirtualKeyboardType } from '../VirtualKeyboard/VirtualKeyboard.types';
 
 /** Tipos de input suportados pelo TextField */
 export type TextFieldType = 'text' | 'email' | 'password' | 'number' | 'tel' | 'url';
@@ -66,7 +66,7 @@ export type TextFieldTooltipConfig = WithTooltip | WithoutTooltip;
  * />
  * ```
  */
-interface TextFieldPropsBase extends Omit<
+export interface TextFieldProps extends ScalableProps, Omit<
   React.InputHTMLAttributes<HTMLInputElement>, 
   'onChange' | 'value' | 'type'
 > {
@@ -101,17 +101,11 @@ interface TextFieldPropsBase extends Omit<
   /** Mantém o ícone visível mesmo quando o campo tem valor */
   persistIcon?: boolean;
 
-  /** Classe CSS opcional */
-  className?: string;
-
   /** Tipo do teclado virtual (padrão: undefined = desabilitado) */ 
   virtualKeyboard?: VirtualKeyboardType;
 
   /** Aplica variação visual para uso acoplado ao VirtualKeyboard no modo fixed, essa prop é de uso exclusivo do VirtualKeyboard no modo fixed */
   attachedToVirtualKeyboard?: boolean;
-
-  /** Escala visual aplicada ao componente */
-  scale?: Scale;
 
   /** Desabilita o autocomplete nativo do browser (padrão: false) */
   disableAutoComplete?: boolean;

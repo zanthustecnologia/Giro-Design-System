@@ -27,16 +27,6 @@ const meta: Meta<typeof Menu> = {
   },
   argTypes: {
     search: { control: 'boolean' },
-    dropdownScale: {
-      control: { type: 'select' },
-      options: [1, 1.5, 2],
-      description: 'Escala visual do dropdown do menu.',
-    },
-    buttonScale: {
-      control: { type: 'select' },
-      options: [1, 1.5, 2],
-      description: 'Escala aplicada ao Button trigger do menu',
-    },
     align: {
       control: { type: 'select' },
       options: ['start', 'end', 'center'],
@@ -49,6 +39,11 @@ const meta: Meta<typeof Menu> = {
     onOpenChange: { table: { disable: true } },
     className: { table: { disable: true } },
     id: { table: { disable: true } },
+    scale: {
+      control: { type: 'select' },
+      options: [1, 1.5, 2],
+      description: 'Escala visual do menu (dropdown e trigger).',
+    },
   },
 };
 
@@ -136,8 +131,7 @@ export const Default: Story = {
   args: {
     search: false,
     align: 'start',
-    dropdownScale: 1,
-    buttonScale: 1,
+    scale: 1,
   },
 };
 
@@ -242,13 +236,13 @@ export const ScrollInfinito: Story = {
 export const Escalas: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '80px', alignItems: 'flex-start' }}>
-      <Menu items={acoesItens} dropdownScale={1} buttonScale={1}>
+      <Menu items={acoesItens} scale={1}>
         <Button variant="outlined">Menu 1.0 / Botão 1.0</Button>
       </Menu>
-      <Menu items={acoesItens} dropdownScale={1.5} buttonScale={1.5}>
+      <Menu items={acoesItens} scale={1.5}>
         <Button variant="outlined">Menu 1.5 / Botão 1.5</Button>
       </Menu>
-      <Menu items={acoesItens} dropdownScale={2} buttonScale={2}>
+      <Menu items={acoesItens} scale={2}>
         <Button variant="outlined">Menu 2.0 / Botão 2.0</Button>
       </Menu>
     </div>
