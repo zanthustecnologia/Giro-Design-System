@@ -99,7 +99,7 @@
 
       :global(.hg-button) {
         @include buttonFlex;
-        border-radius: var(--border-radius-16);
+        border-radius: var(--border-radius-8);
         height: auto;
         // max-height: 80px;
       }
