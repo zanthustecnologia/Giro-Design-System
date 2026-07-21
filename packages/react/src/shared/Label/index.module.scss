@@ -10,7 +10,7 @@
 .wrapperLabel {
   color: var(--color-neutral-low-default);
   font-family: var(--font-family-primary);
-  font-size: scale(var(--font-size-12));
+  font-size: scale(var(--font-size-14));
   font-style: normal;
   font-weight: var(--font-weight-regular);
   display: flex;
@@ -25,7 +25,7 @@
   display: inline-flex;
   line-height: 0;
   color: var(--color-brand-primary-default);
-  font-size: scale(var(--font-size-12));
+  font-size: scale(var(--font-size-14));
   svg {
     width: 1em;
     height: 1em;
@@ -35,7 +35,7 @@
   display: inline-flex;
   line-height: 0;
   color: var(--color-feedback-alert-default);
-  font-size: scale(var(--font-size-12));
+  font-size: scale(var(--font-size-14));
   svg {
     width: 1em;
     height: 1em;
@@ -45,7 +45,7 @@
   display: inline-flex;
   line-height: 0;
   color: var(--color-neutral-high-dark);
-  font-size: scale(var(--font-size-12));
+  font-size: scale(var(--font-size-14));
   svg {
     width: 1em;
     height: 1em;
