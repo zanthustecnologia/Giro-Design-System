@@ -34,7 +34,6 @@
       font-family: var(--font-family-primary);
       font-weight: var(--font-weight-medium);
       font-size: var(--font-size-20);
-      margin: var(--spacing-4);
       height: 44px;
       background-color: var(--color-neutral-high-medium);
       border-radius: var(--border-radius-8);
@@ -430,6 +429,14 @@
 // ─── Container queries — modo fixed (respondem à largura do .container) ──────
 // Funcionam tanto no Storybook quanto em dispositivos reais.
 
+@container vkeyboard (min-width: 769px) {
+  :global(.hg-theme-default) {
+    :global(.hg-button) {
+      margin: var(--spacing-4);
+    }
+  }
+}
+
 @container vkeyboard (max-width: 768px) {
   :global(.hg-theme-default) {
     :global(.hg-button) {
@@ -486,8 +493,8 @@
 
   :global(.hg-theme-default) {
     :global(.hg-button) {
-      height: 34px;
-      font-size: var(--font-size-14);
+      height: 38px;
+      font-size: var(--font-size-16);
       margin: 2px;
       border-radius: var(--border-radius-4);
     }
@@ -542,8 +549,8 @@
 
     :global(.hg-theme-default) {
       :global(.hg-button) {
-        height: 34px;
-        font-size: var(--font-size-14);
+        height: 38px;
+        font-size: var(--font-size-16);
         margin: 2px;
         border-radius: var(--border-radius-4);
       }
