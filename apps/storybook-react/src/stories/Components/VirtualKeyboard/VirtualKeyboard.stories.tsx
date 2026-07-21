@@ -239,33 +239,10 @@ export const ResponsividadeMobile: Story = {
     <div
       style={{
         padding: 24,
-        backgroundColor: '#f5f5f5',
         minHeight: '100vh',
         boxSizing: 'border-box',
       }}
     >
-      <h2
-        style={{
-          fontFamily: 'sans-serif',
-          fontSize: 16,
-          fontWeight: 600,
-          marginBottom: 4,
-          color: '#1a1a1a',
-        }}
-      >
-        VirtualKeyboard — Responsive Mobile Breakpoints
-      </h2>
-      <p
-        style={{
-          fontFamily: 'sans-serif',
-          fontSize: 12,
-          color: '#666',
-          marginBottom: 24,
-        }}
-      >
-        Cada coluna simula a largura máxima do breakpoint correspondente. Clique no campo para abrir o teclado.
-      </p>
-
       <div style={{ overflowX: 'auto' }}>
         <div style={{ display: 'flex', gap: 32, alignItems: 'flex-start', width: 'max-content' }}>
           {BREAKPOINTS.map((bp) => (
