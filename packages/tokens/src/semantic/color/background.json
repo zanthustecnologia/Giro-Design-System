@@ -1,0 +1,36 @@
+{
+  "color": {
+    "background": {
+      "default": {
+        "value": "{color.neutral.0}",
+        "type": "color"
+      },
+      "subtle": {
+        "value": "{color.neutral.100}",
+        "type": "color"
+      },
+      "inverse": {
+        "value": "{color.neutral.900}",
+        "type": "color"
+      },
+      "brand": {
+        "subtle": {
+          "value": "{color.brand.primary.100}",
+          "type": "color"
+        }
+      },
+      "success": {
+        "subtle": {
+          "value": "{color.feedback.success.100}",
+          "type": "color"
+        }
+      },
+      "alert": {
+        "subtle": {
+          "value": "{color.feedback.alert.100}",
+          "type": "color"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "font": {
+    "letterSpacing": {
+      "label": {
+        "value": "{font.letterSpacing.wide}",
+        "type": "letterSpacing"
+      },
+      "body": {
+        "value": "{font.letterSpacing.normal}",
+        "type": "letterSpacing"
+      },
+      "heading": {
+        "value": "{font.letterSpacing.tight}",
+        "type": "letterSpacing"
+      },
+      "display": {
+        "value": "{font.letterSpacing.tight}",
+        "type": "letterSpacing"
+      }
+    }
+  }
+}

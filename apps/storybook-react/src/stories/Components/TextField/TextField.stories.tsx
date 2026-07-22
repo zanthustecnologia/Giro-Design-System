@@ -37,11 +37,13 @@ const meta: Meta<typeof TextField> = {
     tooltipSide: {
       control: 'select',
       options: ['top','bottom', 'left', 'right'],
-      description: 'Posição do tooltip'
+      if: { arg: 'tooltipText', truthy: true },
+      description: 'Lado em que o tooltip será exibido'
     },
     tooltipAlign: {
       control: 'select',
       options: ['start', 'center', 'end'],
+      if: { arg: 'tooltipText', truthy: true },
       description: 'Alinhamento do tooltip'
     },
     type: {
@@ -60,14 +62,9 @@ const meta: Meta<typeof TextField> = {
       },
       description: 'Ícone do campo'
     },
-    tooltip: {
-      control: 'boolean',
-      description: 'Exibir tooltip'
-    },
     tooltipText: {
       control: 'text',
-      if: { arg: 'tooltip', truthy: true },
-      description: 'Texto do tooltip'
+      description: 'Texto do tooltip — exibe o tooltip automaticamente quando preenchido'
     },
     helperText: {
       control: 'text',
@@ -138,7 +135,6 @@ export const Default: Story = {
     disabled: false,
     className: '',
     required: false,
-    tooltip: true,
     helperText: 'Optional support text',
     label: 'Label',
     tooltipText: 'Tooltip text',
@@ -155,7 +151,6 @@ export const ComIcone: Story = {
   args: {
     placeholder: 'Ex.: joao@empresa.com',
     label: 'Email',
-    tooltip: false,
     helperText: 'Insira um email válido',
     icon: <Mail16Regular />,
   },
@@ -170,7 +165,6 @@ export const ComTooltip: Story = {
   args: {
     label: 'CPF',
     placeholder: 'Ex.: 000 000 000-00',
-    tooltip: true,
     tooltipText: 'O CPF é usado para identificar sua conta. Você pode encontrá-lo no seu documento de identidade.',
     tooltipSide: 'bottom',
     tooltipAlign: 'start',

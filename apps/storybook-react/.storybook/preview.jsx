@@ -1,5 +1,9 @@
 import { Theme } from '@radix-ui/themes';
 import '../../../packages/tokens/build/css/tokens.css';
+import '../../../packages/tokens/build-next/css/core.css';
+import '../../../packages/tokens/build-next/css/semantic.css';
+import '../../../packages/tokens/build-next/css/components.css';
+import '../../../packages/tokens/build-next/css/themes/dark.css';
 import '../../../packages/react/dist/styles.css';
 import '../src/styles/globals.scss';
 import React from 'react';
@@ -59,12 +63,16 @@ const preview = {
       if (typeof document !== 'undefined') {
         document.documentElement.setAttribute('data-theme', theme);
         document.body.setAttribute('data-theme', theme);
+        document.body.style.backgroundColor = 'var(--color-background-default)';
+        document.body.style.color = 'var(--color-text-primary)';
       }
 
       return (
         <BrowserRouter>
           <Theme appearance={theme}>
-            <Story />
+            <div data-theme={theme}>
+              <Story />
+            </div>
           </Theme>
         </BrowserRouter>
       );

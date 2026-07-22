@@ -1,7 +1,41 @@
 import * as React from 'react';
 import { ReactNode } from 'react';
 
-import { Side, Align, ScalableProps, Scale } from '../../types/common.types';
+import { BaseProps,ScalableProps, Scale } from '../../types/common.types';
+
+/**
+ * Props base compartilhadas por todas as configurações de tooltip do select.
+ */
+interface BaseTooltipConfig {
+  /** Lado em que o tooltip será exibido */
+  tooltipSide?: 'top' | 'bottom' | 'left' | 'right';
+  /** Alinhamento do tooltip */
+  tooltipAlign?: 'start' | 'center' | 'end';
+}
+
+/**
+ * Configuração de tooltip com texto.
+ * Exibe um tooltip ao redor da label do select.
+ */
+interface WithTooltip extends BaseTooltipConfig {
+  /** Texto do tooltip exibido no hover */
+  tooltipText: string;
+}
+
+/**
+ * Configuração sem tooltip.
+ */
+interface WithoutTooltip {
+  tooltipText?: never;
+  tooltipSide?: never;
+  tooltipAlign?: never;
+}
+
+/**
+ * Union type representando a configuração de tooltip do select.
+ * Pode ter tooltip com texto (e opcionalmente side/align) ou sem tooltip.
+ */
+export type SelectTooltipConfig = WithTooltip | WithoutTooltip;
 
 /**
  * Representa um item do select
@@ -68,7 +102,7 @@ export type SelectVariant = 'text' | 'icon' | 'checkbox';
  * />
  * ```
  */
-export interface SelectProps extends ScalableProps {
+interface SelectPropsBase extends ScalableProps {
   /** Array de itens do select */
   items: SelectItemProps[];
   
@@ -105,6 +139,9 @@ export interface SelectProps extends ScalableProps {
   /** Largura máxima do select */
   maxWidth?: number;
   
+  /** Indica estado de erro externo */
+  error?: boolean;
+
   /** Mensagem de erro a ser exibida */
   errorMessage?: string;
   
@@ -113,19 +150,7 @@ export interface SelectProps extends ScalableProps {
   
   /** ID para testes automatizados */
   'data-testid'?: string;
-  
-  /** Habilita tooltip */
-  tooltip?: boolean;
-  
-  /** Texto do tooltip */
-  tooltipText?: string;
-  
-  /** Lado onde o dropdown abre */
-  side?: Side;
-  
-  /** Alinhamento do dropdown */
-  align?: Align;
-  
+
   /** Habilita scroll infinito */
   enableInfiniteScroll?: boolean;
   
@@ -144,6 +169,14 @@ export interface SelectProps extends ScalableProps {
   /** Estado de busca em andamento */
   isSearching?: boolean;
 }
+
+/**
+ * Props completas do Select, incluindo a configuração de tooltip.
+ *
+ * O tooltip é ativado automaticamente quando `tooltipText` é informado,
+ * e as props `tooltipSide` e `tooltipAlign` ficam disponíveis para posicionamento.
+ */
+export type SelectProps = SelectPropsBase & SelectTooltipConfig;
 
 /**
  * Estado interno do componente Select
@@ -206,6 +239,9 @@ export interface UseSelectLogicProps {
   
   /** Estado de busca em andamento */
   isSearching?: boolean;
+
+  /** Indica estado de erro externo (controlado pelo pai) */
+  error?: boolean;
 }
 
 /**

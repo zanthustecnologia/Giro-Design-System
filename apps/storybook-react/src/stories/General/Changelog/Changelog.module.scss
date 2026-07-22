@@ -1,59 +1,26 @@
 .changelog {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-32);
+  gap: var(--spacing-40);
   max-width: 1198px;
 }
 
-/* ── Version group ── */
-.versionGroup {
+/* ── Date group ── */
+.dateGroup {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-12);
+  gap: var(--spacing-16);
 }
 
-.versionHeadingBtn {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  padding: 0 0 10px 0;
-  gap: 12px;
-}
-
-.versionLeft {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.versionNumber {
-  font-family: var(--font-family-primary, 'Figtree', sans-serif);
-  font-size: var(--font-size-18);
-  font-weight: var(--font-weight-bold);
-  color: var(--color-neutral-low-default, #111119);
-}
-
-.latestBadge {
-  font-family: var(--font-family-primary, 'Figtree', sans-serif);
-  font-size: var(--font-size-12);
-  font-weight: 600;
-  padding: 2px 8px;
-  border-radius: var(--border-radius-pill);
-  background-color: #e6f9f0;
-  color: var(--color-feedback-success-dark, #0a7a45);
-}
-
-.versionDate {
+.dateHeading {
   font-family: var(--font-family-primary, 'Figtree', sans-serif);
   font-size: var(--font-size-16);
-  color: var(--color-neutral-low-dark, #505255);
-}
-
-.versionRight {
+  font-weight: 600;
+  color: var(--color-neutral-low-medium, #88898c);
+  padding-bottom: var(--spacing-12);
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--spacing-8);
 }
 
 .countChip {
@@ -89,17 +56,63 @@
 .entry {
   border: 1px solid var(--color-neutral-high-medium, #e2e4ea);
   border-radius: var(--border-radius-8);
-  padding: 20px var(--spacing-24);
+  overflow: hidden;
+}
+
+/* ── Entry header ── */
+.entryHeader {
   display: flex;
-  flex-direction: column;
-  gap: var(--spacing-16);
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-16) var(--spacing-24);
+  gap: var(--spacing-12);
+  border-bottom: 1px solid var(--color-neutral-high-medium, #e2e4ea);
+}
+
+.entryHeaderLeft {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-8);
+}
+
+.entryHeaderRight {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.entryVersion {
+  font-family: var(--font-family-primary, 'Figtree', sans-serif);
+  font-size: var(--font-size-14);
+  font-weight: 600;
+  color: var(--color-neutral-low-default, #111119);
+}
+
+.latestBadge {
+  font-family: var(--font-family-primary, 'Figtree', sans-serif);
+  font-size: var(--font-size-12);
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: var(--border-radius-pill);
+  background-color: #e6f9f0;
+  color: var(--color-feedback-success-dark, #0a7a45);
 }
 
 /* ── Section ── */
+.sections {
+  display: flex;
+  flex-direction: column;
+}
+
 .section {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-8);
+  padding: var(--spacing-16) var(--spacing-24);
+
+  & + .section {
+    border-top: 1px solid var(--color-neutral-high-light, #f0f1f5);
+  }
 
   &.major .sectionLabel { color: var(--color-feedback-alert-default, #e81e42); }
   &.minor .sectionLabel { color: var(--color-brand-primary-default, #2c2f62); }
@@ -126,6 +139,46 @@
   display: flex;
   flex-direction: column;
   gap: var(--spacing-4);
+}
+
+/* ## Sub-version heading (e.g. "## [11.0.0]" inside Major Changes) */
+.subVersionHeading {
+  display: block;
+  font-family: var(--font-family-primary, 'Figtree', sans-serif);
+  font-size: var(--font-size-16);
+  font-weight: 700;
+  color: var(--color-neutral-low-default, #111119);
+  margin-top: var(--spacing-12);
+
+  &:first-child { margin-top: 0; }
+
+  code {
+    font-family: monospace;
+    font-size: 13px;
+    background: var(--color-neutral-high-light, #f5f5fa);
+    padding: 1px var(--spacing-4);
+    border-radius: var(--border-radius-4);
+  }
+}
+
+/* ### Sub-section heading (e.g. "### Changed") */
+.subSectionHeading {
+  display: block;
+  font-family: var(--font-family-primary, 'Figtree', sans-serif);
+  font-size: var(--font-size-14);
+  font-weight: 700;
+  color: var(--color-neutral-low-dark, #505255);
+  margin-top: var(--spacing-8);
+
+  &:first-child { margin-top: 0; }
+
+  code {
+    font-family: monospace;
+    font-size: 13px;
+    background: var(--color-neutral-high-light, #f5f5fa);
+    padding: 1px var(--spacing-4);
+    border-radius: var(--border-radius-4);
+  }
 }
 
 .scopeHeading {

@@ -10,7 +10,6 @@ $select-shadow: 0 2px 16px 0 rgba(0, 0, 0, 0.20);
 $select-icon-size: 16px;
 
 .fieldContainer {
-  min-height: scale($select-field-min-height);
   display: flex;
   flex-direction: column;
   width: 100%;

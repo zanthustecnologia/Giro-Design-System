@@ -1,0 +1,60 @@
+{
+  "color": {
+    "interactive": {
+      "primary": {
+        "default": {
+          "value": "{color.brand.primary.500}",
+          "type": "color"
+        },
+        "hover": {
+          "value": "{color.brand.primary.300}",
+          "type": "color"
+        },
+        "pressed": {
+          "value": "{color.brand.primary.700}",
+          "type": "color"
+        },
+        "disabled": {
+          "value": "{color.neutral.300}",
+          "type": "color"
+        }
+      },
+      "secondary": {
+        "default": {
+          "value": "{color.brand.secondary.500}",
+          "type": "color"
+        },
+        "hover": {
+          "value": "{color.brand.secondary.300}",
+          "type": "color"
+        },
+        "pressed": {
+          "value": "{color.brand.secondary.700}",
+          "type": "color"
+        },
+        "disabled": {
+          "value": "{color.neutral.300}",
+          "type": "color"
+        }
+      },
+      "alert": {
+        "default": {
+          "value": "{color.feedback.alert.500}",
+          "type": "color"
+        },
+        "hover": {
+          "value": "{color.feedback.alert.300}",
+          "type": "color"
+        },
+        "pressed": {
+          "value": "{color.feedback.alert.700}",
+          "type": "color"
+        },
+        "disabled": {
+          "value": "{color.neutral.300}",
+          "type": "color"
+        }
+      }
+    }
+  }
+}

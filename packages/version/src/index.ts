@@ -31,5 +31,6 @@ export type GiroVersion = typeof giroVersion;
  * "Giro: Moholy-Nagy (v4.0.0)"
  */
 export function formatGiroVersion(): string {
-  return `${giroVersion.system}: ${giroVersion.conceptual} (v${giroVersion.packages.react})`;
+  const reactVersion = giroVersion.packages['react'] ?? '?';
+  return `${giroVersion.system}: ${giroVersion.conceptual} (v${reactVersion})`;
 }

@@ -1,0 +1,14 @@
+{
+  "motion": {
+    "easing": {
+      "enter": {
+        "value": "{motion.easing.decelerate}",
+        "type": "cubicBezier"
+      },
+      "exit": {
+        "value": "{motion.easing.accelerate}",
+        "type": "cubicBezier"
+      }
+    }
+  }
+}
