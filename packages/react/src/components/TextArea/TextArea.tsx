@@ -83,7 +83,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
     );
 
     const hasError = Boolean(textareaError) || Boolean(error);
-    const displayHelperText = (error ? errorMessage : undefined) || textareaError || helperText || '\u00A0';
+    const displayHelperText = (error ? errorMessage : undefined) || textareaError || helperText;
     const helperId = (textareaError || error)
       ? `${componentId}-error`
       : helperText
@@ -136,21 +136,25 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
             />
           </div>
 
-          <div className={styles.footer}>
-            <span
-              id={helperId}
-              className={styles.helperText}
-              aria-live={hasError ? 'polite' : undefined}
-            >
-              {displayHelperText}
-            </span>
+          {(((error && errorMessage) || textareaError || helperText) || (showCharCount && maxLength)) && (
+            <div className={styles.footer}>
+              {((error && errorMessage) || textareaError || helperText) && (
+                <span
+                  id={helperId}
+                  className={styles.helperText}
+                  aria-live={hasError ? 'polite' : undefined}
+                >
+                  {displayHelperText}
+                </span>
+              )}
 
-            {charCount && maxLength && (
-              <span className={styles.charCount}>
-                {textareaValue.length}/{maxLength}
-              </span>
-            )}
-          </div>
+              {showCharCount && maxLength && (
+                <span className={styles.charCount}>
+                  {textareaValue.length}/{maxLength}
+                </span>
+              )}
+            </div>
+          )}
         </div>
 
         {(virtualKeyboard === 'default' || virtualKeyboard === 'numeric') && (

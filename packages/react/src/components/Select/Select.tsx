@@ -25,6 +25,7 @@ const Select: React.FC<SelectProps> = ({
   placeholder = 'Selecione',
   maxWidth,
   search = false,
+  error,
   errorMessage,
   disabled = false,
   className,
@@ -62,6 +63,7 @@ const Select: React.FC<SelectProps> = ({
     enableApiSearch,
     onApiSearch,
     isSearching,
+    error,
   });
 
   useEffect(() => {

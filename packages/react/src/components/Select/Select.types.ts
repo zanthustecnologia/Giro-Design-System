@@ -139,6 +139,9 @@ interface SelectPropsBase extends ScalableProps {
   /** Largura máxima do select */
   maxWidth?: number;
   
+  /** Indica estado de erro externo */
+  error?: boolean;
+
   /** Mensagem de erro a ser exibida */
   errorMessage?: string;
   
@@ -236,6 +239,9 @@ export interface UseSelectLogicProps {
   
   /** Estado de busca em andamento */
   isSearching?: boolean;
+
+  /** Indica estado de erro externo (controlado pelo pai) */
+  error?: boolean;
 }
 
 /**

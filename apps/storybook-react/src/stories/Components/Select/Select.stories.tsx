@@ -57,6 +57,10 @@ const meta: Meta<SelectProps> = {
       options: [1, 1.5, 2],
       description: 'Escala visual do componente',
     },
+    error: {
+      control: 'boolean',
+      description: 'Estado de erro'
+    },
   },
 };
 
