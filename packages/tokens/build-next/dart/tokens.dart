@@ -334,6 +334,13 @@ class GiroTokens {
     static const buttonGhostLgPaddingInline = '0';
     static const buttonGhostSmPaddingInline = '0';
     static const buttonGhostSmPaddingInlineIcon = '0';
+    static const buttonTextBackgroundHover = '0';
+    static const buttonTextBackgroundPressed = '0';
+    static const buttonTextColorDefault = '0';
+    static const buttonTextColorDisabled = '0';
+    static const buttonTextLgPaddingInline = '0';
+    static const buttonTextSmPaddingInline = '0';
+    static const buttonTextSmPaddingInlineIcon = '0';
     static const buttonFocusOutlineColor = '0';
     static const buttonFocusOutlineWidth = '0';
     static const buttonFocusOutlineOffset = '0';
