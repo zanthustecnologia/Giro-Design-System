@@ -1,0 +1,52 @@
+﻿---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import '../../styles/blog.css';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+function formatDate(date: Date) {
+  return date.toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' });
+}
+---
+
+<Layout title="Blog — Giro Design System" description="Novidades, releases e artigos do Giro Design System">
+  <main>
+    <section class="section">
+      <div class="container">
+        <header class="blog-header">
+          <h1 class="blog-header__title">Blog</h1>
+          <p class="blog-header__desc">Novidades, releases e artigos do Giro DS</p>
+        </header>
+
+        <ul class="post-list">
+          {posts.map((post) => (
+            <li>
+              <a href={`/blog/${post.id}`} class="post-card">
+                <div class="post-card__cover-wrap">
+                  {post.data.cover
+                    ? <img src={post.data.cover} alt={post.data.coverAlt ?? post.data.title} class="post-card__cover-img" loading="lazy" />
+                    : null}
+                </div>
+                <div class="post-card__body">
+                <div class="post-card__meta">
+                  <time datetime={post.data.pubDate.toISOString()}>
+                    {formatDate(post.data.pubDate)}
+                  </time>
+                  {post.data.tags.map((tag) => (
+                    <span class="post-card__tag">{tag}</span>
+                  ))}
+                </div>
+                <h2 class="post-card__title">{post.data.title}</h2>
+                <p class="post-card__desc">{post.data.description}</p>
+                <span class="post-card__cta">Ler artigo →</span>
+                </div>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  </main>
+</Layout>

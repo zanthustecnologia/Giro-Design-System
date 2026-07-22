@@ -1,0 +1,12 @@
+{
+  "size": {
+    "component": {
+      "xs":  { "value": "{size.24}", "type": "dimension" },
+      "sm":  { "value": "{size.32}", "type": "dimension" },
+      "md":  { "value": "{size.36}", "type": "dimension" },
+      "lg":  { "value": "{size.44}", "type": "dimension" },
+      "xl":  { "value": "{size.48}", "type": "dimension" },
+      "2xl": { "value": "{size.56}", "type": "dimension" }
+    }
+  }
+}

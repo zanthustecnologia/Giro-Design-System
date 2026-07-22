@@ -1,0 +1,60 @@
+---
+import '@giro-ds/tokens/build/css/tokens.css';
+import '@giro-ds/react/dist/styles.css';
+import '../styles/global.css';
+import '../styles/header.css';
+import { Button } from '@giro-ds/react';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'Giro Design System',
+  description = 'O design system AI-Driven da Zanthus e da Neos',
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <header class="header">
+      <div class="header__inner">
+        <a href="/" class="header__logo">
+          <img src="/giro-logo.svg" alt="Giro Design System" height="28" />
+        </a>
+        <nav class="header__nav" aria-label="Links principais">
+          <a href="/blog" class="header__nav-link">Blog</a>
+          <a href="https://github.com/zanthustecnologia/Giro-Design-System" target="_blank" rel="noopener noreferrer" class="header__nav-link">GitHub</a>
+          <a href="https://www.figma.com/design/uurFrMGj7AqFDHkm6RBtI7" target="_blank" rel="noopener noreferrer" class="header__nav-link">Figma</a>
+          <Button href="#" variant="filled" size="sm">Feedback</Button>
+        </nav>
+      </div>
+    </header>
+
+    <slot />
+
+    <script>
+      const header = document.querySelector('.header');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 0) {
+          header?.classList.add('header--scrolled');
+        } else {
+          header?.classList.remove('header--scrolled');
+        }
+      }, { passive: true });
+    </script>
+  </body>
+</html>

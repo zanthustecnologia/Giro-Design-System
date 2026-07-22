@@ -1,0 +1,76 @@
+{
+  "font": {
+    "size": {
+      "label": {
+        "sm": {
+          "value": "{font.size.12}",
+          "type": "fontSize"
+        },
+        "md": {
+          "value": "{font.size.14}",
+          "type": "fontSize"
+        },
+        "lg": {
+          "value": "{font.size.16}",
+          "type": "fontSize"
+        }
+      },
+      "body": {
+        "sm": {
+          "value": "{font.size.14}",
+          "type": "fontSize"
+        },
+        "md": {
+          "value": "{font.size.16}",
+          "type": "fontSize"
+        },
+        "lg": {
+          "value": "{font.size.18}",
+          "type": "fontSize"
+        }
+      },
+      "title": {
+        "sm": {
+          "value": "{font.size.18}",
+          "type": "fontSize"
+        },
+        "md": {
+          "value": "{font.size.20}",
+          "type": "fontSize"
+        },
+        "lg": {
+          "value": "{font.size.24}",
+          "type": "fontSize"
+        }
+      },
+      "heading": {
+        "sm": {
+          "value": "{font.size.28}",
+          "type": "fontSize"
+        },
+        "md": {
+          "value": "{font.size.32}",
+          "type": "fontSize"
+        },
+        "lg": {
+          "value": "{font.size.40}",
+          "type": "fontSize"
+        }
+      },
+      "display": {
+        "sm": {
+          "value": "{font.size.48}",
+          "type": "fontSize"
+        },
+        "md": {
+          "value": "{font.size.64}",
+          "type": "fontSize"
+        },
+        "lg": {
+          "value": "{font.size.96}",
+          "type": "fontSize"
+        }
+      }
+    }
+  }
+}

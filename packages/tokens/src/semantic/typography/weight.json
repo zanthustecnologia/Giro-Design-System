@@ -1,0 +1,26 @@
+{
+  "font": {
+    "weight": {
+      "label": {
+        "value": "{font.weight.medium}",
+        "type": "fontWeight"
+      },
+      "body": {
+        "value": "{font.weight.regular}",
+        "type": "fontWeight"
+      },
+      "title": {
+        "value": "{font.weight.medium}",
+        "type": "fontWeight"
+      },
+      "heading": {
+        "value": "{font.weight.bold}",
+        "type": "fontWeight"
+      },
+      "display": {
+        "value": "{font.weight.bold}",
+        "type": "fontWeight"
+      }
+    }
+  }
+}

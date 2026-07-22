@@ -1,0 +1,16 @@
+{
+  "color": {
+    "focus": {
+      "ring": {
+        "default": {
+          "value": "{color.brand.primary.500}",
+          "type": "color"
+        },
+        "inverse": {
+          "value": "{color.neutral.0}",
+          "type": "color"
+        }
+      }
+    }
+  }
+}

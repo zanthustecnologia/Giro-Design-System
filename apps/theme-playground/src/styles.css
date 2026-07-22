@@ -1,0 +1,305 @@
+:root {
+  font-family: Figtree, sans-serif;
+  color: var(--color-text-primary);
+  background: var(--color-background-default);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+  margin: 0;
+}
+
+body {
+  background: var(--color-background-default);
+  color: var(--color-text-primary);
+}
+
+button,
+input {
+  font: inherit;
+}
+
+.playgroundShell {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 360px minmax(0, 1fr);
+  background: var(--color-background-default);
+  color: var(--color-text-primary);
+}
+
+.controlPanel {
+  border-right: 1px solid var(--color-border-subtle);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  background: color-mix(in srgb, var(--color-surface-default) 88%, transparent);
+  backdrop-filter: blur(18px);
+}
+
+.previewPanel {
+  padding: 18px 20px;
+  display: grid;
+  gap: 20px;
+  align-content: start;
+  grid-auto-rows: min-content;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+h1,
+h2,
+.lede {
+  margin: 0;
+}
+
+h1,
+h2 {
+  font-size: 28px;
+  line-height: 1.1;
+}
+
+.lede {
+  margin-top: 12px;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+}
+
+.controlGroup,
+.surfaceCard {
+  border: 1px solid var(--color-border-subtle);
+  background: color-mix(in srgb, var(--color-surface-default) 94%, transparent);
+  border-radius: 12px;
+}
+
+.controlGroup {
+  padding: 14px;
+  display: grid;
+  gap: 12px;
+}
+
+.controlGroupHeader {
+  display: grid;
+  gap: 8px;
+}
+
+.controlLabel {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.controlHint,
+.groupPath {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--color-text-secondary);
+}
+
+.segmentedControl {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.segmentedControl button,
+.fieldLabel input {
+  border: 1px solid var(--color-border-default);
+  border-radius: 10px;
+  background: var(--color-surface-default);
+  color: var(--color-text-primary);
+}
+
+.segmentedControl button {
+  padding: 10px 12px;
+  cursor: pointer;
+}
+
+.segmentedControl button.isActive {
+  border-color: var(--color-border-brand);
+  background: var(--color-surface-brand-subtle);
+  color: var(--color-text-brand);
+}
+
+.toggleRow {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  color: var(--color-text-primary);
+}
+
+.fieldGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.brandSections {
+  display: grid;
+  gap: 14px;
+}
+
+.brandTokenGroup {
+  display: grid;
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--color-surface-subtle) 55%, transparent);
+}
+
+.brandTokenGroupHeader {
+  display: grid;
+  gap: 4px;
+}
+
+.impactCard {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  border: 1px dashed var(--color-border-default);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--color-surface-brand-subtle) 28%, var(--color-surface-default));
+}
+
+.impactTitle {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+.impactList {
+  margin: 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 4px;
+  color: var(--color-text-primary);
+  font-size: 13px;
+}
+
+.fieldLabel {
+  display: grid;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--color-text-secondary);
+}
+
+.fieldLabelColor {
+  gap: 6px;
+}
+
+.fieldTokenPath {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  overflow-wrap: anywhere;
+}
+
+.fieldLabel input {
+  width: 100%;
+  min-height: 36px;
+  padding: 6px 10px;
+}
+
+input[type='color'] {
+  padding: 4px;
+}
+
+.surfaceCard {
+  padding: 18px;
+}
+
+.heroCard {
+  display: grid;
+  gap: 14px;
+  align-content: start;
+}
+
+.tokenChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.tokenChips span,
+.swatch {
+  border: 1px solid var(--color-border-subtle);
+}
+
+.tokenChips span {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: var(--color-surface-subtle);
+  color: var(--color-text-secondary);
+}
+
+.sectionHeader {
+  margin-bottom: 16px;
+}
+
+.buttonGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  align-items: center;
+}
+
+.swatchGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  align-items: start;
+}
+
+.swatch {
+  min-height: 112px;
+  display: flex;
+  align-items: end;
+  padding: 16px;
+  border-radius: 14px;
+}
+
+.swatch span {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+@media (max-width: 960px) {
+  .playgroundShell {
+    grid-template-columns: 1fr;
+  }
+
+  .controlPanel {
+    border-right: 0;
+    border-bottom: 1px solid var(--color-border-subtle);
+  }
+
+  .previewPanel,
+  .controlPanel {
+    padding: 16px;
+  }
+
+  .swatchGrid,
+  .fieldGrid {
+    grid-template-columns: 1fr;
+  }
+}
