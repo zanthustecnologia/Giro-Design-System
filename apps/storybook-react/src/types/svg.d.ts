@@ -9,8 +9,6 @@ declare module '*.module.scss' {
 }
 
 declare module 'virtual:changelogs' {
-  export const reactChangelog: string;
-  export const tokensChangelog: string;
-  export const utilitiesChangelog: string;
+  export const changelogs: Record<string, string>;
   export const tagDates: Record<string, string>;
 }

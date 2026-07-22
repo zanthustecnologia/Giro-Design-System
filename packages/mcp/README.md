@@ -5,7 +5,7 @@ Model Context Protocol (MCP) server for Giro Design System — enables AI tools 
 ## Tools
 
 | Tool | Description |
-|------|-------------|
+| ------ | ------------- |
 | `list-giro-components` | Lists all public `@giro-ds/react` component names |
 | `get-giro-component-metadata` | Returns props, types, defaults and descriptions for a component |
 | `get-giro-component-examples` | Returns React usage examples for components |
@@ -25,12 +25,9 @@ Model Context Protocol (MCP) server for Giro Design System — enables AI tools 
 
 When you install `@giro-ds/mcp` as a dependency, a `.vscode/mcp.json` is created automatically in your project root — no manual setup needed.
 
-If you prefer to configure it manually, or if you're using `npx` (without installing):
+If you prefer to configure it manually, or if you're using `npx` (without installing).
 
-<details>
-<summary>Manual configuration</summary>
-
-Add to your `.vscode/mcp.json`:
+**Manual configuration** — add to your `.vscode/mcp.json`:
 
 ```json
 {
@@ -43,8 +40,6 @@ Add to your `.vscode/mcp.json`:
   }
 }
 ```
-
-</details>
 
 ### Cursor
 
@@ -93,67 +88,80 @@ Add to `claude_desktop_config.json`:
 ## Tool Examples
 
 ### List all components
-```
+
+```text
 list-giro-components
 ```
 
 ### Get Button metadata
-```
+
+```text
 get-giro-component-metadata name="Button"
 ```
 
 ### Get Drawer examples
-```
+
+```text
 get-giro-component-examples name="Drawer"
 ```
 
 ### Find a component by description
-```
+
+```text
 find-giro-component query="modal de confirmação"
 ```
 
 ### List color tokens
-```
+
+```text
 list-giro-tokens category="color-brand"
 ```
 
 ### List spacing tokens
-```
+
+```text
 list-giro-tokens category="spacing"
 ```
 
 ### Resolve a token by design intent
-```
+
+```text
 resolve-giro-token intent="cor de erro"
 ```
 
 ### Review a code snippet
-```
+
+```text
 review-giro-usage code="<Button variant='ghost' size='xl'>Save</Button>"
 ```
 
 ### Audit CSS for hardcoded values
-```
+
+```text
 review-giro-css code="color: #3b45f2; padding: 16px;"
 ```
 
 ### Generate a component from a description
-```
+
+```text
 generate-giro-component description="formulário de login com email, senha e botão de entrar"
 ```
 
 ### Get a system prompt for ChatGPT / Claude
-```
+
+```text
 get-giro-system-prompt
 ```
 
 ### Get migration guide
-```
+
+```text
 giro-migration-guide
 ```
 
 ### List deprecated APIs for a component
-```
+
+```text
 get-giro-changelog component="Dialog"
 ```
 
@@ -181,6 +189,8 @@ pnpm --filter @giro-ds/mcp build
 Run these commands whenever a component or token is added or changed.
 
 O único passo manual necessário no futuro é rodar os scripts sempre que o pacote React ou os tokens evoluírem:
+
+```bash
 # Quando componentes mudarem
 pnpm --filter @giro-ds/mcp generate
 
@@ -189,3 +199,4 @@ pnpm --filter @giro-ds/mcp generate:tokens
 
 # Após qualquer geração
 pnpm --filter @giro-ds/mcp build
+```
