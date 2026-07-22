@@ -1,6 +1,7 @@
-import React, { JSX, useState } from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
 import { Calendar } from '@giro-ds/react';
+import React, { useState } from 'react';
+
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta: Meta<typeof Calendar> = {
   title: 'Components/Calendar',
@@ -57,8 +58,6 @@ export const ComDropdownNavegacao: Story = {
     const [selected, setSelected] = useState<Date | undefined>();
     return (
       <Calendar
-        {...args}
-        captionLayout="dropdown"
         onDaySelect={(d) => setSelected(d)}
         selected={selected ?? null}
       />
@@ -66,7 +65,7 @@ export const ComDropdownNavegacao: Story = {
   },
   parameters: {
     docs: {
-      description: { story: 'Cabeçalho com dropdowns de mês e ano para navegação rápida.' },
+      description: { story: 'Clique no mês ou ano no cabeçalho para abrir a grade de navegação rápida entre meses e anos.' },
     },
   },
 };
@@ -108,7 +107,7 @@ export const MultiplosMeses: Story = {
   },
   parameters: {
     docs: {
-      description: { story: 'Dois meses exibidos lado a lado via `numberOfMonths={2}`.' },
+      description: { story: 'Calendário com navegação via grade de meses e anos integrada ao cabeçalho.' },
     },
   },
 };

@@ -5,9 +5,10 @@ import {
   Info24Regular,
   Star24Regular,
 } from '@fluentui/react-icons';
-import React, { useState } from 'react';
-import type { Meta, StoryFn, StoryObj } from '@storybook/react';
 import { Callout } from '@giro-ds/react';
+import React, { useState } from 'react';
+
+import type { Meta, StoryFn, StoryObj } from '@storybook/react-vite';
 
 const ICON_OPTIONS: Record<string, React.ReactNode> = {
   none: undefined,
@@ -151,11 +152,13 @@ export const SemIcone: StoryFn = () => (
 );
 
 export const Removivel: StoryFn = () => {
-  const [items, setItems] = useState([
-    { id: 1, variant: 'neutral', text: 'Novidade disponível: confira as últimas atualizações do produto.' },
-    { id: 2, variant: 'success', text: 'Configurações salvas com sucesso.' },
-    { id: 3, variant: 'alert', text: 'Atenção: sua sessão expira em 10 minutos.' },
-  ]);
+  const [items, setItems] = useState<Array<{ id: number; variant: 'neutral' | 'success' | 'alert'; text: string }>>(
+    [
+      { id: 1, variant: 'neutral', text: 'Novidade disponível: confira as últimas atualizações do produto.' },
+      { id: 2, variant: 'success', text: 'Configurações salvas com sucesso.' },
+      { id: 3, variant: 'alert', text: 'Atenção: sua sessão expira em 10 minutos.' },
+    ]
+  );
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>

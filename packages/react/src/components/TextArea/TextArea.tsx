@@ -1,10 +1,10 @@
 import clsx from 'clsx';
 import React, { useState, useCallback, useId, forwardRef, useEffect } from 'react';
 
-import useInputKeyboardValue from '../../hooks/useInputKeyboardValue';
-import VirtualKeyboard from '../VirtualKeyboard';
 import styles from './TextArea.module.scss';
+import useInputKeyboardValue from '../../hooks/useInputKeyboardValue';
 import LabelComponent from '../../shared/Label';
+import VirtualKeyboard from '../VirtualKeyboard';
 
 import type { TextAreaProps } from './TextArea.types';
 
@@ -20,10 +20,9 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
       maxLength,
       required = false,
       helperText,
-      tooltip = false,
       tooltipText,
-      side = 'bottom',
-      align = 'start',
+      tooltipSide = 'bottom',
+      tooltipAlign = 'start',
       errorMessage,
       error,
       id,
@@ -31,7 +30,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
       onFocus,
       name,
       resize = 'vertical',
-      showCharCount = false,
+      charCount = false,
       height,
       virtualKeyboard,
       ...rest
@@ -104,10 +103,10 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
           <LabelComponent
             htmlFor={componentId}
             required={required}
-            tooltip={tooltip}
+            tooltip={!!tooltipText}
             tooltipText={tooltipText}
-            side={side}
-            align={align}
+            side={tooltipSide}
+            align={tooltipAlign}
             error={hasError}
             disabled={disabled}
           >
@@ -146,7 +145,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
               {displayHelperText}
             </span>
 
-            {showCharCount && maxLength && (
+            {charCount && maxLength && (
               <span className={styles.charCount}>
                 {textareaValue.length}/{maxLength}
               </span>

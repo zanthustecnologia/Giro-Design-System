@@ -675,19 +675,20 @@ describe('Filter', () => {
       expect(screen.getByRole('heading', { name: /filtros avançados/i })).toBeInTheDocument();
     });
 
-    it('exibe badge com activeCount quando maior que 0', () => {
-      render(<Filter mode="combined" activeCount={3} />);
+    it('exibe badge com appliedFilterCount quando maior que 0', () => {
+      render(<Filter mode="combined" appliedFilterCount={3} />);
       expect(screen.getByTestId('badge')).toHaveTextContent('3');
     });
 
-    it('não exibe badge quando activeCount=0', () => {
-      render(<Filter mode="combined" activeCount={0} />);
+    it('não exibe badge quando appliedFilterCount=0', () => {
+      render(<Filter mode="combined" appliedFilterCount={0} />);
       expect(screen.queryByTestId('badge')).not.toBeInTheDocument();
     });
 
-    it('não exibe badge quando activeCount não é fornecido', () => {
+    it('não exibe badge quando appliedFilterCount não é fornecido', () => {
       render(<Filter mode="combined" />);
       expect(screen.queryByTestId('badge')).not.toBeInTheDocument();
     });
   });
 });
+

@@ -8,7 +8,41 @@ import type { VirtualKeyboardType } from '../VirtualKeyboard/VirtualKeyboard.typ
 export type TextFieldType = 'text' | 'email' | 'password' | 'number' | 'tel' | 'url';
 
 /**
- * Props do componente TextField
+ * Props base compartilhadas por todas as configurações de tooltip do TextField.
+ */
+interface BaseTooltipConfig {
+  /** Lado em que o tooltip será exibido */
+  tooltipSide?: 'top' | 'bottom' | 'left' | 'right';
+  /** Alinhamento do tooltip */
+  tooltipAlign?: 'start' | 'center' | 'end';
+}
+
+/**
+ * Configuração de tooltip com texto.
+ * Exibe um tooltip ao redor da label do TextField.
+ */
+interface WithTooltip extends BaseTooltipConfig {
+  /** Texto do tooltip exibido no hover */
+  tooltipText: string;
+}
+
+/**
+ * Configuração sem tooltip.
+ */
+interface WithoutTooltip {
+  tooltipText?: never;
+  tooltipSide?: never;
+  tooltipAlign?: never;
+}
+
+/**
+ * Union type representando a configuração de tooltip do TextField.
+ * Pode ter tooltip com texto (e opcionalmente side/align) ou sem tooltip.
+ */
+export type TextFieldTooltipConfig = WithTooltip | WithoutTooltip;
+
+/**
+ * Props base do componente TextField
  * @example
  * ```tsx
  * <TextField 
@@ -27,7 +61,6 @@ export type TextFieldType = 'text' | 'email' | 'password' | 'number' | 'tel' | '
  *   required
  *   helperText="Mínimo 8 caracteres"
  *   errorMessage={error}
- *   tooltip={true}
  *   tooltipText="Deve conter letras e números"
  *   icon={<LockIcon />}
  * />
@@ -51,18 +84,6 @@ export interface TextFieldProps extends ScalableProps, Omit<
   
   /** Texto de ajuda exibido abaixo do campo */
   helperText?: string;
-  
-  /** Habilita tooltip */
-  tooltip?: boolean;
-  
-  /** Texto do tooltip */
-  tooltipText?: string;
-  
-  /** Lado onde o tooltip aparece */
-  tooltipSide?: Side;
-  
-  /** Alinhamento do tooltip */
-  tooltipAlign?: Align;
   
   /**
    * Mensagem de erro exibida no campo.
@@ -89,6 +110,14 @@ export interface TextFieldProps extends ScalableProps, Omit<
   /** Desabilita o autocomplete nativo do browser (padrão: false) */
   disableAutoComplete?: boolean;
 }
+
+/**
+ * Props completas do TextField, incluindo a configuração de tooltip.
+ *
+ * O tooltip é ativado automaticamente quando `tooltipText` é informado,
+ * e as props `tooltipSide` e `tooltipAlign` ficam disponíveis para posicionamento.
+ */
+export type TextFieldProps = TextFieldPropsBase & TextFieldTooltipConfig;
 
 /**
  * Parâmetros para validação do TextField
