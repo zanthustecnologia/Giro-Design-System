@@ -7,7 +7,8 @@ import styles from './Button.module.scss';
 
 import type { ButtonProps } from './Button.types';
 
-const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(({
+const Button = ({
+  ref,
   as,
   children,
   variant = 'filled',
@@ -33,7 +34,7 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPro
   tooltipSide = 'top',
   tooltipAlign = 'center',
   ...rest
-}, ref) => {
+}: ButtonProps & { ref?: React.Ref<HTMLButtonElement | HTMLAnchorElement> }) => {
 
   const generatedId = useId();
   const componentId = id || generatedId;
@@ -225,7 +226,7 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPro
       {renderContent()}
     </Component>
   );
-});
+};
 
 Button.displayName = 'Button';
 export default Button;

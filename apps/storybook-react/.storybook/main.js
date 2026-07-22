@@ -79,10 +79,16 @@ const config = {
       'react-dom'
     ];
 
-    // 3) Configura alias @ para apontar para packages/react/src
-    //    e redireciona @giro-ds/react para o fonte (permite docgen extrair JSDoc)
+    // Garante que react/react-dom resolvam sempre a partir da raiz do app,
+    // evitando que o packages/react/node_modules (devDep React 19) "vaze" para
+    // o bundle e sobrescreva a versão declarada aqui no storybook-react.
+    const appRoot = path.resolve(__dirname, '..');
     viteConfig.resolve.alias = {
       ...(viteConfig.resolve.alias || {}),
+      // Fixa react/react-dom para o node_modules DESTE app (storybook-react),
+      // impedindo que o Vite resolva pelo packages/react/node_modules.
+      'react': path.resolve(appRoot, 'node_modules/react'),
+      'react-dom': path.resolve(appRoot, 'node_modules/react-dom'),
       '@': path.resolve(__dirname, '../../../packages/react/src'),
       '@components': path.resolve(__dirname, '../../../packages/react/src/components'),
       '@giro-ds/react': path.resolve(__dirname, '../../../packages/react/src/index.ts'),

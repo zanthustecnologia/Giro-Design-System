@@ -1,11 +1,12 @@
 import clsx from 'clsx';
-import React, { forwardRef } from 'react';
+import React from 'react';
 import styles from './SelectField.module.scss';
 import { Info12Regular } from '@fluentui/react-icons';
 import Tooltip from '../Tooltip';
 import type { SelectFieldProps } from './SelectField.types';
 
-const SelectField = forwardRef<HTMLDivElement, SelectFieldProps>(({
+const SelectField = ({
+  ref,
   id,
   name,
   value,
@@ -23,7 +24,7 @@ const SelectField = forwardRef<HTMLDivElement, SelectFieldProps>(({
   isTouched = false,
   hasError = false,
   positionTooltip
-}, ref) => {
+}: SelectFieldProps & { ref?: React.Ref<HTMLDivElement> }) => {
 
   // ✅ NOVA LÓGICA: Validação de required
   const isRequired = required && !disabled;
@@ -119,7 +120,7 @@ const SelectField = forwardRef<HTMLDivElement, SelectFieldProps>(({
       </div >
     </div >
   );
-});
+};
 
 SelectField.displayName = 'SelectField';
 

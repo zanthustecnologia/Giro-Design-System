@@ -10,8 +10,7 @@ interface SelectItemComponentProps extends SelectItemProps {
   disableFocusOnHover?: boolean;
 }
 
-const SelectItem = React.forwardRef<HTMLDivElement, SelectItemComponentProps>(
-  ({ text, subTitle, icon, disabled, value, variant, disableFocusOnHover, ...restProps }, ref) => {
+const SelectItem = ({ ref, text, subTitle, icon, disabled, value, variant, disableFocusOnHover, ...restProps }: SelectItemComponentProps & { ref?: React.Ref<HTMLDivElement> }) => {
     return (
       <div
         className={clsx(styles.itemWrapper, {
@@ -40,8 +39,7 @@ const SelectItem = React.forwardRef<HTMLDivElement, SelectItemComponentProps>(
         </Select.Item>
       </div>
     );
-  }
-);
+};
 
 SelectItem.displayName = 'SelectItem';
 
