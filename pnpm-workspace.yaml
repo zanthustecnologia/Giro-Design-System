@@ -1,3 +1,5 @@
 packages:
-  - 'apps/*'
+  - 'apps/storybook-react'
+  - 'apps/theme-playground'
+  - 'apps/widgetbook-flutter'
   - 'packages/*'
