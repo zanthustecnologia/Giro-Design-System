@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ScalableProps, Side, Align, Scale } from '../../types/common.types';
+import { ScalableProps, Side, Align, } from '../../types/common.types';
 
 import type { VirtualKeyboardType } from '../VirtualKeyboard/VirtualKeyboard.types';
 
@@ -12,9 +12,9 @@ export type TextFieldType = 'text' | 'email' | 'password' | 'number' | 'tel' | '
  */
 interface BaseTooltipConfig {
   /** Lado em que o tooltip será exibido */
-  tooltipSide?: 'top' | 'bottom' | 'left' | 'right';
+  tooltipSide?: Side;
   /** Alinhamento do tooltip */
-  tooltipAlign?: 'start' | 'center' | 'end';
+  tooltipAlign?: Align;
 }
 
 /**
@@ -66,7 +66,7 @@ export type TextFieldTooltipConfig = WithTooltip | WithoutTooltip;
  * />
  * ```
  */
-export interface TextFieldProps extends ScalableProps, Omit<
+export interface TextFieldPropsBase extends ScalableProps, Omit<
   React.InputHTMLAttributes<HTMLInputElement>, 
   'onChange' | 'value' | 'type'
 > {

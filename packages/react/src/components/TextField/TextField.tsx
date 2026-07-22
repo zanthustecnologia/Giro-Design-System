@@ -110,7 +110,7 @@ const TextField = ({
       [onFocus]
     );
 
-    const showCustomIcon = inputValue.trim().length === 0 && icon;
+    const showCustomIcon = (inputValue.trim().length === 0 || persistIcon) && icon;
     const showClearIcon = isFocused && inputValue.trim().length > 0;
     const hasError = Boolean(inputError) || Boolean(error);
     const displayHelperText = (error ? errorMessage : undefined) || inputError || helperText || '\u00A0';
@@ -122,12 +122,11 @@ const TextField = ({
 
     const containerStyle = { '--giro-scale': scale } as React.CSSProperties;
 
-    const containerClass = clsx(styles.container, {
+    const containerClass = clsx(styles.container, className, {
       [styles.attachedToVirtualKeyboard]: attachedToVirtualKeyboard,
       [styles.disabled]: disabled,
       [styles.error]: error,
       [styles.errorWithMessage]: !!errorMessage,
-      [className!]: className,
     });
 
     return (
@@ -178,7 +177,7 @@ const TextField = ({
               <button
                 type="button"
                 className={styles.clearButton}
-                onMouseDown={(e) => {
+                onMouseDown={(e: React.MouseEvent) => {
                   e.preventDefault();
                   handleClear();
                 }}
@@ -209,7 +208,7 @@ const TextField = ({
               value={inputValue}
               maxLength={maxLength}
               targetRef={inputRef}
-              onChange={(val) => {
+              onChange={(val: string) => {
                 if (!disabled && (!maxLength || val.length <= maxLength)) {
                   setInputValue(val);
                   onChange?.(val);
