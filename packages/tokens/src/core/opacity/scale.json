@@ -1,0 +1,56 @@
+{
+  "opacity": {
+    "0": {
+      "value": 0,
+      "type": "number"
+    },
+    "4": {
+      "value": 0.04,
+      "type": "number"
+    },
+    "8": {
+      "value": 0.08,
+      "type": "number"
+    },
+    "12": {
+      "value": 0.12,
+      "type": "number"
+    },
+    "16": {
+      "value": 0.16,
+      "type": "number"
+    },
+    "24": {
+      "value": 0.24,
+      "type": "number"
+    },
+    "32": {
+      "value": 0.32,
+      "type": "number"
+    },
+    "40": {
+      "value": 0.4,
+      "type": "number"
+    },
+    "48": {
+      "value": 0.48,
+      "type": "number"
+    },
+    "64": {
+      "value": 0.64,
+      "type": "number"
+    },
+    "72": {
+      "value": 0.72,
+      "type": "number"
+    },
+    "80": {
+      "value": 0.8,
+      "type": "number"
+    },
+    "100": {
+      "value": 1,
+      "type": "number"
+    }
+  }
+}

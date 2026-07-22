@@ -1,0 +1,26 @@
+{
+  "space": {
+    "container": {
+      "sm": {
+        "value": "{spacing.16}",
+        "type": "dimension"
+      },
+      "md": {
+        "value": "{spacing.24}",
+        "type": "dimension"
+      },
+      "lg": {
+        "value": "{spacing.32}",
+        "type": "dimension"
+      },
+      "xl": {
+        "value": "{spacing.40}",
+        "type": "dimension"
+      },
+      "2xl": {
+        "value": "{spacing.48}",
+        "type": "dimension"
+      }
+    }
+  }
+}

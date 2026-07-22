@@ -1,5 +1,17 @@
 # @giro-ds/tokens
 
+## [1.1.0]
+
+### Added
+
+#### Tokens
+
+Introduz arquitetura core/semantic/theme. Os tokens core cobrem border, color (brand, feedback, neutral), motion, opacity, radius, shadow, size, spacing e typography. Os tokens semânticos mapeiam os valores core para contextos de uso: background, border, focus, icon, interactive, surface e text.
+
+Adiciona tema dark, tokens de componente para Avatar, Button e Calendar, e saída Dart para integração Flutter.
+
+Novos outputs em `build-next/`: `core.css`, `semantic.css`, `components.css`, `themes/dark.css`, `tokens.scss`, `tokens.js` e `tokens.dart`.
+
 ## 1.0.1
 
 ### Patch Changes
@@ -16,7 +28,6 @@
   - Tokens disponíveis: cores (brand, feedback, neutral), espaçamentos, tipografia, bordas
   - Formatos: CSS, SCSS, JavaScript
   - Geração via Style Dictionary
-
 
 ## Histórico anterior (@zanthus/tokens)
 

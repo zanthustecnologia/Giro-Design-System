@@ -1,0 +1,24 @@
+{
+  "name": "hub",
+  "private": true,
+  "version": "0.1.1",
+  "type": "module",
+  "scripts": {
+    "dev": "tinacms dev -c \"astro dev --port 4321 --open\"",
+    "dev:astro": "astro dev --port 4321",
+    "build": "tinacms build && astro build",
+    "preview": "astro preview",
+    "lint": "eslint .",
+    "new-post": "node scripts/new-post.mjs"
+  },
+  "dependencies": {
+    "@astrojs/react": "^5.0.4",
+    "@giro-ds/react": "^12.0.0",
+    "@giro-ds/tokens": "workspace:*",
+    "@tinacms/cli": "^2.2.5",
+    "astro": "^6.3.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tinacms": "^3.7.5"
+  }
+}

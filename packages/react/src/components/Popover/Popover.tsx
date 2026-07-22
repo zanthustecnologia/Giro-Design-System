@@ -1,5 +1,5 @@
-import { Popover as PopoverRadix } from "radix-ui";
 import clsx from "clsx";
+import { Popover as PopoverRadix } from "radix-ui";
 import * as React from "react";
 
 import styles from "./Popover.module.scss";
@@ -42,7 +42,7 @@ const Popover: React.FC<PopoverProps> = ({
           onInteractOutside={asAnchor ? (e) => e.preventDefault() : undefined}
         >
           {content}
-          {showArrow && <PopoverRadix.Arrow />}
+          {showArrow && <PopoverRadix.Arrow className={styles.Arrow} />}
         </PopoverRadix.Content>
       </PopoverRadix.Portal>
     </PopoverRadix.Root>

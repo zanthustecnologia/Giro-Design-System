@@ -52,6 +52,7 @@ export function useSelectLogic({
   enableApiSearch = false,
   onApiSearch,
   isSearching = false,
+  error,
 }: UseSelectLogicProps): UseSelectLogicReturn {
   const [state, dispatch] = useReducer(selectReducer, {
     ...initialState,
@@ -88,6 +89,15 @@ export function useSelectLogic({
     const newValues = Array.isArray(value) ? value : value ? [value] : [];
     dispatch({ type: 'SET_SELECTED_VALUES', payload: newValues });
   }, [value]);
+
+  useEffect(() => {
+    if (error !== undefined) {
+      dispatch({ type: 'SET_ERROR', payload: error });
+      if (error) {
+        dispatch({ type: 'SET_TOUCHED', payload: true });
+      }
+    }
+  }, [error]);
 
   useEffect(() => {
     if (state.isOpen && search) {

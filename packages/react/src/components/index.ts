@@ -8,7 +8,7 @@ export { default as Button } from './Button';
 export { type ButtonProps } from './Button/Button.types';
 
 export { default as Calendar } from './Calendar';
-export { type CalendarProps } from './Calendar/Calendar.types';
+export { type CalendarProps, type DateRange } from './Calendar/Calendar.types';
 
 export { default as Callout } from './Callout';
 export { type CalloutProps} from './Callout/Callout.types';

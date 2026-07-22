@@ -12,7 +12,7 @@ const Avatar: React.FC<AvatarProps> = ({
   size = 'lg',
   src,
   className,
-  initialLetters,
+  text,
   ...rest
 }) => {
   const AvatarClass = clsx(
@@ -24,6 +24,8 @@ const Avatar: React.FC<AvatarProps> = ({
     className
   );
 
+  const truncatedText = text ? text.slice(0, 2) : undefined;
+
   return (
       <AvatarRadix.Root className={AvatarClass} {...rest}>
         {src && (
@@ -34,7 +36,7 @@ const Avatar: React.FC<AvatarProps> = ({
             />
         )}
         <AvatarRadix.Fallback className={styles.AvatarFallback}>
-          {icon || initialLetters}
+          {icon || truncatedText}
         </AvatarRadix.Fallback>
       </AvatarRadix.Root>
   );

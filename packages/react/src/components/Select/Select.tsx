@@ -25,16 +25,16 @@ const Select: React.FC<SelectProps> = ({
   placeholder = 'Selecione',
   maxWidth,
   search = false,
+  error,
   errorMessage,
   disabled = false,
   className,
   style,
   'aria-label': ariaLabel,
   'data-testid': testId,
-  tooltip = false,
   tooltipText,
-  side = 'bottom',
-	align = 'start',
+  tooltipSide = 'bottom',
+  tooltipAlign = 'start',
   enableInfiniteScroll = false,
   onScrollEnd,
   isLoadingMore = false,
@@ -63,6 +63,7 @@ const Select: React.FC<SelectProps> = ({
     enableApiSearch,
     onApiSearch,
     isSearching,
+    error,
   });
 
   useEffect(() => {
@@ -168,9 +169,9 @@ const Select: React.FC<SelectProps> = ({
               htmlFor={selectId}
               required={required}
               tooltipText={tooltipText}
-              tooltip={tooltip}
-              side={side}
-              align={align}
+              tooltip={!!tooltipText}
+              side={tooltipSide}
+              align={tooltipAlign}
               error={state.hasError && state.touched}
               disabled={disabled}
               scale={scale}

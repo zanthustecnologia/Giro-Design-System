@@ -10,6 +10,7 @@ import 'stories/bottom_app_bar/bottom_app_bar_story.dart';
 import 'stories/bottom_sheet/bottom_sheet_story.dart';
 import 'stories/buttons/buttons_story.dart';
 import 'stories/cards/cards_story.dart';
+import 'stories/checkbox/checkbox_story.dart';
 import 'stories/chips/chips_story.dart';
 import 'stories/date_picker/date_picker_story.dart';
 import 'stories/dialogs/dialogs_story.dart';
@@ -24,10 +25,11 @@ import 'stories/navigation_rail/navigation_rail_story.dart';
 import 'stories/navigation/navigation_story.dart';
 import 'stories/popup_menu/popup_menu_story.dart';
 import 'stories/progress/progress_story.dart';
-import 'stories/selection_controls/selection_controls_story.dart';
 import 'stories/slider/slider_story.dart';
 import 'stories/snackbar/snackbar_story.dart';
 import 'stories/tabs/tabs_story.dart';
+import 'stories/radio/radio_story.dart';
+import 'stories/switch/switch_story.dart';
 import 'stories/select/select_story.dart';
 import 'stories/text_field/text_field_story.dart';
 import 'stories/time_picker/time_picker_story.dart';
@@ -94,7 +96,9 @@ class WidgetbookApp extends StatelessWidget {
             WidgetbookFolder(
               name: 'Selection',
               children: [
-                selectionControlsStory(),
+                checkboxStory(),
+                radioStory(),
+                switchStory(),
                 chipsStory(),
                 sliderStory(),
                 datePickerStory(),

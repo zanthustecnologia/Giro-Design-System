@@ -1,0 +1,21 @@
+{
+  "color": {
+    "interactive": {
+      "primary": {
+        "default":  { "value": "{color.brand.primary.300}",  "type": "color" },
+        "hover":    { "value": "{color.brand.primary.100}",  "type": "color" },
+        "pressed":  { "value": "{color.brand.primary.500}",  "type": "color" },
+        "disabled": { "value": "{color.neutral.700}",        "type": "color" }
+      },
+      "secondary": {
+        "disabled": { "value": "{color.neutral.700}", "type": "color" }
+      },
+      "alert": {
+        "default":  { "value": "{color.feedback.alert.300}", "type": "color" },
+        "hover":    { "value": "{color.feedback.alert.100}", "type": "color" },
+        "pressed":  { "value": "{color.feedback.alert.500}", "type": "color" },
+        "disabled": { "value": "{color.neutral.700}",        "type": "color" }
+      }
+    }
+  }
+}

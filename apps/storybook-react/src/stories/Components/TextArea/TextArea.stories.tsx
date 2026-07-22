@@ -30,29 +30,26 @@ const meta: Meta<typeof TextArea> = {
       control: 'boolean',
       description: 'Estado desabilitado do campo'
     },
-    side: {
-      control: 'select',
-      options: ['top','bottom', 'left', 'right'],
-      description: 'Posição do tooltip'
+    tooltipText: {
+      control: 'text',
+      description: 'Texto do tooltip — exibe o tooltip automaticamente quando preenchido'
     },
-    align: {
+    tooltipSide: {
+      control: 'select',
+      options: ['top', 'bottom', 'left', 'right'],
+      if: { arg: 'tooltipText', truthy: true },
+      description: 'Lado em que o tooltip será exibido'
+    },
+    tooltipAlign: {
       control: 'select',
       options: ['start', 'center', 'end'],
-      description: 'Posição do tooltip'
+      if: { arg: 'tooltipText', truthy: true },
+      description: 'Alinhamento do tooltip'
     },
     resize: {
       control: 'select',
       options: ['none', 'both', 'vertical'],
       description: 'Controle de redimensionamento do campo'
-    },
-    tooltip: {
-      control: 'boolean',
-      description: 'Exibir tooltip'
-    },
-    tooltipText: {
-      control: 'text',
-      if: { arg: 'tooltip', truthy: true },
-      description: 'Texto do tooltip'
     },
     helperText: {
       control: 'text',
@@ -114,10 +111,7 @@ export const Default: Story = {
     maxLength: 100,
     className: '',
     required: false,
-    tooltip: true,
     helperText: 'Optional support text',
-    label: 'Label',
-    tooltipText: 'Tooltip text'
   },
   render: (args) => (
     <div className='storybook__container'>

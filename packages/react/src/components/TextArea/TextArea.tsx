@@ -1,43 +1,39 @@
 import clsx from 'clsx';
-import React, { useState, useCallback, useId, forwardRef, useEffect } from 'react';
+import React, { useState, useCallback, useId, useEffect } from 'react';
 
-import useInputKeyboardValue from '../../hooks/useInputKeyboardValue';
-import VirtualKeyboard from '../VirtualKeyboard';
 import styles from './TextArea.module.scss';
+import useInputKeyboardValue from '../../hooks/useInputKeyboardValue';
 import LabelComponent from '../../shared/Label';
+import VirtualKeyboard from '../VirtualKeyboard';
 
 import type { TextAreaProps } from './TextArea.types';
 
-const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
-  (
-    {
-      className,
-      value,
-      label,
-      placeholder,
-      onChange,
-      disabled = false,
-      maxLength,
-      required = false,
-      helperText,
-      tooltip = false,
-      tooltipText,
-      side = 'bottom',
-      align = 'start',
-      errorMessage,
-      error,
-      id,
-      onBlur,
-      onFocus,
-      name,
-      resize = 'vertical',
-      showCharCount = false,
-      height,
-      virtualKeyboard,
-      ...rest
-    },
-    ref
-  ) => {
+const TextArea = ({
+  ref,
+  className,
+  value,
+  label,
+  placeholder,
+  onChange,
+  disabled = false,
+  maxLength,
+  required = false,
+  helperText,
+  tooltipText,
+  tooltipSide = 'bottom',
+  tooltipAlign = 'start',
+  errorMessage,
+  error,
+  id,
+  onBlur,
+  onFocus,
+  name,
+  resize = 'vertical',
+  charCount = false,
+  height,
+  virtualKeyboard,
+  ...rest
+}: TextAreaProps & { ref?: React.Ref<HTMLTextAreaElement> }) => {
     const normalizeValue = (val: string | undefined): string => {
       return val === undefined || val === null ? '' : String(val);
     };
@@ -84,7 +80,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
     );
 
     const hasError = Boolean(textareaError) || Boolean(error);
-    const displayHelperText = (error ? errorMessage : undefined) || textareaError || helperText || '\u00A0';
+    const displayHelperText = (error ? errorMessage : undefined) || textareaError || helperText;
     const helperId = (textareaError || error)
       ? `${componentId}-error`
       : helperText
@@ -104,10 +100,10 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
           <LabelComponent
             htmlFor={componentId}
             required={required}
-            tooltip={tooltip}
+            tooltip={!!tooltipText}
             tooltipText={tooltipText}
-            side={side}
-            align={align}
+            side={tooltipSide}
+            align={tooltipAlign}
             error={hasError}
             disabled={disabled}
           >
@@ -137,21 +133,25 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
             />
           </div>
 
-          <div className={styles.footer}>
-            <span
-              id={helperId}
-              className={styles.helperText}
-              aria-live={hasError ? 'polite' : undefined}
-            >
-              {displayHelperText}
-            </span>
+          {(((error && errorMessage) || textareaError || helperText) || (charCount && maxLength)) && (
+            <div className={styles.footer}>
+              {((error && errorMessage) || textareaError || helperText) && (
+                <span
+                  id={helperId}
+                  className={styles.helperText}
+                  aria-live={hasError ? 'polite' : undefined}
+                >
+                  {displayHelperText}
+                </span>
+              )}
 
-            {showCharCount && maxLength && (
-              <span className={styles.charCount}>
-                {textareaValue.length}/{maxLength}
-              </span>
-            )}
-          </div>
+              {charCount && maxLength && (
+                <span className={styles.charCount}>
+                  {textareaValue.length}/{maxLength}
+                </span>
+              )}
+            </div>
+          )}
         </div>
 
         {(virtualKeyboard === 'default' || virtualKeyboard === 'numeric') && (
@@ -162,7 +162,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
               maxLength={maxLength}
               value={textareaValue}
               targetRef={textareaRef}
-              onChange={(val) => {
+              onChange={(val: string) => {
                 if (!disabled && (!maxLength || val.length <= maxLength)) {
                   setTextareaValue(val);
                   onChange?.(val);
@@ -173,8 +173,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
         )}
       </div>
     );
-  }
-);
+};
 
 TextArea.displayName = 'TextArea';
 

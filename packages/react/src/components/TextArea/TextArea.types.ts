@@ -5,29 +5,43 @@ import { Side, Align } from '../../types/common.types';
 import type { VirtualKeyboardType } from '../VirtualKeyboard/VirtualKeyboard.types';
 
 /**
- * Props do componente TextArea
- * @example
- * ```tsx
- * <TextArea
- *   label="Descrição"
- *   value={description}
- *   onChange={setDescription}
- *   placeholder="Digite uma descrição"
- * />
- * ```
- * @example
- * ```tsx
- * <TextArea
- *   label="Comentário"
- *   required
- *   maxLength={500}
- *   showCharCount
- *   helperText="Máximo de 500 caracteres"
- *   errorMessage={error}
- * />
- * ```
+ * Props base compartilhadas por todas as configurações de tooltip do TextArea.
  */
-export interface TextAreaProps extends Omit<
+interface BaseTooltipConfig {
+  /** Lado em que o tooltip será exibido */
+  tooltipSide?: Side;
+  /** Alinhamento do tooltip */
+  tooltipAlign?: Align;
+}
+
+/**
+ * Configuração de tooltip com texto.
+ * Exibe um tooltip ao redor da label do TextArea.
+ */
+interface WithTooltip extends BaseTooltipConfig {
+  /** Texto do tooltip exibido no hover */
+  tooltipText: string;
+}
+
+/**
+ * Configuração sem tooltip.
+ */
+interface WithoutTooltip {
+  tooltipText?: never;
+  tooltipSide?: never;
+  tooltipAlign?: never;
+}
+
+/**
+ * Union type representando a configuração de tooltip do TextArea.
+ * Pode ter tooltip com texto (e opcionalmente side/align) ou sem tooltip.
+ */
+export type TextAreaTooltipConfig = WithTooltip | WithoutTooltip;
+
+/**
+ * Props base do componente TextArea.
+ */
+interface TextAreaPropsBase extends Omit<
   React.TextareaHTMLAttributes<HTMLTextAreaElement>,
   'onChange' | 'value'
 > {
@@ -43,18 +57,6 @@ export interface TextAreaProps extends Omit<
   /** Texto de ajuda exibido abaixo do campo */
   helperText?: string;
 
-  /** Habilita tooltip */
-  tooltip?: boolean;
-
-  /** Texto do tooltip */
-  tooltipText?: string;
-
-  /** Lado onde o tooltip aparece */
-  side?: Side;
-
-  /** Alinhamento do tooltip */
-  align?: Align;
-
   /**
    * Mensagem de erro exibida no campo.
    * Usada tanto pela validação interna (required, etc.)
@@ -69,7 +71,7 @@ export interface TextAreaProps extends Omit<
   resize?: 'none' | 'vertical' | 'both';
 
   /** Exibe contador de caracteres (requer maxLength) */
-  showCharCount?: boolean;
+  charCount?: boolean;
 
   /** Altura do textarea em pixels */
   height?: number;
@@ -80,3 +82,11 @@ export interface TextAreaProps extends Omit<
   /** Tipo do teclado virtual (padrão: undefined = desabilitado) */
   virtualKeyboard?: VirtualKeyboardType;
 }
+
+/**
+ * Props completas do TextArea, incluindo a configuração de tooltip.
+ *
+ * O tooltip é ativado automaticamente quando `tooltipText` é informado,
+ * e as props `tooltipSide` e `tooltipAlign` ficam disponíveis para posicionamento.
+ */
+export type TextAreaProps = TextAreaPropsBase & TextAreaTooltipConfig;

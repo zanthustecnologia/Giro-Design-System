@@ -22,13 +22,17 @@
 .IconButton {
 	all: unset;
 	font-family: inherit;
-	border-radius: 100%;
+	border-radius: var(--border-radius-circular);
 	height: 16px;
 	width: 16px;
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	background-color: white;
+	background-color: var(--color-neutral-high-default);
+}
+
+.Arrow {
+	fill: var(--color-neutral-high-default);
 }
 
 @keyframes slideUpAndFade {

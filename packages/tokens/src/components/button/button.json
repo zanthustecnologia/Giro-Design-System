@@ -1,0 +1,91 @@
+{
+  "button": {
+    "filled": {
+      "background": {
+        "default": { "value": "{color.interactive.primary.default}", "type": "color" },
+        "hover":    { "value": "{color.interactive.primary.hover}",   "type": "color" },
+        "pressed":  { "value": "{color.interactive.primary.pressed}", "type": "color" },
+        "disabled": { "value": "{color.surface.subtle}",              "type": "color" }
+      },
+      "color": {
+        "default":  { "value": "{color.text.onBrand}",  "type": "color" },
+        "disabled": { "value": "{color.text.disabled}", "type": "color" }
+      }
+    },
+    "outlined": {
+      "background": {
+        "default":  { "value": "{color.surface.default}",  "type": "color" },
+        "hover":    { "value": "{color.surface.sunken}",   "type": "color" },
+        "pressed":  { "value": "{color.surface.pressed}",  "type": "color" },
+        "disabled": { "value": "{color.surface.default}",  "type": "color" }
+      },
+      "color": {
+        "default":  { "value": "{color.text.brand}",    "type": "color" },
+        "disabled": { "value": "{color.text.disabled}", "type": "color" }
+      },
+      "border": {
+        "default":  { "value": "{color.border.default}", "type": "color" },
+        "disabled": { "value": "{color.border.subtle}",  "type": "color" }
+      },
+      "borderWidth": { "value": "{border.width.default}", "type": "borderWidth" }
+    },
+    "ghost": {
+      "background": {
+        "hover":   { "value": "{color.surface.sunken}",  "type": "color" },
+        "pressed": { "value": "{color.surface.pressed}", "type": "color" }
+      },
+      "color": {
+        "default":  { "value": "{color.text.brand}",    "type": "color" },
+        "disabled": { "value": "{color.text.disabled}", "type": "color" }
+      },
+      "lg": {
+        "paddingInline": { "value": "{space.inset.sm}", "type": "dimension" }
+      },
+      "sm": {
+        "paddingInline":     { "value": "{space.inset.xs}",  "type": "dimension" },
+        "paddingInlineIcon": { "value": "{space.inset.2xs}", "type": "dimension" }
+      }
+    },
+    "text": {
+      "background": {
+        "hover":   { "value": "{color.surface.sunken}",  "type": "color" },
+        "pressed": { "value": "{color.surface.pressed}", "type": "color" }
+      },
+      "color": {
+        "default":  { "value": "{color.text.brand}",    "type": "color" },
+        "disabled": { "value": "{color.text.disabled}", "type": "color" }
+      },
+      "lg": {
+        "paddingInline": { "value": "{space.inset.2xs}", "type": "dimension" }
+      },
+      "sm": {
+        "paddingInline":     { "value": "{space.inset.2xs}", "type": "dimension" },
+        "paddingInlineIcon": { "value": "{space.inset.2xs}", "type": "dimension" }
+      }
+    },
+    "focus": {
+      "outlineColor":  { "value": "{color.focus.ring.default}", "type": "color" },
+      "outlineWidth":  { "value": "{border.width.strong}",      "type": "borderWidth" },
+      "outlineOffset": { "value": "{border.width.medium}",      "type": "borderWidth" }
+    },
+    "gap":        { "value": "{space.gap.xs}",      "type": "dimension" },
+    "radius":     { "value": "{radius.sm}",         "type": "borderRadius" },
+    "fontFamily": { "value": "{font.family.body}",  "type": "fontFamily" },
+    "fontSize":   { "value": "{font.size.label.md}", "type": "fontSize" },
+    "fontWeight": { "value": "{font.weight.label}", "type": "fontWeight" },
+    "lg": {
+      "height":            { "value": "{size.component.lg}", "type": "dimension" },
+      "paddingInline":     { "value": "{space.inset.lg}",    "type": "dimension" },
+      "minWidth":          { "value": "92px",                "type": "dimension" },
+      "paddingInlineIcon": { "value": "{space.inset.md}",    "type": "dimension" },
+      "iconSize":          { "value": "{size.component.lg}", "type": "dimension" }
+    },
+    "sm": {
+      "height":            { "value": "{size.component.md}", "type": "dimension" },
+      "paddingInline":     { "value": "{space.inset.md}",    "type": "dimension" },
+      "minWidth":          { "value": "76px",                "type": "dimension" },
+      "paddingInlineIcon": { "value": "{space.inset.xs}",    "type": "dimension" },
+      "iconSize":          { "value": "{size.component.md}", "type": "dimension" }
+    }
+  }
+}

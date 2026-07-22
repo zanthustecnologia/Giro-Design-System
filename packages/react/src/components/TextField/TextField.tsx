@@ -1,6 +1,6 @@
 import { Dismiss16Regular } from '@fluentui/react-icons';
 import clsx from 'clsx';
-import React, { useState, useCallback, useId, forwardRef, useEffect } from 'react';
+import React, { useState, useCallback, useId, useEffect } from 'react';
 
 import useInputKeyboardValue from '../../hooks/useInputKeyboardValue';
 import VirtualKeyboard from '../VirtualKeyboard';
@@ -10,40 +10,36 @@ import LabelComponent from '../../shared/Label';
 
 import type { TextFieldProps } from './TextField.types';
 
-const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
-  (
-    {
-      className,
-      style,
-      value,
-      label,
-      placeholder,
-      type = 'text',
-      onChange,
-      disabled = false,
-      maxLength,
-      required = false,
-      helperText,
-      tooltip = false,
-      tooltipText,
-      tooltipSide = 'bottom',
-	    tooltipAlign = 'start',
-      errorMessage,
-      error,
-      id,
-      icon,
-      scale = 1,
-      onBlur,
-      onFocus,
-      name,
-      persistIcon = false,
-      virtualKeyboard,
-      attachedToVirtualKeyboard,
-      disableAutoComplete = false,
-      ...rest
-    },
-    ref
-  ) => {
+const TextField = ({
+  ref,
+  className,
+  style,
+  value,
+  label,
+  placeholder,
+  type = 'text',
+  onChange,
+  disabled = false,
+  maxLength,
+  required = false,
+  helperText,
+  tooltipText,
+  tooltipSide = 'bottom',
+  tooltipAlign = 'start',
+  errorMessage,
+  error,
+  id,
+  icon,
+  scale = 1,
+  onBlur,
+  onFocus,
+  name,
+  persistIcon = false,
+  virtualKeyboard,
+  attachedToVirtualKeyboard,
+  disableAutoComplete = false,
+  ...rest
+}: TextFieldProps & { ref?: React.Ref<HTMLInputElement> }) => {
     const normalizeValue = (val: string | number | undefined): string => {
       return val === undefined || val === null ? '' : String(val);
     };
@@ -114,7 +110,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
       [onFocus]
     );
 
-    const showCustomIcon = inputValue.trim().length === 0 && icon;
+    const showCustomIcon = (inputValue.trim().length === 0 || persistIcon) && icon;
     const showClearIcon = isFocused && inputValue.trim().length > 0;
     const hasError = Boolean(inputError) || Boolean(error);
     const displayHelperText = (error ? errorMessage : undefined) || inputError || helperText || '\u00A0';
@@ -126,12 +122,11 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
 
     const containerStyle = { '--giro-scale': scale } as React.CSSProperties;
 
-    const containerClass = clsx(styles.container, {
+    const containerClass = clsx(styles.container, className, {
       [styles.attachedToVirtualKeyboard]: attachedToVirtualKeyboard,
       [styles.disabled]: disabled,
       [styles.error]: error,
       [styles.errorWithMessage]: !!errorMessage,
-      [className!]: className,
     });
 
     return (
@@ -140,7 +135,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
           <LabelComponent scale={scale}
             htmlFor={componentId}
             required={required}
-            tooltip={tooltip}
+            tooltip={!!tooltipText}
             tooltipText={tooltipText}
             side={tooltipSide}
             align={tooltipAlign}
@@ -182,7 +177,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
               <button
                 type="button"
                 className={styles.clearButton}
-                onMouseDown={(e) => {
+                onMouseDown={(e: React.MouseEvent) => {
                   e.preventDefault();
                   handleClear();
                 }}
@@ -213,7 +208,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
               value={inputValue}
               maxLength={maxLength}
               targetRef={inputRef}
-              onChange={(val) => {
+              onChange={(val: string) => {
                 if (!disabled && (!maxLength || val.length <= maxLength)) {
                   setInputValue(val);
                   onChange?.(val);
@@ -224,8 +219,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
         )}
       </div>
     );
-  }
-);
+};
 
 TextField.displayName = 'TextField';
 

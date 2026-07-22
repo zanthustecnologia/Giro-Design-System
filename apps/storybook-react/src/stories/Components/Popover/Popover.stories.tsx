@@ -1,16 +1,15 @@
-﻿import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-import { Popover, Button } from '@giro-ds/react';
-import {
+﻿import {
   Info16Regular,
   Person16Regular,
   Mail16Regular,
   Phone16Regular,
   Location16Regular,
   Warning16Regular,
-  Document16Regular,
-  Settings16Regular,
 } from '@fluentui/react-icons';
+import { Popover, Button } from '@giro-ds/react';
+import React from 'react';
+
+import type { Meta, StoryObj } from '@storybook/react';
 
 const meta: Meta<typeof Popover> = {
   title: 'Components/Popover',

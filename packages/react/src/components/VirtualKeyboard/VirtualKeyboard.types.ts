@@ -72,7 +72,7 @@ export interface VirtualKeyboardProps extends Omit<BaseProps, 'disabled'> {
   Emoji?: boolean;
 
   /** Placeholder do TextField exibido no modo `fixed` */
-  textFieldPlaceholder?: string;
+  placeholder?: string;
 
   /** Escala do TextField exibido no modo `fixed` */
   textFieldScale?: 1 | 1.5 | 2;

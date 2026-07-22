@@ -1,5 +1,3 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import { useState } from 'react';
 import {
   CheckmarkCircleRegular,
   DismissCircleRegular,
@@ -7,7 +5,10 @@ import {
   LockClosedRegular,
 } from '@fluentui/react-icons';
 import { Chips, DatePicker, Filter, Select } from '@giro-ds/react';
+import { useState } from 'react';
+
 import type { FilterProps } from '@giro-ds/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta: Meta<typeof Filter> = {
   title: 'Components/Filter',
@@ -138,7 +139,6 @@ const FilterTemplate = (args: FilterProps) => {
 
   const handleApplyFilter = (selectedIds: string[]) => {
     setAppliedFilters(selectedIds);
-    console.log('✅ Filtros APLICADOS e GUARDADOS:', selectedIds);
   };
 
   return (
@@ -294,7 +294,7 @@ export const FiltrosCombinados: Story = {
       diferenca: [] as string[],
     });
 
-    const activeCount = [
+    const appliedFilterCount = [
       applied.dataInicio !== null,
       applied.dataFim !== null,
       applied.pdv !== '',
@@ -332,7 +332,7 @@ export const FiltrosCombinados: Story = {
           buttonText="Filtrar"
           title="Filtrar"
           variant="outlined"
-          activeCount={activeCount}
+          appliedFilterCount={appliedFilterCount}
           onApply={handleApply}
           onClear={handleClear}
         >

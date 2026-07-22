@@ -22,3 +22,9 @@ export interface DesignToken {
   value: string;
   category: string;
 }
+
+/** Standard return shape for all MCP tool handlers. */
+export interface ToolResult {
+  content: Array<{ type: 'text'; text: string }>;
+  [key: string]: unknown;
+}

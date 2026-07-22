@@ -613,7 +613,6 @@ describe('Select Component', () => {
           items={mockItems}
           variant="text"
           label="Campo com tooltip"
-          tooltip={true}
           tooltipText="Texto do tooltip"
           data-testid="select"
         />
@@ -622,13 +621,14 @@ describe('Select Component', () => {
       expect(screen.getByText('Campo com tooltip')).toBeInTheDocument();
     });
 
-    it('renderiza com side e align personalizados', () => {
+    it('renderiza com tooltipSide e tooltipAlign personalizados', () => {
       render(
         <Select
           items={mockItems}
           variant="text"
-          side="top"
-          align="end"
+          tooltipText="Texto do tooltip"
+          tooltipSide="top"
+          tooltipAlign="end"
           data-testid="select"
         />
       );
