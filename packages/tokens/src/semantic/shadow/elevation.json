@@ -1,0 +1,16 @@
+{
+  "shadow": {
+    "raised": {
+      "value": "{shadow.sm}",
+      "type": "shadow"
+    },
+    "overlay": {
+      "value": "{shadow.md}",
+      "type": "shadow"
+    },
+    "dialog": {
+      "value": "{shadow.lg}",
+      "type": "shadow"
+    }
+  }
+}

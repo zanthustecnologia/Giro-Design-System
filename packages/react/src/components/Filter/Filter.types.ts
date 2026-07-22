@@ -15,7 +15,7 @@ export interface FilterItem {
   disabled?: BaseProps['disabled'];
 }
 
-export type FilterType = 'single' | 'multiple' | 'calendar';
+export type FilterTypes = 'single' | 'multiple' | 'calendar';
 
 /**
  * Props do componente Filter
@@ -46,7 +46,7 @@ export interface FilterProps extends BaseProps {
   items?: FilterItem[];
   
   /** Tipo do filtro (dropdown ou calendário) */
-  type?: FilterType;
+  type?: FilterTypes;
   
   /** IDs dos itens selecionados */
   selectedIds?: string[];
@@ -117,8 +117,8 @@ export interface FilterProps extends BaseProps {
   /** Título do painel lateral (padrão: 'Filtrar') */
   title?: string;
 
-  /** Número de filtros ativos exibido como badge no botão */
-  activeCount?: number;
+  /** Número de filtros aplicados exibido como badge no botão */
+  appliedFilterCount?: number;
 
   /** Conteúdo customizado no cabeçalho do Drawer */
   drawerHeaderContent?: ReactNode;

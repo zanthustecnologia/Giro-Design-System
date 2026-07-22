@@ -7,10 +7,10 @@
 .root {
   position: relative; 
   box-sizing: border-box;
-  border-radius: scale(var(--border-radius-8));
+  border-radius: scale(var(--calendar-radius));
   box-shadow: 0px scale(2px) scale(16px) 0px rgba(0, 0, 0, 0.20);
-  padding: scale(var(--spacing-24));
-  background-color: var(--color-neutral-high-default);
+  padding: scale(var(--calendar-padding));
+  background-color: var(--calendar-background);
   min-width: scale(320px);
   min-height: scale(320px);
 }
@@ -20,28 +20,28 @@
 }
 
 .day {
-  width: scale(36px);
-  height: scale(36px);
+  width: scale(var(--calendar-day-size));
+  height: scale(var(--calendar-day-size));
   text-align: center;
   vertical-align: middle;
 }
 
 .day_button {
   background: none;
-  padding: scale(var(--spacing-0));
-  margin: scale(var(--spacing-0));
+  padding: 0;
+  margin: 0;
   cursor: pointer;
   font: inherit;
-  color: var(--color-neutral-low-default);
+  color: var(--calendar-color);
   justify-content: center;
   align-items: center;
   display: inline-flex;
-  width: scale(36px);
-  height: scale(36px);
-  border: scale(var(--border-width-2)) solid transparent;
-  border-radius: var(--border-radius-circular);
-  font-weight: var(--font-weight-regular);
-  font-size: scale(var(--font-size-12));
+  width: scale(var(--calendar-day-size));
+  height: scale(var(--calendar-day-size));
+  border: scale(var(--calendar-day-border-width)) solid transparent;
+  border-radius: var(--calendar-day-radius);
+  font-weight: var(--calendar-font-weight);
+  font-size: scale(var(--calendar-day-font-size));
 }
 
 .day_button:disabled {
@@ -49,8 +49,8 @@
 }
 
 .day_button:hover, .day_button:focus {
-  border: scale(var(--border-width-2)) solid var(--color-neutral-high-medium);
-  background-color: var(--color-neutral-high-medium);
+  border: scale(var(--calendar-day-border-width)) solid var(--calendar-hover-background);
+  background-color: var(--calendar-hover-background);
 }
 
 .caption_label {
@@ -59,15 +59,15 @@
   align-items: center;
   justify-content: end;
   white-space: nowrap;
-  border: var(--border-width-none);
+  border: 0;
 }
 
 .button_next,
 .button_previous {
-  border: var(--border-width-none);
+  border: 0;
   background: none;
-  padding: scale(var(--spacing-0));
-  margin: scale(var(--spacing-0));
+  padding: 0;
+  margin: 0;
   cursor: pointer;
   font: inherit;
   color: inherit;
@@ -78,8 +78,8 @@
   justify-content: center;
   position: relative;
   appearance: none;
-  width: scale(16px);
-  height: scale(16px);
+  width: scale(var(--calendar-nav-size));
+  height: scale(var(--calendar-nav-size));
 
   &:hover,
   &:focus-visible {
@@ -89,7 +89,7 @@
 }
 
 .button_previous {
-  margin-right: scale(var(--spacing-24));
+  margin-right: scale(var(--calendar-gap-lg));
 }
 
 .button_next:disabled,
@@ -102,7 +102,7 @@
 
 .chevron {
   display: inline-block;
-  fill: var(--color-neutral-low-default);
+  fill: var(--calendar-color);
   width: 1em;
   height: 1em;
 }
@@ -116,20 +116,20 @@
   position: relative;
   display: inline-flex;
   align-items: center;
-  gap: scale(var(--spacing-8));
+  gap: scale(var(--calendar-gap-sm));
 }
 
 .dropdown {
   opacity: 0;
   appearance: none;
   position: absolute;
-  inset-block-start: scale(var(--spacing-0));
-  inset-block-end: scale(var(--spacing-0));
-  inset-inline-start: scale(var(--spacing-0));
+  inset-block-start: 0;
+  inset-block-end: 0;
+  inset-inline-start: 0;
   width: 100%;
-  padding: scale(var(--spacing-8));
+  padding: scale(var(--calendar-gap-sm));
   cursor: inherit;
-  border: var(--border-width-none);
+  border: 0;
   line-height: inherit;
 }
 
@@ -150,9 +150,9 @@
   width: scale(272px);
   line-height: 130%;
   text-transform: capitalize;
-  font-weight: var(--font-weight-regular);
-  font-size: scale(var(--font-size-16));
-  margin-bottom: scale(var(--spacing-8));
+  font-weight: var(--calendar-font-weight);
+  font-size: scale(var(--calendar-caption-font-size));
+  margin-bottom: scale(var(--calendar-gap-sm));
 }
 
 .root[data-nav-layout="around"] .month,
@@ -162,23 +162,23 @@
 
 .root[data-nav-layout="around"] .month_caption {
   justify-content: center;
-  margin-inline-start: scale(var(--spacing-32));
-  margin-inline-end: scale(var(--spacing-32));
+  margin-inline-start: scale(var(--calendar-gap-xl));
+  margin-inline-end: scale(var(--calendar-gap-xl));
   position: relative;
 }
 
 .root[data-nav-layout="around"] .button_previous {
   position: absolute;
-  inset-inline-start: scale(var(--spacing-0));
-  top: scale(var(--spacing-0));
+  inset-inline-start: 0;
+  top: 0;
   height: scale(22px);
   display: inline-flex;
 }
 
 .root[data-nav-layout="around"] .button_next {
   position: absolute;
-  inset-inline-end: scale(var(--spacing-0));
-  top: scale(var(--spacing-0));
+  inset-inline-end: 0;
+  top: 0;
   height: scale(22px);
   display: inline-flex;
   justify-content: center;
@@ -188,7 +188,7 @@
   position: relative;
   display: flex;
   flex-wrap: wrap;
-  gap: scale(var(--spacing-32));
+  gap: scale(var(--calendar-gap-xl));
   max-width: fit-content;
 }
 
@@ -199,8 +199,8 @@
 
 .nav {
   position: absolute;
-  inset-block-start: scale(var(--spacing-0));
-  inset-inline-end: scale(var(--spacing-0));
+  inset-block-start: 0;
+  inset-inline-end: 0;
   display: flex;
   align-items: center;
   height: scale(22px);
@@ -208,34 +208,34 @@
 
 .weekday {
   opacity: 0.75;
-  padding: scale(var(--spacing-8)) scale(var(--spacing-0));
-  font-weight: var(--font-weight-medium);
-  font-size: scale(var(--font-size-12));
+  padding: scale(var(--calendar-gap-sm)) 0;
+  font-weight: var(--calendar-weekday-font-weight);
+  font-size: scale(var(--calendar-weekday-font-size));
   text-align: center;
   text-transform: capitalize;
   height: scale(40px);
-  width: scale(36px);
+  width: scale(var(--calendar-day-size));
 }
 
 .week_number {
   opacity: 0.75;
-  font-weight: var(--font-weight-regular);
-  font-size: scale(var(--font-size-12));
+  font-weight: var(--calendar-font-weight);
+  font-size: scale(var(--calendar-weekday-font-size));
   height: scale(44px);
   width: scale(44px);
-  border: scale(var(--border-width-2)) solid transparent;
-  border-radius: var(--border-radius-circular);
+  border: scale(var(--calendar-day-border-width)) solid transparent;
+  border-radius: var(--calendar-day-radius);
   text-align: center;
 }
 
 .today:not(.outside) {
-  color: var(--color-brand-primary-default);
+  color: var(--calendar-today-color);
 }
 
 .selected .day_button {
-  border: scale(var(--border-width-2)) solid var(--color-brand-primary-default);
-  background-color: var(--color-brand-primary-default);
-  color: var(--color-neutral-high-default);
+  border: scale(var(--calendar-day-border-width)) solid var(--calendar-selected-background);
+  background-color: var(--calendar-selected-background);
+  color: var(--calendar-selected-color);
 }
 
 .outside {
@@ -248,36 +248,44 @@
 
 .hidden {
   visibility: hidden;
+  color: var(--calendar-background);
+}
+
+.range_middle {
+  background: linear-gradient(
+    to bottom,
+    transparent 25%,
+    var(--color-brand-primary-light) 25% 75%,
+    transparent 75%
+  );
+}
+
+.range_middle .day_button {
+  background-color: var(--color-brand-primary-default);
+  border: scale(var(--border-width-2)) solid var(--color-brand-primary-default);
   color: var(--color-neutral-high-default);
 }
 
 .range_start {
-  background: linear-gradient(90deg, transparent 50%, var(--color-neutral-high-default) 50%);
+  background:
+    linear-gradient(to bottom, transparent 25%, var(--color-brand-primary-light) 25% 75%, transparent 75%)
+    right / 50% 100% no-repeat;
 }
 
 .range_start .day_button {
-  background-color: var(--color-brand-primary-default);
-  color: var(--color-neutral-high-default);
-}
-
-.range_middle {
-  background-color: var(--color-neutral-high-default);
-}
-
-.range_middle .day_button {
-  border: unset;
-  border-radius: unset;
-  color: inherit;
+  background-color: var(--calendar-selected-background);
+  color: var(--calendar-selected-color);
 }
 
 .range_end {
-  background: linear-gradient(90deg, var(--color-neutral-high-default) 50%, transparent 50%);
-  color: var(--color-neutral-high-default);
+  background:
+    linear-gradient(to bottom, transparent 25%, var(--color-brand-primary-light) 25% 75%, transparent 75%)
+    left / 50% 100% no-repeat;
 }
 
 .range_end .day_button {
-  color: var(--color-neutral-high-default);
-  background-color: var(--color-brand-primary-default);
+  color: var(--calendar-selected-color);
+  background-color: var(--calendar-selected-background);
 }
 
 .range_start.range_end {
@@ -401,19 +409,19 @@
 .caption_grid_btn {
   display: flex;
   align-items: center;
-  gap: scale(var(--spacing-8));
+  gap: scale(var(--calendar-gap-sm));
   height: 100%;
   background: none;
-  border: var(--border-width-none);
-  padding: scale(var(--spacing-0)) scale(var(--border-width-2));
-  margin: scale(var(--spacing-0));
+  border: 0;
+  padding: 0 scale(var(--calendar-day-border-width));
+  margin: 0;
   cursor: pointer;
   font: inherit;
-  color: var(--color-neutral-low-default);
-  font-weight: var(--font-weight-regular);
-  font-size: scale(var(--font-size-16));
-  font-family: var(--font-family-primary);
-  border-radius: var(--border-radius-pill);
+  color: var(--calendar-color);
+  font-weight: var(--calendar-font-weight);
+  font-size: scale(var(--calendar-caption-font-size));
+  font-family: var(--calendar-font-family);
+  border-radius: var(--calendar-cell-radius);
   text-transform: capitalize;
   line-height: 130%;
 
@@ -424,7 +432,7 @@
   }
 
   &[aria-pressed="true"] {
-    color: var(--color-brand-primary-default);
+    color: var(--calendar-today-color);
   }
 }
 
@@ -437,12 +445,12 @@
   display: flex;
   align-items: center;
   height: 100%;
-  padding: scale(var(--spacing-0)) scale(var(--border-width-2));
+  padding: 0 scale(var(--calendar-day-border-width));
   font: inherit;
-  color: var(--color-neutral-low-default);
-  font-weight: var(--font-weight-regular);
-  font-family: var(--font-family-primary);
-  font-size: scale(var(--font-size-16));
+  color: var(--calendar-color);
+  font-weight: var(--calendar-font-weight);
+  font-family: var(--calendar-font-family);
+  font-size: scale(var(--calendar-caption-font-size));
   text-transform: capitalize;
   line-height: 130%;
 }
@@ -450,12 +458,12 @@
 .gridOverlay {
   position: absolute;
   inset: 0;
-  background-color: var(--color-neutral-high-default);
-  border-radius: scale(var(--border-radius-8));
-  padding: scale(var(--spacing-24)) scale(var(--spacing-0));
+  background-color: var(--calendar-background);
+  border-radius: scale(var(--calendar-radius));
+  padding: scale(var(--calendar-padding)) 0;
   display: flex;
   flex-direction: column;
-  gap: scale(var(--spacing-16));
+  gap: scale(var(--calendar-gap-md));
 }
 
 .gridOverlayCaption {
@@ -465,10 +473,10 @@
   height: scale(22px);
   line-height: 130%;
   text-transform: capitalize;
-  font-weight: var(--font-weight-regular);
-  font-size: scale(var(--font-size-16));
+  font-weight: var(--calendar-font-weight);
+  font-size: scale(var(--calendar-caption-font-size));
   flex-shrink: 0;
-  padding: scale(var(--spacing-0)) scale(var(--spacing-24));
+  padding: 0 scale(var(--calendar-padding));
 }
 
 .gridOverlayCaption .caption_grid_btn {
@@ -481,20 +489,20 @@
 
 .gridOverlayYearsNav {
   position: absolute;
-  inset-block-start: scale(var(--spacing-0));
-  inset-inline-end: scale(var(--spacing-0));
+  inset-block-start: 0;
+  inset-inline-end: 0;
   display: flex;
   align-items: center;
   height: scale(22px);
-  padding-right: scale(var(--spacing-24));
-  gap: scale(var(--spacing-24));
+  padding-right: scale(var(--calendar-padding));
+  gap: scale(var(--calendar-gap-lg));
 }
 
 .gridCells {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: scale(var(--spacing-8));
-  padding: scale(var(--spacing-4));
+  gap: scale(var(--calendar-gap-sm));
+  padding: scale(var(--calendar-gap-xs));
   flex: 1;
   align-content: start;
 }
@@ -508,21 +516,21 @@
   align-items: center;
   justify-content: center;
   width: scale(72px);
-  height: scale(36px);
-  border-radius: var(--border-radius-pill);
-  border: scale(var(--border-width-2)) solid transparent;
+  height: scale(var(--calendar-day-size));
+  border-radius: var(--calendar-cell-radius);
+  border: scale(var(--calendar-day-border-width)) solid transparent;
   background: none;
   cursor: pointer;
   font: inherit;
-  font-size: scale(var(--font-size-14));
+  font-size: scale(var(--calendar-cell-font-size));
   text-transform: capitalize;
-  color: var(--color-neutral-low-default);
-  padding: scale(var(--spacing-0));
-  margin: scale(var(--spacing-0));
+  color: var(--calendar-color);
+  padding: 0;
+  margin: 0;
 
   &:hover:not(:disabled) {
-    background-color: var(--color-neutral-high-medium);
-    border-color: var(--color-neutral-high-medium);
+    background-color: var(--calendar-hover-background);
+    border-color: var(--calendar-hover-background);
   }
 
   &:disabled {
@@ -532,13 +540,13 @@
 }
 
 .gridCellActive {
-  background-color: var(--color-brand-primary-default);
-  color: var(--color-neutral-high-default);
-  border-color: var(--color-brand-primary-default);
+  background-color: var(--calendar-selected-background);
+  color: var(--calendar-selected-color);
+  border-color: var(--calendar-selected-background);
 
   &:hover:not(:disabled) {
-    background-color: var(--color-brand-primary-default);
-    border-color: var(--color-brand-primary-default);
+    background-color: var(--calendar-selected-background);
+    border-color: var(--calendar-selected-background);
   }
 }
 
@@ -547,11 +555,11 @@
   align-items: center;
   justify-content: center;
   background: none;
-  border: var(--border-width-none);
+  border: 0;
   cursor: pointer;
   font: inherit;
-  color: var(--color-neutral-low-default);
-  padding: scale(var(--spacing-0));
+  color: var(--calendar-color);
+  padding: 0;
   flex-shrink: 0;
 
   &:disabled {
@@ -561,13 +569,13 @@
 }
 
 .chevronNavBtnPrev {
-  width: scale(16px);
-  height: scale(16px);
+  width: scale(var(--calendar-nav-size));
+  height: scale(var(--calendar-nav-size));
 }
 
 .chevronNavBtnNext {
-  width: scale(16px);
-  height: scale(16px);
+  width: scale(var(--calendar-nav-size));
+  height: scale(var(--calendar-nav-size));
 }
 
 
@@ -575,7 +583,7 @@
 
 .chevron_wrapper {
   display: inline-flex;
-  font-size: scale(var(--font-size-16));
+  font-size: scale(var(--calendar-caption-font-size));
   flex-shrink: 0;
 
   svg {

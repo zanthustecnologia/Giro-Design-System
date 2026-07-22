@@ -34,12 +34,12 @@ describe('TextArea', () => {
       expect(screen.getByRole('textbox')).toHaveAttribute('rows', '6');
     });
 
-    it('exibe contador de caracteres quando showCharCount e maxLength informados', () => {
-      render(<TextArea showCharCount maxLength={100} value="olá" />);
+    it('exibe contador de caracteres quando charCount e maxLength informados', () => {
+      render(<TextArea charCount maxLength={100} value="olá" />);
       expect(screen.getByText('3/100')).toBeInTheDocument();
     });
 
-    it('não exibe contador de caracteres quando showCharCount é false', () => {
+    it('não exibe contador de caracteres quando charCount é false', () => {
       render(<TextArea maxLength={100} value="olá" />);
       expect(screen.queryByText('3/100')).not.toBeInTheDocument();
     });

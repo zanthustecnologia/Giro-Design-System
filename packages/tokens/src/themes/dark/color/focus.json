@@ -1,0 +1,9 @@
+{
+  "color": {
+    "focus": {
+      "ring": {
+        "default": { "value": "{color.brand.primary.300}", "type": "color" }
+      }
+    }
+  }
+}

@@ -17,7 +17,7 @@ const Combined: React.FC<FilterProps> = ({
   className,
   title = 'Filtrar',
   drawerWidth = "fit-content",
-  activeCount = 0,
+  appliedFilterCount = 0,
   drawerHeaderContent,
   children,
   onApply,
@@ -59,8 +59,8 @@ const Combined: React.FC<FilterProps> = ({
       >
         <span className={styles.triggerContent}>
           {buttonText}
-          {activeCount > 0 && (
-            <Badge badgeValue={activeCount} filterVariant />
+          {appliedFilterCount > 0 && (
+            <Badge badgeValue={appliedFilterCount} filterVariant />
           )}
         </span>
       </Button>
