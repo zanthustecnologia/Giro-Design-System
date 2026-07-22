@@ -46,6 +46,23 @@
         "paddingInlineIcon": { "value": "{space.inset.2xs}", "type": "dimension" }
       }
     },
+    "text": {
+      "background": {
+        "hover":   { "value": "{color.surface.sunken}",  "type": "color" },
+        "pressed": { "value": "{color.surface.pressed}", "type": "color" }
+      },
+      "color": {
+        "default":  { "value": "{color.text.brand}",    "type": "color" },
+        "disabled": { "value": "{color.text.disabled}", "type": "color" }
+      },
+      "lg": {
+        "paddingInline": { "value": "{space.inset.2xs}", "type": "dimension" }
+      },
+      "sm": {
+        "paddingInline":     { "value": "{space.inset.2xs}", "type": "dimension" },
+        "paddingInlineIcon": { "value": "{space.inset.2xs}", "type": "dimension" }
+      }
+    },
     "focus": {
       "outlineColor":  { "value": "{color.focus.ring.default}", "type": "color" },
       "outlineWidth":  { "value": "{border.width.strong}",      "type": "borderWidth" },

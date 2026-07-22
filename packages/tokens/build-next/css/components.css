@@ -35,6 +35,13 @@
   --button-ghost-lg-padding-inline: var(--space-inset-sm);
   --button-ghost-sm-padding-inline: var(--space-inset-xs);
   --button-ghost-sm-padding-inline-icon: var(--space-inset-2xs);
+  --button-text-background-hover: var(--color-surface-sunken);
+  --button-text-background-pressed: var(--color-surface-pressed);
+  --button-text-color-default: var(--color-text-brand);
+  --button-text-color-disabled: var(--color-text-disabled);
+  --button-text-lg-padding-inline: var(--space-inset-2xs);
+  --button-text-sm-padding-inline: var(--space-inset-2xs);
+  --button-text-sm-padding-inline-icon: var(--space-inset-2xs);
   --button-focus-outline-color: var(--color-focus-ring-default);
   --button-focus-outline-width: var(--border-width-strong);
   --button-focus-outline-offset: var(--border-width-medium);

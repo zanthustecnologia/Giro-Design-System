@@ -101,11 +101,11 @@
 }
 
 .button.button-text.button-lg {
-  padding: 0 scale(var(--button-ghost-lg-padding-inline));
+  padding: 0 scale(var(--button-text-lg-padding-inline));
   min-width: unset;
   
   &.buttonWithIcon {
-    @include buttonIconPadding(var(--button-sm-padding-inline-icon), var(--button-ghost-lg-padding-inline));
+    @include buttonIconPadding(var(--button-sm-padding-inline-icon), var(--button-text-lg-padding-inline));
     
     &.buttonNoContent {
       padding: 0 scale(var(--button-lg-padding-inline-icon));
@@ -114,14 +114,14 @@
 }
 
 .button.button-text.button-sm {
-  padding: 0 scale(var(--button-ghost-sm-padding-inline));
+  padding: 0 scale(var(--button-text-sm-padding-inline));
   min-width: unset;
   
   &.buttonWithIcon {
-    @include buttonIconPadding(var(--button-ghost-sm-padding-inline-icon), var(--button-ghost-sm-padding-inline));
+    @include buttonIconPadding(var(--button-text-sm-padding-inline-icon), var(--button-text-sm-padding-inline));
     
     &.buttonNoContent {
-      padding: 0 scale(var(--button-ghost-sm-padding-inline));
+      padding: 0 scale(var(--button-text-sm-padding-inline));
     }
   }
 }
