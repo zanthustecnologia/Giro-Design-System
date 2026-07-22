@@ -24,16 +24,9 @@ const config = {
   // Addons recomendados
    addons: [
     "@storybook/addon-docs",
-    "@storybook/addon-onboarding",
     "@storybook/addon-a11y",
-    "storybook-addon-playground",
   ]
 ,
-
-  // Docs por autodocs (opcional, mas útil no DS)
-  docs: {
-    autodocs: 'tag'
-  },
 
   // Usa react-docgen-typescript para extrair JSDoc e tipos corretamente.
   // tsconfigPath aponta para packages/react/tsconfig.json para que o TypeScript
@@ -76,10 +69,6 @@ const config = {
       'react',
       'react-dom',
       '@fluentui/react-icons',
-      'react-day-picker',
-      'date-fns',
-      '@tanstack/react-table',
-      'react-simple-keyboard',
     ];
 
     // 2) Força uma ÚNICA instância de React (evita múltiplos Reacts no monorepo)
@@ -110,6 +99,7 @@ const config = {
       ...(viteConfig.server.fs.allow || []),
       path.resolve(__dirname, '..'),          // raiz do app (src/, public/, etc.)
       path.resolve(__dirname, '../../../packages'),
+      path.resolve(__dirname, '../../../node_modules'), // addons pnpm virtual store
     ];
 
     // 6) Virtual module que expõe o conteúdo dos CHANGELOGs em build/dev time

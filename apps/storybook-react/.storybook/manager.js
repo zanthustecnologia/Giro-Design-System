@@ -2,25 +2,11 @@ import { addons } from 'storybook/manager-api';
 import { createElement } from 'react';
 import { ZanthusTheme } from './theme';
 import './manager.css';
-import { PLAYGROUND_INTRO_CODE } from './playground-intro';
-
-// Pre-popula o localStorage na primeira visita para evitar o editor em branco.
-// O storybook-addon-playground usa useParameter (assíncrono) para ler introCode,
-// que chega tarde demais na inicialização — o localStorage é lido de forma síncrona.
-(function () {
-  var STORAGE_KEY = 'storybook-playground-v1';
-  try {
-    if (!localStorage.getItem(STORAGE_KEY)) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(PLAYGROUND_INTRO_CODE));
-    }
-  } catch (e) { /* localStorage indisponível */ }
-})();
 
 // Componentes — badge aparece no nó pai (colapsado ou não)
 // Usar o name do componente (última parte do title)
 const NEW_COMPONENTS = new Set([
   'Popover',
-  'Playground',
   'TableV2',
   'VirtualKeyboard',
   'VerificationCode',
