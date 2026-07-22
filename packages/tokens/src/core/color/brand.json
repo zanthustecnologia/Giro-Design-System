@@ -1,0 +1,42 @@
+{
+  "color": {
+    "brand": {
+      "primary": {
+        "100": {
+          "value": "#CADAFF",
+          "type": "color"
+        },
+        "300": {
+          "value": "#4F83FB",
+          "type": "color"
+        },
+        "500": {
+          "value": "#3B45F2",
+          "type": "color"
+        },
+        "700": {
+          "value": "#0D1874",
+          "type": "color"
+        }
+      },
+      "secondary": {
+        "100": {
+          "value": "#EEFFD8",
+          "type": "color"
+        },
+        "300": {
+          "value": "#D3FF9A",
+          "type": "color"
+        },
+        "500": {
+          "value": "#8CD92A",
+          "type": "color"
+        },
+        "700": {
+          "value": "#3C7A2C",
+          "type": "color"
+        }
+      }
+    }
+  }
+}

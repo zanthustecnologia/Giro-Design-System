@@ -36,30 +36,30 @@ const meta: Meta<SelectProps> = {
       description: 'Campo desabilitado',
       control: { type: 'boolean' },
     },
-    tooltip: {
-      control: 'boolean',
-      description: 'Exibir tooltip'
-    },
-    
     tooltipText: {
       control: 'text',
-      if: { arg: 'tooltip', truthy: true },
-      description: 'Texto do tooltip'
+      description: 'Texto do tooltip. Quando informado, exibe um tooltip ao redor da label e habilita `tooltipSide` e `tooltipAlign`.'
     },
-    side: {
+    tooltipSide: {
       control: 'select',
-      options: ['top','bottom', 'left', 'right'],
-      description: 'Lado em que o dropdown abre em relação ao campo'
+      options: ['top', 'bottom', 'left', 'right'],
+      if: { arg: 'tooltipText', truthy: true },
+      description: 'Lado em que o tooltip será exibido'
     },
-    align: {
+    tooltipAlign: {
       control: 'select',
       options: ['start', 'center', 'end'],
-      description: 'Alinhamento do dropdown em relação ao campo'
+      if: { arg: 'tooltipText', truthy: true },
+      description: 'Alinhamento do tooltip'
     },
     scale: {
       control: { type: 'select' },
       options: [1, 1.5, 2],
       description: 'Escala visual do componente',
+    },
+    error: {
+      control: 'boolean',
+      description: 'Estado de erro'
     },
   },
 };

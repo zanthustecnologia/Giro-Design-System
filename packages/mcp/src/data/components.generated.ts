@@ -2254,6 +2254,19 @@ export const COMPONENTS: ComponentMetadata[] = [
         "description": "Placeholder do TextField exibido no modo `fixed`"
       },
       {
+        "name": "textFieldScale",
+        "type": "1 | 1.5 | 2",
+        "required": false,
+        "description": "Escala do TextField exibido no modo `fixed`"
+      },
+      {
+        "name": "showEnterKey",
+        "type": "boolean",
+        "required": false,
+        "defaultValue": "true",
+        "description": "Controla a exibição da tecla Enter no teclado."
+      },
+      {
         "name": "helperText",
         "type": "string",
         "required": false,

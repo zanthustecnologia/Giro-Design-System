@@ -1,0 +1,30 @@
+{
+  "space": {
+    "inset": {
+      "2xs": {
+        "value": "{spacing.4}",
+        "type": "dimension"
+      },
+      "xs": {
+        "value": "{spacing.8}",
+        "type": "dimension"
+      },
+      "sm": {
+        "value": "{spacing.12}",
+        "type": "dimension"
+      },
+      "md": {
+        "value": "{spacing.16}",
+        "type": "dimension"
+      },
+      "lg": {
+        "value": "{spacing.24}",
+        "type": "dimension"
+      },
+      "xl": {
+        "value": "{spacing.32}",
+        "type": "dimension"
+      }
+    }
+  }
+}

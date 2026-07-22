@@ -1,0 +1,76 @@
+{
+  "font": {
+    "lineHeight": {
+      "label": {
+        "sm": {
+          "value": "{font.lineHeight.12}",
+          "type": "lineHeight"
+        },
+        "md": {
+          "value": "{font.lineHeight.16}",
+          "type": "lineHeight"
+        },
+        "lg": {
+          "value": "{font.lineHeight.20}",
+          "type": "lineHeight"
+        }
+      },
+      "body": {
+        "sm": {
+          "value": "{font.lineHeight.20}",
+          "type": "lineHeight"
+        },
+        "md": {
+          "value": "{font.lineHeight.24}",
+          "type": "lineHeight"
+        },
+        "lg": {
+          "value": "{font.lineHeight.28}",
+          "type": "lineHeight"
+        }
+      },
+      "title": {
+        "sm": {
+          "value": "{font.lineHeight.24}",
+          "type": "lineHeight"
+        },
+        "md": {
+          "value": "{font.lineHeight.28}",
+          "type": "lineHeight"
+        },
+        "lg": {
+          "value": "{font.lineHeight.32}",
+          "type": "lineHeight"
+        }
+      },
+      "heading": {
+        "sm": {
+          "value": "{font.lineHeight.32}",
+          "type": "lineHeight"
+        },
+        "md": {
+          "value": "{font.lineHeight.40}",
+          "type": "lineHeight"
+        },
+        "lg": {
+          "value": "{font.lineHeight.48}",
+          "type": "lineHeight"
+        }
+      },
+      "display": {
+        "sm": {
+          "value": "{font.lineHeight.56}",
+          "type": "lineHeight"
+        },
+        "md": {
+          "value": "{font.lineHeight.64}",
+          "type": "lineHeight"
+        },
+        "lg": {
+          "value": "{font.lineHeight.96}",
+          "type": "lineHeight"
+        }
+      }
+    }
+  }
+}

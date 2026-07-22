@@ -2,5 +2,5 @@ export { default } from './Filter';
 export type {
   FilterProps,
   FilterItem,
-  FilterType,
+  FilterTypes,
 } from './Filter.types';

@@ -1,0 +1,58 @@
+.header {
+  position: fixed;
+  top: 16px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  width: calc(100% - 64px);
+  max-width: 1136px;
+  z-index: 100;
+  background: color-mix(in oklab, var(--color-neutral-high-default) 15%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: var(--border-width-1) solid var(--color-neutral-high-medium);
+  border-radius: var(--border-radius-8);
+  transition: width 0.3s ease, max-width 0.3s ease;
+}
+
+.header--scrolled {
+  width: calc(100% - 48px);
+  max-width: 1152px;
+}
+
+.header__inner {
+  padding: 0 var(--spacing-24);
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header__logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.header__nav {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-24);
+}
+
+.header__nav-link {
+  font-size: var(--font-size-14);
+  color: var(--color-neutral-low-dark);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.header__nav-link:hover {
+  color: var(--color-neutral-low-default);
+}
+
+@media (max-width: 640px) {
+  .header__inner {
+    padding: 0 var(--spacing-16);
+  }
+}

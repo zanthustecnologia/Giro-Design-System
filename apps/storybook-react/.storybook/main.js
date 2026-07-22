@@ -24,16 +24,9 @@ const config = {
   // Addons recomendados
    addons: [
     "@storybook/addon-docs",
-    "@storybook/addon-onboarding",
     "@storybook/addon-a11y",
-    "storybook-addon-playground",
   ]
 ,
-
-  // Docs por autodocs (opcional, mas útil no DS)
-  docs: {
-    autodocs: 'tag'
-  },
 
   // Usa react-docgen-typescript para extrair JSDoc e tipos corretamente.
   // tsconfigPath aponta para packages/react/tsconfig.json para que o TypeScript
@@ -76,8 +69,6 @@ const config = {
       'react',
       'react-dom',
       '@fluentui/react-icons',
-      'react-day-picker',
-      'date-fns'
     ];
 
     // 2) Força uma ÚNICA instância de React (evita múltiplos Reacts no monorepo)
@@ -114,6 +105,7 @@ const config = {
       ...(viteConfig.server.fs.allow || []),
       path.resolve(__dirname, '..'),          // raiz do app (src/, public/, etc.)
       path.resolve(__dirname, '../../../packages'),
+      path.resolve(__dirname, '../../../node_modules'), // addons pnpm virtual store
     ];
 
     // 6) Virtual module que expõe o conteúdo dos CHANGELOGs em build/dev time
@@ -124,6 +116,31 @@ const config = {
 
     const readChangelog = (pkg) =>
       fs.readFileSync(path.resolve(__dirname, `../../../packages/${pkg}/CHANGELOG.md`), 'utf-8');
+
+    // Auto-descobre todos os pacotes em packages/* que têm CHANGELOG.md
+    const packagesRoot = path.resolve(__dirname, '../../../packages');
+    const changelogsData = {};
+    for (const dir of fs.readdirSync(packagesRoot, { withFileTypes: true })) {
+      if (!dir.isDirectory()) continue;
+      const changelogPath = path.resolve(packagesRoot, dir.name, 'CHANGELOG.md');
+      if (!fs.existsSync(changelogPath)) continue;
+
+      let packageName = null;
+      const pkgJsonPath = path.resolve(packagesRoot, dir.name, 'package.json');
+      if (fs.existsSync(pkgJsonPath)) {
+        try { packageName = JSON.parse(fs.readFileSync(pkgJsonPath, 'utf-8')).name; } catch {}
+      }
+      if (!packageName) {
+        const pubspecPath = path.resolve(packagesRoot, dir.name, 'pubspec.yaml');
+        if (fs.existsSync(pubspecPath)) {
+          const m = fs.readFileSync(pubspecPath, 'utf-8').match(/^name:\s*(.+)/m);
+          if (m) packageName = m[1].trim();
+        }
+      }
+      if (!packageName) packageName = dir.name;
+
+      try { changelogsData[packageName] = fs.readFileSync(changelogPath, 'utf-8'); } catch {}
+    }
 
     // Lê datas dos git tags (ex: "@giro-ds/react@4.0.0" -> "2026-03-17")
     const getTagDates = async () => {
@@ -153,9 +170,7 @@ const config = {
       load(id) {
         if (id === '\0virtual:changelogs') {
           return [
-            `export const reactChangelog = ${JSON.stringify(readChangelog('react'))};`,
-            `export const tokensChangelog = ${JSON.stringify(readChangelog('tokens'))};`,
-            `export const utilitiesChangelog = ${JSON.stringify(readChangelog('utilities'))};`,
+            `export const changelogs = ${JSON.stringify(changelogsData)};`,
             `export const tagDates = ${JSON.stringify(tagDatesData)};`,
           ].join('\n');
         }

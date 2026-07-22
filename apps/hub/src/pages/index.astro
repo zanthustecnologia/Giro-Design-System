@@ -1,0 +1,173 @@
+﻿---
+import Layout from '../layouts/Layout.astro';
+import FoundationCard from '../components/FoundationCard.astro';
+import '../styles/home.css';
+---
+
+<Layout title="Giro Design System" description="O design system AI-Driven da Zanthus e da Neos">
+
+  <main>
+
+    <!-- ===== BENTO GRID ===== -->
+    <section class="section">
+      <div class="container">
+        <div class="bento">
+
+          <!-- Card grande: React / Storybook -->
+          <a href="/storybook" class="bento-card bento-card--react">
+            <div class="bento-card__text">
+              <p class="bento-card__eyebrow">Web</p>
+              <h3 class="bento-card__title">Construa interfaces com os componentes <strong>React</strong></h3>
+              <span class="bento-card__cta">Acessar Storybook →</span>
+            </div>
+            <div class="bento-card__visual">
+              <div class="mock-browser">
+                <div class="mock-browser__bar">
+                  <span></span><span></span><span></span>
+                </div>
+                <div class="mock-browser__canvas">
+                  <div class="mock-row">
+                    <div class="mock-btn">Button</div>
+                    <div class="mock-btn mock-btn--outline">Outline</div>
+                  </div>
+                  <div class="mock-input"></div>
+                  <div class="mock-card">
+                    <div class="mock-card__avatar"></div>
+                    <div class="mock-card__lines">
+                      <div class="mock-line"></div>
+                      <div class="mock-line mock-line--short"></div>
+                    </div>
+                  </div>
+                  <div class="mock-row mock-row--tags">
+                    <div class="mock-tag mock-tag--blue">primary</div>
+                    <div class="mock-tag mock-tag--green">success</div>
+                    <div class="mock-tag mock-tag--red">alert</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+
+          <!-- Card pequeno: Flutter / Widgetbook (col 3, row 1) -->
+          <a href="/widgetbook" class="bento-card bento-card--flutter">
+            <div class="bento-card__visual bento-card__visual--icons">
+              <div class="flutter-widgets">
+                <div class="flutter-widget flutter-widget--1"></div>
+                <div class="flutter-widget flutter-widget--2"></div>
+                <div class="flutter-widget flutter-widget--3"></div>
+                <div class="flutter-widget flutter-widget--4"></div>
+              </div>
+            </div>
+            <div class="bento-card__text bento-card__text--bottom">
+              <p class="bento-card__eyebrow">Mobile & Desktop</p>
+              <h3 class="bento-card__title">Widgets para <strong>Flutter</strong></h3>
+              <span class="bento-card__cta">Acessar Widgetbook →</span>
+            </div>
+          </a>
+
+          <!-- Card pequeno: Figma (col 3, row 2) -->
+          <a href="https://www.figma.com/design/uurFrMGj7AqFDHkm6RBtI7" target="_blank" rel="noopener noreferrer" class="bento-card bento-card--figma">
+            <div class="bento-card__visual bento-card__visual--icons">
+              <div class="figma-bubbles">
+                <div class="figma-bubble figma-bubble--tl"></div>
+                <div class="figma-bubble figma-bubble--tr"></div>
+                <div class="figma-bubble figma-bubble--bl"></div>
+                <div class="figma-bubble figma-bubble--br"></div>
+              </div>
+            </div>
+            <div class="bento-card__text bento-card__text--bottom">
+              <p class="bento-card__eyebrow">Design</p>
+              <h3 class="bento-card__title">Biblioteca no <strong>Figma</strong></h3>
+              <span class="bento-card__cta">Abrir no Figma →</span>
+            </div>
+          </a>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== FUNDAÇÕES ===== -->
+    <section class="section">
+      <div class="container">
+        <h2 class="section__title">Fundações compartilhadas</h2>
+        <div class="foundations-grid">
+
+          <FoundationCard
+            icon="🎨"
+            title="Tokens de design"
+            description="Cores, tipografia, espaçamento e bordas — a base de toda consistência visual."
+            href="/storybook/?path=/docs/foundation-borders--docs"
+            linkLabel="Ver tokens"
+          />
+
+          <FoundationCard
+            icon="♿"
+            title="Acessibilidade"
+            description="Diretrizes e boas práticas para construir interfaces acessíveis para todos."
+            href="/storybook/?path=/docs/comece-aqui--docs"
+            linkLabel="Ver guia"
+          />
+
+          <FoundationCard
+            icon="📦"
+            title="Componentes"
+            description="Catálogo completo de componentes com documentação e exemplos interativos."
+            href="/storybook/?path=/docs/components-avatar--docs"
+            linkLabel="Ver componentes"
+          />
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== LINKS ÚTEIS ===== -->
+    <section class="section">
+      <div class="container">
+        <h2 class="section__title">Links úteis</h2>
+        <div class="links-grid">
+
+          <a href="https://github.com/zanthustecnologia/Giro-Design-System" target="_blank" rel="noopener noreferrer" class="link-card">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
+            </svg>
+            <div>
+              <strong>GitHub</strong>
+              <span>Código-fonte, issues e contribuições</span>
+            </div>
+          </a>
+
+          <a href="https://www.figma.com/design/uurFrMGj7AqFDHkm6RBtI7" target="_blank" rel="noopener noreferrer" class="link-card">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M15.332 8.668a3.333 3.333 0 0 0 0-6.663H8.668a3.333 3.333 0 0 0 0 6.663 3.333 3.333 0 0 0 0 6.665 3.333 3.333 0 1 0 3.333 3.333V8.668h3.331zm-6.664 0a1.333 1.333 0 1 1 0-2.663 1.333 1.333 0 0 1 0 2.663zm0 6.665a1.333 1.333 0 1 1 0-2.665 1.333 1.333 0 0 1 0 2.665zm0 4.666a1.333 1.333 0 1 1 0-2.666 1.333 1.333 0 0 1 0 2.666zm6.664-10.664a1.333 1.333 0 1 1 0-2.665 1.333 1.333 0 0 1 0 2.665z"/>
+            </svg>
+            <div>
+              <strong>Figma</strong>
+              <span>Biblioteca de design e protótipos</span>
+            </div>
+          </a>
+
+          <a href="https://www.npmjs.com/package/@giro-ds/react" target="_blank" rel="noopener noreferrer" class="link-card">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M1.763 0C.786 0 0 .786 0 1.763v20.474C0 23.214.786 24 1.763 24h20.474c.977 0 1.763-.786 1.763-1.763V1.763C24 .786 23.214 0 22.237 0zM5.13 5.323l13.837.019-.009 13.836h-3.464l.01-10.382h-3.456L12.04 19.17H5.113z"/>
+            </svg>
+            <div>
+              <strong>npm</strong>
+              <span>Pacotes publicados do Giro DS</span>
+            </div>
+          </a>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <span class="footer__brand">Giro Design System</span>
+      <span class="footer__copy">© {new Date().getFullYear()} Zanthus Tecnologia. Todos os direitos reservados.</span>
+    </div>
+  </footer>
+
+</Layout>

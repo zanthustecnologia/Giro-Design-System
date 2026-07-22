@@ -3,26 +3,25 @@
 	align-items: center;
 	justify-content: center;
 	vertical-align: middle;
-	border-radius: var(--border-radius-circular);
-	background-color: var(--color-neutral-high-medium);
+	border-radius: var(--avatar-radius);
+	background-color: var(--avatar-background);
 }
 
 .AvatarRoot.AvatarRoot--sm {
-  width: 32px;
-  height: 32px;
+  width: var(--avatar-sm-size);
+  height: var(--avatar-sm-size);
 }
 
 .AvatarRoot.AvatarRoot--lg {
-  width: 44px;
-  height: 44px;
-
+  width: var(--avatar-lg-size);
+  height: var(--avatar-lg-size);
 }
 
 .AvatarImage {
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
-  border-radius: var(--border-radius-circular);
+  border-radius: var(--avatar-radius);
   display: flex;
 	align-items: center;
 	justify-content: center;
@@ -34,23 +33,24 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	color: var(--color-neutral-low-default);
-  border-radius: var(--border-radius-circular);
-	font-weight: var(--font-weight-medium);
+	color: var(--avatar-color);
+  border-radius: var(--avatar-radius);
+	font-weight: var(--avatar-font-weight);
+  font-family: var(--avatar-font-family);
 }
 
 .AvatarRoot--sm .AvatarFallback {
-	font-size: var(--font-size-12);
+	font-size: var(--avatar-sm-font-size);
   svg {
-		width: 16px;
-    height: 16px;
+		width: var(--avatar-sm-icon-size);
+    height: var(--avatar-sm-icon-size);
 	}
 }
 
 .AvatarRoot--lg .AvatarFallback {
-	font-size: var(--font-size-18);
+	font-size: var(--avatar-lg-font-size);
   svg {
-		width: 24px;
-    height: 24px;
+		width: var(--avatar-lg-icon-size);
+    height: var(--avatar-lg-icon-size);
 	}
 }

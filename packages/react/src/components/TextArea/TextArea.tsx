@@ -1,10 +1,10 @@
 import clsx from 'clsx';
 import React, { useState, useCallback, useId, useEffect } from 'react';
 
-import useInputKeyboardValue from '../../hooks/useInputKeyboardValue';
-import VirtualKeyboard from '../VirtualKeyboard';
 import styles from './TextArea.module.scss';
+import useInputKeyboardValue from '../../hooks/useInputKeyboardValue';
 import LabelComponent from '../../shared/Label';
+import VirtualKeyboard from '../VirtualKeyboard';
 
 import type { TextAreaProps } from './TextArea.types';
 
@@ -21,8 +21,8 @@ const TextArea = ({
   helperText,
   tooltip = false,
   tooltipText,
-  side = 'bottom',
-  align = 'start',
+  tooltipSide = 'bottom',
+  tooltipAlign = 'start',
   errorMessage,
   error,
   id,
@@ -30,7 +30,7 @@ const TextArea = ({
   onFocus,
   name,
   resize = 'vertical',
-  showCharCount = false,
+  charCount = false,
   height,
   virtualKeyboard,
   ...rest
@@ -81,7 +81,7 @@ const TextArea = ({
     );
 
     const hasError = Boolean(textareaError) || Boolean(error);
-    const displayHelperText = (error ? errorMessage : undefined) || textareaError || helperText || '\u00A0';
+    const displayHelperText = (error ? errorMessage : undefined) || textareaError || helperText;
     const helperId = (textareaError || error)
       ? `${componentId}-error`
       : helperText
@@ -101,10 +101,10 @@ const TextArea = ({
           <LabelComponent
             htmlFor={componentId}
             required={required}
-            tooltip={tooltip}
+            tooltip={!!tooltipText}
             tooltipText={tooltipText}
-            side={side}
-            align={align}
+            side={tooltipSide}
+            align={tooltipAlign}
             error={hasError}
             disabled={disabled}
           >
@@ -134,21 +134,25 @@ const TextArea = ({
             />
           </div>
 
-          <div className={styles.footer}>
-            <span
-              id={helperId}
-              className={styles.helperText}
-              aria-live={hasError ? 'polite' : undefined}
-            >
-              {displayHelperText}
-            </span>
+          {(((error && errorMessage) || textareaError || helperText) || (showCharCount && maxLength)) && (
+            <div className={styles.footer}>
+              {((error && errorMessage) || textareaError || helperText) && (
+                <span
+                  id={helperId}
+                  className={styles.helperText}
+                  aria-live={hasError ? 'polite' : undefined}
+                >
+                  {displayHelperText}
+                </span>
+              )}
 
-            {showCharCount && maxLength && (
-              <span className={styles.charCount}>
-                {textareaValue.length}/{maxLength}
-              </span>
-            )}
-          </div>
+              {showCharCount && maxLength && (
+                <span className={styles.charCount}>
+                  {textareaValue.length}/{maxLength}
+                </span>
+              )}
+            </div>
+          )}
         </div>
 
         {(virtualKeyboard === 'default' || virtualKeyboard === 'numeric') && (

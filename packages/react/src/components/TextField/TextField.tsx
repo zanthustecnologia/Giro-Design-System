@@ -23,7 +23,6 @@ const TextField = ({
   maxLength,
   required = false,
   helperText,
-  tooltip = false,
   tooltipText,
   tooltipSide = 'bottom',
   tooltipAlign = 'start',
@@ -137,7 +136,7 @@ const TextField = ({
           <LabelComponent scale={scale}
             htmlFor={componentId}
             required={required}
-            tooltip={tooltip}
+            tooltip={!!tooltipText}
             tooltipText={tooltipText}
             side={tooltipSide}
             align={tooltipAlign}

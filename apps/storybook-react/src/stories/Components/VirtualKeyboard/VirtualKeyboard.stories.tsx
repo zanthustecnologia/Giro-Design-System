@@ -20,11 +20,6 @@ const meta: Meta<typeof VirtualKeyboard> = {
       description:
         'Modo de exibicao do teclado. `native` aparece ao focar no campo referenciado por `targetRef` e permite fechar pelo botao {downkeyboard}. `fixed` exibe o teclado sempre visivel com um TextField proprio acima e sem o botao {downkeyboard}.',
     },
-    textFieldPlaceholder: {
-      control: 'text',
-      description: 'Placeholder do TextField interno. Disponivel apenas no modo `fixed`.',
-      if: { arg: 'variant', eq: 'fixed' },
-    },
     helperText: {
       control: 'text',
       description: 'Helper text do TextField interno. Disponivel apenas no modo `fixed`.',
@@ -115,7 +110,7 @@ export const ModoFixed: Story = {
     variant: 'fixed',
     type: 'default',
     Emoji: false,
-    textFieldPlaceholder: 'Digite aqui...',
+    placeholder: 'Digite aqui...',
   },
   render: (args) => <KeyboardWrapper {...args} />,
 };
@@ -222,7 +217,7 @@ const DeviceFrame = ({
           type={type}
           value={value}
           onChange={setValue}
-          textFieldPlaceholder="Digite aqui..."
+          placeholder="Digite aqui..."
         />
       </div>
     </div>
@@ -239,33 +234,10 @@ export const ResponsividadeMobile: Story = {
     <div
       style={{
         padding: 24,
-        backgroundColor: '#f5f5f5',
         minHeight: '100vh',
         boxSizing: 'border-box',
       }}
     >
-      <h2
-        style={{
-          fontFamily: 'sans-serif',
-          fontSize: 16,
-          fontWeight: 600,
-          marginBottom: 4,
-          color: '#1a1a1a',
-        }}
-      >
-        VirtualKeyboard — Responsive Mobile Breakpoints
-      </h2>
-      <p
-        style={{
-          fontFamily: 'sans-serif',
-          fontSize: 12,
-          color: '#666',
-          marginBottom: 24,
-        }}
-      >
-        Cada coluna simula a largura máxima do breakpoint correspondente. Clique no campo para abrir o teclado.
-      </p>
-
       <div style={{ overflowX: 'auto' }}>
         <div style={{ display: 'flex', gap: 32, alignItems: 'flex-start', width: 'max-content' }}>
           {BREAKPOINTS.map((bp) => (

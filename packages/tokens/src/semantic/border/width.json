@@ -1,0 +1,22 @@
+{
+  "border": {
+    "width": {
+      "default": {
+        "value": "{border.width.1}",
+        "type": "borderWidth"
+      },
+      "medium": {
+        "value": "{border.width.2}",
+        "type": "borderWidth"
+      },
+      "strong": {
+        "value": "{border.width.4}",
+        "type": "borderWidth"
+      },
+      "focus": {
+        "value": "{border.width.2}",
+        "type": "borderWidth"
+      }
+    }
+  }
+}

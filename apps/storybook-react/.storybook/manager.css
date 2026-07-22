@@ -93,3 +93,14 @@
   max-width: 100%;
   height: 56px;
 }
+
+/* SB 10: oculta o botão de context menu (quadrado escuro) que aparece no hover dos itens */
+[data-testid="context-menu"] {
+  display: none !important;
+}
+
+/* SB 10: oculta o widget "Get started" / checklist de onboarding do core */
+#storybook-checklist-widget,
+:has(> #storybook-checklist-widget) {
+  display: none !important;
+}
