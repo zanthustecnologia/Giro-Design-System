@@ -12,7 +12,7 @@ import { enUS, ptBR } from "react-day-picker/locale";
 import styles from "./Calendar.module.scss";
 
 import type { CalendarProps } from "./Calendar.types";
-import type { MonthCaptionProps } from "react-day-picker";
+import type { DateRange, MonthCaptionProps } from "react-day-picker";
 
 type ChevronOrientation = "up" | "down" | "left" | "right";
 
@@ -79,20 +79,24 @@ const GridMonthCaption = ({ calendarMonth, displayIndex: _displayIndex, ...divPr
 const YEARS_PER_PAGE = 20;
 
 const Calendar = ({
+  mode = "single",
   selected,
+  selectedRange,
   currentDate,
   defaultMonth,
   startMonth,
   endMonth,
   onDaySelect,
+  onRangeSelect,
   onDateChange,
-  onClear: _onClear,
+  onClear,
   minDate,
   maxDate,
   disabled,
   format: _format,
   locale = "pt-br",
   autoFocus,
+  numberOfMonths,
   className,
   style,
   scale = 1,
@@ -104,6 +108,10 @@ const Calendar = ({
 
   const [internalSelected, setInternalSelected] = useState<Date | undefined>(
     selected ?? undefined
+  );
+
+  const [internalRange, setInternalRange] = useState<DateRange | undefined>(
+    selectedRange ?? undefined
   );
 
   const [internalDisplayMonth, setInternalDisplayMonth] = useState<Date>(
@@ -120,6 +128,11 @@ const Calendar = ({
       ? (selected ?? undefined)
       : internalSelected;
 
+  const resolvedRange =
+    selectedRange !== undefined
+      ? (selectedRange ?? undefined)
+      : internalRange;
+
   const resolvedLocale = locale === "pt-br" ? ptBR : enUS;
   const intlLocale = locale === "pt-br" ? "pt-BR" : "en-US";
 
@@ -133,7 +146,41 @@ const Calendar = ({
     setInternalSelected(date);
     if (date) {
       onDaySelect?.(date);
+    } else {
+      onClear?.();
     }
+  };
+
+  const handleRangeSelect = (range: DateRange | undefined, selectedDay: Date) => {
+    const current = resolvedRange;
+
+    // Desselecionar: apenas um dia marcado (to ausente ou to = from) e o usuário clicou nele
+    const isSingleDaySelected =
+      current?.from != null &&
+      (current.to == null || current.from.getTime() === current.to.getTime());
+
+    if (isSingleDaySelected && current?.from?.getTime() === selectedDay.getTime()) {
+      setInternalRange(undefined);
+      onRangeSelect?.(undefined);
+      onClear?.();
+      return;
+    }
+
+    // Range completo (from ≠ to): reinicia a seleção com o dia clicado
+    const isComplete =
+      current?.from != null &&
+      current?.to != null &&
+      current.from.getTime() !== current.to.getTime();
+
+    if (isComplete) {
+      const fresh: DateRange = { from: selectedDay, to: undefined };
+      setInternalRange(fresh);
+      onRangeSelect?.(fresh);
+      return;
+    }
+
+    setInternalRange(range);
+    onRangeSelect?.(range);
   };
 
   const handleMonthChange = (date: Date) => {
@@ -194,15 +241,17 @@ const Calendar = ({
   const sharedDayPickerProps = {
     classNames: styles,
     animate,
-    mode: "single" as const,
-    selected: resolvedSelected,
-    onSelect: handleSelect,
     startMonth,
     endMonth,
     disabled: disabledMatchers.length > 0 ? disabledMatchers : undefined,
     locale: resolvedLocale,
     autoFocus,
     "aria-label": ariaLabel,
+    captionLayout: "label" as const,
+    numberOfMonths,
+    month: resolvedDisplayMonth,
+    onMonthChange: handleMonthChange,
+    components: { MonthCaption: GridMonthCaption, Chevron: CustomChevron },
   };
 
   const containerStyle = { '--giro-scale': scale } as React.CSSProperties;
@@ -210,15 +259,25 @@ const Calendar = ({
   return (
     <GridCtx.Provider value={gridCtxValue}>
       <div className={clsx(styles.calendar_grid_wrapper, className)} style={{ ...containerStyle, ...style }}>
-        <DayPicker
-          id={id}
-          {...sharedDayPickerProps}
-          {...rest}
-          captionLayout="label"
-          month={resolvedDisplayMonth}
-          onMonthChange={handleMonthChange}
-          components={{ MonthCaption: GridMonthCaption, Chevron: CustomChevron }}
-        />
+        {mode === "range" ? (
+          <DayPicker
+            id={id}
+            {...sharedDayPickerProps}
+            {...(rest as object)}
+            mode="range"
+            selected={resolvedRange}
+            onSelect={handleRangeSelect}
+          />
+        ) : (
+          <DayPicker
+            id={id}
+            {...sharedDayPickerProps}
+            {...(rest as object)}
+            mode="single"
+            selected={resolvedSelected}
+            onSelect={handleSelect}
+          />
+        )}
         {gridView !== "days" && (
           <div
             className={`${styles.gridOverlay}${gridView === "years" ? ` ${styles.gridOverlayYears}` : ""}`}
