@@ -1,5 +1,23 @@
 # @giro-ds/mcp
 
+## [1.2.0]
+
+### Added
+
+#### MCP
+
+Adiciona a tool `review-giro-file`: analisa arquivos `.tsx/.jsx/.ts/.js/.css/.scss`, detecta props inválidas, props obrigatórias ausentes e valores CSS hardcoded, aplica auto-fixes para props depreciadas e retorna o código corrigido.
+
+Adiciona `ARCHITECTURE.md` com documentação da stack, estrutura de pastas, fluxo de dados e roadmap de evolução.
+
+Atualiza metadados com as novas props do `VirtualKeyboard` (`showEnterKey`, `textFieldScale`).
+
+### Changed
+
+#### MCP
+
+Refatoração arquitetural do `src/index.ts` (657 → 147 linhas). Lógica das tools extraída para `src/tools/`; busca semântica e serialização para `src/lib/`; dados React isolados em `src/data/react/`.
+
 ## 1.1.0
 
 ### Added

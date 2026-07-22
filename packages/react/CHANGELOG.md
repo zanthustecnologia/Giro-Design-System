@@ -1,5 +1,96 @@
 # @giro-ds/react
 
+## [12.0.0]
+
+### Added
+
+#### Calendar
+
+Adiciona suporte a seleção de intervalo via `mode="range"` com as props `selectedRange`, `onRangeSelect` e `numberOfMonths`. O tipo `DateRange` (re-export de `react-day-picker`) passa a ser exportado pelo pacote. Corrige `onClear` no modo `single`, agora disparado ao clicar novamente no dia selecionado.
+
+### Changed
+
+#### Avatar
+
+Renomeia `initialLetters` para `text`. O valor é truncado a 2 caracteres automaticamente.
+
+#### Button
+
+`tooltipSide` e `tooltipAlign` agora só são aceitas pelo TypeScript quando `tooltipText` está presente (union type `ButtonTooltipConfig`).
+
+#### Filter
+
+| Antes | Depois |
+| --- | --- |
+| `type` | `filterType` |
+| `activeCount` | `appliedFilterCount` |
+
+O type alias `FilterType` foi renomeado para `FilterTypes`.
+
+#### Select
+
+Renomeia `onChange` para `onValueChange` (alinhamento com Radix UI). O callback passa a receber o valor como `string` diretamente, sem `ChangeEvent`. As props de tooltip foram renomeadas e `tooltip` removido.
+
+| Antes | Depois |
+| --- | --- |
+| `onChange: (e: ChangeEvent) => void` | `onValueChange: (value: string) => void` |
+| `tooltip` (boolean) | removido |
+| `side` | `tooltipSide` |
+| `align` | `tooltipAlign` |
+
+#### TextArea
+
+| Antes | Depois |
+| --- | --- |
+| `showCharCount` | `charCount` |
+| `tooltip` (boolean) | removido |
+| `side` | `tooltipSide` |
+| `align` | `tooltipAlign` |
+
+#### TextField
+
+| Antes | Depois |
+| --- | --- |
+| `tooltip` (boolean) | removido |
+
+#### VirtualKeyboard
+
+Renomeia `textFieldPlaceholder` para `placeholder`.
+
+#### TableV2
+
+Altura padrão de célula (`maxHeight`) definida como `64px`, sem necessidade de configuração via meta.
+
+#### React 19
+
+`peerDependencies` relaxadas para `>=18.0.0`. Componentes migrados de `React.forwardRef` para ref como prop nativa.
+
+### Fixed
+
+#### Button
+
+Reduz padding horizontal na variante `text` (`lg` e `sm`) para `var(--spacing-4)`. Adiciona `min-width: unset`.
+
+#### VirtualKeyboard
+
+`border-radius` dos botões alterado para `--border-radius-8` no modo numérico. Margem movida para container query (desktop ≥ 769px). Altura e `font-size` mobile aumentados para `38px` e `var(--font-size-16)`.
+
+#### TextField
+
+Remove altura fixa `70px` do `.fieldContainer`.
+
+#### Select
+
+Remove `min-height` fixo do `.fieldContainer`.
+
+#### TextArea
+
+Rodapé renderizado condicionalmente. Remove fallback NBSP do helper text.
+
+#### Label
+
+Remove `gap` fixo do container.
+
 ## 11.2.0
 
 ### Added
@@ -73,9 +164,9 @@ Ajustes de CSS para correção de layout.
 
 #### VirtualKeyboard
 
-Adiciona as props: 
-`showEnterKey` que permite ocultar a tecla Enter; 
-`textFieldScale` repassa a escala para o `TextField` interno exibido no modo `fixed`. 
+Adiciona as props:
+`showEnterKey` que permite ocultar a tecla Enter;
+`textFieldScale` repassa a escala para o `TextField` interno exibido no modo `fixed`.
 
 ### Fixed
 
