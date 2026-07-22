@@ -9,9 +9,9 @@ import type { VirtualKeyboardType } from '../VirtualKeyboard/VirtualKeyboard.typ
  */
 interface BaseTooltipConfig {
   /** Lado em que o tooltip será exibido */
-  tooltipSide?: 'top' | 'bottom' | 'left' | 'right';
+  tooltipSide?: Side;
   /** Alinhamento do tooltip */
-  tooltipAlign?: 'start' | 'center' | 'end';
+  tooltipAlign?: Align;
 }
 
 /**
