@@ -31,9 +31,9 @@ const meta: Meta<AvatarProps> = {
         arrow: <ArrowCircleDown12Regular />,
       },
     },
-    initialLetters: {
+    text: {
       control: 'text',
-      description: 'Letras iniciais exibidas quando não há imagem ou ícone (máximo 2 caracteres)',
+      description: 'Texto exibido quando não há imagem ou ícone (máximo 2 caracteres)',
     },
   },
 };
@@ -56,7 +56,7 @@ export const Default: Story = {
   args: {
     icon: <Person16Regular />,
     size: 'lg',
-    initialLetters: 'GR',
+    text: 'GR',
   },
 };
 
@@ -66,14 +66,14 @@ export const ComImagem: Story = {
     icon: <Person16Regular />,
     size: 'lg',
     src: 'https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80', // Imagem de exemplo do Radix UI
-    initialLetters: 'GR',
+    text: 'GR',
   },
 };
 
 export const ComIniciais: Story = {
   render: Template,
   args: {
-    initialLetters: 'GR',
+    text: 'GR',
     size: 'lg',
   },
 };
@@ -81,8 +81,8 @@ export const ComIniciais: Story = {
 export const Tamanhos: Story = {
   render: () => (
     <div style={{ display: 'flex', gap: '24px', alignItems: 'center' }}>
-      <Avatar icon={<Person16Regular />} size="lg" initialLetters="GR" />
-      <Avatar icon={<Person16Regular />} size="sm" initialLetters="GR" />
+      <Avatar icon={<Person16Regular />} size="lg" text="GR" />
+      <Avatar icon={<Person16Regular />} size="sm" text="GR" />
     </div>
   ),
 };

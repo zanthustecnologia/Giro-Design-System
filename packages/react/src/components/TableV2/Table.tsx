@@ -281,7 +281,7 @@ const TableV2 = <T,>({
                         icon={filterItem.icon}
                         title={filterItem.title}
                         drawerWidth={filterItem.drawerWidth}
-                        activeCount={filterItem.activeCount}
+                        appliedFilterCount={filterItem.activeCount}
                         drawerHeaderContent={filterItem.drawerHeaderContent}
                         onApply={filterItem.onApply}
                         onClear={filterItem.onClear}
@@ -409,15 +409,12 @@ const TableV2 = <T,>({
                               : undefined,
                           }}
                         >
-                          {cell.column.columnDef.meta?.maxHeight ? (
-                            <div 
+                          <div
                             className={styles.tableCellMaxHeight}
-                            style={{ maxHeight: cell.column.columnDef.meta.maxHeight}}>
-                              {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                            </div>
-                          ) : (
-                            flexRender(cell.column.columnDef.cell, cell.getContext())
-                          )}
+                            style={{ maxHeight: cell.column.columnDef.meta?.maxHeight ?? '64px' }}
+                          >
+                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                          </div>
                         </td>
                       ))}
                     </tr>

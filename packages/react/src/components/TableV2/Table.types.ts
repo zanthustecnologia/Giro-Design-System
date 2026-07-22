@@ -9,7 +9,7 @@ declare module '@tanstack/react-table' {
   interface ColumnMeta<TData extends RowData, TValue> {
     /** Alinhamento do conteúdo da célula */
     align?: 'left' | 'center' | 'right';
-    /** Altura máxima do conteúdo da célula (ex: 48, '3rem'). Aplica overflow: hidden */
+    /** Altura máxima do conteúdo da célula (padrão: 64px). Aplica overflow: hidden */
     maxHeight?: number | string;
   }
 }

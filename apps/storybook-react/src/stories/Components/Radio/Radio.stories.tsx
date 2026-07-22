@@ -43,16 +43,6 @@ const meta: Meta<typeof Radio> = {
   },
 };
 
-export const Escalas: Story = {
-  render: () => (
-    <div style={{ display: 'flex', gap: '100px', alignItems: 'center' }}>
-      <Radio items={basicItems} ariaLabel="Scale 1.0" scale={1} />
-      <Radio items={basicItems} ariaLabel="Scale 1.5" scale={1.5} />
-      <Radio items={basicItems} ariaLabel="Scale 2.0" scale={2} />
-    </div>
-  ),
-};
-
 export default meta;
 type Story = StoryObj<typeof Radio>;
 
@@ -117,3 +107,13 @@ export const MultiplaSelecao: Story = {
   }
 }
 MultiplaSelecao.storyName = 'Múltipla Seleção';
+
+export const Escalas: Story = {
+  render: () => (
+    <div style={{ display: 'flex', gap: '100px', alignItems: 'center' }}>
+      <Radio items={basicItems} ariaLabel="Scale 1.0" scale={1} />
+      <Radio items={basicItems} ariaLabel="Scale 1.5" scale={1.5} />
+      <Radio items={basicItems} ariaLabel="Scale 2.0" scale={2} />
+    </div>
+  ),
+};

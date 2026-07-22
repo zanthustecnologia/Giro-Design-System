@@ -1,0 +1,26 @@
+﻿---
+import '../styles/foundation-card.css';
+
+interface Props {
+  icon: string;
+  title: string;
+  description: string;
+  href: string;
+  linkLabel?: string;
+}
+
+const { icon, title, description, href, linkLabel = 'Saiba mais' } = Astro.props;
+const isExternal = href.startsWith('http');
+---
+
+<a
+  href={href}
+  class="foundation-card"
+  target={isExternal ? '_blank' : '_self'}
+  rel={isExternal ? 'noopener noreferrer' : undefined}
+>
+  <span class="foundation-card__icon" aria-hidden="true">{icon}</span>
+  <h4 class="foundation-card__title">{title}</h4>
+  <p class="foundation-card__description">{description}</p>
+  <span class="foundation-card__link">{linkLabel} →</span>
+</a>

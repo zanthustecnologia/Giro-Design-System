@@ -1,0 +1,26 @@
+{
+  "motion": {
+    "duration": {
+      "instant": {
+        "value": "0ms",
+        "type": "duration"
+      },
+      "fast": {
+        "value": "120ms",
+        "type": "duration"
+      },
+      "moderate": {
+        "value": "180ms",
+        "type": "duration"
+      },
+      "slow": {
+        "value": "240ms",
+        "type": "duration"
+      },
+      "slower": {
+        "value": "320ms",
+        "type": "duration"
+      }
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "font": {
+    "family": {
+      "body": {
+        "value": "{font.family.primary}",
+        "type": "fontFamily"
+      },
+      "heading": {
+        "value": "{font.family.primary}",
+        "type": "fontFamily"
+      }
+    }
+  }
+}

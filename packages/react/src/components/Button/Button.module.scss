@@ -2,25 +2,25 @@
 
 @mixin buttonSize($height, $padding-x, $min-width) {
   height: scale($height);
-  padding: var(--spacing-0) scale($padding-x);
+  padding: 0 scale($padding-x);
   min-width: scale($min-width);
 }
 
 @mixin buttonIconPadding($left-padding, $right-padding) {
   &.buttonIconPosition-left {
-    padding: var(--spacing-0) scale($right-padding) var(--spacing-0) scale($left-padding);
+    padding: 0 scale($right-padding) 0 scale($left-padding);
   }
   
   &.buttonIconPosition-right {
-    padding: var(--spacing-0) scale($left-padding) var(--spacing-0) scale($right-padding);
+    padding: 0 scale($left-padding) 0 scale($right-padding);
   }
   &.buttonIconPosition-both {
-    padding: var(--spacing-0) scale($left-padding);
+    padding: 0 scale($left-padding);
   }
 }
 
 @mixin iconOnlySize($size) {
-  padding: var(--spacing-0);
+  padding: 0;
   width: scale($size);
   height: scale($size);
   min-width: scale($size);
@@ -45,10 +45,10 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  gap: scale(var(--spacing-8));
-  border-radius: scale(var(--border-radius-8));
+  gap: scale(var(--button-gap));
+  border-radius: scale(var(--button-radius));
   box-shadow: none;
-  padding: var(--spacing-0) var(--spacing-24);
+  padding: 0 var(--button-lg-padding-inline);
   text-align: center;
   transition:
     background-color 0.3s ease-in-out,
@@ -57,79 +57,81 @@
     opacity 0.3s ease-in-out;
   cursor: pointer;
   box-sizing: border-box;
-  
-  font-family: var(--font-family-primary);
-  font-size: scale(var(--font-size-14));
+
+  font-family: var(--button-font-family);
+  font-size: scale(var(--button-font-size));
   font-style: normal;
-  font-weight: var(--font-weight-medium);
+  font-weight: var(--button-font-weight);
   text-decoration: none;
 }
 
 .button.button-lg {
-  @include buttonSize(44px, var(--spacing-24), 92px);
+  @include buttonSize(var(--button-lg-height), var(--button-lg-padding-inline), var(--button-lg-min-width));
 }
 
 .button.button-sm {
-  @include buttonSize(36px, var(--spacing-16), 76px);
+  @include buttonSize(var(--button-sm-height), var(--button-sm-padding-inline), var(--button-sm-min-width));
 }
 
 .button.button-filled {
-  background: var(--color-brand-primary-default);
-  color: var(--color-neutral-high-default);
+  background: var(--button-filled-background-default);
+  color: var(--button-filled-color-default);
   border: none;
 }
 
 .button.button-outlined {
-  border: var(--border-width-1) solid var(--color-neutral-high-dark);
-  background-color: var(--color-neutral-high-default);
-  color: var(--color-brand-primary-default);
+  border: var(--button-outlined-border-width) solid var(--button-outlined-border-default);
+  background-color: var(--button-outlined-background-default);
+  color: var(--button-outlined-color-default);
 }
 
 .button.button-text {
   border: none;
   outline: none;
   background-color: transparent;
-  color: var(--color-brand-primary-default);
+  color: var(--button-ghost-color-default);
 }
 
 .button.button-lg.buttonWithIcon {
-  @include buttonIconPadding(var(--spacing-16), var(--spacing-24));
+  @include buttonIconPadding(var(--button-lg-padding-inline-icon), var(--button-lg-padding-inline));
 }
 
 .button.button-sm.buttonWithIcon {
-  @include buttonIconPadding(var(--spacing-8), var(--spacing-16));
+  @include buttonIconPadding(var(--button-sm-padding-inline-icon), var(--button-sm-padding-inline));
 }
 
 .button.button-text.button-lg {
-  padding: var(--spacing-0) scale(var(--spacing-12));
+  padding: 0 scale(var(--button-ghost-lg-padding-inline));
+  min-width: unset;
   
   &.buttonWithIcon {
-    @include buttonIconPadding(var(--spacing-8), var(--spacing-12));
+    @include buttonIconPadding(var(--button-sm-padding-inline-icon), var(--button-ghost-lg-padding-inline));
     
     &.buttonNoContent {
-      padding: var(--spacing-0) scale(var(--spacing-16));
+      padding: 0 scale(var(--button-lg-padding-inline-icon));
     }
   }
 }
 
 .button.button-text.button-sm {
-  padding: var(--spacing-0) scale(var(--spacing-8));
+  padding: 0 scale(var(--button-ghost-sm-padding-inline));
+  min-width: unset;
   
   &.buttonWithIcon {
-    @include buttonIconPadding(var(--spacing-4), var(--spacing-8));
+    @include buttonIconPadding(var(--button-ghost-sm-padding-inline-icon), var(--button-ghost-sm-padding-inline));
     
     &.buttonNoContent {
-      padding: var(--spacing-0) scale(var(--spacing-8));
+      padding: 0 scale(var(--button-ghost-sm-padding-inline));
     }
   }
 }
 
 .button.button-lg.buttonIconOnly {
-  @include iconOnlySize(44px);
+  @include iconOnlySize(var(--button-lg-icon-size));
 }
 
 .button.button-sm.buttonIconOnly {
-  @include iconOnlySize(36px);
+  @include iconOnlySize(var(--button-sm-icon-size));
 }
 
 .buttonIconOnly span {
@@ -166,7 +168,7 @@
 
 .button.buttonNoContent .buttonIconLeft,
 .button.buttonNoContent .buttonIconRight {
-  margin: var(--spacing-0);
+  margin: 0;
 }
 
 .button:hover {
@@ -174,89 +176,80 @@
 }
 
 .button.button-filled:hover {
-  background: var(--color-brand-primary-medium);
+  background: var(--button-filled-background-hover);
 }
 
 .button.button-filled:focus-visible,
 .button.button-filled[data-state="open"] {
-  outline: scale(var(--border-width-4)) solid var(--color-neutral-high-dark);
-  outline-offset: scale(var(--border-width-2));
+  outline: scale(var(--button-focus-outline-width)) solid var(--button-focus-outline-color);
+  outline-offset: scale(var(--button-focus-outline-offset));
 }
 
 .button.button-filled:active {
-  background: var(--color-brand-primary-dark);
-  color: var(--color-neutral-high-default);
+  background: var(--button-filled-background-pressed);
+  color: var(--button-filled-color-default);
   outline: none;
 }
 
 .button.button-filled:disabled,
 .button.button-filled.disabled {
-  background: var(--color-neutral-high-light);
-  color: var(--color-neutral-low-light);
+  background: var(--button-filled-background-disabled);
+  color: var(--button-filled-color-disabled);
   cursor: not-allowed;
-  opacity: 0.5;
   outline: none;
 }
 
-.button.button-outlined {
-  color: var(--color-brand-primary-default);
-}
-
 .button.button-outlined:hover {
-  color: var(--color-brand-primary-default);
-  background-color: var(--color-neutral-high-medium);
+  color: var(--button-outlined-color-default);
+  background-color: var(--button-outlined-background-hover);
 }
 
 .button.button-outlined:focus-visible,
 .button.button-outlined[data-state="open"] {
-  outline: scale(var(--border-width-4)) solid var(--color-neutral-high-dark);
-  outline-offset: scale(var(--border-width-2));
-  color: var(--color-brand-primary-default);
-  background-color: var(--color-neutral-high-default);
+  outline: scale(var(--button-focus-outline-width)) solid var(--button-focus-outline-color);
+  outline-offset: scale(var(--button-focus-outline-offset));
+  color: var(--button-outlined-color-default);
+  background-color: var(--button-outlined-background-default);
 }
 
 .button.button-outlined:active {
   outline: none;
-  color: var(--color-brand-primary-default);
-  background-color: var(--color-neutral-high-dark);
+  color: var(--button-outlined-color-default);
+  background-color: var(--button-outlined-background-pressed);
 }
 
 .button.button-outlined:disabled,
 .button.button-outlined.disabled {
-  outline: var(--border-width-1) solid var(--color-neutral-high-medium);
-  color: var(--color-neutral-high-dark);
+  outline: var(--button-outlined-border-width) solid var(--button-outlined-border-disabled);
+  color: var(--button-outlined-color-disabled);
   cursor: not-allowed;
-  background-color: var(--color-neutral-high-default);
-}
-
-.button.button-text {
-  color: var(--color-brand-primary-default);
+  background-color: var(--button-outlined-background-disabled);
 }
 
 .button.button-text:hover {
-  color: var(--color-brand-primary-default);
-  background-color: var(--color-neutral-high-medium);
+  color: var(--button-ghost-color-default);
+  background-color: var(--button-ghost-background-hover);
 }
 
 .button.button-text:focus-visible,
 .button.button-text[data-state="open"] {
-  outline: scale(var(--border-width-4)) solid var(--color-neutral-high-dark);
-  outline-offset: scale(var(--border-width-2));
-  color: var(--color-brand-primary-default);
+  outline: scale(var(--button-focus-outline-width)) solid var(--button-focus-outline-color);
+  outline-offset: scale(var(--button-focus-outline-offset));
+  color: var(--button-ghost-color-default);
   background-color: transparent;
 }
 
 .button.button-text:active {
   outline: none;
-  color: var(--color-brand-primary-default);
-  background-color: var(--color-neutral-high-dark);
+  color: var(--button-ghost-color-default);
+  background-color: var(--button-ghost-background-pressed);
 }
 
 .button.button-text:disabled,
 .button.button-text.disabled {
-  color: var(--color-neutral-high-dark);
+  color: var(--button-ghost-color-disabled);
   cursor: not-allowed;
-  outline: none; 
+  outline: none;
 
   &:hover {
     background-color: transparent;
@@ -273,27 +266,27 @@
 }
 
 .button.button-lg.buttonLoading {
-  @include buttonSize(44px, var(--spacing-24), 92px);
+  @include buttonSize(var(--button-lg-height), var(--button-lg-padding-inline), var(--button-lg-min-width));
   
   &.buttonWithIcon {
     &.buttonIconPosition-left,
     &.buttonIconPosition-right,
     &.buttonIconPosition-both,
     &.buttonNoContent {
-      padding: var(--spacing-0) scale(var(--spacing-24));
+      padding: 0 scale(var(--button-lg-padding-inline));
     }
   }
 }
 
 .button.button-sm.buttonLoading {
-  @include buttonSize(36px, var(--spacing-16), 76px);
+  @include buttonSize(var(--button-sm-height), var(--button-sm-padding-inline), var(--button-sm-min-width));
   
   &.buttonWithIcon {
     &.buttonIconPosition-left,
     &.buttonIconPosition-right,
     &.buttonIconPosition-both,
     &.buttonNoContent {
-      padding: var(--spacing-0) scale(var(--spacing-16));
+      padding: 0 scale(var(--button-sm-padding-inline));
     }
   }
 }
@@ -301,7 +294,7 @@
 .buttonContentHidden {
   display: flex;
   align-items: center;
-  gap: scale(var(--spacing-8));
+  gap: scale(var(--button-gap));
   opacity: 0;
   pointer-events: none;
   font-size: scale(var(--font-size-16));

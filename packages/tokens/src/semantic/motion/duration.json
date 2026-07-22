@@ -1,0 +1,30 @@
+{
+  "motion": {
+    "duration": {
+      "interact": {
+        "value": "{motion.duration.fast}",
+        "type": "duration"
+      },
+      "appear": {
+        "value": "{motion.duration.moderate}",
+        "type": "duration"
+      },
+      "disappear": {
+        "value": "{motion.duration.fast}",
+        "type": "duration"
+      },
+      "expand": {
+        "value": "{motion.duration.slow}",
+        "type": "duration"
+      },
+      "collapse": {
+        "value": "{motion.duration.moderate}",
+        "type": "duration"
+      },
+      "page": {
+        "value": "{motion.duration.slower}",
+        "type": "duration"
+      }
+    }
+  }
+}

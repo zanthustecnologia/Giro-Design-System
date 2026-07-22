@@ -1,0 +1,56 @@
+{
+  "color": {
+    "surface": {
+      "default": {
+        "value": "{color.neutral.0}",
+        "type": "color"
+      },
+      "subtle": {
+        "value": "{color.neutral.100}",
+        "type": "color"
+      },
+      "sunken": {
+        "value": "{color.neutral.200}",
+        "type": "color"
+      },
+      "pressed": {
+        "value": "{color.neutral.300}",
+        "type": "color"
+      },
+      "inverse": {
+        "value": "{color.neutral.900}",
+        "type": "color"
+      },
+      "brand": {
+        "default": {
+          "value": "{color.brand.primary.500}",
+          "type": "color"
+        },
+        "subtle": {
+          "value": "{color.brand.primary.100}",
+          "type": "color"
+        }
+      },
+      "success": {
+        "default": {
+          "value": "{color.feedback.success.500}",
+          "type": "color"
+        },
+        "subtle": {
+          "value": "{color.feedback.success.100}",
+          "type": "color"
+        }
+      },
+      "alert": {
+        "default": {
+          "value": "{color.feedback.alert.500}",
+          "type": "color"
+        },
+        "subtle": {
+          "value": "{color.feedback.alert.100}",
+          "type": "color"
+        }
+      }
+    }
+  }
+}

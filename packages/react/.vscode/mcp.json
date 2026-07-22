@@ -1,0 +1,12 @@
+{
+  "servers": {
+    "giro-ds": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@giro-ds/mcp"
+      ]
+    }
+  }
+}
