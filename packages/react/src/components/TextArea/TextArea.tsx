@@ -19,7 +19,6 @@ const TextArea = ({
   maxLength,
   required = false,
   helperText,
-  tooltip = false,
   tooltipText,
   tooltipSide = 'bottom',
   tooltipAlign = 'start',
@@ -134,7 +133,7 @@ const TextArea = ({
             />
           </div>
 
-          {(((error && errorMessage) || textareaError || helperText) || (showCharCount && maxLength)) && (
+          {(((error && errorMessage) || textareaError || helperText) || (charCount && maxLength)) && (
             <div className={styles.footer}>
               {((error && errorMessage) || textareaError || helperText) && (
                 <span
@@ -146,7 +145,7 @@ const TextArea = ({
                 </span>
               )}
 
-              {showCharCount && maxLength && (
+              {charCount && maxLength && (
                 <span className={styles.charCount}>
                   {textareaValue.length}/{maxLength}
                 </span>
@@ -163,7 +162,7 @@ const TextArea = ({
               maxLength={maxLength}
               value={textareaValue}
               targetRef={textareaRef}
-              onChange={(val) => {
+              onChange={(val: string) => {
                 if (!disabled && (!maxLength || val.length <= maxLength)) {
                   setTextareaValue(val);
                   onChange?.(val);
