@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { BaseProps } from '../../types/common.types';
+import { BaseProps, Scale } from '../../types/common.types';
 
 /** Variantes disponíveis para o ListItem */
 export type ListItemVariant = 'text' | 'checkbox' | 'radio' | 'icon';
@@ -67,6 +67,9 @@ export interface ListItemProps extends BaseProps {
 
   /** Largura do item. Quando não informada, ocupa 100% do container */
   width?: React.CSSProperties['width'];
+
+  /** Escala visual do componente (1, 1.5 ou 2) */
+  scale?: Scale;
 
   /** Classe CSS opcional */
   className?: string;

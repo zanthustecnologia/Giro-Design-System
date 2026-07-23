@@ -27,6 +27,11 @@ const meta: Meta<typeof ListItem> = {
             control: 'text',
             description: 'Largura do item. Deixe vazio para ocupar 100% do container.',
         },
+        scale: {
+            control: 'select',
+            options: [1, 1.5, 2],
+            description: 'Escala visual do componente.',
+        },
         showSubText: {
             control: {
                 type: 'boolean',
@@ -64,7 +69,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const Template = (args: ListItemProps): JSX.Element => {
-    const { variant, disabled, showSubText, text, width } = args;
+    const { variant, disabled, showSubText, text, width, scale } = args;
     return (
         <ul>
             <ListItem
@@ -76,6 +81,7 @@ const Template = (args: ListItemProps): JSX.Element => {
                 showSubText={showSubText}
                 icon={<UsbPlug20Regular />}
                 width={width}
+                scale={scale}
             />
         </ul>
     );

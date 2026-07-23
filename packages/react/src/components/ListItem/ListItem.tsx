@@ -24,6 +24,7 @@ const ListItem: React.FC<ListItemProps> = ({
   showSubText = false,
   hovered = true,
   width,
+  scale = 1,
   ...rest
 }) => {
   const componentId = useId();
@@ -242,7 +243,10 @@ const ListItem: React.FC<ListItemProps> = ({
       aria-labelledby={`${itemId}-text`}
       aria-describedby={showSubText && subText ? `${itemId}-subtext` : undefined}
       data-testid="list-item"
-      style={width != null ? { width } : undefined}
+      style={{
+        '--giro-scale': scale,
+        ...(width != null ? { width } : {}),
+      } as React.CSSProperties}
       {...rest}
     >
       {renderVariantContent()}
