@@ -22,7 +22,7 @@ const ListItem: React.FC<ListItemProps> = ({
   icon,
   value,
   showSubText = false,
-  hovered = false,
+  hovered = true,
   ...rest
 }) => {
   const componentId = useId();
@@ -53,6 +53,22 @@ const ListItem: React.FC<ListItemProps> = ({
     setInternalSelected(newSelected);
     onClick?.(e);
   }, [disabled, internalSelected, onClick]);
+
+  const handleClick = useCallback((e: React.MouseEvent<HTMLLIElement>): void => {
+    switch (variant) {
+      case 'checkbox':
+        handleCheckboxClick(e as React.MouseEvent<HTMLElement>);
+        break;
+      case 'radio':
+        handleRadioClick(e as React.MouseEvent<HTMLElement>);
+        break;
+      case 'text':
+      case 'icon':
+      default:
+        handleTextOrIconClick(e as React.MouseEvent<HTMLElement>);
+        break;
+    }
+  }, [variant, handleCheckboxClick, handleRadioClick, handleTextOrIconClick]);
 
   const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLLIElement>): void => {
     if (!disabled && (e.key === 'Enter' || e.key === ' ')) {
@@ -89,24 +105,24 @@ const ListItem: React.FC<ListItemProps> = ({
       case 'checkbox':
         return (
           <>
-            <Checkbox
-              checked={internalChecked}
-              disabled={disabled}
-              onCheckedChange={() => handleCheckboxClick({} as React.MouseEvent<HTMLElement>)}
-            />
-            <div className={styles['zds-list-item__wrapper-text']}>
+            <span aria-hidden="true">
+              <Checkbox
+                checked={internalChecked}
+                disabled={disabled}
+                onCheckedChange={() => handleCheckboxClick({} as React.MouseEvent<HTMLElement>)}
+              />
+            </span>
+            <div className={styles['listItemWrapperText']}>
               <span
                 id={`${itemId}-text`}
-                className={styles['zds-list-item__text']}
-                onClick={handleCheckboxClick}
+                className={styles['listItemTitle']}
               >
                 {text}
               </span>
               {showSubText && subText && (
                 <span
                   id={`${itemId}-subtext`}
-                  className={styles['zds-list-item__subtext']}
-                  onClick={handleCheckboxClick}
+                  className={styles['listItemSubtext']}
                 >
                   {subText}
                 </span>
@@ -118,8 +134,8 @@ const ListItem: React.FC<ListItemProps> = ({
       case 'radio':
         return (
           <>
-            <div className={styles['zds-list-item__wrapper-radio']}>
-              <span className={styles['zds-list-item__radio']} aria-hidden="true">
+            <div className={styles['listItemWrapperRadio']}>
+              <span className={styles['listItemRadio']} aria-hidden="true">
                 <Radio
                   name={name}
                   onValueChange={() => handleRadioClick({} as React.MouseEvent<HTMLElement>)}
@@ -131,18 +147,17 @@ const ListItem: React.FC<ListItemProps> = ({
                 />
               </span>
             </div>
-            <div className={styles['zds-list-item__wrapper-text']}>
+            <div className={styles['listItemWrapperText']}>
               <span
                 id={`${itemId}-text`}
-                className={styles['zds-list-item__title']}
-                onClick={handleRadioClick}
+                className={styles['listItemTitle']}
               >
                 {text}
               </span>
               {showSubText && subText && (
                 <span
                   id={`${itemId}-subtext`}
-                  className={styles['zds-list-item__subtext']}
+                  className={styles['listItemSubtext']}
                 >
                   {subText}
                 </span>
@@ -154,21 +169,20 @@ const ListItem: React.FC<ListItemProps> = ({
       case 'icon':
         return (
           <>
-            <div className={styles['zds-list-item__wrapper-icon']}>
+            <div className={styles['listItemWrapperIcon']}>
               {icon}
             </div>
-            <div className={styles['zds-list-item__wrapper-text']}>
+            <div className={styles['listItemWrapperText']}>
               <span
                 id={`${itemId}-text`}
-                className={styles['zds-list-item__title']}
-                onClick={handleTextOrIconClick}
+                className={styles['listItemTitle']}
               >
                 {text}
               </span>
               {showSubText && subText && (
                 <span
                   id={`${itemId}-subtext`}
-                  className={styles['zds-list-item__subtext']}
+                  className={styles['listItemSubtext']}
                 >
                   {subText}
                 </span>
@@ -180,18 +194,17 @@ const ListItem: React.FC<ListItemProps> = ({
       case 'text':
       default:
         return (
-          <div className={styles['zds-list-item__wrapper-text']}>
+          <div className={styles['listItemWrapperText']}>
             <span
               id={`${itemId}-text`}
-              className={styles['zds-list-item__title']}
-              onClick={handleTextOrIconClick}
+              className={styles['listItemTitle']}
             >
               {text}
             </span>
             {showSubText && subText && (
               <span
                 id={`${itemId}-subtext`}
-                className={styles['zds-list-item__subtext']}
+                className={styles['listItemSubtext']}
               >
                 {subText}
               </span>
@@ -199,33 +212,32 @@ const ListItem: React.FC<ListItemProps> = ({
           </div>
         );
     }
-  }, [variant, itemId, internalChecked, disabled, handleCheckboxClick, handleRadioClick, handleTextOrIconClick, value, text, showSubText, subText, icon, name]);
+  }, [variant, itemId, internalChecked, disabled, handleCheckboxClick, handleRadioClick, value, text, showSubText, subText, icon, name]);
 
   const listItemClass = clsx(
-    styles['zds-list-item__container'],
+    styles['listItem'],
     {
-      [styles[`zds-list-item--${variant}`]]: variant,
-      [styles['zds-list-item--disabled']]: disabled,
-      [styles['zds-list-item--hovered']]: hovered,
+      [styles[`listItem-${variant}`]]: variant,
+      [styles['listItemDisabled']]: disabled,
+      [styles['listItemHovered']]: hovered,
       [className || '']: className
     }
   );
 
-  const getAriaChecked = useCallback((): boolean | undefined => {
-    if (variant === 'checkbox' || variant === 'radio') {
-      return internalChecked;
-    }
-    return undefined;
-  }, [variant, internalChecked]);
+  const ariaChecked = (variant === 'checkbox' || variant === 'radio') ? internalChecked : undefined;
+  const ariaRole = variant === 'checkbox' ? 'checkbox' : variant === 'radio' ? 'radio' : 'option';
 
   return (
+    // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions -- role is dynamic (checkbox/radio/option) and cannot be resolved statically by the linter
     <li
+      role={ariaRole}
       className={listItemClass}
       tabIndex={disabled ? -1 : 0}
+      onClick={handleClick}
       onKeyDown={handleKeyDown}
       aria-selected={variant === 'text' || variant === 'icon' ? internalSelected : undefined}
       aria-disabled={disabled}
-      aria-checked={getAriaChecked()}
+      aria-checked={ariaChecked}
       aria-labelledby={`${itemId}-text`}
       aria-describedby={showSubText && subText ? `${itemId}-subtext` : undefined}
       data-testid="list-item"

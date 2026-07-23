@@ -1,4 +1,4 @@
-.zds-list-item__container {
+.listItem {
     list-style: none;
     height: 44px;
     color: var(--color-neutral-low-default);
@@ -11,21 +11,20 @@
     border-radius: var(--border-radius-8);
     padding: var(--spacing-0) var(--spacing-16);
 
-    &.zds-list-item--checkbox {
+    &.listItem-checkbox {
         padding: var(--spacing-0) var(--spacing-16) var(--spacing-0) var(--spacing-8);
     }
 
-    &.zds-list-item--icon {
+    &.listItem-icon {
         padding: var(--spacing-0) var(--spacing-16);
         gap: var(--spacing-8);
     }
 
-    &.zds-list-item--radio {
+    &.listItem-radio {
         padding: var(--spacing-0) var(--spacing-16) var(--spacing-0) var(--spacing-8);
-
     }
 
-    &.zds-list-item--text {
+    &.listItem-text {
         padding: var(--spacing-0) var(--spacing-16);
     }
 
@@ -34,37 +33,46 @@
     }
 }
 
-.zds-list-item__container.zds-list-item--hovered:hover {
+.listItem.listItemHovered:hover {
     background-color: var(--color-neutral-high-medium);
 }
 
-.zds-list-item--disabled {
+.listItemDisabled {
     pointer-events: none;
     color: var(--color-neutral-low-light);
 }
 
-.zds-list-item__wrapper-text {
+.listItemWrapperText {
     display: flex;
     flex-direction: column;
     gap: var(--spacing-4);
     align-items: flex-start;
 }
 
-.zds-list-item__wrapper-icon {
+.listItemWrapperIcon {
     display: flex;
 }
 
-span.zds-list-item__title {
+.listItemWrapperRadio {
+    display: flex;
+    align-items: center;
+}
+
+.listItemRadio {
+    display: flex;
+}
+
+span.listItemTitle {
     font-size: var(--font-size-16);
     font-weight: var(--font-weight-regular);
 }
 
-span.zds-list-item__subtext {
+span.listItemSubtext {
     font-size: var(--font-size-14);
     font-weight: var(--font-weight-regular);
 }
 
-.zds-list-item__text {
+.listItemText {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;

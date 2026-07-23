@@ -62,7 +62,7 @@ export interface ListItemProps extends BaseProps {
   /** Controla a visibilidade do subtexto explicitamente, independentemente de `subText` estar preenchido */
   showSubText?: boolean;
   
-  /** Força o estado visual de hover no item (útil para controle externo de foco/seleção) */
+  /** Habilita o efeito visual de hover ao passar o mouse. Use `false` para itens estáticos/não interativos */
   hovered?: boolean;
 
   /** Classe CSS opcional */

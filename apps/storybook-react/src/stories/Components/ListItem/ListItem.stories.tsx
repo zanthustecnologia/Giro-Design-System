@@ -69,7 +69,6 @@ const Template = (args: ListItemProps): JSX.Element => {
                 text={text}
                 subText="List item"
                 onClick={() => console.log('Clicked!')}
-                hovered={true}
                 showSubText={showSubText}
                 icon={<UsbPlug20Regular />}
             />
@@ -97,7 +96,7 @@ export const Default: Story = {
 export const ComCheckbox: Story = {
     render: (args) => (
         <ul>
-            <ListItem {...args} hovered={true} />
+            <ListItem {...args} />
         </ul>
     ),
     args: {
@@ -113,7 +112,7 @@ export const ComCheckbox: Story = {
 export const ComRadio: Story = {
     render: (args) => (
         <ul>
-            <ListItem {...args} hovered={true} />
+            <ListItem {...args} />
         </ul>
     ),
     args: {
@@ -130,7 +129,7 @@ export const ComRadio: Story = {
 export const ComIcone: Story = {
     render: (args) => (
         <ul>
-            <ListItem {...args} hovered={true} icon={<UsbPlug20Regular />} />
+            <ListItem {...args} icon={<UsbPlug20Regular />} />
         </ul>
     ),
     args: {
@@ -144,7 +143,7 @@ export const ComIcone: Story = {
 export const ComSubtexto: Story = {
     render: (args) => (
         <ul>
-            <ListItem {...args} hovered={true} />
+            <ListItem {...args} />
         </ul>
     ),
     args: {
@@ -159,7 +158,7 @@ export const ComSubtexto: Story = {
 export const Desabilitado: Story = {
     render: (args) => (
         <ul>
-            <ListItem {...args} hovered={true} />
+            <ListItem {...args} />
         </ul>
     ),
     args: {
