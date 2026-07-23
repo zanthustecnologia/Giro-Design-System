@@ -23,6 +23,10 @@ const meta: Meta<typeof ListItem> = {
         hovered: {
             control: 'boolean',
         },
+        width: {
+            control: 'text',
+            description: 'Largura do item. Deixe vazio para ocupar 100% do container.',
+        },
         showSubText: {
             control: {
                 type: 'boolean',
@@ -60,7 +64,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const Template = (args: ListItemProps): JSX.Element => {
-    const { variant, disabled, showSubText, text } = args;
+    const { variant, disabled, showSubText, text, width } = args;
     return (
         <ul>
             <ListItem
@@ -71,6 +75,7 @@ const Template = (args: ListItemProps): JSX.Element => {
                 onClick={() => console.log('Clicked!')}
                 showSubText={showSubText}
                 icon={<UsbPlug20Regular />}
+                width={width}
             />
         </ul>
     );

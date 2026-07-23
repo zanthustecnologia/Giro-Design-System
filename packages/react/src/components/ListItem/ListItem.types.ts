@@ -65,6 +65,9 @@ export interface ListItemProps extends BaseProps {
   /** Habilita o efeito visual de hover ao passar o mouse. Use `false` para itens estáticos/não interativos */
   hovered?: boolean;
 
+  /** Largura do item. Quando não informada, ocupa 100% do container */
+  width?: React.CSSProperties['width'];
+
   /** Classe CSS opcional */
   className?: string;
 }
