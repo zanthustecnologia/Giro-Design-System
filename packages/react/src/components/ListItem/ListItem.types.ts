@@ -71,6 +71,18 @@ export interface ListItemProps extends BaseProps {
   /** Escala visual do componente (1, 1.5 ou 2) */
   scale?: Scale;
 
+  /** Itens filhos para criar estrutura de árvore (outros ListItems) */
+  children?: React.ReactNode;
+
+  /** Estado inicial de expansão — modo não controlado (default: false) */
+  defaultExpanded?: boolean;
+
+  /** Estado de expansão controlado */
+  expanded?: boolean;
+
+  /** Callback executado quando o estado de expansão muda */
+  onExpandedChange?: (expanded: boolean) => void;
+
   /** Classe CSS opcional */
   className?: string;
 }

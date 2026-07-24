@@ -62,6 +62,22 @@ const meta: Meta<typeof ListItem> = {
                 disable: true,
             },
         },
+        children: {
+            table: {
+                disable: true,
+            },
+        },
+        onExpandedChange: {
+            table: {
+                disable: true,
+            },
+        },
+        defaultExpanded: {
+            control: 'boolean',
+        },
+        expanded: {
+            control: 'boolean',
+        },
     }
 } satisfies Meta<typeof ListItem>;
 
@@ -178,4 +194,66 @@ export const Desabilitado: Story = {
         disabled: true,
         showSubText: false,
     }
+};
+
+export const ArvoreSimples: Story = {
+    render: () => (
+        <ul>
+            <ListItem text="Pasta principal" defaultExpanded>
+                <ListItem text="Arquivo 1" />
+                <ListItem text="Arquivo 2" />
+                <ListItem text="Sub-pasta" defaultExpanded>
+                    <ListItem text="Arquivo 3" />
+                    <ListItem text="Arquivo 4" />
+                </ListItem>
+            </ListItem>
+            <ListItem text="Outra pasta">
+                <ListItem text="Arquivo 5" />
+            </ListItem>
+        </ul>
+    ),
+    parameters: {
+        docs: {
+            description: {
+                story: 'Estrutura de árvore com itens de texto. Clique no chevron para expandir/recolher.',
+            },
+        },
+    },
+};
+
+export const ArvoreComCheckbox: Story = {
+    render: () => (
+        <ul>
+            <ListItem variant="checkbox" text="Selecionar grupo" defaultExpanded>
+                <ListItem variant="checkbox" text="Opção A" />
+                <ListItem variant="checkbox" text="Opção B" />
+                <ListItem variant="checkbox" text="Opção C" disabled />
+            </ListItem>
+        </ul>
+    ),
+    parameters: {
+        docs: {
+            description: {
+                story: 'Estrutura de árvore com checkboxes aninhados.',
+            },
+        },
+    },
+};
+
+export const ArvoreComIcone: Story = {
+    render: () => (
+        <ul>
+            <ListItem variant="icon" icon={<UsbPlug20Regular />} text="Dispositivos" defaultExpanded>
+                <ListItem variant="icon" icon={<UsbPlug20Regular />} text="Dispositivo A" />
+                <ListItem variant="icon" icon={<UsbPlug20Regular />} text="Dispositivo B" />
+            </ListItem>
+        </ul>
+    ),
+    parameters: {
+        docs: {
+            description: {
+                story: 'Estrutura de árvore com itens de ícone.',
+            },
+        },
+    },
 };

@@ -1,56 +1,68 @@
 @use '../../styles/mixins/scale' as *;
 
+/* ── Container (li) ─────────────────────────────────────────── */
 .listItem {
     --giro-scale: 1;
     list-style: none;
     width: 100%;
-    height: scale(44px);
     color: var(--color-neutral-low-default);
+    font-family: var(--font-family-primary);
+}
+
+/* ── Row (div interativo) ───────────────────────────────────── */
+.listItemRow {
+    height: scale(44px);
     display: flex;
     flex-direction: row;
     align-items: center;
-
     transition: all ease-in-out 0.1s;
-    font-family: var(--font-family-primary);
     border-radius: scale(var(--border-radius-8));
     padding: var(--spacing-0) scale(var(--spacing-16));
-
-    &.listItem-checkbox {
-        padding: var(--spacing-0) scale(var(--spacing-16)) var(--spacing-0) scale(var(--spacing-8));
-    }
-
-    &.listItem-icon {
-        padding: var(--spacing-0) scale(var(--spacing-16));
-        gap: scale(var(--spacing-8));
-    }
-
-    &.listItem-radio {
-        padding: var(--spacing-0) scale(var(--spacing-16)) var(--spacing-0) scale(var(--spacing-8));
-    }
-
-    &.listItem-text {
-        padding: var(--spacing-0) scale(var(--spacing-16));
-    }
+    cursor: pointer;
 
     &:focus {
+        outline: none;
         background-color: var(--color-neutral-high-medium);
     }
 }
 
-.listItem.listItemHovered:hover {
+/* Paddings por variante */
+.listItem-checkbox > .listItemRow {
+    padding: var(--spacing-0) scale(var(--spacing-16)) var(--spacing-0) scale(var(--spacing-8));
+}
+
+.listItem-icon > .listItemRow {
+    padding: var(--spacing-0) scale(var(--spacing-16));
+    gap: scale(var(--spacing-8));
+}
+
+.listItem-radio > .listItemRow {
+    padding: var(--spacing-0) scale(var(--spacing-16)) var(--spacing-0) scale(var(--spacing-8));
+}
+
+.listItem-text > .listItemRow {
+    padding: var(--spacing-0) scale(var(--spacing-16));
+}
+
+/* Hover */
+.listItem.listItemHovered > .listItemRow:hover {
     background-color: var(--color-neutral-high-medium);
 }
 
+/* Disabled */
 .listItemDisabled {
     pointer-events: none;
     color: var(--color-neutral-low-light);
 }
 
+/* ── Wrappers internos ──────────────────────────────────────── */
 .listItemWrapperText {
     display: flex;
     flex-direction: column;
     gap: scale(var(--spacing-4));
     align-items: flex-start;
+    flex: 1;
+    min-width: 0;
 }
 
 .listItemWrapperIcon {
@@ -66,9 +78,13 @@
     display: flex;
 }
 
+/* ── Tipografia ─────────────────────────────────────────────── */
 span.listItemTitle {
     font-size: scale(var(--font-size-16));
     font-weight: var(--font-weight-regular);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 span.listItemSubtext {
@@ -82,3 +98,34 @@ span.listItemSubtext {
     white-space: nowrap;
     width: 100%;
 }
+
+/* ── Chevron (expand/collapse) ──────────────────────────────── */
+.listItemChevron {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+    padding: var(--spacing-0);
+    width: scale(24px);
+    height: scale(24px);
+    min-width: scale(24px);
+    min-height: scale(24px);
+    background: none;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: transform 0.2s ease-in-out;
+}
+
+.listItemChevronExpanded {
+    transform: rotate(180deg);
+}
+
+/* ── Children (sub-lista) ───────────────────────────────────── */
+.listItemChildren {
+    list-style: none;
+    margin: 0;
+    padding: 0 0 0 scale(var(--spacing-16));
+}
+

@@ -1,3 +1,4 @@
+import { ChevronDown16Regular } from '@fluentui/react-icons';
 import clsx from "clsx";
 import React, { useId, useCallback, useState, useEffect } from "react";
 
@@ -25,20 +26,35 @@ const ListItem: React.FC<ListItemProps> = ({
   hovered = true,
   width,
   scale = 1,
+  children,
+  defaultExpanded = false,
+  expanded,
+  onExpandedChange,
   ...rest
 }) => {
   const componentId = useId();
   const itemId = id || componentId;
   const [internalChecked, setInternalChecked] = useState<boolean>(checked);
   const [internalSelected, setInternalSelected] = useState<boolean>(selected);
+  const [internalExpanded, setInternalExpanded] = useState<boolean>(expanded ?? defaultExpanded);
+  const [childrenCheckedMap, setChildrenCheckedMap] = useState<Record<number, boolean>>({});
+
+  const childrenCount = variant === 'checkbox' ? React.Children.count(children) : 0;
+  const checkedCount = Object.values(childrenCheckedMap).filter(Boolean).length;
+  const isIndeterminate = childrenCount > 0 && checkedCount > 0 && checkedCount < childrenCount;
 
   const handleCheckboxClick = useCallback((e: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>): void => {
     if (disabled) return;
-    const newChecked = !internalChecked;
+    const newChecked = isIndeterminate ? true : !internalChecked;
     setInternalChecked(newChecked);
+    if (childrenCount > 0) {
+      const newMap: Record<number, boolean> = {};
+      for (let i = 0; i < childrenCount; i++) newMap[i] = newChecked;
+      setChildrenCheckedMap(newMap);
+    }
     onChange?.(newChecked);
     onClick?.(e);
-  }, [disabled, internalChecked, onChange, onClick]);
+  }, [disabled, internalChecked, isIndeterminate, childrenCount, onChange, onClick]);
 
   const handleRadioClick = useCallback((e: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>): void => {
     if (disabled) return;
@@ -56,7 +72,23 @@ const ListItem: React.FC<ListItemProps> = ({
     onClick?.(e);
   }, [disabled, internalSelected, onClick]);
 
-  const handleClick = useCallback((e: React.MouseEvent<HTMLLIElement>): void => {
+  const handleChildChange = useCallback((index: number, childChecked: boolean): void => {
+    setChildrenCheckedMap(prev => {
+      const next = { ...prev, [index]: childChecked };
+      const total = childrenCount;
+      const checked = Object.values(next).filter(Boolean).length;
+      if (checked === 0) {
+        setInternalChecked(false);
+        onChange?.(false);
+      } else if (checked === total) {
+        setInternalChecked(true);
+        onChange?.(true);
+      }
+      return next;
+    });
+  }, [childrenCount, onChange]);
+
+  const handleClick = useCallback((e: React.MouseEvent<HTMLDivElement>): void => {
     switch (variant) {
       case 'checkbox':
         handleCheckboxClick(e as React.MouseEvent<HTMLElement>);
@@ -72,7 +104,7 @@ const ListItem: React.FC<ListItemProps> = ({
     }
   }, [variant, handleCheckboxClick, handleRadioClick, handleTextOrIconClick]);
 
-  const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLLIElement>): void => {
+  const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLDivElement>): void => {
     if (!disabled && (e.key === 'Enter' || e.key === ' ')) {
       e.preventDefault();
       switch (variant) {
@@ -91,6 +123,14 @@ const ListItem: React.FC<ListItemProps> = ({
     }
   }, [disabled, variant, handleCheckboxClick, handleRadioClick, handleTextOrIconClick]);
 
+  const handleToggleExpand = useCallback((e: React.MouseEvent<HTMLButtonElement>): void => {
+    e.stopPropagation();
+    if (disabled) return;
+    const newExpanded = !internalExpanded;
+    setInternalExpanded(newExpanded);
+    onExpandedChange?.(newExpanded);
+  }, [disabled, internalExpanded, onExpandedChange]);
+
   useEffect(() => {
     setInternalChecked(checked);
   }, [checked]);
@@ -98,6 +138,23 @@ const ListItem: React.FC<ListItemProps> = ({
   useEffect(() => {
     setInternalSelected(selected);
   }, [selected]);
+
+  useEffect(() => {
+    if (expanded !== undefined) setInternalExpanded(expanded);
+  }, [expanded]);
+
+  useEffect(() => {
+    if (!internalExpanded || variant !== 'checkbox' || childrenCount === 0) return;
+    setChildrenCheckedMap(prev => {
+      let changed = false;
+      const next = { ...prev };
+      for (let i = 0; i < childrenCount; i++) {
+        if (!(i in next)) { next[i] = internalChecked; changed = true; }
+      }
+      return changed ? next : prev;
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [internalExpanded, childrenCount, variant]);
 
   const renderVariantContent = useCallback((): React.ReactNode => {
     const validVariants: ListItemVariant[] = ['text', 'checkbox', 'radio', 'icon'];
@@ -110,6 +167,7 @@ const ListItem: React.FC<ListItemProps> = ({
             <span aria-hidden="true">
               <Checkbox
                 checked={internalChecked}
+                indeterminate={isIndeterminate}
                 disabled={disabled}
                 onCheckedChange={() => handleCheckboxClick({} as React.MouseEvent<HTMLElement>)}
               />
@@ -214,7 +272,7 @@ const ListItem: React.FC<ListItemProps> = ({
           </div>
         );
     }
-  }, [variant, itemId, internalChecked, disabled, handleCheckboxClick, handleRadioClick, value, text, showSubText, subText, icon, name]);
+  }, [variant, itemId, internalChecked, isIndeterminate, disabled, handleCheckboxClick, handleRadioClick, value, text, showSubText, subText, icon, name]);
 
   const listItemClass = clsx(
     styles['listItem'],
@@ -228,20 +286,11 @@ const ListItem: React.FC<ListItemProps> = ({
 
   const ariaChecked = (variant === 'checkbox' || variant === 'radio') ? internalChecked : undefined;
   const ariaRole = variant === 'checkbox' ? 'checkbox' : variant === 'radio' ? 'radio' : 'option';
+  const hasChildren = React.Children.count(children) > 0;
 
   return (
-    // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions -- role is dynamic (checkbox/radio/option) and cannot be resolved statically by the linter
     <li
-      role={ariaRole}
       className={listItemClass}
-      tabIndex={disabled ? -1 : 0}
-      onClick={handleClick}
-      onKeyDown={handleKeyDown}
-      aria-selected={variant === 'text' || variant === 'icon' ? internalSelected : undefined}
-      aria-disabled={disabled}
-      aria-checked={ariaChecked}
-      aria-labelledby={`${itemId}-text`}
-      aria-describedby={showSubText && subText ? `${itemId}-subtext` : undefined}
       data-testid="list-item"
       style={{
         '--giro-scale': scale,
@@ -249,7 +298,52 @@ const ListItem: React.FC<ListItemProps> = ({
       } as React.CSSProperties}
       {...rest}
     >
-      {renderVariantContent()}
+      <div
+        role={ariaRole}
+        className={styles['listItemRow']}
+        tabIndex={disabled ? -1 : 0}
+        onClick={handleClick}
+        onKeyDown={handleKeyDown}
+        aria-selected={variant === 'text' || variant === 'icon' ? internalSelected : undefined}
+        aria-disabled={disabled}
+        aria-checked={ariaChecked}
+        aria-expanded={hasChildren ? internalExpanded : undefined}
+        aria-labelledby={`${itemId}-text`}
+        aria-describedby={showSubText && subText ? `${itemId}-subtext` : undefined}
+      >
+        {renderVariantContent()}
+        {hasChildren && (
+          <button
+            type="button"
+            className={clsx(styles['listItemChevron'], {
+              [styles['listItemChevronExpanded']]: internalExpanded,
+            })}
+            onClick={handleToggleExpand}
+            tabIndex={-1}
+            aria-label={internalExpanded ? 'Recolher' : 'Expandir'}
+            disabled={disabled}
+          >
+            <ChevronDown16Regular />
+          </button>
+        )}
+      </div>
+      {hasChildren && internalExpanded && (
+        <ul className={styles['listItemChildren']} role="group">
+          {variant === 'checkbox'
+            ? React.Children.map(children, (child, index) =>
+                React.isValidElement(child)
+                  ? React.cloneElement(child as React.ReactElement<ListItemProps>, {
+                      checked: childrenCheckedMap[index] ?? internalChecked,
+                      onChange: (childChecked: boolean) => {
+                        (child.props as ListItemProps).onChange?.(childChecked);
+                        handleChildChange(index, childChecked);
+                      },
+                    })
+                  : child
+              )
+            : children}
+        </ul>
+      )}
     </li>
   );
 };
