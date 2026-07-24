@@ -92,12 +92,7 @@ span.listItemSubtext {
     font-weight: var(--font-weight-regular);
 }
 
-.listItemText {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    width: 100%;
-}
+
 
 /* ── Chevron (expand/collapse) ──────────────────────────────── */
 .listItemChevron {
