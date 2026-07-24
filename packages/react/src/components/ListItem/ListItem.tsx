@@ -290,6 +290,7 @@ const ListItem: React.FC<ListItemProps> = ({
 
   return (
     <li
+      id={itemId}
       className={listItemClass}
       data-testid="list-item"
       style={{
