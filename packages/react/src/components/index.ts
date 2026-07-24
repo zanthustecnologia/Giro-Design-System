@@ -87,18 +87,6 @@ export { type ToastProps} from './Toast/Toast.types';
 export { default as Tooltip } from './Tooltip';
 export { type TooltipProps } from './Tooltip/Tooltip.types';
 
-export { default as Onboarding } from './Onboarding';
-export type {
-  OnboardingProps,
-  OnboardingTourProps,
-  OnboardingHintProps,
-  OnboardingStep,
-  OnboardingHint,
-  OnboardingStepPosition,
-  OnboardingHintPosition,
-  OnboardingMode,
-} from './Onboarding/Onboarding.types';
-
 export { default as Switch } from './Switch';
 export { type SwitchProps } from './Switch/Switch.types';
 

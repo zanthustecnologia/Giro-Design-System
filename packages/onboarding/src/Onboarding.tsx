@@ -84,4 +84,3 @@ const Onboarding: React.FC<OnboardingProps> = (props) => {
 };
 
 export default Onboarding;
-

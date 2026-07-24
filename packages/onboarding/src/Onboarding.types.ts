@@ -1,5 +1,3 @@
-import { BaseProps } from '@/types';
-
 /** Modo de exibição do Onboarding */
 export type OnboardingMode = 'tour' | 'hint';
 
@@ -40,7 +38,11 @@ export interface OnboardingHint {
   hintPosition?: OnboardingHintPosition;
 }
 
-interface OnboardingBaseProps extends BaseProps {
+interface OnboardingBaseProps {
+  /** Identificador único do elemento HTML */
+  id?: string;
+  /** Classes CSS adicionais */
+  className?: string;
   /** Controla se o onboarding está ativo */
   isOpen: boolean;
 }
@@ -73,4 +75,3 @@ export interface OnboardingHintProps extends OnboardingBaseProps {
 }
 
 export type OnboardingProps = OnboardingTourProps | OnboardingHintProps;
-
