@@ -150,6 +150,7 @@ const ListItem: React.FC<ListItemProps> = ({
                 checked={internalChecked}
                 indeterminate={isIndeterminate}
                 disabled={disabled}
+                scale={scale}
                 onCheckedChange={() => handleCheckboxClick({} as React.MouseEvent<HTMLElement>)}
               />
             </span>

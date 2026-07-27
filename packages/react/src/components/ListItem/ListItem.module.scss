@@ -7,6 +7,10 @@
     width: 100%;
     color: var(--color-neutral-low-default);
     font-family: var(--font-family-primary);
+
+    & + .listItem {
+        margin-top: scale(var(--spacing-16));
+    }
 }
 
 /* ── Row (div interativo) ───────────────────────────────────── */
@@ -20,7 +24,7 @@
     padding: var(--spacing-0) scale(var(--spacing-16));
     cursor: pointer;
 
-    &:focus {
+    &:focus-visible {
         outline: none;
         background-color: var(--color-neutral-high-medium);
     }
@@ -118,5 +122,6 @@ span.listItemSubtext {
     list-style: none;
     margin: 0;
     padding: 0 0 0 scale(var(--spacing-16));
+    margin-top: scale(var(--spacing-16));
 }
 
