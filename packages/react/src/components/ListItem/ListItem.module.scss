@@ -100,17 +100,9 @@ span.listItemSubtext {
     height: scale(24px);
     min-width: scale(24px);
     min-height: scale(24px);
-    background: none;
-    border: none;
     color: inherit;
-    cursor: pointer;
     flex-shrink: 0;
     transition: transform 0.2s ease-in-out;
-
-    &:hover {
-        background-color: var(--color-neutral-high-dark);
-        border-radius: scale(var(--border-radius-circular));
-    }
 }
 
 .listItemChevronExpanded {

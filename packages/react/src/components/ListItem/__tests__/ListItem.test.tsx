@@ -249,7 +249,7 @@ describe('ListItem', () => {
   describe('Comportamento de árvore', () => {
     it('não deve exibir o chevron sem children', () => {
       wrap(<ListItem text="Item" />);
-      expect(screen.queryByRole('button', { name: /expandir|recolher/i })).not.toBeInTheDocument();
+      expect(screen.queryByTestId('list-item-chevron')).not.toBeInTheDocument();
     });
 
     it('deve exibir o chevron quando há children', () => {
@@ -258,7 +258,7 @@ describe('ListItem', () => {
           <ListItem text="Filho" />
         </ListItem>
       );
-      expect(screen.getByRole('button', { name: /expandir/i })).toBeInTheDocument();
+      expect(screen.getByTestId('list-item-chevron')).toBeInTheDocument();
     });
 
     it('não deve renderizar children quando recolhido (padrão)', () => {
@@ -279,25 +279,25 @@ describe('ListItem', () => {
       expect(screen.getByText('Filho')).toBeInTheDocument();
     });
 
-    it('deve expandir ao clicar no chevron', async () => {
+    it('deve expandir ao clicar no item', async () => {
       const user = userEvent.setup();
       wrap(
         <ListItem text="Pai">
           <ListItem text="Filho" />
         </ListItem>
       );
-      await user.click(screen.getByRole('button', { name: /expandir/i }));
+      await user.click(screen.getByRole('option', { name: 'Pai' }));
       expect(screen.getByText('Filho')).toBeInTheDocument();
     });
 
-    it('deve recolher ao clicar novamente no chevron', async () => {
+    it('deve recolher ao clicar novamente no item', async () => {
       const user = userEvent.setup();
       wrap(
         <ListItem text="Pai" defaultExpanded>
           <ListItem text="Filho" />
         </ListItem>
       );
-      await user.click(screen.getByRole('button', { name: /recolher/i }));
+      await user.click(screen.getByRole('option', { name: 'Pai' }));
       expect(screen.queryByText('Filho')).not.toBeInTheDocument();
     });
 
@@ -309,7 +309,7 @@ describe('ListItem', () => {
           <ListItem text="Filho" />
         </ListItem>
       );
-      await user.click(screen.getByRole('button', { name: /expandir/i }));
+      await user.click(screen.getByRole('option', { name: 'Pai' }));
       expect(handleExpanded).toHaveBeenCalledWith(true);
     });
 
@@ -321,7 +321,7 @@ describe('ListItem', () => {
           <ListItem text="Filho" />
         </ListItem>
       );
-      await user.click(screen.getByRole('button', { name: /recolher/i }));
+      await user.click(screen.getByRole('option', { name: 'Pai' }));
       expect(handleExpanded).toHaveBeenCalledWith(false);
     });
 
@@ -366,8 +366,7 @@ describe('ListItem', () => {
           <ListItem text="Filho" />
         </ListItem>
       );
-      const chevron = screen.getByRole('button', { name: /expandir/i });
-      fireEvent.click(chevron);
+      fireEvent.click(screen.getByRole('option', { name: 'Pai' }));
       expect(screen.queryByText('Filho')).not.toBeInTheDocument();
     });
 
@@ -387,7 +386,7 @@ describe('ListItem', () => {
           <ListItem text="Filho" />
         </ListItem>
       );
-      await user.click(screen.getByRole('button', { name: /expandir/i }));
+      await user.click(screen.getByRole('option', { name: 'Pai' }));
       expect(screen.getByRole('option', { name: 'Pai' })).toHaveAttribute('aria-expanded', 'true');
     });
 
@@ -403,7 +402,7 @@ describe('ListItem', () => {
           <ListItem text="Filho" />
         </ListItem>
       );
-      await user.click(screen.getByRole('button', { name: /expandir/i }));
+      await user.click(screen.getByRole('option', { name: 'Pai' }));
       const group = container.querySelector('ul[role="group"]');
       expect(group).toBeInTheDocument();
     });
@@ -422,7 +421,7 @@ describe('ListItem', () => {
     it('deve marcar todos os filhos ao marcar o pai', async () => {
       const user = userEvent.setup();
       renderCheckboxTree();
-      await user.click(screen.getByRole('checkbox', { name: 'Pai' }));
+      await user.click(screen.getByText('Pai'));
       expect(screen.getByRole('checkbox', { name: 'Filho A' })).toHaveAttribute('aria-checked', 'true');
       expect(screen.getByRole('checkbox', { name: 'Filho B' })).toHaveAttribute('aria-checked', 'true');
     });
@@ -431,9 +430,9 @@ describe('ListItem', () => {
       const user = userEvent.setup();
       renderCheckboxTree();
       // marcar
-      await user.click(screen.getByRole('checkbox', { name: 'Pai' }));
+      await user.click(screen.getByText('Pai'));
       // desmarcar
-      await user.click(screen.getByRole('checkbox', { name: 'Pai' }));
+      await user.click(screen.getByText('Pai'));
       expect(screen.getByRole('checkbox', { name: 'Filho A' })).toHaveAttribute('aria-checked', 'false');
       expect(screen.getByRole('checkbox', { name: 'Filho B' })).toHaveAttribute('aria-checked', 'false');
     });
@@ -442,7 +441,7 @@ describe('ListItem', () => {
       const user = userEvent.setup();
       const { container } = renderCheckboxTree();
       // Marcar todos via pai
-      await user.click(screen.getByRole('checkbox', { name: 'Pai' }));
+      await user.click(screen.getByText('Pai'));
       // Desmarcar Filho A individualmente
       await user.click(screen.getByRole('checkbox', { name: 'Filho A' }));
       // O Checkbox interno do pai deve estar indeterminado
@@ -454,11 +453,11 @@ describe('ListItem', () => {
       const user = userEvent.setup();
       renderCheckboxTree();
       // Marcar todos
-      await user.click(screen.getByRole('checkbox', { name: 'Pai' }));
+      await user.click(screen.getByText('Pai'));
       // Desmarcar um filho → pai indeterminado
       await user.click(screen.getByRole('checkbox', { name: 'Filho A' }));
-      // Clicar no pai indeterminado → vai para marcado
-      await user.click(screen.getByRole('checkbox', { name: 'Pai' }));
+      // Clicar no texto do pai indeterminado → vai para marcado
+      await user.click(screen.getByText('Pai'));
       expect(screen.getByRole('checkbox', { name: 'Filho A' })).toHaveAttribute('aria-checked', 'true');
       expect(screen.getByRole('checkbox', { name: 'Filho B' })).toHaveAttribute('aria-checked', 'true');
     });
@@ -475,7 +474,7 @@ describe('ListItem', () => {
       const user = userEvent.setup();
       renderCheckboxTree();
       // Marcar todos via pai
-      await user.click(screen.getByRole('checkbox', { name: 'Pai' }));
+      await user.click(screen.getByText('Pai'));
       // Desmarcar filhos individualmente
       await user.click(screen.getByRole('checkbox', { name: 'Filho A' }));
       await user.click(screen.getByRole('checkbox', { name: 'Filho B' }));
@@ -484,20 +483,20 @@ describe('ListItem', () => {
 
     it('deve preservar o estado dos filhos após fechar e reabrir a árvore', async () => {
       const user = userEvent.setup();
-      const { container } = wrap(
+      wrap(
         <ListItem variant="checkbox" text="Pai" defaultExpanded>
           <ListItem variant="checkbox" text="Filho A" />
           <ListItem variant="checkbox" text="Filho B" />
         </ListItem>
       );
-      // Marcar todos via pai
-      await user.click(screen.getByRole('checkbox', { name: 'Pai' }));
+      // Marcar todos via pai (clica no texto)
+      await user.click(screen.getByText('Pai'));
       // Desmarcar Filho A
       await user.click(screen.getByRole('checkbox', { name: 'Filho A' }));
-      // Fechar árvore
-      await user.click(container.querySelector('button[aria-label="Recolher"]') as Element);
-      // Reabrir árvore
-      await user.click(container.querySelector('button[aria-label="Expandir"]') as Element);
+      // Fechar árvore (clica no row)
+      await user.click(screen.getByRole('checkbox', { name: 'Pai' }));
+      // Reabrir árvore (clica no row)
+      await user.click(screen.getByRole('checkbox', { name: 'Pai' }));
       // Filho A deve permanecer desmarcado
       expect(screen.getByRole('checkbox', { name: 'Filho A' })).toHaveAttribute('aria-checked', 'false');
       expect(screen.getByRole('checkbox', { name: 'Filho B' })).toHaveAttribute('aria-checked', 'true');
@@ -516,34 +515,35 @@ describe('ListItem', () => {
       expect(screen.getByRole('option', { name: 'Item' })).toHaveAttribute('tabIndex', '0');
     });
 
-    it('o chevron deve ter aria-label="Expandir" quando recolhido', () => {
+    it('deve ter aria-expanded=false no item com children recolhido', () => {
       wrap(
         <ListItem text="Pai">
           <ListItem text="Filho" />
         </ListItem>
       );
-      expect(screen.getByRole('button', { name: 'Expandir' })).toBeInTheDocument();
+      expect(screen.getByRole('option', { name: 'Pai' })).toHaveAttribute('aria-expanded', 'false');
     });
 
-    it('o chevron deve ter aria-label="Recolher" quando expandido', async () => {
+    it('deve ter aria-expanded=true no item com children expandido e recolher ao clicar', async () => {
       const user = userEvent.setup();
       wrap(
         <ListItem text="Pai" defaultExpanded>
           <ListItem text="Filho" />
         </ListItem>
       );
-      expect(screen.getByRole('button', { name: 'Recolher' })).toBeInTheDocument();
-      await user.click(screen.getByRole('button', { name: 'Recolher' }));
-      expect(screen.getByRole('button', { name: 'Expandir' })).toBeInTheDocument();
+      expect(screen.getByRole('option', { name: 'Pai' })).toHaveAttribute('aria-expanded', 'true');
+      await user.click(screen.getByRole('option', { name: 'Pai' }));
+      expect(screen.getByRole('option', { name: 'Pai' })).toHaveAttribute('aria-expanded', 'false');
     });
 
-    it('o chevron deve estar desabilitado quando o item está desabilitado', () => {
+    it('não deve expandir ao clicar no item desabilitado com children', () => {
       wrap(
         <ListItem text="Pai" disabled>
           <ListItem text="Filho" />
         </ListItem>
       );
-      expect(screen.getByRole('button', { name: /expandir/i })).toBeDisabled();
+      fireEvent.click(screen.getByRole('option', { name: 'Pai' }));
+      expect(screen.queryByText('Filho')).not.toBeInTheDocument();
     });
   });
 });
