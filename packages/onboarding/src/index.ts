@@ -7,5 +7,6 @@ export type {
   OnboardingHint,
   OnboardingStepPosition,
   OnboardingHintPosition,
+  OnboardingScrollTo,
   OnboardingMode,
 } from './Onboarding.types';
