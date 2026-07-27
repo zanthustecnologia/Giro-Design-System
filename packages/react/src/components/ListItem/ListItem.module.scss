@@ -41,14 +41,18 @@
 }
 
 /* Hover */
-.listItem.listItemHovered > .listItemRow:hover {
+.listItem.listItemHovered:not(.listItemDisabled) > .listItemRow:hover {
     background-color: var(--color-neutral-high-medium);
 }
 
 /* Disabled */
 .listItemDisabled {
-    pointer-events: none;
     color: var(--color-neutral-low-light);
+    cursor: not-allowed;
+}
+
+.listItemDisabled > .listItemRow {
+    pointer-events: none;
 }
 
 /* ── Wrappers internos ──────────────────────────────────────── */
