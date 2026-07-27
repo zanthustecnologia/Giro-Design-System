@@ -102,6 +102,11 @@ span.listItemSubtext {
     cursor: pointer;
     flex-shrink: 0;
     transition: transform 0.2s ease-in-out;
+
+    &:hover {
+        background-color: var(--color-neutral-high-dark);
+        border-radius: scale(var(--border-radius-circular));
+    }
 }
 
 .listItemChevronExpanded {
