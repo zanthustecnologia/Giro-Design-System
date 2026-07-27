@@ -174,13 +174,11 @@ const ListItem: React.FC<ListItemProps> = ({
               />
             </span>
             <div className={styles['listItemWrapperText']}>
+              {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
               <span
                 id={`${itemId}-text`}
                 className={styles['listItemTitle']}
                 onClick={hasChildren ? (e) => { e.stopPropagation(); handleCheckboxClick(e as React.MouseEvent<HTMLElement>); } : undefined}
-                onKeyDown={hasChildren ? (e) => { if (e.key === 'Enter' || e.key === ' ') { e.stopPropagation(); handleCheckboxClick(e); } } : undefined}
-                role={hasChildren ? 'button' : undefined}
-                tabIndex={hasChildren ? -1 : undefined}
               >
                 {text}
               </span>

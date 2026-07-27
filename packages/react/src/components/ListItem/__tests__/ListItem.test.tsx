@@ -1,7 +1,17 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import ListItem from '../ListItem';
+
+// React's useId() generates IDs like `:r0:` that contain colons. Jsdom/nwsapi
+// builds invalid CSS selectors from those IDs when matching Checkbox's :active
+// rules. This mock replaces them with valid CSS identifiers.
+let _useIdCounter = 0;
+vi.mock('react', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('react')>();
+  return { ...actual, useId: () => `giro-${_useIdCounter++}` };
+});
+beforeEach(() => { _useIdCounter = 0; });
 
 const TestIcon = () => <svg data-testid="test-icon" />;
 
