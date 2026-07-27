@@ -10,7 +10,7 @@ import { Footer } from '../../../internal-components/mdx/Footer/Footer';
 
 # ListItem
 
-O ListItem é um item de lista interativo que pode ser usado com texto simples, ícone, checkbox ou radio. Suporta texto descritivo, estado desabilitado e responde a interações de mouse e teclado.
+O ListItem é um item de lista interativo que pode ser usado com texto simples, ícone ou checkbox. Suporta texto descritivo, estado desabilitado e responde a interações de mouse e teclado.
 
 <Canvas of={ListItemStories.Default} />
 
@@ -36,7 +36,7 @@ import { ListItem } from '@giro-ds/react';
       Use o ListItem dentro de um elemento <code>&lt;ul&gt;</code> para manter a semântica correta de lista. O componente já renderiza um <code>&lt;li&gt;</code> internamente.
     </>,
     <>
-      Para listas com seleção múltipla, use a variante com checkbox. Para seleção exclusiva dentro de um grupo, use a variante com radio e atribua o mesmo identificador de grupo a todos os itens relacionados.
+      Para listas com seleção múltipla, use a variante com checkbox.
     </>,
     <>
       O texto descritivo é opcional e deve ser ativado explicitamente. Use-o para fornecer contexto adicional quando o texto principal não for suficiente para descrever o item.
@@ -59,12 +59,6 @@ import { ListItem } from '@giro-ds/react';
 Usado em listas com seleção múltipla, onde o usuário pode marcar ou desmarcar cada item de forma independente.
 
 <Canvas of={ListItemStories.ComCheckbox} />
-
-### Com radio
-
-Usado em grupos de seleção exclusiva. Todos os itens do grupo devem compartilhar o mesmo identificador de grupo para que apenas um possa estar selecionado por vez.
-
-<Canvas of={ListItemStories.ComRadio} />
 
 ### Com ícone
 
@@ -108,26 +102,6 @@ O item desabilitado não responde a cliques ou ao teclado e é exibido com menor
           </ul>
         ),
         description: 'Use textos descritivos que deixem claro o que cada opção representa, sem depender de contexto externo.'
-      }
-    },
-    {
-      negative: {
-        component: (
-          <ul style={{ margin: 0, padding: 0 }}>
-            <ListItem variant="radio" text="Plano mensal" hovered={true} />
-            <ListItem variant="checkbox" text="Plano anual" hovered={true} />
-          </ul>
-        ),
-        description: 'Não misture variantes de seleção na mesma lista. Combinar radio e checkbox cria inconsistência e confunde o modelo mental do usuário.'
-      },
-      positive: {
-        component: (
-          <ul style={{ margin: 0, padding: 0 }}>
-            <ListItem variant="radio" text="Plano mensal" name="plano" hovered={true} />
-            <ListItem variant="radio" text="Plano anual" name="plano" hovered={true} />
-          </ul>
-        ),
-        description: 'Mantenha a mesma variante em toda a lista. Use radio para seleção exclusiva e checkbox para seleção múltipla.'
       }
     },
     {

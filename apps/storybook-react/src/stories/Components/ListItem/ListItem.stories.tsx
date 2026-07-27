@@ -10,7 +10,7 @@ const meta: Meta<typeof ListItem> = {
     parameters: {
         docs: {
           description: {
-            component: 'O ListItem é um item de lista interativo que pode ser usado com texto simples, ícone, checkbox ou radio. Suporta texto descritivo, estado desabilitado e responde a interações de mouse e teclado.',
+            component: 'O ListItem é um item de lista interativo que pode ser usado com texto simples, ícone ou checkbox. Suporta texto descritivo, estado desabilitado e responde a interações de mouse e teclado.',
           },
         },
         // layout: 'centered'
@@ -18,7 +18,7 @@ const meta: Meta<typeof ListItem> = {
       argTypes: {
         variant: {
             control: 'select',
-            options: ['text', 'icon', 'checkbox', 'radio'],
+            options: ['text', 'icon', 'checkbox'],
         },
         hovered: {
             control: 'boolean',
@@ -130,23 +130,6 @@ export const ComCheckbox: Story = {
         variant: 'checkbox',
         text: 'Aceitar termos de uso',
         subText: 'Leia os termos antes de continuar',
-        disabled: false,
-        checked: false,
-        showSubText: false,
-    }
-};
-
-export const ComRadio: Story = {
-    render: (args) => (
-        <ul>
-            <ListItem {...args} />
-        </ul>
-    ),
-    args: {
-        variant: 'radio',
-        text: 'Opção A',
-        name: 'opcoes',
-        value: 'opcao-a',
         disabled: false,
         checked: false,
         showSubText: false,

@@ -36,10 +36,6 @@
     gap: scale(var(--spacing-8));
 }
 
-.listItem-radio > .listItemRow {
-    padding: var(--spacing-0) scale(var(--spacing-16)) var(--spacing-0) scale(var(--spacing-8));
-}
-
 .listItem-text > .listItemRow {
     padding: var(--spacing-0) scale(var(--spacing-16));
 }
@@ -66,15 +62,6 @@
 }
 
 .listItemWrapperIcon {
-    display: flex;
-}
-
-.listItemWrapperRadio {
-    display: flex;
-    align-items: center;
-}
-
-.listItemRadio {
     display: flex;
 }
 

@@ -3,7 +3,7 @@ import * as React from 'react';
 import { BaseProps, Scale } from '../../types/common.types';
 
 /** Variantes disponíveis para o ListItem */
-export type ListItemVariant = 'text' | 'checkbox' | 'radio' | 'icon';
+export type ListItemVariant = 'text' | 'checkbox' | 'icon';
 
 /**
  * Props do componente ListItem
@@ -35,13 +35,13 @@ export interface ListItemProps extends BaseProps {
   /** Texto principal do item */
   text?: string;
   
-  /** Nome do input (para variantes checkbox/radio) */
+  /** Nome do input (para variante checkbox) */
   name?: string;
   
   /** Texto secundário/descrição do item */
   subText?: string;
   
-  /** Estado de checked (para variantes checkbox/radio) */
+  /** Estado de checked (para variante checkbox) */
   checked?: boolean;
   
   /** Estado de selecionado (para variantes text/icon) */
@@ -56,7 +56,7 @@ export interface ListItemProps extends BaseProps {
   /** Ícone do item (para variante icon) */
   icon?: React.ReactNode;
   
-  /** Valor do input (para variantes checkbox/radio) */
+  /** Valor do input (para variante checkbox) */
   value?: string;
   
   /** Controla a visibilidade do subtexto explicitamente, independentemente de `subText` estar preenchido */

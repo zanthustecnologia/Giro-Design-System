@@ -80,11 +80,6 @@ describe('ListItem', () => {
       expect(screen.getByRole('checkbox', { name: 'Item' })).toBeInTheDocument();
     });
 
-    it('deve ter role="radio" na variante radio', () => {
-      wrap(<ListItem variant="radio" text="Item" />);
-      expect(screen.getByRole('radio', { name: 'Item' })).toBeInTheDocument();
-    });
-
     it('deve ter role="option" na variante icon', () => {
       wrap(<ListItem variant="icon" text="Item" icon={<TestIcon />} />);
       expect(screen.getByRole('option', { name: 'Item' })).toBeInTheDocument();
@@ -252,30 +247,6 @@ describe('ListItem', () => {
     it('não deve definir aria-selected na variante checkbox', () => {
       wrap(<ListItem variant="checkbox" text="Item" />);
       expect(screen.getByRole('checkbox', { name: 'Item' })).not.toHaveAttribute('aria-selected');
-    });
-  });
-
-  // ── Interação — variante radio ────────────────────────────────────────────
-  describe('Interação — variante radio', () => {
-    it('deve chamar onChange com true ao selecionar', async () => {
-      const user = userEvent.setup();
-      const handleChange = vi.fn();
-      wrap(<ListItem variant="radio" text="Item" onChange={handleChange} />);
-      await user.click(screen.getByRole('radio', { name: 'Item' }));
-      expect(handleChange).toHaveBeenCalledWith(true);
-    });
-
-    it('não deve chamar onChange se já estiver selecionado', async () => {
-      const user = userEvent.setup();
-      const handleChange = vi.fn();
-      wrap(<ListItem variant="radio" text="Item" checked onChange={handleChange} />);
-      await user.click(screen.getByRole('radio', { name: 'Item' }));
-      expect(handleChange).not.toHaveBeenCalled();
-    });
-
-    it('deve refletir aria-checked=true quando checked', () => {
-      wrap(<ListItem variant="radio" text="Item" checked />);
-      expect(screen.getByRole('radio', { name: 'Item' })).toHaveAttribute('aria-checked', 'true');
     });
   });
 

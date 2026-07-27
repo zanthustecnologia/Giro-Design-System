@@ -4,7 +4,6 @@ import React, { useId, useCallback, useState, useEffect } from "react";
 
 import styles from './ListItem.module.scss';
 import Checkbox from '../Checkbox/Checkbox';
-import Radio from '../Radio/Radio';
 
 import type { ListItemVariant, ListItemProps } from './ListItem.types';
 
@@ -13,7 +12,6 @@ const ListItem: React.FC<ListItemProps> = ({
   className,
   variant = 'text',
   text,
-  name,
   subText,
   disabled = false,
   checked = false,
@@ -21,7 +19,6 @@ const ListItem: React.FC<ListItemProps> = ({
   onClick,
   onChange,
   icon,
-  value,
   showSubText = false,
   hovered = true,
   width,
@@ -56,15 +53,6 @@ const ListItem: React.FC<ListItemProps> = ({
     onClick?.(e);
   }, [disabled, internalChecked, isIndeterminate, childrenCount, onChange, onClick]);
 
-  const handleRadioClick = useCallback((e: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>): void => {
-    if (disabled) return;
-    if (!internalChecked) {
-      setInternalChecked(true);
-      onChange?.(true);
-    }
-    onClick?.(e);
-  }, [disabled, internalChecked, onChange, onClick]);
-
   const handleTextOrIconClick = useCallback((e: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>): void => {
     if (disabled) return;
     const newSelected = !internalSelected;
@@ -93,16 +81,13 @@ const ListItem: React.FC<ListItemProps> = ({
       case 'checkbox':
         handleCheckboxClick(e as React.MouseEvent<HTMLElement>);
         break;
-      case 'radio':
-        handleRadioClick(e as React.MouseEvent<HTMLElement>);
-        break;
       case 'text':
       case 'icon':
       default:
         handleTextOrIconClick(e as React.MouseEvent<HTMLElement>);
         break;
     }
-  }, [variant, handleCheckboxClick, handleRadioClick, handleTextOrIconClick]);
+  }, [variant, handleCheckboxClick, handleTextOrIconClick]);
 
   const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLDivElement>): void => {
     if (!disabled && (e.key === 'Enter' || e.key === ' ')) {
@@ -111,9 +96,6 @@ const ListItem: React.FC<ListItemProps> = ({
         case 'checkbox':
           handleCheckboxClick(e);
           break;
-        case 'radio':
-          handleRadioClick(e);
-          break;
         case 'text':
         case 'icon':
         default:
@@ -121,7 +103,7 @@ const ListItem: React.FC<ListItemProps> = ({
           break;
       }
     }
-  }, [disabled, variant, handleCheckboxClick, handleRadioClick, handleTextOrIconClick]);
+  }, [disabled, variant, handleCheckboxClick, handleTextOrIconClick]);
 
   const handleToggleExpand = useCallback((e: React.MouseEvent<HTMLButtonElement>): void => {
     e.stopPropagation();
@@ -157,7 +139,7 @@ const ListItem: React.FC<ListItemProps> = ({
   }, [internalExpanded, childrenCount, variant]);
 
   const renderVariantContent = useCallback((): React.ReactNode => {
-    const validVariants: ListItemVariant[] = ['text', 'checkbox', 'radio', 'icon'];
+    const validVariants: ListItemVariant[] = ['text', 'checkbox', 'icon'];
     const currentVariant = validVariants.includes(variant) ? variant : 'text';
 
     switch (currentVariant) {
@@ -172,41 +154,6 @@ const ListItem: React.FC<ListItemProps> = ({
                 onCheckedChange={() => handleCheckboxClick({} as React.MouseEvent<HTMLElement>)}
               />
             </span>
-            <div className={styles['listItemWrapperText']}>
-              <span
-                id={`${itemId}-text`}
-                className={styles['listItemTitle']}
-              >
-                {text}
-              </span>
-              {showSubText && subText && (
-                <span
-                  id={`${itemId}-subtext`}
-                  className={styles['listItemSubtext']}
-                >
-                  {subText}
-                </span>
-              )}
-            </div>
-          </>
-        );
-
-      case 'radio':
-        return (
-          <>
-            <div className={styles['listItemWrapperRadio']}>
-              <span className={styles['listItemRadio']} aria-hidden="true">
-                <Radio
-                  name={name}
-                  onValueChange={() => handleRadioClick({} as React.MouseEvent<HTMLElement>)}
-                  items= {[{
-                    value: value || '',
-                    label: '',
-                    disabled: disabled}]}
-                  aria-labelledby={`${itemId}-text`}
-                />
-              </span>
-            </div>
             <div className={styles['listItemWrapperText']}>
               <span
                 id={`${itemId}-text`}
@@ -272,7 +219,7 @@ const ListItem: React.FC<ListItemProps> = ({
           </div>
         );
     }
-  }, [variant, itemId, internalChecked, isIndeterminate, disabled, handleCheckboxClick, handleRadioClick, value, text, showSubText, subText, icon, name]);
+  }, [variant, itemId, internalChecked, isIndeterminate, disabled, handleCheckboxClick, text, showSubText, subText, icon]);
 
   const listItemClass = clsx(
     styles['listItem'],
@@ -284,8 +231,8 @@ const ListItem: React.FC<ListItemProps> = ({
     }
   );
 
-  const ariaChecked = (variant === 'checkbox' || variant === 'radio') ? internalChecked : undefined;
-  const ariaRole = variant === 'checkbox' ? 'checkbox' : variant === 'radio' ? 'radio' : 'option';
+  const ariaChecked = variant === 'checkbox' ? internalChecked : undefined;
+  const ariaRole = variant === 'checkbox' ? 'checkbox' : 'option';
   const hasChildren = React.Children.count(children) > 0;
 
   return (
