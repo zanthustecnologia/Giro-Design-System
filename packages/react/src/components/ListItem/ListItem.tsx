@@ -19,7 +19,6 @@ const ListItem: React.FC<ListItemProps> = ({
   onClick,
   onChange,
   icon,
-  showSubText = false,
   hovered = true,
   width,
   scale = 1,
@@ -161,7 +160,7 @@ const ListItem: React.FC<ListItemProps> = ({
               >
                 {text}
               </span>
-              {showSubText && subText && (
+              {subText && (
                 <span
                   id={`${itemId}-subtext`}
                   className={styles['listItemSubtext']}
@@ -186,7 +185,7 @@ const ListItem: React.FC<ListItemProps> = ({
               >
                 {text}
               </span>
-              {showSubText && subText && (
+              {subText && (
                 <span
                   id={`${itemId}-subtext`}
                   className={styles['listItemSubtext']}
@@ -208,7 +207,7 @@ const ListItem: React.FC<ListItemProps> = ({
             >
               {text}
             </span>
-            {showSubText && subText && (
+            {subText && (
               <span
                 id={`${itemId}-subtext`}
                 className={styles['listItemSubtext']}
@@ -219,7 +218,7 @@ const ListItem: React.FC<ListItemProps> = ({
           </div>
         );
     }
-  }, [variant, itemId, internalChecked, isIndeterminate, disabled, handleCheckboxClick, text, showSubText, subText, icon]);
+  }, [variant, itemId, internalChecked, isIndeterminate, disabled, handleCheckboxClick, text, subText, icon]);
 
   const listItemClass = clsx(
     styles['listItem'],
@@ -257,7 +256,7 @@ const ListItem: React.FC<ListItemProps> = ({
         aria-checked={ariaChecked}
         aria-expanded={hasChildren ? internalExpanded : undefined}
         aria-labelledby={`${itemId}-text`}
-        aria-describedby={showSubText && subText ? `${itemId}-subtext` : undefined}
+        aria-describedby={subText ? `${itemId}-subtext` : undefined}
       >
         {renderVariantContent()}
         {hasChildren && (

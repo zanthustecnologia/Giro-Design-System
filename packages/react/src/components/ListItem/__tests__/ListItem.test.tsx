@@ -99,29 +99,24 @@ describe('ListItem', () => {
 
   // ── SubTexto ───────────────────────────────────────────────────────────────
   describe('SubTexto', () => {
-    it('não deve exibir subTexto por padrão', () => {
-      wrap(<ListItem text="Item" subText="Sub" />);
+    it('não deve exibir subTexto quando não informado', () => {
+      wrap(<ListItem text="Item" />);
       expect(screen.queryByText('Sub')).not.toBeInTheDocument();
     });
 
-    it('deve exibir subTexto quando showSubText=true', () => {
-      wrap(<ListItem text="Item" subText="Sub" showSubText />);
+    it('deve exibir subTexto quando subText é fornecido', () => {
+      wrap(<ListItem text="Item" subText="Sub" />);
       expect(screen.getByText('Sub')).toBeInTheDocument();
     });
 
-    it('não deve exibir subTexto quando showSubText=true mas subText vazio', () => {
-      wrap(<ListItem text="Item" showSubText />);
-      expect(screen.queryByText('Sub')).not.toBeInTheDocument();
-    });
-
-    it('deve definir aria-describedby quando subTexto visível', () => {
-      wrap(<ListItem id="li-1" text="Item" subText="Sub" showSubText />);
+    it('deve definir aria-describedby quando subTexto presente', () => {
+      wrap(<ListItem id="li-1" text="Item" subText="Sub" />);
       const row = screen.getByRole('option', { name: 'Item' });
       expect(row).toHaveAttribute('aria-describedby', 'li-1-subtext');
     });
 
-    it('não deve definir aria-describedby quando subTexto oculto', () => {
-      wrap(<ListItem id="li-1" text="Item" subText="Sub" />);
+    it('não deve definir aria-describedby quando subTexto ausente', () => {
+      wrap(<ListItem id="li-1" text="Item" />);
       const row = screen.getByRole('option', { name: 'Item' });
       expect(row).not.toHaveAttribute('aria-describedby');
     });

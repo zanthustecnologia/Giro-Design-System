@@ -35,9 +35,6 @@ export interface ListItemProps extends BaseProps {
   /** Texto principal do item */
   text?: string;
   
-  /** Nome do input (para variante checkbox) */
-  name?: string;
-  
   /** Texto secundário/descrição do item */
   subText?: string;
   
@@ -55,12 +52,6 @@ export interface ListItemProps extends BaseProps {
   
   /** Ícone do item (para variante icon) */
   icon?: React.ReactNode;
-  
-  /** Valor do input (para variante checkbox) */
-  value?: string;
-  
-  /** Controla a visibilidade do subtexto explicitamente, independentemente de `subText` estar preenchido */
-  showSubText?: boolean;
   
   /** Habilita o efeito visual de hover ao passar o mouse. Use `false` para itens estáticos/não interativos */
   hovered?: boolean;

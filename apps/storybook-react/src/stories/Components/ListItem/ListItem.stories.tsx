@@ -32,11 +32,6 @@ const meta: Meta<typeof ListItem> = {
             options: [1, 1.5, 2],
             description: 'Escala visual do componente.',
         },
-        showSubText: {
-            control: {
-                type: 'boolean',
-            }
-        },
         id: {
             table: {
                 disable: true,
@@ -85,19 +80,12 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const Template = (args: ListItemProps): JSX.Element => {
-    const { variant, disabled, showSubText, text, width, scale } = args;
     return (
         <ul>
             <ListItem
-                variant={variant}
-                disabled={disabled}
-                text={text}
-                subText="List item"
-                onClick={() => console.log('Clicked!')}
-                showSubText={showSubText}
+                {...args}
                 icon={<UsbPlug20Regular />}
-                width={width}
-                scale={scale}
+                onClick={() => console.log('Clicked!')}
             />
         </ul>
     );
@@ -109,9 +97,7 @@ export const Default: Story = {
         id: '1',
         className: 'list-item',
         text: 'List Item',
-        subText: 'List Item',
         disabled: false,
-        showSubText: false,
         checked: false,
         selected: false,
         variant: 'text',
@@ -132,7 +118,6 @@ export const ComCheckbox: Story = {
         subText: 'Leia os termos antes de continuar',
         disabled: false,
         checked: false,
-        showSubText: false,
     }
 };
 
@@ -146,7 +131,6 @@ export const ComIcone: Story = {
         variant: 'icon',
         text: 'Dispositivo USB',
         disabled: false,
-        showSubText: false,
     }
 };
 
@@ -160,7 +144,6 @@ export const ComSubtexto: Story = {
         variant: 'text',
         text: 'Item principal',
         subText: 'Informação complementar sobre o item',
-        showSubText: true,
         disabled: false,
     }
 };
@@ -175,7 +158,6 @@ export const Desabilitado: Story = {
         variant: 'text',
         text: 'Item indisponível',
         disabled: true,
-        showSubText: false,
     }
 };
 
