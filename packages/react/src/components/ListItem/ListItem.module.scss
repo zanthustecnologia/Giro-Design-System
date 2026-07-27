@@ -45,7 +45,7 @@
 }
 
 /* Hover */
-.listItem.listItemHovered:not(.listItemDisabled) > .listItemRow:hover {
+.listItem:not(.listItemDisabled) > .listItemRow:hover {
     background-color: var(--color-neutral-high-medium);
 }
 

@@ -88,8 +88,8 @@ O item desabilitado não responde a cliques ou ao teclado e é exibido com menor
       negative: {
         component: (
           <ul style={{ margin: 0, padding: 0 }}>
-            <ListItem variant="checkbox" text="Sim" hovered={true} />
-            <ListItem variant="checkbox" text="Não" hovered={true} />
+            <ListItem variant="checkbox" text="Sim" />
+            <ListItem variant="checkbox" text="Não" />
           </ul>
         ),
         description: 'Evite rótulos curtos ou vagos que não descrevem o que será selecionado. O usuário precisa entender a consequência da escolha sem contexto adicional.'
@@ -97,8 +97,8 @@ O item desabilitado não responde a cliques ou ao teclado e é exibido com menor
       positive: {
         component: (
           <ul style={{ margin: 0, padding: 0 }}>
-            <ListItem variant="checkbox" text="Receber e-mails de novidades" hovered={true} />
-            <ListItem variant="checkbox" text="Receber alertas por SMS" hovered={true} />
+            <ListItem variant="checkbox" text="Receber e-mails de novidades" />
+            <ListItem variant="checkbox" text="Receber alertas por SMS" />
           </ul>
         ),
         description: 'Use textos descritivos que deixem claro o que cada opção representa, sem depender de contexto externo.'
@@ -108,9 +108,9 @@ O item desabilitado não responde a cliques ou ao teclado e é exibido com menor
       negative: {
         component: (
           <ul style={{ margin: 0, padding: 0 }}>
-            <ListItem variant="icon" text="Config" icon={<Settings20Regular />} hovered={true} />
-            <ListItem variant="text" text="Perfil" hovered={true} />
-            <ListItem variant="icon" text="Sair" icon={<ArrowExit20Regular />} hovered={true} />
+            <ListItem variant="icon" text="Config" icon={<Settings20Regular />} />
+            <ListItem variant="text" text="Perfil" />
+            <ListItem variant="icon" text="Sair" icon={<ArrowExit20Regular />} />
           </ul>
         ),
         description: 'Evite alternar entre itens com ícone e sem ícone na mesma lista. A ausência de ícone em alguns itens quebra o alinhamento visual.'
@@ -118,9 +118,9 @@ O item desabilitado não responde a cliques ou ao teclado e é exibido com menor
       positive: {
         component: (
           <ul style={{ margin: 0, padding: 0 }}>
-            <ListItem variant="icon" text="Configurações" icon={<Settings20Regular />} hovered={true} />
-            <ListItem variant="icon" text="Perfil" icon={<Person20Regular />} hovered={true} />
-            <ListItem variant="icon" text="Sair" icon={<ArrowExit20Regular />} hovered={true} />
+            <ListItem variant="icon" text="Configurações" icon={<Settings20Regular />} />
+            <ListItem variant="icon" text="Perfil" icon={<Person20Regular />} />
+            <ListItem variant="icon" text="Sair" icon={<ArrowExit20Regular />} />
           </ul>
         ),
         description: 'Quando usar ícones, aplique-os em todos os itens da lista para manter consistência visual e alinhamento.'

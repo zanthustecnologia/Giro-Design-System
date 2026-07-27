@@ -20,9 +20,6 @@ const meta: Meta<typeof ListItem> = {
             control: 'select',
             options: ['text', 'icon', 'checkbox'],
         },
-        hovered: {
-            control: 'boolean',
-        },
         width: {
             control: 'text',
             description: 'Largura do item. Deixe vazio para ocupar 100% do container.',
@@ -58,9 +55,8 @@ const meta: Meta<typeof ListItem> = {
             },
         },
         children: {
-            table: {
-                disable: true,
-            },
+            control: false,
+            description: 'Outros ListItems filhos para criar estrutura de árvore. Consulte as stories de Árvore para exemplos.',
         },
         onExpandedChange: {
             table: {
@@ -68,10 +64,14 @@ const meta: Meta<typeof ListItem> = {
             },
         },
         defaultExpanded: {
-            control: 'boolean',
+            table: {
+                disable: true,
+            },
         },
         expanded: {
-            control: 'boolean',
+            table: {
+                disable: true,
+            },
         },
     }
 } satisfies Meta<typeof ListItem>;
@@ -159,6 +159,37 @@ export const Desabilitado: Story = {
         text: 'Item indisponível',
         disabled: true,
     }
+};
+
+export const ArvoreControlada: Story = {
+    render: (args) => (
+        <ul>
+            <ListItem
+                text="Pasta principal"
+                expanded={args.expanded}
+            >
+                <ListItem text="Arquivo 1" />
+                <ListItem text="Arquivo 2" />
+                <ListItem text="Arquivo 3" />
+            </ListItem>
+        </ul>
+    ),
+    args: {
+        expanded: false,
+    },
+    argTypes: {
+        expanded: {
+            control: 'boolean',
+            description: 'Estado de expansão controlado externamente.',
+        },
+    },
+    parameters: {
+        docs: {
+            description: {
+                story: 'Árvore com expansão controlada via prop `expanded`. Use o control para expandir/recolher.',
+            },
+        },
+    },
 };
 
 export const ArvoreSimples: Story = {

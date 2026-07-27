@@ -19,7 +19,6 @@ const ListItem: React.FC<ListItemProps> = ({
   onClick,
   onChange,
   icon,
-  hovered = true,
   width,
   scale = 1,
   children,
@@ -219,14 +218,13 @@ const ListItem: React.FC<ListItemProps> = ({
           </div>
         );
     }
-  }, [variant, itemId, internalChecked, isIndeterminate, disabled, handleCheckboxClick, text, subText, icon]);
+  }, [variant, itemId, internalChecked, isIndeterminate, disabled, handleCheckboxClick, text, subText, icon, scale]);
 
   const listItemClass = clsx(
     styles['listItem'],
     {
       [styles[`listItem-${variant}`]]: variant,
       [styles['listItemDisabled']]: disabled,
-      [styles['listItemHovered']]: hovered,
       [className || '']: className
     }
   );
