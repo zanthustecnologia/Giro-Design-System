@@ -1,52 +1,85 @@
+@use '../../styles/mixins/scale' as *;
+
 .toggle,
 .item {
+  --giro-scale: 1;
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--spacing-8);
-  padding: var(--spacing-8) var(--spacing-16);
-  border-radius: var(--border-radius-8);
-  border: var(--border-width-1) solid var(--color-neutral-high-dark);
-  background-color: transparent;
+  gap: scale(var(--toggle-button-gap));
+  height: scale(var(--toggle-button-lg-height));
+  padding: 0 scale(var(--toggle-button-lg-padding-inline));
+  border-radius: scale(var(--toggle-button-radius));
+  border: var(--toggle-button-off-border-width) solid var(--toggle-button-off-border-default);
+  background-color: var(--toggle-button-off-background-default);
+  color: var(--toggle-button-off-color-default);
   cursor: pointer;
-  font-family: inherit;
-  font-size: inherit;
-  color: var(--color-neutral-low-default);
-  transition: background-color 0.15s ease, border-color 0.15s ease,
-    color 0.15s ease;
+  box-sizing: border-box;
+  font-family: var(--toggle-button-font-family);
+  font-size: scale(var(--toggle-button-font-size));
+  font-weight: var(--toggle-button-font-weight);
+  text-align: center;
+  transition:
+    background-color 0.3s ease-in-out,
+    color 0.3s ease-in-out,
+    border-color 0.3s ease-in-out,
+    opacity 0.3s ease-in-out;
 
-  &:hover:not([data-disabled]) {
-    background-color: var(--color-neutral-high-light);
+  &:hover {
+    background-color: var(--toggle-button-off-background-hover);
+  }
+
+  &:focus-visible {
+    outline: scale(var(--toggle-button-focus-outline-width)) solid var(--toggle-button-focus-outline-color);
+    outline-offset: scale(var(--toggle-button-focus-outline-offset));
+    background-color: var(--toggle-button-off-background-default);
+  }
+
+  &:active {
+    outline: none;
+    background-color: var(--toggle-button-off-background-pressed);
   }
 
   &[data-state='on'] {
-    background-color: var(--color-brand-primary-default);
-    border-color: var(--color-brand-primary-default);
-    color: var(--color-neutral-high-default);
+    background-color: var(--toggle-button-on-background-default);
+    border-color: var(--toggle-button-on-border-default);
+    color: var(--toggle-button-on-color-default);
 
     &:hover {
-      background-color: var(--color-brand-primary-medium);
-      border-color: var(--color-brand-primary-medium);
+      background-color: var(--toggle-button-on-background-hover);
+      border-color: var(--toggle-button-on-border-hover);
+    }
+
+    &:focus-visible {
+      background-color: var(--toggle-button-on-background-default);
+      border-color: var(--toggle-button-on-border-default);
+      outline: scale(var(--toggle-button-focus-outline-width)) solid var(--toggle-button-focus-outline-color);
+      outline-offset: scale(var(--toggle-button-focus-outline-offset));
+    }
+
+    &:active {
+      outline: none;
+      background-color: var(--toggle-button-on-background-pressed);
+      border-color: var(--toggle-button-on-border-pressed);
     }
   }
 
   &[data-disabled] {
-    opacity: 0.5;
+    border-color: var(--toggle-button-off-border-disabled);
+    color: var(--toggle-button-off-color-disabled);
+    background-color: var(--toggle-button-off-background-disabled);
     cursor: not-allowed;
     pointer-events: none;
-  }
-
-  &:focus-visible {
-    outline: var(--border-width-2) solid var(--color-brand-primary-light);
-    outline-offset: 2px;
   }
 }
 
 .group {
   display: inline-flex;
-  gap: var(--spacing-4);
+  gap: scale(var(--toggle-button-gap));
 
   &[data-orientation='vertical'] {
     flex-direction: column;
   }
 }
+
