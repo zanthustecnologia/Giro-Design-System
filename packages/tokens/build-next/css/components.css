@@ -98,9 +98,9 @@
   --toggle-button-on-background-hover: var(--color-interactive-primary-hover);
   --toggle-button-on-background-pressed: var(--color-interactive-primary-pressed);
   --toggle-button-on-color-default: var(--color-text-on-brand);
-  --toggle-button-on-border-default: var(--color-interactive-primary-default);
-  --toggle-button-on-border-hover: var(--color-interactive-primary-hover);
-  --toggle-button-on-border-pressed: var(--color-interactive-primary-pressed);
+  --toggle-button-on-border-default: var(--color-neutral-800);
+  --toggle-button-on-border-hover: var(--color-neutral-800);
+  --toggle-button-on-border-pressed: var(--color-neutral-800);
   --toggle-button-focus-outline-color: var(--color-focus-ring-default);
   --toggle-button-focus-outline-width: var(--border-width-strong);
   --toggle-button-focus-outline-offset: var(--border-width-medium);
