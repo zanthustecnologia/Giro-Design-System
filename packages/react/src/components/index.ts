@@ -90,6 +90,9 @@ export { type TooltipProps } from './Tooltip/Tooltip.types';
 export { default as Switch } from './Switch';
 export { type SwitchProps } from './Switch/Switch.types';
 
+export { default as ToggleButton } from './ToggleButton';
+export { type ToggleButtonProps, type ToggleGroupItem, type ToggleGroupType, type ToggleButtonMode, type ToggleButtonOrientation } from './ToggleButton/ToggleButton.types';
+
 export { default as VerificationCode } from './VerificationCode';
 export { type VerificationCodeProps } from './VerificationCode/VerificationCode.types';
 
