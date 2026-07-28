@@ -169,8 +169,34 @@ const config = {
       },
       load(id) {
         if (id === '\0virtual:changelogs') {
+          // Re-read changelogs fresh on every load (enables HMR)
+          const freshChangelogs = {};
+          for (const dir of fs.readdirSync(packagesRoot, { withFileTypes: true })) {
+            if (!dir.isDirectory()) continue;
+            const changelogPath = path.resolve(packagesRoot, dir.name, 'CHANGELOG.md');
+            if (!fs.existsSync(changelogPath)) continue;
+
+            this.addWatchFile(changelogPath);
+
+            let packageName = null;
+            const pkgJsonPath = path.resolve(packagesRoot, dir.name, 'package.json');
+            if (fs.existsSync(pkgJsonPath)) {
+              try { packageName = JSON.parse(fs.readFileSync(pkgJsonPath, 'utf-8')).name; } catch {}
+            }
+            if (!packageName) {
+              const pubspecPath = path.resolve(packagesRoot, dir.name, 'pubspec.yaml');
+              if (fs.existsSync(pubspecPath)) {
+                const m = fs.readFileSync(pubspecPath, 'utf-8').match(/^name:\s*(.+)/m);
+                if (m) packageName = m[1].trim();
+              }
+            }
+            if (!packageName) packageName = dir.name;
+
+            try { freshChangelogs[packageName] = fs.readFileSync(changelogPath, 'utf-8'); } catch {}
+          }
+
           return [
-            `export const changelogs = ${JSON.stringify(changelogsData)};`,
+            `export const changelogs = ${JSON.stringify(freshChangelogs)};`,
             `export const tagDates = ${JSON.stringify(tagDatesData)};`,
           ].join('\n');
         }
