@@ -73,7 +73,7 @@ export interface ToggleButtonProps extends BaseProps {
   // ----- ToggleGroup (modo simple) -----
 
   /** Tipo de seleção do grupo: `'single'` ou `'multiple'` (modo simple) */
-  type?: ToggleGroupType;
+  selectionType?: ToggleGroupType;
 
   /** Valor(es) selecionado(s) controlado(s) (modo simple) */
   value?: string | string[];

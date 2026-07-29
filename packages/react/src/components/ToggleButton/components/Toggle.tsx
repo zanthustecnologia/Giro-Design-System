@@ -16,7 +16,7 @@ const Toggle: React.FC<ToggleButtonProps> = ({
   id,
   size = 'lg',
   // ToggleGroup-specific props — descartadas para não serem passadas ao DOM
-  type: _type,
+  selectionType: _type,
   value: _value,
   defaultValue: _defaultValue,
   onValueChange: _onValueChange,

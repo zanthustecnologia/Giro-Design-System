@@ -7,7 +7,7 @@ import styles from '../ToggleButton.module.scss';
 import type { ToggleButtonProps } from '../ToggleButton.types';
 
 const ToggleGroup: React.FC<ToggleButtonProps> = ({
-  type = 'single',
+  selectionType = 'single',
   value,
   defaultValue,
   onValueChange,
@@ -25,7 +25,7 @@ const ToggleGroup: React.FC<ToggleButtonProps> = ({
   ...rest
 }) => {
   const rootProps =
-    type === 'multiple'
+    selectionType === 'multiple'
       ? {
           type: 'multiple' as const,
           value: value as string[] | undefined,

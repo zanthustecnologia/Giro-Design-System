@@ -26,7 +26,7 @@ const meta: Meta<typeof ToggleButton> = {
         defaultValue: { summary: 'simple' },
       },
     },
-    type: {
+    selectionType: {
       control: 'select',
       options: ['single', 'multiple'],
       description: 'Tipo de seleção do grupo (modo `combined`): única ou múltipla',
@@ -148,7 +148,7 @@ export const GrupoSelecaoUnica: Story = {
   },
   args: {
     mode: 'combined',
-    type: 'single',
+    selectionType: 'single',
     size: 'lg',
     items: alignmentItems,
     orientation: 'horizontal',
@@ -170,7 +170,7 @@ export const SelecaoMultipla: Story = {
   },
   args: {
     mode: 'combined',
-    type: 'multiple',
+    selectionType: 'multiple',
     size: 'lg',
     items: fontStyleItems,
     orientation: 'horizontal',
@@ -194,7 +194,7 @@ export const Vertical: Story = {
   },
   args: {
     mode: 'combined',
-    type: 'single',
+    selectionType: 'single',
     size: 'lg',
     items: viewItems,
     orientation: 'vertical',
@@ -211,7 +211,7 @@ export const Desabilitado: Story = {
       </ToggleButton>
       <ToggleButton
         mode="combined"
-        type="single"
+        selectionType="single"
         items={alignmentItems}
         defaultValue="left"
         disabled
