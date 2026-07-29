@@ -14,6 +14,7 @@ const Toggle: React.FC<ToggleButtonProps> = ({
   className,
   children,
   id,
+  size = 'lg',
   // ToggleGroup-specific props — descartadas para não serem passadas ao DOM
   type: _type,
   value: _value,
@@ -29,7 +30,7 @@ const Toggle: React.FC<ToggleButtonProps> = ({
       defaultPressed={defaultPressed}
       onPressedChange={onPressedChange}
       disabled={disabled}
-      className={clsx(styles.toggle, className)}
+      className={clsx(styles.toggle, styles[`toggle-${size}`], className)}
       id={id}
       {...rest}
     >
