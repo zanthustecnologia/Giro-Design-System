@@ -45,6 +45,48 @@ export interface ToggleGroupItem {
   disabled?: boolean;
 }
 
+/** @internal */
+type ToggleGroupSingleSelectionProps = {
+  selectionType?: 'single';
+  /** Valor do Toggle selecionado controlado */
+  value?: string;
+  /** Valor do Toggle selecionado padrão (não controlado) */
+  defaultValue?: string;
+  /**
+   * Callback chamado quando o Toggle selecionado muda.
+   * Retorna o `value` do Toggle selecionado.
+   */
+  onValueChange?: (value: string) => void;
+};
+
+/** @internal */
+type ToggleGroupMultipleSelectionProps = {
+  selectionType: 'multiple';
+  /** Valores dos Toggles selecionados controlados */
+  value?: string[];
+  /** Valores dos Toggles selecionados padrão (não controlados) */
+  defaultValue?: string[];
+  /**
+   * Callback chamado quando os Toggles selecionados mudam.
+   * Retorna um array com os `value`s dos Toggles selecionados.
+   */
+  onValueChange?: (value: string[]) => void;
+};
+
+/**
+ * Props específicas do ToggleGroup (modo `combined`).
+ *
+ * Use a prop `onValueChange` para saber qual Toggle está selecionado:
+ * - `selectionType="single"` → `onValueChange: (value: string) => void`
+ * - `selectionType="multiple"` → `onValueChange: (value: string[]) => void`
+ */
+export type ToggleGroupProps = {
+  /** Orientação do grupo: `'horizontal'` (padrão) ou `'vertical'` */
+  orientation?: ToggleButtonOrientation;
+  /** Items do grupo de toggles */
+  items?: ToggleGroupItem[];
+} & (ToggleGroupSingleSelectionProps | ToggleGroupMultipleSelectionProps);
+
 /**
  * Props do componente ToggleButton
  * @example
@@ -96,23 +138,6 @@ export type ToggleButtonProps = ScalableProps & {
   /** Callback ao alterar estado pressionado: `(pressed: boolean) => void` (modo combined) */
   onPressedChange?: (pressed: boolean) => void;
 
-  // ----- ToggleGroup (modo simple) -----
+  // ----- ToggleGroup (modo combined) -----
 
-  /** Tipo de seleção do grupo: `'single'` ou `'multiple'` (modo simple) */
-  selectionType?: ToggleGroupType;
-
-  /** Valor(es) selecionado(s) controlado(s) (modo simple) */
-  value?: string | string[];
-
-  /** Valor(es) padrão(ões) não controlado(s) (modo simple) */
-  defaultValue?: string | string[];
-
-  /** Callback ao alterar seleção (modo simple) */
-  onValueChange?: (value: string | string[]) => void;
-
-  /** Orientação do grupo: `'horizontal'` ou `'vertical'` (modo simple) */
-  orientation?: ToggleButtonOrientation;
-
-  /** Items do grupo de toggles (modo simple) */
-  items?: ToggleGroupItem[];
-} & ToggleButtonTooltipConfig;
+} & ToggleGroupProps & ToggleButtonTooltipConfig;
