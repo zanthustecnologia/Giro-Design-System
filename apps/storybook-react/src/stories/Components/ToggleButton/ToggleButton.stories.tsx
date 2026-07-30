@@ -1,3 +1,4 @@
+import { Add16Regular, Tag16Regular, Info16Regular, Filter16Regular } from '@fluentui/react-icons';
 import { ToggleButton } from '@giro-ds/react';
 import { useState } from 'react';
 
@@ -116,6 +117,23 @@ const meta: Meta<typeof ToggleButton> = {
         defaultValue: { summary: 'center' },
       },
     },
+    icon: {
+      control: { type: 'select' },
+      options: ['', 'add'],
+      mapping: { add: <Add16Regular /> },
+      description: 'Ícone exibido à esquerda do conteúdo (modo `simple`)',
+      table: {
+        type: { summary: 'ReactNode' },
+      },
+    },
+    iconOnly: {
+      control: { type: 'boolean' },
+      description: 'Exibe apenas o ícone, sem texto (modo `simple`). Requer a prop `icon`.',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'false' },
+      },
+    },
   },
 } satisfies Meta<typeof ToggleButton>;
 
@@ -140,6 +158,18 @@ const viewItems = [
   { value: 'day', label: 'Dia' },
   { value: 'week', label: 'Semana' },
   { value: 'month', label: 'Mês' },
+];
+
+const filterItemsWithIcons = [
+  { value: 'tags', label: 'Tags', icon: <Tag16Regular /> },
+  { value: 'info', label: 'Info', icon: <Info16Regular /> },
+  { value: 'filter', label: 'Filtro', icon: <Filter16Regular /> },
+];
+
+const iconOnlyItems = [
+  { value: 'tags', icon: <Tag16Regular />, iconOnly: true },
+  { value: 'info', icon: <Info16Regular />, iconOnly: true },
+  { value: 'filter', icon: <Filter16Regular />, iconOnly: true },
 ];
 
 // ─── Stories ─────────────────────────────────────────────────────────────────
@@ -236,6 +266,96 @@ export const Vertical: Story = {
     scale: 1,
     items: viewItems,
     orientation: 'vertical',
+    disabled: false,
+  },
+};
+
+/** Toggle único com ícone à esquerda do texto (mode='simple') */
+export const ComIcone: Story = {
+  render: (args: ToggleButtonProps) => {
+    const [pressed, setPressed] = useState(false);
+    return (
+      <ToggleButton {...args} pressed={pressed} onPressedChange={setPressed}>
+        Adicionar
+      </ToggleButton>
+    );
+  },
+  args: {
+    mode: 'simple',
+    size: 'lg',
+    scale: 1,
+    icon: <Add16Regular />,
+    disabled: false,
+  },
+};
+
+/** Toggle único exibindo apenas o ícone (mode='simple', iconOnly) */
+export const IconOnly: Story = {
+  render: (args: ToggleButtonProps) => {
+    const [pressed, setPressed] = useState(false);
+    return (
+      <ToggleButton
+        {...args}
+        pressed={pressed}
+        onPressedChange={setPressed}
+        aria-label="Adicionar"
+      />
+    );
+  },
+  args: {
+    mode: 'simple',
+    size: 'lg',
+    scale: 1,
+    icon: <Add16Regular />,
+    iconOnly: true,
+    disabled: false,
+  },
+};
+
+/** Grupo com ícone à esquerda do label em cada item (mode='combined') */
+export const GrupoComIcones: Story = {
+  render: (args: ToggleButtonProps) => {
+    const [value, setValue] = useState<string>('tags');
+    return (
+      <ToggleButton
+        {...args}
+        value={value}
+        onValueChange={(v) => {
+          if (v) setValue(v as string);
+        }}
+      />
+    );
+  },
+  args: {
+    mode: 'combined',
+    selectionType: 'single',
+    size: 'lg',
+    scale: 1,
+    items: filterItemsWithIcons,
+    orientation: 'horizontal',
+    disabled: false,
+  },
+};
+
+/** Grupo com itens somente ícone (mode='combined', item.iconOnly) */
+export const GrupoIconOnly: Story = {
+  render: (args: ToggleButtonProps) => {
+    const [value, setValue] = useState<string[]>([]);
+    return (
+      <ToggleButton
+        {...args}
+        value={value}
+        onValueChange={(v) => setValue(v as string[])}
+      />
+    );
+  },
+  args: {
+    mode: 'combined',
+    selectionType: 'multiple',
+    size: 'lg',
+    scale: 1,
+    items: iconOnlyItems,
+    orientation: 'horizontal',
     disabled: false,
   },
 };

@@ -37,8 +37,10 @@ export interface ToggleGroupItem {
   value: string;
   /** Conteúdo textual ou nó React exibido no item */
   label?: ReactNode;
-  /** Ícone exibido no item */
+  /** Ícone exibido à esquerda do label */
   icon?: ReactNode;
+  /** Exibe somente o ícone, sem label */
+  iconOnly?: boolean;
   /** Desabilita o item, impedindo sua seleção */
   disabled?: boolean;
 }
@@ -73,6 +75,12 @@ export type ToggleButtonProps = ScalableProps & {
 
   /** Tamanho do componente: `'lg'` (padrão) ou `'sm'` */
   size?: Size;
+
+  /** Ícone exibido à esquerda do conteúdo (modo simple) */
+  icon?: ReactNode;
+
+  /** Exibe somente o ícone, sem texto (modo simple) */
+  iconOnly?: boolean;
 
   /** Conteúdo do botão (modo combined) */
   children?: ReactNode;

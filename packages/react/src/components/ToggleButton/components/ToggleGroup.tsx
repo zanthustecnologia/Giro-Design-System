@@ -24,7 +24,6 @@ const ToggleGroup: React.FC<ToggleButtonProps> = ({
   tooltipText,
   tooltipSide = 'top',
   tooltipAlign = 'center',
-  // Toggle-specific props — descartadas para não serem passadas ao DOM
   pressed: _pressed,
   defaultPressed: _defaultPressed,
   onPressedChange: _onPressedChange,
@@ -65,11 +64,24 @@ const ToggleGroup: React.FC<ToggleButtonProps> = ({
             key={item.value}
             value={item.value}
             disabled={item.disabled}
-            className={clsx(styles.item, styles[`item-${size}`])}
+            className={clsx(
+              styles.item,
+              styles[`item-${size}`],
+              {
+                [styles.toggleIconOnly]: item.iconOnly,
+                [styles.toggleWithIcon]: !!item.icon && !item.iconOnly,
+              },
+            )}
             style={{ '--giro-scale': scale } as React.CSSProperties}
           >
-            {item.icon}
-            {item.label}
+            {item.iconOnly ? (
+              <span className={styles.toggleIconLeft} aria-hidden="true">{item.icon}</span>
+            ) : (
+              <>
+                {item.icon && <span className={styles.toggleIconLeft} aria-hidden="true">{item.icon}</span>}
+                {item.label}
+              </>
+            )}
           </ToggleGroupRadix.Item>
         ))}
     </ToggleGroupRadix.Root>

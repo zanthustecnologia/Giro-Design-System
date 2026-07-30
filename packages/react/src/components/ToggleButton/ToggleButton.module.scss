@@ -87,6 +87,49 @@
   padding: 0 scale(var(--toggle-button-sm-padding-inline));
 }
 
+// --- Icon styles ---
+
+.toggleIconLeft {
+  @include scale-icon(var(--font-size-16));
+  display: flex;
+}
+
+// Quando há ícone: anula o gap do container e usa margin-right explícito no span
+.toggle.toggleWithIcon,
+.item.toggleWithIcon {
+  gap: 0;
+}
+
+.toggle.toggleWithIcon .toggleIconLeft,
+.item.toggleWithIcon .toggleIconLeft {
+  margin-right: scale(var(--toggle-button-gap));
+}
+
+.toggle.toggle-lg.toggleIconOnly,
+.item.item-lg.toggleIconOnly {
+  padding: 0;
+  width: scale(var(--toggle-button-lg-height));
+  min-width: scale(var(--toggle-button-lg-height));
+}
+
+.toggle.toggle-sm.toggleIconOnly,
+.item.item-sm.toggleIconOnly {
+  padding: 0;
+  width: scale(var(--toggle-button-sm-height));
+  min-width: scale(var(--toggle-button-sm-height));
+}
+
+// Padding ajustado quando há ícone: lado do ícone menor (igual ao Button)
+.toggle.toggle-lg.toggleWithIcon,
+.item.item-lg.toggleWithIcon {
+  padding: 0 scale(var(--toggle-button-lg-padding-inline)) 0 scale(var(--space-inset-md));
+}
+
+.toggle.toggle-sm.toggleWithIcon,
+.item.item-sm.toggleWithIcon {
+  padding: 0 scale(var(--toggle-button-sm-padding-inline)) 0 scale(var(--space-inset-xs));
+}
+
 .group {
   display: inline-flex;
 
