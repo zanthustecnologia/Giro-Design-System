@@ -67,7 +67,7 @@ export interface ToggleGroupItem {
  * />
  * ```
  */
-export interface ToggleButtonProps extends ScalableProps {
+export type ToggleButtonProps = ScalableProps & {
   /** Modo do componente: `'simple'` (toggle único, padrão) ou `'combined'` (grupo de toggles) */
   mode?: ToggleButtonMode;
 
