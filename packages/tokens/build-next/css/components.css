@@ -97,11 +97,12 @@
   --toggle-button-on-background-default: var(--color-interactive-primary-default);
   --toggle-button-on-background-hover: var(--color-interactive-primary-hover);
   --toggle-button-on-background-pressed: var(--color-interactive-primary-pressed);
+  --toggle-button-on-background-disabled: var(--color-surface-subtle);
   --toggle-button-on-color-default: var(--color-text-on-brand);
   --toggle-button-on-border-default: var(--color-neutral-800);
   --toggle-button-on-border-hover: var(--color-neutral-800);
   --toggle-button-on-border-pressed: var(--color-neutral-800);
-  --toggle-button-focus-outline-color: var(--color-focus-ring-default);
+  --toggle-button-focus-outline-color: var(--color-neutral-300);
   --toggle-button-focus-outline-width: var(--border-width-strong);
   --toggle-button-focus-outline-offset: var(--border-width-medium);
   --toggle-button-gap: var(--space-gap-xs);
@@ -109,8 +110,10 @@
   --toggle-button-font-family: var(--font-family-body);
   --toggle-button-font-size: var(--font-size-label-md);
   --toggle-button-font-weight: var(--font-weight-label);
+  --toggle-button-padding-inline: var(--space-inset-md);
+  --toggle-button-icon-size: var(--size-16);
   --toggle-button-lg-height: var(--size-component-lg);
-  --toggle-button-lg-padding-inline: var(--space-inset-lg);
+  --toggle-button-lg-padding-inline-with-icon: var(--space-inset-md);
   --toggle-button-sm-height: var(--size-component-md);
-  --toggle-button-sm-padding-inline: var(--space-inset-md);
+  --toggle-button-sm-padding-inline-with-icon: var(--space-inset-xs);
 }

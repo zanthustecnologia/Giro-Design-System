@@ -396,6 +396,7 @@ class GiroTokens {
     static const toggleButtonOnBackgroundDefault = '0';
     static const toggleButtonOnBackgroundHover = '0';
     static const toggleButtonOnBackgroundPressed = '0';
+    static const toggleButtonOnBackgroundDisabled = '0';
     static const toggleButtonOnColorDefault = '0';
     static const toggleButtonOnBorderDefault = '0';
     static const toggleButtonOnBorderHover = '0';
@@ -408,8 +409,10 @@ class GiroTokens {
     static const toggleButtonFontFamily = '0';
     static const toggleButtonFontSize = '0';
     static const toggleButtonFontWeight = '0';
+    static const toggleButtonPaddingInline = '0';
+    static const toggleButtonIconSize = '0';
     static const toggleButtonLgHeight = '0';
-    static const toggleButtonLgPaddingInline = '0';
+    static const toggleButtonLgPaddingInlineWithIcon = '0';
     static const toggleButtonSmHeight = '0';
-    static const toggleButtonSmPaddingInline = '0';
+    static const toggleButtonSmPaddingInlineWithIcon = '0';
 }
