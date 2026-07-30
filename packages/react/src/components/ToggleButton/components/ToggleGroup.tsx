@@ -62,6 +62,7 @@ const ToggleGroup: React.FC<ToggleButtonProps> = ({
             value={item.value}
             disabled={item.disabled}
             className={clsx(styles.item, styles[`item-${size}`])}
+            style={{ '--giro-scale': scale } as React.CSSProperties}
           >
             {item.icon}
             {item.label}
