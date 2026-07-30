@@ -2,6 +2,7 @@ import clsx from 'clsx';
 import { ToggleGroup as ToggleGroupRadix } from 'radix-ui';
 import React from 'react';
 
+import Tooltip from '../../Tooltip';
 import styles from '../ToggleButton.module.scss';
 
 import type { ToggleButtonProps } from '../ToggleButton.types';
@@ -20,6 +21,9 @@ const ToggleGroup: React.FC<ToggleButtonProps> = ({
   size = 'lg',
   scale = 1,
   style,
+  tooltipText,
+  tooltipSide = 'top',
+  tooltipAlign = 'center',
   // Toggle-specific props — descartadas para não serem passadas ao DOM
   pressed: _pressed,
   defaultPressed: _defaultPressed,
@@ -45,7 +49,7 @@ const ToggleGroup: React.FC<ToggleButtonProps> = ({
             | undefined,
         };
 
-  return (
+  const group = (
     <ToggleGroupRadix.Root
       {...rootProps}
       orientation={orientation}
@@ -70,6 +74,16 @@ const ToggleGroup: React.FC<ToggleButtonProps> = ({
         ))}
     </ToggleGroupRadix.Root>
   );
+
+  if (tooltipText) {
+    return (
+      <Tooltip text={tooltipText} side={tooltipSide} align={tooltipAlign}>
+        {group}
+      </Tooltip>
+    );
+  }
+
+  return group;
 };
 
 export default ToggleGroup;

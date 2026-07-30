@@ -11,6 +11,24 @@ export type ToggleGroupType = 'single' | 'multiple';
 /** Orientação do grupo de toggles */
 export type ToggleButtonOrientation = 'horizontal' | 'vertical';
 
+interface BaseTooltipConfig {
+  tooltipSide?: 'top' | 'bottom' | 'left' | 'right';
+  tooltipAlign?: 'start' | 'center' | 'end';
+}
+
+interface WithTooltip extends BaseTooltipConfig {
+  /** Texto do tooltip exibido no hover */
+  tooltipText: string;
+}
+
+interface WithoutTooltip {
+  tooltipText?: never;
+  tooltipSide?: never;
+  tooltipAlign?: never;
+}
+
+export type ToggleButtonTooltipConfig = WithTooltip | WithoutTooltip;
+
 /**
  * Item de um ToggleGroup
  */
@@ -89,4 +107,4 @@ export interface ToggleButtonProps extends ScalableProps {
 
   /** Items do grupo de toggles (modo simple) */
   items?: ToggleGroupItem[];
-}
+} & ToggleButtonTooltipConfig;

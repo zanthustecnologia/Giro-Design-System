@@ -91,6 +91,31 @@ const meta: Meta<typeof ToggleButton> = {
         defaultValue: { summary: '1' },
       },
     },
+    tooltipText: {
+      control: 'text',
+      description: 'Texto do tooltip exibido no hover',
+      table: {
+        type: { summary: 'string' },
+      },
+    },
+    tooltipSide: {
+      control: 'select',
+      options: ['top', 'bottom', 'left', 'right'],
+      description: 'Lado em que o tooltip será exibido',
+      table: {
+        type: { summary: "'top' | 'bottom' | 'left' | 'right'" },
+        defaultValue: { summary: 'top' },
+      },
+    },
+    tooltipAlign: {
+      control: 'select',
+      options: ['start', 'center', 'end'],
+      description: 'Alinhamento do tooltip',
+      table: {
+        type: { summary: "'start' | 'center' | 'end'" },
+        defaultValue: { summary: 'center' },
+      },
+    },
   },
 } satisfies Meta<typeof ToggleButton>;
 
