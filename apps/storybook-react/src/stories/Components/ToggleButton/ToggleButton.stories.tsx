@@ -82,6 +82,15 @@ const meta: Meta<typeof ToggleButton> = {
         defaultValue: { summary: 'lg' },
       },
     },
+    scale: {
+      control: { type: 'select' },
+      options: [1, 1.5, 2],
+      description: 'Escala visual do componente (multiplica dimensões relativas)',
+      table: {
+        type: { summary: '1 | 1.5 | 2' },
+        defaultValue: { summary: '1' },
+      },
+    },
   },
 } satisfies Meta<typeof ToggleButton>;
 
@@ -128,6 +137,7 @@ export const Default: Story = {
   args: {
     mode: 'simple',
     size: 'lg',
+    scale: 1,
     disabled: false,
   },
 };
@@ -150,6 +160,7 @@ export const GrupoSelecaoUnica: Story = {
     mode: 'combined',
     selectionType: 'single',
     size: 'lg',
+    scale: 1,
     items: alignmentItems,
     orientation: 'horizontal',
     disabled: false,
@@ -172,6 +183,7 @@ export const SelecaoMultipla: Story = {
     mode: 'combined',
     selectionType: 'multiple',
     size: 'lg',
+    scale: 1,
     items: fontStyleItems,
     orientation: 'horizontal',
     disabled: false,
@@ -196,6 +208,7 @@ export const Vertical: Story = {
     mode: 'combined',
     selectionType: 'single',
     size: 'lg',
+    scale: 1,
     items: viewItems,
     orientation: 'vertical',
     disabled: false,

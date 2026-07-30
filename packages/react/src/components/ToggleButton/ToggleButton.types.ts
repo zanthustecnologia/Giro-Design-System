@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-import { BaseProps, Size } from '../../types/common.types';
+import { ScalableProps, Size } from '../../types/common.types';
 
 /** Modo do componente: 'simple' (toggle único) ou 'combined' (grupo de toggles) */
 export type ToggleButtonMode = 'simple' | 'combined';
@@ -49,7 +49,7 @@ export interface ToggleGroupItem {
  * />
  * ```
  */
-export interface ToggleButtonProps extends BaseProps {
+export interface ToggleButtonProps extends ScalableProps {
   /** Modo do componente: `'simple'` (toggle único, padrão) ou `'combined'` (grupo de toggles) */
   mode?: ToggleButtonMode;
 

@@ -18,6 +18,8 @@ const ToggleGroup: React.FC<ToggleButtonProps> = ({
   className,
   id,
   size = 'lg',
+  scale = 1,
+  style,
   // Toggle-specific props — descartadas para não serem passadas ao DOM
   pressed: _pressed,
   defaultPressed: _defaultPressed,
@@ -50,6 +52,7 @@ const ToggleGroup: React.FC<ToggleButtonProps> = ({
       disabled={disabled}
       className={clsx(styles.group, className)}
       id={id}
+      style={{ '--giro-scale': scale, ...style } as React.CSSProperties}
       {...rest}
     >
       {children ??
