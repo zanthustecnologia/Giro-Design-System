@@ -23,6 +23,7 @@ const Toggle: React.FC<ToggleButtonProps> = ({
   tooltipAlign = 'center',
   icon,
   iconOnly = false,
+  mode: _mode,
   selectionType: _type,
   value: _value,
   defaultValue: _defaultValue,

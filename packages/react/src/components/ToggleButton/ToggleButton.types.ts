@@ -127,15 +127,15 @@ export type ToggleButtonProps = ScalableProps & {
   /** Conteúdo do botão (modo combined) */
   children?: ReactNode;
 
-  // ----- Toggle (modo combined) -----
+  // ----- Toggle (modo simple) -----
 
-  /** Estado pressionado controlado (modo combined) */
+  /** Estado pressionado controlado (modo simple) */
   pressed?: boolean;
 
-  /** Estado pressionado padrão não controlado (modo combined) */
+  /** Estado pressionado padrão não controlado (modo simple) */
   defaultPressed?: boolean;
 
-  /** Callback ao alterar estado pressionado: `(pressed: boolean) => void` (modo combined) */
+  /** Callback ao alterar estado pressionado: `(pressed: boolean) => void` (modo simple) */
   onPressedChange?: (pressed: boolean) => void;
 
   // ----- ToggleGroup (modo combined) -----
