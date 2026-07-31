@@ -227,50 +227,52 @@ const TableV2 = <T,>({
       )}
       {header && (
         <div className={styles.tableHeader}>
-          {showSearch && (
-            <div className={styles.tableHeaderSearchContainer}>
-              <Search
-                value={pendingSearch}
-                virtualKeyboard={header.virtualKeyboard}
-                searchMode={header?.searchMode ?? "on-enter"}
-                onChange={(e) => {
-                  setPendingSearch(e.target.value);
-                }}
-                onSearch={(val) => {
-                  if (footer) {
-                    setPagination((prev) => ({ ...prev, pageIndex: 0 }));
-                    footer?.onPageChange?.(1);
-                  }
-                  header?.onSearchChange?.(val);
-                }}
-                onClear={() => {
-                  setPendingSearch('');
-                  if (footer) {
-                    setPagination((prev) => ({ ...prev, pageIndex: 0 }));
-                    footer?.onPageChange?.(1);
-                  }
-                  header?.onSearchChange?.('');
-                }}
-                placeholder={header.searchPlaceholder ?? 'Pesquisar...'}
-                className={styles.tableHeaderSearch}
+          <div className={styles.tableHeaderLeft}>
+            {showSearch && (
+              <div className={styles.tableHeaderSearchContainer}>
+                <Search
+                  value={pendingSearch}
+                  virtualKeyboard={header.virtualKeyboard}
+                  searchMode={header?.searchMode ?? "on-enter"}
+                  onChange={(e) => {
+                    setPendingSearch(e.target.value);
+                  }}
+                  onSearch={(val) => {
+                    if (footer) {
+                      setPagination((prev) => ({ ...prev, pageIndex: 0 }));
+                      footer?.onPageChange?.(1);
+                    }
+                    header?.onSearchChange?.(val);
+                  }}
+                  onClear={() => {
+                    setPendingSearch('');
+                    if (footer) {
+                      setPagination((prev) => ({ ...prev, pageIndex: 0 }));
+                      footer?.onPageChange?.(1);
+                    }
+                    header?.onSearchChange?.('');
+                  }}
+                  placeholder={header.searchPlaceholder ?? 'Pesquisar...'}
+                  className={styles.tableHeaderSearch}
+                />
+              </div>
+            )}
+            {header.viewToggle && (
+              <ToggleButton
+                mode="combined"
+                selectionType="single"
+                value={header.viewToggle.value}
+                defaultValue={header.viewToggle.defaultValue}
+                onValueChange={header.viewToggle.onValueChange}
+                items={header.viewToggle.items.map((item) => ({
+                  value: item.value,
+                  icon: item.icon,
+                  iconOnly: true,
+                  tooltipText: item.tooltipText,
+                }))}
               />
-            </div>
-          )}
-          {header.viewToggle && (
-            <ToggleButton
-              mode="combined"
-              selectionType="single"
-              value={header.viewToggle.value}
-              defaultValue={header.viewToggle.defaultValue}
-              onValueChange={header.viewToggle.onValueChange}
-              items={header.viewToggle.items.map((item) => ({
-                value: item.value,
-                icon: item.icon,
-                iconOnly: true,
-                tooltipText: item.tooltipText,
-              }))}
-            />
-          )}
+            )}
+          </div>
           {!!header.filterItems?.length && (
             <div className={styles.tableHeaderFilters}>
               {header.filterItems.some((item) => item.type !== 'combined') && (

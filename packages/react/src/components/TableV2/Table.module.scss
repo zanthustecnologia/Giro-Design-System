@@ -228,12 +228,20 @@
   overflow: visible;
 }
 
+.tableHeaderLeft {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-8);
+  flex: 1 1 300px;
+  min-width: 0;
+}
+
 .tableHeaderSearchContainer {
   display: flex;
   align-items: center;
   flex: 1 1 300px;
   min-width: 200px;
-  max-width: 100%;
+  max-width: 360px;
 }
 
 .tableHeaderSearch {
