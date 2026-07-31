@@ -19,6 +19,7 @@ import Checkbox from '../Checkbox/Checkbox';
 import EmptyState from './components/EmptyState';
 import Filter from '../Filter/Filter';
 import Search from '../Search/Search';
+import ToggleButton from '../ToggleButton/ToggleButton';
 
 import type { TableV2Props } from './Table.types';
 
@@ -254,6 +255,21 @@ const TableV2 = <T,>({
                 className={styles.tableHeaderSearch}
               />
             </div>
+          )}
+          {header.viewToggle && (
+            <ToggleButton
+              mode="combined"
+              selectionType="single"
+              value={header.viewToggle.value}
+              defaultValue={header.viewToggle.defaultValue}
+              onValueChange={header.viewToggle.onValueChange}
+              items={header.viewToggle.items.map((item) => ({
+                value: item.value,
+                icon: item.icon,
+                iconOnly: true,
+                tooltipText: item.tooltipText,
+              }))}
+            />
           )}
           {!!header.filterItems?.length && (
             <div className={styles.tableHeaderFilters}>

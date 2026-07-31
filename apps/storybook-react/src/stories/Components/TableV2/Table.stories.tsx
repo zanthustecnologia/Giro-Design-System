@@ -1,4 +1,4 @@
-import { MoreVertical16Regular } from '@fluentui/react-icons';
+import { MoreVertical16Regular, List16Regular, Apps16Regular } from '@fluentui/react-icons';
 import { TableV2, Chips, Button, Menu, Avatar, createTableColumnHelper, type TableV2HeaderProps } from '@giro-ds/react';
 import React, { useState, useMemo } from 'react';
 
@@ -830,6 +830,58 @@ const colunasLargas = [
     ),
   }),
 ];
+
+export const ComToggleDeVista: StoryFn = () => {
+  const [vista, setVista] = useState<string>('simples');
+  const [search, setSearch] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(5);
+
+  const dadosFiltrados = useMemo(() => {
+    if (!search) return promocoes;
+    const q = search.toLowerCase();
+    return promocoes.filter(
+      (p) => p.nome.toLowerCase().includes(q) || p.descricao.toLowerCase().includes(q),
+    );
+  }, [search]);
+
+  const paginatedData = useMemo(() => {
+    const start = (currentPage - 1) * pageSize;
+    return dadosFiltrados.slice(start, start + pageSize);
+  }, [dadosFiltrados, currentPage, pageSize]);
+
+  return (
+    <div style={{ width: 800 }}>
+      <TableV2
+        columns={vista === 'simples' ? colunasPadrao : colunasCompletas}
+        data={paginatedData}
+        header={{
+          searchPlaceholder: 'Buscar promoções...',
+          onSearchChange: (val) => { setSearch(val); setCurrentPage(1); },
+          viewToggle: {
+            defaultValue: 'simples',
+            value: vista,
+            onValueChange: (val) => { setVista(val); setCurrentPage(1); },
+            items: [
+              { value: 'simples', icon: <List16Regular />, tooltipText: 'Vista simples' },
+              { value: 'completa', icon: <Apps16Regular />, tooltipText: 'Vista completa' },
+            ],
+          },
+        }}
+        footer={{
+          totalItems: dadosFiltrados.length,
+          defaultPageSize: 5,
+          pageSizeOptions: [5, 10],
+          currentPage,
+          onPageChange: setCurrentPage,
+          onPageSizeChange: (size) => { setPageSize(size); setCurrentPage(1); },
+        }}
+      />
+    </div>
+  );
+};
+
+ComToggleDeVista.storyName = 'Com Toggle de Vista';
 
 export const TabelaResponsiva: StoryFn = () => {
   const [search, setSearch] = useState('');

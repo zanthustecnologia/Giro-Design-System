@@ -108,6 +108,32 @@ interface CombinedFilterItem extends BaseFilterItem {
 export type FilterItem = CheckboxFilterItem | CalendarFilterItem | CombinedFilterItem;
 
 /**
+ * Item de um ToggleButton de vista da tabela.
+ */
+export interface ViewToggleItem {
+  /** Valor único do item */
+  value: string;
+  /** Ícone exibido no botão (iconOnly) */
+  icon: ReactNode;
+  /** Texto do tooltip exibido no hover */
+  tooltipText?: string;
+}
+
+/**
+ * Props do ToggleButton de alternância de vistas no cabeçalho do TableV2.
+ */
+export interface TableV2ViewToggleProps {
+  /** Exatamente 2 itens icon-only para alternar entre as vistas */
+  items: [ViewToggleItem, ViewToggleItem];
+  /** Valor controlado do item selecionado */
+  value?: string;
+  /** Valor selecionado inicial (não controlado) */
+  defaultValue?: string;
+  /** Callback chamado quando a vista selecionada muda */
+  onValueChange?: (value: string) => void;
+}
+
+/**
  * Props do cabeçalho do TableV2, com busca global e filtros.
  */
 export interface TableV2HeaderProps {
@@ -131,6 +157,11 @@ export interface TableV2HeaderProps {
    * A paginação é automaticamente resetada para a página 1 ao buscar.
    */
   onSearchChange?: (value: string) => void;
+  /**
+   * Quando presente, exibe um ToggleButton de 2 vistas (iconOnly) ao lado do Search.
+   * Use `onValueChange` para alternar os dados/colunas passados à tabela.
+   */
+  viewToggle?: TableV2ViewToggleProps;
 }
 
 /**
