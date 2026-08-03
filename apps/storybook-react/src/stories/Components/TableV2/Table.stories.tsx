@@ -832,7 +832,6 @@ const colunasLargas = [
 ];
 
 export const ComToggleDeVista: StoryFn = () => {
-  const [vista, setVista] = useState<string>('simples');
   const [search, setSearch] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
@@ -853,19 +852,21 @@ export const ComToggleDeVista: StoryFn = () => {
   return (
     <div style={{ width: 800 }}>
       <TableV2
-        columns={vista === 'simples' ? colunasPadrao : colunasCompletas}
+        columns={colunasPadrao}
         data={paginatedData}
         header={{
           searchPlaceholder: 'Buscar promoções...',
           onSearchChange: (val) => { setSearch(val); setCurrentPage(1); },
           viewToggle: {
             defaultValue: 'simples',
-            value: vista,
-            onValueChange: (val) => { setVista(val); setCurrentPage(1); },
             items: [
               { value: 'simples', icon: <List16Regular />, tooltipText: 'Vista simples' },
               { value: 'completa', icon: <Apps16Regular />, tooltipText: 'Vista completa' },
             ],
+            views: {
+              simples: { columns: colunasPadrao, data: paginatedData },
+              completa: { columns: colunasCompletas, data: paginatedData },
+            },
           },
         }}
         footer={{

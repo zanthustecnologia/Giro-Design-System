@@ -122,7 +122,7 @@ export interface ViewToggleItem {
 /**
  * Props do ToggleButton de alternância de vistas no cabeçalho do TableV2.
  */
-export interface TableV2ViewToggleProps {
+export interface TableV2ViewToggleProps<T = Record<string, unknown>> {
   /** Exatamente 2 itens icon-only para alternar entre as vistas */
   items: [ViewToggleItem, ViewToggleItem];
   /** Valor controlado do item selecionado */
@@ -131,12 +131,18 @@ export interface TableV2ViewToggleProps {
   defaultValue?: string;
   /** Callback chamado quando a vista selecionada muda */
   onValueChange?: (value: string) => void;
+  /**
+   * Mapa de vistas: cada chave corresponde ao `value` de um item do toggle.
+   * Quando presente, o TableV2 alterna internamente entre as colunas e dados de cada vista.
+   */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  views?: Record<string, { columns: ColumnDef<T, any>[]; data: T[] }>;
 }
 
 /**
  * Props do cabeçalho do TableV2, com busca global e filtros.
  */
-export interface TableV2HeaderProps {
+export interface TableV2HeaderProps<T = Record<string, unknown>> {
   /** Placeholder do campo de busca global */
   searchPlaceholder?: string;
   /** Items de filtro (Status, Data de início, etc.) */
@@ -159,9 +165,10 @@ export interface TableV2HeaderProps {
   onSearchChange?: (value: string) => void;
   /**
    * Quando presente, exibe um ToggleButton de 2 vistas (iconOnly) ao lado do Search.
-   * Use `onValueChange` para alternar os dados/colunas passados à tabela.
+   * Use `views` para que o TableV2 alterne internamente entre colunas e dados.
+   * Use `onValueChange` se preferir controlar externamente.
    */
-  viewToggle?: TableV2ViewToggleProps;
+  viewToggle?: TableV2ViewToggleProps<T>;
 }
 
 /**
@@ -289,7 +296,7 @@ export interface TableV2Props<T = Record<string, unknown>> extends EmptyStatePro
   /** Configuração das ações em massa exibidas quando há linhas selecionadas */
   bulkActions?: TableV2BulkActionsProps<T>;
   /** Header acima da tabela com busca + filtros */
-  header?: TableV2HeaderProps;
+  header?: TableV2HeaderProps<T>;
   /** Footer com paginação */
   footer?: TableV2FooterProps;
   /** Classe CSS personalizada para o componente */
