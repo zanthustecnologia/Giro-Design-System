@@ -123,7 +123,9 @@
 }
 
 .group {
-  display: inline-flex;
+  display: inline-grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
 
   .item,
   .toggle {
@@ -143,6 +145,7 @@
   }
 
   &[data-orientation='vertical'] {
+    display: inline-flex;
     flex-direction: column;
 
     .item,
