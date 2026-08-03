@@ -1,4 +1,4 @@
-import { Add16Regular, Tag16Regular, Info16Regular, Filter16Regular } from '@fluentui/react-icons';
+import { Add16Regular, Tag16Regular, Info16Regular, Filter16Regular, TextBold16Regular } from '@fluentui/react-icons';
 import { ToggleButton } from '@giro-ds/react';
 import { useState } from 'react';
 
@@ -150,14 +150,7 @@ const alignmentItems = [
 
 const fontStyleItems = [
   { value: 'bold', label: 'N' },
-  { value: 'italic', label: 'I' },
   { value: 'underline', label: 'S' },
-];
-
-const viewItems = [
-  { value: 'day', label: 'Dia' },
-  { value: 'week', label: 'Semana' },
-  { value: 'month', label: 'Mês' },
 ];
 
 const filterItemsWithIcons = [
@@ -181,7 +174,7 @@ export const Default: Story = {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'flex-start' }}>
         <ToggleButton {...args} pressed={pressed} onPressedChange={setPressed}>
-          Negrito
+          <TextBold16Regular />
         </ToggleButton>
         <span style={{ fontSize: '13px', color: 'var(--color-neutral-low-medium)' }}>
           Estado: {pressed ? 'ativado' : 'desativado'}
@@ -340,7 +333,7 @@ export const Desabilitado: Story = {
   render: () => (
     <div style={{ display: 'flex', gap: '24px', alignItems: 'flex-start', flexWrap: 'wrap' }}>
       <ToggleButton mode="simple" disabled>
-        Negrito
+        <TextBold16Regular />
       </ToggleButton>
       <ToggleButton
         mode="combined"
