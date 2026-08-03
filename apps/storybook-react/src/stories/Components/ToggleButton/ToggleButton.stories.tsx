@@ -245,31 +245,6 @@ export const SelecaoMultipla: Story = {
   },
 };
 
-/** Grupo com orientação vertical */
-export const Vertical: Story = {
-  render: (args: ToggleButtonProps) => {
-    const [value, setValue] = useState<string>('day');
-    return (
-      <ToggleButton
-        {...args}
-        value={value}
-        onValueChange={(v) => {
-          if (v) setValue(v as string);
-        }}
-      />
-    );
-  },
-  args: {
-    mode: 'combined',
-    selectionType: 'single',
-    size: 'lg',
-    scale: 1,
-    items: viewItems,
-    orientation: 'vertical',
-    disabled: false,
-  },
-};
-
 /** Toggle único com ícone à esquerda do texto (mode='simple') */
 export const ComIcone: Story = {
   render: (args: ToggleButtonProps) => {
