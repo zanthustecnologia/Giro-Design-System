@@ -63,12 +63,12 @@ export { type SearchProps } from './Search/Search.types';
 export { default as Select } from './Select';
 export { type SelectProps } from './Select/Select.types';
 
-export { default as Table } from './Table';
-export { default as TableHeader } from './Table/TableHeader';
-export { default as TablePagination } from './Table/TablePagination';
-export { type TableProps } from './Table/Table.types';
-export { type TablePaginationProps } from './Table/TablePagination';
-export { type TableHeaderProps, type FilterItem } from './Table/TableHeader';
+// export { default as Table } from './Table';
+// export { default as TableHeader } from './Table/TableHeader';
+// export { default as TablePagination } from './Table/TablePagination';
+// export { type TableProps } from './Table/Table.types';
+// export { type TablePaginationProps } from './Table/TablePagination';
+// export { type TableHeaderProps, type FilterItem } from './Table/TableHeader';
 
 export { TableV2 } from './TableV2';
 export { type TableV2Props, type TableV2HeaderProps, type TableV2FooterProps } from './TableV2/Table.types';

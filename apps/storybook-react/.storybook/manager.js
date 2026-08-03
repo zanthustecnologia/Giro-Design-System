@@ -6,7 +6,6 @@ import './manager.css';
 // Componentes — badge aparece no nó pai (colapsado ou não)
 // Usar o name do componente (última parte do title)
 const NEW_COMPONENTS = new Set([
-  'Popover',
   'TableV2',
   'VirtualKeyboard',
   'VerificationCode',
