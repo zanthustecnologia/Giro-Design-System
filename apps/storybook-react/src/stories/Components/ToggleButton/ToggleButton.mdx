@@ -9,7 +9,7 @@ import { Footer } from '../../../internal-components/mdx/Footer/Footer';
 
 # ToggleButton
 
-O ToggleButton é um botão de dois estados que pode ser ligado ou desligado. No modo `simple`, exibe um grupo de toggles onde o usuário seleciona um ou mais itens. No modo `combined`, exibe um único toggle independente.
+O ToggleButton é um botão de dois estados que pode ser ligado ou desligado. No modo `simple`, exibe um único toggle independente. No modo `combined`, exibe um grupo de toggles onde o usuário seleciona um ou mais itens.
 
 <Canvas of={ToggleButtonStories.Default} />
 
@@ -32,7 +32,7 @@ import { ToggleButton } from '@giro-ds/react';
 <UsageGuidelines
   guidelines={[
     <>
-      Use o ToggleButton quando o usuário precisa alternar entre opções mutuamente exclusivas. Para seleção de um único valor, use <code>type="single"</code>. Quando múltiplas opções podem ser ativadas simultaneamente, use <code>type="multiple"</code>.
+      Use o ToggleButton quando o usuário precisa alternar entre opções mutuamente exclusivas. Para seleção de um único valor, use <code>selectionType="single"</code>. Quando múltiplas opções podem ser ativadas simultaneamente, use <code>selectionType="multiple"</code>.
     </>,
     <>
       Use o modo <code>combined</code> para ações de formatação ou ativação simples, como negrito ou modo escuro, onde há apenas um estado ligado/desligado.
@@ -61,15 +61,9 @@ Quando diversas opções podem ser ativadas ao mesmo tempo, use `type="multiple"
 
 ### Toggle único
 
-O modo `combined` renderiza um único botão de dois estados, adequado para ações como ativar formatação ou modo de visualização.
+O modo `simple` renderiza um único botão de dois estados, adequado para ações como ativar formatação ou modo de visualização.
 
-<Canvas of={ToggleButtonStories.ToggleUnico} />
-
-### Orientação vertical
-
-O grupo de toggles pode ser exibido na vertical para contextos de menu lateral ou painéis compactos.
-
-<Canvas of={ToggleButtonStories.Vertical} />
+<Canvas of={ToggleButtonStories.Default} />
 
 ### Desabilitado
 
@@ -87,8 +81,8 @@ Exibe os estados desabilitados do grupo e do toggle único.
       positive: {
         component: (
           <ToggleButton
-            mode="simple"
-            type="single"
+            mode="combined"
+            selectionType="single"
             items={[
               { value: 'left', label: 'Esquerda' },
               { value: 'center', label: 'Centro' },
@@ -102,8 +96,8 @@ Exibe os estados desabilitados do grupo e do toggle único.
       negative: {
         component: (
           <ToggleButton
-            mode="simple"
-            type="single"
+            mode="combined"
+            selectionType="single"
             items={[
               { value: 'opt1', label: 'Opção 1' },
               { value: 'opt2', label: 'Opção 2' },
@@ -118,26 +112,26 @@ Exibe os estados desabilitados do grupo e do toggle único.
       positive: {
         component: (
           <ToggleButton
-            mode="combined"
+            mode="simple"
             defaultPressed={false}
           >
             Negrito
           </ToggleButton>
         ),
-        description: 'Use o modo `combined` para ações de formatação simples com estado ligado/desligado.',
+        description: 'Use o modo `simple` para ações de formatação simples com estado ligado/desligado.',
       },
       negative: {
         component: (
           <ToggleButton
-            mode="simple"
-            type="single"
+            mode="combined"
+            selectionType="single"
             items={[
               { value: 'on', label: 'Ativado' },
               { value: 'off', label: 'Desativado' },
             ]}
           />
         ),
-        description: 'Evite usar o grupo de toggles para representar apenas dois estados binários. Prefira o modo `combined` nesses casos.',
+        description: 'Evite usar o grupo de toggles para representar apenas dois estados binários. Prefira o modo `simple` nesses casos.',
       },
     },
   ]}
