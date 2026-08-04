@@ -1,5 +1,14 @@
 @use '../../styles/mixins/scale' as *;
 
+@mixin border-separator-h {
+  margin-left: calc(-1 * var(--toggle-button-off-border-width));
+}
+
+@mixin border-separator-v {
+  margin-left: 0;
+  margin-top: calc(-1 * var(--toggle-button-off-border-width));
+}
+
 .toggle,
 .item {
   --giro-scale: 1;
@@ -132,14 +141,17 @@
     &:first-child:not(:last-child) {
       border-top-right-radius: 0;
       border-bottom-right-radius: 0;
+      @include border-separator-h;
     }
 
     &:last-child:not(:first-child) {
+      @include border-separator-h;
       border-top-left-radius: 0;
       border-bottom-left-radius: 0;
     }
 
     &:not(:first-child):not(:last-child) {
+      @include border-separator-h;
       border-radius: 0;
     }
   }
@@ -155,10 +167,12 @@
       }
 
       &:last-child:not(:first-child) {
+        @include border-separator-v;
         border-radius: 0 0 scale(var(--toggle-button-radius)) scale(var(--toggle-button-radius));
       }
 
       &:not(:first-child):not(:last-child) {
+        @include border-separator-v;
         border-radius: 0;
       }
     }
