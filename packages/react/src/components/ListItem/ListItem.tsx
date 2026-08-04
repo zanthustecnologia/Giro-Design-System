@@ -173,11 +173,11 @@ const ListItem: React.FC<ListItemProps> = ({
                 onCheckedChange={() => handleCheckboxClick({} as React.MouseEvent<HTMLElement>)}
               />
             </span>
-            <div className={styles['listItemWrapperText']}>
+            <div className={styles.listItemWrapperText}>
               {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
               <span
                 id={`${itemId}-text`}
-                className={styles['listItemTitle']}
+                className={styles.listItemTitle}
                 onClick={hasChildren ? (e) => { e.stopPropagation(); handleCheckboxClick(e as React.MouseEvent<HTMLElement>); } : undefined}
               >
                 {text}
@@ -185,7 +185,7 @@ const ListItem: React.FC<ListItemProps> = ({
               {subText && (
                 <span
                   id={`${itemId}-subtext`}
-                  className={styles['listItemSubtext']}
+                  className={styles.listItemSubtext}
                 >
                   {subText}
                 </span>
@@ -197,20 +197,20 @@ const ListItem: React.FC<ListItemProps> = ({
       case 'icon':
         return (
           <>
-            <div className={styles['listItemWrapperIcon']}>
+            <div className={styles.listItemWrapperIcon}>
               {icon}
             </div>
-            <div className={styles['listItemWrapperText']}>
+            <div className={styles.listItemWrapperText}>
               <span
                 id={`${itemId}-text`}
-                className={styles['listItemTitle']}
+                className={styles.listItemTitle}
               >
                 {text}
               </span>
               {subText && (
                 <span
                   id={`${itemId}-subtext`}
-                  className={styles['listItemSubtext']}
+                  className={styles.listItemSubtext}
                 >
                   {subText}
                 </span>
@@ -222,17 +222,17 @@ const ListItem: React.FC<ListItemProps> = ({
       case 'text':
       default:
         return (
-          <div className={styles['listItemWrapperText']}>
+          <div className={styles.listItemWrapperText}>
             <span
               id={`${itemId}-text`}
-              className={styles['listItemTitle']}
+              className={styles.listItemTitle}
             >
               {text}
             </span>
             {subText && (
               <span
                 id={`${itemId}-subtext`}
-                className={styles['listItemSubtext']}
+                className={styles.listItemSubtext}
               >
                 {subText}
               </span>
@@ -243,10 +243,10 @@ const ListItem: React.FC<ListItemProps> = ({
   }, [variant, itemId, internalChecked, isIndeterminate, disabled, handleCheckboxClick, text, subText, icon, scale, hasChildren]);
 
   const listItemClass = clsx(
-    styles['listItem'],
+    styles.listItem,
     {
       [styles[`listItem-${variant}`]]: variant,
-      [styles['listItemDisabled']]: disabled,
+      [styles.listItemDisabled]: disabled,
       [className || '']: className
     }
   );
@@ -267,7 +267,7 @@ const ListItem: React.FC<ListItemProps> = ({
     >
       <div
         role={ariaRole}
-        className={styles['listItemRow']}
+        className={styles.listItemRow}
         tabIndex={disabled ? -1 : 0}
         onClick={handleClick}
         onKeyDown={handleKeyDown}
@@ -283,8 +283,8 @@ const ListItem: React.FC<ListItemProps> = ({
           <span
             data-testid="list-item-chevron"
             aria-hidden="true"
-            className={clsx(styles['listItemChevron'], {
-              [styles['listItemChevronExpanded']]: internalExpanded,
+            className={clsx(styles.listItemChevron, {
+              [styles.listItemChevronExpanded]: internalExpanded,
             })}
           >
             <ChevronDown16Regular />
@@ -292,7 +292,7 @@ const ListItem: React.FC<ListItemProps> = ({
         )}
       </div>
       {hasChildren && internalExpanded && (
-        <ul className={styles['listItemChildren']} role="group">
+        <ul className={styles.listItemChildren} role="group">
           {variant === 'checkbox'
             ? React.Children.map(children, (child, index) =>
                 React.isValidElement(child)
