@@ -38,7 +38,7 @@
 
   &[data-state='on'] {
     background-color: var(--toggle-button-on-background-default);
-    border-color: var(--toggle-button-on-border-default);
+    border: none;
     color: var(--toggle-button-on-color-default);
 
     &:hover {
