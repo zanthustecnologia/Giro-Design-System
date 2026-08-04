@@ -54,7 +54,7 @@ export interface ListItemProps extends BaseProps {
   icon?: React.ReactNode;
   
   /** Largura do item. Quando não informada, ocupa 100% do container */
-  width?: React.CSSProperties['width'];
+  customWidth?: React.CSSProperties['width'];
 
   /** Escala visual do componente (1, 1.5 ou 2) */
   scale?: Scale;

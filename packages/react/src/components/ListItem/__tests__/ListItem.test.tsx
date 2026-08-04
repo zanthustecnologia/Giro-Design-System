@@ -48,8 +48,8 @@ describe('ListItem', () => {
       expect(screen.getByTestId('list-item')).toHaveClass('minha-classe');
     });
 
-    it('deve aplicar width via inline style', () => {
-      wrap(<ListItem text="Item" width="320px" />);
+    it('deve aplicar customWidth via inline style', () => {
+      wrap(<ListItem text="Item" customWidth="320px" />);
       expect(screen.getByTestId('list-item')).toHaveStyle({ width: '320px' });
     });
 

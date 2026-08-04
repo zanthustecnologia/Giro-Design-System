@@ -20,7 +20,7 @@ const meta: Meta<typeof ListItem> = {
             control: 'select',
             options: ['text', 'icon', 'checkbox'],
         },
-        width: {
+        customWidth: {
             control: 'text',
             description: 'Largura do item. Deixe vazio para ocupar 100% do container.',
         },

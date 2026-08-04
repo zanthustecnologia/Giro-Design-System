@@ -19,7 +19,7 @@ const ListItem: React.FC<ListItemProps> = ({
   onClick,
   onChange,
   icon,
-  width,
+  customWidth,
   scale = 1,
   children,
   defaultExpanded = false,
@@ -261,7 +261,7 @@ const ListItem: React.FC<ListItemProps> = ({
       data-testid="list-item"
       style={{
         '--giro-scale': scale,
-        ...(width != null ? { width } : {}),
+        ...(customWidth != null ? { width: customWidth } : {}),
       } as React.CSSProperties}
       {...rest}
     >
