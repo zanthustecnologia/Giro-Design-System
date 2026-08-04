@@ -71,6 +71,4 @@ export interface ListItemProps extends BaseProps {
   /** Callback executado quando o estado de expansão muda */
   onExpandedChange?: (expanded: boolean) => void;
 
-  /** Classe CSS opcional */
-  className?: string;
 }
