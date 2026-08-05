@@ -1,0 +1,180 @@
+@use '../../styles/mixins/scale' as *;
+
+@mixin border-separator-h {
+  margin-left: calc(-1 * var(--toggle-button-off-border-width));
+}
+
+@mixin border-separator-v {
+  margin-left: 0;
+  margin-top: calc(-1 * var(--toggle-button-off-border-width));
+}
+
+.toggle,
+.item {
+  --giro-scale: 1;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: scale(var(--toggle-button-gap));
+  border-radius: scale(var(--toggle-button-radius));
+  border: var(--toggle-button-off-border-width) solid var(--toggle-button-off-border-default);
+  background-color: var(--toggle-button-off-background-default);
+  color: var(--toggle-button-off-color-default);
+  cursor: pointer;
+  box-sizing: border-box;
+  font-family: var(--toggle-button-font-family);
+  font-size: scale(var(--toggle-button-font-size));
+  font-weight: var(--toggle-button-font-weight);
+  text-align: center;
+  transition:
+    background-color 0.3s ease-in-out,
+    color 0.3s ease-in-out,
+    border-color 0.3s ease-in-out,
+    opacity 0.3s ease-in-out;
+
+  &:hover {
+    background-color: var(--toggle-button-off-background-hover);
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &:focus-visible {
+    outline: scale(var(--toggle-button-focus-outline-width)) solid var(--toggle-button-focus-outline-color);
+  }
+
+  &[data-state='on'] {
+    background-color: var(--toggle-button-on-background-default);
+    border: none;
+    color: var(--toggle-button-on-color-default);
+
+    &:hover {
+      background-color: var(--toggle-button-on-background-hover);
+      border-color: var(--toggle-button-on-border-hover);
+    }
+
+    &:focus {
+      outline: none;
+    }
+
+    &:focus-visible {
+      outline: scale(var(--toggle-button-focus-outline-width)) solid var(--toggle-button-focus-outline-color);
+    }
+
+    &:active {
+      outline: none;
+      background-color: var(--toggle-button-on-background-pressed);
+      border-color: var(--toggle-button-on-border-pressed);
+    }
+  }
+
+  &[data-disabled] {
+    border-color: var(--toggle-button-off-border-disabled);
+    color: var(--toggle-button-off-color-disabled);
+    background-color: var(--toggle-button-off-background-disabled);
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+}
+
+.toggle-lg,
+.item-lg {
+  height: scale(var(--toggle-button-lg-height));
+  padding: 0 scale(var(--toggle-button-padding-inline));
+}
+
+.toggle-sm,
+.item-sm {
+  height: scale(var(--toggle-button-sm-height));
+  padding: 0 scale(var(--toggle-button-padding-inline));
+}
+
+.toggleIconLeft {
+  @include scale-icon(var(--toggle-button-icon-size));
+  display: flex;
+}
+
+.toggle.toggleWithIcon,
+.item.toggleWithIcon {
+  gap: 0;
+}
+
+.toggle.toggleWithIcon .toggleIconLeft,
+.item.toggleWithIcon .toggleIconLeft {
+  margin-right: scale(var(--toggle-button-gap));
+}
+
+.toggle.toggle-lg.toggleIconOnly,
+.item.item-lg.toggleIconOnly {
+  padding: 0;
+  width: scale(var(--toggle-button-lg-height));
+  min-width: scale(var(--toggle-button-lg-height));
+}
+
+.toggle.toggle-sm.toggleIconOnly,
+.item.item-sm.toggleIconOnly {
+  padding: 0;
+  width: scale(var(--toggle-button-sm-height));
+  min-width: scale(var(--toggle-button-sm-height));
+}
+
+
+.toggle-lg.toggleWithIcon,
+.item-lg.toggleWithIcon {
+  padding-left: scale(var(--toggle-button-lg-padding-inline-with-icon));
+}
+
+.toggle-sm.toggleWithIcon,
+.item-sm.toggleWithIcon {
+  padding-left: scale(var(--toggle-button-sm-padding-inline-with-icon));
+}
+
+.group {
+  display: inline-grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+
+  .item,
+  .toggle {
+    &:first-child:not(:last-child) {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+      @include border-separator-h;
+    }
+
+    &:last-child:not(:first-child) {
+      @include border-separator-h;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+
+    &:not(:first-child):not(:last-child) {
+      @include border-separator-h;
+      border-radius: 0;
+    }
+  }
+
+  &[data-orientation='vertical'] {
+    display: inline-flex;
+    flex-direction: column;
+
+    .item,
+    .toggle {
+      &:first-child:not(:last-child) {
+        border-radius: scale(var(--toggle-button-radius)) scale(var(--toggle-button-radius)) 0 0;
+      }
+
+      &:last-child:not(:first-child) {
+        @include border-separator-v;
+        border-radius: 0 0 scale(var(--toggle-button-radius)) scale(var(--toggle-button-radius));
+      }
+
+      &:not(:first-child):not(:last-child) {
+        @include border-separator-v;
+        border-radius: 0;
+      }
+    }
+  }
+}

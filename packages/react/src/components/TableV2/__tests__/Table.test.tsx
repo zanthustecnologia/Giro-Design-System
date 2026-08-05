@@ -66,6 +66,23 @@ vi.mock('../../Filter/Filter', () => ({
   ),
 }));
 
+vi.mock('../../ToggleButton/ToggleButton', () => ({
+  default: ({ items, value, onValueChange }: any) => (
+    <div data-testid="view-toggle">
+      {items?.map((item: any) => (
+        <button
+          key={item.value}
+          data-testid={`toggle-item-${item.value}`}
+          aria-pressed={value === item.value}
+          onClick={() => onValueChange?.(item.value)}
+        >
+          {item.value}
+        </button>
+      ))}
+    </div>
+  ),
+}));
+
 // ─── Dados de teste ──────────────────────────────────────────────────────────
 
 type Person = { id: number; name: string; age: number };
@@ -811,6 +828,165 @@ describe('TableV2', () => {
       render(<TableV2 columns={columnsWithAlign} data={data} />);
       const secondCell = screen.getAllByRole('cell')[1];
       expect(secondCell).toHaveStyle({ textAlign: 'right' });
+    });
+  });
+
+  describe('Header — viewToggle', () => {
+    const viewToggleItems: [any, any] = [
+      { value: 'list', icon: <span>List</span>, tooltipText: 'Lista' },
+      { value: 'grid', icon: <span>Grid</span>, tooltipText: 'Grade' },
+    ];
+
+    it('deve renderizar o ToggleButton quando header.viewToggle é fornecido', () => {
+      render(
+        <TableV2
+          columns={columns}
+          data={data}
+          header={{ viewToggle: { items: viewToggleItems } }}
+        />
+      );
+      expect(screen.getByTestId('view-toggle')).toBeInTheDocument();
+    });
+
+    it('não deve renderizar o ToggleButton quando header.viewToggle não é fornecido', () => {
+      render(<TableV2 columns={columns} data={data} header={{}} />);
+      expect(screen.queryByTestId('view-toggle')).not.toBeInTheDocument();
+    });
+
+    it('deve selecionar o primeiro item por padrão quando defaultValue não é fornecido', () => {
+      render(
+        <TableV2
+          columns={columns}
+          data={data}
+          header={{ viewToggle: { items: viewToggleItems } }}
+        />
+      );
+      expect(screen.getByTestId('toggle-item-list')).toHaveAttribute('aria-pressed', 'true');
+      expect(screen.getByTestId('toggle-item-grid')).toHaveAttribute('aria-pressed', 'false');
+    });
+
+    it('deve usar defaultValue como vista inicial (modo não controlado)', () => {
+      render(
+        <TableV2
+          columns={columns}
+          data={data}
+          header={{ viewToggle: { items: viewToggleItems, defaultValue: 'grid' } }}
+        />
+      );
+      expect(screen.getByTestId('toggle-item-grid')).toHaveAttribute('aria-pressed', 'true');
+      expect(screen.getByTestId('toggle-item-list')).toHaveAttribute('aria-pressed', 'false');
+    });
+
+    it('deve respeitar value externo (modo controlado)', () => {
+      render(
+        <TableV2
+          columns={columns}
+          data={data}
+          header={{ viewToggle: { items: viewToggleItems, value: 'grid' } }}
+        />
+      );
+      expect(screen.getByTestId('toggle-item-grid')).toHaveAttribute('aria-pressed', 'true');
+    });
+
+    it('deve sincronizar quando value externo muda (modo controlado)', () => {
+      const { rerender } = render(
+        <TableV2
+          columns={columns}
+          data={data}
+          header={{ viewToggle: { items: viewToggleItems, value: 'list' } }}
+        />
+      );
+      expect(screen.getByTestId('toggle-item-list')).toHaveAttribute('aria-pressed', 'true');
+
+      rerender(
+        <TableV2
+          columns={columns}
+          data={data}
+          header={{ viewToggle: { items: viewToggleItems, value: 'grid' } }}
+        />
+      );
+      expect(screen.getByTestId('toggle-item-grid')).toHaveAttribute('aria-pressed', 'true');
+    });
+
+    it('deve chamar onValueChange ao clicar em um item do toggle', () => {
+      const onValueChange = vi.fn();
+      render(
+        <TableV2
+          columns={columns}
+          data={data}
+          header={{ viewToggle: { items: viewToggleItems, onValueChange } }}
+        />
+      );
+      fireEvent.click(screen.getByTestId('toggle-item-grid'));
+      expect(onValueChange).toHaveBeenCalledWith('grid');
+    });
+
+    it('deve alternar colunas/dados conforme a vista selecionada via views', () => {
+      const columnsGrid: ColumnDef<Person>[] = [
+        { accessorKey: 'name', header: 'Nome (Grid)' },
+      ];
+      const dataGrid: Person[] = [{ id: 10, name: 'GridPessoa', age: 99 }];
+
+      render(
+        <TableV2
+          columns={columns}
+          data={data}
+          header={{
+            viewToggle: {
+              items: viewToggleItems,
+              views: {
+                list: { columns, data },
+                grid: { columns: columnsGrid, data: dataGrid },
+              },
+            },
+          }}
+        />
+      );
+
+      // Vista inicial: list
+      expect(screen.getByRole('columnheader', { name: 'Nome' })).toBeInTheDocument();
+      expect(screen.getByText('Alice')).toBeInTheDocument();
+
+      // Troca para grid
+      fireEvent.click(screen.getByTestId('toggle-item-grid'));
+      expect(screen.getByRole('columnheader', { name: 'Nome (Grid)' })).toBeInTheDocument();
+      expect(screen.getByText('GridPessoa')).toBeInTheDocument();
+      expect(screen.queryByText('Alice')).not.toBeInTheDocument();
+    });
+
+    it('deve resetar a paginação para a página 1 ao trocar de vista', () => {
+      const columnsGrid: ColumnDef<Person>[] = [{ accessorKey: 'name', header: 'Nome (Grid)' }];
+      const dataGrid: Person[] = Array.from({ length: 15 }, (_, i) => ({
+        id: 100 + i,
+        name: `Grid ${i + 1}`,
+        age: i,
+      }));
+      const onPageChange = vi.fn();
+
+      render(
+        <TableV2
+          columns={columns}
+          data={manyData}
+          footer={{ totalItems: 30, defaultPageSize: 10, onPageChange }}
+          header={{
+            viewToggle: {
+              items: viewToggleItems,
+              views: {
+                list: { columns, data: manyData },
+                grid: { columns: columnsGrid, data: dataGrid },
+              },
+            },
+          }}
+        />
+      );
+
+      // Navega para a segunda página
+      fireEvent.click(screen.getByRole('button', { name: 'Próxima página' }));
+      expect(screen.getByText('2 de 3')).toBeInTheDocument();
+
+      // Troca de vista → deve voltar para página 1
+      fireEvent.click(screen.getByTestId('toggle-item-grid'));
+      expect(onPageChange).toHaveBeenLastCalledWith(1);
     });
   });
 });

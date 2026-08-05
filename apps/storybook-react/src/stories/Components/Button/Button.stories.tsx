@@ -1,4 +1,4 @@
-import { Add16Filled, Add16Regular } from '@fluentui/react-icons';
+import { Add16Filled, Add16Regular, Delete16Regular, Mail16Regular, Person16Regular, Warning16Regular } from '@fluentui/react-icons';
 import { Button } from '@giro-ds/react';
 import React from 'react';
 
@@ -38,9 +38,14 @@ const meta: Meta<typeof Button> = {
     },
     icon: {
       control: { type: 'select' },
-      options: ['', 'add'],
+      options: ['', 'add-filled', 'add-regular', 'person', 'mail', 'delete', 'warning'],
       mapping: {
-        add: <Add16Regular />,
+        'add-filled': <Add16Filled />,
+        'add-regular': <Add16Regular />,
+        person: <Person16Regular />,
+        mail: <Mail16Regular />,
+        delete: <Delete16Regular />,
+        warning: <Warning16Regular />,
       },
     },
     iconPosition: {
@@ -105,7 +110,7 @@ type Story = StoryObj<typeof Button>;
 
 export const Default: Story = {
   render: (args: ButtonProps) => (
-    <Button {...args}>
+    <Button {...args} icon={args.iconOnly && !args.icon ? <Add16Filled /> : args.icon}>
       {args.children}
     </Button>
   ),
@@ -180,7 +185,7 @@ export const ApenasIcone: Story = {
     variant: 'filled',
     size: 'lg',
     iconOnly: true,
-    icon: <Add16Regular />,
+    icon: 'add-filled',
     ariaLabel: 'Add item',
     tooltipText: 'Adicionar item',
   },

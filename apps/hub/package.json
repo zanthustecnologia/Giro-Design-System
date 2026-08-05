@@ -1,7 +1,7 @@
 {
   "name": "hub",
   "private": true,
-  "version": "0.1.1",
+  "version": "0.1.2",
   "type": "module",
   "scripts": {
     "dev": "tinacms dev -c \"astro dev --port 4321 --open\"",
@@ -13,12 +13,12 @@
   },
   "dependencies": {
     "@astrojs/react": "^5.0.4",
-    "@giro-ds/react": "^12.0.0",
+    "@giro-ds/react": "^12.1.0",
     "@giro-ds/tokens": "workspace:*",
     "@tinacms/cli": "^2.2.5",
     "astro": "^6.3.0",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "tinacms": "^3.7.5"
   }
 }

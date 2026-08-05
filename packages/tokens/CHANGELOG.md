@@ -1,33 +1,30 @@
-# @giro-ds/tokens
+﻿# @giro-ds/tokens
+
+## [1.2.0] - 2026-08-05
+
+### Features
+
+- **Tokens:** adiciona tokens de componente `toggleButton.*` para o novo componente `ToggleButton`.
 
 ## [1.1.0]
 
-### Added
+### Features
 
-#### Tokens
-
-Introduz arquitetura core/semantic/theme. Os tokens core cobrem border, color (brand, feedback, neutral), motion, opacity, radius, shadow, size, spacing e typography. Os tokens semânticos mapeiam os valores core para contextos de uso: background, border, focus, icon, interactive, surface e text.
-
-Adiciona tema dark, tokens de componente para Avatar, Button e Calendar, e saída Dart para integração Flutter.
-
-Novos outputs em `build-next/`: `core.css`, `semantic.css`, `components.css`, `themes/dark.css`, `tokens.scss`, `tokens.js` e `tokens.dart`.
+- **Tokens:** introduz arquitetura core/semantic/theme com tokens de border, color, motion, opacity, radius, shadow, size, spacing e typography
+- **Tokens:** adiciona tema dark, tokens de componente (Avatar, Button, Calendar) e saída Dart para Flutter
+- **Build:** novos outputs em `build-next/`: `core.css`, `semantic.css`, `components.css`, `themes/dark.css`, `tokens.scss`, `tokens.js` e `tokens.dart`
 
 ## 1.0.1
 
-### Patch Changes
+### Bug Fixes
 
-- **Documentação**: Adiciona arquivos README aos pacotes
+- **Documentação:** adiciona arquivos README aos pacotes
 
 ## 1.0.0
 
-### Major Changes
+### Features
 
-- **Release Inicial**: Lançamento do pacote `@giro-ds/tokens`
-  - Migração de `@zanthus/tokens` para `@giro-ds/tokens`
-  - Design tokens completos do Zanthus Design System
-  - Tokens disponíveis: cores (brand, feedback, neutral), espaçamentos, tipografia, bordas
-  - Formatos: CSS, SCSS, JavaScript
-  - Geração via Style Dictionary
+- **Release Inicial:** lançamento do pacote `@giro-ds/tokens` com design tokens completos em CSS, SCSS e JavaScript gerados via Style Dictionary
 
 ## Histórico anterior (@zanthus/tokens)
 

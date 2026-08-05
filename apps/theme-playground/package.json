@@ -1,7 +1,7 @@
 {
   "name": "theme-playground",
   "private": true,
-  "version": "0.0.1",
+  "version": "0.0.2",
   "type": "module",
   "scripts": {
     "dev": "vite --port 4173",
@@ -12,8 +12,8 @@
   "dependencies": {
     "@fluentui/react-icons": "^2.0.307",
     "@giro-ds/react": "workspace:*",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.7.0",

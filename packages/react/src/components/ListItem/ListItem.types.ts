@@ -1,9 +1,9 @@
 import * as React from 'react';
 
-import { BaseProps } from '../../types/common.types';
+import { BaseProps, Scale } from '../../types/common.types';
 
 /** Variantes disponíveis para o ListItem */
-export type ListItemVariant = 'text' | 'checkbox' | 'radio' | 'icon';
+export type ListItemVariant = 'text' | 'checkbox' | 'icon';
 
 /**
  * Props do componente ListItem
@@ -35,13 +35,10 @@ export interface ListItemProps extends BaseProps {
   /** Texto principal do item */
   text?: string;
   
-  /** Nome do input (para variantes checkbox/radio) */
-  name?: string;
-  
   /** Texto secundário/descrição do item */
   subText?: string;
   
-  /** Estado de checked (para variantes checkbox/radio) */
+  /** Estado de checked (para variante checkbox) */
   checked?: boolean;
   
   /** Estado de selecionado (para variantes text/icon) */
@@ -56,15 +53,22 @@ export interface ListItemProps extends BaseProps {
   /** Ícone do item (para variante icon) */
   icon?: React.ReactNode;
   
-  /** Valor do input (para variantes checkbox/radio) */
-  value?: string;
-  
-  /** Controla a visibilidade do subtexto explicitamente, independentemente de `subText` estar preenchido */
-  showSubText?: boolean;
-  
-  /** Força o estado visual de hover no item (útil para controle externo de foco/seleção) */
-  hovered?: boolean;
+  /** Largura do item. Quando não informada, ocupa 100% do container */
+  customWidth?: React.CSSProperties['width'];
 
-  /** Classe CSS opcional */
-  className?: string;
+  /** Escala visual do componente (1, 1.5 ou 2) */
+  scale?: Scale;
+
+  /** Itens filhos para criar estrutura de árvore (outros ListItems) */
+  children?: React.ReactNode;
+
+  /** Estado inicial de expansão — modo não controlado (default: false) */
+  defaultExpanded?: boolean;
+
+  /** Estado de expansão controlado */
+  expanded?: boolean;
+
+  /** Callback executado quando o estado de expansão muda */
+  onExpandedChange?: (expanded: boolean) => void;
+
 }

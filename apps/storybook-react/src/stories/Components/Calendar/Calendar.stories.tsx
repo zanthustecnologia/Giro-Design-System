@@ -99,7 +99,7 @@ export const MultiplosMeses: Story = {
   },
   parameters: {
     docs: {
-      description: { story: 'Calendário com navegação via grade de meses e anos integrada ao cabeçalho.' },
+      description: { story: 'Calendário com dois meses exibidos simultaneamente via `numberOfMonths={2}`.' },
     },
   },
 };

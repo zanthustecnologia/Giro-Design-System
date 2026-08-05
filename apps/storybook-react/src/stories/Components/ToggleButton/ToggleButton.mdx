@@ -1,0 +1,140 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as ToggleButtonStories from './ToggleButton.stories';
+import { ToggleButton } from '@giro-ds/react';
+import { UsageGuidelines } from '../../../internal-components/mdx/UsageGuidelines/UsageGuidelines';
+import { ComponentRules } from '../../../internal-components/mdx/Rules/Rules';
+import { Footer } from '../../../internal-components/mdx/Footer/Footer';
+
+<Meta of={ToggleButtonStories} name="Docs" />
+
+# ToggleButton
+
+O ToggleButton é um botão de dois estados que pode ser ligado ou desligado. No modo `simple`, exibe um único toggle independente. No modo `combined`, exibe um grupo de toggles onde o usuário seleciona um ou mais itens.
+
+<Canvas of={ToggleButtonStories.Default} />
+
+## Importação
+
+```js
+import { ToggleButton } from '@giro-ds/react';
+```
+
+<div style={{ marginTop: '48px' }} />
+
+## Propriedades
+
+<Controls />
+
+<div style={{ marginTop: '48px' }} />
+
+## Uso
+
+<UsageGuidelines
+  guidelines={[
+    <>
+      Use o ToggleButton quando o usuário precisa alternar entre opções mutuamente exclusivas. Para seleção de um único valor, use <code>selectionType="single"</code>. Quando múltiplas opções podem ser ativadas simultaneamente, use <code>selectionType="multiple"</code>.
+    </>,
+    <>
+      Use o modo <code>combined</code> para ações de formatação ou ativação simples, como negrito ou modo escuro, onde há apenas um estado ligado/desligado.
+    </>,
+    <>
+      Mantenha os rótulos dos itens curtos e objetivos. O ToggleButton não é adequado para textos longos; prefira ícones ou abreviações quando o espaço for limitado.
+    </>,
+    <>
+      Sempre forneça um valor inicial (<code>defaultValue</code>) ou controle o estado externamente (<code>value</code> + <code>onValueChange</code>) para deixar claro qual opção está ativa ao carregar o componente.
+    </>,
+    <>
+      Use o estado desabilitado quando a alternância não está disponível no contexto atual. Sempre que possível, indique o motivo da indisponibilidade.
+    </>,
+  ]}
+/>
+
+<div style={{ marginTop: '48px' }} />
+
+## Variações
+
+### Seleção múltipla
+
+Quando diversas opções podem ser ativadas ao mesmo tempo, use `type="multiple"`.
+
+<Canvas of={ToggleButtonStories.SelecaoMultipla} />
+
+### Toggle único
+
+O modo `simple` renderiza um único botão de dois estados, adequado para ações como ativar formatação ou modo de visualização.
+
+<Canvas of={ToggleButtonStories.Default} />
+
+### Desabilitado
+
+Exibe os estados desabilitados do grupo e do toggle único.
+
+<Canvas of={ToggleButtonStories.Desabilitado} />
+
+<div style={{ marginTop: '48px' }} />
+
+## O que fazer e não fazer
+
+<ComponentRules
+  rules={[
+    {
+      positive: {
+        component: (
+          <ToggleButton
+            mode="combined"
+            selectionType="single"
+            items={[
+              { value: 'left', label: 'Esquerda' },
+              { value: 'center', label: 'Centro' },
+              { value: 'right', label: 'Direita' },
+            ]}
+            defaultValue="left"
+          />
+        ),
+        description: 'Use rótulos curtos e descritivos que representem claramente cada opção.',
+      },
+      negative: {
+        component: (
+          <ToggleButton
+            mode="combined"
+            selectionType="single"
+            items={[
+              { value: 'opt1', label: 'Opção 1' },
+              { value: 'opt2', label: 'Opção 2' },
+              { value: 'opt3', label: 'Opção 3' },
+            ]}
+          />
+        ),
+        description: 'Evite rótulos genéricos como "Opção 1". O usuário precisa entender o que está alternando.',
+      },
+    },
+    {
+      positive: {
+        component: (
+          <ToggleButton
+            mode="simple"
+            defaultPressed={false}
+          >
+            B
+          </ToggleButton>
+        ),
+        description: 'Use o modo `simple` para ações de formatação simples com estado ligado/desligado.',
+      },
+      negative: {
+        component: (
+          <ToggleButton
+            mode="combined"
+            selectionType="single"
+            items={[
+              { value: 'on', label: 'Ativado' },
+              { value: 'off', label: 'Desativado' },
+            ]}
+          />
+        ),
+        description: 'Evite usar o grupo de toggles para representar apenas dois estados binários. Prefira o modo `simple` nesses casos.',
+      },
+    },
+  ]}
+/>
+
+<Footer />
