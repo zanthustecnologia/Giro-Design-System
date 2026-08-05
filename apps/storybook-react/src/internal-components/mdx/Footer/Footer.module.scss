@@ -54,6 +54,10 @@
   flex-shrink: 0;
 }
 
+.docsFooter .docsFooterCard {
+  text-decoration: none;
+}
+
 .docsFooter h2 {
   font-size: 28px;
   font-weight: var(--font-weight-bold);
