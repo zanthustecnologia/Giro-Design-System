@@ -529,4 +529,78 @@ describe('Button', () => {
       expect(tooltipTrigger).not.toBeInTheDocument();
     });
   });
+
+  describe('onColor', () => {
+    it('não deve aplicar classe buttonOnColor por padrão', () => {
+      const { container } = render(<Button>Botão</Button>);
+      expect(container.querySelector('[class*="buttonOnColor"]')).not.toBeInTheDocument();
+    });
+
+    it('deve aplicar classe buttonOnColor quando onColor={true}', () => {
+      const { container } = render(<Button onColor>Botão</Button>);
+      expect(container.querySelector('[class*="buttonOnColor"]')).toBeInTheDocument();
+    });
+
+    it('não deve aplicar classe buttonOnColor quando onColor={false}', () => {
+      const { container } = render(<Button onColor={false}>Botão</Button>);
+      expect(container.querySelector('[class*="buttonOnColor"]')).not.toBeInTheDocument();
+    });
+
+    it('deve aplicar buttonOnColor junto com variant filled', () => {
+      const { container } = render(<Button variant="filled" onColor>Botão</Button>);
+      expect(container.querySelector('[class*="buttonOnColor"][class*="button-filled"]')).toBeInTheDocument();
+    });
+
+    it('deve aplicar buttonOnColor junto com variant outlined', () => {
+      const { container } = render(<Button variant="outlined" onColor>Botão</Button>);
+      expect(container.querySelector('[class*="buttonOnColor"][class*="button-outlined"]')).toBeInTheDocument();
+    });
+
+    it('deve aplicar buttonOnColor junto com variant text', () => {
+      const { container } = render(<Button variant="text" onColor>Botão</Button>);
+      expect(container.querySelector('[class*="buttonOnColor"][class*="button-text"]')).toBeInTheDocument();
+    });
+
+    it('deve combinar onColor com tamanho sm', () => {
+      const { container } = render(<Button onColor size="sm">Botão</Button>);
+      expect(container.querySelector('[class*="buttonOnColor"][class*="button-sm"]')).toBeInTheDocument();
+    });
+
+    it('deve combinar onColor com estado disabled', () => {
+      const { container } = render(<Button onColor disabled>Botão</Button>);
+      const button = container.querySelector('[class*="buttonOnColor"]');
+      expect(button).toBeInTheDocument();
+      expect(button).toBeDisabled();
+    });
+
+    it('deve combinar onColor com estado loading', () => {
+      const { container } = render(<Button onColor loading>Botão</Button>);
+      expect(container.querySelector('[class*="buttonOnColor"]')).toBeInTheDocument();
+      expect(container.querySelector('[class*="buttonLoading"]')).toBeInTheDocument();
+    });
+
+    it('deve combinar onColor com ícone', () => {
+      const TestIcon = () => <svg data-testid="on-color-icon" />;
+      const { container } = render(
+        <Button onColor icon={<TestIcon />}>Botão</Button>
+      );
+      expect(container.querySelector('[class*="buttonOnColor"]')).toBeInTheDocument();
+      expect(screen.getByTestId('on-color-icon')).toBeInTheDocument();
+    });
+
+    it('deve combinar onColor com iconOnly', () => {
+      const TestIcon = () => <svg data-testid="on-color-icon-only" />;
+      const { container } = render(
+        <Button onColor iconOnly icon={<TestIcon />} ariaLabel="Ação" />
+      );
+      expect(container.querySelector('[class*="buttonOnColor"]')).toBeInTheDocument();
+      expect(container.querySelector('[class*="buttonIconOnly"]')).toBeInTheDocument();
+    });
+
+    it('deve combinar onColor com fullWidth', () => {
+      const { container } = render(<Button onColor fullWidth>Botão</Button>);
+      expect(container.querySelector('[class*="buttonOnColor"]')).toBeInTheDocument();
+      expect(container.querySelector('[class*="buttonFullWidth"]')).toBeInTheDocument();
+    });
+  });
 });
