@@ -20,10 +20,14 @@ const SECTION_TYPES: Record<string, Section['type']> = {
   'Major Changes': 'major',
   'Minor Changes': 'minor',
   'Patch Changes': 'patch',
+  'Breaking Changes': 'major',
   'Added': 'minor',
+  'Features': 'minor',
   'Changed': 'minor',
+  'Deprecated': 'patch',
   'Removed': 'major',
   'Fixed': 'patch',
+  'Bug Fixes': 'patch',
 };
 
 function parseChangelog(raw: string, packageName: string): VersionEntry[] {
