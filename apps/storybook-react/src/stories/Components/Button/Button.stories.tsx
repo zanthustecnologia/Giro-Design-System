@@ -101,6 +101,10 @@ const meta: Meta<typeof Button> = {
       description: 'Alinhamento do tooltip. Requer `tooltipText`.',
       if: { arg: 'tooltipText', truthy: true },
     },
+    onColor: {
+      control: { type: 'boolean' },
+      description: 'Adapta as cores do botão para uso sobre fundos coloridos. `filled` fica branco com texto escuro, `outlined` fica transparente com borda e texto escuros, `text` fica apenas com texto escuro.',
+    },
   },
 } as Meta<ButtonProps>;
 
@@ -198,3 +202,43 @@ export const Escalas: StoryFn<ButtonProps> = () => (
     <Button scale={2}>Scale 2.0</Button>
   </div>
 );
+
+export const OnColor: Story = {
+  name: 'On Color',
+  parameters: {
+    docs: {
+      description: {
+        story: 'Use `onColor` quando o botão estiver sobre um fundo colorido. As cores são adaptadas para garantir contraste e legibilidade.',
+      },
+    },
+    backgrounds: { disable: true },
+  },
+  render: () => (
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '32px',
+        padding: '32px',
+        borderRadius: '8px',
+        background: 'var(--color-brand-primary-default, #3b45f2)',
+      }}
+    >
+      <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
+        <Button variant="filled" onColor>Filled</Button>
+        <Button variant="outlined" onColor>Outlined</Button>
+        <Button variant="text" onColor>Text</Button>
+      </div>
+      <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
+        <Button variant="filled" onColor icon={<Add16Regular />}>Com ícone</Button>
+        <Button variant="outlined" onColor icon={<Add16Regular />}>Com ícone</Button>
+        <Button variant="text" onColor icon={<Add16Regular />}>Com ícone</Button>
+      </div>
+      <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
+        <Button variant="filled" onColor disabled>Disabled</Button>
+        <Button variant="outlined" onColor disabled>Disabled</Button>
+        <Button variant="text" onColor disabled>Disabled</Button>
+      </div>
+    </div>
+  ),
+};

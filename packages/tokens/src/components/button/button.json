@@ -68,6 +68,47 @@
       "outlineWidth":  { "value": "{border.width.strong}",      "type": "borderWidth" },
       "outlineOffset": { "value": "{border.width.medium}",      "type": "borderWidth" }
     },
+    "onColor": {
+      "filled": {
+        "background": {
+          "default":  { "value": "{color.neutral.0}",   "type": "color" },
+          "hover":    { "value": "{color.neutral.100}",  "type": "color" },
+          "pressed":  { "value": "{color.neutral.200}",  "type": "color" },
+          "disabled": { "value": "{color.neutral.300}",  "type": "color" }
+        },
+        "color": {
+          "default":  { "value": "{color.neutral.900}", "type": "color" },
+          "disabled": { "value": "{color.neutral.700}", "type": "color" }
+        }
+      },
+      "outlined": {
+        "background": {
+          "hover":   { "value": "{color.neutral.100}", "type": "color" },
+          "pressed": { "value": "{color.neutral.200}", "type": "color" }
+        },
+        "color": {
+          "default":  { "value": "{color.neutral.900}", "type": "color" },
+          "disabled": { "value": "{color.neutral.700}", "type": "color" }
+        },
+        "border": {
+          "default":  { "value": "{color.neutral.900}", "type": "color" },
+          "disabled": { "value": "{color.neutral.700}", "type": "color" }
+        }
+      },
+      "ghost": {
+        "background": {
+          "hover":   { "value": "{color.neutral.100}", "type": "color" },
+          "pressed": { "value": "{color.neutral.200}", "type": "color" }
+        },
+        "color": {
+          "default":  { "value": "{color.neutral.900}", "type": "color" },
+          "disabled": { "value": "{color.neutral.700}", "type": "color" }
+        }
+      },
+      "focus": {
+        "outlineColor": { "value": "{color.neutral.900}", "type": "color" }
+      }
+    },
     "gap":        { "value": "{space.gap.xs}",      "type": "dimension" },
     "radius":     { "value": "{radius.sm}",         "type": "borderRadius" },
     "fontFamily": { "value": "{font.family.body}",  "type": "fontFamily" },

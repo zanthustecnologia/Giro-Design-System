@@ -78,6 +78,15 @@ type ButtonOwnPropsBase = {
   /** Define se o botão ocupa 100% da largura do container */
   fullWidth?: boolean;
 
+  /**
+   * Adapta as cores do botão para uso sobre fundos coloridos.
+   * - `filled`: fundo branco com texto preto
+   * - `outlined`: fundo transparente com borda e texto pretos
+   * - `text`: apenas texto preto
+   * @default false
+   */
+  onColor?: boolean;
+
   /** Label acessível para leitores de tela */
   ariaLabel?: string;
 
