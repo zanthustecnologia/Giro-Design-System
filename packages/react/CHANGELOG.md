@@ -1,5 +1,17 @@
 ﻿# @giro-ds/react
 
+## [12.1.0] - 2026-08-05
+
+### Features
+
+- **ToggleButton:** novo componente com modos `simple` e `combined`; suporte a `icon`, `iconOnly`, tamanhos `lg` | `sm`, `scale`, tooltip e selecao `single` | `multiple`.
+- **TableV2:** adiciona prop `header.viewToggle` para alternancia de vistas via ToggleButton.
+- **ListItem:** adiciona suporte a estrutura em arvore (`children`, `defaultExpanded`, `expanded`, `onExpandedChange`) e props `id`, `width` e `scale`.
+
+### Bug Fixes
+
+- **Toast:** corrige seletor `.toastRoot`; define animacao `slideIn` ausente; adiciona animacao `fadeOut` em `[data-state="closed"]`.
+
 ## [12.0.0]
 
 ### Breaking Changes
@@ -28,7 +40,6 @@
 - **Label:** remove `gap` fixo do container
 - **TableV2:** define altura padrão de célula (`maxHeight`) como `64px`
 
-
 ## [11.2.0]
 
 ### Features
@@ -55,7 +66,6 @@
 
 - **VerificationCode:** implementação anterior movida para `.deprecated/`
 
-
 ## [11.1.0]
 
 ### Features
@@ -66,7 +76,6 @@
 
 - **VirtualKeyboard:** corrige comportamento das teclas do numpad no modo `fixed`
 
-
 ## [11.0.0]
 
 ### Breaking Changes
@@ -74,7 +83,6 @@
 - **Scale system:** remove classes CSS globais `.scale-1-0`, `.scale-1-5`, `.scale-2-0`; escala agora controlada via CSS custom property `--component-scale` injetada por prop `style`
 - **Menu:** remove props `dropdownScale` e `buttonScale` em favor da prop unificada `scale`
 - **DatePicker:** remove props `datePickerScale` e `calendarScale` em favor da prop unificada `scale`
-
 
 ## [10.0.0]
 
@@ -94,7 +102,6 @@
 - **Checkbox:** amplia área de clique via pseudo-elemento `::after`
 - **VirtualKeyboard:** corrige fechamento indevido no iOS; corrige exibição de `errorMessage`
 
-
 ## [9.1.0]
 
 ### Features
@@ -109,7 +116,6 @@
 
 - **TableV2:** corrige label "Filtros" duplicado quando `filterItems` contém apenas itens `combined`
 - **TextField:** corrige `helperText` e `errorMessage` renderizados sem conteúdo
-
 
 ## [9.0.0]
 
@@ -127,7 +133,6 @@
 
 - **Label:** corrige altura do ícone de tooltip
 
-
 ## [8.0.0]
 
 ### Breaking Changes
@@ -137,7 +142,6 @@
 ### Bug Fixes
 
 - **Callout:** corrige prop `style` externa sendo ignorada pelo estilo interno
-
 
 ## [7.0.0]
 
@@ -157,13 +161,11 @@
 - **Modal:** corrige autofocus indesejado no botão de fechar
 - **Componentes:** padroniza prop `className` e spread props em todos os componentes
 
-
 ## [6.0.2]
 
 ### Bug Fixes
 
 - **Tipos:** adiciona JSDoc em tipos compartilhados; corrige extensões de arquivo de `.tsx` para `.ts`
-
 
 ## [6.0.1]
 
@@ -171,7 +173,6 @@
 
 - **Calendar:** corrige largura fixa do botão de dia
 - **Menu:** corrige comportamento de foco ao fechar com clique
-
 
 ## [6.0.0]
 
@@ -197,14 +198,12 @@
 - **DatePicker:** corrige tratamento de props `error` e `errorMessage`
 - **Filter:** ajustes de padding
 
-
 ## [5.0.1]
 
 ### Bug Fixes
 
 - **DatePicker:** corrige lógica de validação e exibição de mensagens de erro
 - **Build:** adiciona limpeza automática do diretório `dts-temp`
-
 
 ## [5.0.0]
 
@@ -224,7 +223,6 @@
 
 - **TextField:** adiciona prop `error` para controle externo de validação
 
-
 ## [4.0.0]
 
 ### Breaking Changes
@@ -242,7 +240,6 @@
 
 - **Search:** corrige bug do `useId()` e melhora acessibilidade
 
-
 ## [3.0.7]
 
 ### Bug Fixes
@@ -250,7 +247,6 @@
 - **Label:** corrige alinhamento com `margin-bottom`
 - **Select, Menu:** remove coloração azul nos itens selecionados
 - **Table:** corrige "selecionar todos" para respeitar checkboxes desabilitados
-
 
 ## [3.0.6]
 
@@ -261,13 +257,11 @@
 - **Tooltip:** corrige bugs
 - **Build:** exclui arquivos depreciados; atualiza Rollup para API moderna do Sass
 
-
 ## [3.0.5]
 
 ### Bug Fixes
 
 - **TextField, Label:** correções e atualizações
-
 
 ## [3.0.4]
 
@@ -275,13 +269,11 @@
 
 - **Select:** corrige tipo da prop `onChange` → `onValueChange`
 
-
 ## [3.0.3]
 
 ### Bug Fixes
 
 - **Select, TextField:** corrige busca em API, navegação por teclado, tratamento de valores e espaçamento
-
 
 ## [3.0.2]
 
@@ -289,13 +281,11 @@
 
 - **TextField:** normaliza tratamento de valores `string | number`; corrige erro `.trim()` em valores numéricos
 
-
 ## [3.0.1]
 
 ### Bug Fixes
 
 - **DatePicker:** corrige digitação manual e seleção via calendário; sincroniza estado interno com prop `value`
-
 
 ## [3.0.0]
 
@@ -313,7 +303,6 @@
 
 - **Switch:** props `defaultChecked` e `disabled` agora são opcionais
 
-
 ## [2.0.0]
 
 ### Breaking Changes
@@ -326,13 +315,11 @@
 
 - **Switch:** novo componente
 
-
 ## [1.0.5]
 
 ### Bug Fixes
 
 - **SelectRadix, TextField:** converte CSS para variáveis SCSS
-
 
 ## [1.0.4]
 
@@ -340,13 +327,11 @@
 
 - **TextField:** melhora acessibilidade do ícone
 
-
 ## [1.0.3]
 
 ### Bug Fixes
 
 - **TextField:** aceita validação externa via `errorMessage`
-
 
 ## [1.0.2]
 
@@ -354,13 +339,11 @@
 
 - **TableHeader, Calendar:** corrige funcionalidade `onClear`
 
-
 ## [1.0.1]
 
 ### Bug Fixes
 
 - **Documentação:** adiciona arquivos README aos pacotes
-
 
 ## [1.0.0]
 

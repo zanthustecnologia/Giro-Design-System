@@ -1,5 +1,11 @@
 ﻿# @giro-ds/tokens
 
+## [1.2.0] - 2026-08-05
+
+### Features
+
+- **Tokens:** adiciona tokens de componente `toggleButton.*` para o novo componente `ToggleButton`.
+
 ## [1.1.0]
 
 ### Features
