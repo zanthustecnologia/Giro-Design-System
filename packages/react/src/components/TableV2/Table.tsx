@@ -19,6 +19,7 @@ import Checkbox from '../Checkbox/Checkbox';
 import EmptyState from './components/EmptyState';
 import Filter from '../Filter/Filter';
 import Search from '../Search/Search';
+import ToggleButton from '../ToggleButton/ToggleButton';
 
 import type { TableV2Props } from './Table.types';
 
@@ -47,6 +48,24 @@ const TableV2 = <T,>({
       setPendingSearch(header.searchValue);
     }
   }, [header?.searchValue]);
+
+  const [activeView, setActiveView] = useState<string>(
+    header?.viewToggle?.value ??
+    header?.viewToggle?.defaultValue ??
+    header?.viewToggle?.items?.[0]?.value ??
+    ''
+  );
+
+  useEffect(() => {
+    if (header?.viewToggle?.value !== undefined) {
+      setActiveView(header.viewToggle.value);
+    }
+  }, [header?.viewToggle?.value]);
+
+  const currentViewData = header?.viewToggle?.views?.[activeView];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const effectiveColumns = (currentViewData?.columns ?? columns) as ColumnDef<T, any>[];
+  const effectiveData = currentViewData?.data ?? data;
   const [rowSelectionState, setRowSelectionState] = useState<RowSelectionState>({});
   const rowSelectionRef = useRef<RowSelectionState>({});
 
@@ -96,14 +115,14 @@ const TableV2 = <T,>({
   }), [rowSelectionConfig?.disableSelectAll]);
 
   const resolvedColumns = useMemo(
-    () => (isRowSelectionEnabled ? [selectionColumn, ...columns] : columns),
-    [isRowSelectionEnabled, selectionColumn, columns]
+    () => (isRowSelectionEnabled ? [selectionColumn, ...effectiveColumns] : effectiveColumns),
+    [isRowSelectionEnabled, selectionColumn, effectiveColumns]
   );
 
   const showSearch = !!(header?.onSearchChange);
 
   const table = useReactTable({
-    data,
+    data: effectiveData,
     columns: resolvedColumns,
     defaultColumn: { minSize: 44, size: 0 },
     state: {
@@ -147,7 +166,7 @@ const TableV2 = <T,>({
   const canGoPrev = pageIndex > 0;
   const canGoNext = pageIndex + 1 < totalPages;
 
-  const skeletonRowCount = footer ? pageSize : (data.length > 0 ? data.length : pageSize);
+  const skeletonRowCount = footer ? pageSize : (effectiveData.length > 0 ? effectiveData.length : pageSize);
 
   const selectedRows = useMemo(
     () =>
@@ -226,35 +245,59 @@ const TableV2 = <T,>({
       )}
       {header && (
         <div className={styles.tableHeader}>
-          {showSearch && (
-            <div className={styles.tableHeaderSearchContainer}>
-              <Search
-                value={pendingSearch}
-                virtualKeyboard={header.virtualKeyboard}
-                searchMode={header?.searchMode ?? "on-enter"}
-                onChange={(e) => {
-                  setPendingSearch(e.target.value);
-                }}
-                onSearch={(val) => {
+          <div className={styles.tableHeaderLeft}>
+            {showSearch && (
+              <div className={styles.tableHeaderSearchContainer}>
+                <Search
+                  value={pendingSearch}
+                  virtualKeyboard={header.virtualKeyboard}
+                  searchMode={header?.searchMode ?? "on-enter"}
+                  onChange={(e) => {
+                    setPendingSearch(e.target.value);
+                  }}
+                  onSearch={(val) => {
+                    if (footer) {
+                      setPagination((prev) => ({ ...prev, pageIndex: 0 }));
+                      footer?.onPageChange?.(1);
+                    }
+                    header?.onSearchChange?.(val);
+                  }}
+                  onClear={() => {
+                    setPendingSearch('');
+                    if (footer) {
+                      setPagination((prev) => ({ ...prev, pageIndex: 0 }));
+                      footer?.onPageChange?.(1);
+                    }
+                    header?.onSearchChange?.('');
+                  }}
+                  placeholder={header.searchPlaceholder ?? 'Pesquisar...'}
+                  className={styles.tableHeaderSearch}
+                />
+              </div>
+            )}
+            {header.viewToggle && (
+              <ToggleButton
+                mode="combined"
+                selectionType="single"
+                value={activeView}
+                onValueChange={(val) => {
+                  if (!val) return;
+                  setActiveView(val);
                   if (footer) {
                     setPagination((prev) => ({ ...prev, pageIndex: 0 }));
                     footer?.onPageChange?.(1);
                   }
-                  header?.onSearchChange?.(val);
+                  header.viewToggle?.onValueChange?.(val);
                 }}
-                onClear={() => {
-                  setPendingSearch('');
-                  if (footer) {
-                    setPagination((prev) => ({ ...prev, pageIndex: 0 }));
-                    footer?.onPageChange?.(1);
-                  }
-                  header?.onSearchChange?.('');
-                }}
-                placeholder={header.searchPlaceholder ?? 'Pesquisar...'}
-                className={styles.tableHeaderSearch}
+                items={header.viewToggle.items.map((item) => ({
+                  value: item.value,
+                  icon: item.icon,
+                  iconOnly: true,
+                  tooltipText: item.tooltipText,
+                }))}
               />
-            </div>
-          )}
+            )}
+          </div>
           {!!header.filterItems?.length && (
             <div className={styles.tableHeaderFilters}>
               {header.filterItems.some((item) => item.type !== 'combined') && (

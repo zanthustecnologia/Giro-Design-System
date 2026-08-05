@@ -1,4 +1,4 @@
-import { MoreVertical16Regular } from '@fluentui/react-icons';
+import { MoreVertical16Regular, List16Regular, Apps16Regular } from '@fluentui/react-icons';
 import { TableV2, Chips, Button, Menu, Avatar, createTableColumnHelper, type TableV2HeaderProps } from '@giro-ds/react';
 import React, { useState, useMemo } from 'react';
 
@@ -830,6 +830,101 @@ const colunasLargas = [
     ),
   }),
 ];
+
+export const ComToggleDeVista: StoryFn = () => {
+  const [search, setSearch] = useState('');
+  const [selectedStatus, setSelectedStatus] = useState<string[]>([]);
+  const [dataInicio, setDataInicio] = useState<Date | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(5);
+
+  const dadosFiltrados = useMemo(() => {
+    let result = promocoes;
+    if (search) {
+      const q = search.toLowerCase();
+      result = result.filter(
+        (p) => p.nome.toLowerCase().includes(q) || p.descricao.toLowerCase().includes(q),
+      );
+    }
+    if (selectedStatus.length > 0) {
+      result = result.filter((p) =>
+        selectedStatus.includes(p.status.toLowerCase().replace(' ', '-')),
+      );
+    }
+    if (dataInicio) {
+      result = result.filter((p) => p.inicioObj >= dataInicio);
+    }
+    return result;
+  }, [search, selectedStatus, dataInicio]);
+
+  const filterItems: NonNullable<TableV2HeaderProps['filterItems']> = [
+    {
+      id: 'status',
+      buttonText: selectedStatus.length > 0 ? `Status (${selectedStatus.length})` : 'Status',
+      type: 'multiple',
+      items: [
+        { id: 'ativa', text: 'Ativa' },
+        { id: 'inativa', text: 'Inativa' },
+        { id: 'agendada', text: 'Agendada' },
+        { id: 'expirada', text: 'Expirada' },
+      ],
+      selectedIds: selectedStatus,
+      onSelectionChange: (ids: string[]) => { setSelectedStatus(ids); setCurrentPage(1); },
+    },
+    {
+      id: 'inicio',
+      buttonText: dataInicio
+        ? `A partir de ${dataInicio.toLocaleDateString('pt-BR')}`
+        : 'Data de início',
+      type: 'calendar' as const,
+      selectedDate: dataInicio,
+      onDateSelect: (date: Date) => { setDataInicio(date); setCurrentPage(1); },
+      onClear: () => { setDataInicio(null); setCurrentPage(1); },
+      minDate: new Date(2024, 0, 1),
+      maxDate: new Date(2024, 11, 31),
+    },
+  ];
+
+  const paginatedData = useMemo(() => {
+    const start = (currentPage - 1) * pageSize;
+    return dadosFiltrados.slice(start, start + pageSize);
+  }, [dadosFiltrados, currentPage, pageSize]);
+
+  return (
+    <div style={{ width: 800 }}>
+      <TableV2
+        columns={colunasPadrao}
+        data={paginatedData}
+        header={{
+          searchPlaceholder: 'Buscar promoções...',
+          onSearchChange: (val) => { setSearch(val); setCurrentPage(1); },
+          filterItems,
+          viewToggle: {
+            defaultValue: 'simples',
+            items: [
+              { value: 'simples', icon: <List16Regular />, tooltipText: 'Vista simples' },
+              { value: 'completa', icon: <Apps16Regular />, tooltipText: 'Vista completa' },
+            ],
+            views: {
+              simples: { columns: colunasPadrao, data: paginatedData },
+              completa: { columns: colunasCompletas, data: paginatedData },
+            },
+          },
+        }}
+        footer={{
+          totalItems: dadosFiltrados.length,
+          defaultPageSize: 5,
+          pageSizeOptions: [5, 10],
+          currentPage,
+          onPageChange: setCurrentPage,
+          onPageSizeChange: (size) => { setPageSize(size); setCurrentPage(1); },
+        }}
+      />
+    </div>
+  );
+};
+
+ComToggleDeVista.storyName = 'Com Toggle de Vista';
 
 export const TabelaResponsiva: StoryFn = () => {
   const [search, setSearch] = useState('');
