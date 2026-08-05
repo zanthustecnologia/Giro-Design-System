@@ -53,5 +53,11 @@
   },
   "dependencies": {
     "@radix-ui/themes": "^3.2.1"
+  },
+  "pnpm": {
+    "overrides": {
+      "react": "^19.0.0",
+      "react-dom": "^19.0.0"
+    }
   }
 }
