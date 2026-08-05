@@ -44,8 +44,32 @@
     }
 }
 
-div.toastRoot[data-state="open"] {
+@keyframes slideIn {
+	from {
+		transform: translateY(calc(100% + var(--spacing-48)));
+		opacity: 0;
+	}
+	to {
+		transform: translateY(0);
+		opacity: 1;
+	}
+}
+
+@keyframes fadeOut {
+	from {
+		opacity: 1;
+	}
+	to {
+		opacity: 0;
+	}
+}
+
+.toastRoot[data-state="open"] {
 	animation: slideIn 0.4s ease forwards;
+}
+
+.toastRoot[data-state="closed"] {
+	animation: fadeOut 0.2s ease forwards;
 }
 
 .toastTitle {
