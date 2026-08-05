@@ -9,6 +9,7 @@ const NEW_COMPONENTS = new Set([
   'TableV2',
   'VirtualKeyboard',
   'VerificationCode',
+  'ToggleButton',
 ]);
 
 // Páginas MDX standalone — badge aparece direto no item
