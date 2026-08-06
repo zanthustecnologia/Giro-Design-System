@@ -176,9 +176,9 @@
   --button-focus-outline-width: 4px;
   --button-focus-outline-offset: 2px;
   --button-on-color-filled-background-default: #ffffff;
-  --button-on-color-filled-background-hover: #f5f5fa;
-  --button-on-color-filled-background-pressed: #e8e8ee;
-  --button-on-color-filled-background-disabled: #cfd0da;
+  --button-on-color-filled-background-hover: #e8e8ee;
+  --button-on-color-filled-background-pressed: #cfd0da;
+  --button-on-color-filled-background-disabled: #b8b9be;
   --button-on-color-filled-color-default: #111119;
   --button-on-color-filled-color-disabled: #88898c;
   --button-on-color-outlined-background-hover: #f5f5fa;

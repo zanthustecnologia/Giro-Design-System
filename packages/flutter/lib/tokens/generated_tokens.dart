@@ -184,9 +184,9 @@ class GiroTokens {
     static const buttonFocusOutlineWidth = 4;
     static const buttonFocusOutlineOffset = 2;
     static const buttonOnColorFilledBackgroundDefault = Color(0xFFFFFFFF);
-    static const buttonOnColorFilledBackgroundHover = Color(0xFFF5F5FA);
-    static const buttonOnColorFilledBackgroundPressed = Color(0xFFE8E8EE);
-    static const buttonOnColorFilledBackgroundDisabled = Color(0xFFCFD0DA);
+    static const buttonOnColorFilledBackgroundHover = Color(0xFFE8E8EE);
+    static const buttonOnColorFilledBackgroundPressed = Color(0xFFCFD0DA);
+    static const buttonOnColorFilledBackgroundDisabled = Color(0xFFB8B9BE);
     static const buttonOnColorFilledColorDefault = Color(0xFF111119);
     static const buttonOnColorFilledColorDisabled = Color(0xFF88898C);
     static const buttonOnColorOutlinedBackgroundHover = Color(0xFFF5F5FA);
