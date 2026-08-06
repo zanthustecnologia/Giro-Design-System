@@ -26,6 +26,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
   maxDate,
   'data-testid': testId,
   scale = 1,
+  id,
   className,
   style,
   ...rest
@@ -180,6 +181,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
   return (
     <div
       ref={wrapperRef}
+      id={id}
       className={clsx(styles.datePicker, className)}
       style={{ ...containerStyle, ...style }}
       {...rest}
