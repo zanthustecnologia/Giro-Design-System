@@ -1,6 +1,6 @@
 import { Dismiss16Regular } from '@fluentui/react-icons';
 import clsx from 'clsx';
-import React, { useState, useCallback, useId, useEffect } from 'react';
+import React, { useState, useCallback, useId, forwardRef, useEffect } from 'react';
 
 import useInputKeyboardValue from '../../hooks/useInputKeyboardValue';
 import VirtualKeyboard from '../VirtualKeyboard';
@@ -10,36 +10,38 @@ import LabelComponent from '../../shared/Label';
 
 import type { TextFieldProps } from './TextField.types';
 
-const TextField = ({
-  ref,
-  className,
-  style,
-  value,
-  label,
-  placeholder,
-  type = 'text',
-  onChange,
-  disabled = false,
-  maxLength,
-  required = false,
-  helperText,
-  tooltipText,
-  tooltipSide = 'bottom',
-  tooltipAlign = 'start',
-  errorMessage,
-  error,
-  id,
-  icon,
-  scale = 1,
-  onBlur,
-  onFocus,
-  name,
-  persistIcon = false,
-  virtualKeyboard,
-  attachedToVirtualKeyboard,
-  disableAutoComplete = false,
-  ...rest
-}: TextFieldProps & { ref?: React.Ref<HTMLInputElement> }) => {
+const TextField = forwardRef<HTMLInputElement, TextFieldProps>((
+  {
+    className,
+    style,
+    value,
+    label,
+    placeholder,
+    type = 'text',
+    onChange,
+    disabled = false,
+    maxLength,
+    required = false,
+    helperText,
+    tooltipText,
+    tooltipSide = 'bottom',
+    tooltipAlign = 'start',
+    errorMessage,
+    error,
+    id,
+    icon,
+    scale = 1,
+    onBlur,
+    onFocus,
+    name,
+    persistIcon = false,
+    virtualKeyboard,
+    attachedToVirtualKeyboard,
+    disableAutoComplete = false,
+    ...rest
+  },
+  ref
+) => {
     const normalizeValue = (val: string | number | undefined): string => {
       return val === undefined || val === null ? '' : String(val);
     };
@@ -219,7 +221,7 @@ const TextField = ({
         )}
       </div>
     );
-};
+});
 
 TextField.displayName = 'TextField';
 
