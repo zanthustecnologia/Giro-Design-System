@@ -30,7 +30,7 @@ const Button = ({
   ariaLabel,
   iconOnly = false,
   loading = false,
-  onColor = false,
+  isNegative = false,
   tooltipText,
   tooltipSide = 'top',
   tooltipAlign = 'center',
@@ -83,7 +83,7 @@ const Button = ({
       [styles['buttonNoContent']]: resolvedIcon && !hasContent && !iconOnly,
       [styles['buttonFullWidth']]: fullWidth,
       [styles['buttonIconOnly']]: iconOnly,
-      [styles['buttonOnColor']]: onColor,
+      [styles['buttonIsNegative']]: isNegative,
     },
     className
   );

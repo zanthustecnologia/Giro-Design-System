@@ -101,7 +101,7 @@ const meta: Meta<typeof Button> = {
       description: 'Alinhamento do tooltip. Requer `tooltipText`.',
       if: { arg: 'tooltipText', truthy: true },
     },
-    onColor: {
+    isNegative: {
       control: { type: 'boolean' },
       description: 'Adapta as cores do botão para uso sobre fundos coloridos. `filled` fica branco com texto escuro, `outlined` fica transparente com borda e texto escuros, `text` fica apenas com texto escuro.',
     },
@@ -203,12 +203,12 @@ export const Escalas: StoryFn<ButtonProps> = () => (
   </div>
 );
 
-export const OnColor: Story = {
-  name: 'On Color',
+export const IsNegative: Story = {
+  name: 'Is Negative',
   parameters: {
     docs: {
       description: {
-        story: 'Use `onColor` quando o botão estiver sobre um fundo colorido. As cores são adaptadas para garantir contraste e legibilidade.',
+        story: 'Use `isNegative` quando o botão estiver sobre um fundo colorido. As cores são adaptadas para garantir contraste e legibilidade.',
       },
     },
     backgrounds: { disable: true },
@@ -225,19 +225,19 @@ export const OnColor: Story = {
       }}
     >
       <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
-        <Button variant="filled" onColor>Filled</Button>
-        <Button variant="outlined" onColor>Outlined</Button>
-        <Button variant="text" onColor>Text</Button>
+        <Button variant="filled" isNegative>Filled</Button>
+        <Button variant="outlined" isNegative>Outlined</Button>
+        <Button variant="text" isNegative>Text</Button>
       </div>
       <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
-        <Button variant="filled" onColor icon={<Add16Regular />}>Com ícone</Button>
-        <Button variant="outlined" onColor icon={<Add16Regular />}>Com ícone</Button>
-        <Button variant="text" onColor icon={<Add16Regular />}>Com ícone</Button>
+        <Button variant="filled" isNegative icon={<Add16Regular />}>Com ícone</Button>
+        <Button variant="outlined" isNegative icon={<Add16Regular />}>Com ícone</Button>
+        <Button variant="text" isNegative icon={<Add16Regular />}>Com ícone</Button>
       </div>
       <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
-        <Button variant="filled" onColor disabled>Disabled</Button>
-        <Button variant="outlined" onColor disabled>Disabled</Button>
-        <Button variant="text" onColor disabled>Disabled</Button>
+        <Button variant="filled" isNegative disabled>Disabled</Button>
+        <Button variant="outlined" isNegative disabled>Disabled</Button>
+        <Button variant="text" isNegative disabled>Disabled</Button>
       </div>
     </div>
   ),

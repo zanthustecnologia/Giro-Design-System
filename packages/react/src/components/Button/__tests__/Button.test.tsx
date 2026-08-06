@@ -530,76 +530,76 @@ describe('Button', () => {
     });
   });
 
-  describe('onColor', () => {
-    it('não deve aplicar classe buttonOnColor por padrão', () => {
+  describe('isNegative', () => {
+    it('não deve aplicar classe buttonIsNegative por padrão', () => {
       const { container } = render(<Button>Botão</Button>);
-      expect(container.querySelector('[class*="buttonOnColor"]')).not.toBeInTheDocument();
+      expect(container.querySelector('[class*="buttonIsNegative"]')).not.toBeInTheDocument();
     });
 
-    it('deve aplicar classe buttonOnColor quando onColor={true}', () => {
-      const { container } = render(<Button onColor>Botão</Button>);
-      expect(container.querySelector('[class*="buttonOnColor"]')).toBeInTheDocument();
+    it('deve aplicar classe buttonIsNegative quando isNegative={true}', () => {
+      const { container } = render(<Button isNegative>Botão</Button>);
+      expect(container.querySelector('[class*="buttonIsNegative"]')).toBeInTheDocument();
     });
 
-    it('não deve aplicar classe buttonOnColor quando onColor={false}', () => {
-      const { container } = render(<Button onColor={false}>Botão</Button>);
-      expect(container.querySelector('[class*="buttonOnColor"]')).not.toBeInTheDocument();
+    it('não deve aplicar classe buttonIsNegative quando isNegative={false}', () => {
+      const { container } = render(<Button isNegative={false}>Botão</Button>);
+      expect(container.querySelector('[class*="buttonIsNegative"]')).not.toBeInTheDocument();
     });
 
-    it('deve aplicar buttonOnColor junto com variant filled', () => {
-      const { container } = render(<Button variant="filled" onColor>Botão</Button>);
-      expect(container.querySelector('[class*="buttonOnColor"][class*="button-filled"]')).toBeInTheDocument();
+    it('deve aplicar buttonIsNegative junto com variant filled', () => {
+      const { container } = render(<Button variant="filled" isNegative>Botão</Button>);
+      expect(container.querySelector('[class*="buttonIsNegative"][class*="button-filled"]')).toBeInTheDocument();
     });
 
-    it('deve aplicar buttonOnColor junto com variant outlined', () => {
-      const { container } = render(<Button variant="outlined" onColor>Botão</Button>);
-      expect(container.querySelector('[class*="buttonOnColor"][class*="button-outlined"]')).toBeInTheDocument();
+    it('deve aplicar buttonIsNegative junto com variant outlined', () => {
+      const { container } = render(<Button variant="outlined" isNegative>Botão</Button>);
+      expect(container.querySelector('[class*="buttonIsNegative"][class*="button-outlined"]')).toBeInTheDocument();
     });
 
-    it('deve aplicar buttonOnColor junto com variant text', () => {
-      const { container } = render(<Button variant="text" onColor>Botão</Button>);
-      expect(container.querySelector('[class*="buttonOnColor"][class*="button-text"]')).toBeInTheDocument();
+    it('deve aplicar buttonIsNegative junto com variant text', () => {
+      const { container } = render(<Button variant="text" isNegative>Botão</Button>);
+      expect(container.querySelector('[class*="buttonIsNegative"][class*="button-text"]')).toBeInTheDocument();
     });
 
-    it('deve combinar onColor com tamanho sm', () => {
-      const { container } = render(<Button onColor size="sm">Botão</Button>);
-      expect(container.querySelector('[class*="buttonOnColor"][class*="button-sm"]')).toBeInTheDocument();
+    it('deve combinar isNegative com tamanho sm', () => {
+      const { container } = render(<Button isNegative size="sm">Botão</Button>);
+      expect(container.querySelector('[class*="buttonIsNegative"][class*="button-sm"]')).toBeInTheDocument();
     });
 
-    it('deve combinar onColor com estado disabled', () => {
-      const { container } = render(<Button onColor disabled>Botão</Button>);
-      const button = container.querySelector('[class*="buttonOnColor"]');
+    it('deve combinar isNegative com estado disabled', () => {
+      const { container } = render(<Button isNegative disabled>Botão</Button>);
+      const button = container.querySelector('[class*="buttonIsNegative"]');
       expect(button).toBeInTheDocument();
       expect(button).toBeDisabled();
     });
 
-    it('deve combinar onColor com estado loading', () => {
-      const { container } = render(<Button onColor loading>Botão</Button>);
-      expect(container.querySelector('[class*="buttonOnColor"]')).toBeInTheDocument();
+    it('deve combinar isNegative com estado loading', () => {
+      const { container } = render(<Button isNegative loading>Botão</Button>);
+      expect(container.querySelector('[class*="buttonIsNegative"]')).toBeInTheDocument();
       expect(container.querySelector('[class*="buttonLoading"]')).toBeInTheDocument();
     });
 
-    it('deve combinar onColor com ícone', () => {
-      const TestIcon = () => <svg data-testid="on-color-icon" />;
+    it('deve combinar isNegative com ícone', () => {
+      const TestIcon = () => <svg data-testid="is-negative-icon" />;
       const { container } = render(
-        <Button onColor icon={<TestIcon />}>Botão</Button>
+        <Button isNegative icon={<TestIcon />}>Botão</Button>
       );
-      expect(container.querySelector('[class*="buttonOnColor"]')).toBeInTheDocument();
-      expect(screen.getByTestId('on-color-icon')).toBeInTheDocument();
+      expect(container.querySelector('[class*="buttonIsNegative"]')).toBeInTheDocument();
+      expect(screen.getByTestId('is-negative-icon')).toBeInTheDocument();
     });
 
-    it('deve combinar onColor com iconOnly', () => {
-      const TestIcon = () => <svg data-testid="on-color-icon-only" />;
+    it('deve combinar isNegative com iconOnly', () => {
+      const TestIcon = () => <svg data-testid="is-negative-icon-only" />;
       const { container } = render(
-        <Button onColor iconOnly icon={<TestIcon />} ariaLabel="Ação" />
+        <Button isNegative iconOnly icon={<TestIcon />} ariaLabel="Ação" />
       );
-      expect(container.querySelector('[class*="buttonOnColor"]')).toBeInTheDocument();
+      expect(container.querySelector('[class*="buttonIsNegative"]')).toBeInTheDocument();
       expect(container.querySelector('[class*="buttonIconOnly"]')).toBeInTheDocument();
     });
 
-    it('deve combinar onColor com fullWidth', () => {
-      const { container } = render(<Button onColor fullWidth>Botão</Button>);
-      expect(container.querySelector('[class*="buttonOnColor"]')).toBeInTheDocument();
+    it('deve combinar isNegative com fullWidth', () => {
+      const { container } = render(<Button isNegative fullWidth>Botão</Button>);
+      expect(container.querySelector('[class*="buttonIsNegative"]')).toBeInTheDocument();
       expect(container.querySelector('[class*="buttonFullWidth"]')).toBeInTheDocument();
     });
   });

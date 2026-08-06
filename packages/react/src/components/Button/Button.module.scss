@@ -319,82 +319,82 @@
   }
 }
 
-// === onColor modifier ===
+// === isNegative modifier ===
 
-.button.buttonOnColor.button-filled {
+.button.buttonIsNegative.button-filled {
   background: var(--button-on-color-filled-background-default);
   color: var(--button-on-color-filled-color-default);
   border: none;
 }
 
-.button.buttonOnColor.button-outlined {
+.button.buttonIsNegative.button-outlined {
   border-color: var(--button-on-color-outlined-border-default);
   background-color: transparent;
   color: var(--button-on-color-outlined-color-default);
 }
 
-.button.buttonOnColor.button-text {
+.button.buttonIsNegative.button-text {
   color: var(--button-on-color-ghost-color-default);
 }
 
-.button.buttonOnColor.button-filled:hover {
+.button.buttonIsNegative.button-filled:hover {
   background: var(--button-on-color-filled-background-hover);
 }
 
-.button.buttonOnColor.button-outlined:hover {
+.button.buttonIsNegative.button-outlined:hover {
   color: var(--button-on-color-outlined-color-default);
   background-color: var(--button-on-color-outlined-background-hover);
 }
 
-.button.buttonOnColor.button-text:hover {
+.button.buttonIsNegative.button-text:hover {
   color: var(--button-on-color-ghost-color-default);
   background-color: var(--button-on-color-ghost-background-hover);
 }
 
-.button.buttonOnColor.button-filled:focus-visible,
-.button.buttonOnColor.button-filled[data-state="open"] {
+.button.buttonIsNegative.button-filled:focus-visible,
+.button.buttonIsNegative.button-filled[data-state="open"] {
   outline-color: var(--button-on-color-focus-outline-color);
 }
 
-.button.buttonOnColor.button-outlined:focus-visible,
-.button.buttonOnColor.button-outlined[data-state="open"] {
+.button.buttonIsNegative.button-outlined:focus-visible,
+.button.buttonIsNegative.button-outlined[data-state="open"] {
   outline-color: var(--button-on-color-focus-outline-color);
 }
 
-.button.buttonOnColor.button-text:focus-visible,
-.button.buttonOnColor.button-text[data-state="open"] {
+.button.buttonIsNegative.button-text:focus-visible,
+.button.buttonIsNegative.button-text[data-state="open"] {
   outline-color: var(--button-on-color-focus-outline-color);
 }
 
-.button.buttonOnColor.button-filled:active {
+.button.buttonIsNegative.button-filled:active {
   background: var(--button-on-color-filled-background-pressed);
   color: var(--button-on-color-filled-color-default);
 }
 
-.button.buttonOnColor.button-outlined:active {
+.button.buttonIsNegative.button-outlined:active {
   color: var(--button-on-color-outlined-color-default);
   background-color: var(--button-on-color-outlined-background-pressed);
 }
 
-.button.buttonOnColor.button-text:active {
+.button.buttonIsNegative.button-text:active {
   color: var(--button-on-color-ghost-color-default);
   background-color: var(--button-on-color-ghost-background-pressed);
 }
 
-.button.buttonOnColor.button-filled:disabled,
-.button.buttonOnColor.button-filled.disabled {
+.button.buttonIsNegative.button-filled:disabled,
+.button.buttonIsNegative.button-filled.disabled {
   background: var(--button-on-color-filled-background-disabled);
   color: var(--button-on-color-filled-color-disabled);
 }
 
-.button.buttonOnColor.button-outlined:disabled,
-.button.buttonOnColor.button-outlined.disabled {
+.button.buttonIsNegative.button-outlined:disabled,
+.button.buttonIsNegative.button-outlined.disabled {
   border-color: var(--button-on-color-outlined-border-disabled);
   color: var(--button-on-color-outlined-color-disabled);
   background-color: transparent;
 }
 
-.button.buttonOnColor.button-text:disabled,
-.button.buttonOnColor.button-text.disabled {
+.button.buttonIsNegative.button-text:disabled,
+.button.buttonIsNegative.button-text.disabled {
   color: var(--button-on-color-ghost-color-disabled);
 }
