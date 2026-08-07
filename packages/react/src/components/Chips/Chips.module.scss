@@ -73,6 +73,10 @@
   --chips-bg: var(--color-feedback-alert-light);
 }
 
+.interactive {
+  cursor: pointer;
+}
+
 .disabled {
   --chips-bg: var(--color-neutral-high-light);
   --chips-text: var(--color-neutral-low-light);
