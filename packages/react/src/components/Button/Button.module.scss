@@ -397,4 +397,8 @@
 .button.buttonIsNegative.button-text:disabled,
 .button.buttonIsNegative.button-text.disabled {
   color: var(--button-on-color-ghost-color-disabled);
+
+  &:hover {
+    background-color: transparent;
+  }
 }

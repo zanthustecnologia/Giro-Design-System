@@ -85,7 +85,7 @@ type ButtonOwnPropsBase = {
    * - `text`: apenas texto preto
    * @default false
    */
-  onColor?: boolean;
+  isNegative?: boolean;
 
   /** Label acessível para leitores de tela */
   ariaLabel?: string;
