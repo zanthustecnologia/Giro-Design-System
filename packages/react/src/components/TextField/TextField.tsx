@@ -125,7 +125,7 @@ const TextField = ({
     const containerClass = clsx(styles.container, className, {
       [styles.attachedToVirtualKeyboard]: attachedToVirtualKeyboard,
       [styles.disabled]: disabled,
-      [styles.error]: error,
+      [styles.error]: hasError,
       [styles.errorWithMessage]: !!errorMessage,
     });
 
