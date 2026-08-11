@@ -1,0 +1,80 @@
+.Root {
+  display: flex;
+  flex-direction: column;
+}
+
+.List {
+  display: flex;
+  gap: 8px;
+  border-bottom: var(--border-width-default) solid var(--color-neutral-high-dark);
+}
+
+.Trigger {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 8px;
+  height: 48px;
+  border-radius: var(--border-radius-12) var(--border-radius-12) 0 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: var(--font-size-14);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-neutral-low-dark);
+  white-space: nowrap;
+  transition: background-color 150ms ease, color 150ms ease;
+
+  // Indicador ativo (linha na base do trigger)
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 1px;
+    right: 1px;
+    height: var(--border-width-medium);
+    background: transparent;
+    border-radius: var(--border-radius-4) var(--border-radius-4) 0 0;
+    transition: background-color 150ms ease;
+  }
+
+  // Selecionado
+  &[data-state="active"] {
+    color: var(--color-neutral-low-default);
+
+    &::after {
+      background: var(--color-brand-secondary-default);
+    }
+  }
+
+  // Hover (idle)
+  &:hover:not([data-disabled]) {
+    background-color: var(--color-neutral-high-medium);
+  }
+
+  // Hover (selecionado)
+  &[data-state="active"]:hover:not([data-disabled]) {
+    background-color: var(--color-brand-secondary-light);
+  }
+
+  // Desabilitado
+  &[data-disabled] {
+    color: var(--color-neutral-low-light);
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  // Selecionado + desabilitado
+  &[data-state="active"][data-disabled] {
+    background-color: var(--color-neutral-high-light);
+
+    &::after {
+      background: var(--color-neutral-high-medium);
+    }
+  }
+}
+
+.Content {
+  padding: 16px 0;
+}
