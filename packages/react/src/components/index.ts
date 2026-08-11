@@ -99,6 +99,9 @@ export { type VerificationCodeProps } from './VerificationCode/VerificationCode.
 export { default as VirtualKeyboard } from './VirtualKeyboard';
 export { type VirtualKeyboardProps, type VirtualKeyboardVariant } from './VirtualKeyboard/VirtualKeyboard.types';
 
+export { Tabs } from './Tabs';
+export { type TabsProps, type TabsItemProps } from './Tabs/Tabs.types';
+
 // Hooks
 export { default as useApiSimulation } from '../hooks/ApiSimulation';
 export { useInfiniteScroll } from '../hooks/InfiniteScroll';

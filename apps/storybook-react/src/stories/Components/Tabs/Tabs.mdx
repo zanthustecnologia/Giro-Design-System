@@ -1,0 +1,114 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as TabsStories from './Tabs.stories';
+import { UsageGuidelines } from '../../../internal-components/mdx/UsageGuidelines/UsageGuidelines';
+import { ComponentRules } from '../../../internal-components/mdx/Rules/Rules';
+import { Footer } from '../../../internal-components/mdx/Footer/Footer';
+
+<Meta of={TabsStories} name="Docs" />
+
+# Tabs
+
+Tabs organizam o conteúdo em painéis separados, exibidos um de cada vez. Use-as quando o conteúdo puder ser categorizado em seções independentes e o usuário precisar alternar entre elas sem sair da página.
+
+<Canvas of={TabsStories.Default} />
+
+## Importação
+
+```js
+import { Tabs } from '@giro-ds/react';
+```
+
+<div style={{ marginTop: '48px' }} />
+
+## Propriedades
+
+<Controls />
+
+<div style={{ marginTop: '48px' }} />
+
+## Uso
+
+<UsageGuidelines
+  guidelines={[
+    <>
+      Use Tabs para organizar conteúdo relacionado em categorias distintas. Cada aba deve representar uma seção independente — evite dividir um fluxo sequencial em abas.
+    </>,
+    <>
+      Mantenha os rótulos das abas curtos e descritivos. Prefira substantivos ou frases nominais (ex.: "Perfil", "Configurações") em vez de verbos ou frases longas.
+    </>,
+    <>
+      Defina sempre um <code>defaultValue</code> (modo não controlado) ou um <code>value</code> inicial (modo controlado) para que uma aba já esteja ativa ao renderizar o componente.
+    </>,
+    <>
+      Use o valor <code>value</code> de cada aba como um identificador lógico único — ele conecta o botão (Trigger) ao seu painel de conteúdo (Content) e é o mesmo valor usado em <code>defaultValue</code> e <code>onValueChange</code>.
+    </>,
+    <>
+      Prefira a orientação horizontal para a maioria dos casos. Use a orientação vertical quando as abas precisarem listar muitas opções ou quando o layout da página favorecer navegação lateral.
+    </>,
+  ]}
+/>
+
+<div style={{ marginTop: '48px' }} />
+
+## Variações
+
+### Vertical
+
+Use `orientation="vertical"` quando o layout da página favorece abas dispostas em coluna, como painéis laterais ou dashboards.
+
+<Canvas of={TabsStories.Vertical} />
+
+### Com ícone
+
+Adicione a prop `icon` a cada item para complementar o rótulo com um ícone visual.
+
+<Canvas of={TabsStories.ComIcone} />
+
+### Aba desabilitada
+
+A prop `disabled` em um item individual bloqueia apenas aquela aba, mantendo as demais interativas.
+
+<Canvas of={TabsStories.AbaDesabilitada} />
+
+### Modo controlado
+
+Quando o estado ativo precisa ser gerenciado externamente, use `value` e `onValueChange` para sincronizar as Tabs com outros elementos da interface.
+
+<Canvas of={TabsStories.Controlado} />
+
+### Ativação manual por teclado
+
+Com `activationMode="manual"`, navegar com **ArrowLeft / ArrowRight** apenas move o foco entre os Triggers. Pressionar **Enter** ou **Space** é necessário para ativar o painel correspondente.
+
+<Canvas of={TabsStories.ActivationModeManual} />
+
+<div style={{ marginTop: '48px' }} />
+
+## O que fazer e não fazer
+
+<ComponentRules
+  rules={[
+    {
+      positive: {
+        component: null,
+        description: 'Use Tabs para agrupar conteúdo relacionado em seções independentes. O usuário deve poder acessar qualquer aba sem perder o contexto das demais.'
+      },
+      negative: {
+        component: null,
+        description: 'Não use Tabs para representar etapas de um fluxo sequencial. Para isso, prefira um componente de Stepper ou Wizard, onde a ordem das etapas importa.'
+      }
+    },
+    {
+      positive: {
+        component: null,
+        description: 'Defina sempre uma aba ativa inicial via `defaultValue` ou `value`. Tabs sem seleção inicial deixam o usuário sem ponto de partida visual.'
+      },
+      negative: {
+        component: null,
+        description: 'Evite usar muitas abas em uma única barra. Quando o número for alto, considere um Select ou menu de navegação para não sobrecarregar a interface.'
+      }
+    },
+  ]}
+/>
+
+<Footer />
