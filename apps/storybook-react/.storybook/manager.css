@@ -99,6 +99,11 @@
   display: none !important;
 }
 
+/* SB 10: oculta o botão "+" de criação de story na sidebar */
+button[title="Create story"] {
+  display: none;
+}
+
 /* SB 10: oculta o widget "Get started" / checklist de onboarding do core */
 #storybook-checklist-widget,
 :has(> #storybook-checklist-widget) {
