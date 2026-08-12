@@ -64,7 +64,7 @@ export interface TabsProps extends BaseProps {
    * - `'manual'`: requer pressionar Enter/Space para ativar.
    * @default 'automatic'
    */
-  activationMode?: 'automatic' | 'manual';
+  keyboardActivationMode?: 'automatic' | 'manual';
 
   /** Direção do texto, usada para navegação por teclado com RTL. @default 'ltr' */
   dir?: 'ltr' | 'rtl';

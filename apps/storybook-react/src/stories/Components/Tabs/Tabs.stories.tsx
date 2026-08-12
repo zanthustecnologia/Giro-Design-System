@@ -16,7 +16,7 @@ const meta: Meta<typeof Tabs> = {
     },
   },
   argTypes: {
-    activationMode: {
+    keyboardActivationMode: {
       control: { type: 'select' },
       options: ['automatic', 'manual'],
       description: 'Define se a aba é ativada ao receber foco (automatic) ou ao pressionar Enter/Space (manual).',
@@ -70,7 +70,7 @@ export const Default: Story = {
   args: {
     defaultValue: 'perfil',
     items: itemsBase,
-    activationMode: 'automatic',
+    keyboardActivationMode: 'automatic',
     loop: true,
   },
 };
@@ -216,7 +216,7 @@ export const NavegaçãoPorSeta: Story = {
     docs: {
       description: {
         story:
-          'Com `activationMode="manual"`, o usuário precisa pressionar **Enter** ou **Space** para ativar a aba ao navegar por teclado.',
+          'Com `keyboardActivationMode="manual"`, o usuário precisa pressionar **Enter** ou **Space** para ativar a aba ao navegar por teclado.',
       },
     },
   },
@@ -238,6 +238,6 @@ export const NavegaçãoPorSeta: Story = {
       },
       ...itemsBase.slice(1),
     ],
-    activationMode: 'manual',
+    keyboardActivationMode: 'manual',
   },
 };

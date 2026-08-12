@@ -11,7 +11,7 @@ const Tabs: React.FC<TabsProps> = ({
 	defaultValue,
 	value,
 	onValueChange,
-	activationMode = "automatic",
+	keyboardActivationMode = "automatic",
 	dir,
 	loop = true,
 	scrollAmount = 150,
@@ -102,7 +102,7 @@ const Tabs: React.FC<TabsProps> = ({
 			value={value}
 			onValueChange={onValueChange}
 			orientation="horizontal"
-			activationMode={activationMode}
+			activationMode={keyboardActivationMode}
 			dir={dir}
 			className={clsx(styles.Root, className)}
 			data-testid={testId}
