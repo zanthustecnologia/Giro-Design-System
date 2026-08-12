@@ -34,8 +34,9 @@ const Tabs: React.FC<TabsProps> = ({
 	const checkScroll = React.useCallback(() => {
 		const el = listRef.current;
 		if (!el) return;
-		setCanScrollLeft(el.scrollLeft > 0);
-		setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 1);
+		const btnW = 24;
+		setCanScrollLeft(el.scrollLeft > btnW);
+		setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - btnW);
 	}, []);
 
 	React.useEffect(() => {
