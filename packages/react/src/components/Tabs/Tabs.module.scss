@@ -3,10 +3,55 @@
   flex-direction: column;
 }
 
+.ListWrapper {
+  display: flex;
+  align-items: center;
+  border-bottom: var(--border-width-default) solid var(--color-neutral-high-dark);
+}
+
+.ListScroll {
+  flex: 1;
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 .List {
   display: flex;
   gap: 8px;
-  border-bottom: var(--border-width-default) solid var(--color-neutral-high-dark);
+  min-width: max-content;
+}
+
+.ScrollButton {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 48px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--color-neutral-low-dark);
+  transition: background-color 150ms ease, color 150ms ease;
+
+  &:hover {
+    background-color: var(--color-neutral-high-medium);
+    color: var(--color-neutral-low-default);
+  }
+
+  &.ScrollButtonHidden {
+    display: none;
+  }
+
+  // Em dispositivos touch, sempre oculto (scroll via gesto nativo)
+  @media (hover: none) {
+    display: none;
+  }
 }
 
 .Trigger {
@@ -78,3 +123,4 @@
 .Content {
   padding: 16px 0;
 }
+

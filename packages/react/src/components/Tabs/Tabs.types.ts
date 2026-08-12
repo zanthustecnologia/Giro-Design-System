@@ -40,7 +40,7 @@ export interface TabsItemProps {
  * <Tabs
  *   value={activeTab}
  *   onValueChange={setActiveTab}
- *   orientation="vertical"
+ *   scrollAmount={200}
  *   items={tabs}
  * />
  * ```
@@ -58,9 +58,6 @@ export interface TabsProps extends BaseProps {
   /** Callback executado ao trocar de aba: (value) => void */
   onValueChange?: (value: string) => void;
 
-  /** Orientação das abas. @default 'horizontal' */
-  orientation?: 'horizontal' | 'vertical';
-
   /**
    * Modo de ativação das abas ao navegar por teclado.
    * - `'automatic'`: ativa a aba assim que o Trigger recebe foco.
@@ -74,6 +71,11 @@ export interface TabsProps extends BaseProps {
 
   /** Quando `true`, a navegação por teclado volta ao início ao atingir o último Trigger. @default true */
   loop?: boolean;
+
+  /**
+   * Quantidade de pixels percorridos por clique nas setas de scroll. Visível apenas em desktop quando as abas excedem o container. @default 150
+   */
+  scrollAmount?: number;
 
   /** Label acessível para leitores de tela */
   'aria-label'?: string;

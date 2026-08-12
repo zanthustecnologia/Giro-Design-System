@@ -16,11 +16,6 @@ const meta: Meta<typeof Tabs> = {
     },
   },
   argTypes: {
-    orientation: {
-      control: { type: 'select' },
-      options: ['horizontal', 'vertical'],
-      description: 'Orientação das abas.',
-    },
     activationMode: {
       control: { type: 'select' },
       options: ['automatic', 'manual'],
@@ -75,18 +70,36 @@ export const Default: Story = {
   args: {
     defaultValue: 'perfil',
     items: itemsBase,
-    orientation: 'horizontal',
     activationMode: 'automatic',
     loop: true,
   },
 };
 
-export const Vertical: Story = {
-  render: (args) => <Tabs {...args} />,
+export const Overflow: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Quando as abas excedem o espaço disponível, setas de navegação aparecem automaticamente. Em dispositivos touch, o scroll é feito via gesto nativo.',
+      },
+    },
+  },
+  render: (args) => (
+    <div style={{ maxWidth: '480px' }}>
+      <Tabs {...args} />
+    </div>
+  ),
   args: {
-    defaultValue: 'perfil',
-    items: itemsBase,
-    orientation: 'vertical',
+    defaultValue: 'tab-1',
+    items: Array.from({ length: 12 }, (_, i) => ({
+      value: `tab-${i + 1}`,
+      label: `Tab ${i + 1}`,
+      content: (
+        <div style={{ padding: '16px' }}>
+          <p>Conteúdo da Tab {i + 1}</p>
+        </div>
+      ),
+    })),
   },
 };
 
