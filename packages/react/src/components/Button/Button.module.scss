@@ -322,81 +322,81 @@
 // === isNegative modifier ===
 
 .button.buttonIsNegative.button-filled {
-  background: var(--button-on-color-filled-background-default);
-  color: var(--button-on-color-filled-color-default);
+  background: var(--button-is-negative-filled-background-default);
+  color: var(--button-is-negative-filled-color-default);
   border: none;
 }
 
 .button.buttonIsNegative.button-outlined {
-  border-color: var(--button-on-color-outlined-border-default);
+  border-color: var(--button-is-negative-outlined-border-default);
   background-color: transparent;
-  color: var(--button-on-color-outlined-color-default);
+  color: var(--button-is-negative-outlined-color-default);
 }
 
 .button.buttonIsNegative.button-text {
-  color: var(--button-on-color-ghost-color-default);
+  color: var(--button-is-negative-ghost-color-default);
 }
 
 .button.buttonIsNegative.button-filled:hover {
-  background: var(--button-on-color-filled-background-hover);
+  background: var(--button-is-negative-filled-background-hover);
 }
 
 .button.buttonIsNegative.button-outlined:hover {
-  color: var(--button-on-color-outlined-color-default);
-  background-color: var(--button-on-color-outlined-background-hover);
+  color: var(--button-is-negative-outlined-color-default);
+  background-color: var(--button-is-negative-outlined-background-hover);
 }
 
 .button.buttonIsNegative.button-text:hover {
-  color: var(--button-on-color-ghost-color-default);
-  background-color: var(--button-on-color-ghost-background-hover);
+  color: var(--button-is-negative-ghost-color-default);
+  background-color: var(--button-is-negative-ghost-background-hover);
 }
 
 .button.buttonIsNegative.button-filled:focus-visible,
 .button.buttonIsNegative.button-filled[data-state="open"] {
-  outline-color: var(--button-on-color-focus-outline-color);
+  outline-color: var(--button-is-negative-focus-outline-color);
 }
 
 .button.buttonIsNegative.button-outlined:focus-visible,
 .button.buttonIsNegative.button-outlined[data-state="open"] {
-  outline-color: var(--button-on-color-focus-outline-color);
+  outline-color: var(--button-is-negative-focus-outline-color);
 }
 
 .button.buttonIsNegative.button-text:focus-visible,
 .button.buttonIsNegative.button-text[data-state="open"] {
-  outline-color: var(--button-on-color-focus-outline-color);
+  outline-color: var(--button-is-negative-focus-outline-color);
 }
 
 .button.buttonIsNegative.button-filled:active {
-  background: var(--button-on-color-filled-background-pressed);
-  color: var(--button-on-color-filled-color-default);
+  background: var(--button-is-negative-filled-background-pressed);
+  color: var(--button-is-negative-filled-color-default);
 }
 
 .button.buttonIsNegative.button-outlined:active {
-  color: var(--button-on-color-outlined-color-default);
-  background-color: var(--button-on-color-outlined-background-pressed);
+  color: var(--button-is-negative-outlined-color-default);
+  background-color: var(--button-is-negative-outlined-background-pressed);
 }
 
 .button.buttonIsNegative.button-text:active {
-  color: var(--button-on-color-ghost-color-default);
-  background-color: var(--button-on-color-ghost-background-pressed);
+  color: var(--button-is-negative-ghost-color-default);
+  background-color: var(--button-is-negative-ghost-background-pressed);
 }
 
 .button.buttonIsNegative.button-filled:disabled,
 .button.buttonIsNegative.button-filled.disabled {
-  background: var(--button-on-color-filled-background-disabled);
-  color: var(--button-on-color-filled-color-disabled);
+  background: var(--button-is-negative-filled-background-disabled);
+  color: var(--button-is-negative-filled-color-disabled);
 }
 
 .button.buttonIsNegative.button-outlined:disabled,
 .button.buttonIsNegative.button-outlined.disabled {
-  border-color: var(--button-on-color-outlined-border-disabled);
-  color: var(--button-on-color-outlined-color-disabled);
+  border-color: var(--button-is-negative-outlined-border-disabled);
+  color: var(--button-is-negative-outlined-color-disabled);
   background-color: transparent;
 }
 
 .button.buttonIsNegative.button-text:disabled,
 .button.buttonIsNegative.button-text.disabled {
-  color: var(--button-on-color-ghost-color-disabled);
+  color: var(--button-is-negative-ghost-color-disabled);
 
   &:hover {
     background-color: transparent;
