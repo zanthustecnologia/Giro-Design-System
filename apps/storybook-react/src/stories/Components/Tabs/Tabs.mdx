@@ -42,9 +42,6 @@ import { Tabs } from '@giro-ds/react';
     <>
       Use o valor <code>value</code> de cada aba como um identificador lógico único — ele conecta o botão (Trigger) ao seu painel de conteúdo (Content) e é o mesmo valor usado em <code>defaultValue</code> e <code>onValueChange</code>.
     </>,
-    <>
-      Prefira a orientação horizontal para a maioria dos casos. Use a orientação vertical quando as abas precisarem listar muitas opções ou quando o layout da página favorecer navegação lateral.
-    </>,
   ]}
 />
 
@@ -52,11 +49,11 @@ import { Tabs } from '@giro-ds/react';
 
 ## Variações
 
-### Vertical
+### Overflow
 
-Use `orientation="vertical"` quando o layout da página favorece abas dispostas em coluna, como painéis laterais ou dashboards.
+Quando as abas excedem o espaço disponível, setas de navegação aparecem automaticamente nas extremidades. Em dispositivos touch, o scroll é feito via gesto nativo.
 
-<Canvas of={TabsStories.Vertical} />
+<Canvas of={TabsStories.Overflow} />
 
 ### Com ícone
 
@@ -80,7 +77,7 @@ Quando o estado ativo precisa ser gerenciado externamente, use `value` e `onValu
 
 Com `activationMode="manual"`, navegar com **ArrowLeft / ArrowRight** apenas move o foco entre os Triggers. Pressionar **Enter** ou **Space** é necessário para ativar o painel correspondente.
 
-<Canvas of={TabsStories.ActivationModeManual} />
+<Canvas of={TabsStories.NavegaçãoPorSeta} />
 
 <div style={{ marginTop: '48px' }} />
 

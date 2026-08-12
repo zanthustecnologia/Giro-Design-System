@@ -210,7 +210,7 @@ export const Controlado: Story = {
   },
 };
 
-export const ActivationModeManual: Story = {
+export const NavegaçãoPorSeta: Story = {
   render: (args) => <Tabs {...args} />,
   parameters: {
     docs: {
