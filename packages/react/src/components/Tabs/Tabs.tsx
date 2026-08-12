@@ -25,6 +25,12 @@ const Tabs: React.FC<TabsProps> = ({
 	const [canScrollLeft, setCanScrollLeft] = React.useState(false);
 	const [canScrollRight, setCanScrollRight] = React.useState(false);
 
+	// Drag-to-scroll (mouse)
+	const isDragging = React.useRef(false);
+	const dragStartX = React.useRef(0);
+	const scrollStartLeft = React.useRef(0);
+	const hasDragged = React.useRef(false);
+
 	const checkScroll = React.useCallback(() => {
 		const el = listRef.current;
 		if (!el) return;
@@ -39,11 +45,47 @@ const Tabs: React.FC<TabsProps> = ({
 		el.addEventListener("scroll", checkScroll);
 		const ro = new ResizeObserver(checkScroll);
 		ro.observe(el);
+
+		const handleMouseMove = (e: MouseEvent) => {
+			if (!isDragging.current || !listRef.current) return;
+			const delta = e.clientX - dragStartX.current;
+			if (Math.abs(delta) > 5) hasDragged.current = true;
+			listRef.current.scrollLeft = scrollStartLeft.current - delta;
+		};
+
+		const handleMouseUp = () => {
+			if (!isDragging.current || !listRef.current) return;
+			isDragging.current = false;
+			listRef.current.style.cursor = "";
+		};
+
+		document.addEventListener("mousemove", handleMouseMove);
+		document.addEventListener("mouseup", handleMouseUp);
+
 		return () => {
 			el.removeEventListener("scroll", checkScroll);
 			ro.disconnect();
+			document.removeEventListener("mousemove", handleMouseMove);
+			document.removeEventListener("mouseup", handleMouseUp);
 		};
 	}, [checkScroll]);
+
+	const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+		const el = listRef.current;
+		if (!el) return;
+		isDragging.current = true;
+		hasDragged.current = false;
+		dragStartX.current = e.clientX;
+		scrollStartLeft.current = el.scrollLeft;
+		el.style.cursor = "grabbing";
+	};
+
+	const handleClickCapture = (e: React.MouseEvent) => {
+		if (hasDragged.current) {
+			e.stopPropagation();
+			hasDragged.current = false;
+		}
+	};
 
 	const handleScroll = (direction: "left" | "right") => {
 		listRef.current?.scrollBy({
@@ -77,7 +119,13 @@ const Tabs: React.FC<TabsProps> = ({
 					<ChevronLeftRegular />
 				</button>
 
-				<div ref={listRef} className={styles.ListScroll}>
+				<div
+					ref={listRef}
+					role="none"
+					className={styles.ListScroll}
+					onMouseDown={handleMouseDown}
+					onClickCapture={handleClickCapture}
+				>
 					<TabsRadix.List loop={loop} aria-label={ariaLabel} className={styles.List}>
 						{items.map((item) => (
 							<TabsRadix.Trigger

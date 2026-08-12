@@ -6,7 +6,6 @@
 .ListWrapper {
   display: flex;
   align-items: center;
-  border-bottom: var(--border-width-default) solid var(--color-neutral-high-dark);
 }
 
 .ListScroll {
@@ -14,9 +13,20 @@
   min-width: 0;
   overflow-x: auto;
   scrollbar-width: none;
+  user-select: none;
+   border-bottom: var(--border-width-default) solid var(--color-neutral-high-dark);
 
   &::-webkit-scrollbar {
     display: none;
+  }
+
+  // Cursor de drag apenas em dispositivos com mouse
+  @media (hover: hover) {
+    cursor: grab;
+
+    &:active {
+      cursor: grabbing;
+    }
   }
 }
 
@@ -38,6 +48,7 @@
   cursor: pointer;
   color: var(--color-neutral-low-dark);
   transition: background-color 150ms ease, color 150ms ease;
+  margin-bottom: none;
 
   &:hover {
     background-color: var(--color-neutral-high-medium);
@@ -48,7 +59,7 @@
     display: none;
   }
 
-  // Em dispositivos touch, sempre oculto (scroll via gesto nativo)
+  // Em dispositivos touch, oculto (scroll via gesto nativo)
   @media (hover: none) {
     display: none;
   }
