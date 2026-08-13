@@ -66,9 +66,6 @@ export interface TabsProps extends BaseProps {
    */
   keyboardActivationMode?: 'automatic' | 'manual';
 
-  /** Direção do texto, usada para navegação por teclado com RTL. @default 'ltr' */
-  dir?: 'ltr' | 'rtl';
-
   /** Quando `true`, a navegação por teclado volta ao início ao atingir o último Trigger. @default true */
   loop?: boolean;
 
