@@ -1,32 +1,98 @@
 import StyleDictionary from 'style-dictionary';
 
-// formato personalizado para CSS que inclui automaticamente o @import da fonte
+// ─── Helpers ─────────────────────────────────────────────────────────────────
+
+function toCssVarName(path) {
+  return path
+    .split('.')
+    .map((segment) => segment.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase())
+    .join('-');
+}
+
+function toCssValue(value, preserveReferences) {
+  const rawValue = String(value);
+  if (!preserveReferences) return rawValue;
+  return rawValue.replace(/\{([^}]+)\}/g, (_, path) => `var(--${toCssVarName(path)})`);
+}
+
+function getLayerVariables(dictionary, layerPath, preserveReferences) {
+  return dictionary.allTokens
+    .filter((token) => token.filePath.includes(layerPath))
+    .map((token) => {
+      const sourceValue = preserveReferences ? (token.original?.value ?? token.value) : token.value;
+      return `  --${token.name}: ${toCssValue(sourceValue, preserveReferences)};`;
+    })
+    .join('\n');
+}
+
+// ─── Formatos ────────────────────────────────────────────────────────────────
+
+// Legado: todos os tokens resolvidos em arquivo único
 StyleDictionary.registerFormat({
-  name: 'css/variables-with-font-import',
+  name: 'css/legacy-tokens',
   format: function({ dictionary, options }) {
-    const fontUrl = options.fontUrl
-    
+    const fontUrl = options.fontUrl;
     const header = [
       '/**',
       ' * Do not edit directly, this file was auto-generated.',
       ' */',
       `@import url("${fontUrl}");`
     ].join('\n');
-
-    const variables = dictionary.allTokens.map(token => {
-      return `  --${token.name}: ${token.value};`;
-    }).join('\n');
-
+    const variables = dictionary.allTokens.map(token => `  --${token.name}: ${token.value};`).join('\n');
     return `${header}\n:root {\n${variables}\n}\n`;
   }
 });
 
-// Formato customizado para Flutter/Dart que remove unidades
+// Tokens primitivos (core) com import da fonte
+StyleDictionary.registerFormat({
+  name: 'css/variables-with-font-import',
+  format: function({ dictionary, options }) {
+    const fontUrl = options.fontUrl;
+    const header = [
+      '/**',
+      ' * Do not edit directly, this file was auto-generated.',
+      ' */',
+      `@import url("${fontUrl}");`
+    ].join('\n');
+    const variables = getLayerVariables(dictionary, 'src/core/', false);
+    return `${header}\n:root {\n${variables}\n}\n`;
+  }
+});
+
+// Tokens semânticos e de componentes com referências preservadas
+StyleDictionary.registerFormat({
+  name: 'css/variables-layer',
+  format: function({ dictionary, options }) {
+    const header = [
+      '/**',
+      ' * Do not edit directly, this file was auto-generated.',
+      ' */'
+    ].join('\n');
+    const vars = getLayerVariables(dictionary, options.layerPath, true);
+    return `${header}\n:root {\n${vars}\n}\n`;
+  }
+});
+
+// Override de tema (ex: dark)
+StyleDictionary.registerFormat({
+  name: 'css/theme-override',
+  format: function({ dictionary, options }) {
+    const selector = options.selector || ':root';
+    const header = [
+      '/**',
+      ' * Do not edit directly, this file was auto-generated.',
+      ' */'
+    ].join('\n');
+    const vars = getLayerVariables(dictionary, options.layerPath, true);
+    return `${header}\n${selector} {\n${vars}\n}\n`;
+  }
+});
+
+// Flutter/Dart
 StyleDictionary.registerFormat({
   name: 'flutter/class-custom',
-  format: function({ dictionary, options, file }) {
+  format: function({ dictionary, options }) {
     const className = options.className || 'Tokens';
-    
     const header = [
       '',
       '//',
@@ -37,40 +103,27 @@ StyleDictionary.registerFormat({
       '',
       '',
       '',
-      'import \'dart:ui\';',
+      "import 'dart:ui';",
       '',
       `class ${className} {`,
       `    ${className}._();`,
       ''
     ].join('\n');
-
     const tokens = dictionary.allTokens.map(token => {
       const name = token.name.charAt(0).toLowerCase() + token.name.slice(1);
       let value = token.value;
-      
-      // Pós-processa valores
       let valueStr = String(value);
-      
-      // Trata inherit
       if (valueStr === 'NaN' || valueStr === 'inherit') {
         value = 0.0;
-      }
-      // Corrige fontFamily (tem vírgula mas não é Color)
-      else if (valueStr.includes(',') && !valueStr.startsWith('Color(')) {
+      } else if (valueStr.includes(',') && !valueStr.startsWith('Color(')) {
         value = `'${valueStr.split(',')[0].trim().replace(/["']/g, '')}'`;
-      }
-      // Corrige fontSize (foi multiplicado por 16 pelo transform do Flutter)
-      else if (name.includes('fontSize') && !isNaN(parseFloat(valueStr))) {
+      } else if (name.includes('fontSize') && !isNaN(parseFloat(valueStr))) {
         const numValue = parseFloat(valueStr) / 16;
         value = Number.isInteger(numValue) ? `${numValue}.0` : numValue;
-      }
-      // Remove px e % (mas mantém Color() e strings com aspas)
-      else if (!valueStr.startsWith('Color(') && !valueStr.includes("'") && !valueStr.includes('"')) {
+      } else if (!valueStr.startsWith('Color(') && !valueStr.includes("'") && !valueStr.includes('"')) {
         const cleaned = valueStr.replace(/px/g, '').replace(/%/g, '');
-        // Se virou número, converte
         if (!isNaN(parseFloat(cleaned)) && cleaned.trim() !== '') {
           const numValue = parseFloat(cleaned);
-          // Spacing, borderRadius e fontSize precisam ser double
           if (name.includes('spacing') || name.includes('borderRadius') || name.includes('fontSize')) {
             value = Number.isInteger(numValue) ? `${numValue}.0` : numValue;
           } else {
@@ -78,39 +131,29 @@ StyleDictionary.registerFormat({
           }
         }
       }
-      
       return `    static const ${name} = ${value};`;
     }).join('\n');
-
     return `${header}${tokens}\n}\n`;
   }
 });
 
-// Transformador customizado para remover unidades (px, %, etc) e retornar número
+// ─── Transforms ──────────────────────────────────────────────────────────────
+
 StyleDictionary.registerTransform({
   name: 'size/flutter',
   type: 'value',
   matcher: (token) => {
     const value = String(token.value);
-    // Aplica APENAS se o valor tem px ou % 
     return (value.includes('px') || value.includes('%')) && !value.startsWith('#');
   },
   transform: (token) => {
     const value = String(token.value);
-    // Remove px, %, e outras unidades, mantém apenas o número
     const numericValue = parseFloat(value);
-    
-    // Trata casos especiais
-    if (value === 'inherit' || isNaN(numericValue)) {
-      return 0.0;
-    }
-    
-    // Retorna como número (sem aspas) para Dart
+    if (value === 'inherit' || isNaN(numericValue)) return 0.0;
     return numericValue;
   }
 });
 
-// Transformador customizado para cores Flutter
 StyleDictionary.registerTransform({
   name: 'color/flutter-hex',
   type: 'value',
@@ -121,72 +164,117 @@ StyleDictionary.registerTransform({
   }
 });
 
-// Transformador customizado para font family
 StyleDictionary.registerTransform({
   name: 'font/flutter',
   type: 'value',
   matcher: (token) => token.type === 'fontFamily' || token.path.includes('family'),
   transform: (token) => {
     const value = String(token.value);
-    // Remove aspas duplas extras e fallbacks CSS, retorna com aspas simples
     const cleaned = value.replace(/["']/g, '').split(',')[0].trim();
     return `'${cleaned}'`;
   }
 });
 
-// Registrar transformGroup customizado para Flutter  
 StyleDictionary.registerTransformGroup({
   name: 'flutter-custom',
-  transforms: [
-    'attribute/cti',
-    'name/pascal',
-    'color/flutter-hex',
-    'size/flutter',
-    'font/flutter'
-  ]
+  transforms: ['attribute/cti', 'name/pascal', 'color/flutter-hex', 'size/flutter', 'font/flutter']
 });
 
-export default {
-  source: ['src/**/*.json'],
+// ─── Config ──────────────────────────────────────────────────────────────────
+
+const FONT_URL = 'https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap';
+
+const legacy = {
+  source: [
+    'src/border/**/*.json',
+    'src/colors/**/*.json',
+    'src/spacing/**/*.json',
+    'src/typography/**/*.json',
+  ],
   platforms: {
     css: {
       transformGroup: 'css',
       buildPath: 'build/',
       files: [{
         destination: 'css/tokens.css',
-        format: 'css/variables-with-font-import',
-        options: {
-          outputReferences: false,
-          fontUrl: 'https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap'
-        }
+        format: 'css/legacy-tokens',
+        options: { fontUrl: FONT_URL }
       }]
     },
     js: {
       transformGroup: 'js',
       buildPath: 'build/',
-      files: [{
-        destination: 'js/tokens.js',
-        format: 'javascript/es6'
-      }]
+      files: [{ destination: 'js/tokens.js', format: 'javascript/es6' }]
     },
     scss: {
       transformGroup: 'scss',
       buildPath: 'build/',
-      files: [{
-        destination: 'scss/tokens.scss',
-        format: 'scss/variables'
-      }]
+      files: [{ destination: 'scss/tokens.scss', format: 'scss/variables' }]
     },
     flutter: {
-      transformGroup: 'flutter',
+      transformGroup: 'flutter-custom',
       buildPath: 'build/',
       files: [{
         destination: 'dart/tokens.dart',
         format: 'flutter/class-custom',
+        options: { className: 'GiroTokens' }
+      }]
+    }
+  }
+};
+
+const base = {
+  include: ['src/core/**/*.json'],
+  source: [
+    'src/semantic/**/*.json',
+    'src/components/**/*.json',
+  ],
+  platforms: {
+    css: {
+      transformGroup: 'css',
+      buildPath: 'build/',
+      files: [
+        {
+          destination: 'css/core.css',
+          format: 'css/variables-with-font-import',
+          options: { fontUrl: FONT_URL }
+        },
+        {
+          destination: 'css/semantic.css',
+          format: 'css/variables-layer',
+          options: { layerPath: 'src/semantic/' }
+        },
+        {
+          destination: 'css/components.css',
+          format: 'css/variables-layer',
+          options: { layerPath: 'src/components/' }
+        }
+      ]
+    }
+  }
+};
+
+const dark = {
+  include: ['src/core/**/*.json'],
+  source: ['src/themes/dark/**/*.json'],
+  platforms: {
+    css: {
+      transformGroup: 'css',
+      buildPath: 'build/',
+      files: [{
+        destination: 'css/themes/dark.css',
+        format: 'css/theme-override',
         options: {
-          className: 'GiroTokens'
+          selector: '[data-theme="dark"]',
+          layerPath: 'src/themes/dark/'
         }
       }]
     }
   }
 };
+
+// ─── Build ───────────────────────────────────────────────────────────────────
+
+await new StyleDictionary(legacy).buildAllPlatforms();
+await new StyleDictionary(base).buildAllPlatforms();
+await new StyleDictionary(dark).buildAllPlatforms();

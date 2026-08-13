@@ -188,7 +188,7 @@ const base = {
   platforms: {
     css: {
       transformGroup: 'css',
-      buildPath: 'build-next/',
+      buildPath: 'build/',
       files: [
         {
           destination: 'css/core.css',
@@ -212,33 +212,6 @@ const base = {
           }
         }
       ]
-    },
-    js: {
-      transformGroup: 'js',
-      buildPath: 'build-next/',
-      files: [{
-        destination: 'js/tokens.js',
-        format: 'javascript/es6'
-      }]
-    },
-    scss: {
-      transformGroup: 'scss',
-      buildPath: 'build-next/',
-      files: [{
-        destination: 'scss/tokens.scss',
-        format: 'scss/variables'
-      }]
-    },
-    flutter: {
-      transformGroup: 'flutter-custom',
-      buildPath: 'build-next/',
-      files: [{
-        destination: 'dart/tokens.dart',
-        format: 'flutter/class-custom',
-        options: {
-          className: 'GiroTokens'
-        }
-      }]
     }
   }
 };
@@ -255,7 +228,7 @@ const dark = {
   platforms: {
     css: {
       transformGroup: 'css',
-      buildPath: 'build-next/',
+      buildPath: 'build/',
       files: [
         {
           destination: 'css/themes/dark.css',
