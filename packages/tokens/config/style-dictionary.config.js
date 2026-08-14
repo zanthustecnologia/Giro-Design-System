@@ -88,6 +88,19 @@ StyleDictionary.registerFormat({
   }
 });
 
+// SCSS: variáveis filtradas por camada com valores resolvidos
+StyleDictionary.registerFormat({
+  name: 'scss/variables-layer',
+  format: function({ dictionary, options }) {
+    const header = '// Do not edit directly, this file was auto-generated.';
+    const vars = dictionary.allTokens
+      .filter((token) => token.filePath.includes(options.layerPath))
+      .map((token) => `$${token.name}: ${token.value};`)
+      .join('\n');
+    return `${header}\n${vars}\n`;
+  }
+});
+
 // Flutter/Dart
 StyleDictionary.registerFormat({
   name: 'flutter/class-custom',
@@ -247,6 +260,27 @@ const base = {
         {
           destination: 'css/components.css',
           format: 'css/variables-layer',
+          options: { layerPath: 'src/components/' }
+        }
+      ]
+    },
+    scss: {
+      transformGroup: 'scss',
+      buildPath: 'build/',
+      files: [
+        {
+          destination: 'scss/core.scss',
+          format: 'scss/variables-layer',
+          options: { layerPath: 'src/core/' }
+        },
+        {
+          destination: 'scss/semantic.scss',
+          format: 'scss/variables-layer',
+          options: { layerPath: 'src/semantic/' }
+        },
+        {
+          destination: 'scss/components.scss',
+          format: 'scss/variables-layer',
           options: { layerPath: 'src/components/' }
         }
       ]
