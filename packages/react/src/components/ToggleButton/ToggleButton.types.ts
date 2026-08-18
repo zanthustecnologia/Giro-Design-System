@@ -124,8 +124,8 @@ export type ToggleButtonProps = ScalableProps & {
   /** Exibe somente o ícone, sem texto (modo simple) */
   iconOnly?: boolean;
 
-  /** Conteúdo do botão (modo combined) */
-  children?: ReactNode;
+  /** Texto exibido no botão (modo simple) */
+  label?: string;
 
   // ----- Toggle (modo simple) -----
 

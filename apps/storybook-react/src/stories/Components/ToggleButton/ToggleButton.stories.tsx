@@ -134,6 +134,13 @@ const meta: Meta<typeof ToggleButton> = {
         defaultValue: { summary: 'false' },
       },
     },
+    label: {
+      control: 'text',
+      description: 'Texto exibido no botão (modo `simple`)',
+      table: {
+        type: { summary: 'string' },
+      },
+    },
   },
 } satisfies Meta<typeof ToggleButton>;
 
@@ -173,12 +180,7 @@ export const Default: Story = {
     const [pressed, setPressed] = useState(false);
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'flex-start' }}>
-        <ToggleButton {...args} pressed={pressed} onPressedChange={setPressed}>
-          <TextBold16Regular />
-        </ToggleButton>
-        <span style={{ fontSize: '13px', color: 'var(--color-neutral-low-medium)' }}>
-          Estado: {pressed ? 'ativado' : 'desativado'}
-        </span>
+        <ToggleButton {...args} pressed={pressed} onPressedChange={setPressed} />
       </div>
     );
   },
@@ -187,6 +189,7 @@ export const Default: Story = {
     size: 'lg',
     scale: 1,
     disabled: false,
+    label: 'Exemplo',
   },
 };
 
@@ -243,9 +246,7 @@ export const ComIcone: Story = {
   render: (args: ToggleButtonProps) => {
     const [pressed, setPressed] = useState(false);
     return (
-      <ToggleButton {...args} pressed={pressed} onPressedChange={setPressed}>
-        Adicionar
-      </ToggleButton>
+      <ToggleButton {...args} pressed={pressed} onPressedChange={setPressed} />
     );
   },
   args: {
@@ -253,6 +254,7 @@ export const ComIcone: Story = {
     size: 'lg',
     scale: 1,
     icon: <Add16Regular />,
+    label: 'Adicionar',
     disabled: false,
   },
 };
@@ -274,7 +276,7 @@ export const IconOnly: Story = {
     mode: 'simple',
     size: 'lg',
     scale: 1,
-    icon: <Add16Regular />,
+    icon: <TextBold16Regular />,
     iconOnly: true,
     disabled: false,
   },
@@ -332,9 +334,7 @@ export const GrupoIconOnly: Story = {
 export const Desabilitado: Story = {
   render: () => (
     <div style={{ display: 'flex', gap: '24px', alignItems: 'flex-start', flexWrap: 'wrap' }}>
-      <ToggleButton mode="simple" disabled>
-        <TextBold16Regular />
-      </ToggleButton>
+      <ToggleButton mode="simple" icon={<TextBold16Regular />} iconOnly disabled />
       <ToggleButton
         mode="combined"
         selectionType="single"

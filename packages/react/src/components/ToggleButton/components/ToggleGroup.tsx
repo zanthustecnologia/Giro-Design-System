@@ -15,7 +15,6 @@ const ToggleGroup: React.FC<ToggleButtonProps> = ({
   orientation = 'horizontal',
   disabled = false,
   items = [],
-  children,
   className,
   id,
   size = 'lg',
@@ -61,32 +60,31 @@ const ToggleGroup: React.FC<ToggleButtonProps> = ({
       style={{ '--giro-scale': scale, ...style } as React.CSSProperties}
       {...rest}
     >
-      {children ??
-        items.map((item) => (
-          <ToggleGroupRadix.Item
-            key={item.value}
-            value={item.value}
-            disabled={item.disabled}
-            className={clsx(
-              styles.item,
-              styles[`item-${size}`],
-              {
-                [styles.toggleIconOnly]: item.iconOnly,
-                [styles.toggleWithIcon]: !!item.icon && !item.iconOnly,
-              },
-            )}
-            style={{ '--giro-scale': scale } as React.CSSProperties}
-          >
-            {item.iconOnly ? (
-              <span className={styles.toggleIconLeft} aria-hidden="true">{item.icon}</span>
-            ) : (
-              <>
-                {item.icon && <span className={styles.toggleIconLeft} aria-hidden="true">{item.icon}</span>}
-                {item.label}
-              </>
-            )}
-          </ToggleGroupRadix.Item>
-        ))}
+      {items.map((item) => (
+        <ToggleGroupRadix.Item
+          key={item.value}
+          value={item.value}
+          disabled={item.disabled}
+          className={clsx(
+            styles.item,
+            styles[`item-${size}`],
+            {
+              [styles.toggleIconOnly]: item.iconOnly,
+              [styles.toggleWithIcon]: !!item.icon && !item.iconOnly,
+            },
+          )}
+          style={{ '--giro-scale': scale } as React.CSSProperties}
+        >
+          {item.iconOnly ? (
+            <span className={styles.toggleIconLeft} aria-hidden="true">{item.icon}</span>
+          ) : (
+            <>
+              {item.icon && <span className={styles.toggleIconLeft} aria-hidden="true">{item.icon}</span>}
+              {item.label}
+            </>
+          )}
+        </ToggleGroupRadix.Item>
+      ))}
     </ToggleGroupRadix.Root>
   );
 

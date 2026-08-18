@@ -13,7 +13,7 @@ const Toggle: React.FC<ToggleButtonProps> = ({
   onPressedChange,
   disabled = false,
   className,
-  children,
+  label,
   id,
   size = 'lg',
   scale = 1,
@@ -56,7 +56,7 @@ const Toggle: React.FC<ToggleButtonProps> = ({
       ) : (
         <>
           {icon && <span className={styles.toggleIconLeft} aria-hidden="true">{icon}</span>}
-          {children}
+          {label}
         </>
       )}
     </ToggleRadix.Root>
