@@ -7,34 +7,36 @@ import styles from './Button.module.scss';
 
 import type { ButtonProps } from './Button.types';
 
-const Button = ({
-  ref,
-  as,
-  children,
-  variant = 'filled',
-  iconPosition = 'left',
-  href,
-  to,
-  external = false,
-  target,
-  rel,
-  disabled = false,
-  onClick,
-  size = 'lg',
-  scale = 1,
-  className,
-  type = 'button',
-  id,
-  icon,
-  fullWidth = false,
-  ariaLabel,
-  iconOnly = false,
-  loading = false,
-  tooltipText,
-  tooltipSide = 'top',
-  tooltipAlign = 'center',
-  ...rest
-}: ButtonProps & { ref?: React.Ref<HTMLButtonElement | HTMLAnchorElement> }) => {
+const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>((
+  {
+    as,
+    children,
+    variant = 'filled',
+    iconPosition = 'left',
+    href,
+    to,
+    external = false,
+    target,
+    rel,
+    disabled = false,
+    onClick,
+    size = 'lg',
+    scale = 1,
+    className,
+    type = 'button',
+    id,
+    icon,
+    fullWidth = false,
+    ariaLabel,
+    iconOnly = false,
+    loading = false,
+    tooltipText,
+    tooltipSide = 'top',
+    tooltipAlign = 'center',
+    ...rest
+  },
+  ref
+) => {
 
   const generatedId = useId();
   const componentId = id || generatedId;
@@ -226,7 +228,7 @@ const Button = ({
       {renderContent()}
     </Component>
   );
-};
+});
 
 Button.displayName = 'Button';
 export default Button;

@@ -406,7 +406,7 @@ const TableV2 = <T,>({
                             ) : col.column.getIsSorted() === 'desc' ? (
                               <ArrowSortDown16Regular className={styles.tableSortIcon} />
                             ) : (
-                              <ArrowSort16Regular className={clsx(styles.tableSortIcon, styles.tableSortIconNeutral)} />
+                              <ArrowSort16Regular className={styles.tableSortIconNeutral} />
                             )}
                           </button>
                         ) : (
