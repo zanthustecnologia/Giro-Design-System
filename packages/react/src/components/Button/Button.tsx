@@ -207,7 +207,7 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPro
     return {};
   };
 
-  if (iconOnly && tooltipText && !loading) {
+  if (tooltipText && !loading) {
     return (
       <Tooltip text={tooltipText} side={tooltipSide} align={tooltipAlign}>
         <Component
