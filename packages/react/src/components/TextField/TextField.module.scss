@@ -36,15 +36,14 @@
   }
 
   &:focus-within {
-    border: none;
-    outline: scale(var(--border-width-2)) solid var(--color-brand-primary-default);
+    border: scale(var(--border-width-2)) solid var(--color-brand-primary-default);
   }
 
   input {
     min-width: scale(150px);
     width: 100%;
     display: inline-flex;
-    height: scale(44px);
+    height: 100%;
     padding: 0px scale(var(--spacing-16));
     align-items: center;
     align-self: stretch;
@@ -155,9 +154,12 @@
   .inputContainer {
     border: scale(var(--border-width-1)) solid var(--color-feedback-alert-default);
 
+    &:hover {
+      border: scale(var(--border-width-1)) solid var(--color-feedback-alert-default);
+    }
+
     &:focus-within {
-      border: none;
-      outline: scale(var(--border-width-1)) solid var(--color-feedback-alert-default);
+      border: scale(var(--border-width-2)) solid var(--color-feedback-alert-default);
     }
   }
 }
@@ -221,7 +223,6 @@
 
     &:focus-within {
       border: scale(var(--border-width-1)) solid var(--color-neutral-high-medium);
-      outline: none;
     }
   }
 

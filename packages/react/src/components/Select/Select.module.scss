@@ -42,12 +42,10 @@ $select-icon-size: 16px;
     outline: none;
   }
   &:focus-visible {
-    border: none;
-    outline: var(--border-width-2) solid var(--color-brand-primary-default);
+    border: var(--border-width-2) solid var(--color-brand-primary-default);
   }
   &.open {
-    border: none;
-    outline: var(--border-width-2) solid var(--color-brand-primary-default);
+    border: var(--border-width-2) solid var(--color-brand-primary-default);
   }
   &.error {
     border: var(--border-width-1) solid var(--color-feedback-alert-default);
@@ -58,8 +56,7 @@ $select-icon-size: 16px;
       outline: none;
     }
     &.open {
-      border: none;
-      outline: var(--border-width-2) solid var(--color-feedback-alert-default);
+      border: var(--border-width-2) solid var(--color-feedback-alert-default);
     }
   }
   &.disabled {
