@@ -1,5 +1,16 @@
 ﻿# @giro-ds/tokens
 
+## [2.0.0]
+
+### Breaking Changes
+
+- **Build:** renomeia `index.css` para `giro-tokens.css`.
+
+### Features
+
+- **Build:** adiciona formatos SCSS por camada (`core.scss`, `semantic.scss`, `components.scss`) em `build/scss/`.
+- **Build:** unifica configs de build em arquivo unico; `giro-tokens.css` passa a ser o entry point importando `core.css`, `semantic.css` e `components.css`.
+
 ## [1.2.0] - 2026-08-05
 
 ### Features

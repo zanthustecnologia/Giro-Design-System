@@ -1,5 +1,14 @@
 # hub
 
+## 0.1.3
+
+### Patch Changes
+
+- Updated dependencies
+- Updated dependencies
+  - @giro-ds/react@12.1.1
+  - @giro-ds/tokens@2.0.0
+
 ## 0.1.2
 
 ### Patch Changes
