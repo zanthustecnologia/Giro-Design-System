@@ -4,6 +4,7 @@ import '../tokens/generated_tokens.dart';
 import '../components/buttons/button_tokens.dart';
 import '../components/checkbox/checkbox_tokens.dart';
 import '../components/chips/chip_tokens.dart';
+import '../components/dialogs/dialog_tokens.dart';
 import '../components/radio/radio_tokens.dart';
 import '../components/switch/switch_tokens.dart';
 import '../components/text_field/text_field_tokens.dart';
@@ -19,10 +20,10 @@ ButtonStyle _baseStyle({
 }) {
   return ButtonStyle(
     textStyle: WidgetStateProperty.all(
-      TextStyle(
+      GoogleFonts.getFont(
+        GiroTokens.fontFamilyPrimary,
         fontSize: GiroButtonTokens.fontSize,
         fontWeight: GiroButtonTokens.fontWeightMedium,
-        fontFamily: GiroTokens.fontFamilyPrimary,
         height: 1.0, // Important for vertical alignment
       ),
     ),
@@ -159,6 +160,17 @@ ThemeData applyGiroTheme(ThemeData base) {
 
     bottomSheetTheme: const BottomSheetThemeData(
       backgroundColor: GiroTokens.colorNeutralHighDefault,
+    ),
+
+    dialogTheme: DialogThemeData(
+      backgroundColor: GiroDialogTokens.backgroundColor,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(GiroDialogTokens.borderRadius),
+        side: const BorderSide(
+          color: GiroDialogTokens.borderColor,
+          width: GiroDialogTokens.borderWidth,
+        ),
+      ),
     ),
 
     checkboxTheme: CheckboxThemeData(

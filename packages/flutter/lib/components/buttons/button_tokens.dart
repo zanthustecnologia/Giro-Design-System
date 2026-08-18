@@ -36,7 +36,7 @@ class GiroButtonTokens {
 
   // borda outlined
   static BorderSide get outlinedBorder => const BorderSide(
-        width: 1.0, // GiroTokens.borderWidth1 is int, need double
+        width: GiroTokens.borderWidth1,
         color: GiroTokens.colorNeutralHighDark,
       );
 }

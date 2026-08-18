@@ -1,5 +1,6 @@
 // Helper para facilitar acesso aos tokens do Style Dictionary
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'generated_tokens.dart';
 
 /// Cores do design system
@@ -107,58 +108,59 @@ class GiroTypography {
   static const int fontWeightBold = GiroTokens.fontWeightBold;
   
   // Text Styles
-  static const TextStyle heading1 = TextStyle(
+  // static (não const): GoogleFonts.getFont carrega a fonte real em runtime
+  static final TextStyle heading1 = GoogleFonts.getFont(
+    GiroTokens.fontFamilyPrimary,
     fontSize: GiroTokens.fontSize32,
     fontWeight: FontWeight.w700,
-    fontFamily: GiroTokens.fontFamilyPrimary,
   );
   
-  static const TextStyle heading2 = TextStyle(
+  static final TextStyle heading2 = GoogleFonts.getFont(
+    GiroTokens.fontFamilyPrimary,
     fontSize: GiroTokens.fontSize24,
     fontWeight: FontWeight.w700,
-    fontFamily: GiroTokens.fontFamilyPrimary,
   );
   
-  static const TextStyle heading3 = TextStyle(
+  static final TextStyle heading3 = GoogleFonts.getFont(
+    GiroTokens.fontFamilyPrimary,
     fontSize: GiroTokens.fontSize20,
     fontWeight: FontWeight.w700,
-    fontFamily: GiroTokens.fontFamilyPrimary,
   );
   
-  static const TextStyle heading4 = TextStyle(
+  static final TextStyle heading4 = GoogleFonts.getFont(
+    GiroTokens.fontFamilyPrimary,
     fontSize: GiroTokens.fontSize18,
     fontWeight: FontWeight.w600,
-    fontFamily: GiroTokens.fontFamilyPrimary,
   );
   
-  static const TextStyle bodyLarge = TextStyle(
+  static final TextStyle bodyLarge = GoogleFonts.getFont(
+    GiroTokens.fontFamilyPrimary,
     fontSize: GiroTokens.fontSize18,
     fontWeight: FontWeight.w400,
-    fontFamily: GiroTokens.fontFamilyPrimary,
   );
   
-  static const TextStyle bodyMedium = TextStyle(
+  static final TextStyle bodyMedium = GoogleFonts.getFont(
+    GiroTokens.fontFamilyPrimary,
     fontSize: GiroTokens.fontSize16,
     fontWeight: FontWeight.w400,
-    fontFamily: GiroTokens.fontFamilyPrimary,
   );
   
-  static const TextStyle bodySmall = TextStyle(
+  static final TextStyle bodySmall = GoogleFonts.getFont(
+    GiroTokens.fontFamilyPrimary,
     fontSize: GiroTokens.fontSize14,
     fontWeight: FontWeight.w400,
-    fontFamily: GiroTokens.fontFamilyPrimary,
   );
   
-  static const TextStyle buttonText = TextStyle(
+  static final TextStyle buttonText = GoogleFonts.getFont(
+    GiroTokens.fontFamilyPrimary,
     fontSize: GiroTokens.fontSize16,
     fontWeight: FontWeight.w500,
-    fontFamily: GiroTokens.fontFamilyPrimary,
   );
   
-  static const TextStyle caption = TextStyle(
+  static final TextStyle caption = GoogleFonts.getFont(
+    GiroTokens.fontFamilyPrimary,
     fontSize: GiroTokens.fontSize12,
     fontWeight: FontWeight.w400,
-    fontFamily: GiroTokens.fontFamilyPrimary,
   );
 }
 

@@ -1,5 +1,11 @@
 # 📁 Estrutura Completa Flutter - Visualização
 
+> ⚠️ **Documento desatualizado.** Descreve a estrutura inicial (`packages/components-flutter`,
+> `apps/storybook-flutter`, pacote `zanthus_flutter`, classes `Zanthus*`) anterior à reescrita
+> v0.3.0. A estrutura atual usa `packages/flutter`, `apps/widgetbook-flutter`, pacote
+> `flutter_giro` e classes `Giro*`. Veja [flutter-getting-started.md](./flutter-getting-started.md)
+> para a documentação atualizada.
+
 ## 🎯 Visão Geral
 
 ```

@@ -1,6 +1,6 @@
 # 🚀 Comandos Rápidos - Flutter
 
-Referência rápida de comandos para trabalhar com Flutter no Zanthus Design System.
+Referência rápida de comandos para trabalhar com Flutter no Giro Design System.
 
 ## 📦 Instalação e Configuração
 
@@ -9,23 +9,26 @@ Referência rápida de comandos para trabalhar com Flutter no Zanthus Design Sys
 flutter doctor -v
 
 # Instalar dependências - Pacote de componentes
-cd packages/components-flutter
+cd packages/flutter
 flutter pub get
 
-# Instalar dependências - Storybook Flutter
-cd apps/storybook-flutter
+# Instalar dependências - Widgetbook Flutter
+cd apps/widgetbook-flutter
 flutter pub get
 ```
 
-## 🎨 Executar Widgetbook (Storybook)
+## 🎨 Executar Widgetbook
 
 ```bash
-# Web (Chrome) - Recomendado para desenvolvimento
-cd apps/storybook-flutter
+# Via script do monorepo (raiz do repositório) - Recomendado
+pnpm widgetbook
+
+# Web (Chrome) - equivalente manual
+cd apps/widgetbook-flutter
 flutter run -d chrome
 
 # Windows Desktop
-cd apps/storybook-flutter
+cd apps/widgetbook-flutter
 flutter run -d windows
 
 # Listar dispositivos disponíveis
@@ -52,7 +55,7 @@ flutter clean
 
 ```bash
 # Web
-cd apps/storybook-flutter
+cd apps/widgetbook-flutter
 flutter build web
 
 # Android APK
@@ -69,7 +72,7 @@ flutter build windows
 
 ```bash
 # Rodar todos os testes
-cd packages/components-flutter
+cd packages/flutter
 flutter test
 
 # Análise com mais detalhes
@@ -132,47 +135,51 @@ Quando o app está rodando:
 
 ```bash
 # 1. Criar arquivo do componente
-cd packages/components-flutter/lib/components/meu_componente
+cd packages/flutter/lib/components/meu_componente
 # Criar meu_componente.dart
 
-# 2. Exportar no zanthus_flutter.dart
+# 2. Exportar no flutter_giro.dart
 # Adicionar: export 'components/meu_componente/meu_componente.dart';
 
 # 3. Criar story no Widgetbook
-cd apps/storybook-flutter/lib/stories
+cd apps/widgetbook-flutter/lib/stories
 # Criar meu_componente_story.dart
 
 # 4. Registrar story no main.dart
 # Importar e adicionar ao Widgetbook
 
 # 5. Testar
-flutter run -d chrome
+pnpm widgetbook
 ```
 
 ### Atualizar Tokens
 
 ```bash
-# 1. Editar tokens
-cd packages/components-flutter/lib/tokens
-# Editar arquivo de token (ex: colors.dart)
+# 1. Editar tokens fonte (Style Dictionary)
+cd packages/tokens/src
+# Editar arquivo de token (ex: colors/brand-colors.json)
 
-# 2. Verificar mudanças
+# 2. Rebuildar tokens (gera CSS/SCSS/JS/Dart e copia para packages/flutter)
+cd ../
+pnpm build
+
+# 3. Verificar mudanças
+cd ../flutter
 flutter analyze
 
-# 3. Testar no Widgetbook
-cd apps/storybook-flutter
-flutter run -d chrome
+# 4. Testar no Widgetbook
+pnpm widgetbook
 ```
 
 ### Publicar Versão
 
 ```bash
 # 1. Atualizar CHANGELOG.md
-cd packages/components-flutter
+cd packages/flutter
 # Editar CHANGELOG.md
 
 # 2. Atualizar versão no pubspec.yaml
-# version: 0.2.0
+# version: 0.5.0
 
 # 3. Testar tudo
 flutter test
@@ -180,8 +187,8 @@ flutter analyze
 
 # 4. Commit e tag
 git add .
-git commit -m "feat: nova versão 0.2.0"
-git tag v0.2.0
+git commit -m "feat: nova versão 0.5.0"
+git tag v0.5.0
 git push --tags
 ```
 

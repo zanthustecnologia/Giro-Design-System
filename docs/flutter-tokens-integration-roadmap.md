@@ -1,5 +1,12 @@
 # 🔄 Roadmap: Integração de Tokens React ↔ Flutter
 
+> ✅ **Status: implementado.** O pipeline Style Dictionary → Flutter descrito abaixo já está
+> em produção em `packages/tokens/config/style-dictionary.config.js` (plataforma `flutter`
+> na config `legacy`), com uma diferença importante: os transforms customizados usam a opção
+> `filter` (não `matcher`, que não existe no Style Dictionary v4 e faz o transform casar com
+> todos os tokens indiscriminadamente). O restante do documento é mantido como contexto
+> histórico do planejamento original.
+
 Este documento descreve o plano para sincronizar os design tokens entre React e Flutter.
 
 ## 📋 Situação Atual

@@ -1,6 +1,11 @@
 # 📱 Guia de Início Rápido - Flutter
 
-Este guia ajudará você a configurar e começar a trabalhar com os componentes Flutter do Zanthus Design System.
+Este guia ajudará você a configurar e começar a trabalhar com os componentes Flutter do Giro Design System.
+
+> ⚠️ Esta é a estrutura atual do pacote (`packages/flutter`, `apps/widgetbook-flutter`,
+> pacote `flutter_giro`). Se você viu referências a `components-flutter`, `storybook-flutter`
+> ou `zanthus_flutter`/`Zanthus*` em outro lugar, são nomes antigos de antes da reescrita
+> v0.3.0 (ver [CHANGELOG](../packages/flutter/CHANGELOG.md)).
 
 ## 📋 Pré-requisitos
 
@@ -40,25 +45,29 @@ No diretório raiz do monorepo:
 
 ```bash
 # Instalar dependências do pacote de componentes
-cd packages/components-flutter
+cd packages/flutter
 flutter pub get
 
-# Instalar dependências do Storybook Flutter
-cd ../../apps/storybook-flutter
+# Instalar dependências do Widgetbook Flutter
+cd ../../apps/widgetbook-flutter
 flutter pub get
 ```
 
-### 2. Executar Widgetbook (Storybook Flutter)
+### 2. Executar o Widgetbook
+
+A forma recomendada é usar o script do monorepo a partir da raiz:
 
 ```bash
-cd apps/storybook-flutter
-flutter run
+pnpm widgetbook
 ```
 
-**Opções de execução:**
+Isso equivale a `cd apps/widgetbook-flutter && flutter run -d chrome`.
+
+**Outras opções de execução:**
 
 - **Chrome (Web):**
   ```bash
+  cd apps/widgetbook-flutter
   flutter run -d chrome
   ```
 
@@ -97,8 +106,8 @@ Edite `pubspec.yaml`:
 dependencies:
   flutter:
     sdk: flutter
-  zanthus_flutter:
-    path: ../packages/components-flutter  # Ajuste o caminho conforme necessário
+  flutter_giro:
+    path: ../packages/flutter  # Ajuste o caminho conforme necessário
 ```
 
 Depois execute:
@@ -109,9 +118,13 @@ flutter pub get
 
 ### Exemplo de Uso
 
+O pacote combina widgets Material 3 nativos (com o tema Giro aplicado) e alguns
+wrappers customizados (`GiroButton`, `GiroSelect`) para casos que a API nativa
+não cobre.
+
 ```dart
 import 'package:flutter/material.dart';
-import 'package:zanthus_flutter/zanthus_flutter.dart';
+import 'package:flutter_giro/flutter_giro.dart';
 
 void main() {
   runApp(const MyApp());
@@ -123,10 +136,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Zanthus Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      title: 'Giro Demo',
+      theme: applyGiroTheme(ThemeData.light()),
       home: const MyHomePage(),
     );
   }
@@ -138,54 +149,33 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Zanthus Components'),
-      ),
+      appBar: AppBar(title: const Text('Giro Components')),
       body: Padding(
-        padding: const EdgeInsets.all(ZanthusSpacing.md),
+        padding: const EdgeInsets.all(GiroSpacing.md),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Avatar
-            const ZanthusAvatar(
-              initials: 'AB',
-              size: ZanthusAvatarSize.large,
-            ),
-            
-            const SizedBox(height: ZanthusSpacing.lg),
-            
-            // Button
-            ZanthusButton(
+            // Button (wrapper customizado)
+            GiroButton.filled(
               text: 'Click me',
-              variant: ZanthusButtonVariant.primary,
-              size: ZanthusButtonSize.medium,
-              onPressed: () {
-                print('Button pressed!');
-              },
+              size: GiroSize.lg,
+              onPressed: () {},
             ),
-            
-            const SizedBox(height: ZanthusSpacing.lg),
-            
-            // Card
-            ZanthusCard(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: const [
-                  ZanthusText.h3('Card Title'),
-                  SizedBox(height: ZanthusSpacing.sm),
-                  ZanthusText.body('This is a card with some content.'),
-                ],
+
+            const SizedBox(height: GiroSpacing.lg),
+
+            // Card (widget nativo Material 3 com tema Giro aplicado)
+            const Card(
+              child: Padding(
+                padding: EdgeInsets.all(16),
+                child: Text('This is a card with some content.'),
               ),
             ),
-            
-            const SizedBox(height: ZanthusSpacing.lg),
-            
-            // Badge
-            const ZanthusBadge(
-              text: 'New',
-              variant: ZanthusBadgeVariant.primary,
-            ),
+
+            const SizedBox(height: GiroSpacing.lg),
+
+            // Chip (widget nativo Material 3 com tema Giro aplicado)
+            const Chip(label: Text('New')),
           ],
         ),
       ),
@@ -197,40 +187,26 @@ class MyHomePage extends StatelessWidget {
 ## 🎨 Usando Design Tokens
 
 ```dart
-// Cores
+// Cores (tokens brutos gerados pelo Style Dictionary)
 Container(
-  color: ZanthusColors.primary,
+  color: GiroTokens.colorBrandPrimaryDefault,
   child: Text(
     'Texto',
-    style: TextStyle(color: ZanthusColors.onPrimary),
+    style: TextStyle(color: GiroTokens.colorNeutralHighDefault),
   ),
 )
 
-// Espaçamento
+// Espaçamento (helper semântico)
 Padding(
-  padding: EdgeInsets.all(ZanthusSpacing.md),
+  padding: EdgeInsets.all(GiroSpacing.md),
   child: ...
 )
 
-// Tipografia
-Text(
-  'Título',
-  style: ZanthusTypography.heading1,
-)
-
-// Border Radius
+// Tokens específicos de componente (camada semântica)
 Container(
+  height: GiroButtonTokens.heightLg,
   decoration: BoxDecoration(
-    color: Colors.blue,
-    borderRadius: ZanthusBorderRadius.borderRadiusMd,
-  ),
-)
-
-// Sombras
-Container(
-  decoration: BoxDecoration(
-    color: Colors.white,
-    boxShadow: ZanthusShadows.shadowMd,
+    borderRadius: BorderRadius.circular(GiroButtonTokens.radius),
   ),
 )
 ```
@@ -238,7 +214,7 @@ Container(
 ## 🧪 Rodando Testes
 
 ```bash
-cd packages/components-flutter
+cd packages/flutter
 flutter test
 ```
 
@@ -310,7 +286,7 @@ flutter pub get
 
 **Solução:**
 ```bash
-cd apps/storybook-flutter
+cd apps/widgetbook-flutter
 flutter clean
 flutter pub get
 flutter run
@@ -329,8 +305,8 @@ flutter run
 
 ## 🆘 Precisa de Ajuda?
 
-1. Verifique a documentação em `packages/components-flutter/README.md`
-2. Veja exemplos no Widgetbook em `apps/storybook-flutter/lib/stories/`
+1. Verifique a documentação em `packages/flutter/README.md`
+2. Veja exemplos no Widgetbook em `apps/widgetbook-flutter/lib/stories/`
 3. Consulte o `CONTRIBUTING.md` para guidelines de desenvolvimento
 
 ---
