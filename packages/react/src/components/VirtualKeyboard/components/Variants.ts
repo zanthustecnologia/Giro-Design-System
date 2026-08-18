@@ -115,19 +115,22 @@ export const getNativeLayout = (
 
   if (isFixed) {
     computedLayout = Object.fromEntries(
-      Object.entries(computedLayout).map(([layoutName, rows]) => [
-        layoutName,
-        rows.map((row) => {
-          const trimmed = row.trim();
-          if (/^[a-zA-ZçÇ]/.test(trimmed) && trimmed.endsWith('{bksp}')) {
-            return '{//} ' + trimmed.replace(/\s*\{bksp\}$/, '') + ' {//}';
-          }
-          if (/\{(shift|capslock|shiftactivated)\}$/.test(trimmed)) {
-            return trimmed.replace(/\{(shift|capslock|shiftactivated)\}$/, '{bksp}');
-          }
-          return row;
-        }),
-      ])
+      Object.entries(computedLayout).map(([layoutName, rows]) => {
+        const hasBksp = rows.some((r) => r.includes('{bksp}'));
+        return [
+          layoutName,
+          rows.map((row) => {
+            const trimmed = row.trim();
+            if (/^[a-zA-ZçÇ]/.test(trimmed) && trimmed.endsWith('{bksp}')) {
+              return '{//} ' + trimmed.replace(/\s*\{bksp\}$/, '') + ' {//}';
+            }
+            if (!hasBksp && /\{(shift|capslock|shiftactivated)\}$/.test(trimmed)) {
+              return trimmed.replace(/\{(shift|capslock|shiftactivated)\}$/, '{bksp}');
+            }
+            return row;
+          }),
+        ];
+      })
     ) as Record<string, string[]>;
   }
 
