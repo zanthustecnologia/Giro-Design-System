@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 
 import App from './App';
 
-import '../../../packages/tokens/build/css/index.css';
+import '../../../packages/tokens/build/css/giro-tokens.css';
 import '../../../packages/tokens/build/css/themes/dark.css';
 import './styles.css';
 
