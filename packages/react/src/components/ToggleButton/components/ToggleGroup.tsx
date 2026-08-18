@@ -12,7 +12,6 @@ const ToggleGroup: React.FC<ToggleButtonProps> = ({
   value,
   defaultValue,
   onValueChange,
-  orientation = 'horizontal',
   disabled = false,
   items = [],
   className,
@@ -53,7 +52,6 @@ const ToggleGroup: React.FC<ToggleButtonProps> = ({
   const group = (
     <ToggleGroupRadix.Root
       {...rootProps}
-      orientation={orientation}
       disabled={disabled}
       className={clsx(styles.group, className)}
       id={id}

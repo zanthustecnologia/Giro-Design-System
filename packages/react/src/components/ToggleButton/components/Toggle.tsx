@@ -28,7 +28,6 @@ const Toggle: React.FC<ToggleButtonProps> = ({
   value: _value,
   defaultValue: _defaultValue,
   onValueChange: _onValueChange,
-  orientation: _orientation,
   items: _items,
   ...rest
 }) => {

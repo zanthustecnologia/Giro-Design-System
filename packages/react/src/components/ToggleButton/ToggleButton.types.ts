@@ -81,8 +81,6 @@ type ToggleGroupMultipleSelectionProps = {
  * - `selectionType="multiple"` → `onValueChange: (value: string[]) => void`
  */
 export type ToggleGroupProps = {
-  /** Orientação do grupo: `'horizontal'` (padrão) ou `'vertical'` */
-  orientation?: ToggleButtonOrientation;
   /** Items do grupo de toggles */
   items?: ToggleGroupItem[];
 } & (ToggleGroupSingleSelectionProps | ToggleGroupMultipleSelectionProps);
