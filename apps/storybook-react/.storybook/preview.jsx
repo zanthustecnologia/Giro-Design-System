@@ -1,6 +1,5 @@
 import { Theme } from '@radix-ui/themes';
-import '../../../packages/tokens/build/css/tokens.css';
-import '../../../packages/tokens/build/css/index.css';
+import '../../../packages/tokens/build/css/giro-tokens.css';
 import '../../../packages/tokens/build/css/themes/dark.css';
 import '../../../packages/react/dist/styles.css';
 import '../src/styles/globals.scss';
