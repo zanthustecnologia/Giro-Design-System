@@ -1,5 +1,6 @@
 import { Add16Regular, Tag16Regular, Info16Regular, Filter16Regular, TextBold16Regular } from '@fluentui/react-icons';
 import { ToggleButton } from '@giro-ds/react';
+import { useArgs } from 'storybook/preview-api';
 import { useState } from 'react';
 
 import type { ToggleButtonProps } from '@giro-ds/react';
@@ -78,7 +79,7 @@ const meta: Meta<typeof ToggleButton> = {
       },
     },
     items: {
-      control: false,
+      control: { type: 'object' },
       description: 'Items do grupo de toggles (modo `combined`)',
       if: { arg: 'mode', eq: 'combined' },
       table: {
@@ -86,7 +87,7 @@ const meta: Meta<typeof ToggleButton> = {
       },
     },
     value: {
-      control: false,
+      control: { type: 'object' },
       description: 'Valor(es) selecionado(s) controlado(s) (modo `combined`)',
       if: { arg: 'mode', eq: 'combined' },
       table: {
@@ -94,7 +95,7 @@ const meta: Meta<typeof ToggleButton> = {
       },
     },
     defaultValue: {
-      control: false,
+      control: { type: 'object' },
       description: 'Valor(es) selecionado(s) padrão não controlado(s) (modo `combined`)',
       if: { arg: 'mode', eq: 'combined' },
       table: {
@@ -207,11 +208,22 @@ const iconOnlyItems = [
 /** Toggle único (mode='simple', padrão) */
 export const Default: Story = {
   argTypes: {
-    selectionType: { table: { disable: true } },
-    onValueChange: { table: { disable: true } },
+    id: { table: { disable: true } },
+    style: { table: { disable: true } },
   },
   render: (args: ToggleButtonProps) => {
+    const [, updateArgs] = useArgs();
     const [pressed, setPressed] = useState(false);
+
+    if (args.mode === 'combined') {
+      return (
+        <ToggleButton
+          {...args}
+          onValueChange={(v) => updateArgs({ value: v })}
+        />
+      );
+    }
+
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'flex-start' }}>
         <ToggleButton {...args} pressed={pressed} onPressedChange={setPressed} />
@@ -224,6 +236,8 @@ export const Default: Story = {
     scale: 1,
     disabled: false,
     label: 'Exemplo',
+    selectionType: 'single',
+    items: alignmentItems,
   },
 };
 
