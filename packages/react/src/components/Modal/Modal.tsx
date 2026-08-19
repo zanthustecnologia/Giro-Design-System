@@ -54,12 +54,14 @@ const Modal: React.FC<ModalProps> = ({
           tabIndex={-1}
         >
           <header className={styles.modalHeader}>
-            <Dialog.Title
-              className={styles.modalTitle}
-              id={id ? `${id}-title` : 'modal-title'}
-            >
-              {title}
-            </Dialog.Title>
+            {title && (
+              <Dialog.Title
+                className={styles.modalTitle}
+                id={id ? `${id}-title` : 'modal-title'}
+              >
+                {title}
+              </Dialog.Title>
+            )}
             {headerContent && (
               <div>{headerContent}</div>
             )}
