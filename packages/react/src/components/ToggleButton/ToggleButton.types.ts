@@ -8,9 +8,6 @@ export type ToggleButtonMode = 'simple' | 'combined';
 /** Tipo de seleção do grupo: 'single' (um item) ou 'multiple' (múltiplos itens) */
 export type ToggleGroupType = 'single' | 'multiple';
 
-/** Orientação do grupo de toggles */
-export type ToggleButtonOrientation = 'horizontal' | 'vertical';
-
 interface BaseTooltipConfig {
   tooltipSide?: 'top' | 'bottom' | 'left' | 'right';
   tooltipAlign?: 'start' | 'center' | 'end';
