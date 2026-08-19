@@ -1,11 +1,15 @@
 import { z } from 'zod';
 import { readFileSync, existsSync } from 'fs';
-import { resolve, extname, basename } from 'path';
+import { resolve, extname, basename, relative, isAbsolute } from 'path';
 import type { ToolResult } from '../types.js';
 import { COMPONENTS, COMPONENT_NAMES } from '../data/react/components.js';
 import { TOKENS } from '../data/react/tokens.js';
 import { DEPRECATED_PROPS } from '../data/react/migration.js';
 import type { PropDeprecation } from '../data/migration.js';
+import { findJsxUsages } from '../lib/jsxAnalyzer.js';
+import { detectHardcodedCssValues } from '../lib/cssAudit.js';
+
+const IGNORED_PROP_NAMES = new Set(['className', 'style', 'ref', 'key', 'id']);
 
 // ── Schemas ──────────────────────────────────────────────────────────────────
 
@@ -29,8 +33,10 @@ export async function handleReviewUsage({
   const issues: string[] = [];
   const suggestions: string[] = [];
 
+  const componentNames = new Set(COMPONENTS.map((c) => c.name));
+  const usages = findJsxUsages(code, componentNames);
   const usedComponents = COMPONENTS.filter((c) =>
-    new RegExp(`<${c.name}[\\s/>]`).test(code),
+    usages.some((u) => u.component === c.name),
   );
 
   if (usedComponents.length === 0) {
@@ -47,22 +53,14 @@ export async function handleReviewUsage({
   for (const c of usedComponents) {
     const knownPropNames = new Set(c.props.map((p) => p.name));
     const requiredProps = c.props.filter((p) => p.required);
+    const componentUsages = usages.filter((u) => u.component === c.name);
 
-    const componentRegex = new RegExp(`<${c.name}([^>]*)`, 'g');
-    const componentMatches = [...code.matchAll(componentRegex)];
+    for (const usage of componentUsages) {
+      // Spread props ({...rest}) may supply any prop, so we can't safely flag unknown/missing props here.
+      if (usage.hasSpread) continue;
 
-    for (const match of componentMatches) {
-      const propsStr = match[1] ?? '';
-
-      const usedPropNames = [...propsStr.matchAll(/(\w+)=/g)].map((m) => m[1]);
-      for (const propName of usedPropNames) {
-        if (
-          !knownPropNames.has(propName) &&
-          propName !== 'className' &&
-          propName !== 'style' &&
-          propName !== 'ref' &&
-          propName !== 'key'
-        ) {
+      for (const propName of usage.propNames) {
+        if (!knownPropNames.has(propName) && !IGNORED_PROP_NAMES.has(propName)) {
           issues.push(
             `❌ \`<${c.name}>\`: prop \`${propName}\` is not in the component API. Known props: ${[...knownPropNames].join(', ')}`,
           );
@@ -70,7 +68,7 @@ export async function handleReviewUsage({
       }
 
       for (const req of requiredProps) {
-        if (!propsStr.includes(req.name)) {
+        if (!usage.propNames.includes(req.name)) {
           issues.push(
             `⚠️ \`<${c.name}>\`: required prop \`${req.name}\` (${req.type}) appears to be missing.`,
           );
@@ -109,60 +107,22 @@ export async function handleReviewUsage({
 }
 
 export async function handleReviewCss({ code }: { code: string }): Promise<ToolResult> {
-  const issues: string[] = [];
+  const cssIssues = detectHardcodedCssValues(code, TOKENS);
 
-  const valueToToken = new Map<string, string>();
-  for (const token of TOKENS) {
-    valueToToken.set(token.value.toLowerCase(), token.name);
-  }
-
-  const patterns: Array<{ regex: RegExp; label: string }> = [
-    { regex: /#([0-9a-fA-F]{3,8})\b/g, label: 'color' },
-    { regex: /:\s*(rgb|rgba|hsl|hsla)\([^)]+\)/g, label: 'color' },
-    { regex: /:\s*(\d+(?:\.\d+)?px)\b/g, label: 'px value' },
-    { regex: /:\s*(\d+(?:\.\d+)?rem)\b/g, label: 'rem value' },
-  ];
-
-  for (const { regex, label } of patterns) {
-    const matches = [...code.matchAll(regex)];
-    for (const match of matches) {
-      const raw = match[0].replace(/:\s*/, '').trim();
-      const normalized = raw.toLowerCase();
-
-      const exactToken = valueToToken.get(normalized);
-      if (exactToken) {
-        issues.push(`🔄 \`${raw}\` → use \`var(${exactToken})\``);
-        continue;
-      }
-
-      if (label === 'color') {
-        const colorTokens = TOKENS.filter((t) => t.category.startsWith('color')).slice(0, 3);
-        const suggestions = colorTokens.map((t) => `\`var(${t.name})\``).join(', ');
-        issues.push(
-          `⚠️ Hardcoded ${label} \`${raw}\` — no exact token match. Nearest color tokens: ${suggestions}`,
-        );
-      } else if (label === 'px value' || label === 'rem value') {
-        const px = parseFloat(raw);
-        const spacingTokens = TOKENS.filter(
-          (t) => t.category === 'spacing' && Math.abs(parseFloat(t.value) - px) <= 4,
-        );
-        const radiusTokens = TOKENS.filter(
-          (t) =>
-            t.category === 'border-radius' && Math.abs(parseFloat(t.value) - px) <= 4,
-        );
-        const candidates = [...spacingTokens, ...radiusTokens].map(
-          (t) => `\`var(${t.name})\` (${t.value})`,
-        );
-        if (candidates.length) {
-          issues.push(`⚠️ Hardcoded \`${raw}\` — consider: ${candidates.join(', ')}`);
-        } else {
-          issues.push(
-            `⚠️ Hardcoded \`${raw}\` — no close spacing/radius token found. Check \`--spacing-*\` and \`--border-radius-*\``,
-          );
-        }
-      }
+  const issues = cssIssues.map((issue) => {
+    if (issue.kind === 'exact-token') {
+      return `🔄 \`${issue.raw}\` → use \`var(${issue.exactToken})\``;
     }
-  }
+    if (issue.kind === 'color-no-match') {
+      const suggestions = issue.candidates.map((t) => `\`var(${t.name})\``).join(', ');
+      return `⚠️ Hardcoded color \`${issue.raw}\` — no exact token match. Nearest color tokens: ${suggestions}`;
+    }
+    if (issue.candidates.length) {
+      const candidates = issue.candidates.map((t) => `\`var(${t.name})\` (${t.value})`).join(', ');
+      return `⚠️ Hardcoded \`${issue.raw}\` — consider: ${candidates}`;
+    }
+    return `⚠️ Hardcoded \`${issue.raw}\` — no close spacing/radius token found. Check \`--spacing-*\` and \`--border-radius-*\``;
+  });
 
   if (issues.length === 0) {
     return {
@@ -233,40 +193,24 @@ function applyAutoFixes(
   return { fixed, appliedFixes };
 }
 
-/** Collect CSS issues from source code (reuses the same detection logic as review-giro-css). */
+/** Collect CSS issues from source code in Portuguese (reuses the same detection logic as review-giro-css). */
 function collectCssIssues(code: string): string[] {
-  const issues: string[] = [];
-  const valueToToken = new Map<string, string>();
-  for (const token of TOKENS) valueToToken.set(token.value.toLowerCase(), token.name);
-
-  const hexMatches = [...code.matchAll(/#([0-9a-fA-F]{3,8})\b/g)];
-  for (const match of hexMatches) {
-    const raw = match[0];
-    const token = valueToToken.get(raw.toLowerCase());
-    if (token) {
-      issues.push(`🔄 \`${raw}\` tem token exato: \`var(${token})\``);
-    } else {
-      const nearby = TOKENS.filter((t) => t.category.startsWith('color')).slice(0, 2);
-      issues.push(`⚠️ Cor hardcoded \`${raw}\` sem token exato. Verifique: ${nearby.map((t) => `\`var(${t.name})\``).join(', ')}`);
-    }
-  }
-
-  const pxMatches = [...code.matchAll(/:\s*(\d+(?:\.\d+)?px)\b/g)];
-  for (const match of pxMatches) {
-    const raw = match[1];
-    const token = valueToToken.get(raw.toLowerCase());
-    if (token) {
-      issues.push(`🔄 \`${raw}\` tem token exato: \`var(${token})\``);
-    } else {
-      const px = parseFloat(raw);
-      const nearby = TOKENS.filter(
-        (t) => (t.category === 'spacing' || t.category === 'border-radius') && Math.abs(parseFloat(t.value) - px) <= 4,
-      ).slice(0, 2);
-      if (nearby.length) issues.push(`⚠️ Valor hardcoded \`${raw}\`. Próximos tokens: ${nearby.map((t) => `\`var(${t.name})\` (${t.value})`).join(', ')}`);
-    }
-  }
-
-  return issues;
+  return detectHardcodedCssValues(code, TOKENS)
+    .map((issue) => {
+      if (issue.kind === 'exact-token') {
+        return `🔄 \`${issue.raw}\` tem token exato: \`var(${issue.exactToken})\``;
+      }
+      if (issue.kind === 'color-no-match') {
+        const nearby = issue.candidates.slice(0, 2).map((t) => `\`var(${t.name})\``).join(', ');
+        return `⚠️ Cor hardcoded \`${issue.raw}\` sem token exato. Verifique: ${nearby}`;
+      }
+      if (issue.candidates.length) {
+        const nearby = issue.candidates.slice(0, 2).map((t) => `\`var(${t.name})\` (${t.value})`).join(', ');
+        return `⚠️ Valor hardcoded \`${issue.raw}\`. Próximos tokens: ${nearby}`;
+      }
+      return null;
+    })
+    .filter((line): line is string => line !== null);
 }
 
 export async function handleReviewFile({
@@ -274,8 +218,23 @@ export async function handleReviewFile({
 }: {
   filePath: string;
 }): Promise<ToolResult> {
-  // Resolve path relative to cwd
-  const absPath = resolve(process.cwd(), filePath);
+  // Resolve path relative to cwd, then ensure it didn't escape the project root (path traversal guard)
+  const projectRoot = process.cwd();
+  const absPath = resolve(projectRoot, filePath);
+  const relativePath = relative(projectRoot, absPath);
+  const isInsideRoot =
+    relativePath === '' || (!relativePath.startsWith('..') && !isAbsolute(relativePath));
+
+  if (!isInsideRoot) {
+    return {
+      content: [
+        {
+          type: 'text',
+          text: `Caminho fora do diretório do projeto não é permitido: \`${filePath}\``,
+        },
+      ],
+    };
+  }
 
   if (!existsSync(absPath)) {
     return {
@@ -299,27 +258,26 @@ export async function handleReviewFile({
   // 2. Detect component usage issues on the FIXED code so already-corrected props aren't re-reported
   const codeToAnalyze = fixedCode;
   const usageIssues: string[] = [];
-  const usedComponents = COMPONENTS.filter((c) =>
-    new RegExp(`<${c.name}[\\s/>]`).test(codeToAnalyze),
-  );
+  const componentNames = new Set(COMPONENTS.map((c) => c.name));
+  const usages = findJsxUsages(codeToAnalyze, componentNames);
+  const usedComponents = COMPONENTS.filter((c) => usages.some((u) => u.component === c.name));
 
   for (const c of usedComponents) {
     const knownProps = new Set(c.props.map((p) => p.name));
     const requiredProps = c.props.filter((p) => p.required);
-    const matches = [...codeToAnalyze.matchAll(new RegExp(`<${c.name}([^>]*)`, 'g'))];
+    const componentUsages = usages.filter((u) => u.component === c.name);
 
-    for (const match of matches) {
-      const propsStr = match[1] ?? '';
-      const usedPropNames = [...propsStr.matchAll(/(\w+)=/g)].map((m) => m[1]);
+    for (const usage of componentUsages) {
+      if (usage.hasSpread) continue;
 
-      for (const propName of usedPropNames) {
-        if (!knownProps.has(propName) && !['className', 'style', 'ref', 'key', 'id'].includes(propName)) {
+      for (const propName of usage.propNames) {
+        if (!knownProps.has(propName) && !IGNORED_PROP_NAMES.has(propName)) {
           usageIssues.push(`❌ \`<${c.name}>\`: prop \`${propName}\` não existe na API`);
         }
       }
 
       for (const req of requiredProps) {
-        if (!propsStr.includes(req.name)) {
+        if (!usage.propNames.includes(req.name)) {
           usageIssues.push(`⚠️ \`<${c.name}>\`: prop obrigatória \`${req.name}\` (${req.type}) parece ausente`);
         }
       }

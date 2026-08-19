@@ -27,7 +27,7 @@ O servidor roda como um processo Node.js via stdio e é declarado no `.vscode/mc
 ```text
 packages/mcp/
   src/
-    index.ts              ← Entrypoint thin: só registra as 12 tools
+    index.ts              ← Entrypoint thin: só registra as 13 tools
     types.ts              ← Contratos internos: ComponentProp, ComponentMetadata,
                             DesignToken, ToolResult
     postinstall.ts        ← Cria .vscode/mcp.json no projeto consumidor
@@ -39,7 +39,7 @@ packages/mcp/
       components.ts       ← Handlers: list-giro-components, get-giro-component-metadata,
                             get-giro-component-examples, find-giro-component
       tokens.ts           ← Handlers: list-giro-tokens, resolve-giro-token
-      review.ts           ← Handlers: review-giro-usage, review-giro-css
+      review.ts           ← Handlers: review-giro-usage, review-giro-css, review-giro-file
       generation.ts       ← Handler: generate-giro-component
       system.ts           ← Handlers: giro-migration-guide, get-giro-changelog,
                             get-giro-system-prompt
@@ -96,7 +96,7 @@ dist/index.js (executável publicado no npm)
 
 ---
 
-## As 12 tools expostas
+## As 13 tools expostas
 
 | Tool | Arquivo handler | Descrição |
 | ------ | ---------------- | ----------- |
@@ -108,6 +108,7 @@ dist/index.js (executável publicado no npm)
 | `resolve-giro-token` | `tools/tokens.ts` | Encontra o token ideal para uma intenção |
 | `review-giro-usage` | `tools/review.ts` | Diagnostica props erradas em JSX/TSX |
 | `review-giro-css` | `tools/review.ts` | Audita valores hardcoded no CSS |
+| `review-giro-file` | `tools/review.ts` | Lê um arquivo do disco, aplica auto-fix de props depreciadas e reporta o que resta |
 | `generate-giro-component` | `tools/generation.ts` | Gera snippets JSX a partir de descrição |
 | `giro-migration-guide` | `tools/system.ts` | Guia v2→v3→v4 |
 | `get-giro-changelog` | `tools/system.ts` | Lista props depreciadas |
@@ -313,6 +314,6 @@ Começar com 5 recipes dos padrões mais usados. Expandir conforme demanda real 
 ## O que não mudar
 
 - O `index.ts` deve continuar sendo o único entrypoint do servidor MCP
-- Os nomes das 12 tools são estáveis — mudar nomes quebra integrações existentes
+- Os nomes das 13 tools são estáveis — mudar nomes quebra integrações existentes
 - O `postinstall.ts` não é tocado (cria `.vscode/mcp.json` no projeto consumidor)
 - O `tsconfig.json` usa `rootDir: src` — scripts em `scripts/` são executados com `tsx`, não compilados pelo `tsc`

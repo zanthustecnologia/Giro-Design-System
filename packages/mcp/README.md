@@ -14,6 +14,7 @@ Model Context Protocol (MCP) server for Giro Design System — enables AI tools 
 | `find-giro-component` | Semantic search for components by description in PT-BR or EN |
 | `review-giro-usage` | Analyzes a JSX/TSX snippet for invalid props, missing required props and outdated patterns |
 | `review-giro-css` | Audits CSS/SCSS or inline `style={{}}` for hardcoded values that should be tokens |
+| `review-giro-file` | Reads a file from disk, auto-fixes safe deprecated-prop renames and reports remaining usage/CSS issues |
 | `resolve-giro-token` | Returns the most suitable tokens for a design intent (e.g. `"error color"`, `"large spacing"`) |
 | `generate-giro-component` | Generates a ready-to-use JSX/TSX snippet from a description in PT-BR or EN |
 | `get-giro-system-prompt` | Returns a system prompt that makes any AI aware of Giro DS |
@@ -139,6 +140,12 @@ review-giro-usage code="<Button variant='ghost' size='xl'>Save</Button>"
 
 ```text
 review-giro-css code="color: #3b45f2; padding: 16px;"
+```
+
+### Review and auto-fix a file on disk
+
+```text
+review-giro-file filePath="src/components/LoginForm.tsx"
 ```
 
 ### Generate a component from a description
