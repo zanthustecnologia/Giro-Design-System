@@ -2,13 +2,15 @@ import { Search16Regular, Dismiss16Regular } from '@fluentui/react-icons';
 import clsx from 'clsx';
 import React, { useState, useId } from 'react';
 
+import { forwardRef } from '../../utils/forwardRef';
+
 import useInputKeyboardValue from '../../hooks/useInputKeyboardValue';
 import VirtualKeyboard from '../VirtualKeyboard';
 import styles from './Search.module.scss';
 
 import type { SearchProps } from './Search.types';
 
-const Search = React.forwardRef<HTMLInputElement, SearchProps>((
+const Search = forwardRef<HTMLInputElement, SearchProps>((
   {
     placeholder = 'Dica do que deve ser buscado',
     disabled = false,

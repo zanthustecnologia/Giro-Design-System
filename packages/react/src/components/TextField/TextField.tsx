@@ -1,6 +1,8 @@
 import { Dismiss16Regular } from '@fluentui/react-icons';
 import clsx from 'clsx';
-import React, { useState, useCallback, useId, forwardRef, useEffect } from 'react';
+import React, { useState, useCallback, useId, useEffect } from 'react';
+
+import { forwardRef } from '../../utils/forwardRef';
 
 import useInputKeyboardValue from '../../hooks/useInputKeyboardValue';
 import VirtualKeyboard from '../VirtualKeyboard';

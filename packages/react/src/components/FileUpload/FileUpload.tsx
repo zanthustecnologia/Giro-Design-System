@@ -6,13 +6,14 @@ import {
 } from '@fluentui/react-icons';
 import clsx from 'clsx';
 import React, {
-  forwardRef,
   useCallback,
   useEffect,
   useId,
   useRef,
   useState,
 } from 'react';
+
+import { forwardRef } from '../../utils/forwardRef';
 
 import styles from './FileUpload.module.scss';
 
