@@ -89,12 +89,14 @@
 .item-lg {
   height: scale(var(--toggle-button-lg-height));
   padding: 0 scale(var(--toggle-button-padding-inline));
+  min-width: scale(var(--toggle-button-lg-height));
 }
 
 .toggle-sm,
 .item-sm {
   height: scale(var(--toggle-button-sm-height));
   padding: 0 scale(var(--toggle-button-padding-inline));
+  min-width: scale(var(--toggle-button-sm-height));
 }
 
 .toggleIconLeft {
