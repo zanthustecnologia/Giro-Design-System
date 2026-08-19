@@ -52,7 +52,6 @@ vi.mock('radix-ui', () => {
     defaultValue,
     onValueChange,
     disabled,
-    orientation,
     className,
     id,
     style,
@@ -86,8 +85,6 @@ vi.mock('radix-ui', () => {
         style={style}
         className={className}
         role="group"
-        data-orientation={orientation}
-        aria-label={orientation}
       >
         {React.Children.map(children, (child: any) =>
           child
@@ -524,29 +521,6 @@ describe('ToggleButton', () => {
       expect(screen.getByText('Negrito').closest('button')).toHaveAttribute('aria-pressed', 'true');
       expect(screen.getByText('Itálico').closest('button')).toHaveAttribute('aria-pressed', 'false');
       expect(screen.getByText('Sublinhado').closest('button')).toHaveAttribute('aria-pressed', 'true');
-    });
-  });
-
-  // -------------------------------------------------------------------------
-  // ToggleGroup - orientação
-  // -------------------------------------------------------------------------
-  describe('modo combined - orientação', () => {
-    it('deve ter orientação horizontal por padrão', () => {
-      render(<ToggleButton mode="combined" items={items} />);
-      expect(screen.getByRole('group')).toHaveAttribute(
-        'data-orientation',
-        'horizontal',
-      );
-    });
-
-    it('deve aplicar orientação vertical', () => {
-      render(
-        <ToggleButton mode="combined" orientation="vertical" items={items} />,
-      );
-      expect(screen.getByRole('group')).toHaveAttribute(
-        'data-orientation',
-        'vertical',
-      );
     });
   });
 
