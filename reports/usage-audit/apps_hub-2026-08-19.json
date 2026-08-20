@@ -1,0 +1,13 @@
+{
+  "target": "apps/hub",
+  "collectedAt": "2026-08-19T19:40:44.494Z",
+  "filesImportingDs": 0,
+  "componentUsage": [],
+  "tokenAudit": {
+    "tokenVarUsages": 225,
+    "hardcodedHexColors": 27,
+    "hardcodedPxValues": 72,
+    "filesScanned": 6,
+    "tokenAdoptionRatio": 0.6944444444444444
+  }
+}

@@ -24,7 +24,11 @@
     "changeset": "changeset",
     "changeset:version": "changeset version && pnpm --filter @giro-ds/version generate",
     "changeset:publish": "changeset publish --provenance --tag latest",
-    "release": "pnpm run changeset:version && pnpm run build && pnpm run changeset:publish"
+    "release": "pnpm run changeset:version && pnpm run build && pnpm run changeset:publish",
+    "stats:packages": "node scripts/package-stats.mjs",
+    "stats:usage": "node scripts/audit-usage.mjs",
+    "stats:mcp": "node scripts/usage-report.mjs",
+    "stats:dashboard": "node scripts/metrics-dashboard.mjs"
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.6",

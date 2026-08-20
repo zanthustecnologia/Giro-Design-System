@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Giro DS — Dashboard de métricas</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+<style>
+  body { font-family: system-ui, sans-serif; margin: 2rem; background: #0f1115; color: #e6e6e6; }
+  h1 { font-size: 1.4rem; }
+  h2 { font-size: 1.1rem; margin-top: 2.5rem; color: #9fb4ff; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); gap: 2rem; }
+  .card { background: #1a1d24; border-radius: 12px; padding: 1.25rem; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+  th, td { text-align: left; padding: 0.4rem 0.6rem; border-bottom: 1px solid #2c303a; }
+  small { color: #8a8f9c; }
+</style>
+</head>
+<body>
+<h1>Giro DS — Dashboard de métricas</h1>
+<small>Gerado em 2026-08-19T20:38:45.238Z</small>
+
+<h2>Downloads npm (último mês)</h2>
+<div class="card"><canvas id="npmChart"></canvas></div>
+
+<h2>Score pub.dev (likes)</h2>
+<div class="card"><canvas id="pubChart"></canvas></div>
+
+<h2>Adoção de tokens por app (snapshot mais recente)</h2>
+<div class="grid">
+  <div class="card"><canvas id="tokenChart"></canvas></div>
+  <div class="card">
+    <table>
+      <thead><tr><th>Target</th><th>Token vars</th><th>Hex hardcoded</th><th>Px hardcoded</th><th>Adoção</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>apps/hub</td>
+          <td>225</td>
+          <td>27</td>
+          <td>72</td>
+          <td>69.4%</td>
+        </tr>
+<tr>
+          <td>apps/theme-playground</td>
+          <td>34</td>
+          <td>0</td>
+          <td>65</td>
+          <td>34.3%</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<h2>Uso de componentes @giro-ds/react por app</h2>
+<table>
+  <thead><tr><th>Target</th><th>Componente</th><th>Arquivos</th><th>Ocorrências</th></tr></thead>
+  <tbody>
+    <tr><td>apps/theme-playground</td><td>Button</td><td>1</td><td>9</td></tr>
+  </tbody>
+</table>
+
+<script>
+const labels = ["2026-08-19"];
+const npmSeries = [{"name":"@giro-ds/react","data":[768]},{"name":"@giro-ds/tokens","data":[498]},{"name":"@giro-ds/mcp","data":[260]}];
+const pubSeries = [{"name":"flutter_giro","data":[1]}];
+const usageLatest = [{"target":"apps/hub","collectedAt":"2026-08-19T19:40:44.494Z","filesImportingDs":0,"componentUsage":[],"tokenAudit":{"tokenVarUsages":225,"hardcodedHexColors":27,"hardcodedPxValues":72,"filesScanned":6,"tokenAdoptionRatio":0.6944444444444444}},{"target":"apps/theme-playground","collectedAt":"2026-08-19T19:41:03.094Z","filesImportingDs":1,"componentUsage":[{"componente":"Button","arquivos":1,"ocorrencias":9}],"tokenAudit":{"tokenVarUsages":34,"hardcodedHexColors":0,"hardcodedPxValues":65,"filesScanned":1,"tokenAdoptionRatio":0.3434343434343434}}];
+const palette = ['#7c9dff', '#ff9f7c', '#7cffb0', '#e07cff', '#ffe27c'];
+
+new Chart(document.getElementById('npmChart'), {
+  type: 'line',
+  data: { labels, datasets: npmSeries.map((s, i) => ({ label: s.name, data: s.data, borderColor: palette[i % palette.length], tension: 0.25 })) },
+  options: { responsive: true, plugins: { legend: { labels: { color: '#e6e6e6' } } }, scales: { x: { ticks: { color: '#9aa' } }, y: { ticks: { color: '#9aa' } } } },
+});
+
+new Chart(document.getElementById('pubChart'), {
+  type: 'line',
+  data: { labels, datasets: pubSeries.map((s, i) => ({ label: s.name, data: s.data, borderColor: palette[i % palette.length], tension: 0.25 })) },
+  options: { responsive: true, plugins: { legend: { labels: { color: '#e6e6e6' } } }, scales: { x: { ticks: { color: '#9aa' } }, y: { ticks: { color: '#9aa' } } } },
+});
+
+new Chart(document.getElementById('tokenChart'), {
+  type: 'bar',
+  data: {
+    labels: usageLatest.map((u) => u.target),
+    datasets: [{ label: 'Adoção de tokens (%)', data: usageLatest.map((u) => +(u.tokenAudit.tokenAdoptionRatio * 100).toFixed(1)), backgroundColor: '#7c9dff' }],
+  },
+  options: { responsive: true, plugins: { legend: { labels: { color: '#e6e6e6' } } }, scales: { x: { ticks: { color: '#9aa' } }, y: { ticks: { color: '#9aa' }, beginAtZero: true, max: 100 } } },
+});
+</script>
+</body>
+</html>

@@ -6,7 +6,10 @@
       "args": [
         "-y",
         "@giro-ds/mcp"
-      ]
+      ],
+      "env": {
+        "GIRO_MCP_TELEMETRY": "1"
+      }
     }
   }
 }

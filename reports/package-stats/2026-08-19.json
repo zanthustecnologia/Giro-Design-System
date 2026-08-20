@@ -1,0 +1,37 @@
+{
+  "collectedAt": "2026-08-19T20:07:26.243Z",
+  "results": [
+    {
+      "name": "@giro-ds/react",
+      "registry": "npm",
+      "downloadsLastMonth": 768,
+      "downloadsLastWeek": 244,
+      "latestVersion": "12.1.1",
+      "totalVersionsPublished": 32
+    },
+    {
+      "name": "@giro-ds/tokens",
+      "registry": "npm",
+      "downloadsLastMonth": 498,
+      "downloadsLastWeek": 154,
+      "latestVersion": "2.0.0",
+      "totalVersionsPublished": 5
+    },
+    {
+      "name": "@giro-ds/mcp",
+      "registry": "npm",
+      "downloadsLastMonth": 260,
+      "downloadsLastWeek": 16,
+      "latestVersion": "1.2.0",
+      "totalVersionsPublished": 3
+    },
+    {
+      "name": "flutter_giro",
+      "registry": "pub.dev",
+      "published": true,
+      "likeCount": 1,
+      "grantedPoints": 130,
+      "maxPoints": 160
+    }
+  ]
+}

@@ -172,6 +172,28 @@ giro-migration-guide
 get-giro-changelog component="Dialog"
 ```
 
+## Usage telemetry (opt-in)
+
+The server can log which tools are called locally, to help the design system
+team understand adoption. It is **disabled by default** — nothing is recorded
+or sent anywhere unless you opt in:
+
+```bash
+# writes one JSON line per tool call to ~/.giro-ds/mcp-usage.jsonl
+GIRO_MCP_TELEMETRY=1 npx @giro-ds/mcp
+
+# or choose a custom log path
+GIRO_MCP_USAGE_LOG=/path/to/log.jsonl npx @giro-ds/mcp
+```
+
+Each log line only contains the tool name, timestamp, duration and
+success/failure — never tool arguments or results (no code snippets are
+recorded). To view an aggregated summary:
+
+```bash
+node scripts/usage-report.mjs [caminho-do-log]
+```
+
 ## Development
 
 ### Generate component metadata

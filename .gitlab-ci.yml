@@ -1,0 +1,38 @@
+# Job agendado para acompanhar a adoção do Giro DS ao longo do tempo.
+# Requer um "Pipeline Schedule" configurado em Settings > CI/CD > Schedules
+# (ex: cron "0 6 * * 1" para toda segunda às 6h) apontando para a branch main.
+stages:
+  - metrics
+
+design-system-metrics:
+  stage: metrics
+  image: node:20
+  rules:
+    # só roda via pipeline agendado, nunca em push/MR normal
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+  before_script:
+    - corepack enable
+    - corepack prepare pnpm@9.15.3 --activate
+    - pnpm install --frozen-lockfile
+  script:
+    - pnpm stats:packages
+    - pnpm stats:usage -- apps/hub
+    - pnpm stats:usage -- apps/storybook-react
+    - pnpm stats:usage -- apps/theme-playground
+    - |
+      if [ -n "$(git status --porcelain reports/)" ]; then
+        git config user.email "ci-metrics@giro-ds.local"
+        git config user.name "Giro DS Metrics Bot"
+        git add reports/
+        git commit -m "chore(metrics): snapshot semanal de uso do design system [skip ci]"
+        # requer variável CI/CD METRICS_PUSH_TOKEN (project/personal access token
+        # com escopo write_repository) — o CI_JOB_TOKEN padrão não tem permissão de push.
+        git remote set-url origin "https://gitlab-ci-token:${METRICS_PUSH_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git"
+        git push origin "HEAD:${CI_COMMIT_REF_NAME}"
+      else
+        echo "Nenhuma mudança nos relatórios desta semana."
+      fi
+  artifacts:
+    paths:
+      - reports/
+    expire_in: 90 days

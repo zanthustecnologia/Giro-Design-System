@@ -1,0 +1,19 @@
+{
+  "target": "apps/theme-playground",
+  "collectedAt": "2026-08-19T19:41:03.094Z",
+  "filesImportingDs": 1,
+  "componentUsage": [
+    {
+      "componente": "Button",
+      "arquivos": 1,
+      "ocorrencias": 9
+    }
+  ],
+  "tokenAudit": {
+    "tokenVarUsages": 34,
+    "hardcodedHexColors": 0,
+    "hardcodedPxValues": 65,
+    "filesScanned": 1,
+    "tokenAdoptionRatio": 0.3434343434343434
+  }
+}

@@ -7,13 +7,12 @@
     })
     return str
   }
-  export type Maybe<T> = T | null;
-export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
+  /** Internal type. DO NOT USE DIRECTLY. */
+type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+/** Internal type. DO NOT USE DIRECTLY. */
 export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
+export type Maybe<T> = T | null;
+export type InputMaybe<T> = Maybe<T>;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: { input: string; output: string; }
@@ -316,26 +315,71 @@ export type BlogMutation = {
   body?: InputMaybe<Scalars['JSON']['input']>;
 };
 
-export type BlogPartsFragment = { __typename: 'Blog', title: string, description: string, pubDate: string, author?: string | null, tags?: Array<string | null> | null, cover?: string | null, coverAlt?: string | null, draft?: boolean | null, body?: any | null };
+export type StringFilter = {
+  startsWith?: string | null | undefined;
+  eq?: string | null | undefined;
+  exists?: boolean | null | undefined;
+  in?: Array<string | null | undefined> | null | undefined;
+};
+
+export type DatetimeFilter = {
+  after?: string | null | undefined;
+  before?: string | null | undefined;
+  eq?: string | null | undefined;
+  exists?: boolean | null | undefined;
+  in?: Array<string | null | undefined> | null | undefined;
+};
+
+export type ImageFilter = {
+  startsWith?: string | null | undefined;
+  eq?: string | null | undefined;
+  exists?: boolean | null | undefined;
+  in?: Array<string | null | undefined> | null | undefined;
+};
+
+export type BooleanFilter = {
+  eq?: boolean | null | undefined;
+  exists?: boolean | null | undefined;
+};
+
+export type RichTextFilter = {
+  startsWith?: string | null | undefined;
+  eq?: string | null | undefined;
+  exists?: boolean | null | undefined;
+};
+
+export type BlogFilter = {
+  title?: StringFilter | null | undefined;
+  description?: StringFilter | null | undefined;
+  pubDate?: DatetimeFilter | null | undefined;
+  author?: StringFilter | null | undefined;
+  tags?: StringFilter | null | undefined;
+  cover?: ImageFilter | null | undefined;
+  coverAlt?: StringFilter | null | undefined;
+  draft?: BooleanFilter | null | undefined;
+  body?: RichTextFilter | null | undefined;
+};
+
+export type BlogPartsFragment = { __typename: 'Blog', title: string, description: string, pubDate: string, author: string | null, tags: Array<string | null> | null, cover: string | null, coverAlt: string | null, draft: boolean | null, body: any };
 
 export type BlogQueryVariables = Exact<{
-  relativePath: Scalars['String']['input'];
+  relativePath: string;
 }>;
 
 
-export type BlogQuery = { __typename?: 'Query', blog: { __typename: 'Blog', id: string, title: string, description: string, pubDate: string, author?: string | null, tags?: Array<string | null> | null, cover?: string | null, coverAlt?: string | null, draft?: boolean | null, body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } };
+export type BlogQuery = { blog: { __typename: 'Blog', id: string, title: string, description: string, pubDate: string, author: string | null, tags: Array<string | null> | null, cover: string | null, coverAlt: string | null, draft: boolean | null, body: any, _sys: { filename: string, basename: string, hasReferences: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } };
 
 export type BlogConnectionQueryVariables = Exact<{
-  before?: InputMaybe<Scalars['String']['input']>;
-  after?: InputMaybe<Scalars['String']['input']>;
-  first?: InputMaybe<Scalars['Float']['input']>;
-  last?: InputMaybe<Scalars['Float']['input']>;
-  sort?: InputMaybe<Scalars['String']['input']>;
-  filter?: InputMaybe<BlogFilter>;
+  before?: string | null | undefined;
+  after?: string | null | undefined;
+  first?: number | null | undefined;
+  last?: number | null | undefined;
+  sort?: string | null | undefined;
+  filter?: BlogFilter | null | undefined;
 }>;
 
 
-export type BlogConnectionQuery = { __typename?: 'Query', blogConnection: { __typename?: 'BlogConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'BlogConnectionEdges', cursor: string, node?: { __typename: 'Blog', id: string, title: string, description: string, pubDate: string, author?: string | null, tags?: Array<string | null> | null, cover?: string | null, coverAlt?: string | null, draft?: boolean | null, body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null } | null> | null } };
+export type BlogConnectionQuery = { blogConnection: { totalCount: number, pageInfo: { hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges: Array<{ cursor: string, node: { __typename: 'Blog', id: string, title: string, description: string, pubDate: string, author: string | null, tags: Array<string | null> | null, cover: string | null, coverAlt: string | null, draft: boolean | null, body: any, _sys: { filename: string, basename: string, hasReferences: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null } | null> | null } };
 
 export const BlogPartsFragmentDoc = gql`
     fragment BlogParts on Blog {
@@ -476,5 +520,7 @@ export const queries = (
   const requester = generateRequester(client)
   return getSdk(requester)
 }
+
+export type { Exact };
 
   
