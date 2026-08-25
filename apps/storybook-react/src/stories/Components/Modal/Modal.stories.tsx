@@ -15,6 +15,10 @@ const meta: Meta<typeof Modal> = {
   },
   argTypes: {
     title: { control: 'text' },
+    closingButton: {
+      control: 'boolean',
+      description: 'Define se o botão de fechar é exibido (padrão: true)',
+    },
     closeOnOverlayClick: { control: 'boolean' },
     customWidth: {
       control: 'text',
@@ -43,6 +47,7 @@ type Story = StoryObj<typeof Modal>;
 const ModalDemo = ({
   title = 'Título do Modal',
   closeOnOverlayClick = true,
+  closingButton = true,
   customWidth,
   customHeight,
   fullscreen,
@@ -61,6 +66,7 @@ const ModalDemo = ({
         onClose={() => setIsOpen(false)}
         title={title}
         closeOnOverlayClick={closeOnOverlayClick}
+        closingButton={closingButton}
         customWidth={customWidth}
         customHeight={customHeight}
         fullscreen={fullscreen}
@@ -78,6 +84,7 @@ export const Default: Story = {
     <ModalDemo
       title={args.title}
       closeOnOverlayClick={args.closeOnOverlayClick}
+      closingButton={args.closingButton}
       customWidth={args.customWidth}
       customHeight={args.customHeight}
       fullscreen={args.fullscreen}
@@ -88,6 +95,7 @@ export const Default: Story = {
   args: {
     title: 'Título do Modal',
     closeOnOverlayClick: true,
+    closingButton: true,
     fullscreen: false,
   },
 };
@@ -146,6 +154,17 @@ export const SemTitulo: Story = {
       </>
     );
   },
+};
+
+export const SemBotaoFechar: Story = {
+  render: () => (
+    <ModalDemo title="Sem botão de fechar" closeOnOverlayClick closingButton={false}>
+      <p>
+        Este Modal não exibe o botão X no cabeçalho. O fechamento pode ser feito clicando no overlay
+        ou via tecla Escape.
+      </p>
+    </ModalDemo>
+  ),
 };
 
 export const ComFooter: Story = {

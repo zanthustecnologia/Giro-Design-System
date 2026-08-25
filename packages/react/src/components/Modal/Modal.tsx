@@ -20,6 +20,7 @@ const Modal: React.FC<ModalProps> = ({
   footer,
   customWidth,
   customHeight,
+  closingButton = true,
   fullscreen = false,
   ...rest
 }) => {
@@ -65,15 +66,17 @@ const Modal: React.FC<ModalProps> = ({
             {headerContent && (
               <div>{headerContent}</div>
             )}
-            <Dialog.Close asChild>
-              <Button
-                variant="outlined"
-                iconOnly
-                icon={<Dismiss16Regular />}
-                size="lg"
-                tooltipText='Fechar'
-              />
-            </Dialog.Close>
+            {closingButton && (
+              <Dialog.Close asChild>
+                <Button
+                  variant="outlined"
+                  iconOnly
+                  icon={<Dismiss16Regular />}
+                  size="lg"
+                  tooltipText='Fechar'
+                />
+              </Dialog.Close>
+            )}
           </header>
           <section className={styles.modalBody}>
             {children}
