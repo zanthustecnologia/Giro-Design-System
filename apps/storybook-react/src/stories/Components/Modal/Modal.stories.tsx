@@ -105,16 +105,16 @@ export const ConteudoLongo: Story = {
     <ModalDemo title="Termos de uso">
         Ao utilizar esta plataforma, você concorda com os termos de uso e a política de privacidade
         descritos neste documento. Leia atentamente antes de prosseguir.
-
+        <br/>
         O uso indevido das informações disponibilizadas pode resultar na suspensão temporária ou
         permanente da sua conta, a critério da administração da plataforma.
-
+        <br/>
         Reservamo-nos o direito de atualizar estes termos a qualquer momento. Você será notificado
         em caso de alterações significativas.
-
+        <br/>
         Para dúvidas ou solicitações relacionadas à privacidade dos seus dados, entre em contato
         pelo canal de suporte disponível na plataforma.
-
+        <br/>
         Ao continuar utilizando a plataforma após a publicação de novas versões dos termos, você
         automaticamente concorda com as alterações efetuadas.
 
@@ -127,7 +127,7 @@ export const SemFechamentoPorOverlay: Story = {
     <ModalDemo title="Formulário" closeOnOverlayClick={false}>
 
         Este Modal só pode ser fechado pelo botão X. Clicar fora não tem efeito.
-
+        <br/>
         Útil para fluxos onde o usuário pode perder dados ao fechar acidentalmente.
 
     </ModalDemo>
@@ -143,7 +143,7 @@ export const SemTitulo: Story = {
           Abrir Modal sem título
         </Button>
         <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
-Modal sem título definido. O cabeçalho exibe apenas o botão de fechar.
+          Modal sem título definido. O cabeçalho exibe apenas o botão de fechar.
         </Modal>
       </>
     );
