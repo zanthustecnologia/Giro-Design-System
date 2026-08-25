@@ -54,30 +54,32 @@ const Modal: React.FC<ModalProps> = ({
           aria-labelledby={id ? `${id}-title` : 'modal-title'}
           tabIndex={-1}
         >
-          <header className={styles.modalHeader}>
-            {title && (
-              <Dialog.Title
-                className={styles.modalTitle}
-                id={id ? `${id}-title` : 'modal-title'}
-              >
-                {title}
-              </Dialog.Title>
-            )}
-            {headerContent && (
-              <div>{headerContent}</div>
-            )}
-            {closingButton && (
-              <Dialog.Close asChild>
-                <Button
-                  variant="outlined"
-                  iconOnly
-                  icon={<Dismiss16Regular />}
-                  size="lg"
-                  tooltipText='Fechar'
-                />
-              </Dialog.Close>
-            )}
-          </header>
+          {(title || headerContent || closingButton) && (
+            <header className={styles.modalHeader}>
+              {title && (
+                <Dialog.Title
+                  className={styles.modalTitle}
+                  id={id ? `${id}-title` : 'modal-title'}
+                >
+                  {title}
+                </Dialog.Title>
+              )}
+              {headerContent && (
+                <div>{headerContent}</div>
+              )}
+              {closingButton && (
+                <Dialog.Close asChild>
+                  <Button
+                    variant="outlined"
+                    iconOnly
+                    icon={<Dismiss16Regular />}
+                    size="lg"
+                    tooltipText='Fechar'
+                  />
+                </Dialog.Close>
+              )}
+            </header>
+          )}
           <section className={styles.modalBody}>
             {children}
           </section>
