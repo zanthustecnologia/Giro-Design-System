@@ -150,47 +150,6 @@ Modal sem título definido. O cabeçalho exibe apenas o botão de fechar.
   },
 };
 
-export const SemBotaoFechar: Story = {
-  render: () => (
-    <ModalDemo title="Sem botão de fechar" closeOnOverlayClick closingButton={false}>
-
-        Este Modal não exibe o botão X no cabeçalho. O fechamento pode ser feito clicando no overlay
-        ou via tecla Escape.
-
-    </ModalDemo>
-  ),
-};
-
-export const ComFooter: Story = {
-  render: () => {
-    const [isOpen, setIsOpen] = useState(false);
-    return (
-      <>
-        <Button variant="outlined" onClick={() => setIsOpen(true)}>
-          Abrir Modal
-        </Button>
-        <Modal
-          isOpen={isOpen}
-          onClose={() => setIsOpen(false)}
-          title="Confirmar ação"
-          footer={
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '8px' }}>
-              <Button variant="outlined" onClick={() => setIsOpen(false)}>
-                Cancelar
-              </Button>
-              <Button variant="filled" onClick={() => setIsOpen(false)}>
-                Confirmar
-              </Button>
-            </div>
-          }
-        >
-          Tem certeza que deseja realizar esta ação? Esta operação não pode ser desfeita.
-        </Modal>
-      </>
-    );
-  },
-};
-
 export const TelaCheia: Story = {
   render: () => {
     const [isOpen, setIsOpen] = useState(false);
