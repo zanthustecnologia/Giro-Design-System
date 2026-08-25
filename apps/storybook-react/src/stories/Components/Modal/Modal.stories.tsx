@@ -89,7 +89,7 @@ export const Default: Story = {
       customHeight={args.customHeight}
       fullscreen={args.fullscreen}
     >
-      <p>Conteúdo interno do Modal. Qualquer elemento React pode ser inserido aqui.</p>
+      Conteúdo interno do Modal. Qualquer elemento React pode ser inserido aqui.
     </ModalDemo>
   ),
   args: {
@@ -107,19 +107,19 @@ export const ConteudoLongo: Story = {
         Ao utilizar esta plataforma, você concorda com os termos de uso e a política de privacidade
         descritos neste documento. Leia atentamente antes de prosseguir.
       </p>
-      <p style={{ marginTop: '16px' }}>
+      <p>
         O uso indevido das informações disponibilizadas pode resultar na suspensão temporária ou
         permanente da sua conta, a critério da administração da plataforma.
       </p>
-      <p style={{ marginTop: '16px' }}>
+      <p>
         Reservamo-nos o direito de atualizar estes termos a qualquer momento. Você será notificado
         em caso de alterações significativas.
       </p>
-      <p style={{ marginTop: '16px' }}>
+      <p>
         Para dúvidas ou solicitações relacionadas à privacidade dos seus dados, entre em contato
         pelo canal de suporte disponível na plataforma.
       </p>
-      <p style={{ marginTop: '16px' }}>
+      <p>
         Ao continuar utilizando a plataforma após a publicação de novas versões dos termos, você
         automaticamente concorda com as alterações efetuadas.
       </p>
@@ -133,7 +133,7 @@ export const SemFechamentoPorOverlay: Story = {
       <p>
         Este Modal só pode ser fechado pelo botão X. Clicar fora não tem efeito.
       </p>
-      <p style={{ marginTop: '16px' }}>
+      <p>
         Útil para fluxos onde o usuário pode perder dados ao fechar acidentalmente.
       </p>
     </ModalDemo>
@@ -221,7 +221,7 @@ export const TelaCheia: Story = {
             </div>
           }
         >
-          <p>Este modal ocupa toda a tela. Útil para fluxos complexos ou visualização de conteúdo extenso.</p>
+          Este modal ocupa toda a tela. Útil para fluxos complexos ou visualização de conteúdo extenso.
         </Modal>
       </>
     );

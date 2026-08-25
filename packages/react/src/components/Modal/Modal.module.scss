@@ -54,6 +54,11 @@
   flex-shrink: var(--spacing-0);
 }
 
+.modalCloseButton {
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
 .modalTitle {
   flex: 1;
   min-width: 0;

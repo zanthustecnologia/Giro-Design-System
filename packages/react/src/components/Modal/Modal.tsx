@@ -68,15 +68,17 @@ const Modal: React.FC<ModalProps> = ({
                 <div>{headerContent}</div>
               )}
               {closingButton && (
-                <Dialog.Close asChild>
-                  <Button
-                    variant="outlined"
-                    iconOnly
-                    icon={<Dismiss16Regular />}
-                    size="lg"
-                    tooltipText='Fechar'
-                  />
-                </Dialog.Close>
+                <div className={styles.modalCloseButton}>
+                  <Dialog.Close asChild>
+                    <Button
+                      variant="outlined"
+                      iconOnly
+                      icon={<Dismiss16Regular />}
+                      size="lg"
+                      tooltipText='Fechar'
+                    />
+                  </Dialog.Close>
+                </div>
               )}
             </header>
           )}
