@@ -38,6 +38,7 @@
     transform: none;
     border-radius: 0;
     border: none;
+    animation: contentShowFullscreen 150ms cubic-bezier(0.16, 1, 0.3, 1);
 
     @media (max-width: 768px) {
       width: 100vw;
@@ -103,5 +104,16 @@
   to {
     opacity: 1;
     transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes contentShowFullscreen {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
 }
