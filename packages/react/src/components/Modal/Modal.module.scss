@@ -49,8 +49,7 @@
   display: flex;
   align-items: center;
   gap: var(--spacing-8);
-  padding: var(--spacing-24);
-  padding-bottom: var(--spacing-0);
+  padding: var(--spacing-24) var(--spacing-24) var(--spacing-0) var(--spacing-24);
   flex-shrink: var(--spacing-0);
 }
 
@@ -75,9 +74,7 @@
 .modalBody {
   flex: 1;
   overflow-y: auto;
-  padding: var(--spacing-24);
-  padding-top: var(--spacing-16);
-  padding-bottom: var(--spacing-16);
+  padding: var(--spacing-16) var(--spacing-24);
   color: var(--color-neutral-low-dark);
   font-family: var(--font-family-primary);
   font-weight: var(--font-weight-regular);
@@ -85,7 +82,7 @@
 }
 
 .modalFooter {
-  padding: var(--spacing-24);
+  padding: var(--spacing-0) var(--spacing-24) var(--spacing-24) var(--spacing-24);
   padding-top: var(--spacing-0);
 }
 
