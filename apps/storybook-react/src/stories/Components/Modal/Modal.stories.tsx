@@ -103,26 +103,21 @@ export const Default: Story = {
 export const ConteudoLongo: Story = {
   render: () => (
     <ModalDemo title="Termos de uso">
-      <p>
         Ao utilizar esta plataforma, você concorda com os termos de uso e a política de privacidade
         descritos neste documento. Leia atentamente antes de prosseguir.
-      </p>
-      <p>
+
         O uso indevido das informações disponibilizadas pode resultar na suspensão temporária ou
         permanente da sua conta, a critério da administração da plataforma.
-      </p>
-      <p>
+
         Reservamo-nos o direito de atualizar estes termos a qualquer momento. Você será notificado
         em caso de alterações significativas.
-      </p>
-      <p>
+
         Para dúvidas ou solicitações relacionadas à privacidade dos seus dados, entre em contato
         pelo canal de suporte disponível na plataforma.
-      </p>
-      <p>
+
         Ao continuar utilizando a plataforma após a publicação de novas versões dos termos, você
         automaticamente concorda com as alterações efetuadas.
-      </p>
+
     </ModalDemo>
   ),
 };
@@ -130,12 +125,11 @@ export const ConteudoLongo: Story = {
 export const SemFechamentoPorOverlay: Story = {
   render: () => (
     <ModalDemo title="Formulário" closeOnOverlayClick={false}>
-      <p>
+
         Este Modal só pode ser fechado pelo botão X. Clicar fora não tem efeito.
-      </p>
-      <p>
+
         Útil para fluxos onde o usuário pode perder dados ao fechar acidentalmente.
-      </p>
+
     </ModalDemo>
   ),
 };
@@ -149,7 +143,7 @@ export const SemTitulo: Story = {
           Abrir Modal sem título
         </Button>
         <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
-          <p>Modal sem título definido. O cabeçalho exibe apenas o botão de fechar.</p>
+Modal sem título definido. O cabeçalho exibe apenas o botão de fechar.
         </Modal>
       </>
     );
@@ -159,10 +153,10 @@ export const SemTitulo: Story = {
 export const SemBotaoFechar: Story = {
   render: () => (
     <ModalDemo title="Sem botão de fechar" closeOnOverlayClick closingButton={false}>
-      <p>
+
         Este Modal não exibe o botão X no cabeçalho. O fechamento pode ser feito clicando no overlay
         ou via tecla Escape.
-      </p>
+
     </ModalDemo>
   ),
 };
@@ -190,7 +184,7 @@ export const ComFooter: Story = {
             </div>
           }
         >
-          <p>Tem certeza que deseja realizar esta ação? Esta operação não pode ser desfeita.</p>
+          Tem certeza que deseja realizar esta ação? Esta operação não pode ser desfeita.
         </Modal>
       </>
     );
