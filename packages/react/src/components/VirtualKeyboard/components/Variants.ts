@@ -30,7 +30,7 @@ const QWERTY_LOWERCASE = [
 
 const NUMPAD = ['1 2 3', '4 5 6', '7 8 9', '{abc} 0 {bksp}'];
 
-const NUMPAD_WITH_ENTER = ['1 2 3 -', '4 5 6 {newline}', '7 8 9 {bksp}', '{abc} 0 . {enter}'];
+const NUMPAD_WITH_ENTER = ['1 2 3 -', '4 5 6 _', '7 8 9 {bksp}', '{abc} 0 . {enter}'];
 
 const SHARED_LAYOUTS = {
   shift: [

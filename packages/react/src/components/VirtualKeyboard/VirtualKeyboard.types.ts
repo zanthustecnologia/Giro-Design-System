@@ -93,7 +93,7 @@ export interface VirtualKeyboardProps extends Omit<BaseProps, 'disabled'> {
 
   /**
    * Quando `true`, exibe o numpad numérico no formato de 4 colunas (estilo iOS nativo),
-   * com as teclas `-`, `↵` (newline), `⌫` e `→|` (enter/submit).
+   * com as teclas `-`, `↵` `_`, `⌫` e `→|` (enter/submit).
    * Só tem efeito quando `type="numeric"` e `variant="native"`.
    * @default false
    */

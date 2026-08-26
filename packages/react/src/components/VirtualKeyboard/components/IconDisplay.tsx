@@ -38,7 +38,6 @@ const SHARED_DISPLAY: Record<string, string> = {
   '{downkeyboard}':   iconSlot('downkeyboard'),
   '{space}':          ' ',
   '{default}':        'Abc',
-  '{newline}':         '_',
 };
 
 export const LAYOUT_DISPLAY: Partial<Record<VirtualKeyboardType, Record<string, string>>> = {
