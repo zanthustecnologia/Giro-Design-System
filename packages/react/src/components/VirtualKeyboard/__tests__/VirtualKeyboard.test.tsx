@@ -1268,4 +1268,37 @@ describe('VirtualKeyboard', () => {
       expect(onChange).toHaveBeenCalledWith('a');
     });
   });
+
+  // ───────────────────────────────────────────────────────────────────────────
+  describe('numpadWithEnter', () => {
+    it('deve renderizar o teclado com numpadWithEnter ativo', () => {
+      render(
+        <VirtualKeyboard
+          variant="native"
+          type="numeric"
+          numpadWithEnter
+          value=""
+        />
+      );
+
+      expect(screen.getByTestId('keyboard')).toBeInTheDocument();
+    });
+
+    it('deve disparar onKeyPress com {enter} ao pressionar a tecla enter', () => {
+      const onKeyPress = vi.fn();
+      render(
+        <VirtualKeyboard
+          variant="native"
+          type="numeric"
+          numpadWithEnter
+          onKeyPress={onKeyPress}
+          value=""
+        />
+      );
+
+      fireEvent.click(screen.getByTestId('key-enter'));
+
+      expect(onKeyPress).toHaveBeenCalledWith('{enter}');
+    });
+  });
 });

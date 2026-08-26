@@ -4,7 +4,8 @@ import {
   KeyboardShift20Filled,
   KeyboardShift20Regular,
   KeyboardShiftUppercase20Regular,
-  Emoji20Regular
+  Emoji20Regular,
+  ArrowImport20Regular,
 } from '@fluentui/react-icons';
 
 import type { VirtualKeyboardType } from '../VirtualKeyboard.types';
@@ -18,7 +19,8 @@ export const ICON_KEY_MAP: Record<string, ElementType> = {
   shiftactivated: KeyboardShift20Filled,
   capslock:       KeyboardShiftUppercase20Regular,
   downkeyboard:   ChevronDown20Regular,
-  emoji:         Emoji20Regular,
+  emoji:          Emoji20Regular,
+  enterNumpad:    ArrowImport20Regular,
 };
 
 const SHARED_DISPLAY: Record<string, string> = {
@@ -36,6 +38,7 @@ const SHARED_DISPLAY: Record<string, string> = {
   '{downkeyboard}':   iconSlot('downkeyboard'),
   '{space}':          ' ',
   '{default}':        'Abc',
+  '{newline}':         '_',
 };
 
 export const LAYOUT_DISPLAY: Partial<Record<VirtualKeyboardType, Record<string, string>>> = {

@@ -51,6 +51,12 @@ const meta: Meta<typeof VirtualKeyboard> = {
       description:
         'Exibe ou oculta a tecla de alternância entre os layouts default ("123") e numeric ("ABC"). Quando `false`, a tecla "123" é removida no layout default (a tecla espaço cresce) e a tecla "ABC" é substituída por espaço vazio no layout numeric.',
     },
+    numpadWithEnter: {
+      control: 'boolean',
+      description:
+        'Exibe o numpad numérico no formato de 4 colunas (estilo iOS nativo), com as teclas `-`, `↵` (newline), `⌫` e `→|` (enter/submit). Só tem efeito com `type="numeric"` e `variant="native"`.',
+      if: { arg: 'type', eq: 'numeric' },
+    },
     maxLength: {
       control: 'number',
       description: 'Limite maximo de caracteres',

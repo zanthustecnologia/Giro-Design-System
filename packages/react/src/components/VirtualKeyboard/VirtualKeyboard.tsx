@@ -77,13 +77,14 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
   textFieldScale = 1,
   showEnterKey = true,
   showTypeSwitchKey = true,
+  numpadWithEnter = false,
 }) => {
   const [layoutName, setLayoutName] = useState<string>('default');
   const [capsLockOn, setCapsLockOn] = useState(false);
   const [accentMenu, setAccentMenu] = useState<AccentMenuState | null>(null);
   const [accentMenuOffsetX, setAccentMenuOffsetX] = useState(0);
   const [activeLayout, setActiveLayout] = useState<Record<string, string[]> | null>(
-    getNativeLayout(type, Emoji, variant === 'native', variant === 'fixed', showEnterKey, showTypeSwitchKey)
+    getNativeLayout(type, Emoji, variant === 'native', variant === 'fixed', showEnterKey, showTypeSwitchKey, numpadWithEnter)
   );
   const visualType = NATIVE_LAYOUT_KEYS.has(type) ? type : 'default';
 
@@ -221,8 +222,8 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
     setLayoutName('default');
     setCapsLockOn(false);
 
-    setActiveLayout(getNativeLayout(type, Emoji, variant === 'native', variant === 'fixed', showEnterKey, showTypeSwitchKey));
-  }, [type, Emoji, variant, showEnterKey, showTypeSwitchKey]);
+    setActiveLayout(getNativeLayout(type, Emoji, variant === 'native', variant === 'fixed', showEnterKey, showTypeSwitchKey, numpadWithEnter));
+  }, [type, Emoji, variant, showEnterKey, showTypeSwitchKey, numpadWithEnter]);
 
   useEffect(() => {
     if (!Emoji && layoutName === 'emoticon') {
@@ -622,6 +623,13 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
     const baseDisplay = LAYOUT_DISPLAY[visualType];
     if (!baseDisplay) return baseDisplay;
 
+    if (numpadWithEnter && type === 'numeric' && variant === 'native') {
+      return {
+        ...baseDisplay,
+        '{enter}': '<span data-icon-key="enterNumpad"></span>',
+      };
+    }
+
     if (variant !== 'fixed') {
       return baseDisplay;
     }
@@ -630,12 +638,15 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
       ...baseDisplay,
       '{bksp}': (baseDisplay['{bksp}'] ?? '').replace(/\s*Apagar$/, ''),
     };
-  }, [visualType, variant]);
+  }, [visualType, variant, numpadWithEnter, type]);
 
   const keyboardEl = activeLayout ? (
     <div
       ref={keyboardWrapperRef}
-      className={clsx(styles.keyboardWrapper, ((type === 'numeric' && layoutName === 'default') || layoutName === 'numbers' || type === 'default') && styles.keyboardNumpadActive)}
+      className={clsx(
+        styles.keyboardWrapper,
+        ((type === 'numeric' && layoutName === 'default') || layoutName === 'numbers' || type === 'default') && styles.keyboardNumpadActive
+      )}
       onPointerDownCapture={handleLongPressStart}
       onPointerUpCapture={handleLongPressEnd}
       onPointerLeave={handleLongPressEnd}

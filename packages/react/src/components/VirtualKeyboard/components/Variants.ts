@@ -30,6 +30,8 @@ const QWERTY_LOWERCASE = [
 
 const NUMPAD = ['1 2 3', '4 5 6', '7 8 9', '{abc} 0 {bksp}'];
 
+const NUMPAD_WITH_ENTER = ['1 2 3 -', '4 5 6 {newline}', '7 8 9 {bksp}', '{abc} 0 . {enter}'];
+
 const SHARED_LAYOUTS = {
   shift: [
     '1 2 3 4 5 6 7 8 9 0',
@@ -88,13 +90,16 @@ export const getNativeLayout = (
   showDownKeyboardButton = true,
   isFixed = false,
   showEnterKey = true,
-  showTypeSwitchKey = true
+  showTypeSwitchKey = true,
+  numpadWithEnter = false
 ): Record<string, string[]> | null => {
   const layout = NATIVE_LAYOUTS[type] ?? NATIVE_LAYOUTS.default ?? null;
 
   if (!layout) return null;
 
-  let computedLayout = layout;
+  let computedLayout = numpadWithEnter && type === 'numeric'
+    ? { ...layout, default: NUMPAD_WITH_ENTER, numbers: NUMPAD_WITH_ENTER }
+    : layout;
 
   if (!Emoji) {
     computedLayout = removeKeyFromLayout(computedLayout, EMOTICON_KEY);
