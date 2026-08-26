@@ -28,7 +28,7 @@ const QWERTY_LOWERCASE = [
   '{numbers} {alt} {space} . {enter}',
 ];
 
-const NUMPAD = ['1 2 3', '4 5 6', '7 8 9', '{bksp} 0 {abc}'];
+const NUMPAD = ['1 2 3', '4 5 6', '7 8 9', '{abc} 0 {bksp}'];
 
 const SHARED_LAYOUTS = {
   shift: [
