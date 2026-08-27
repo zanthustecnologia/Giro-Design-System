@@ -61,7 +61,7 @@ type AccentMenuState = {
 const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
   variant = 'native',
   type = 'default',
-  value = '',
+  value,
   onChange,
   onKeyPress,
   onEnterPress,
@@ -80,6 +80,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
   showTypeSwitchKey = true,
   numpadWithEnter = false,
 }) => {
+  const [internalValue, setInternalValue] = useState(value ?? '');
   const [layoutName, setLayoutName] = useState<string>('default');
   const [capsLockOn, setCapsLockOn] = useState(false);
   const [accentMenu, setAccentMenu] = useState<AccentMenuState | null>(null);
@@ -88,6 +89,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
     getNativeLayout(type, Emoji, variant === 'native', variant === 'fixed', showEnterKey, showTypeSwitchKey, numpadWithEnter)
   );
   const visualType = NATIVE_LAYOUT_KEYS.has(type) ? type : 'default';
+  const effectiveValue = onChange !== undefined ? (value ?? '') : internalValue;
   const isNumpadLayout =
     (type === 'numeric' && layoutName === 'default') || layoutName === 'numbers';
 
@@ -103,7 +105,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
   const keyboardInstanceRef = useRef<{ setInput: (value: string) => void } | null>(null);
   const accentMenuRef = useRef<HTMLDivElement | null>(null);
   const accentButtonRef = useRef<HTMLButtonElement | null>(null);
-  const valueRef = useRef(value);
+  const valueRef = useRef(value ?? '');
   const [iconSlots, setIconSlots] = useState<HTMLElement[]>([]);
 
   type KeyPreviewState = { char: string; top: number; left: number } | null;
@@ -113,8 +115,8 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
   const [containerWidth, setContainerWidth] = useState<number>(Infinity);
 
   useEffect(() => {
-    valueRef.current = value;
-  }, [value]);
+    valueRef.current = effectiveValue;
+  }, [effectiveValue]);
 
   const clearLongPressTimeout = useCallback(() => {
     if (longPressTimeoutRef.current !== null) {
@@ -133,8 +135,8 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
   }, []);
 
   useEffect(() => {
-    syncKeyboardInput(value);
-  }, [value, syncKeyboardInput]);
+    syncKeyboardInput(effectiveValue);
+  }, [effectiveValue, syncKeyboardInput]);
 
   useEffect(() => {
     onTypeChange?.(type);
@@ -433,6 +435,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
       const currentValue = valueRef.current;
       if (maxLength === undefined || currentValue.length < maxLength) {
         const nextValue = `${currentValue}${heldKey}`;
+        if (onChange === undefined) setInternalValue(nextValue);
         onChange?.(nextValue);
         onKeyPress?.(heldKey);
         syncKeyboardInput(nextValue);
@@ -473,6 +476,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
       }
 
       const nextValue = `${currentValue}${accentedChar}`;
+      if (onChange === undefined) setInternalValue(nextValue);
       onChange?.(nextValue);
       onKeyPress?.(accentedChar);
       closeAccentMenu();
@@ -614,9 +618,10 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
       }
 
       if (maxLength !== undefined && input.length > maxLength) return;
+      if (onChange === undefined) setInternalValue(input);
       onChange?.(input);
     },
-    [maxLength, onChange, syncKeyboardInput]
+    [maxLength, onChange, setInternalValue, syncKeyboardInput]
   );
 
   const portalSizes = useMemo(() => {
@@ -786,7 +791,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
         <div className={styles.textFieldContainer}>
           <TextField
             placeholder={placeholder}
-            value={value}
+            value={effectiveValue}
             onChange={onChange}
             helperText={helperText}
             error={error}
