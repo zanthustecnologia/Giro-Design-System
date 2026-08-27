@@ -107,25 +107,31 @@ StyleDictionary.registerFormat({
   format: function({ dictionary, options }) {
     const className = options.className || 'Tokens';
     const header = [
-      '',
       '//',
-      `// dart/tokens.dart`,
+      '// dart/tokens.dart',
       '//',
       '',
       '// Do not edit directly, this file was auto-generated.',
       '',
-      '',
-      '',
       "import 'dart:ui';",
       '',
       `class ${className} {`,
-      `    ${className}._();`,
+      `  ${className}._();`,
       ''
     ].join('\n');
     // Categorias que devem ser emitidas como double no Dart (ex: 4 -> 4.0)
     const dimensionCategories = ['spacing', 'borderRadius', 'borderWidth', 'fontSize'];
     const tokens = dictionary.allTokens.map(token => {
       const name = token.name.charAt(0).toLowerCase() + token.name.slice(1);
+      const dartType = token.type === 'color'
+        ? 'Color'
+        : token.type === 'fontFamily' || name.includes('fontFamily')
+          ? 'String'
+          : token.type === 'fontWeight' || name.includes('fontWeight')
+            ? 'int'
+            : dimensionCategories.some((category) => name.includes(category))
+              ? 'double'
+              : 'Object';
       let value = token.value;
       let valueStr = String(value);
       if (valueStr === 'NaN' || valueStr === 'inherit') {
@@ -143,7 +149,7 @@ StyleDictionary.registerFormat({
           }
         }
       }
-      return `    static const ${name} = ${value};`;
+      return `  static const ${dartType} ${name} = ${value};`;
     }).join('\n');
     return `${header}${tokens}\n}\n`;
   }
