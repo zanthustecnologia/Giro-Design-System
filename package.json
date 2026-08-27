@@ -28,7 +28,8 @@
     "stats:packages": "node scripts/package-stats.mjs",
     "stats:usage": "node scripts/audit-usage.mjs",
     "stats:mcp": "node scripts/usage-report.mjs",
-    "stats:dashboard": "node scripts/metrics-dashboard.mjs"
+    "stats:dashboard": "node scripts/metrics-dashboard.mjs",
+    "stats:adopters": "node scripts/discover-adopters.mjs"
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.6",

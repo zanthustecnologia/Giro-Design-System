@@ -5,12 +5,13 @@
 // e de ROI (menos CSS custom = menos manutenção).
 //
 // Uso: node scripts/audit-usage.mjs [caminho]
-//   caminho pode ser um app deste monorepo (ex: apps/hub) ou um repositório
-//   externo qualquer que consuma @giro-ds/react — o script não depende de
-//   nada além de Node.
+//   caminho pode ser relativo (ex: apps/hub, ../outro-repo) ou absoluto
+//   (ex: C:\repos\produto-x) — um app deste monorepo ou qualquer
+//   repositório externo que consuma @giro-ds/react. O script não depende
+//   de nada além de Node.
 
 import { readFileSync, readdirSync, statSync, mkdirSync, writeFileSync } from 'fs';
-import { extname, join, relative } from 'path';
+import { extname, join, relative, resolve } from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 
@@ -135,7 +136,7 @@ function printReport(targetLabel, files, componentAudit, tokenAudit) {
 
 function main() {
   const targetArg = process.argv[2] ?? '.';
-  const targetPath = join(ROOT, targetArg);
+  const targetPath = resolve(ROOT, targetArg);
   const files = walk(targetPath);
 
   const componentAudit = auditComponents(files);

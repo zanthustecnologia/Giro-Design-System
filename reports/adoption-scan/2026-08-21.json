@@ -1,0 +1,106 @@
+{
+  "collectedAt": "2026-08-21T15:09:20.496Z",
+  "group": "web",
+  "projectsScanned": 153,
+  "adopters": [
+    {
+      "project": "web/mkt-sign",
+      "webUrl": "https://gitlab.zanthus.com.br/web/mkt-sign",
+      "defaultBranch": "main",
+      "manifests": [
+        {
+          "path": "app/package.json",
+          "packages": [
+            {
+              "name": "@giro-ds/react",
+              "version": "^3.0.7"
+            },
+            {
+              "name": "@giro-ds/tokens",
+              "version": "^1.0.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "project": "web/design-system-monorepo",
+      "webUrl": "https://gitlab.zanthus.com.br/web/design-system-monorepo",
+      "defaultBranch": "developer",
+      "manifests": [
+        {
+          "path": "apps/hub/package.json",
+          "packages": [
+            {
+              "name": "@giro-ds/react",
+              "version": "^12.1.1"
+            },
+            {
+              "name": "@giro-ds/tokens",
+              "version": "workspace:*"
+            }
+          ]
+        },
+        {
+          "path": "apps/storybook-react/package.json",
+          "packages": [
+            {
+              "name": "@giro-ds/react",
+              "version": "workspace:*"
+            },
+            {
+              "name": "@giro-ds/utilities",
+              "version": "workspace:*"
+            },
+            {
+              "name": "@giro-ds/version",
+              "version": "workspace:*"
+            }
+          ]
+        },
+        {
+          "path": "apps/theme-playground/package.json",
+          "packages": [
+            {
+              "name": "@giro-ds/react",
+              "version": "workspace:*"
+            }
+          ]
+        },
+        {
+          "path": "apps/widgetbook-flutter/pubspec.yaml",
+          "packages": [
+            {
+              "name": "flutter_giro",
+              "version": "path: ../../packages/flutter"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "project": "web/zeus-retail-evolution",
+      "webUrl": "https://gitlab.zanthus.com.br/web/zeus-retail-evolution",
+      "defaultBranch": "Master",
+      "manifests": [
+        {
+          "path": "front/package.json",
+          "packages": [
+            {
+              "name": "@giro-ds/react",
+              "version": "^9.0.0"
+            },
+            {
+              "name": "@giro-ds/tokens",
+              "version": "^1.0.1"
+            },
+            {
+              "name": "@giro-ds/utilities",
+              "version": "^1.1.0"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
