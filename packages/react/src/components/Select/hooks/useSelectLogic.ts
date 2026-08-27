@@ -51,7 +51,7 @@ export function useSelectLogic({
   onOpenChange,
   enableApiSearch = false,
   onApiSearch,
-  isSearching = false,
+  isSearching: _isSearching = false,
   error,
 }: UseSelectLogicProps): UseSelectLogicReturn {
   const [state, dispatch] = useReducer(selectReducer, {

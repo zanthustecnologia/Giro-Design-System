@@ -43,9 +43,10 @@ const Menu: React.FC<MenuProps> = ({
 
   const containerStyle = { '--giro-scale': scale } as React.CSSProperties;
 
+  type ScalableTrigger = React.ReactElement<{ scale?: number }>;
   const triggerWithScale = React.isValidElement(children)
-    ? React.cloneElement(children as React.ReactElement<any>, {
-      scale: (children as React.ReactElement<any>).props?.scale ?? scale,
+    ? React.cloneElement(children as ScalableTrigger, {
+      scale: (children as ScalableTrigger).props?.scale ?? scale,
     })
     : children;
 
@@ -189,7 +190,7 @@ const Menu: React.FC<MenuProps> = ({
                 sideOffset={16}
                 collisionPadding={20}
               >
-                {item.children!.map((childItem, childIndex) =>
+                {item.children?.map((childItem, childIndex) =>
                   renderMenuItem(childItem, `${key}-${childIndex}`)
                 )}
               </DropdownMenu.SubContent>

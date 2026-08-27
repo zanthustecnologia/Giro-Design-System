@@ -3,6 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
 import Filter from '../Filter';
+
 import type { FilterItem } from '../Filter.types';
 
 // ── Mocks ────────────────────────────────────────────────────────────────────

@@ -1,9 +1,10 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+
+import Button from '../../Button/Button';
 import Menu from '../Menu';
 import { MenuItemProps } from '../Menu.types';
-import Button from '../../Button/Button';
 
 // Mock dos ícones do Fluent UI
 vi.mock('@fluentui/react-icons', () => ({

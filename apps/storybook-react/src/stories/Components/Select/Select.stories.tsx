@@ -1,8 +1,10 @@
-import React from 'react';
-import type { Meta, StoryFn } from '@storybook/react';
-import { Select } from '@giro-ds/react';
-import type { SelectProps } from '@giro-ds/react';
 import { Channel16Regular } from '@fluentui/react-icons';
+import { Select } from '@giro-ds/react';
+import React from 'react';
+
+import type { SelectProps } from '@giro-ds/react';
+import type { Meta, StoryFn } from '@storybook/react-vite';
+
 
 const meta: Meta<SelectProps> = {
   title: 'Components/Select',

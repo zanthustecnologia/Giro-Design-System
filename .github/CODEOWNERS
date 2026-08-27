@@ -4,13 +4,17 @@
 
 /packages/tokens/           @giro-ds-design/tokens-team
 /packages/react/ @giro-ds-design/frontend
-/packages/icons/            @giro-ds-design/frontend
-/packages/grid/             @giro-ds-design/frontend
-/packages/utils/            @giro-ds-design/frontend
+/packages/flutter/          @giro-ds-design/frontend
+/packages/utilities/        @giro-ds-design/frontend
+/packages/mcp/              @giro-ds-design/core
+/packages/version/          @giro-ds-design/core
 
 # Storybook
 
-/apps/storybook/            @giro-ds-design/docs
+/apps/storybook-react/      @giro-ds-design/docs
+/apps/widgetbook-flutter/   @giro-ds-design/docs
+/apps/theme-playground/     @giro-ds-design/docs
+/docs/                      @giro-ds-design/docs
 
 # Documentação e governança
 
@@ -18,3 +22,7 @@
 /CONTRIBUTING.md            @giro-ds-design/core
 /LICENSE                    @giro-ds-design/core
 /CHANGELOG.md               @giro-ds-design/core
+/.gitlab-ci.yml             @giro-ds-design/core
+/package.json               @giro-ds-design/core
+/pnpm-workspace.yaml        @giro-ds-design/core
+/turbo.json                 @giro-ds-design/core

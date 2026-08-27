@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef } from 'react';
+
 import { normalizeText } from '../../../hooks/NormalizeText';
 import { MenuItemProps } from '../Menu.types';
 

@@ -79,7 +79,7 @@ const ExpandableSelectItem: React.FC<ExpandableSelectItemProps> = ({
       
       {hasChildren && isExpanded && (
         <div className={styles.childrenWrapper}>
-          {item.children!.map((child) => (
+          {item.children?.map((child) => (
             <ExpandableSelectItem
               key={child.id || child.value}
               item={child}

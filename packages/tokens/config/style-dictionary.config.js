@@ -124,27 +124,29 @@ StyleDictionary.registerFormat({
     ].join('\n');
     const tokens = dictionary.allTokens.map(token => {
       const name = token.name.charAt(0).toLowerCase() + token.name.slice(1);
-      let value = token.value;
-      let valueStr = String(value);
-      if (valueStr === 'NaN' || valueStr === 'inherit') {
-        value = 0.0;
-      } else if (valueStr.includes(',') && !valueStr.startsWith('Color(')) {
-        value = `'${valueStr.split(',')[0].trim().replace(/["']/g, '')}'`;
-      } else if (name.includes('fontSize') && !isNaN(parseFloat(valueStr))) {
-        const numValue = parseFloat(valueStr) / 16;
-        value = Number.isInteger(numValue) ? `${numValue}.0` : numValue;
-      } else if (!valueStr.startsWith('Color(') && !valueStr.includes("'") && !valueStr.includes('"')) {
-        const cleaned = valueStr.replace(/px/g, '').replace(/%/g, '');
-        if (!isNaN(parseFloat(cleaned)) && cleaned.trim() !== '') {
-          const numValue = parseFloat(cleaned);
-          if (name.includes('spacing') || name.includes('borderRadius') || name.includes('fontSize')) {
-            value = Number.isInteger(numValue) ? `${numValue}.0` : numValue;
-          } else {
-            value = numValue;
-          }
-        }
+      const value = token.value;
+
+      if (token.type === 'color') {
+        return `    static const Color ${name} = ${value};`;
       }
-      return `    static const ${name} = ${value};`;
+
+      if (['borderRadius', 'borderWidth', 'fontSize', 'spacing'].includes(token.type)) {
+        const numericValue = Number(value);
+        const literal = Number.isInteger(numericValue) ? `${numericValue}.0` : String(numericValue);
+        return `    static const double ${name} = ${literal};`;
+      }
+
+      if (token.type === 'fontWeight') {
+        return `    static const int ${name} = ${Number(value)};`;
+      }
+
+      if (token.type === 'fontFamily') {
+        const family = String(value).replace(/["']/g, '').split(',')[0].trim();
+        return `    static const String ${name} = '${family}';`;
+      }
+
+      const escaped = String(value).replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+      return `    static const String ${name} = '${escaped}';`;
     }).join('\n');
     return `${header}${tokens}\n}\n`;
   }
@@ -155,10 +157,7 @@ StyleDictionary.registerFormat({
 StyleDictionary.registerTransform({
   name: 'size/flutter',
   type: 'value',
-  matcher: (token) => {
-    const value = String(token.value);
-    return (value.includes('px') || value.includes('%')) && !value.startsWith('#');
-  },
+  filter: (token) => ['borderRadius', 'borderWidth', 'fontSize', 'spacing'].includes(token.type),
   transform: (token) => {
     const value = String(token.value);
     const numericValue = parseFloat(value);
@@ -170,17 +169,20 @@ StyleDictionary.registerTransform({
 StyleDictionary.registerTransform({
   name: 'color/flutter-hex',
   type: 'value',
-  matcher: (token) => token.type === 'color',
+  filter: (token) => token.type === 'color',
   transform: (token) => {
     const value = String(token.value).replace('#', '').toUpperCase();
-    return `Color(0xFF${value})`;
+    const argb = value.length === 8
+      ? `${value.slice(6)}${value.slice(0, 6)}`
+      : `FF${value}`;
+    return `Color(0x${argb})`;
   }
 });
 
 StyleDictionary.registerTransform({
   name: 'font/flutter',
   type: 'value',
-  matcher: (token) => token.type === 'fontFamily' || token.path.includes('family'),
+  filter: (token) => token.type === 'fontFamily' || token.path.includes('family'),
   transform: (token) => {
     const value = String(token.value);
     const cleaned = value.replace(/["']/g, '').split(',')[0].trim();

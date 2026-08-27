@@ -1,6 +1,6 @@
 # @giro-ds/tokens
 
-Design tokens do Zanthus Design System. Valores de design fundamentais (cores, espaçamentos, tipografia, bordas, etc.) disponíveis em múltiplos formatos.
+Design tokens do Giro Design System. Valores de design fundamentais (cores, espaçamentos, tipografia, bordas, etc.) disponíveis em múltiplos formatos.
 
 ## 📦 Instalação
 

@@ -1,8 +1,10 @@
 import * as React from 'react';
-import type { ComponentPropsWithoutRef } from 'react';
 
-import { ScalableProps, Scale } from '../../types/common.types';
+
+import { ScalableProps } from '../../types/common.types';
+
 import type { VirtualKeyboardType } from '../VirtualKeyboard/VirtualKeyboard.types';
+import type { ComponentPropsWithoutRef } from 'react';
 
 /**
  * Props do componente Search

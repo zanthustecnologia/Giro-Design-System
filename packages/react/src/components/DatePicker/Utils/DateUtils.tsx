@@ -16,7 +16,7 @@ export function formatDate(date: Date, locale: Locale = 'pt-br'): string {
   }
 }
 
-export function applyDateMask(value: string, locale: Locale = 'pt-br'): string {
+export function applyDateMask(value: string, _locale: Locale = 'pt-br'): string {
   const digitsOnly = value.replace(/\D/g, '');
   
   const limitedDigits = digitsOnly.slice(0, 8);

@@ -1,6 +1,7 @@
 name: widgetbook_flutter
 description: Widgetbook showcase for Giro Design System Flutter components
 version: 1.0.0+1
+publish_to: none
 
 # Flutter 3.44.0
 environment:

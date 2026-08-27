@@ -54,6 +54,14 @@ tokens:
     - pnpm check:tokens
     - git diff --exit-code -- packages/tokens/build packages/flutter/lib/tokens/generated_tokens.dart
 
+lint:
+  stage: validate
+  extends:
+    - .node_job
+    - .design_system_changes
+  script:
+    - pnpm check:lint
+
 react:
   stage: test
   extends:

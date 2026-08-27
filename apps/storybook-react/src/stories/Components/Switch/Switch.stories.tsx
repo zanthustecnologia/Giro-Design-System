@@ -1,7 +1,8 @@
+import { Switch , SwitchProps } from '@giro-ds/react';
 import React, { useState } from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-import { Switch } from '@giro-ds/react';
-import { SwitchProps } from '@giro-ds/react';
+
+import type { Meta, StoryObj } from '@storybook/react-vite';
+
 type Story = StoryObj<typeof Switch>;
 
 const meta: Meta<SwitchProps> = {
