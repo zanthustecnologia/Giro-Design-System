@@ -1,5 +1,15 @@
 ﻿# @giro-ds/react
 
+## [12.2.0]
+
+### Features
+
+- **VirtualKeyboard:** adiciona prop `onEnterPress`.
+
+### Bug Fixes
+
+- **VirtualKeyboard:** corrige classe de layout dinamica, comportamento do `numpadWithEnter`, preservacao do `{enter}` no numpad com `showEnterKey=false` e reinjecao de icones ao trocar `variant`.
+
 ## [12.1.1]
 
 ### Bug Fixes
