@@ -295,13 +295,14 @@
   }
 
   &.layout--numeric {
-    left: 50%;
-    right: auto;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
     width: 100%;
     max-width: 360px;
     border-top: none;
     background-color: transparent;
-    transform: translateX(-50%) translateY(100%);
+    transform: translateY(100%);
 
     &::before {
       content: '';
@@ -313,11 +314,10 @@
       height: 100%;
       background-color: var(--color-neutral-high-default);
       border-top: var(--border-width-1) solid var(--color-neutral-high-dark);
-      z-index: -1;
     }
 
     &.overlayOpen {
-      transform: translateX(-50%) translateY(0);
+      transform: translateY(0);
     }
 
     :global(.hg-layout-default),

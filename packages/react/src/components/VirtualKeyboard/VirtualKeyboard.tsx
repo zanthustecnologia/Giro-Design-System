@@ -87,6 +87,8 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
     getNativeLayout(type, Emoji, variant === 'native', variant === 'fixed', showEnterKey, showTypeSwitchKey, numpadWithEnter)
   );
   const visualType = NATIVE_LAYOUT_KEYS.has(type) ? type : 'default';
+  const isNumpadLayout =
+    (type === 'numeric' && layoutName === 'default') || layoutName === 'numbers';
 
   const [isOpen, setIsOpen] = useState(variant !== 'native');
   const hideTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -645,7 +647,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
       ref={keyboardWrapperRef}
       className={clsx(
         styles.keyboardWrapper,
-        ((type === 'numeric' && layoutName === 'default') || layoutName === 'numbers' || type === 'default') && styles.keyboardNumpadActive
+        isNumpadLayout && styles.keyboardNumpadActive
       )}
       onPointerDownCapture={handleLongPressStart}
       onPointerUpCapture={handleLongPressEnd}
@@ -754,7 +756,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
         className={clsx(
           styles.overlay,
           { [styles.overlayOpen]: isOpen },
-          styles[`layout--${visualType}`],
+          styles[isNumpadLayout ? 'layout--numeric' : 'layout--default'],
           className
         )}
       >
@@ -770,7 +772,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
       className={clsx(
         styles.container,
         styles[`mode--${variant}`],
-        styles[`layout--${visualType}`],
+        styles[isNumpadLayout ? 'layout--numeric' : 'layout--default'],
         className
       )}
     >

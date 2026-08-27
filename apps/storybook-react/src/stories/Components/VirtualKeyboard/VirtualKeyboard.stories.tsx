@@ -55,7 +55,6 @@ const meta: Meta<typeof VirtualKeyboard> = {
       control: 'boolean',
       description:
         'Exibe o numpad numérico no formato de 4 colunas (estilo iOS nativo), com as teclas `-`, `↵` (newline), `⌫` e `→|` (enter/submit). Só tem efeito com `type="numeric"` e `variant="native"`.',
-      if: { arg: 'type', eq: 'numeric' },
     },
     maxLength: {
       control: 'number',
