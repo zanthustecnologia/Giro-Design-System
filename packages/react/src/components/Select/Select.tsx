@@ -108,7 +108,6 @@ const Select: React.FC<SelectProps> = ({
   useEffect(() => {
     if (!state.isOpen || !enableInfiniteScroll || !onScrollEnd || isLoadingMore) return;
 
-    // Sem overflow (lista curta) o evento 'scroll' nunca dispara, então força o carregamento aqui.
     const timer = setTimeout(() => {
       const viewport = viewportRef.current;
       if (!viewport) return;
