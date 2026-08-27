@@ -320,7 +320,10 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
       );
       if (newSlots.length === 0) return;
       newSlots.forEach((s) => s.setAttribute('data-icon-root', 'true'));
-      setIconSlots((prev) => [...prev, ...newSlots]);
+      setIconSlots((prev) => [
+        ...prev.filter((slot) => container.contains(slot)),
+        ...newSlots,
+      ]);
     };
 
     registerNewSlots();
@@ -335,7 +338,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
     return () => {
       observer.disconnect();
     };
-  }, []);
+  }, [variant]);
 
   useEffect(() => {
     closeAccentMenu();
