@@ -56,6 +56,9 @@ export interface VirtualKeyboardProps extends Omit<BaseProps, 'disabled'> {
   /** Callback executado quando uma tecla é pressionada: (key) => void */
   onKeyPress?: (key: string) => void;
 
+  /** Callback executado quando a tecla Enter é pressionada */
+  onEnterPress?: () => void;
+
   /**
    * Callback executado sempre que o `type` do teclado muda.
    * Útil para que o consumidor saiba o tipo atual e possa reagir à mudança

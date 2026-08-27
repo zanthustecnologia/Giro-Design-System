@@ -64,6 +64,7 @@ const meta: Meta<typeof VirtualKeyboard> = {
     value: { table: { disable: true } },
     onChange: { table: { disable: true } },
     onKeyPress: { table: { disable: true } },
+    onEnterPress: { action: 'onEnterPress' },
     targetRef: { table: { disable: true } },
     className: { table: { disable: true } },
     id: { table: { disable: true } },

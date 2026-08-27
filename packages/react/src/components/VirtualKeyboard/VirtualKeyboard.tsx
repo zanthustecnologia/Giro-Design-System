@@ -64,6 +64,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
   value = '',
   onChange,
   onKeyPress,
+  onEnterPress,
   onTypeChange,
   maxLength,
   Emoji = false,
@@ -566,6 +567,10 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
         return;
       }
 
+      if (button === '{enter}') {
+        onEnterPress?.();
+      }
+
       onKeyPress?.(button);
     },
     [
@@ -573,6 +578,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
       layoutName,
       capsLockOn,
       onKeyPress,
+      onEnterPress,
       onTypeChange,
       Emoji,
       variant,
