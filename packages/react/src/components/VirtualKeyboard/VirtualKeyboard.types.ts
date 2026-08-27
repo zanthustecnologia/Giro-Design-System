@@ -56,6 +56,9 @@ export interface VirtualKeyboardProps extends Omit<BaseProps, 'disabled'> {
   /** Callback executado quando uma tecla é pressionada: (key) => void */
   onKeyPress?: (key: string) => void;
 
+  /** Callback executado quando a tecla Enter é pressionada */
+  onEnterPress?: () => void;
+
   /**
    * Callback executado sempre que o `type` do teclado muda.
    * Útil para que o consumidor saiba o tipo atual e possa reagir à mudança
@@ -90,6 +93,14 @@ export interface VirtualKeyboardProps extends Omit<BaseProps, 'disabled'> {
    * @default true
    */
   showTypeSwitchKey?: boolean;
+
+  /**
+   * Quando `true`, exibe o numpad numérico no formato de 4 colunas (estilo iOS nativo),
+   * com as teclas `-`, `↵` `_`, `⌫` e `→|` (enter/submit).
+   * Só tem efeito quando `type="numeric"` e `variant="native"`.
+   * @default false
+   */
+  numpadWithEnter?: boolean;
 
   /** Texto de ajuda do TextField exibido no modo `fixed` */
   helperText?: string;

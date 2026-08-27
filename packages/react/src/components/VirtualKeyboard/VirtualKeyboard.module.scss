@@ -103,6 +103,11 @@
         // max-height: 80px;
       }
 
+      // Cancela o flex: 2 do {enter} definido em .mode--fixed — no numpad todas as teclas têm flex igual
+      :global(.hg-button[data-skbtn="{enter}"]) {
+        flex: 1 0 0;
+      }
+
       :global(.hg-button[data-skbtn="{//}"]) {
         @include blankSpace;
       }
@@ -210,6 +215,8 @@
 
     .keyboardWrapper {
       padding: 0 var(--spacing-4) var(--spacing-4);
+      flex: 1;
+      min-height: 0;
     }
 
     // Quando o numpad está ativo, o wrapper preenche o espaço restante do container
@@ -295,6 +302,31 @@
   }
 
   &.layout--numeric {
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 360px;
+    border-top: none;
+    background-color: transparent;
+    transform: translateY(100%);
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100vw;
+      height: 100%;
+      background-color: var(--color-neutral-high-default);
+      border-top: var(--border-width-1) solid var(--color-neutral-high-dark);
+    }
+
+    &.overlayOpen {
+      transform: translateY(0);
+    }
+
     :global(.hg-layout-default),
     :global(.hg-layout-numbers) {
       :global(.hg-button) {
