@@ -210,6 +210,8 @@
 
     .keyboardWrapper {
       padding: 0 var(--spacing-4) var(--spacing-4);
+      flex: 1;
+      min-height: 0;
     }
 
     // Quando o numpad está ativo, o wrapper preenche o espaço restante do container
