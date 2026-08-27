@@ -105,6 +105,25 @@ const Select: React.FC<SelectProps> = ({
     return utils.getFilteredItems(items, termToFilter);
   }, [items, state.searchTerm, state.searchInput, enableApiSearch, utils]);
 
+  useEffect(() => {
+    if (!state.isOpen || !enableInfiniteScroll || !onScrollEnd || isLoadingMore) return;
+
+    // Sem overflow (lista curta) o evento 'scroll' nunca dispara, então força o carregamento aqui.
+    const timer = setTimeout(() => {
+      const viewport = viewportRef.current;
+      if (!viewport) return;
+
+      const { scrollHeight, clientHeight } = viewport;
+
+      if (scrollHeight <= clientHeight && !hasReachedEndRef.current) {
+        hasReachedEndRef.current = true;
+        onScrollEnd();
+      }
+    }, 200);
+
+    return () => clearTimeout(timer);
+  }, [state.isOpen, enableInfiniteScroll, onScrollEnd, isLoadingMore, filteredItems.length]);
+
   const containerStyle = useMemo(() => ({
     maxWidth: maxWidth ? `${maxWidth}px` : undefined,
     '--giro-scale': scale,

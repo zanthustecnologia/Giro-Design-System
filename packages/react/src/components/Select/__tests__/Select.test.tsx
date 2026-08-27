@@ -1491,6 +1491,41 @@ describe('Select Component', () => {
         expect(screen.getByRole('listbox')).toBeInTheDocument();
       });
     });
+
+    it('chama onScrollEnd quando a primeira página não preenche o viewport (sem overflow)', async () => {
+      const handleScrollEnd = vi.fn();
+
+      render(
+        <Select
+          items={mockItems}
+          variant="text"
+          enableInfiniteScroll={true}
+          onScrollEnd={handleScrollEnd}
+          isLoadingMore={false}
+          data-testid="select"
+        />
+      );
+
+      const trigger = screen.getByTestId('select-trigger');
+      fireEvent.click(trigger);
+
+      await waitFor(() => {
+        expect(screen.getByTestId('select-viewport')).toBeInTheDocument();
+      });
+
+      const viewport = screen.getByTestId('select-viewport') as HTMLElement;
+
+      // Poucos items: o conteúdo cabe inteiro no viewport, sem scrollbar.
+      Object.defineProperty(viewport, 'scrollTop', { value: 0, writable: true });
+      Object.defineProperty(viewport, 'scrollHeight', { value: 80, writable: true });
+      Object.defineProperty(viewport, 'clientHeight', { value: 200, writable: true });
+
+      // Nenhum evento de 'scroll' é disparado, pois não há como rolar.
+      // Ainda assim, como há mais páginas disponíveis, onScrollEnd deveria ser chamado.
+      await waitFor(() => {
+        expect(handleScrollEnd).toHaveBeenCalled();
+      });
+    });
   });
 
   describe('Items Expandíveis', () => {
