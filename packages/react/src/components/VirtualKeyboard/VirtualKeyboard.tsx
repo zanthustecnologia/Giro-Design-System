@@ -625,7 +625,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
     const baseDisplay = LAYOUT_DISPLAY[visualType];
     if (!baseDisplay) return baseDisplay;
 
-    if (numpadWithEnter && type === 'numeric' && variant === 'native') {
+    if (numpadWithEnter && isNumpadLayout && variant === 'native') {
       return {
         ...baseDisplay,
         '{enter}': '<span data-icon-key="enterNumpad"></span>',
@@ -640,7 +640,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
       ...baseDisplay,
       '{bksp}': (baseDisplay['{bksp}'] ?? '').replace(/\s*Apagar$/, ''),
     };
-  }, [visualType, variant, numpadWithEnter, type]);
+  }, [visualType, variant, numpadWithEnter, isNumpadLayout]);
 
   const keyboardEl = activeLayout ? (
     <div

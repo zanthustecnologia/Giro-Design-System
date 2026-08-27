@@ -4,11 +4,17 @@ const EMOTICON_KEY = '{emoticon}';
 const DOWN_KEYBOARD_KEY = '{downkeyboard}';
 const ENTER_KEY = '{enter}';
 
-const removeKeyFromLayout = (layout: Record<string, string[]>, key: string) =>
+const removeKeyFromLayout = (
+  layout: Record<string, string[]>,
+  key: string,
+  skipLayouts: string[] = []
+) =>
   Object.fromEntries(
     Object.entries(layout).map(([layoutName, rows]) => [
       layoutName,
-      rows.map((row) => row.split(key).join(' ').replace(/\s+/g, ' ').trim()),
+      skipLayouts.includes(layoutName)
+        ? rows
+        : rows.map((row) => row.split(key).join(' ').replace(/\s+/g, ' ').trim()),
     ])
   ) as Record<string, string[]>;
 
@@ -97,8 +103,12 @@ export const getNativeLayout = (
 
   if (!layout) return null;
 
-  let computedLayout = numpadWithEnter && type === 'numeric'
-    ? { ...layout, default: NUMPAD_WITH_ENTER, numbers: NUMPAD_WITH_ENTER }
+  let computedLayout = numpadWithEnter
+    ? {
+        ...layout,
+        ...(type === 'numeric' ? { default: NUMPAD_WITH_ENTER } : {}),
+        numbers: NUMPAD_WITH_ENTER,
+      }
     : layout;
 
   if (!Emoji) {
@@ -110,7 +120,9 @@ export const getNativeLayout = (
   }
 
   if (!showEnterKey) {
-    computedLayout = removeKeyFromLayout(computedLayout, ENTER_KEY);
+    // Numpad layouts always preserve {enter}; only remove from QWERTY layouts
+    const numpadLayouts = type === 'numeric' ? ['default', 'numbers'] : ['numbers'];
+    computedLayout = removeKeyFromLayout(computedLayout, ENTER_KEY, numpadLayouts);
   }
 
   if (!showTypeSwitchKey) {
