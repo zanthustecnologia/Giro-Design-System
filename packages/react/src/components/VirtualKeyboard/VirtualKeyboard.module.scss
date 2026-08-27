@@ -103,6 +103,11 @@
         // max-height: 80px;
       }
 
+      // Cancela o flex: 2 do {enter} definido em .mode--fixed — no numpad todas as teclas têm flex igual
+      :global(.hg-button[data-skbtn="{enter}"]) {
+        flex: 1 0 0;
+      }
+
       :global(.hg-button[data-skbtn="{//}"]) {
         @include blankSpace;
       }
