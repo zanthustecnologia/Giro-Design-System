@@ -1,0 +1,91 @@
+stages:
+  - validate
+  - test
+  - build
+
+default:
+  interruptible: true
+
+variables:
+  PNPM_STORE_DIR: '$CI_PROJECT_DIR/.pnpm-store'
+  PUB_CACHE: '$CI_PROJECT_DIR/.pub-cache'
+
+# O Hub permanece deliberadamente fora deste pipeline enquanto estiver em
+# desenvolvimento. Nenhum job abaixo lê, compila, publica ou expõe apps/hub.
+# Como as regras não incluem apps/hub/**, alterações exclusivas no Hub não
+# disparam estes jobs.
+.design_system_changes:
+  rules:
+    - if: '$CI_COMMIT_TAG'
+    - if: '$CI_PIPELINE_SOURCE == "web"'
+    - changes:
+        - .gitlab-ci.yml
+        - package.json
+        - pnpm-lock.yaml
+        - pnpm-workspace.yaml
+        - turbo.json
+        - packages/**/*
+        - apps/storybook-react/**/*
+        - apps/theme-playground/**/*
+        - apps/widgetbook-flutter/**/*
+
+.node_job:
+  # A imagem completa inclui Git, necessário para verificar se a geração de
+  # tokens deixou diferenças no working tree.
+  image: node:22-bookworm
+  cache:
+    key:
+      files:
+        - pnpm-lock.yaml
+    paths:
+      - .pnpm-store/
+  before_script:
+    - corepack enable
+    - corepack prepare pnpm@9.15.3 --activate
+    - pnpm config set store-dir "$PNPM_STORE_DIR"
+    - pnpm install --frozen-lockfile
+
+tokens:
+  stage: validate
+  extends:
+    - .node_job
+    - .design_system_changes
+  script:
+    - pnpm check:tokens
+    - git diff --exit-code -- packages/tokens/build packages/flutter/lib/tokens/generated_tokens.dart
+
+react:
+  stage: test
+  extends:
+    - .node_job
+    - .design_system_changes
+  script:
+    - pnpm check:react
+
+flutter:
+  stage: test
+  extends: .design_system_changes
+  image: ghcr.io/cirruslabs/flutter:stable
+  cache:
+    key:
+      files:
+        - packages/flutter/pubspec.lock
+        - apps/widgetbook-flutter/pubspec.lock
+    paths:
+      - .pub-cache/
+  before_script:
+    - flutter --version
+    - (cd packages/flutter && flutter pub get)
+    - (cd apps/widgetbook-flutter && flutter pub get)
+  script:
+    - (cd packages/flutter && dart analyze)
+    - (cd apps/widgetbook-flutter && dart analyze)
+    - (cd apps/widgetbook-flutter && flutter test --no-pub)
+
+storybook:
+  stage: build
+  extends:
+    - .node_job
+    - .design_system_changes
+  script:
+    - pnpm check:storybook
