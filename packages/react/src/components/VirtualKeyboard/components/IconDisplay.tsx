@@ -6,6 +6,7 @@ import {
   KeyboardShiftUppercase20Regular,
   Emoji20Regular,
   ArrowImport20Regular,
+  Spacebar20Regular,
 } from '@fluentui/react-icons';
 
 import type { VirtualKeyboardType } from '../VirtualKeyboard.types';
@@ -21,6 +22,7 @@ export const ICON_KEY_MAP: Record<string, ElementType> = {
   downkeyboard:   ChevronDown20Regular,
   emoji:          Emoji20Regular,
   enterNumpad:    ArrowImport20Regular,
+  spaceNumpad:    Spacebar20Regular,
 };
 
 const SHARED_DISPLAY: Record<string, string> = {
