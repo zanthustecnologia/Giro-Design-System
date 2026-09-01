@@ -3,10 +3,9 @@
     "giro-ds": {
       "type": "stdio",
       "command": "npx",
-      "args": [
-        "-y",
-        "@giro-ds/mcp"
-      ]
+      "args": ["-y", "@giro-ds/mcp"],
+      "cwd": "C:\\Users\\giovani.ramos"
     }
   }
 }
+

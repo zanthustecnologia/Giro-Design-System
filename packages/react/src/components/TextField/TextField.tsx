@@ -1,6 +1,8 @@
 import { Dismiss16Regular } from '@fluentui/react-icons';
 import clsx from 'clsx';
-import React, { useState, useCallback, useId, forwardRef, useEffect } from 'react';
+import React, { useState, useCallback, useId, useEffect } from 'react';
+
+import { forwardRef } from '../../utils/forwardRef';
 
 import useInputKeyboardValue from '../../hooks/useInputKeyboardValue';
 import VirtualKeyboard from '../VirtualKeyboard';
@@ -34,7 +36,6 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>((
     onBlur,
     onFocus,
     name,
-    persistIcon = false,
     virtualKeyboard,
     attachedToVirtualKeyboard,
     disableAutoComplete = false,
@@ -112,7 +113,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>((
       [onFocus]
     );
 
-    const showCustomIcon = (inputValue.trim().length === 0 || persistIcon) && icon;
+    const showCustomIcon = (inputValue.trim().length === 0 || !isFocused) && icon;
     const showClearIcon = isFocused && inputValue.trim().length > 0;
     const hasError = Boolean(inputError) || Boolean(error);
     const displayHelperText = (error ? errorMessage : undefined) || inputError || helperText || '\u00A0';

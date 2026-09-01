@@ -1,5 +1,12 @@
 # theme-playground
 
+## 0.0.4
+
+### Patch Changes
+
+- Updated dependencies
+  - @giro-ds/react@12.2.0
+
 ## 0.0.3
 
 ### Patch Changes

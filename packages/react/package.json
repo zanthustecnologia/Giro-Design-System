@@ -1,12 +1,12 @@
 {
   "name": "@giro-ds/react",
-  "version": "12.1.1",
+  "version": "12.2.0",
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
   },
   "private": false,
-  "description": "Biblioteca de componentes React do Zanthus DS",
+  "description": "Biblioteca de componentes React do Giro Design System",
   "main": "dist/index.cjs",
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
@@ -46,9 +46,9 @@
     "autoprefixer": "^10.4.20",
     "jsdom": "^25.0.1",
     "postcss": "^8.4.47",
-    "react": "^18.3.1",
+    "react": "^19.2.8",
     "react-content-loader": "^7.1.1",
-    "react-dom": "^18.3.1",
+    "react-dom": "^19.2.8",
     "rimraf": "^6.0.1",
     "rollup": "^4.21.2",
     "rollup-plugin-dts": "6.2.3",
@@ -60,6 +60,7 @@
   },
   "dependencies": {
     "@fluentui/react-icons": "^2.0.307",
+    "@giro-ds/mcp": "^1.2.0",
     "@radix-ui/react-checkbox": "^1.1.2",
     "@radix-ui/react-dropdown-menu": "^2.1.2",
     "@radix-ui/react-label": "^2.1.0",

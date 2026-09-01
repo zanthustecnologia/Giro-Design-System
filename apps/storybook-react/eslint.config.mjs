@@ -19,6 +19,8 @@ export default [
       // Story files specific rules
       '@typescript-eslint/no-explicit-any': 'off', // Stories may use any for flexibility
       'react/display-name': 'off',
+      // Callbacks de demonstração usam o console para tornar eventos observáveis.
+      'no-console': 'off',
     },
   },
   {

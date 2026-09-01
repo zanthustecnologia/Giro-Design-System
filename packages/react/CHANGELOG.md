@@ -1,14 +1,24 @@
 ﻿# @giro-ds/react
 
+## [12.2.0]
+
+### Features
+
+- **VirtualKeyboard:** adiciona prop `onEnterPress`.
+
+### Bug Fixes
+
+- **VirtualKeyboard:** corrige classe de layout dinamica, comportamento do `numpadWithEnter`, preservacao do `{enter}` no numpad com `showEnterKey=false` e reinjecao de icones ao trocar `variant`.
+
 ## [12.1.1]
 
 ### Bug Fixes
 
-- **Button, Search, TextField, TextArea, FileUpload, Select, SelectField:** reverte de `ref` como prop (React 19) para `forwardRef` compativel com React 18.
-- **Chips:** adiciona `cursor: pointer` quando `onClick` presente e chip nao desabilitado.
-- **TextField:** troca `outline` por `border: 2px solid` no foco; corrige estado de erro para validacoes internas.
-- **TextArea, Search:** trocam `outline` por `border: 2px solid` no foco.
-- **Select:** troca `outline` por `border: 2px solid` no `:focus-visible`, `.open` e `.error.open`.
+- **Button, Search, TextField, TextArea, FileUpload, Select, SelectField:** reverte de `ref` como prop (React 19) para `forwardRef` compatível com React 18.
+- **Chips:** adiciona `cursor: pointer` quando `onClick` presente e chip não desabilitado.
+- **TextField:** troca `outline` por `border: var(--border-width-2) solid` no foco; corrige estado de erro para validações internas.
+- **TextArea, Search:** trocam `outline` por `border: var(--border-width-2) solid` no foco.
+- **Select:** troca `outline` por `border: var(--border-width-2) solid` no `:focus-visible`, `.open` e `.error.open`.
 
 ## [12.1.0] - 2026-08-05
 

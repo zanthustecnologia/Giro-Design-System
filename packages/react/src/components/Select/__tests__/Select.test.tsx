@@ -1,5 +1,5 @@
-import React from 'react';
 import { render, screen, waitFor, fireEvent } from '@testing-library/react';
+import React from 'react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
 // Mock do Radix UI Select
@@ -1490,6 +1490,154 @@ describe('Select Component', () => {
       await waitFor(() => {
         expect(screen.getByRole('listbox')).toBeInTheDocument();
       });
+    });
+
+    it('chama onScrollEnd quando a primeira página não preenche o viewport (sem overflow)', async () => {
+      const handleScrollEnd = vi.fn();
+
+      render(
+        <Select
+          items={mockItems}
+          variant="text"
+          enableInfiniteScroll={true}
+          onScrollEnd={handleScrollEnd}
+          isLoadingMore={false}
+          data-testid="select"
+        />
+      );
+
+      const trigger = screen.getByTestId('select-trigger');
+      fireEvent.click(trigger);
+
+      await waitFor(() => {
+        expect(screen.getByTestId('select-viewport')).toBeInTheDocument();
+      });
+
+      const viewport = screen.getByTestId('select-viewport') as HTMLElement;
+
+      // Poucos items: o conteúdo cabe inteiro no viewport, sem scrollbar.
+      Object.defineProperty(viewport, 'scrollTop', { value: 0, writable: true });
+      Object.defineProperty(viewport, 'scrollHeight', { value: 80, writable: true });
+      Object.defineProperty(viewport, 'clientHeight', { value: 200, writable: true });
+
+      // Nenhum evento de 'scroll' é disparado, pois não há como rolar.
+      // Ainda assim, como há mais páginas disponíveis, onScrollEnd deveria ser chamado.
+      await waitFor(() => {
+        expect(handleScrollEnd).toHaveBeenCalled();
+      });
+    });
+
+    it('não chama onScrollEnd quando hasMore é false (sem overflow)', async () => {
+      const handleScrollEnd = vi.fn();
+
+      render(
+        <Select
+          items={mockItems}
+          variant="text"
+          enableInfiniteScroll={true}
+          onScrollEnd={handleScrollEnd}
+          isLoadingMore={false}
+          hasMore={false}
+          data-testid="select"
+        />
+      );
+
+      fireEvent.click(screen.getByTestId('select-trigger'));
+
+      await waitFor(() => {
+        expect(screen.getByTestId('select-viewport')).toBeInTheDocument();
+      });
+
+      const viewport = screen.getByTestId('select-viewport') as HTMLElement;
+      Object.defineProperty(viewport, 'scrollHeight', { value: 80, writable: true });
+      Object.defineProperty(viewport, 'clientHeight', { value: 200, writable: true });
+
+      // Aguarda tempo suficiente para o timer do useEffect (200 ms + margem)
+      await new Promise(resolve => setTimeout(resolve, 350));
+      expect(handleScrollEnd).not.toHaveBeenCalled();
+    });
+
+    it('carrega múltiplas páginas quando nenhuma preenche o viewport', async () => {
+      const handleScrollEnd = vi.fn();
+      const extraItems: SelectItemProps[] = [
+        { value: '5', text: 'Item 5' },
+        { value: '6', text: 'Item 6' },
+      ];
+
+      const { rerender } = render(
+        <Select
+          items={mockItems}
+          variant="text"
+          enableInfiniteScroll={true}
+          onScrollEnd={handleScrollEnd}
+          isLoadingMore={false}
+          hasMore={true}
+          data-testid="select"
+        />
+      );
+
+      fireEvent.click(screen.getByTestId('select-trigger'));
+
+      await waitFor(() => {
+        expect(screen.getByTestId('select-viewport')).toBeInTheDocument();
+      });
+
+      const viewport = screen.getByTestId('select-viewport') as HTMLElement;
+      Object.defineProperty(viewport, 'scrollHeight', { value: 80, writable: true });
+      Object.defineProperty(viewport, 'clientHeight', { value: 200, writable: true });
+
+      // Primeira página sem overflow → primeira chamada
+      await waitFor(() => {
+        expect(handleScrollEnd).toHaveBeenCalledTimes(1);
+      });
+
+      // Simula início do loading
+      rerender(
+        <Select
+          items={mockItems}
+          variant="text"
+          enableInfiniteScroll={true}
+          onScrollEnd={handleScrollEnd}
+          isLoadingMore={true}
+          hasMore={true}
+          data-testid="select"
+        />
+      );
+
+      // Loading termina com novos itens, ainda sem overflow
+      rerender(
+        <Select
+          items={[...mockItems, ...extraItems]}
+          variant="text"
+          enableInfiniteScroll={true}
+          onScrollEnd={handleScrollEnd}
+          isLoadingMore={false}
+          hasMore={true}
+          data-testid="select"
+        />
+      );
+
+      // Segunda página sem overflow → segunda chamada
+      await waitFor(() => {
+        expect(handleScrollEnd).toHaveBeenCalledTimes(2);
+      });
+
+      // Agora não há mais páginas
+      rerender(
+        <Select
+          items={[...mockItems, ...extraItems]}
+          variant="text"
+          enableInfiniteScroll={true}
+          onScrollEnd={handleScrollEnd}
+          isLoadingMore={false}
+          hasMore={false}
+          data-testid="select"
+        />
+      );
+
+      // Não deve haver mais chamadas
+      await new Promise(resolve => setTimeout(resolve, 350));
+      expect(handleScrollEnd).toHaveBeenCalledTimes(2);
     });
   });
 

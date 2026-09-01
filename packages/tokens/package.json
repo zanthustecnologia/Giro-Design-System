@@ -11,7 +11,7 @@
     "build"
   ],
   "scripts": {
-    "build": "node ./config/style-dictionary.config.js && node -e \"require('fs').cpSync('build/dart/tokens.dart', '../flutter/lib/tokens/generated_tokens.dart')\""
+    "build": "node ./config/style-dictionary.config.js && node ./scripts/validate-dart-tokens.mjs && node -e \"require('fs').cpSync('build/dart/tokens.dart', '../flutter/lib/tokens/generated_tokens.dart')\""
   },
   "devDependencies": {
     "style-dictionary": "^4.4.0"

@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
 import { Modal, Button } from '@giro-ds/react';
+import React, { useState } from 'react';
+
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta: Meta<typeof Modal> = {
   title: 'Components/Modal',
@@ -15,6 +16,10 @@ const meta: Meta<typeof Modal> = {
   },
   argTypes: {
     title: { control: 'text' },
+    closingButton: {
+      control: 'boolean',
+      description: 'Define se o botão de fechar é exibido (padrão: true)',
+    },
     closeOnOverlayClick: { control: 'boolean' },
     customWidth: {
       control: 'text',
@@ -43,6 +48,7 @@ type Story = StoryObj<typeof Modal>;
 const ModalDemo = ({
   title = 'Título do Modal',
   closeOnOverlayClick = true,
+  closingButton = true,
   customWidth,
   customHeight,
   fullscreen,
@@ -61,6 +67,7 @@ const ModalDemo = ({
         onClose={() => setIsOpen(false)}
         title={title}
         closeOnOverlayClick={closeOnOverlayClick}
+        closingButton={closingButton}
         customWidth={customWidth}
         customHeight={customHeight}
         fullscreen={fullscreen}
@@ -78,16 +85,18 @@ export const Default: Story = {
     <ModalDemo
       title={args.title}
       closeOnOverlayClick={args.closeOnOverlayClick}
+      closingButton={args.closingButton}
       customWidth={args.customWidth}
       customHeight={args.customHeight}
       fullscreen={args.fullscreen}
     >
-      <p>Conteúdo interno do Modal. Qualquer elemento React pode ser inserido aqui.</p>
+      Conteúdo interno do Modal. Qualquer elemento React pode ser inserido aqui.
     </ModalDemo>
   ),
   args: {
     title: 'Título do Modal',
     closeOnOverlayClick: true,
+    closingButton: true,
     fullscreen: false,
   },
 };
@@ -95,26 +104,21 @@ export const Default: Story = {
 export const ConteudoLongo: Story = {
   render: () => (
     <ModalDemo title="Termos de uso">
-      <p>
         Ao utilizar esta plataforma, você concorda com os termos de uso e a política de privacidade
         descritos neste documento. Leia atentamente antes de prosseguir.
-      </p>
-      <p style={{ marginTop: '16px' }}>
+        <br/>
         O uso indevido das informações disponibilizadas pode resultar na suspensão temporária ou
         permanente da sua conta, a critério da administração da plataforma.
-      </p>
-      <p style={{ marginTop: '16px' }}>
+        <br/>
         Reservamo-nos o direito de atualizar estes termos a qualquer momento. Você será notificado
         em caso de alterações significativas.
-      </p>
-      <p style={{ marginTop: '16px' }}>
+        <br/>
         Para dúvidas ou solicitações relacionadas à privacidade dos seus dados, entre em contato
         pelo canal de suporte disponível na plataforma.
-      </p>
-      <p style={{ marginTop: '16px' }}>
+        <br/>
         Ao continuar utilizando a plataforma após a publicação de novas versões dos termos, você
         automaticamente concorda com as alterações efetuadas.
-      </p>
+
     </ModalDemo>
   ),
 };
@@ -122,12 +126,11 @@ export const ConteudoLongo: Story = {
 export const SemFechamentoPorOverlay: Story = {
   render: () => (
     <ModalDemo title="Formulário" closeOnOverlayClick={false}>
-      <p>
+
         Este Modal só pode ser fechado pelo botão X. Clicar fora não tem efeito.
-      </p>
-      <p style={{ marginTop: '16px' }}>
+        <br/>
         Útil para fluxos onde o usuário pode perder dados ao fechar acidentalmente.
-      </p>
+
     </ModalDemo>
   ),
 };
@@ -141,37 +144,7 @@ export const SemTitulo: Story = {
           Abrir Modal sem título
         </Button>
         <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
-          <p>Modal sem título definido. O cabeçalho exibe apenas o botão de fechar.</p>
-        </Modal>
-      </>
-    );
-  },
-};
-
-export const ComFooter: Story = {
-  render: () => {
-    const [isOpen, setIsOpen] = useState(false);
-    return (
-      <>
-        <Button variant="outlined" onClick={() => setIsOpen(true)}>
-          Abrir Modal
-        </Button>
-        <Modal
-          isOpen={isOpen}
-          onClose={() => setIsOpen(false)}
-          title="Confirmar ação"
-          footer={
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '8px' }}>
-              <Button variant="outlined" onClick={() => setIsOpen(false)}>
-                Cancelar
-              </Button>
-              <Button variant="filled" onClick={() => setIsOpen(false)}>
-                Confirmar
-              </Button>
-            </div>
-          }
-        >
-          <p>Tem certeza que deseja realizar esta ação? Esta operação não pode ser desfeita.</p>
+          Modal sem título definido. O cabeçalho exibe apenas o botão de fechar.
         </Modal>
       </>
     );
@@ -202,7 +175,7 @@ export const TelaCheia: Story = {
             </div>
           }
         >
-          <p>Este modal ocupa toda a tela. Útil para fluxos complexos ou visualização de conteúdo extenso.</p>
+          Este modal ocupa toda a tela. Útil para fluxos complexos ou visualização de conteúdo extenso.
         </Modal>
       </>
     );

@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { Size, ScalableProps, Scale } from '../../types/common.types';
+
+import { Size, ScalableProps } from '../../types/common.types';
 
 /**
  * Props do componente Quantity

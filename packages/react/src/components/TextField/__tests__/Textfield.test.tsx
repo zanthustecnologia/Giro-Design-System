@@ -1,4 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
+
 import TextField from '../TextField';
 
 // Mock parcial do ícone do Fluent UI
@@ -213,8 +214,14 @@ describe('TextField', () => {
       expect(screen.getByTestId('icon')).toBeInTheDocument();
     });
 
-    it('esconde ícone quando campo tem texto', () => {
+    it('mostra ícone quando campo tem texto e não está focado', () => {
       render(<TextField icon={<span data-testid="icon">🔍</span>} value="texto" />);
+      expect(screen.getByTestId('icon')).toBeInTheDocument();
+    });
+
+    it('esconde ícone quando campo está focado com texto', () => {
+      render(<TextField icon={<span data-testid="icon">🔍</span>} value="texto" />);
+      fireEvent.focus(screen.getByRole('textbox'));
       expect(screen.queryByTestId('icon')).not.toBeInTheDocument();
     });
   });

@@ -1,6 +1,7 @@
-﻿import React, { useState } from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
 import { Quantity } from '@giro-ds/react';
+import React, { useState } from 'react';
+
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const ControlledWrapper = (args: React.ComponentProps<typeof Quantity>) => {
   const [value, setValue] = useState<number>(args.value ?? 0);

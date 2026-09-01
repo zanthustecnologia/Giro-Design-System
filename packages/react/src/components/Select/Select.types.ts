@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ReactNode } from 'react';
 
-import { BaseProps,ScalableProps, Scale } from '../../types/common.types';
+import { ScalableProps } from '../../types/common.types';
 
 /**
  * Props base compartilhadas por todas as configurações de tooltip do select.
@@ -157,6 +157,9 @@ interface SelectPropsBase extends ScalableProps {
   /** Callback executado ao chegar ao final do scroll: () => void */
   onScrollEnd?: () => void;
   
+  /** Indica se há mais itens disponíveis para carregamento */
+  hasMore?: boolean;
+
   /** Estado de carregamento de mais itens */
   isLoadingMore?: boolean;
   

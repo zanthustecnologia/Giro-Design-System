@@ -122,6 +122,7 @@ vi.mock('radix-ui', () => {
 });
 
 import { render, screen } from '@testing-library/react';
+
 import Dialog from '../Dialog';
 
 describe('Dialog', () => {
@@ -399,7 +400,7 @@ describe('Dialog', () => {
       );
 
       const description = screen.getByTestId('alert-dialog-description');
-      expect(description).toBeEmptyDOMElement();
+      expect(description.textContent).toBe('');
     });
 
     it('funciona com diferentes tipos de bodyContent', () => {
