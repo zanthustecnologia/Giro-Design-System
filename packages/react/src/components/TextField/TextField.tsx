@@ -34,7 +34,6 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>((
     onBlur,
     onFocus,
     name,
-    persistIcon = false,
     virtualKeyboard,
     attachedToVirtualKeyboard,
     disableAutoComplete = false,
@@ -112,7 +111,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>((
       [onFocus]
     );
 
-    const showCustomIcon = (inputValue.trim().length === 0 || persistIcon) && icon;
+    const showCustomIcon = (inputValue.trim().length === 0 || !isFocused) && icon;
     const showClearIcon = isFocused && inputValue.trim().length > 0;
     const hasError = Boolean(inputError) || Boolean(error);
     const displayHelperText = (error ? errorMessage : undefined) || inputError || helperText || '\u00A0';

@@ -98,9 +98,6 @@ export interface TextFieldPropsBase extends ScalableProps, Omit<
   /** Ícone a ser exibido no campo */
   icon?: React.ReactNode;
 
-  /** Mantém o ícone visível mesmo quando o campo tem valor */
-  persistIcon?: boolean;
-
   /** Tipo do teclado virtual (padrão: undefined = desabilitado) */ 
   virtualKeyboard?: VirtualKeyboardType;
 
