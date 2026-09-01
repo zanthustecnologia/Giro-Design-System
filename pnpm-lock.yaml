@@ -273,13 +273,13 @@ importers:
         specifier: ^8.4.47
         version: 8.5.22
       react:
-        specifier: ^19.0.0
+        specifier: ^19.2.8
         version: 19.2.8
       react-content-loader:
         specifier: ^7.1.1
         version: 7.1.2(react@19.2.8)
       react-dom:
-        specifier: ^19.0.0
+        specifier: ^19.2.8
         version: 19.2.8(react@19.2.8)
       rimraf:
         specifier: ^6.0.1

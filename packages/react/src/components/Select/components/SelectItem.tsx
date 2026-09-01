@@ -2,6 +2,8 @@ import clsx from 'clsx';
 import { Select } from 'radix-ui';
 import React from 'react';
 
+import { forwardRef } from '../../../utils/forwardRef';
+
 import styles from '../Select.module.scss';
 import { SelectItemProps, SelectVariant } from '../Select.types';
 
@@ -10,7 +12,7 @@ interface SelectItemComponentProps extends SelectItemProps {
   disableFocusOnHover?: boolean;
 }
 
-const SelectItem = React.forwardRef<HTMLDivElement, SelectItemComponentProps>(
+const SelectItem = forwardRef<HTMLDivElement, SelectItemComponentProps>(
   ({ text, subTitle, icon, disabled, value, variant, disableFocusOnHover, ...restProps }, ref) => {
     return (
       <div
