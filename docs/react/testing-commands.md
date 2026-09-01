@@ -5,10 +5,10 @@ created: 2025-12-18
 updated: 2025-12-18
 ---
 
-# 🧪 Guia de Testes - Zanthus Design System
+# 🧪 Guia de Testes - Giro Design System
 
 > [!info] Sobre este guia
-> Este documento contém todos os comandos e instruções para executar testes no Zanthus Design System.
+> Este documento contém todos os comandos e instruções para executar testes no Giro Design System.
 
 ---
 

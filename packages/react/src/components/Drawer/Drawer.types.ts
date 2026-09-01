@@ -1,6 +1,6 @@
-import { ReactNode, ReactElement } from 'react';
+import { ReactNode } from 'react';
 
-import { Variant, BaseProps } from '../../types/common.types';
+import { BaseProps } from '../../types/common.types';
 
 /**
  * Props do componente Drawer
@@ -69,30 +69,3 @@ export interface DrawerProps extends BaseProps {
   footer?: ReactNode;
 }
 
-/**
- * Props do componente DrawerExample (trigger para abrir o drawer)
- * @example
- * ```tsx
- * <DrawerExample 
- *   text="Abrir menu"
- *   icon={<MenuIcon />}
- *   onOpen={handleOpen}
- * />
- * ```
- */
-export interface DrawerExampleProps extends BaseProps {
-  /** Texto do botão trigger */
-  text?: string;
-  
-  /** Ícone do botão trigger */
-  icon?: ReactElement;
-  
-  /** Conteúdo customizado do botão trigger */
-  children?: ReactNode;
-  
-  /** Callback executado ao abrir: () => void */
-  onOpen?: () => void;
-  
-  /** Variante visual do botão trigger */
-  variant?: Variant;
-}

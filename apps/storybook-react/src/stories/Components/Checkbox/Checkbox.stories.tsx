@@ -1,6 +1,6 @@
-import {Meta, StoryObj} from '@storybook/react';
-import { useEffect, useState } from 'react';
 import { Checkbox } from '@giro-ds/react';
+import {Meta, StoryObj} from '@storybook/react-vite';
+import { useState } from 'react';
 
 
 const meta: Meta<typeof Checkbox> = {
@@ -78,7 +78,7 @@ export const Desabilitado: Story = {
 };
 
 export const SelecionarTodos: Story = {
-  render: (args) => {
+  render: () => {
 
     // Estado dos 3 checkboxes individuais
     const [items, setItems] = useState({
@@ -129,11 +129,6 @@ export const SelecionarTodos: Story = {
         [itemKey]: !prev[itemKey],
       }));
     };
-
-    // visualizador de se o estado someChecked está funcionando
-    useEffect(() =>{
-      console.log(indeterminate)
-    },[indeterminate])
 
     return (
       <div

@@ -61,5 +61,5 @@ export interface CalloutProps
   className?: string;
   
   /** Props adicionais para o elemento div */
-  [key: string]: any;
+  [key: string]: unknown;
 }

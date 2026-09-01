@@ -65,9 +65,9 @@ export function useInfiniteScroll({
   }, [onLoadMore]);
 
   // ✅ NOVO: Debug logger
-  const debugLog = useCallback((message: string, data?: any) => {
+  const debugLog = useCallback((message: string, data?: unknown) => {
     if (debug) {
-      console.log(`🔄 [InfiniteScroll] ${message}`, data || '');
+      console.debug(`🔄 [InfiniteScroll] ${message}`, data || '');
     }
   }, [debug]);
 

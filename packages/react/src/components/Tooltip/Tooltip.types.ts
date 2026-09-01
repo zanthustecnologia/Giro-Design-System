@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { BaseProps, Side, Align } from '@/types';
 
 export interface TooltipProps extends BaseProps {

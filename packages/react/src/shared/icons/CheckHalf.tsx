@@ -1,12 +1,6 @@
 import React from 'react';
 
-export interface CheckHalfProps {
-  className?: string;
-  width?: number | string;
-  height?: number | string;
-  fill?: string;
-  [key: string]: any;
-}
+export type CheckHalfProps = React.SVGProps<SVGSVGElement>;
 
 const CheckHalf: React.FC<CheckHalfProps> = ({ 
   className = '',

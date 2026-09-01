@@ -1,4 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
+
 import TextField from '../TextField';
 
 // Mock parcial do ícone do Fluent UI

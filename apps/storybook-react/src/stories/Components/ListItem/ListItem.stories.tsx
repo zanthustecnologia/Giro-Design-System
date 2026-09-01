@@ -1,8 +1,10 @@
-﻿import React, { JSX } from "react";
-import type { Meta, StoryObj } from '@storybook/react';
-import { ListItem } from "@giro-ds/react";
-import type { ListItemProps } from "@giro-ds/react";
 import { UsbPlug20Regular } from "@fluentui/react-icons";
+import { ListItem } from "@giro-ds/react";
+import React, { JSX } from "react";
+
+import type { ListItemProps } from "@giro-ds/react";
+import type { Meta, StoryObj } from '@storybook/react-vite';
+
 
 const meta: Meta<typeof ListItem> = {
     title: 'Components/ListItem',

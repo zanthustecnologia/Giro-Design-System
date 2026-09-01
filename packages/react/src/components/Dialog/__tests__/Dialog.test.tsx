@@ -122,6 +122,7 @@ vi.mock('radix-ui', () => {
 });
 
 import { render, screen } from '@testing-library/react';
+
 import Dialog from '../Dialog';
 
 describe('Dialog', () => {

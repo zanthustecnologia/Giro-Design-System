@@ -20,7 +20,8 @@ const Checkbox: React.FC<CheckboxProps> = ({
   indeterminate = false,
   ...rest
 }) => {
-  const componentId = id || React.useId();
+  const generatedId = React.useId();
+  const componentId = id || generatedId;
 
   return (
     <div

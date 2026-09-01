@@ -1,5 +1,6 @@
-import { addons } from 'storybook/manager-api';
 import { createElement } from 'react';
+import { addons } from 'storybook/manager-api';
+
 import { ZanthusTheme } from './theme';
 import './manager.css';
 

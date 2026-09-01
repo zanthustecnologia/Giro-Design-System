@@ -1,6 +1,7 @@
-import React from 'react';
 import { Chips } from '@giro-ds/react';
+import React from 'react';
 import { changelogs, tagDates } from 'virtual:changelogs';
+
 import styles from './Changelog.module.scss';
 
 type Section = {
@@ -313,14 +314,6 @@ export function ChangelogContent() {
     parseChangelog(content, name)
   );
 
-  // Latest version per package
-  const latestPerPackage = all.reduce<Record<string, string>>((acc, entry) => {
-    if (!acc[entry.packageName] || semverToNum(entry.version) > semverToNum(acc[entry.packageName])) {
-      acc[entry.packageName] = entry.version;
-    }
-    return acc;
-  }, {});
-
   // Get date for an entry
   const getEntryDate = (entry: VersionEntry): string | undefined =>
     tagDates[`${entry.packageName}@${entry.version}`] ?? entry.inlineDate;
@@ -362,7 +355,6 @@ export function ChangelogContent() {
 
             <div className={styles.cards}>
               {entries.map((entry) => {
-                const isLatest = latestPerPackage[entry.packageName] === entry.version;
                 const counts = { major: 0, minor: 0, patch: 0 };
                 entry.sections.forEach(s => { counts[s.type]++; });
 
