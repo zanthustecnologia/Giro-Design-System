@@ -2,7 +2,7 @@
   "name": "storybook-react",
   "private": true,
   "type": "module",
-  "version": "1.0.33",
+  "version": "1.0.34",
   "scripts": {
     "dev": "storybook dev -p 6006",
     "storybook": "storybook dev -p 6006",
