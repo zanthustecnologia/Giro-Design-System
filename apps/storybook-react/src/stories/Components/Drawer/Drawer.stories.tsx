@@ -1,8 +1,7 @@
-import { Filter16Regular } from '@fluentui/react-icons';
+﻿import React, { useState } from 'react';
+import type { Meta, StoryObj } from '@storybook/react';
 import { Drawer, Button } from '@giro-ds/react';
-import React, { useState } from 'react';
-
-import type { Meta, StoryObj } from '@storybook/react-vite';
+import { Filter16Regular } from '@fluentui/react-icons';
 
 const meta: Meta<typeof Drawer> = {
   title: 'Components/Drawer',

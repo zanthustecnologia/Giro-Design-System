@@ -1,6 +1,6 @@
-# Giro Flutter Components
+# Zanthus Flutter Components
 
-Biblioteca de componentes Flutter do Giro Design System, com suporte a Material 3.
+Flutter component library for Zanthus Design System - Material 3 Pure Components.
 
 ## Features
 
@@ -9,7 +9,7 @@ Biblioteca de componentes Flutter do Giro Design System, com suporte a Material 
 - 📱 Material Design 3 compliant
 - 🔧 Fully customizable with theming
 - ♿ Built-in accessibility
-- 🚀 Tokens compartilhados gerados pelo Style Dictionary
+- 🚀 Ready for token integration
 
 ## Components
 
@@ -149,22 +149,22 @@ Access design tokens directly:
 
 ```dart
 // Colors
-GiroColors.primary
-GiroColors.secondary
+ZanthusColors.primary
+ZanthusColors.secondary
 
 // Spacing
-GiroSpacing.md
-GiroSpacing.lg
+ZanthusSpacing.md
+ZanthusSpacing.lg
 
 // Typography
-GiroTypography.heading1
-GiroTypography.bodyMedium
+ZanthusTypography.heading1
+ZanthusTypography.bodyMedium
 
 // Border Radius
-GiroBorderRadius.borderRadiusMd
+ZanthusBorderRadius.borderRadiusMd
 
 // Shadows
-GiroShadows.shadowMd
+ZanthusShadows.shadowMd
 ```
 
 ## Development

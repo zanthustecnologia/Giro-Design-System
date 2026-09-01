@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ReactNode } from 'react';
 
-import { ScalableProps } from '../../types/common.types';
+import { BaseProps,ScalableProps, Scale } from '../../types/common.types';
 
 /**
  * Props base compartilhadas por todas as configurações de tooltip do select.

@@ -1,43 +1,33 @@
-import { MoreVertical16Regular } from '@fluentui/react-icons';
 import React, { useMemo, useCallback } from 'react';
-
+import { MoreVertical16Regular } from '@fluentui/react-icons';
 import Menu from '../../Menu/Menu';
 
-import type { MenuItemProps } from '../../Menu/Menu.types';
-import type { TableColumn, TableRowData } from '../Table.types';
-
 // ✅ Interface para definir ações da tabela
-export interface TableAction<T extends TableRowData = TableRowData> {
+export interface TableAction {
   key: string;
-  label: string | ((row: T) => string);
+  label: string | ((row: any) => string);
   icon?: React.ReactNode;
   danger?: boolean;
-  disabled?: (row: T) => boolean;
-  onClick: (row: T) => void;
+  disabled?: (row: any) => boolean;
+  onClick: (row: any) => void;
 }
 
 // ✅ Helper function para criar coluna de ações
-export const createActionsColumn = <T extends TableRowData = TableRowData>(
-  actions: TableAction<T>[]
-): TableColumn<T> => ({
+export const createActionsColumn = (actions: TableAction[]) => ({
   key: 'actions',
   label: '',
-  style: { width: 60 },
+  width: 60,
   align: 'center' as const,
-  render: (row: T) => (
+  render: (row: any) => (
     <TableActionsMenu row={row} actions={actions} />
   ),
 });
 
-interface TableActionsMenuProps<T extends TableRowData> {
-  row: T;
-  actions: TableAction<T>[];
-}
-
-const TableActionsMenu = <T extends TableRowData>({
-  row,
-  actions,
-}: TableActionsMenuProps<T>) => {
+// ✅ Componente interno memoizado para performance
+const TableActionsMenu = React.memo<{ 
+  row: any; 
+  actions: TableAction[];
+}>(({ row, actions }) => {
   // Memoizar items do menu para evitar re-renders
   const menuItems = useMemo(() => 
     actions.map(action => ({
@@ -50,7 +40,7 @@ const TableActionsMenu = <T extends TableRowData>({
   , [actions, row]);
 
   // Handler memoizado para cliques
-  const handleClick = useCallback((item: MenuItemProps) => {
+  const handleClick = useCallback((item: any) => {
     const action = actions.find(a => a.key === item.id);
     if (action && !action.disabled?.(row)) {
       action.onClick(row);
@@ -69,6 +59,9 @@ const TableActionsMenu = <T extends TableRowData>({
       />
     </Menu>
   );
-};
+});
+
+// Adicionar displayName para debugging
+TableActionsMenu.displayName = 'TableActionsMenu';
 
 export default TableActionsMenu;

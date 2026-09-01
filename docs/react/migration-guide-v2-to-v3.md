@@ -583,5 +583,5 @@ Ainda está usando `onChange` ao invés de `onValueChange`.
 > [!info] Metadados
 > **Versão:** v2.0.0 → v3.0.0  
 > **Data:** Fevereiro 2026  
-> **Mantido por:** Giro Design System Team
+> **Mantido por:** Zanthus Design System Team  
 > **Última atualização:** 03/02/2026

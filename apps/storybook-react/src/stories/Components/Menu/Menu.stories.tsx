@@ -1,3 +1,7 @@
+﻿import React, { useState, useEffect } from 'react';
+import type { Meta, StoryObj } from '@storybook/react';
+import { Menu, Button } from '@giro-ds/react';
+import type { MenuProps } from '@giro-ds/react';
 import {
   Edit16Regular,
   Eye16Regular,
@@ -7,12 +11,6 @@ import {
   Flag16Regular,
   MoreHorizontal16Regular,
 } from '@fluentui/react-icons';
-import { Menu, Button } from '@giro-ds/react';
-import React, { useState } from 'react';
-
-import type { MenuProps } from '@giro-ds/react';
-import type { Meta, StoryObj } from '@storybook/react-vite';
-
 
 type MenuItemType = MenuProps['items'][number];
 

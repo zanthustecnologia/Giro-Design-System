@@ -1,5 +1,4 @@
 import clsx from 'clsx';
-
 import styles from './Container.module.scss'
 
 import type { ContainerProps } from './Container.types';

@@ -1,10 +1,8 @@
-import clsx from 'clsx';
-import { DropdownMenu } from 'radix-ui';
 import { memo } from 'react';
-
-import styles from '../Menu.module.scss';
+import { DropdownMenu } from 'radix-ui';
 import { DefaultMenuItemProps } from '../Menu.types';
-
+import styles from '../Menu.module.scss';
+import clsx from 'clsx';
 
 export const MenuItem = memo(({ item, isSelected, onSelect }: DefaultMenuItemProps) => {
   

@@ -1,8 +1,8 @@
 import { ToastProvider, ToastContainer, useToast, Button } from '@giro-ds/react';
+import type { ToastProps } from '@giro-ds/react';
 import React from 'react';
 
-import type { ToastProps } from '@giro-ds/react';
-import type { Meta, StoryFn } from '@storybook/react-vite';
+import type { Meta, StoryFn } from '@storybook/react';
 
 const meta: Meta = {
   title: 'Components/Toast',
@@ -49,14 +49,12 @@ export const Default: StoryFn = () => {
 type AutoItem = Pick<ToastProps, 'title' | 'iconType'>;
 const AutoToast: React.FC<{ items: AutoItem[]; height?: number }> = ({ items, height = 280 }) => {
   const { showToast } = useToast();
-  const initialItems = React.useRef(items);
-  const showToastRef = React.useRef(showToast);
 
   React.useEffect(() => {
     const timeouts: ReturnType<typeof setTimeout>[] = [];
-    initialItems.current.forEach((item, i) => {
+    items.forEach((item, i) => {
       const t = setTimeout(
-        () => showToastRef.current({ ...item, automaticClose: false }),
+        () => showToast({ ...item, automaticClose: false }),
         i * 80,
       );
       timeouts.push(t);

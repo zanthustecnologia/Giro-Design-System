@@ -1,6 +1,6 @@
 # 📚 Documentação Flutter - Índice
 
-Bem-vindo à documentação Flutter do Giro Design System!
+Bem-vindo à documentação Flutter do Zanthus Design System!
 
 ## 📖 Guias Disponíveis
 
@@ -54,7 +54,7 @@ Bem-vindo à documentação Flutter do Giro Design System!
 
 ---
 
-### 🔄 [Integração de Tokens](./flutter-tokens-integration-roadmap.md)
+### 🔄 [Roadmap de Integração de Tokens](./flutter-tokens-integration-roadmap.md)
 **Plano para sincronizar tokens React ↔ Flutter**
 
 - Situação atual
@@ -93,7 +93,7 @@ Bem-vindo à documentação Flutter do Giro Design System!
 1. 🔄 Leia: flutter-tokens-integration-roadmap.md
 2. 📖 Configure: Style Dictionary
 3. 🧪 Teste: geração de tokens
-4. ✅ Valide: `pnpm check:tokens` e `pnpm check:flutter`
+4. 🚀 Implemente: as fases do roadmap
 ```
 
 ---
@@ -138,7 +138,7 @@ docs/
 
 ```bash
 # Executar Widgetbook
-cd apps/widgetbook-flutter && flutter run -d chrome
+cd apps/storybook-flutter && flutter run -d chrome
 
 # Instalar dependências
 flutter pub get
@@ -192,7 +192,7 @@ Se você criou um novo componente ou feature:
 
 ## 🎉 Pronto para Começar!
 
-Escolha o guia apropriado acima e comece a desenvolver com Flutter no Giro Design System!
+Escolha o guia apropriado acima e comece a desenvolver com Flutter no Zanthus Design System!
 
 **Boa sorte! 🚀**
 

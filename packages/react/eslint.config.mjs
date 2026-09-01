@@ -30,9 +30,6 @@ export default [
       'jsx-a11y/click-events-have-key-events': 'warn',
       'jsx-a11y/no-noninteractive-element-interactions': 'warn',
       '@typescript-eslint/no-unused-vars': 'warn',
-      // Pacotes de biblioteca exportam componentes e helpers no mesmo módulo.
-      'react-refresh/only-export-components': 'off',
-      'no-console': ['warn', { allow: ['warn', 'error', 'debug'] }],
     },
   },
   {
@@ -42,12 +39,8 @@ export default [
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-require-imports': 'off',
       '@typescript-eslint/no-unused-vars': 'off',
-      '@typescript-eslint/no-non-null-assertion': 'off',
       'react/display-name': 'off',
       'no-console': 'off',
-      'import/order': 'off',
-      'jsx-a11y/click-events-have-key-events': 'off',
-      'jsx-a11y/no-static-element-interactions': 'off',
     },
   },
   {

@@ -1,6 +1,6 @@
 # @giro-ds/utilities
 
-Biblioteca de classes utilitárias CSS para o Giro Design System.
+Biblioteca de classes utilitárias CSS para o Zanthus Design System.
 
 ## 📦 Instalação
 

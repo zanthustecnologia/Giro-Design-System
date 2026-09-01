@@ -1,4 +1,4 @@
-import {
+﻿import {
   Info16Regular,
   Person16Regular,
   Mail16Regular,
@@ -9,7 +9,7 @@ import {
 import { Popover, Button } from '@giro-ds/react';
 import React from 'react';
 
-import type { Meta, StoryObj } from '@storybook/react-vite';
+import type { Meta, StoryObj } from '@storybook/react';
 
 const meta: Meta<typeof Popover> = {
   title: 'Components/Popover',

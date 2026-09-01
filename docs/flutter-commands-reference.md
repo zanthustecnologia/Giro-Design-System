@@ -1,6 +1,6 @@
 # 🚀 Comandos Rápidos - Flutter
 
-Referência rápida de comandos para trabalhar com Flutter no Giro Design System.
+Referência rápida de comandos para trabalhar com Flutter no Zanthus Design System.
 
 ## 📦 Instalação e Configuração
 
@@ -9,11 +9,11 @@ Referência rápida de comandos para trabalhar com Flutter no Giro Design System
 flutter doctor -v
 
 # Instalar dependências - Pacote de componentes
-cd packages/flutter
+cd packages/components-flutter
 flutter pub get
 
 # Instalar dependências - Storybook Flutter
-cd apps/widgetbook-flutter
+cd apps/storybook-flutter
 flutter pub get
 ```
 
@@ -21,11 +21,11 @@ flutter pub get
 
 ```bash
 # Web (Chrome) - Recomendado para desenvolvimento
-cd apps/widgetbook-flutter
+cd apps/storybook-flutter
 flutter run -d chrome
 
 # Windows Desktop
-cd apps/widgetbook-flutter
+cd apps/storybook-flutter
 flutter run -d windows
 
 # Listar dispositivos disponíveis
@@ -52,7 +52,7 @@ flutter clean
 
 ```bash
 # Web
-cd apps/widgetbook-flutter
+cd apps/storybook-flutter
 flutter build web
 
 # Android APK
@@ -69,7 +69,7 @@ flutter build windows
 
 ```bash
 # Rodar todos os testes
-cd packages/flutter
+cd packages/components-flutter
 flutter test
 
 # Análise com mais detalhes
@@ -132,14 +132,14 @@ Quando o app está rodando:
 
 ```bash
 # 1. Criar arquivo do componente
-cd packages/flutter/lib/components/meu_componente
+cd packages/components-flutter/lib/components/meu_componente
 # Criar meu_componente.dart
 
-# 2. Exportar no flutter_giro.dart
+# 2. Exportar no zanthus_flutter.dart
 # Adicionar: export 'components/meu_componente/meu_componente.dart';
 
 # 3. Criar story no Widgetbook
-cd apps/widgetbook-flutter/lib/stories
+cd apps/storybook-flutter/lib/stories
 # Criar meu_componente_story.dart
 
 # 4. Registrar story no main.dart
@@ -153,14 +153,14 @@ flutter run -d chrome
 
 ```bash
 # 1. Editar tokens
-cd packages/flutter/lib/tokens
+cd packages/components-flutter/lib/tokens
 # Editar arquivo de token (ex: colors.dart)
 
 # 2. Verificar mudanças
 flutter analyze
 
 # 3. Testar no Widgetbook
-cd apps/widgetbook-flutter
+cd apps/storybook-flutter
 flutter run -d chrome
 ```
 
@@ -168,7 +168,7 @@ flutter run -d chrome
 
 ```bash
 # 1. Atualizar CHANGELOG.md
-cd packages/flutter
+cd packages/components-flutter
 # Editar CHANGELOG.md
 
 # 2. Atualizar versão no pubspec.yaml

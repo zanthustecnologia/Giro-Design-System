@@ -102,7 +102,7 @@ const Search = forwardRef<HTMLInputElement, SearchProps>((
         onKeyDown={onClick || onMouseDown ? (e) => {
           if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault();
-            onClick?.(e as unknown as React.MouseEvent<HTMLDivElement>);
+            onClick?.(e as any);
           }
         } : undefined}
       >

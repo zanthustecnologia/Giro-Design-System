@@ -1,7 +1,6 @@
 import { Calendar } from '@giro-ds/react';
-import React, { useState } from 'react';
-
 import type { DateRange } from '@giro-ds/react';
+import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta: Meta<typeof Calendar> = {

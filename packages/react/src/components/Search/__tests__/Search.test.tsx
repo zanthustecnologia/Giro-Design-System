@@ -1,8 +1,7 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { createRef } from 'react';
 import { describe, it, expect, vi } from 'vitest';
-
+import { createRef } from 'react';
 import Search from '../Search';
 
 // Mock parcial dos ícones do Fluent UI

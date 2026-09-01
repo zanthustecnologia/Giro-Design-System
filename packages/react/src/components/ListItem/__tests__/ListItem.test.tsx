@@ -1,7 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-
 import ListItem from '../ListItem';
 
 // React's useId() generates IDs like `:r0:` that contain colons. Jsdom/nwsapi

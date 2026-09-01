@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import React, { useState, useMemo, useCallback, ReactNode } from 'react';
+import React, { useState, useMemo, useCallback, ReactNode, CSSProperties } from 'react';
 
 import styles from './Table.module.scss';
 import Checkbox from '../Checkbox';
@@ -95,17 +95,18 @@ const Table = <T extends TableRowData = TableRowData>({
   onRow,
   ...rest
 }: TableProps<T>) => {
-  const hasValidData = Array.isArray(columns) && Array.isArray(dataSource);
-  const safeColumns = useMemo(() => Array.isArray(columns) ? columns : [], [columns]);
-  const safeDataSource = useMemo(() => Array.isArray(dataSource) ? dataSource : [], [dataSource]);
+  if (!Array.isArray(columns) || !Array.isArray(dataSource)) {
+    console.warn('Table: columns e dataSource devem ser arrays');
+    return null;
+  }
 
   const { selectedSet, toggleRow, toggleAll, isAllSelected, isIndeterminate } = useSelection(
-    safeDataSource,
+    dataSource,
     rowSelection
   );
 
   const finalColumns = useMemo(() => {
-    if (!rowSelection) return safeColumns;
+    if (!rowSelection) return columns;
 
     const checkboxColumn: TableColumn<T> = {
       key: '__checkbox__',
@@ -118,7 +119,7 @@ const Table = <T extends TableRowData = TableRowData>({
           />
         ),
         render: (_, index) => {
-          const props = rowSelection.getCheckboxProps?.(safeDataSource[index], index) || {};
+          const props = rowSelection.getCheckboxProps?.(dataSource[index], index) || {};
           return (
             <Checkbox
               checked={selectedSet.has(index)}
@@ -130,17 +131,11 @@ const Table = <T extends TableRowData = TableRowData>({
       align: 'center',
     };
 
-    return [checkboxColumn, ...safeColumns];
-  }, [safeColumns, rowSelection, isAllSelected, isIndeterminate, toggleAll, selectedSet, toggleRow, safeDataSource]);
+    return [checkboxColumn, ...columns];
+  }, [columns, rowSelection, isAllSelected, isIndeterminate, toggleAll, selectedSet, toggleRow, dataSource]);
   const tableId = useMemo(() =>
     `table-${Math.random().toString(36).substr(2, 9)}`, []
   );
-
-  if (!hasValidData) {
-    console.warn('Table: columns e dataSource devem ser arrays');
-    return null;
-  }
-
   if (loading) {
     return (
       <div className={clsx(styles.tableContainer, className)}>
@@ -171,7 +166,7 @@ const Table = <T extends TableRowData = TableRowData>({
           role="table"
           aria-label="Tabela de dados"
           aria-describedby={loading ? `${tableId}-loading` : undefined}
-          aria-rowcount={safeDataSource.length + 1}
+          aria-rowcount={dataSource.length + 1}
         >
           <thead className={styles.tableHead}>
             <tr>
@@ -187,8 +182,8 @@ const Table = <T extends TableRowData = TableRowData>({
             </tr>
           </thead>
           <tbody className={styles.tableBody}>
-            {safeDataSource.length > 0 ? (
-              safeDataSource.map((row, index) => {
+            {dataSource.length > 0 ? (
+              dataSource.map((row, index) => {
                 const rowProps = onRow?.(row, index) || {};
                 return (
                   <tr

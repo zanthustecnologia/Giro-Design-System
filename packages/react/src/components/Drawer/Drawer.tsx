@@ -1,12 +1,12 @@
 import { Dismiss16Regular } from '@fluentui/react-icons';
 import clsx from 'clsx';
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, ReactNode, ReactElement } from 'react';
 import { createPortal } from 'react-dom';
 
 import styles from './Drawer.module.scss';
 import Button from '../Button/Button';
 
-import type { DrawerProps } from './Drawer.types';
+import type { DrawerProps, DrawerExampleProps } from './Drawer.types';
 
 const Drawer: React.FC<DrawerProps> = ({
   children,
@@ -71,6 +71,10 @@ const Drawer: React.FC<DrawerProps> = ({
     };
   }, [isOpen, onOpen, disabled]);
 
+  const handleDrawerClick = (event: React.MouseEvent<HTMLDivElement>): void => {
+    event.stopPropagation();
+  };
+
   const handleCloseClick = (event: React.MouseEvent<HTMLElement>): void => {
     event.stopPropagation();
     internalClose();
@@ -99,6 +103,7 @@ const Drawer: React.FC<DrawerProps> = ({
         style={{
           '--drawer-custom-width': customWidth,
         } as React.CSSProperties}
+        onClick={handleDrawerClick}
         role="dialog"
         aria-modal="true"
         aria-labelledby={id ? `${id}-title` : 'drawer-title'}

@@ -7,10 +7,10 @@ updated: 2025-12-01
 
 ---
 
-# 📚 Guia de Comandos pnpm - Giro Design System
+# 📚 Guia de Comandos pnpm - Zanthus Design System
 
 > [!info] Sobre este guia
-> Este documento contém todos os comandos essenciais para trabalhar com o Giro Design System usando pnpm.
+> Este documento contém todos os comandos essenciais para trabalhar com o Zanthus Design System usando pnpm.
 
 ---pm
 
@@ -353,7 +353,7 @@ pnpm store path  # Ver onde está o store
 ---
 
 > [!info]- Metadados
-> **Mantido por:** Giro Design System Team
+> **Mantido por:** Zanthus Design System Team
 > **Última atualização:** Dezembro 2025
 
 - [Documentação oficial do pnpm](https://pnpm.io/)
@@ -363,6 +363,6 @@ pnpm store path  # Ver onde está o store
 
 ---
 
-**Mantido por:** Giro Design System Team
+**Mantido por:** Zanthus Design System Team
 **Última atualização:** Dezembro 2025
 ````
