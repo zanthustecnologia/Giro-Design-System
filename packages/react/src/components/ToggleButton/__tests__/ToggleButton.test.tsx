@@ -52,7 +52,6 @@ vi.mock('radix-ui', () => {
     defaultValue,
     onValueChange,
     disabled,
-    orientation,
     className,
     id,
     style,
@@ -86,8 +85,6 @@ vi.mock('radix-ui', () => {
         style={style}
         className={className}
         role="group"
-        data-orientation={orientation}
-        aria-label={orientation}
       >
         {React.Children.map(children, (child: any) =>
           child
@@ -180,43 +177,43 @@ describe('ToggleButton', () => {
   // -------------------------------------------------------------------------
   describe('modo simple (padrão)', () => {
     it('deve renderizar um botão toggle', () => {
-      render(<ToggleButton>Negrito</ToggleButton>);
+      render(<ToggleButton label="Negrito" />);
       expect(screen.getByRole('button', { name: /negrito/i })).toBeInTheDocument();
     });
 
-    it('deve exibir o conteúdo filho', () => {
-      render(<ToggleButton>Meu conteúdo</ToggleButton>);
+    it('deve exibir o label', () => {
+      render(<ToggleButton label="Meu conteúdo" />);
       expect(screen.getByText('Meu conteúdo')).toBeInTheDocument();
     });
 
     it('deve ter aria-pressed=false por padrão', () => {
-      render(<ToggleButton>Toggle</ToggleButton>);
+      render(<ToggleButton label="Toggle" />);
       expect(screen.getByRole('button')).toHaveAttribute('aria-pressed', 'false');
     });
 
     it('deve refletir defaultPressed=true no estado inicial', () => {
-      render(<ToggleButton defaultPressed>Toggle</ToggleButton>);
+      render(<ToggleButton defaultPressed label="Toggle" />);
       expect(screen.getByRole('button')).toHaveAttribute('aria-pressed', 'true');
     });
 
     it('deve refletir a prop pressed controlada', () => {
-      const { rerender } = render(<ToggleButton pressed={false}>Toggle</ToggleButton>);
+      const { rerender } = render(<ToggleButton pressed={false} label="Toggle" />);
       expect(screen.getByRole('button')).toHaveAttribute('aria-pressed', 'false');
 
-      rerender(<ToggleButton pressed={true}>Toggle</ToggleButton>);
+      rerender(<ToggleButton pressed={true} label="Toggle" />);
       expect(screen.getByRole('button')).toHaveAttribute('aria-pressed', 'true');
     });
 
     it('deve chamar onPressedChange ao clicar', () => {
       const onPressedChange = vi.fn();
-      render(<ToggleButton onPressedChange={onPressedChange}>Toggle</ToggleButton>);
+      render(<ToggleButton onPressedChange={onPressedChange} label="Toggle" />);
       fireEvent.click(screen.getByRole('button'));
       expect(onPressedChange).toHaveBeenCalledWith(true);
     });
 
     it('deve chamar onPressedChange com false ao clicar novamente', () => {
       const onPressedChange = vi.fn();
-      render(<ToggleButton defaultPressed onPressedChange={onPressedChange}>Toggle</ToggleButton>);
+      render(<ToggleButton defaultPressed onPressedChange={onPressedChange} label="Toggle" />);
       fireEvent.click(screen.getByRole('button'));
       expect(onPressedChange).toHaveBeenCalledWith(false);
     });
@@ -224,31 +221,29 @@ describe('ToggleButton', () => {
     it('não deve chamar onPressedChange quando desabilitado', () => {
       const onPressedChange = vi.fn();
       render(
-        <ToggleButton disabled onPressedChange={onPressedChange}>
-          Toggle
-        </ToggleButton>,
+        <ToggleButton disabled onPressedChange={onPressedChange} label="Toggle" />,
       );
       fireEvent.click(screen.getByRole('button'));
       expect(onPressedChange).not.toHaveBeenCalled();
     });
 
     it('deve renderizar desabilitado', () => {
-      render(<ToggleButton disabled>Toggle</ToggleButton>);
+      render(<ToggleButton disabled label="Toggle" />);
       expect(screen.getByRole('button')).toBeDisabled();
     });
 
     it('deve aplicar id customizado', () => {
-      render(<ToggleButton id="toggle-id">Toggle</ToggleButton>);
+      render(<ToggleButton id="toggle-id" label="Toggle" />);
       expect(screen.getByRole('button')).toHaveAttribute('id', 'toggle-id');
     });
 
     it('deve aplicar className customizada', () => {
-      render(<ToggleButton className="custom-class">Toggle</ToggleButton>);
+      render(<ToggleButton className="custom-class" label="Toggle" />);
       expect(screen.getByRole('button')).toHaveClass('custom-class');
     });
 
     it('deve aplicar style customizado', () => {
-      render(<ToggleButton style={{ color: 'red' }}>Toggle</ToggleButton>);
+      render(<ToggleButton style={{ color: 'red' }} label="Toggle" />);
       expect(screen.getByRole('button')).toHaveStyle({ color: 'rgb(255, 0, 0)' });
     });
   });
@@ -258,12 +253,12 @@ describe('ToggleButton', () => {
   // -------------------------------------------------------------------------
   describe('tamanhos (modo simple)', () => {
     it('deve aplicar classe toggle-lg por padrão', () => {
-      const { container } = render(<ToggleButton>Toggle</ToggleButton>);
+      const { container } = render(<ToggleButton label="Toggle" />);
       expect(container.querySelector('[class*="toggle-lg"]')).toBeInTheDocument();
     });
 
     it('deve aplicar classe toggle-sm quando size="sm"', () => {
-      const { container } = render(<ToggleButton size="sm">Toggle</ToggleButton>);
+      const { container } = render(<ToggleButton size="sm" label="Toggle" />);
       expect(container.querySelector('[class*="toggle-sm"]')).toBeInTheDocument();
     });
   });
@@ -273,19 +268,19 @@ describe('ToggleButton', () => {
   // -------------------------------------------------------------------------
   describe('escala (modo simple)', () => {
     it('deve aplicar --giro-scale: 1 por padrão', () => {
-      render(<ToggleButton>Toggle</ToggleButton>);
+      render(<ToggleButton label="Toggle" />);
       const btn = screen.getByRole('button');
       expect(btn).toHaveAttribute('style', expect.stringContaining('--giro-scale: 1'));
     });
 
     it('deve aplicar --giro-scale: 1.5 quando scale={1.5}', () => {
-      render(<ToggleButton scale={1.5}>Toggle</ToggleButton>);
+      render(<ToggleButton scale={1.5} label="Toggle" />);
       const btn = screen.getByRole('button');
       expect(btn).toHaveAttribute('style', expect.stringContaining('--giro-scale: 1.5'));
     });
 
     it('deve aplicar --giro-scale: 2 quando scale={2}', () => {
-      render(<ToggleButton scale={2}>Toggle</ToggleButton>);
+      render(<ToggleButton scale={2} label="Toggle" />);
       const btn = screen.getByRole('button');
       expect(btn).toHaveAttribute('style', expect.stringContaining('--giro-scale: 2'));
     });
@@ -297,7 +292,7 @@ describe('ToggleButton', () => {
   describe('ícone (modo simple)', () => {
     it('deve renderizar ícone ao lado do label', () => {
       render(
-        <ToggleButton icon={<svg data-testid="icon" />}>Negrito</ToggleButton>,
+        <ToggleButton icon={<svg data-testid="icon" />} label="Negrito" />,
       );
       expect(screen.getByTestId('icon')).toBeInTheDocument();
       expect(screen.getByText('Negrito')).toBeInTheDocument();
@@ -305,16 +300,14 @@ describe('ToggleButton', () => {
 
     it('deve aplicar classe toggleWithIcon quando há ícone e não é iconOnly', () => {
       const { container } = render(
-        <ToggleButton icon={<svg data-testid="icon" />}>Label</ToggleButton>,
+        <ToggleButton icon={<svg data-testid="icon" />} label="Label" />,
       );
       expect(container.querySelector('[class*="toggleWithIcon"]')).toBeInTheDocument();
     });
 
     it('deve renderizar somente o ícone em modo iconOnly', () => {
       render(
-        <ToggleButton icon={<svg data-testid="icon" />} iconOnly>
-          Negrito
-        </ToggleButton>,
+        <ToggleButton icon={<svg data-testid="icon" />} iconOnly label="Negrito" />,
       );
       expect(screen.getByTestId('icon')).toBeInTheDocument();
       expect(screen.queryByText('Negrito')).not.toBeInTheDocument();
@@ -322,18 +315,14 @@ describe('ToggleButton', () => {
 
     it('deve aplicar classe toggleIconOnly quando iconOnly=true', () => {
       const { container } = render(
-        <ToggleButton icon={<svg />} iconOnly>
-          Label
-        </ToggleButton>,
+        <ToggleButton icon={<svg />} iconOnly label="Label" />,
       );
       expect(container.querySelector('[class*="toggleIconOnly"]')).toBeInTheDocument();
     });
 
     it('deve envolver o ícone num span com aria-hidden em modo iconOnly', () => {
       render(
-        <ToggleButton icon={<svg data-testid="icon" />} iconOnly>
-          Label
-        </ToggleButton>,
+        <ToggleButton icon={<svg data-testid="icon" />} iconOnly label="Label" />,
       );
       const iconSpan = screen.getByTestId('icon').parentElement;
       expect(iconSpan).toHaveAttribute('aria-hidden', 'true');
@@ -341,7 +330,7 @@ describe('ToggleButton', () => {
 
     it('deve envolver o ícone num span com aria-hidden quando há ícone + label', () => {
       render(
-        <ToggleButton icon={<svg data-testid="icon" />}>Label</ToggleButton>,
+        <ToggleButton icon={<svg data-testid="icon" />} label="Label" />,
       );
       const iconSpan = screen.getByTestId('icon').parentElement;
       expect(iconSpan).toHaveAttribute('aria-hidden', 'true');
@@ -353,7 +342,7 @@ describe('ToggleButton', () => {
   // -------------------------------------------------------------------------
   describe('tooltip (modo simple)', () => {
     it('deve envolver o toggle em Tooltip quando tooltipText é fornecido', () => {
-      render(<ToggleButton tooltipText="Dica">Toggle</ToggleButton>);
+      render(<ToggleButton tooltipText="Dica" label="Toggle" />);
       expect(screen.getByTestId('tooltip-wrapper')).toBeInTheDocument();
       expect(screen.getByTestId('tooltip-wrapper')).toHaveAttribute(
         'data-tooltip-text',
@@ -362,12 +351,12 @@ describe('ToggleButton', () => {
     });
 
     it('não deve renderizar Tooltip quando tooltipText não é fornecido', () => {
-      render(<ToggleButton>Toggle</ToggleButton>);
+      render(<ToggleButton label="Toggle" />);
       expect(screen.queryByTestId('tooltip-wrapper')).not.toBeInTheDocument();
     });
 
     it('o toggle deve ser filho do Tooltip', () => {
-      render(<ToggleButton tooltipText="Dica">Toggle</ToggleButton>);
+      render(<ToggleButton tooltipText="Dica" label="Toggle" />);
       const wrapper = screen.getByTestId('tooltip-wrapper');
       expect(wrapper.querySelector('button')).toBeInTheDocument();
     });
@@ -536,29 +525,6 @@ describe('ToggleButton', () => {
   });
 
   // -------------------------------------------------------------------------
-  // ToggleGroup - orientação
-  // -------------------------------------------------------------------------
-  describe('modo combined - orientação', () => {
-    it('deve ter orientação horizontal por padrão', () => {
-      render(<ToggleButton mode="combined" items={items} />);
-      expect(screen.getByRole('group')).toHaveAttribute(
-        'data-orientation',
-        'horizontal',
-      );
-    });
-
-    it('deve aplicar orientação vertical', () => {
-      render(
-        <ToggleButton mode="combined" orientation="vertical" items={items} />,
-      );
-      expect(screen.getByRole('group')).toHaveAttribute(
-        'data-orientation',
-        'vertical',
-      );
-    });
-  });
-
-  // -------------------------------------------------------------------------
   // ToggleGroup - disabled
   // -------------------------------------------------------------------------
   describe('modo combined - disabled', () => {
@@ -679,20 +645,6 @@ describe('ToggleButton', () => {
         <ToggleButton mode="combined" size="sm" items={items} />,
       );
       expect(container.querySelector('[class*="item-sm"]')).toBeInTheDocument();
-    });
-  });
-
-  // -------------------------------------------------------------------------
-  // ToggleGroup - children custom
-  // -------------------------------------------------------------------------
-  describe('modo combined - children customizado', () => {
-    it('deve renderizar children ao invés de items quando fornecido', () => {
-      render(
-        <ToggleButton mode="combined">
-          <span>Item customizado</span>
-        </ToggleButton>,
-      );
-      expect(screen.getByText('Item customizado')).toBeInTheDocument();
     });
   });
 

@@ -77,18 +77,26 @@
     cursor: not-allowed;
     pointer-events: none;
   }
+
+  &[data-state='on'][data-disabled] {
+    background-color: var(--toggle-button-off-background-disabled);
+    border: var(--toggle-button-off-border-width) solid var(--toggle-button-off-border-disabled);
+    color: var(--toggle-button-off-color-disabled);
+  }
 }
 
 .toggle-lg,
 .item-lg {
   height: scale(var(--toggle-button-lg-height));
   padding: 0 scale(var(--toggle-button-padding-inline));
+  min-width: scale(var(--toggle-button-lg-height));
 }
 
 .toggle-sm,
 .item-sm {
   height: scale(var(--toggle-button-sm-height));
   padding: 0 scale(var(--toggle-button-padding-inline));
+  min-width: scale(var(--toggle-button-sm-height));
 }
 
 .toggleIconLeft {
@@ -153,28 +161,6 @@
     &:not(:first-child):not(:last-child) {
       @include border-separator-h;
       border-radius: 0;
-    }
-  }
-
-  &[data-orientation='vertical'] {
-    display: inline-flex;
-    flex-direction: column;
-
-    .item,
-    .toggle {
-      &:first-child:not(:last-child) {
-        border-radius: scale(var(--toggle-button-radius)) scale(var(--toggle-button-radius)) 0 0;
-      }
-
-      &:last-child:not(:first-child) {
-        @include border-separator-v;
-        border-radius: 0 0 scale(var(--toggle-button-radius)) scale(var(--toggle-button-radius));
-      }
-
-      &:not(:first-child):not(:last-child) {
-        @include border-separator-v;
-        border-radius: 0;
-      }
     }
   }
 }

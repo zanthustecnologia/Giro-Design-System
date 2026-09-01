@@ -19,11 +19,14 @@ const Chips: React.FC<ChipsProps> = ({
   ...rest
 }) => {
 
+  const isInteractive = typeof rest.onClick === 'function';
+
   const chipsClass = clsx(
     styles.chips,
     styles[variant],
     {
       [styles.disabled]: disabled,
+      [styles.interactive]: isInteractive && !disabled,
       [styles.hasLeftIcon]: leftIcon,
       [styles.hasRightIcon]: rightIcon,
     },
@@ -36,8 +39,6 @@ const Chips: React.FC<ChipsProps> = ({
     ...(!disabled && textColor && { '--chips-text': `var(--${textColor})` }),
     ...style,
   } as React.CSSProperties;
-
-  const isInteractive = typeof rest.onClick === 'function';
 
   const { onKeyDown: userOnKeyDown, ...otherRest } = rest;
 

@@ -37,6 +37,7 @@ const Select: React.FC<SelectProps> = ({
   tooltipAlign = 'start',
   enableInfiniteScroll = false,
   onScrollEnd,
+  hasMore = true,
   isLoadingMore = false,
   enableApiSearch = false,
   onApiSearch,
@@ -48,6 +49,7 @@ const Select: React.FC<SelectProps> = ({
   const selectId = `select-${componentId}`;
   const viewportRef = useRef<HTMLDivElement>(null);
   const hasReachedEndRef = useRef<boolean>(false);
+  const wasLoadingMoreRef = useRef<boolean>(false);
 
   const {
     state,
@@ -74,7 +76,7 @@ const Select: React.FC<SelectProps> = ({
       const { scrollTop, scrollHeight, clientHeight } = viewport;
       const isAtBottom = scrollTop + clientHeight >= scrollHeight - 1;
 
-      if (isAtBottom && !hasReachedEndRef.current && onScrollEnd && !isLoadingMore) {
+      if (isAtBottom && !hasReachedEndRef.current && onScrollEnd && !isLoadingMore && hasMore) {
         hasReachedEndRef.current = true;
         onScrollEnd();
       } else if (!isAtBottom && hasReachedEndRef.current) {
@@ -87,13 +89,20 @@ const Select: React.FC<SelectProps> = ({
     return () => {
       viewport.removeEventListener('scroll', handleScroll);
     };
-  }, [state.isOpen, enableInfiniteScroll, onScrollEnd, isLoadingMore]);
+  }, [state.isOpen, enableInfiniteScroll, onScrollEnd, isLoadingMore, hasMore]);
 
   useEffect(() => {
     if (state.isOpen && enableInfiniteScroll) {
       hasReachedEndRef.current = false;
     }
   }, [state.isOpen, enableInfiniteScroll]);
+
+  useEffect(() => {
+    if (wasLoadingMoreRef.current && !isLoadingMore && enableInfiniteScroll) {
+      hasReachedEndRef.current = false;
+    }
+    wasLoadingMoreRef.current = isLoadingMore;
+  }, [isLoadingMore, enableInfiniteScroll]);
 
   const displayText = useMemo(
     () => utils.getDisplayText(state.selectedValues, placeholder, variant, items),
@@ -104,6 +113,24 @@ const Select: React.FC<SelectProps> = ({
     const termToFilter = enableApiSearch ? state.searchTerm : state.searchInput;
     return utils.getFilteredItems(items, termToFilter);
   }, [items, state.searchTerm, state.searchInput, enableApiSearch, utils]);
+
+  useEffect(() => {
+    if (!state.isOpen || !enableInfiniteScroll || !onScrollEnd || isLoadingMore) return;
+
+    const timer = setTimeout(() => {
+      const viewport = viewportRef.current;
+      if (!viewport) return;
+
+      const { scrollHeight, clientHeight } = viewport;
+
+      if (scrollHeight <= clientHeight && !hasReachedEndRef.current && hasMore) {
+        hasReachedEndRef.current = true;
+        onScrollEnd();
+      }
+    }, 150);
+
+    return () => clearTimeout(timer);
+  }, [state.isOpen, enableInfiniteScroll, onScrollEnd, isLoadingMore, hasMore, filteredItems.length]);
 
   const containerStyle = useMemo(() => ({
     maxWidth: maxWidth ? `${maxWidth}px` : undefined,

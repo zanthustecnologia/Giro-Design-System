@@ -13,6 +13,8 @@ import React, {
   useState,
 } from 'react';
 
+import { forwardRef } from '../../utils/forwardRef';
+
 import styles from './FileUpload.module.scss';
 
 import type { FileUploadProps } from './FileUpload.type';
@@ -47,24 +49,27 @@ const matchesAccept = (file: File, accept?: string): boolean => {
   });
 }
 
-const FileUpload = ({
-  ref,
-  value,
-  onChange,
-  helperText,
-  error = false,
-  errorMessage,
-  maxFileSize,
-  maxFilesQuantity,
-  disabled = false,
-  className,
-  id,
-  accept,
-  multiple = true,
-  description = 'Clique ou arraste os arquivos aqui',
-  descriptionErrorMessage = 'Falha ao subir um ou mais arquivos.',
-  ...rest
-}: FileUploadProps & { ref?: React.Ref<HTMLInputElement> }) => {
+const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
+  (
+    {
+      value,
+      onChange,
+      helperText,
+      error = false,
+      errorMessage,
+      maxFileSize,
+      maxFilesQuantity,
+      disabled = false,
+      className,
+      id,
+      accept,
+      multiple = true,
+      description = 'Clique ou arraste os arquivos aqui',
+      descriptionErrorMessage = 'Falha ao subir um ou mais arquivos.',
+      ...rest
+    },
+    ref
+  ) => {
     const generatedId = useId();
     const componentId = id || generatedId;
     const helperId = `${componentId}-helper`;
@@ -349,7 +354,8 @@ const FileUpload = ({
         )}
       </div>
     );
-};
+  }
+);
 
 FileUpload.displayName = 'FileUpload';
 

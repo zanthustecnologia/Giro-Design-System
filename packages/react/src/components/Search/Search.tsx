@@ -2,34 +2,38 @@ import { Search16Regular, Dismiss16Regular } from '@fluentui/react-icons';
 import clsx from 'clsx';
 import React, { useState, useId } from 'react';
 
+import { forwardRef } from '../../utils/forwardRef';
+
 import useInputKeyboardValue from '../../hooks/useInputKeyboardValue';
 import VirtualKeyboard from '../VirtualKeyboard';
 import styles from './Search.module.scss';
 
 import type { SearchProps } from './Search.types';
 
-const Search = ({
-  ref,
-  placeholder = 'Dica do que deve ser buscado',
-  disabled = false,
-  value,
-  onChange,
-  onKeyDown,
-  onFocus,
-  onBlur,
-  onClear,
-  onClick,
-  onMouseDown,
-  searchMode = 'instant',
-  onSearch,
-  id,
-  scale = 1,
-  className,
-  style,
-  virtualKeyboard,
-  'data-testid': testId,
-  ...rest
-}: SearchProps & { ref?: React.Ref<HTMLInputElement> }) => {
+const Search = forwardRef<HTMLInputElement, SearchProps>((
+  {
+    placeholder = 'Dica do que deve ser buscado',
+    disabled = false,
+    value,
+    onChange,
+    onKeyDown,
+    onFocus,
+    onBlur,
+    onClear,
+    onClick,
+    onMouseDown,
+    searchMode = 'instant',
+    onSearch,
+    id,
+    scale = 1,
+    className,
+    style,
+    virtualKeyboard,
+    'data-testid': testId,
+    ...rest
+  },
+  ref
+) => {
     const [internalValue, setInternalValue] = useState<string>('');
     const { internalRef: inputRef, setRefs: setInputRefs } = useInputKeyboardValue(ref);
     const isControlled = value !== undefined && onChange !== undefined;
@@ -162,7 +166,7 @@ const Search = ({
         )}
       </div>
     );
-};
+});
 
 Search.displayName = 'Search';
 

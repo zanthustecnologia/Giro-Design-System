@@ -1,6 +1,8 @@
-import React, { useRef, useCallback } from 'react';
+import { useRef, useCallback } from 'react';
 
-function useInputKeyboardValue<T extends HTMLElement>(externalRef: React.Ref<T> | undefined) {
+import type { ForwardedRef } from 'react';
+
+function useInputKeyboardValue<T extends HTMLElement>(externalRef: ForwardedRef<T>) {
   const internalRef = useRef<T>(null);
 
   const setRefs = useCallback(

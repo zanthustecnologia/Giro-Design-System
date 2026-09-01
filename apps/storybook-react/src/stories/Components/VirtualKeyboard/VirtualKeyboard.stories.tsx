@@ -51,6 +51,11 @@ const meta: Meta<typeof VirtualKeyboard> = {
       description:
         'Exibe ou oculta a tecla de alternância entre os layouts default ("123") e numeric ("ABC"). Quando `false`, a tecla "123" é removida no layout default (a tecla espaço cresce) e a tecla "ABC" é substituída por espaço vazio no layout numeric.',
     },
+    numpadWithEnter: {
+      control: 'boolean',
+      description:
+        'Exibe o numpad numérico no formato de 4 colunas (estilo iOS nativo), com as teclas `-`, `↵` (newline), `⌫` e `→|` (enter/submit). Só tem efeito com `type="numeric"` e `variant="native"`.',
+    },
     maxLength: {
       control: 'number',
       description: 'Limite maximo de caracteres',
@@ -59,6 +64,7 @@ const meta: Meta<typeof VirtualKeyboard> = {
     value: { table: { disable: true } },
     onChange: { table: { disable: true } },
     onKeyPress: { table: { disable: true } },
+    onEnterPress: { action: 'onEnterPress' },
     targetRef: { table: { disable: true } },
     className: { table: { disable: true } },
     id: { table: { disable: true } },
@@ -72,7 +78,7 @@ const KeyboardWrapper = (args: React.ComponentProps<typeof VirtualKeyboard>) => 
   const inputRef = useRef<HTMLInputElement>(null);
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', width: args.type === 'numeric' ? '320px' : '500px' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', width: args.variant === 'fixed' ? '100%' : (args.type === 'numeric' ? '320px' : '500px') }}>
       {args.variant === 'native' && (
         <div style={{ marginBottom: '20px' }}>
           <TextField

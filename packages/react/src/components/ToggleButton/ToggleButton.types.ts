@@ -8,9 +8,6 @@ export type ToggleButtonMode = 'simple' | 'combined';
 /** Tipo de seleção do grupo: 'single' (um item) ou 'multiple' (múltiplos itens) */
 export type ToggleGroupType = 'single' | 'multiple';
 
-/** Orientação do grupo de toggles */
-export type ToggleButtonOrientation = 'horizontal' | 'vertical';
-
 interface BaseTooltipConfig {
   tooltipSide?: 'top' | 'bottom' | 'left' | 'right';
   tooltipAlign?: 'start' | 'center' | 'end';
@@ -81,8 +78,6 @@ type ToggleGroupMultipleSelectionProps = {
  * - `selectionType="multiple"` → `onValueChange: (value: string[]) => void`
  */
 export type ToggleGroupProps = {
-  /** Orientação do grupo: `'horizontal'` (padrão) ou `'vertical'` */
-  orientation?: ToggleButtonOrientation;
   /** Items do grupo de toggles */
   items?: ToggleGroupItem[];
 } & (ToggleGroupSingleSelectionProps | ToggleGroupMultipleSelectionProps);
@@ -124,8 +119,8 @@ export type ToggleButtonProps = ScalableProps & {
   /** Exibe somente o ícone, sem texto (modo simple) */
   iconOnly?: boolean;
 
-  /** Conteúdo do botão (modo combined) */
-  children?: ReactNode;
+  /** Texto exibido no botão (modo simple) */
+  label?: string;
 
   // ----- Toggle (modo simple) -----
 

@@ -2,6 +2,8 @@ import clsx from 'clsx';
 import { Select } from 'radix-ui';
 import React from 'react';
 
+import { forwardRef } from '../../../utils/forwardRef';
+
 import styles from '../Select.module.scss';
 import { SelectItemProps, SelectVariant } from '../Select.types';
 
@@ -10,7 +12,8 @@ interface SelectItemComponentProps extends SelectItemProps {
   disableFocusOnHover?: boolean;
 }
 
-const SelectItem = ({ ref, text, subTitle, icon, disabled, value, variant, disableFocusOnHover, ...restProps }: SelectItemComponentProps & { ref?: React.Ref<HTMLDivElement> }) => {
+const SelectItem = forwardRef<HTMLDivElement, SelectItemComponentProps>(
+  ({ text, subTitle, icon, disabled, value, variant, disableFocusOnHover, ...restProps }, ref) => {
     return (
       <div
         className={clsx(styles.itemWrapper, {
@@ -39,7 +42,8 @@ const SelectItem = ({ ref, text, subTitle, icon, disabled, value, variant, disab
         </Select.Item>
       </div>
     );
-};
+  }
+);
 
 SelectItem.displayName = 'SelectItem';
 

@@ -2,6 +2,8 @@ import { Dismiss16Regular } from '@fluentui/react-icons';
 import clsx from 'clsx';
 import React, { useState, useCallback, useId, useEffect } from 'react';
 
+import { forwardRef } from '../../utils/forwardRef';
+
 import useInputKeyboardValue from '../../hooks/useInputKeyboardValue';
 import VirtualKeyboard from '../VirtualKeyboard';
 import styles from './TextField.module.scss';
@@ -10,36 +12,37 @@ import LabelComponent from '../../shared/Label';
 
 import type { TextFieldProps } from './TextField.types';
 
-const TextField = ({
-  ref,
-  className,
-  style,
-  value,
-  label,
-  placeholder,
-  type = 'text',
-  onChange,
-  disabled = false,
-  maxLength,
-  required = false,
-  helperText,
-  tooltipText,
-  tooltipSide = 'bottom',
-  tooltipAlign = 'start',
-  errorMessage,
-  error,
-  id,
-  icon,
-  scale = 1,
-  onBlur,
-  onFocus,
-  name,
-  persistIcon = false,
-  virtualKeyboard,
-  attachedToVirtualKeyboard,
-  disableAutoComplete = false,
-  ...rest
-}: TextFieldProps & { ref?: React.Ref<HTMLInputElement> }) => {
+const TextField = forwardRef<HTMLInputElement, TextFieldProps>((
+  {
+    className,
+    style,
+    value,
+    label,
+    placeholder,
+    type = 'text',
+    onChange,
+    disabled = false,
+    maxLength,
+    required = false,
+    helperText,
+    tooltipText,
+    tooltipSide = 'bottom',
+    tooltipAlign = 'start',
+    errorMessage,
+    error,
+    id,
+    icon,
+    scale = 1,
+    onBlur,
+    onFocus,
+    name,
+    virtualKeyboard,
+    attachedToVirtualKeyboard,
+    disableAutoComplete = false,
+    ...rest
+  },
+  ref
+) => {
     const normalizeValue = (val: string | number | undefined): string => {
       return val === undefined || val === null ? '' : String(val);
     };
@@ -110,7 +113,7 @@ const TextField = ({
       [onFocus]
     );
 
-    const showCustomIcon = (inputValue.trim().length === 0 || persistIcon) && icon;
+    const showCustomIcon = (inputValue.trim().length === 0 || !isFocused) && icon;
     const showClearIcon = isFocused && inputValue.trim().length > 0;
     const hasError = Boolean(inputError) || Boolean(error);
     const displayHelperText = (error ? errorMessage : undefined) || inputError || helperText || '\u00A0';
@@ -125,7 +128,7 @@ const TextField = ({
     const containerClass = clsx(styles.container, className, {
       [styles.attachedToVirtualKeyboard]: attachedToVirtualKeyboard,
       [styles.disabled]: disabled,
-      [styles.error]: error,
+      [styles.error]: hasError,
       [styles.errorWithMessage]: !!errorMessage,
     });
 
@@ -219,7 +222,7 @@ const TextField = ({
         )}
       </div>
     );
-};
+});
 
 TextField.displayName = 'TextField';
 

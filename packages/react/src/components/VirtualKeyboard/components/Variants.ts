@@ -4,11 +4,17 @@ const EMOTICON_KEY = '{emoticon}';
 const DOWN_KEYBOARD_KEY = '{downkeyboard}';
 const ENTER_KEY = '{enter}';
 
-const removeKeyFromLayout = (layout: Record<string, string[]>, key: string) =>
+const removeKeyFromLayout = (
+  layout: Record<string, string[]>,
+  key: string,
+  skipLayouts: string[] = []
+) =>
   Object.fromEntries(
     Object.entries(layout).map(([layoutName, rows]) => [
       layoutName,
-      rows.map((row) => row.split(key).join(' ').replace(/\s+/g, ' ').trim()),
+      skipLayouts.includes(layoutName)
+        ? rows
+        : rows.map((row) => row.split(key).join(' ').replace(/\s+/g, ' ').trim()),
     ])
   ) as Record<string, string[]>;
 
@@ -28,7 +34,9 @@ const QWERTY_LOWERCASE = [
   '{numbers} {alt} {space} . {enter}',
 ];
 
-const NUMPAD = ['1 2 3', '4 5 6', '7 8 9', '{bksp} 0 {abc}'];
+const NUMPAD = ['1 2 3', '4 5 6', '7 8 9', '{abc} 0 {bksp}'];
+
+const NUMPAD_WITH_ENTER = ['1 2 3 -', '4 5 6 {space}', '7 8 9 {bksp}', '{abc} 0 . {enter}'];
 
 const SHARED_LAYOUTS = {
   shift: [
@@ -88,13 +96,20 @@ export const getNativeLayout = (
   showDownKeyboardButton = true,
   isFixed = false,
   showEnterKey = true,
-  showTypeSwitchKey = true
+  showTypeSwitchKey = true,
+  numpadWithEnter = false
 ): Record<string, string[]> | null => {
   const layout = NATIVE_LAYOUTS[type] ?? NATIVE_LAYOUTS.default ?? null;
 
   if (!layout) return null;
 
-  let computedLayout = layout;
+  let computedLayout = numpadWithEnter
+    ? {
+        ...layout,
+        ...(type === 'numeric' ? { default: NUMPAD_WITH_ENTER } : {}),
+        numbers: NUMPAD_WITH_ENTER,
+      }
+    : layout;
 
   if (!Emoji) {
     computedLayout = removeKeyFromLayout(computedLayout, EMOTICON_KEY);
@@ -105,7 +120,9 @@ export const getNativeLayout = (
   }
 
   if (!showEnterKey) {
-    computedLayout = removeKeyFromLayout(computedLayout, ENTER_KEY);
+    // Numpad layouts always preserve {enter}; only remove from QWERTY layouts
+    const numpadLayouts = type === 'numeric' ? ['default', 'numbers'] : ['numbers'];
+    computedLayout = removeKeyFromLayout(computedLayout, ENTER_KEY, numpadLayouts);
   }
 
   if (!showTypeSwitchKey) {
@@ -115,19 +132,22 @@ export const getNativeLayout = (
 
   if (isFixed) {
     computedLayout = Object.fromEntries(
-      Object.entries(computedLayout).map(([layoutName, rows]) => [
-        layoutName,
-        rows.map((row) => {
-          const trimmed = row.trim();
-          if (/^[a-zA-ZçÇ]/.test(trimmed) && trimmed.endsWith('{bksp}')) {
-            return '{//} ' + trimmed.replace(/\s*\{bksp\}$/, '') + ' {//}';
-          }
-          if (/\{(shift|capslock|shiftactivated)\}$/.test(trimmed)) {
-            return trimmed.replace(/\{(shift|capslock|shiftactivated)\}$/, '{bksp}');
-          }
-          return row;
-        }),
-      ])
+      Object.entries(computedLayout).map(([layoutName, rows]) => {
+        const hasBksp = rows.some((r) => r.includes('{bksp}'));
+        return [
+          layoutName,
+          rows.map((row) => {
+            const trimmed = row.trim();
+            if (/^[a-zA-ZçÇ]/.test(trimmed) && trimmed.endsWith('{bksp}')) {
+              return '{//} ' + trimmed.replace(/\s*\{bksp\}$/, '') + ' {//}';
+            }
+            if (!hasBksp && /\{(shift|capslock|shiftactivated)\}$/.test(trimmed)) {
+              return trimmed.replace(/\{(shift|capslock|shiftactivated)\}$/, '{bksp}');
+            }
+            return row;
+          }),
+        ];
+      })
     ) as Record<string, string[]>;
   }
 
