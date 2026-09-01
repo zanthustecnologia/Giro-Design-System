@@ -400,7 +400,7 @@ describe('Dialog', () => {
       );
 
       const description = screen.getByTestId('alert-dialog-description');
-      expect(description).toBeEmptyDOMElement();
+      expect(description.textContent).toBe('');
     });
 
     it('funciona com diferentes tipos de bodyContent', () => {

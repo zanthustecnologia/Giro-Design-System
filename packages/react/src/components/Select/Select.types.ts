@@ -157,6 +157,9 @@ interface SelectPropsBase extends ScalableProps {
   /** Callback executado ao chegar ao final do scroll: () => void */
   onScrollEnd?: () => void;
   
+  /** Indica se há mais itens disponíveis para carregamento */
+  hasMore?: boolean;
+
   /** Estado de carregamento de mais itens */
   isLoadingMore?: boolean;
   
