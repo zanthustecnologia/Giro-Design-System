@@ -50,7 +50,7 @@ const Quantity: React.FC<QuantityProps> = ({
 
   useEffect(() => {
     validateProps(decimalPlaces, valueIncrement);
-  }, [decimalPlaces, valueIncrement]);
+  }, []);
 
   useEffect(() => {
     const clamped = Math.min(Math.max(value, minValue), maxValue);

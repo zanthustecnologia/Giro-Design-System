@@ -1,6 +1,12 @@
 import React from 'react';
 
-export type CheckSmallProps = React.SVGProps<SVGSVGElement>;
+export interface CheckSmallProps {
+  className?: string;
+  width?: number | string;
+  height?: number | string;
+  fill?: string;
+  [key: string]: any;
+}
 
 const CheckSmall: React.FC<CheckSmallProps> = ({ 
   className = '',

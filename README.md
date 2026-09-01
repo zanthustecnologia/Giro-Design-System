@@ -163,10 +163,9 @@ Neste estágio, o repositório concentra principalmente:
 - camada de tokens;
 - biblioteca de componentes React;
 - documentação via Storybook;
-- biblioteca de componentes Flutter e documentação interativa via Widgetbook;
 - preparação arquitetural para expansão de temas, grid, onboarding e utilitários.
 
-O suporte a Flutter já faz parte do monorepo e compartilha os tokens gerados com a biblioteca React.
+O suporte a Flutter está previsto como próxima frente de expansão e faz parte do roadmap estrutural do sistema.
 
 Alguns pacotes ainda estão em evolução e fazem parte do roadmap estrutural do sistema.
 

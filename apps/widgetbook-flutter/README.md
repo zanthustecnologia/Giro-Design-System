@@ -1,6 +1,6 @@
 # Storybook Flutter
 
-Catálogo Widgetbook dos componentes Flutter do Giro Design System.
+Widgetbook showcase for Zanthus Design System - Material 3 Pure Components.
 
 ## Overview
 
@@ -151,7 +151,7 @@ Example:
 // lib/stories/my_component_story.dart
 import 'package:flutter/material.dart';
 import 'package:widgetbook/widgetbook.dart';
-import 'package:flutter_giro/flutter_giro.dart';
+import 'package:zanthus_flutter/zanthus_flutter.dart';
 
 Widget myComponentStory(BuildContext context) {
   return Center(

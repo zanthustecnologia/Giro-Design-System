@@ -405,6 +405,6 @@ pnpm changeset add --empty
 ---
 
 > [!info] Metadados
-> **Mantido por:** Giro Design System Team
+> **Mantido por:** Zanthus Design System Team  
 > **Última atualização:** Dezembro 2025  
 > **Versão do documento:** 1.0.0

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ScalableProps } from '../../types/common.types';
+import { ScalableProps, Scale } from '../../types/common.types';
 
 /**
  * Props do componente Checkbox

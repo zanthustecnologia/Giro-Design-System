@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { ScalableProps, TextVariant } from '../../types/common.types';
+import { ScalableProps, TextVariant, Scale } from '../../types/common.types';
 
 /**
  * Props do componente Chips

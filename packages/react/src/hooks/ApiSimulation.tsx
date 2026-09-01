@@ -3,7 +3,7 @@ import { useState, useCallback, useRef, useEffect } from 'react';
 /**
  * Configurações para simulação de API
  */
-export interface ApiSimulationConfig<T = unknown> {
+export interface ApiSimulationConfig {
     /** Items por página */
     itemsPerPage?: number;
     /** Total de items no dataset */
@@ -13,7 +13,7 @@ export interface ApiSimulationConfig<T = unknown> {
     /** Taxa de erro (0-1) para simular falhas */
     errorRate?: number;
     /** Função geradora de items customizada */
-    itemGenerator?: (index: number, searchQuery?: string) => T;
+    itemGenerator?: (index: number, searchQuery?: string) => any;
     /** Debug mode */
     debug?: boolean;
 }
@@ -56,8 +56,8 @@ export interface UseApiSimulationReturn<T> extends ApiSimulationState<T> {
 }
 
 
-export function useApiSimulation<T = unknown>(
-    config: ApiSimulationConfig<T> = {}
+export function useApiSimulation<T = any>(
+    config: ApiSimulationConfig = {}
 ): UseApiSimulationReturn<T> {
     const {
         itemsPerPage = 20,
@@ -84,9 +84,9 @@ export function useApiSimulation<T = unknown>(
     const isFirstPage = currentPage === 0;
 
     // ✅ Debug logger
-    const debugLog = useCallback((message: string, data?: unknown) => {
+    const debugLog = useCallback((message: string, data?: any) => {
         if (debug) {
-            console.debug(`🔄 [ApiSimulation] ${message}`, data || '');
+            console.log(`🔄 [ApiSimulation] ${message}`, data || '');
         }
     }, [debug]);
 

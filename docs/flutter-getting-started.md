@@ -1,90 +1,343 @@
-# Guia de início rápido — Flutter
+# 📱 Guia de Início Rápido - Flutter
 
-O pacote `flutter_giro` concentra os componentes Flutter do Giro Design System. O Widgetbook fica em `apps/widgetbook-flutter` e permite validar os componentes de forma interativa.
+Este guia ajudará você a configurar e começar a trabalhar com os componentes Flutter do Zanthus Design System.
 
-## Pré-requisitos
+## 📋 Pré-requisitos
 
-- Flutter estável com Dart 3;
-- Chrome ou outro dispositivo suportado para executar o Widgetbook;
-- dependências do monorepo já instaladas quando também for trabalhar com tokens.
+### 1. Instalar Flutter SDK
 
-Confira o ambiente:
+**Windows:**
 
+1. Baixe o Flutter SDK: https://docs.flutter.dev/get-started/install/windows
+2. Extraia o arquivo ZIP
+3. Adicione `flutter\bin` ao PATH do sistema
+4. Execute no terminal:
+   ```bash
+   flutter doctor
+   ```
+
+**Verificar instalação:**
 ```bash
-flutter doctor -v
+flutter --version
 ```
 
-## Preparar os projetos
+### 2. Configurar Editor
 
-Na raiz do monorepo:
+**VS Code (Recomendado):**
+
+1. Instale a extensão "Flutter" (Dart Code)
+2. Instale a extensão "Dart"
+
+**Verificar:**
+- Abra a paleta de comandos (Ctrl+Shift+P)
+- Digite "Flutter: New Project" para verificar se está funcionando
+
+## 🚀 Começando
+
+### 1. Instalar Dependências
+
+No diretório raiz do monorepo:
 
 ```bash
-cd packages/flutter
+# Instalar dependências do pacote de componentes
+cd packages/components-flutter
 flutter pub get
 
-cd ../../apps/widgetbook-flutter
+# Instalar dependências do Storybook Flutter
+cd ../../apps/storybook-flutter
 flutter pub get
 ```
 
-## Executar o Widgetbook
+### 2. Executar Widgetbook (Storybook Flutter)
 
 ```bash
-pnpm widgetbook
+cd apps/storybook-flutter
+flutter run
 ```
 
-Ou diretamente:
+**Opções de execução:**
+
+- **Chrome (Web):**
+  ```bash
+  flutter run -d chrome
+  ```
+
+- **Windows:**
+  ```bash
+  flutter run -d windows
+  ```
+
+- **Android Emulator:**
+  ```bash
+  flutter emulators --launch <emulator_id>
+  flutter run -d <device_id>
+  ```
+
+### 3. Listar Dispositivos Disponíveis
 
 ```bash
-cd apps/widgetbook-flutter
-flutter run -d chrome
+flutter devices
 ```
 
-## Consumir o pacote
+## 📦 Usando os Componentes
 
-Em um projeto dentro do mesmo repositório, adicione a dependência local:
+### Criar um Novo Projeto Flutter
+
+```bash
+# No diretório que você quiser
+flutter create meu_app
+cd meu_app
+```
+
+### Adicionar Dependência Local
+
+Edite `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  flutter_giro:
-    path: ../../packages/flutter
+  flutter:
+    sdk: flutter
+  zanthus_flutter:
+    path: ../packages/components-flutter  # Ajuste o caminho conforme necessário
 ```
 
-Depois importe o entry point público:
-
-```dart
-import 'package:flutter_giro/flutter_giro.dart';
-
-GiroButton(
-  text: 'Continuar',
-  onPressed: () {},
-)
-```
-
-Os helpers de tokens também são exportados pelo mesmo entry point:
-
-```dart
-Container(
-  padding: const EdgeInsets.all(GiroSpacing.md),
-  color: GiroColors.primary,
-  child: const Text('Giro'),
-)
-```
-
-## Validar alterações
-
-O gate local usado pela CI é:
+Depois execute:
 
 ```bash
-pnpm check:flutter
+flutter pub get
 ```
 
-Ele executa análise estática no pacote e no Widgetbook, além do smoke test do aplicativo. Para validar todo o monorepo, use `pnpm check`.
+### Exemplo de Uso
 
-## Adicionar um componente
+```dart
+import 'package:flutter/material.dart';
+import 'package:zanthus_flutter/zanthus_flutter.dart';
 
-1. Crie ou atualize o componente em `packages/flutter/lib/components/`.
-2. Exporte a API pública em `packages/flutter/lib/flutter_giro.dart`.
-3. Crie a story correspondente em `apps/widgetbook-flutter/lib/stories/`.
-4. Rode `dart format`, `dart analyze` e os testes antes de abrir o merge request.
+void main() {
+  runApp(const MyApp());
+}
 
-Consulte também a [referência de comandos](./flutter-commands-reference.md) e o [pipeline de qualidade](./ci-pipeline.md).
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Zanthus Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: const MyHomePage(),
+    );
+  }
+}
+
+class MyHomePage extends StatelessWidget {
+  const MyHomePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Zanthus Components'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(ZanthusSpacing.md),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Avatar
+            const ZanthusAvatar(
+              initials: 'AB',
+              size: ZanthusAvatarSize.large,
+            ),
+            
+            const SizedBox(height: ZanthusSpacing.lg),
+            
+            // Button
+            ZanthusButton(
+              text: 'Click me',
+              variant: ZanthusButtonVariant.primary,
+              size: ZanthusButtonSize.medium,
+              onPressed: () {
+                print('Button pressed!');
+              },
+            ),
+            
+            const SizedBox(height: ZanthusSpacing.lg),
+            
+            // Card
+            ZanthusCard(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: const [
+                  ZanthusText.h3('Card Title'),
+                  SizedBox(height: ZanthusSpacing.sm),
+                  ZanthusText.body('This is a card with some content.'),
+                ],
+              ),
+            ),
+            
+            const SizedBox(height: ZanthusSpacing.lg),
+            
+            // Badge
+            const ZanthusBadge(
+              text: 'New',
+              variant: ZanthusBadgeVariant.primary,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+```
+
+## 🎨 Usando Design Tokens
+
+```dart
+// Cores
+Container(
+  color: ZanthusColors.primary,
+  child: Text(
+    'Texto',
+    style: TextStyle(color: ZanthusColors.onPrimary),
+  ),
+)
+
+// Espaçamento
+Padding(
+  padding: EdgeInsets.all(ZanthusSpacing.md),
+  child: ...
+)
+
+// Tipografia
+Text(
+  'Título',
+  style: ZanthusTypography.heading1,
+)
+
+// Border Radius
+Container(
+  decoration: BoxDecoration(
+    color: Colors.blue,
+    borderRadius: ZanthusBorderRadius.borderRadiusMd,
+  ),
+)
+
+// Sombras
+Container(
+  decoration: BoxDecoration(
+    color: Colors.white,
+    boxShadow: ZanthusShadows.shadowMd,
+  ),
+)
+```
+
+## 🧪 Rodando Testes
+
+```bash
+cd packages/components-flutter
+flutter test
+```
+
+## 🔧 Comandos Úteis
+
+```bash
+# Analisar código
+flutter analyze
+
+# Formatar código
+flutter format .
+
+# Verificar problemas
+flutter doctor -v
+
+# Limpar build
+flutter clean
+
+# Obter dependências
+flutter pub get
+
+# Atualizar dependências
+flutter pub upgrade
+
+# Ver versão do Flutter
+flutter --version
+
+# Listar emuladores
+flutter emulators
+
+# Criar emulador Android
+flutter emulators --create
+
+# Hot reload (durante execução)
+# Pressione 'r' no terminal
+
+# Hot restart (durante execução)
+# Pressione 'R' no terminal
+
+# Sair da aplicação
+# Pressione 'q' no terminal
+```
+
+## 📱 Plataformas Suportadas
+
+- ✅ Android
+- ✅ iOS
+- ✅ Web
+- ✅ Windows
+- ✅ macOS
+- ✅ Linux
+
+## 🐛 Troubleshooting
+
+### Problema: `flutter: command not found`
+
+**Solução:** Adicione o Flutter ao PATH do sistema.
+
+### Problema: Dependências não encontradas
+
+**Solução:**
+```bash
+flutter pub get
+flutter clean
+flutter pub get
+```
+
+### Problema: Widgetbook não inicia
+
+**Solução:**
+```bash
+cd apps/storybook-flutter
+flutter clean
+flutter pub get
+flutter run
+```
+
+### Problema: Erros de compilação no Windows
+
+**Solução:** Certifique-se de que o Visual Studio está instalado com suporte a C++.
+
+## 📚 Recursos Adicionais
+
+- [Documentação Flutter](https://docs.flutter.dev/)
+- [Flutter Samples](https://flutter.github.io/samples/)
+- [Widgetbook Documentation](https://docs.widgetbook.io/)
+- [Material Design Guidelines](https://m3.material.io/)
+
+## 🆘 Precisa de Ajuda?
+
+1. Verifique a documentação em `packages/components-flutter/README.md`
+2. Veja exemplos no Widgetbook em `apps/storybook-flutter/lib/stories/`
+3. Consulte o `CONTRIBUTING.md` para guidelines de desenvolvimento
+
+---
+
+**Próximos Passos:**
+
+1. ✅ Execute o Widgetbook para ver todos os componentes
+2. ✅ Explore os exemplos nas stories
+3. ✅ Crie seu primeiro app usando os componentes
+4. ✅ Customize os tokens conforme sua necessidade

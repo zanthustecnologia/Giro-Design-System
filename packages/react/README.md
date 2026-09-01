@@ -1,6 +1,6 @@
 # @giro-ds/react
 
-Biblioteca de componentes React do Giro Design System. Uma coleção completa de componentes acessíveis, responsivos e prontos para produção.
+Biblioteca de componentes React do Zanthus Design System. Uma coleção completa de componentes acessíveis, responsivos e prontos para produção.
 
 ## 📦 Instalação
 

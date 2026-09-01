@@ -1,8 +1,7 @@
-import { DismissCircle16Regular, Tag16Regular, CheckmarkCircle16Regular, Warning16Regular, Info16Regular } from '@fluentui/react-icons';
-import { Chips } from '@giro-ds/react';
 import React from 'react';
-
-import type { Meta, StoryObj } from '@storybook/react-vite';
+import type { Meta, StoryObj } from '@storybook/react';
+import { Chips } from '@giro-ds/react';
+import { DismissCircle16Regular, Tag16Regular, CheckmarkCircle16Regular, Warning16Regular, Info16Regular } from '@fluentui/react-icons';
 
 const meta: Meta<typeof Chips> = {
   title: 'Components/Chips',

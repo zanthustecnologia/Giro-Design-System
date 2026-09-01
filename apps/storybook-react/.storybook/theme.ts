@@ -1,5 +1,5 @@
-import { formatGiroVersion } from '@giro-ds/version';
 import { create } from 'storybook/theming';
+import { formatGiroVersion } from '@giro-ds/version';
 
 const config = {
   colors: {

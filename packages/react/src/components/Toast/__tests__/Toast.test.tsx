@@ -1,11 +1,11 @@
 import { render, screen, waitFor, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import * as React from 'react';
 import { describe, it, expect, vi } from 'vitest';
+import * as React from 'react';
 
-import { useToast } from '../../../hooks/useToast';
-import { ToastContainer } from '../components/ToastContainer';
 import { ToastProvider } from '../components/ToastProvider';
+import { ToastContainer } from '../components/ToastContainer';
+import { useToast } from '../../../hooks/useToast';
 
 // Componente de teste para usar o hook
 const TestComponent = ({ onMount }: { onMount?: (toastFn: ReturnType<typeof useToast>) => void }) => {

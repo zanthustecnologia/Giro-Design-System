@@ -1,11 +1,9 @@
-import { Info12Regular } from '@fluentui/react-icons';
-import clsx from 'clsx';
-import { Label } from 'radix-ui';
 import * as React from 'react';
-
+import { Label } from 'radix-ui';
 import styles from './index.module.scss';
+import clsx from 'clsx';
 import Tooltip from '../../components/Tooltip/Tooltip';
-
+import { Info12Regular } from '@fluentui/react-icons';
 
 interface LabelProps {
   children: React.ReactNode;

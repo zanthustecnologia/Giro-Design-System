@@ -1,5 +1,5 @@
-import nodePath from 'path';
 import { fileURLToPath } from 'url';
+import nodePath from 'path';
 
 // Diretório deste arquivo (.storybook/)
 const _dir = nodePath.dirname(fileURLToPath(import.meta.url));
@@ -114,6 +114,9 @@ const config = {
     const { promisify } = await import('node:util');
     const execAsync = promisify(exec);
 
+    const readChangelog = (pkg) =>
+      fs.readFileSync(path.resolve(__dirname, `../../../packages/${pkg}/CHANGELOG.md`), 'utf-8');
+
     // Auto-descobre todos os pacotes em packages/* que têm CHANGELOG.md
     const packagesRoot = path.resolve(__dirname, '../../../packages');
     const changelogsData = {};
@@ -125,9 +128,7 @@ const config = {
       let packageName = null;
       const pkgJsonPath = path.resolve(packagesRoot, dir.name, 'package.json');
       if (fs.existsSync(pkgJsonPath)) {
-        try { packageName = JSON.parse(fs.readFileSync(pkgJsonPath, 'utf-8')).name; } catch {
-          // Ignora package.json inválido e tenta identificar o pacote pelo pubspec ou diretório.
-        }
+        try { packageName = JSON.parse(fs.readFileSync(pkgJsonPath, 'utf-8')).name; } catch {}
       }
       if (!packageName) {
         const pubspecPath = path.resolve(packagesRoot, dir.name, 'pubspec.yaml');
@@ -138,9 +139,7 @@ const config = {
       }
       if (!packageName) packageName = dir.name;
 
-      try { changelogsData[packageName] = fs.readFileSync(changelogPath, 'utf-8'); } catch {
-        // Um changelog ilegível não deve impedir a inicialização do Storybook.
-      }
+      try { changelogsData[packageName] = fs.readFileSync(changelogPath, 'utf-8'); } catch {}
     }
 
     // Lê datas dos git tags (ex: "@giro-ds/react@4.0.0" -> "2026-03-17")
@@ -182,9 +181,7 @@ const config = {
             let packageName = null;
             const pkgJsonPath = path.resolve(packagesRoot, dir.name, 'package.json');
             if (fs.existsSync(pkgJsonPath)) {
-              try { packageName = JSON.parse(fs.readFileSync(pkgJsonPath, 'utf-8')).name; } catch {
-                // Ignora package.json inválido e tenta identificar o pacote pelo pubspec ou diretório.
-              }
+              try { packageName = JSON.parse(fs.readFileSync(pkgJsonPath, 'utf-8')).name; } catch {}
             }
             if (!packageName) {
               const pubspecPath = path.resolve(packagesRoot, dir.name, 'pubspec.yaml');
@@ -195,9 +192,7 @@ const config = {
             }
             if (!packageName) packageName = dir.name;
 
-            try { freshChangelogs[packageName] = fs.readFileSync(changelogPath, 'utf-8'); } catch {
-              // Mantém os demais changelogs disponíveis durante o HMR.
-            }
+            try { freshChangelogs[packageName] = fs.readFileSync(changelogPath, 'utf-8'); } catch {}
           }
 
           return [

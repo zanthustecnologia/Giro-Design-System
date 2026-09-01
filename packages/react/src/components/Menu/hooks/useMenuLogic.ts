@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
-
 import { MenuItemProps } from '../Menu.types';
 
 export interface UseMenuLogicProps {

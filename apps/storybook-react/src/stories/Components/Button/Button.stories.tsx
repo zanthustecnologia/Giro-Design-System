@@ -3,7 +3,7 @@ import { Button } from '@giro-ds/react';
 import React from 'react';
 
 import type { ButtonProps } from '@giro-ds/react';
-import type { Meta, StoryFn, StoryObj } from '@storybook/react-vite';
+import type { Meta, StoryFn, StoryObj } from '@storybook/react';
 
 const meta: Meta<typeof Button> = {
   title: 'Components/Button',

@@ -1,7 +1,6 @@
-import { render, screen } from "@testing-library/react";
 import * as React from "react";
+import { render, screen } from "@testing-library/react";
 import { vi, describe, it, expect, beforeEach } from "vitest";
-
 import Switch from "../Switch";
 
 vi.mock("../Switch.module.scss", () => ({

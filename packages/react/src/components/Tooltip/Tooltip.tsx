@@ -1,5 +1,5 @@
-import clsx from 'clsx';
 import { Tooltip as TooltipRadix} from "radix-ui";
+import clsx from 'clsx';
 import React from 'react';
 
 import styles from './Tooltip.module.scss';

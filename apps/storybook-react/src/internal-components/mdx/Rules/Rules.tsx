@@ -1,5 +1,5 @@
-import { CheckboxChecked24Filled, DismissSquare24Filled } from '@fluentui/react-icons';
 import React from 'react';
+import { CheckboxChecked24Filled, DismissSquare24Filled } from '@fluentui/react-icons';
 
 import styles from './Rules.module.scss';
 
