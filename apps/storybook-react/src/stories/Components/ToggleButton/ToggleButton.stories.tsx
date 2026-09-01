@@ -1,5 +1,6 @@
 import { Add16Regular, Tag16Regular, Info16Regular, Filter16Regular, TextBold16Regular } from '@fluentui/react-icons';
 import { ToggleButton } from '@giro-ds/react';
+import { useArgs } from 'storybook/preview-api';
 import { useState } from 'react';
 
 import type { ToggleButtonProps } from '@giro-ds/react';
@@ -31,18 +32,10 @@ const meta: Meta<typeof ToggleButton> = {
       control: 'select',
       options: ['single', 'multiple'],
       description: 'Tipo de seleção do grupo (modo `combined`): única ou múltipla',
+      if: { arg: 'mode', eq: 'combined' },
       table: {
         type: { summary: "'single' | 'multiple'" },
         defaultValue: { summary: 'single' },
-      },
-    },
-    orientation: {
-      control: 'select',
-      options: ['horizontal', 'vertical'],
-      description: 'Orientação do grupo de toggles (modo `combined`)',
-      table: {
-        type: { summary: "'horizontal' | 'vertical'" },
-        defaultValue: { summary: 'horizontal' },
       },
     },
     disabled: {
@@ -56,6 +49,15 @@ const meta: Meta<typeof ToggleButton> = {
     pressed: {
       control: { type: 'boolean' },
       description: 'Estado pressionado controlado (modo `simple`)',
+      if: { arg: 'mode', eq: 'simple' },
+      table: {
+        type: { summary: 'boolean' },
+      },
+    },
+    defaultPressed: {
+      control: { type: 'boolean' },
+      description: 'Estado pressionado padrão não controlado (modo `simple`)',
+      if: { arg: 'mode', eq: 'simple' },
       table: {
         type: { summary: 'boolean' },
       },
@@ -63,6 +65,7 @@ const meta: Meta<typeof ToggleButton> = {
     onPressedChange: {
       action: 'pressed-changed',
       description: 'Callback ao alterar o estado do toggle único (modo `simple`)',
+      if: { arg: 'mode', eq: 'simple' },
       table: {
         type: { summary: '(pressed: boolean) => void' },
       },
@@ -70,8 +73,33 @@ const meta: Meta<typeof ToggleButton> = {
     onValueChange: {
       action: 'value-changed',
       description: 'Callback ao alterar a seleção do grupo (modo `combined`)',
+      if: { arg: 'mode', eq: 'combined' },
       table: {
         type: { summary: '(value: string | string[]) => void' },
+      },
+    },
+    items: {
+      control: { type: 'object' },
+      description: 'Items do grupo de toggles (modo `combined`)',
+      if: { arg: 'mode', eq: 'combined' },
+      table: {
+        type: { summary: 'ToggleGroupItem[]' },
+      },
+    },
+    value: {
+      control: { type: 'object' },
+      description: 'Valor(es) selecionado(s) controlado(s) (modo `combined`)',
+      if: { arg: 'mode', eq: 'combined' },
+      table: {
+        type: { summary: 'string | string[]' },
+      },
+    },
+    defaultValue: {
+      control: { type: 'object' },
+      description: 'Valor(es) selecionado(s) padrão não controlado(s) (modo `combined`)',
+      if: { arg: 'mode', eq: 'combined' },
+      table: {
+        type: { summary: 'string | string[]' },
       },
     },
     size: {
@@ -119,9 +147,10 @@ const meta: Meta<typeof ToggleButton> = {
     },
     icon: {
       control: { type: 'select' },
-      options: ['', 'add'],
-      mapping: { add: <Add16Regular /> },
+      options: ['', 'B', 'add'],
+      mapping: { add: <Add16Regular />, B: <TextBold16Regular /> },
       description: 'Ícone exibido à esquerda do conteúdo (modo `simple`)',
+      if: { arg: 'mode', eq: 'simple' },
       table: {
         type: { summary: 'ReactNode' },
       },
@@ -129,9 +158,18 @@ const meta: Meta<typeof ToggleButton> = {
     iconOnly: {
       control: { type: 'boolean' },
       description: 'Exibe apenas o ícone, sem texto (modo `simple`). Requer a prop `icon`.',
+      if: { arg: 'mode', eq: 'simple' },
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
+      },
+    },
+    label: {
+      control: 'text',
+      description: 'Texto exibido no botão (modo `simple`)',
+      if: { arg: 'mode', eq: 'simple' },
+      table: {
+        type: { summary: 'string' },
       },
     },
   },
@@ -169,16 +207,26 @@ const iconOnlyItems = [
 
 /** Toggle único (mode='simple', padrão) */
 export const Default: Story = {
+  argTypes: {
+    id: { table: { disable: true } },
+    style: { table: { disable: true } },
+  },
   render: (args: ToggleButtonProps) => {
+    const [, updateArgs] = useArgs();
     const [pressed, setPressed] = useState(false);
+
+    if (args.mode === 'combined') {
+      return (
+        <ToggleButton
+          {...args}
+          onValueChange={(v) => updateArgs({ value: v })}
+        />
+      );
+    }
+
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'flex-start' }}>
-        <ToggleButton {...args} pressed={pressed} onPressedChange={setPressed}>
-          <TextBold16Regular />
-        </ToggleButton>
-        <span style={{ fontSize: '13px', color: 'var(--color-neutral-low-medium)' }}>
-          Estado: {pressed ? 'ativado' : 'desativado'}
-        </span>
+        <ToggleButton {...args} pressed={pressed} onPressedChange={setPressed} />
       </div>
     );
   },
@@ -187,11 +235,21 @@ export const Default: Story = {
     size: 'lg',
     scale: 1,
     disabled: false,
+    label: 'Exemplo',
+    selectionType: 'single',
+    items: alignmentItems,
   },
 };
 
 /** Grupo de seleção única (mode='combined', type='single') */
 export const GrupoSelecaoUnica: Story = {
+  argTypes: {
+    pressed: { table: { disable: true } },
+    onPressedChange: { table: { disable: true } },
+    icon: { table: { disable: true } },
+    iconOnly: { table: { disable: true } },
+    label: { table: { disable: true } },
+  },
   render: (args: ToggleButtonProps) => {
     const [value, setValue] = useState<string>('left');
     return (
@@ -210,13 +268,19 @@ export const GrupoSelecaoUnica: Story = {
     size: 'lg',
     scale: 1,
     items: alignmentItems,
-    orientation: 'horizontal',
     disabled: false,
   },
 };
 
 /** Grupo de seleção múltipla (mode='combined', type='multiple') */
 export const SelecaoMultipla: Story = {
+  argTypes: {
+    pressed: { table: { disable: true } },
+    onPressedChange: { table: { disable: true } },
+    icon: { table: { disable: true } },
+    iconOnly: { table: { disable: true } },
+    label: { table: { disable: true } },
+  },
   render: (args: ToggleButtonProps) => {
     const [value, setValue] = useState<string[]>([]);
     return (
@@ -233,19 +297,20 @@ export const SelecaoMultipla: Story = {
     size: 'lg',
     scale: 1,
     items: fontStyleItems,
-    orientation: 'horizontal',
     disabled: false,
   },
 };
 
 /** Toggle único com ícone à esquerda do texto (mode='simple') */
 export const ComIcone: Story = {
+  argTypes: {
+    selectionType: { table: { disable: true } },
+    onValueChange: { table: { disable: true } },
+  },
   render: (args: ToggleButtonProps) => {
     const [pressed, setPressed] = useState(false);
     return (
-      <ToggleButton {...args} pressed={pressed} onPressedChange={setPressed}>
-        Adicionar
-      </ToggleButton>
+      <ToggleButton {...args} pressed={pressed} onPressedChange={setPressed} />
     );
   },
   args: {
@@ -253,12 +318,18 @@ export const ComIcone: Story = {
     size: 'lg',
     scale: 1,
     icon: <Add16Regular />,
+    label: 'Adicionar',
     disabled: false,
   },
 };
 
 /** Toggle único exibindo apenas o ícone (mode='simple', iconOnly) */
 export const IconOnly: Story = {
+  argTypes: {
+    selectionType: { table: { disable: true } },
+    onValueChange: { table: { disable: true } },
+    label: { table: { disable: true } },
+  },
   render: (args: ToggleButtonProps) => {
     const [pressed, setPressed] = useState(false);
     return (
@@ -274,7 +345,7 @@ export const IconOnly: Story = {
     mode: 'simple',
     size: 'lg',
     scale: 1,
-    icon: <Add16Regular />,
+    icon: <TextBold16Regular />,
     iconOnly: true,
     disabled: false,
   },
@@ -282,6 +353,13 @@ export const IconOnly: Story = {
 
 /** Grupo com ícone à esquerda do label em cada item (mode='combined') */
 export const GrupoComIcones: Story = {
+  argTypes: {
+    pressed: { table: { disable: true } },
+    onPressedChange: { table: { disable: true } },
+    icon: { table: { disable: true } },
+    iconOnly: { table: { disable: true } },
+    label: { table: { disable: true } },
+  },
   render: (args: ToggleButtonProps) => {
     const [value, setValue] = useState<string>('tags');
     return (
@@ -300,13 +378,19 @@ export const GrupoComIcones: Story = {
     size: 'lg',
     scale: 1,
     items: filterItemsWithIcons,
-    orientation: 'horizontal',
     disabled: false,
   },
 };
 
 /** Grupo com itens somente ícone (mode='combined', item.iconOnly) */
 export const GrupoIconOnly: Story = {
+  argTypes: {
+    pressed: { table: { disable: true } },
+    onPressedChange: { table: { disable: true } },
+    icon: { table: { disable: true } },
+    iconOnly: { table: { disable: true } },
+    label: { table: { disable: true } },
+  },
   render: (args: ToggleButtonProps) => {
     const [value, setValue] = useState<string[]>([]);
     return (
@@ -323,7 +407,6 @@ export const GrupoIconOnly: Story = {
     size: 'lg',
     scale: 1,
     items: iconOnlyItems,
-    orientation: 'horizontal',
     disabled: false,
   },
 };
@@ -332,9 +415,7 @@ export const GrupoIconOnly: Story = {
 export const Desabilitado: Story = {
   render: () => (
     <div style={{ display: 'flex', gap: '24px', alignItems: 'flex-start', flexWrap: 'wrap' }}>
-      <ToggleButton mode="simple" disabled>
-        <TextBold16Regular />
-      </ToggleButton>
+      <ToggleButton mode="simple" icon={<TextBold16Regular />} iconOnly disabled />
       <ToggleButton
         mode="combined"
         selectionType="single"

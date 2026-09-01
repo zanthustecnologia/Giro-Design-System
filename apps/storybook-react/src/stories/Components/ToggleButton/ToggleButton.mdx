@@ -32,10 +32,10 @@ import { ToggleButton } from '@giro-ds/react';
 <UsageGuidelines
   guidelines={[
     <>
-      Use o ToggleButton quando o usuário precisa alternar entre opções mutuamente exclusivas. Para seleção de um único valor, use <code>selectionType="single"</code>. Quando múltiplas opções podem ser ativadas simultaneamente, use <code>selectionType="multiple"</code>.
+      Use o ToggleButton no modo <code>combined</code> quando o usuário precisa alternar entre opções mutuamente exclusivas. Para seleção de um único valor, use <code>selectionType="single"</code>. Quando múltiplas opções podem ser ativadas simultaneamente, use <code>selectionType="multiple"</code>.
     </>,
     <>
-      Use o modo <code>combined</code> para ações de formatação ou ativação simples, como negrito ou modo escuro, onde há apenas um estado ligado/desligado.
+      Use o modo <code>single</code> para ações de formatação ou ativação simples, como negrito ou modo escuro, onde há apenas um estado ligado/desligado.
     </>,
     <>
       Mantenha os rótulos dos itens curtos e objetivos. O ToggleButton não é adequado para textos longos; prefira ícones ou abreviações quando o espaço for limitado.
@@ -48,6 +48,56 @@ import { ToggleButton } from '@giro-ds/react';
     </>,
   ]}
 />
+
+<div style={{ marginTop: '48px' }} />
+
+### Toggle único (mode simple)
+
+Use `label` e/ou `icon` para definir o conteúdo. O estado é controlado por `pressed` / `onPressedChange`.
+
+```jsx
+<ToggleButton
+  mode="simple"
+  label="Negrito"
+  onPressedChange={(pressed) => console.log(pressed)}
+/>
+```
+
+### Grupo de seleção única (mode combined, selectionType single)
+
+Passe um array de `items` com `value` e `label`. Use `defaultValue` para o item inicialmente selecionado e `onValueChange` para receber o valor ao alterar.
+
+```jsx
+<ToggleButton
+  mode="combined"
+  selectionType="single"
+  items={[
+    { value: 'left',   label: 'Esquerda' },
+    { value: 'center', label: 'Centro'   },
+    { value: 'right',  label: 'Direita'  },
+  ]}
+  defaultValue="left"
+  onValueChange={(value) => console.log(value)}
+/>
+```
+
+### Grupo de seleção múltipla (mode combined, selectionType multiple)
+
+Defina `selectionType="multiple"`. `defaultValue` aceita um array e `onValueChange` retorna um array com todos os valores ativos.
+
+```jsx
+<ToggleButton
+  mode="combined"
+  selectionType="multiple"
+  items={[
+    { value: 'bold',      label: 'N' },
+    { value: 'italic',    label: 'I' },
+    { value: 'underline', label: 'S' },
+  ]}
+  defaultValue={['bold']}
+  onValueChange={(values) => console.log(values)}
+/>
+```
 
 <div style={{ marginTop: '48px' }} />
 
