@@ -8,7 +8,7 @@
 
 ### Bug Fixes
 
-- **VirtualKeyboard:** corrige classe de layout dinamica, comportamento do `numpadWithEnter`, preservacao do `{enter}` no numpad com `showEnterKey=false` e reinjecao de icones ao trocar `variant`.
+- **VirtualKeyboard:** corrige classe de layout dinâmica, comportamento do `numpadWithEnter`, preservação do `{enter}` no numpad com `showEnterKey=false` e reinjeção de ícones ao trocar `variant`.
 
 ## [12.1.1]
 
@@ -24,13 +24,13 @@
 
 ### Features
 
-- **ToggleButton:** novo componente com modos `simple` e `combined`; suporte a `icon`, `iconOnly`, tamanhos `lg` | `sm`, `scale`, tooltip e selecao `single` | `multiple`.
-- **TableV2:** adiciona prop `header.viewToggle` para alternancia de vistas via ToggleButton.
-- **ListItem:** adiciona suporte a estrutura em arvore (`children`, `defaultExpanded`, `expanded`, `onExpandedChange`) e props `id`, `width` e `scale`.
+- **ToggleButton:** novo componente com modos `simple` e `combined`; suporte a `icon`, `iconOnly`, tamanhos `lg` | `sm`, `scale`, tooltip e seleção `single` | `multiple`.
+- **TableV2:** adiciona prop `header.viewToggle` para alternância de vistas via ToggleButton.
+- **ListItem:** adiciona suporte a estrutura em árvore (`children`, `defaultExpanded`, `expanded`, `onExpandedChange`) e props `id`, `width` e `scale`.
 
 ### Bug Fixes
 
-- **Toast:** corrige seletor `.toastRoot`; define animacao `slideIn` ausente; adiciona animacao `fadeOut` em `[data-state="closed"]`.
+- **Toast:** corrige seletor `.toastRoot`; define animação `slideIn` ausente; adiciona animação `fadeOut` em `[data-state="closed"]`.
 
 ## [12.0.0]
 
