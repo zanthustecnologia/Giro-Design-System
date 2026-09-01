@@ -14,11 +14,11 @@
 
 ### Bug Fixes
 
-- **Button, Search, TextField, TextArea, FileUpload, Select, SelectField:** reverte de `ref` como prop (React 19) para `forwardRef` compativel com React 18.
-- **Chips:** adiciona `cursor: pointer` quando `onClick` presente e chip nao desabilitado.
-- **TextField:** troca `outline` por `border: 2px solid` no foco; corrige estado de erro para validacoes internas.
-- **TextArea, Search:** trocam `outline` por `border: 2px solid` no foco.
-- **Select:** troca `outline` por `border: 2px solid` no `:focus-visible`, `.open` e `.error.open`.
+- **Button, Search, TextField, TextArea, FileUpload, Select, SelectField:** reverte de `ref` como prop (React 19) para `forwardRef` compatível com React 18.
+- **Chips:** adiciona `cursor: pointer` quando `onClick` presente e chip não desabilitado.
+- **TextField:** troca `outline` por `border: var(--border-width-2) solid` no foco; corrige estado de erro para validações internas.
+- **TextArea, Search:** trocam `outline` por `border: var(--border-width-2) solid` no foco.
+- **Select:** troca `outline` por `border: var(--border-width-2) solid` no `:focus-visible`, `.open` e `.error.open`.
 
 ## [12.1.0] - 2026-08-05
 

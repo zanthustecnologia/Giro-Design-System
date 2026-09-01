@@ -602,7 +602,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
         heldKey &&
         input.length >= currentValue.length + 1 &&
         input.startsWith(currentValue) &&
-        input.slice(currentValue.length).split('').every((char) => char === heldKey)
+        [...input.slice(currentValue.length)].every((char) => char === heldKey)
       ) {
         syncKeyboardInput(currentValue);
         return;
@@ -610,7 +610,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
 
       if (
         suppressedKey &&
-        input.length === currentValue.length + 1 &&
+        input.length === currentValue.length + suppressedKey.length &&
         input.endsWith(suppressedKey)
       ) {
         suppressNextInputRef.current = null;
