@@ -643,6 +643,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
 
     if (numpadWithEnter && isNumpadLayout) {
       display['{enter}'] = '<span data-icon-key="enterNumpad"></span>';
+      display['{space}'] = '<span data-icon-key="spaceNumpad"></span>';
     }
 
     if (variant === 'fixed') {

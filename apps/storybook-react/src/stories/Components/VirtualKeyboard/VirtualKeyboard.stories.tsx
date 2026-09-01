@@ -78,7 +78,7 @@ const KeyboardWrapper = (args: React.ComponentProps<typeof VirtualKeyboard>) => 
   const inputRef = useRef<HTMLInputElement>(null);
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', width: args.type === 'numeric' ? '320px' : '500px' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', width: args.variant === 'fixed' ? '100%' : (args.type === 'numeric' ? '320px' : '500px') }}>
       {args.variant === 'native' && (
         <div style={{ marginBottom: '20px' }}>
           <TextField
