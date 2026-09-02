@@ -14,6 +14,7 @@ const ToggleGroup: React.FC<ToggleButtonProps> = ({
   onValueChange,
   disabled = false,
   items = [],
+  expandOnSelect: groupExpandOnSelect = false,
   className,
   id,
   size = 'lg',
@@ -49,7 +50,7 @@ const ToggleGroup: React.FC<ToggleButtonProps> = ({
             | undefined,
         };
 
-  const hasExpandableItems = items.some((item) => item.expandOnSelect);
+  const hasExpandableItems = groupExpandOnSelect || items.some((item) => item.expandOnSelect);
 
   const group = (
     <ToggleGroupRadix.Root
@@ -60,37 +61,41 @@ const ToggleGroup: React.FC<ToggleButtonProps> = ({
       style={{ '--giro-scale': scale, ...style } as React.CSSProperties}
       {...rest}
     >
-      {items.map((item) => (
-        <ToggleGroupRadix.Item
-          key={item.value}
-          value={item.value}
-          disabled={item.disabled}
-          className={clsx(
-            styles.item,
-            styles[`item-${size}`],
-            {
-              [styles.toggleIconOnly]: item.iconOnly && !item.expandOnSelect,
-              [styles.toggleWithIcon]: !!item.icon && !item.iconOnly && !item.expandOnSelect,
-              [styles.itemExpandOnSelect]: item.expandOnSelect,
-            },
-          )}
-          style={{ '--giro-scale': scale } as React.CSSProperties}
-        >
-          {item.expandOnSelect ? (
-            <>
-              {item.icon && <span className={styles.toggleIconLeft} aria-hidden="true">{item.icon}</span>}
-              <span className={styles.toggleLabel}>{item.label}</span>
-            </>
-          ) : item.iconOnly ? (
-            <span className={styles.toggleIconLeft} aria-hidden="true">{item.icon}</span>
-          ) : (
-            <>
-              {item.icon && <span className={styles.toggleIconLeft} aria-hidden="true">{item.icon}</span>}
-              {item.label}
-            </>
-          )}
-        </ToggleGroupRadix.Item>
-      ))}
+      {items.map((item) => {
+        const expandOnSelect = item.expandOnSelect ?? groupExpandOnSelect;
+
+        return (
+          <ToggleGroupRadix.Item
+            key={item.value}
+            value={item.value}
+            disabled={item.disabled}
+            className={clsx(
+              styles.item,
+              styles[`item-${size}`],
+              {
+                [styles.toggleIconOnly]: item.iconOnly && !expandOnSelect,
+                [styles.toggleWithIcon]: !!item.icon && !item.iconOnly && !expandOnSelect,
+                [styles.itemExpandOnSelect]: expandOnSelect,
+              },
+            )}
+            style={{ '--giro-scale': scale } as React.CSSProperties}
+          >
+            {expandOnSelect ? (
+              <>
+                {item.icon && <span className={styles.toggleIconLeft} aria-hidden="true">{item.icon}</span>}
+                <span className={styles.toggleLabel}>{item.label}</span>
+              </>
+            ) : item.iconOnly ? (
+              <span className={styles.toggleIconLeft} aria-hidden="true">{item.icon}</span>
+            ) : (
+              <>
+                {item.icon && <span className={styles.toggleIconLeft} aria-hidden="true">{item.icon}</span>}
+                {item.label}
+              </>
+            )}
+          </ToggleGroupRadix.Item>
+        );
+      })}
     </ToggleGroupRadix.Root>
   );
 

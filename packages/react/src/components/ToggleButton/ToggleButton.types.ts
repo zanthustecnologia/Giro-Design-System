@@ -82,6 +82,11 @@ type ToggleGroupMultipleSelectionProps = {
 export type ToggleGroupProps = {
   /** Items do grupo de toggles */
   items?: ToggleGroupItem[];
+  /**
+   * Exibe somente o ícone dos itens não selecionados; ícone + label no item selecionado.
+   * Aplica-se a todos os itens do grupo. Pode ser sobrescrito individualmente via `item.expandOnSelect`.
+   */
+  expandOnSelect?: boolean;
 } & (ToggleGroupSingleSelectionProps | ToggleGroupMultipleSelectionProps);
 
 /**
