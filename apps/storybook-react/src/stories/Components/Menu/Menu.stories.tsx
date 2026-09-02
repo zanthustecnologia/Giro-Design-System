@@ -1,4 +1,4 @@
-﻿import React from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Menu, Button } from '@giro-ds/react';
 import type { MenuProps } from '@giro-ds/react';
@@ -104,6 +104,24 @@ const categorias: MenuItemType[] = [
   { id: '4', text: 'Configuracoes', value: '4' },
 ];
 
+const mockProdutos = [
+  { id: '1', text: 'Notebook Dell Inspiron', subText: 'Eletronicos - R$ 3.500', value: '1' },
+  { id: '2', text: 'Notebook Lenovo ThinkPad', subText: 'Eletronicos - R$ 4.200', value: '2' },
+  { id: '3', text: 'MacBook Pro 14"', subText: 'Eletronicos - R$ 12.000', value: '3' },
+  { id: '4', text: 'Mouse Logitech MX Master', subText: 'Perifericos - R$ 450', value: '4' },
+  { id: '5', text: 'Teclado Mecanico Keychron', subText: 'Perifericos - R$ 650', value: '5' },
+  { id: '6', text: 'Monitor LG UltraWide', subText: 'Monitores - R$ 2.500', value: '6' },
+  { id: '7', text: 'Webcam Logitech C920', subText: 'Perifericos - R$ 380', value: '7' },
+  { id: '8', text: 'Headset HyperX Cloud', subText: 'Audio - R$ 550', value: '8' },
+  { id: '9', text: 'SSD Samsung 1TB', subText: 'Armazenamento - R$ 600', value: '9' },
+  { id: '10', text: 'HD Externo Seagate 2TB', subText: 'Armazenamento - R$ 400', value: '10' },
+  { id: '11', text: 'Impressora HP LaserJet', subText: 'Impressoras - R$ 1.800', value: '11' },
+  { id: '12', text: 'Scanner Epson', subText: 'Scanners - R$ 900', value: '12' },
+  { id: '13', text: 'Tablet Samsung Galaxy Tab', subText: 'Tablets - R$ 2.200', value: '13' },
+  { id: '14', text: 'iPad Pro 12.9"', subText: 'Tablets - R$ 9.500', value: '14' },
+  { id: '15', text: 'Camera Canon EOS', subText: 'Cameras - R$ 5.500', value: '15' },
+];
+
 export const Default: Story = {
   render: (args) => (
     <Menu {...args} items={acoesItens}>
@@ -139,6 +157,80 @@ export const ComSubmenu: Story = {
       <Button variant="outlined">Categorias</Button>
     </Menu>
   ),
+};
+
+const ApiSearchDemo = () => {
+  const [items, setItems] = useState<MenuItemType[]>(mockProdutos.slice(0, 8));
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+
+  const handleApiSearch = async (term: string) => {
+    setIsLoadingMore(true);
+    await new Promise((r) => setTimeout(r, 400));
+    const filtered = term
+      ? mockProdutos.filter(
+          (p) =>
+            p.text.toLowerCase().includes(term.toLowerCase()) ||
+            p.subText.toLowerCase().includes(term.toLowerCase())
+        )
+      : mockProdutos.slice(0, 8);
+    setItems(filtered);
+    setIsLoadingMore(false);
+  };
+
+  return (
+    <Menu
+      items={items}
+      enableApiSearch
+      onApiSearch={handleApiSearch}
+      isLoadingMore={isLoadingMore}
+      search
+    >
+      <Button variant="outlined">Buscar produto</Button>
+    </Menu>
+  );
+};
+
+export const BuscaAPI: Story = {
+  render: () => <ApiSearchDemo />,
+};
+
+const generateItems = (page: number, size = 15): MenuItemType[] =>
+  Array.from({ length: size }, (_, i) => {
+    const n = page * size + i + 1;
+    return { id: String(n), text: `Produto ${n}`, subText: `SKU-${String(n).padStart(4, '0')}`, value: String(n) };
+  });
+
+const InfiniteScrollDemo = () => {
+  const [items, setItems] = useState<MenuItemType[]>(() => generateItems(0));
+  const [page, setPage] = useState(0);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const total = 100;
+
+  const handleScrollEnd = async () => {
+    if (isLoadingMore || items.length >= total) return;
+    setIsLoadingMore(true);
+    await new Promise((r) => setTimeout(r, 600));
+    const next = page + 1;
+    setItems((prev) => [...prev, ...generateItems(next)]);
+    setPage(next);
+    setIsLoadingMore(false);
+  };
+
+  return (
+    <Menu
+      items={items}
+      enableInfiniteScroll
+      onScrollEnd={handleScrollEnd}
+      isLoadingMore={isLoadingMore}
+      search
+    >
+      <Button variant="outlined">Lista longa ({total} itens)</Button>
+    </Menu>
+  );
+};
+
+export const ScrollInfinito: Story = {
+  render: () => <InfiniteScrollDemo />,
 };
 
 export const Escalas: Story = {
