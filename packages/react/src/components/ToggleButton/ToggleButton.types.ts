@@ -38,6 +38,8 @@ export interface ToggleGroupItem {
   icon?: ReactNode;
   /** Exibe somente o ícone, sem label */
   iconOnly?: boolean;
+  /** Exibe somente o ícone quando não selecionado; ícone + label quando selecionado */
+  expandOnSelect?: boolean;
   /** Desabilita o item, impedindo sua seleção */
   disabled?: boolean;
 }

@@ -99,6 +99,25 @@ Defina `selectionType="multiple"`. `defaultValue` aceita um array e `onValueChan
 />
 ```
 
+### Item que expande ao ser selecionado (item.expandOnSelect)
+
+Use `item.expandOnSelect` para que o item exiba apenas o ícone quando não selecionado e ícone + label quando selecionado. Útil para grupos binários onde se deseja economizar espaço.
+
+<Canvas of={ToggleButtonStories.GrupoExpandOnSelect} />
+
+```jsx
+<ToggleButton
+  mode="combined"
+  selectionType="single"
+  items={[
+    { value: 'cliente',  label: 'Cliente',  icon: <PersonIcon />,   expandOnSelect: true },
+    { value: 'operador', label: 'Operador', icon: <BuildingIcon />, expandOnSelect: true },
+  ]}
+  defaultValue="operador"
+  onValueChange={(value) => console.log(value)}
+/>
+```
+
 <div style={{ marginTop: '48px' }} />
 
 ## Variações

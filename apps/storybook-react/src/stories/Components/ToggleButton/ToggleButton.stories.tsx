@@ -1,4 +1,4 @@
-import { Add16Regular, Tag16Regular, Info16Regular, Filter16Regular, TextBold16Regular } from '@fluentui/react-icons';
+import { Add16Regular, Tag16Regular, Info16Regular, Filter16Regular, TextBold16Regular, Person16Regular, Building16Regular } from '@fluentui/react-icons';
 import { ToggleButton } from '@giro-ds/react';
 import { useArgs } from 'storybook/preview-api';
 import { useState } from 'react';
@@ -80,7 +80,8 @@ const meta: Meta<typeof ToggleButton> = {
     },
     items: {
       control: { type: 'object' },
-      description: 'Items do grupo de toggles (modo `combined`)',
+      description:
+        'Items do grupo de toggles (modo `combined`). Use `item.iconOnly` para exibir sempre apenas o ícone ou `item.expandOnSelect` para exibir apenas o ícone quando não selecionado e ícone + label quando selecionado.',
       if: { arg: 'mode', eq: 'combined' },
       table: {
         type: { summary: 'ToggleGroupItem[]' },
@@ -201,6 +202,11 @@ const iconOnlyItems = [
   { value: 'tags', icon: <Tag16Regular />, iconOnly: true },
   { value: 'info', icon: <Info16Regular />, iconOnly: true },
   { value: 'filter', icon: <Filter16Regular />, iconOnly: true },
+];
+
+const personTypeItems = [
+  { value: 'cliente', label: 'Cliente', icon: <Person16Regular />, expandOnSelect: true },
+  { value: 'operador', label: 'Operador', icon: <Building16Regular />, expandOnSelect: true },
 ];
 
 // ─── Stories ─────────────────────────────────────────────────────────────────
@@ -407,6 +413,39 @@ export const GrupoIconOnly: Story = {
     size: 'lg',
     scale: 1,
     items: iconOnlyItems,
+    disabled: false,
+  },
+};
+
+/** Grupo com item selecionado exibindo ícone + label e demais itens somente ícone (item.expandOnSelect) */
+export const GrupoExpandOnSelect: Story = {
+  argTypes: {
+    pressed: { table: { disable: true } },
+    onPressedChange: { table: { disable: true } },
+    icon: { table: { disable: true } },
+    iconOnly: { table: { disable: true } },
+    label: { table: { disable: true } },
+  },
+  render: (args: ToggleButtonProps) => {
+    const [value, setValue] = useState<string>('operador');
+    return (
+      <div style={{ width: '280px' }}>
+        <ToggleButton
+          {...args}
+          value={value}
+          onValueChange={(v) => {
+            if (v) setValue(v as string);
+          }}
+        />
+      </div>
+    );
+  },
+  args: {
+    mode: 'combined',
+    selectionType: 'single',
+    size: 'lg',
+    scale: 1,
+    items: personTypeItems,
     disabled: false,
   },
 };
