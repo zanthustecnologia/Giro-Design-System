@@ -12,6 +12,7 @@ const ToggleGroup: React.FC<ToggleButtonProps> = ({
   value,
   defaultValue,
   onValueChange,
+  requireSelection = false,
   disabled = false,
   items = [],
   expandOnSelect: groupExpandOnSelect = false,
@@ -31,6 +32,27 @@ const ToggleGroup: React.FC<ToggleButtonProps> = ({
   onPressedChange: _onPressedChange,
   ...rest
 }) => {
+  const singleValueProp = value as string | undefined;
+  const singleOnValueChange = onValueChange as ((value: string) => void) | undefined;
+  const isSingleControlled = singleValueProp !== undefined;
+
+  const [uncontrolledValue, setUncontrolledValue] = React.useState(
+    (defaultValue as string | undefined) ?? '',
+  );
+
+  const handleSingleValueChange = React.useCallback(
+    (next: string) => {
+      if (requireSelection && !next) {
+        return;
+      }
+      if (!isSingleControlled) {
+        setUncontrolledValue(next);
+      }
+      singleOnValueChange?.(next);
+    },
+    [requireSelection, isSingleControlled, singleOnValueChange],
+  );
+
   const rootProps =
     selectionType === 'multiple'
       ? {
@@ -41,14 +63,18 @@ const ToggleGroup: React.FC<ToggleButtonProps> = ({
             | ((value: string[]) => void)
             | undefined,
         }
-      : {
-          type: 'single' as const,
-          value: value as string | undefined,
-          defaultValue: defaultValue as string | undefined,
-          onValueChange: onValueChange as
-            | ((value: string) => void)
-            | undefined,
-        };
+      : requireSelection
+        ? {
+            type: 'single' as const,
+            value: isSingleControlled ? singleValueProp : uncontrolledValue,
+            onValueChange: handleSingleValueChange,
+          }
+        : {
+            type: 'single' as const,
+            value: singleValueProp,
+            defaultValue: defaultValue as string | undefined,
+            onValueChange: singleOnValueChange,
+          };
 
   const hasExpandableItems = groupExpandOnSelect || items.some((item) => item.expandOnSelect);
 

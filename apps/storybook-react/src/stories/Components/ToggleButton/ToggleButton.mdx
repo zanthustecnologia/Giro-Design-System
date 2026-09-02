@@ -99,6 +99,27 @@ Defina `selectionType="multiple"`. `defaultValue` aceita um array e `onValueChan
 />
 ```
 
+### Sempre com uma seleção (requireSelection)
+
+Use `requireSelection` (apenas com `selectionType="single"`) para impedir que o usuário desmarque o item ativo clicando nele novamente — garante que sempre haja uma opção selecionada.
+
+<Canvas of={ToggleButtonStories.GrupoRequireSelection} />
+
+```jsx
+<ToggleButton
+  mode="combined"
+  selectionType="single"
+  requireSelection
+  items={[
+    { value: 'left',   label: 'Esquerda' },
+    { value: 'center', label: 'Centro'   },
+    { value: 'right',  label: 'Direita'  },
+  ]}
+  defaultValue="left"
+  onValueChange={(value) => console.log(value)}
+/>
+```
+
 ### Item que expande ao ser selecionado (item.expandOnSelect)
 
 Use `item.expandOnSelect` para que o item exiba apenas o ícone quando não selecionado e ícone + label quando selecionado. Útil para grupos binários onde se deseja economizar espaço.

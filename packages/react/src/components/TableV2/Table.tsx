@@ -280,6 +280,7 @@ const TableV2 = <T,>({
                 mode="combined"
                 selectionType="single"
                 value={activeView}
+                requireSelection={true}
                 onValueChange={(val) => {
                   if (!val) return;
                   setActiveView(val);

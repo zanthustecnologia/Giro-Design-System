@@ -97,6 +97,16 @@ const meta: Meta<typeof ToggleButton> = {
         defaultValue: { summary: 'false' },
       },
     },
+    requireSelection: {
+      control: { type: 'boolean' },
+      description:
+        'Impede desmarcar o item ativo ao clicar novamente nele, garantindo que sempre haja uma seleção (modo `combined`, `selectionType="single"`).',
+      if: { arg: 'mode', eq: 'combined' },
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'false' },
+      },
+    },
     value: {
       control: { type: 'object' },
       description: 'Valor(es) selecionado(s) controlado(s) (modo `combined`)',
@@ -267,14 +277,12 @@ export const GrupoSelecaoUnica: Story = {
     label: { table: { disable: true } },
   },
   render: (args: ToggleButtonProps) => {
-    const [value, setValue] = useState<string>('left');
+    const [value, setValue] = useState<string>('');
     return (
       <ToggleButton
         {...args}
         value={value}
-        onValueChange={(v) => {
-          if (v) setValue(v as string);
-        }}
+        onValueChange={(v) => setValue(v as string)}
       />
     );
   },
@@ -284,6 +292,36 @@ export const GrupoSelecaoUnica: Story = {
     size: 'lg',
     scale: 1,
     items: alignmentItems,
+    disabled: false,
+  },
+};
+
+/** Grupo de seleção única que sempre mantém um item marcado (prop requireSelection) */
+export const GrupoRequireSelection: Story = {
+  argTypes: {
+    pressed: { table: { disable: true } },
+    onPressedChange: { table: { disable: true } },
+    icon: { table: { disable: true } },
+    iconOnly: { table: { disable: true } },
+    label: { table: { disable: true } },
+  },
+  render: (args: ToggleButtonProps) => {
+    const [value, setValue] = useState<string>('left');
+    return (
+      <ToggleButton
+        {...args}
+        value={value}
+        onValueChange={(v) => setValue(v as string)}
+      />
+    );
+  },
+  args: {
+    mode: 'combined',
+    selectionType: 'single',
+    size: 'lg',
+    scale: 1,
+    items: alignmentItems,
+    requireSelection: true,
     disabled: false,
   },
 };
@@ -377,14 +415,12 @@ export const GrupoComIcones: Story = {
     label: { table: { disable: true } },
   },
   render: (args: ToggleButtonProps) => {
-    const [value, setValue] = useState<string>('tags');
+    const [value, setValue] = useState<string>('');
     return (
       <ToggleButton
         {...args}
         value={value}
-        onValueChange={(v) => {
-          if (v) setValue(v as string);
-        }}
+        onValueChange={(v) => setValue(v as string)}
       />
     );
   },
@@ -437,15 +473,13 @@ export const GrupoExpandOnSelect: Story = {
     label: { table: { disable: true } },
   },
   render: (args: ToggleButtonProps) => {
-    const [value, setValue] = useState<string>('operador');
+    const [value, setValue] = useState<string>('');
     return (
       <div style={{ width: '280px' }}>
         <ToggleButton
           {...args}
           value={value}
-          onValueChange={(v) => {
-            if (v) setValue(v as string);
-          }}
+          onValueChange={(v) => setValue(v as string)}
         />
       </div>
     );

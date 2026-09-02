@@ -30,6 +30,7 @@ const Toggle: React.FC<ToggleButtonProps> = ({
   onValueChange: _onValueChange,
   items: _items,
   expandOnSelect: _expandOnSelect,
+  requireSelection: _requireSelection,
   ...rest
 }) => {
   const toggle = (

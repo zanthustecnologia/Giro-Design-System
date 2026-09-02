@@ -87,6 +87,11 @@ export type ToggleGroupProps = {
    * Aplica-se a todos os itens do grupo. Pode ser sobrescrito individualmente via `item.expandOnSelect`.
    */
   expandOnSelect?: boolean;
+  /**
+   * Impede desmarcar o item ativo ao clicar novamente nele, garantindo que sempre haja uma seleção.
+   * Aplica-se somente quando `selectionType="single"` (ignorado em `"multiple"`).
+   */
+  requireSelection?: boolean;
 } & (ToggleGroupSingleSelectionProps | ToggleGroupMultipleSelectionProps);
 
 /**
