@@ -244,8 +244,6 @@
   bottom: var(--spacing-0);
   left: var(--spacing-0);
   right: var(--spacing-0);
-  // max() garante um piso de 280px mesmo quando --vkeyboard-native-height (prop nativeHeight) é definida
-  // exposta como custom property para ser reaproveitada no cálculo de max-width do layout--numeric
   --vkeyboard-native-computed-height: max(280px, var(--vkeyboard-native-height, clamp(280px, 45dvh, 420px)));
   height: var(--vkeyboard-native-computed-height);
   display: flex;
