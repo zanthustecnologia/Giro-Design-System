@@ -102,6 +102,16 @@ export interface VirtualKeyboardProps extends Omit<BaseProps, 'disabled'> {
    */
   numpadWithEnter?: boolean;
 
+  /**
+   * Altura do teclado no modo `native` (overlay). Aceita qualquer valor CSS válido
+   * de altura (ex.: `'320px'`, `'50dvh'`, `'40%'`).
+   * Se omitido, o teclado usa uma altura fluida padrão baseada no viewport
+   * (`clamp(280px, 45dvh, 420px)`).
+   * Independente do valor informado, a altura nunca fica menor que 280px (piso mínimo).
+   * Só tem efeito quando `variant="native"`.
+   */
+  nativeHeight?: string;
+
   /** Texto de ajuda do TextField exibido no modo `fixed` */
   helperText?: string;
 

@@ -79,6 +79,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
   showEnterKey = true,
   showTypeSwitchKey = true,
   numpadWithEnter = false,
+  nativeHeight,
 }) => {
   const [internalValue, setInternalValue] = useState(value ?? '');
   const [layoutName, setLayoutName] = useState<string>('default');
@@ -770,6 +771,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
           styles[isNumpadLayout ? 'layout--numeric' : 'layout--default'],
           className
         )}
+        style={nativeHeight ? ({ '--vkeyboard-native-height': nativeHeight } as React.CSSProperties) : undefined}
       >
         {keyboardEl}
       </div>,
