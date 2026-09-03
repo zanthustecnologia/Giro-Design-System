@@ -307,6 +307,54 @@ describe('VirtualKeyboard', () => {
   });
 
   // ───────────────────────────────────────────────────────────────────────────
+  describe('Prop nativeHeight', () => {
+    it('não deve aplicar a custom property --vkeyboard-native-height quando nativeHeight não é informado', async () => {
+      render(<VirtualKeyboard variant="native" />);
+      await screen.findByTestId('keyboard');
+
+      const overlay = document.querySelector('[class*="overlay"]') as HTMLElement;
+      expect(overlay.style.getPropertyValue('--vkeyboard-native-height')).toBe('');
+    });
+
+    it('deve aplicar a custom property --vkeyboard-native-height no overlay quando nativeHeight é informado', async () => {
+      render(<VirtualKeyboard variant="native" nativeHeight="320px" />);
+      await screen.findByTestId('keyboard');
+
+      const overlay = document.querySelector('[class*="overlay"]') as HTMLElement;
+      expect(overlay.style.getPropertyValue('--vkeyboard-native-height')).toBe('320px');
+    });
+
+    it('deve aceitar unidades CSS relativas (ex.: dvh, %) em nativeHeight', async () => {
+      render(<VirtualKeyboard variant="native" nativeHeight="50dvh" />);
+      await screen.findByTestId('keyboard');
+
+      const overlay = document.querySelector('[class*="overlay"]') as HTMLElement;
+      expect(overlay.style.getPropertyValue('--vkeyboard-native-height')).toBe('50dvh');
+    });
+
+    it('deve atualizar a custom property quando nativeHeight muda entre renderizações', async () => {
+      const { rerender } = render(<VirtualKeyboard variant="native" nativeHeight="320px" />);
+      await screen.findByTestId('keyboard');
+
+      let overlay = document.querySelector('[class*="overlay"]') as HTMLElement;
+      expect(overlay.style.getPropertyValue('--vkeyboard-native-height')).toBe('320px');
+
+      rerender(<VirtualKeyboard variant="native" nativeHeight="480px" />);
+
+      overlay = document.querySelector('[class*="overlay"]') as HTMLElement;
+      expect(overlay.style.getPropertyValue('--vkeyboard-native-height')).toBe('480px');
+    });
+
+    it('não deve ter efeito no modo fixed (nativeHeight só se aplica ao overlay do modo native)', () => {
+      const { container } = render(<VirtualKeyboard variant="fixed" nativeHeight="320px" />);
+      const wrapper = container.firstChild as HTMLElement;
+
+      expect(wrapper.style.getPropertyValue('--vkeyboard-native-height')).toBe('');
+      expect(document.querySelector('[class*="overlay"]')).not.toBeInTheDocument();
+    });
+  });
+
+  // ───────────────────────────────────────────────────────────────────────────
   describe('Callback onChange', () => {
     it('deve chamar onChange ao pressionar uma tecla de caractere', () => {
       const onChange = vi.fn();

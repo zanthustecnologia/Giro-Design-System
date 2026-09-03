@@ -56,6 +56,12 @@ const meta: Meta<typeof VirtualKeyboard> = {
       description:
         'Exibe o numpad numérico no formato de 4 colunas (estilo iOS nativo), com as teclas `-`, `↵` (newline), `⌫` e `→|` (enter/submit). Só tem efeito com `type="numeric"` e `variant="native"`.',
     },
+    nativeHeight: {
+      control: 'text',
+      description:
+        'Altura do teclado no modo `native` (overlay). Aceita qualquer valor CSS válido de altura (ex.: "320px", "50dvh", "40%"). Se omitido, usa a altura fluida padrão (`clamp(280px, 45dvh, 420px)`). Só tem efeito com `variant="native"`.',
+      if: { arg: 'variant', eq: 'native' },
+    },
     maxLength: {
       control: 'number',
       description: 'Limite maximo de caracteres',

@@ -244,6 +244,10 @@
   bottom: var(--spacing-0);
   left: var(--spacing-0);
   right: var(--spacing-0);
+  --vkeyboard-native-computed-height: max(280px, var(--vkeyboard-native-height, clamp(280px, 45dvh, 420px)));
+  height: var(--vkeyboard-native-computed-height);
+  display: flex;
+  flex-direction: column;
   background-color: var(--color-neutral-high-default);
   // backdrop-filter: blur(20px);
   border-top: var(--border-width-1) solid var(--color-neutral-high-dark);
@@ -254,6 +258,11 @@
   font-weight: var(--font-weight-medium);
   padding: var(--spacing-4);
 
+  .keyboardWrapper {
+    flex: 1;
+    min-height: 0;
+  }
+
   :global(.hg-theme-default) {
     font-family: var(--font-family-primary);
     border-radius: var(--border-radius-none);
@@ -261,6 +270,7 @@
     background-color: var(--color-neutral-high-default);
     // backdrop-filter: blur(20px);
     box-shadow: none;
+    height: 100%;
 
     :global(.hg-button) {
       font-family: var(--font-family-primary);
@@ -268,7 +278,8 @@
       font-size: var(--font-size-20);
       background-color: var(--color-neutral-high-medium);
       margin: var(--spacing-4);
-      height: 44px;
+      height: auto;
+      min-height: 44px;
       line-height: 1;
       letter-spacing: normal;
       border-radius: var(--border-radius-8);
@@ -306,7 +317,7 @@
     right: 0;
     margin: 0 auto;
     width: 100%;
-    max-width: 360px;
+    max-width: calc(var(--vkeyboard-native-computed-height) * 9 / 7);
     border-top: none;
     background-color: transparent;
     transform: translateY(100%);
@@ -329,16 +340,27 @@
 
     :global(.hg-layout-default),
     :global(.hg-layout-numbers) {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+
+      :global(.hg-rows) {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+      }
+
       :global(.hg-button) {
         @include buttonFlex;
         height: auto;
-        max-height: 80px;
+        // max-height: 80px;
       }
 
       :global(.hg-row) {
         flex: 1 0 auto;
         min-height: calc(44px + 2 * var(--spacing-4));
-        max-height: calc(80px + 2 * var(--spacing-4));
+        // max-height: calc(80px + 2 * var(--spacing-4));
       }
 
       :global(.hg-button[data-skbtn="{//}"]) {
@@ -363,6 +385,35 @@
   }
 
   &.layout--default {
+    :global(.hg-layout-default),
+    :global(.hg-layout-shift),
+    :global(.hg-layout-caps),
+    :global(.hg-layout-alt),
+    :global(.hg-layout-alt2),
+    :global(.hg-layout-abc),
+    :global(.hg-layout-emoticon) {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+
+      :global(.hg-rows) {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+      }
+
+      :global(.hg-row) {
+        flex: 1;
+        min-height: 44px;
+      }
+
+      :global(.hg-button) {
+        @include buttonFlex;
+        height: auto;
+      }
+    }
+
     :global(.hg-button[data-skbtn="{//}"]) {
       @include blankSpace;
     }
@@ -472,7 +523,7 @@
 @container vkeyboard (max-width: 768px) {
   :global(.hg-theme-default) {
     :global(.hg-button) {
-      height: 42px;
+      min-height: 42px;
       margin: 3px;
     }
   }
@@ -489,7 +540,7 @@
 
   :global(.hg-theme-default) {
     :global(.hg-button) {
-      height: 40px;
+      min-height: 40px;
       font-size: var(--font-size-18);
       margin: 3px;
     }
@@ -507,7 +558,7 @@
 
   :global(.hg-theme-default) {
     :global(.hg-button) {
-      height: 38px;
+      min-height: 38px;
       font-size: var(--font-size-16);
       margin: 2px;
     }
@@ -525,7 +576,7 @@
 
   :global(.hg-theme-default) {
     :global(.hg-button) {
-      height: 38px;
+      min-height: 38px;
       font-size: var(--font-size-16);
       margin: 2px;
       border-radius: var(--border-radius-4);
@@ -536,11 +587,24 @@
 // ─── Media queries — modo native overlay (respondem ao viewport) ──────────────
 // O overlay é position:fixed e portado para document.body, por isso usa @media.
 
+// Telas grandes (tablets/desktops) — a altura cresce de forma fluida com a altura
+// da viewport (dvh) em vez de ficar travada em 44px, até um teto de 64px.
+@media (min-width: 769px) {
+  .overlay {
+    :global(.hg-theme-default) {
+      :global(.hg-button) {
+        min-height: clamp(44px, 6dvh, 64px);
+        margin: var(--spacing-4);
+      }
+    }
+  }
+}
+
 @media (max-width: 768px) {
   .overlay {
     :global(.hg-theme-default) {
       :global(.hg-button) {
-        height: 42px;
+        min-height: clamp(38px, 6dvh, 48px);
         margin: 3px;
       }
     }
@@ -553,7 +617,7 @@
 
     :global(.hg-theme-default) {
       :global(.hg-button) {
-        height: 40px;
+        min-height: clamp(38px, 6dvh, 48px);
         font-size: var(--font-size-18);
         margin: 3px;
       }
@@ -567,7 +631,7 @@
 
     :global(.hg-theme-default) {
       :global(.hg-button) {
-        height: 38px;
+        min-height: clamp(38px, 6dvh, 48px);
         font-size: var(--font-size-16);
         margin: 2px;
       }
@@ -581,7 +645,7 @@
 
     :global(.hg-theme-default) {
       :global(.hg-button) {
-        height: 38px;
+        min-height: clamp(38px, 6dvh, 48px);
         font-size: var(--font-size-16);
         margin: 2px;
         border-radius: var(--border-radius-4);
