@@ -268,7 +268,8 @@
       font-size: var(--font-size-20);
       background-color: var(--color-neutral-high-medium);
       margin: var(--spacing-4);
-      height: 44px;
+      height: auto;
+      min-height: 44px;
       line-height: 1;
       letter-spacing: normal;
       border-radius: var(--border-radius-8);
@@ -338,7 +339,7 @@
       :global(.hg-row) {
         flex: 1 0 auto;
         min-height: calc(44px + 2 * var(--spacing-4));
-        max-height: calc(80px + 2 * var(--spacing-4));
+        // max-height: calc(80px + 2 * var(--spacing-4));
       }
 
       :global(.hg-button[data-skbtn="{//}"]) {
@@ -472,7 +473,7 @@
 @container vkeyboard (max-width: 768px) {
   :global(.hg-theme-default) {
     :global(.hg-button) {
-      height: 42px;
+      min-height: 42px;
       margin: 3px;
     }
   }
@@ -489,7 +490,7 @@
 
   :global(.hg-theme-default) {
     :global(.hg-button) {
-      height: 40px;
+      min-height: 40px;
       font-size: var(--font-size-18);
       margin: 3px;
     }
@@ -507,7 +508,7 @@
 
   :global(.hg-theme-default) {
     :global(.hg-button) {
-      height: 38px;
+      min-height: 38px;
       font-size: var(--font-size-16);
       margin: 2px;
     }
@@ -525,7 +526,7 @@
 
   :global(.hg-theme-default) {
     :global(.hg-button) {
-      height: 38px;
+      min-height: 38px;
       font-size: var(--font-size-16);
       margin: 2px;
       border-radius: var(--border-radius-4);
@@ -536,11 +537,24 @@
 // ─── Media queries — modo native overlay (respondem ao viewport) ──────────────
 // O overlay é position:fixed e portado para document.body, por isso usa @media.
 
+// Telas grandes (tablets/desktops) — a altura cresce de forma fluida com a altura
+// da viewport (dvh) em vez de ficar travada em 44px, até um teto de 64px.
+@media (min-width: 769px) {
+  .overlay {
+    :global(.hg-theme-default) {
+      :global(.hg-button) {
+        min-height: clamp(44px, 6dvh, 64px);
+        margin: var(--spacing-4);
+      }
+    }
+  }
+}
+
 @media (max-width: 768px) {
   .overlay {
     :global(.hg-theme-default) {
       :global(.hg-button) {
-        height: 42px;
+        min-height: 42px;
         margin: 3px;
       }
     }
@@ -553,7 +567,7 @@
 
     :global(.hg-theme-default) {
       :global(.hg-button) {
-        height: 40px;
+        min-height: 40px;
         font-size: var(--font-size-18);
         margin: 3px;
       }
@@ -567,7 +581,7 @@
 
     :global(.hg-theme-default) {
       :global(.hg-button) {
-        height: 38px;
+        min-height: 38px;
         font-size: var(--font-size-16);
         margin: 2px;
       }
@@ -581,7 +595,7 @@
 
     :global(.hg-theme-default) {
       :global(.hg-button) {
-        height: 38px;
+        min-height: 38px;
         font-size: var(--font-size-16);
         margin: 2px;
         border-radius: var(--border-radius-4);
