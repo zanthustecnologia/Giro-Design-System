@@ -17,10 +17,12 @@
 /* Fonte dos itens da sidebar */
 .sidebar-item a,
 .sidebar-item button {
-  font-size: 16px !important;
-  font-weight: 500 !important;
+  font-size: 16px;
+  font-weight: 500;
+  /* Storybook aplica color inline (style={{color}}) quando o item não está
+     selecionado, então aqui o !important é necessário para vencer o inline style. */
   color: #505255 !important;
-  align-items: center !important;
+  align-items: center;
 }
 
 /* Remove o margin-top do wrapper do chevron para centralizar corretamente */
@@ -28,28 +30,29 @@
   margin-top: 0 !important;
 }
 
-/* Hover do item */
+/* Hover do item — o seletor duplicado (.sidebar-item.sidebar-item) já eleva a
+   especificidade acima da regra interna do Storybook (Emotion), dispensando !important */
 .sidebar-item:hover,
 .sidebar-item.sidebar-item:hover {
-  background: #DBF1FF !important;
+  background: #DBF1FF;
 }
 
 /* Cor de fundo do item ativo */
 .sidebar-item[data-selected="true"],
 .sidebar-item.sidebar-item[data-selected="true"] {
-  background: #DBF1FF !important;
+  background: #DBF1FF;
 }
 
 /* Texto do item ativo */
 .sidebar-item[data-selected="true"] a,
 .sidebar-item.sidebar-item[data-selected="true"] a {
-  color: #1BA5FD !important;
+  color: #1BA5FD;
 }
 
 /* SVG do chevron no item ativo mantém a cor padrão */
 .sidebar-item[data-selected="true"] svg,
 .sidebar-item.sidebar-item[data-selected="true"] svg {
-  color: #505255 !important;
+  color: #505255;
 }
 
 /* Badge "Novo" na sidebar */
