@@ -49,11 +49,12 @@ export function useSelectLogic({
   search = false,
   onValueChange,
   onOpenChange,
-  enableApiSearch = false,
   onApiSearch,
   isSearching = false,
   error,
 }: UseSelectLogicProps): UseSelectLogicReturn {
+  const isApiSearch = Boolean(onApiSearch);
+
   const [state, dispatch] = useReducer(selectReducer, {
     ...initialState,
     selectedValues: Array.isArray(value) ? value : value ? [value] : [],
@@ -77,12 +78,12 @@ export function useSelectLogic({
       }
 
       debounceTimeoutRef.current = setTimeout(() => {
-        if (enableApiSearch && onApiSearch) {
+        if (onApiSearch) {
           onApiSearch(searchTerm);
         }
       }, 300);
     },
-    [enableApiSearch, onApiSearch]
+    [onApiSearch]
   );
 
   useEffect(() => {
@@ -116,25 +117,25 @@ export function useSelectLogic({
   }, [state.isOpen]);
 
   useEffect(() => {
-    if (state.isOpen && enableApiSearch && !hasInitialSearchRef.current) {
+    if (state.isOpen && isApiSearch && !hasInitialSearchRef.current) {
       hasInitialSearchRef.current = true;
       if (onApiSearch) {
         onApiSearch('');
         lastSearchTermRef.current = '';
       }
     }
-  }, [state.isOpen, enableApiSearch, onApiSearch]);
+  }, [state.isOpen, isApiSearch, onApiSearch]);
 
   useEffect(() => {
-    if (enableApiSearch && state.isOpen) {
+    if (isApiSearch && state.isOpen) {
       if (lastSearchTermRef.current !== state.searchTerm) {
         debouncedApiSearch(state.searchTerm);
       }
     }
-  }, [state.searchTerm, enableApiSearch, state.isOpen, debouncedApiSearch]);
+  }, [state.searchTerm, isApiSearch, state.isOpen, debouncedApiSearch]);
 
   useEffect(() => {
-    if (enableApiSearch && state.isOpen && state.searchInput === '' && state.searchTerm === '') {
+    if (isApiSearch && state.isOpen && state.searchInput === '' && state.searchTerm === '') {
       if (lastSearchTermRef.current !== '') {
         lastSearchTermRef.current = '';
         if (onApiSearch) {
@@ -142,7 +143,7 @@ export function useSelectLogic({
         }
       }
     }
-  }, [state.searchInput, state.searchTerm, enableApiSearch, state.isOpen, onApiSearch]);
+  }, [state.searchInput, state.searchTerm, isApiSearch, state.isOpen, onApiSearch]);
 
   useEffect(() => {
     return () => {
@@ -254,7 +255,7 @@ export function useSelectLogic({
     items: SelectItemProps[],
     searchTerm: string
   ): SelectItemProps[] => {
-    if (enableApiSearch) {
+    if (isApiSearch) {
       return items;
     }
 

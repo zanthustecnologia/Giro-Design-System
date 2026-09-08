@@ -39,7 +39,6 @@ const Select: React.FC<SelectProps> = ({
   onScrollEnd,
   hasMore = true,
   isLoadingMore = false,
-  enableApiSearch = false,
   onApiSearch,
   isSearching = false,
   scale = 1,
@@ -50,6 +49,7 @@ const Select: React.FC<SelectProps> = ({
   const viewportRef = useRef<HTMLDivElement>(null);
   const hasReachedEndRef = useRef<boolean>(false);
   const wasLoadingMoreRef = useRef<boolean>(false);
+  const isApiSearch = Boolean(onApiSearch);
 
   const {
     state,
@@ -62,7 +62,6 @@ const Select: React.FC<SelectProps> = ({
     search,
     onValueChange,
     onOpenChange,
-    enableApiSearch,
     onApiSearch,
     isSearching,
     error,
@@ -110,9 +109,9 @@ const Select: React.FC<SelectProps> = ({
   );
 
   const filteredItems = useMemo(() => {
-    const termToFilter = enableApiSearch ? state.searchTerm : state.searchInput;
+    const termToFilter = isApiSearch ? state.searchTerm : state.searchInput;
     return utils.getFilteredItems(items, termToFilter);
-  }, [items, state.searchTerm, state.searchInput, enableApiSearch, utils]);
+  }, [items, state.searchTerm, state.searchInput, isApiSearch, utils]);
 
   useEffect(() => {
     if (!state.isOpen || !enableInfiniteScroll || !onScrollEnd || isLoadingMore) return;
@@ -141,7 +140,7 @@ const Select: React.FC<SelectProps> = ({
     const value = e.target.value;
     actions.setSearchInput(value);
     
-    if (enableApiSearch) {
+    if (isApiSearch) {
       actions.setSearchTerm(value);
     }
   };
@@ -170,7 +169,7 @@ const Select: React.FC<SelectProps> = ({
 
   const handleClear = () => {
     actions.resetSearch();
-    if (enableApiSearch && onApiSearch) {
+    if (onApiSearch) {
       onApiSearch('');
     }
   };

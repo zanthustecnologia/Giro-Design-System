@@ -464,7 +464,6 @@ export const BuscaAPI: StoryFn<SelectProps> = () => {
         label="Select com Busca em API"
         placeholder="Selecione um item..."
         search
-        enableApiSearch={true}
         onApiSearch={handleApiSearch}
         isSearching={isSearching}
       />

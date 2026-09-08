@@ -528,7 +528,6 @@ describe('Select Component', () => {
           items={mockItems}
           variant="text"
           search={true}
-          enableApiSearch={true}
           onApiSearch={handleApiSearch}
           data-testid="select"
         />
@@ -693,7 +692,7 @@ describe('Select Component', () => {
       expect(screen.queryByTestId('select-search')).not.toBeInTheDocument();
     });
 
-    it('suporta prop enableApiSearch', () => {
+    it('suporta prop onApiSearch para ativar busca via API', () => {
       const handleApiSearch = vi.fn();
 
       render(
@@ -701,7 +700,6 @@ describe('Select Component', () => {
           items={mockItems}
           variant="text"
           search={true}
-          enableApiSearch={true}
           onApiSearch={handleApiSearch}
           data-testid="select"
         />
@@ -1134,7 +1132,7 @@ describe('Select Component', () => {
       });
     });
 
-    it('chama onApiSearch quando enableApiSearch está ativo', async () => {
+    it('chama onApiSearch quando informado (busca via API)', async () => {
       const handleApiSearch = vi.fn();
 
       render(
@@ -1142,7 +1140,6 @@ describe('Select Component', () => {
           items={mockItems}
           variant="text"
           search={true}
-          enableApiSearch={true}
           onApiSearch={handleApiSearch}
           data-testid="select"
         />

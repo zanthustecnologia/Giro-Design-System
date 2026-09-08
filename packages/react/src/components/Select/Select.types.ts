@@ -163,10 +163,11 @@ interface SelectPropsBase extends ScalableProps {
   /** Estado de carregamento de mais itens */
   isLoadingMore?: boolean;
   
-  /** Habilita busca via API */
-  enableApiSearch?: boolean;
-  
-  /** Callback executado na busca via API: (term) => void */
+  /**
+   * Callback executado na busca: (term) => void.
+   * Quando informado, o Select entra automaticamente em modo de busca via API
+   * (o filtro local é desativado e a filtragem passa a ser responsabilidade do consumidor).
+   */
   onApiSearch?: (term: string) => void;
   
   /** Estado de busca em andamento */
@@ -234,10 +235,10 @@ export interface UseSelectLogicProps {
   /** Callback executado quando o select abre/fecha: (open) => void */
   onOpenChange?: (open: boolean) => void;
   
-  /** Habilita busca via API */
-  enableApiSearch?: boolean;
-  
-  /** Callback executado na busca via API: (term) => void */
+  /**
+   * Callback executado na busca: (term) => void.
+   * Quando informado, ativa o modo de busca via API.
+   */
   onApiSearch?: (term: string) => void;
   
   /** Estado de busca em andamento */
