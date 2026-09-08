@@ -18,7 +18,7 @@ import {
 
 # Menu
 
-O Menu é um painel flutuante com lista de ações contextuais, vinculado a um gatilho. Ele abre ao clicar no gatilho e fecha ao selecionar um item ou clicar fora. Suporta ícones, subtexto, itens desabilitados, submenus aninhados e busca integrada, tanto local quanto via API.
+O Menu é um painel flutuante com lista de ações contextuais, vinculado a um gatilho. Ele abre ao clicar no gatilho e fecha ao selecionar um item ou clicar fora. Suporta ícones, subtexto, itens desabilitados, submenus aninhados e busca local integrada.
 
 <Canvas of={MenuStories.Default} />
 
@@ -85,18 +85,6 @@ Use ícones para tornar a lista mais escaneável visualmente. Quando usar ícone
 Itens com filhos exibem um indicador de seta e expandem um submenu ao passar o cursor. Use para categorias com agrupamentos naturais.
 
 <Canvas of={MenuStories.ComSubmenu} />
-
-### Com busca via API
-
-Quando a lista de itens é extensa e vive no servidor, ative a busca via API. A pesquisa é disparada ao pressionar Enter e os resultados substituem a lista atual.
-
-<Canvas of={MenuStories.BuscaAPI} />
-
-### Com scroll infinito
-
-Para listas muito longas, o scroll infinito carrega novos itens automaticamente conforme o usuário chega ao final da lista.
-
-<Canvas of={MenuStories.ScrollInfinito} />
 
 <div style={{ marginTop: '48px' }} />
 

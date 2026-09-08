@@ -1,7 +1,7 @@
 import { ChevronRight16Filled } from '@fluentui/react-icons';
 import clsx from 'clsx';
 import { DropdownMenu } from 'radix-ui';
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useCallback, useRef } from 'react';
 
 import Search from '../Search';
 import MenuItem from './components/MenuItem';
@@ -15,11 +15,6 @@ const Menu: React.FC<MenuProps> = ({
   children,
   onItemSelect,
   search,
-  enableInfiniteScroll,
-  onScrollEnd,
-  isLoadingMore,
-  onApiSearch,
-  enableApiSearch,
   selectedItems,
   onOpenChange,
   align = 'start',
@@ -30,11 +25,6 @@ const Menu: React.FC<MenuProps> = ({
   ...rest
 }) => {
   const itemsWrapperRef = useRef<HTMLDivElement>(null);
-  const hasReachedEndRef = useRef<boolean>(false);
-  const observerRef = useRef<IntersectionObserver | null>(null);
-  const sentinelRef = useRef<HTMLDivElement | null>(null);
-  const onScrollEndRef = useRef(onScrollEnd);
-  const isLoadingMoreRef = useRef(isLoadingMore);
 
   const [searchInput, setSearchInput] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
@@ -63,8 +53,6 @@ const Menu: React.FC<MenuProps> = ({
     items,
     searchValue: searchInput,
     searchTerm: searchTerm,
-    onApiSearch,
-    enableApiSearch,
   });
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -83,82 +71,6 @@ const Menu: React.FC<MenuProps> = ({
       setSearchTerm(searchInput);
     }
   };
-
-  useEffect(() => {
-    onScrollEndRef.current = onScrollEnd;
-    isLoadingMoreRef.current = isLoadingMore;
-  }, [onScrollEnd, isLoadingMore]);
-
-  useEffect(() => {
-    if (!open || !enableInfiniteScroll) {
-      return;
-    }
-
-    const setupTimer = setTimeout(() => {
-      const container = itemsWrapperRef.current;
-      const sentinel = sentinelRef.current;
-      
-      if (!container || !sentinel) {
-        return;
-      }
-
-      observerRef.current = new IntersectionObserver(
-        ([entry]) => {
-          if (
-            entry.isIntersecting &&
-            !hasReachedEndRef.current &&
-            !isLoadingMoreRef.current &&
-            onScrollEndRef.current
-          ) {
-            hasReachedEndRef.current = true;
-            onScrollEndRef.current();
-          }
-        },
-        {
-          root: container,
-          threshold: 0.1,
-          rootMargin: '50px',
-        }
-      );
-
-      observerRef.current.observe(sentinel);
-    }, 50);
-    return () => {
-      clearTimeout(setupTimer);
-      if (observerRef.current) {
-        observerRef.current.disconnect();
-        observerRef.current = null;
-      }
-    };
-  }, [open, enableInfiniteScroll]);
-
-  useEffect(() => {
-    if (!isLoadingMore && open && enableInfiniteScroll) {
-      hasReachedEndRef.current = false;
-    }
-  }, [isLoadingMore, open, enableInfiniteScroll]);
-
-  useEffect(() => {
-    if (!open || !enableInfiniteScroll || !onScrollEnd || isLoadingMore) {
-      return;
-    }
-
-    const timer = setTimeout(() => {
-      const container = itemsWrapperRef.current;
-      if (!container) {
-        return;
-      }
-
-      const { scrollHeight, clientHeight } = container;
-      
-      if (scrollHeight <= clientHeight && !hasReachedEndRef.current) {
-        hasReachedEndRef.current = true;
-        onScrollEnd();
-      }
-    }, 200);
-
-    return () => clearTimeout(timer);
-  }, [open, enableInfiniteScroll, onScrollEnd, isLoadingMore, filteredItems.length]);
 
   const renderMenuItem = useCallback(
     (item: MenuItemProps, key: string | number) => {
@@ -213,9 +125,6 @@ const Menu: React.FC<MenuProps> = ({
 
   const handleOpenChange = (newOpen: boolean) => {
     setOpen(newOpen);
-    if (!newOpen) {
-      hasReachedEndRef.current = false;
-    }
   };
 
   return (
@@ -264,16 +173,6 @@ const Menu: React.FC<MenuProps> = ({
               )
             ) : (
               <div className={styles.emptyState}>Nenhum item encontrado</div>
-            )}
-            {enableInfiniteScroll && isLoadingMore && (
-              <div className={styles.loadingMore}>Carregando mais itens...</div>
-            )}
-            {enableInfiniteScroll && (
-              <div
-                ref={sentinelRef}
-                data-scroll-sentinel
-                style={{ height: '1px', visibility: 'hidden' }}
-              />
             )}
           </div>
         </DropdownMenu.Content>

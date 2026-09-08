@@ -63,8 +63,6 @@ export interface DefaultMenuItemProps {
  *   items={menuItems}
  *   type="icon"
  *   search={true}
- *   enableInfiniteScroll={true}
- *   onScrollEnd={loadMore}
  *   maxHeight="400px"
  *   align="end"
  * />
@@ -99,21 +97,6 @@ export interface MenuProps extends ScalableProps {
   /** Altura máxima do menu */
   maxHeight?: number | string;
 
-  /** Habilita scroll infinito */
-  enableInfiniteScroll?: boolean;
-  
-  /** Callback executado ao chegar ao final do scroll: () => void */
-  onScrollEnd?: () => void;
-  
-  /** Estado de carregamento de mais itens */
-  isLoadingMore?: boolean;
-  
-  /** Habilita busca via API */
-  enableApiSearch?: boolean;
-  
-  /** Callback executado na busca via API: (searchTerm) => void */
-  onApiSearch?: (searchTerm: string) => void;
-  
   /** Callback executado quando o menu abre/fecha: (open) => void */
   onOpenChange?: (open: boolean) => void;
 }
