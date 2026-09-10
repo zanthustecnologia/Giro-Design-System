@@ -8,6 +8,7 @@ import TextField from '../TextField';
 import { LAYOUT_DISPLAY, ICON_KEY_MAP } from './components/IconDisplay';
 import { NATIVE_LAYOUT_KEYS, SHIFT_TOGGLES, getNativeLayout } from './components/Variants';
 import styles from './VirtualKeyboard.module.scss';
+import { DISMISS_OUTSIDE_IGNORE_ATTRIBUTE } from '../../utils/dismissOutside';
 
 import type { VirtualKeyboardProps } from './VirtualKeyboard.types';
 
@@ -467,6 +468,27 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
     capsLockOn,
   ]);
 
+  // Cobre toda a área do overlay do teclado (inclusive espaços/paddings fora do
+  // `keyboardWrapperRef`, como o preview de tecla e o menu de acento portalizados),
+  // garantindo que `isKeyboardInteractingRef` não seja perdido em cliques que não
+  // caem exatamente sobre um `.hg-button`. Isso evita que o teclado feche sozinho
+  // (via blur do targetRef) ao interagir com áreas adjacentes do próprio teclado.
+  const handleOverlayPointerDown = useCallback((event: React.PointerEvent<HTMLDivElement>) => {
+    if (keyboardWrapperRef.current?.contains(event.target as Node)) return;
+
+    isKeyboardInteractingRef.current = true;
+    if (hideTimeoutRef.current !== null) {
+      clearTimeout(hideTimeoutRef.current);
+    }
+  }, []);
+
+  const handleOverlayPointerUp = useCallback((event: React.PointerEvent<HTMLDivElement>) => {
+    if (keyboardWrapperRef.current?.contains(event.target as Node)) return;
+
+    isKeyboardInteractingRef.current = false;
+    scheduleHideIfBlurred();
+  }, [scheduleHideIfBlurred]);
+
   const handleAccentSelect = useCallback(
     (accentedChar: string) => {
       const currentValue = valueRef.current;
@@ -772,6 +794,10 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
           className
         )}
         style={nativeHeight ? ({ '--vkeyboard-native-height': nativeHeight } as React.CSSProperties) : undefined}
+        {...{ [DISMISS_OUTSIDE_IGNORE_ATTRIBUTE]: true }}
+        onPointerDownCapture={handleOverlayPointerDown}
+        onPointerUpCapture={handleOverlayPointerUp}
+        onPointerCancelCapture={handleOverlayPointerUp}
       >
         {keyboardEl}
       </div>,
