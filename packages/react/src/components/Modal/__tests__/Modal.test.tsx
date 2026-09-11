@@ -56,9 +56,21 @@ vi.mock('radix-ui', () => {
       // Botão auxiliar para simular interação fora do content (testa closeOnOverlayClick)
       React.createElement('button', {
         'data-testid': 'simulate-outside-click',
-        onClick: () => {
+        onClick: (e: any) => {
           let defaultPrevented = false;
-          const evt = { preventDefault: () => { defaultPrevented = true; } };
+          const evt = { target: e.currentTarget, preventDefault: () => { defaultPrevented = true; } };
+          if (onInteractOutside) onInteractOutside(evt);
+          if (!defaultPrevented && state.onOpenChange) state.onOpenChange(false);
+        },
+      }),
+      // Botão auxiliar marcado com o atributo de exceção (simula um elemento portalizado
+      // como o overlay nativo do VirtualKeyboard) para testar isDismissOutsideIgnored
+      React.createElement('button', {
+        'data-testid': 'simulate-outside-click-ignored',
+        'data-dismiss-outside-ignore': 'true',
+        onClick: (e: any) => {
+          let defaultPrevented = false;
+          const evt = { target: e.currentTarget, preventDefault: () => { defaultPrevented = true; } };
           if (onInteractOutside) onInteractOutside(evt);
           if (!defaultPrevented && state.onOpenChange) state.onOpenChange(false);
         },
@@ -321,6 +333,22 @@ describe('Modal', () => {
       const onClose = vi.fn();
       render(<Modal isOpen onClose={onClose} closeOnOverlayClick={false} />);
       await user.click(screen.getByTestId('simulate-outside-click'));
+      expect(onClose).not.toHaveBeenCalled();
+    });
+
+    it('não chama onClose ao interagir com um elemento marcado com o atributo de exceção (ex.: overlay do VirtualKeyboard), mesmo com closeOnOverlayClick=true (padrão)', async () => {
+      const user = userEvent.setup();
+      const onClose = vi.fn();
+      render(<Modal isOpen onClose={onClose} />);
+      await user.click(screen.getByTestId('simulate-outside-click-ignored'));
+      expect(onClose).not.toHaveBeenCalled();
+    });
+
+    it('não chama onClose ao interagir com um elemento marcado com o atributo de exceção quando closeOnOverlayClick=true explícito', async () => {
+      const user = userEvent.setup();
+      const onClose = vi.fn();
+      render(<Modal isOpen onClose={onClose} closeOnOverlayClick={true} />);
+      await user.click(screen.getByTestId('simulate-outside-click-ignored'));
       expect(onClose).not.toHaveBeenCalled();
     });
   });
