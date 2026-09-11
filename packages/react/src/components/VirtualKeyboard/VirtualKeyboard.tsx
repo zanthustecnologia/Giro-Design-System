@@ -722,7 +722,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
       {keyPreview && typeof document !== 'undefined' && createPortal(
         <div
           ref={keyPreviewRef}
-          className={styles.keyPreview}
+          className={clsx(styles.keyPreview, className)}
           style={{
             top: keyPreview.top,
             left: keyPreview.left + keyPreviewOffsetX,
@@ -742,7 +742,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
         createPortal(
           <div
             ref={accentMenuRef}
-            className={styles.accentMenu}
+            className={clsx(styles.accentMenu, className)}
             style={{
               top: accentMenu.top,
               left: accentMenu.left + accentMenuOffsetX,
