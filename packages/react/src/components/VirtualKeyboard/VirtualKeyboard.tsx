@@ -702,6 +702,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
         onChange={handleChange}
         onKeyPress={handleKeyPress}
         preventMouseDownDefault
+        disableButtonHold
       />
 
       {(() => {
