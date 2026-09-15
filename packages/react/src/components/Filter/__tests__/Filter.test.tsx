@@ -251,7 +251,7 @@ describe('Filter', () => {
       fireEvent.change(screen.getByTestId('search-input'), {
         target: { value: 'inexistente' },
       });
-      expect(screen.getByText('Nenhum item encontrado')).toBeInTheDocument();
+      expect(screen.getByText('Nenhum resultado encontrado')).toBeInTheDocument();
     });
 
     it('renderiza ícone do item quando o item possui icon', async () => {

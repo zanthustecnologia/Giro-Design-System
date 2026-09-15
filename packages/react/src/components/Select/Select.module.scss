@@ -299,15 +299,6 @@ $select-icon-size: 16px;
   padding-top: scale(var(--spacing-8));
   line-height: 1.4;
 }
-.noResults {
-  font-size: scale(var(--font-size-14));
-  color: var(--color-neutral-low-default);
-  font-family: var(--font-family-primary);
-  padding: scale(var(--spacing-16));
-  text-align: center;
-  font-style: italic;
-  margin-bottom: scale(var(--spacing-16));
-}
 @media (max-width: 768px) {
   .content {
     max-height: 250px;
@@ -348,6 +339,10 @@ $select-icon-size: 16px;
   color: var(--color-neutral-low-medium);
   font-size: scale(var(--font-size-14));
   text-align: center;
+}
+.noResults {
+  font-style: italic;
+  margin-bottom: scale(var(--spacing-16));
 }
 
 .expandableItemContainer {
