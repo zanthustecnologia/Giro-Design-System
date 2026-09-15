@@ -54,20 +54,20 @@ const Select: React.FC<SelectProps> = ({
   const isApiSearch = enableApiSearch ?? Boolean(onApiSearch);
 
   useEffect(() => {
-    if (import.meta.env.DEV && enableApiSearch !== undefined) {
+    if (process.env.NODE_ENV !== 'production' && enableApiSearch !== undefined) {
       console.warn(
         '[Giro DS] `enableApiSearch` está depreciado. ' +
         'A busca remota será ativada pela presença de `onApiSearch`. ' +
-        'Remoção prevista para a versão 13.0.0.'
+        'Remoção psera feita futuramente.'
       );
     }
   }, [enableApiSearch]);
 
   useEffect(() => {
-    if (import.meta.env.DEV && enableApiSearch === false && onApiSearch) {
+    if (process.env.NODE_ENV !== 'production' && enableApiSearch === false && onApiSearch) {
       console.warn(
         '[Giro DS] A combinação `enableApiSearch={false}` com `onApiSearch` ' +
-        'mudará de comportamento na versão 13.0.0.'
+        'futuramente o comportamento ira mudar'
       );
     }
   }, [enableApiSearch, onApiSearch]);
