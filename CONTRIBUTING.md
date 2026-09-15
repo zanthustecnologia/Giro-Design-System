@@ -72,7 +72,7 @@ Quando criar um **Merge Request** no GitLab:
    - Exemplos de migração (antes/depois)
    - Justificativa técnica
 
-📖 **Leia o guia completo:** [docs/guides/giovani-guidelines.md](docs/guides/giovani-guidelines.md)
+📖 **Leia o guia completo:** [docs/packages/react/giovani-guidelines.md](docs/packages/react/giovani-guidelines.md)
 
 ### Para Reviewer (Felipe)
 

@@ -1,11 +1,11 @@
 # 📱 Configuração Flutter - Resumo Completo
 
-Este documento resume toda a configuração Flutter adicionada ao monorepo Zanthus Design System.
+Este documento resume toda a configuração Flutter adicionada ao monorepo Giro Design System.
 
 ## ✅ O que foi criado
 
 ### 1. Pacote de Componentes Flutter
-**Localização:** `packages/components-flutter/`
+**Localização:** `packages/flutter/`
 
 #### Estrutura de Tokens
 - ✅ `lib/tokens/colors.dart` - Sistema de cores completo
@@ -36,14 +36,14 @@ Este documento resume toda a configuração Flutter adicionada ao monorepo Zanth
 
 #### Arquivos de Configuração
 - ✅ `pubspec.yaml` - Dependências e metadados do pacote
-- ✅ `lib/zanthus_flutter.dart` - Entry point com exports
+- ✅ `lib/flutter_giro.dart` - Entry point com exports
 - ✅ `README.md` - Documentação completa do pacote
 - ✅ `CHANGELOG.md` - Histórico de versões
 - ✅ `.gitignore` - Arquivos ignorados pelo Git
 - ✅ `analysis_options.yaml` - Regras de linting
 
 ### 2. Storybook Flutter (Widgetbook)
-**Localização:** `apps/storybook-flutter/`
+**Localização:** `apps/widgetbook-flutter/`
 
 #### Estrutura Principal
 - ✅ `lib/main.dart` - App Widgetbook com configuração completa
@@ -79,9 +79,9 @@ Este documento resume toda a configuração Flutter adicionada ao monorepo Zanth
 - ✅ `analysis_options.yaml` - Regras de linting
 
 ### 3. Documentação
-**Localização:** `docs/`
+**Localização:** `docs/packages/flutter/`
 
-- ✅ `flutter-getting-started.md` - Guia completo de início rápido
+- ✅ `getting-started.md` - Guia completo de início rápido
   - Instalação do Flutter SDK
   - Configuração do editor
   - Como usar os componentes
@@ -117,24 +117,24 @@ Este documento resume toda a configuração Flutter adicionada ao monorepo Zanth
 ## 🚀 Como Começar
 
 ### 1. Instalar Flutter SDK
-Siga o guia: `docs/flutter-getting-started.md`
+Siga o guia: `docs/packages/flutter/getting-started.md`
 
 ### 2. Instalar Dependências
 
 ```bash
 # Pacote de componentes
-cd packages/components-flutter
+cd packages/flutter
 flutter pub get
 
 # Storybook Flutter
-cd ../../apps/storybook-flutter
+cd ../../apps/widgetbook-flutter
 flutter pub get
 ```
 
 ### 3. Executar Widgetbook
 
 ```bash
-cd apps/storybook-flutter
+cd apps/widgetbook-flutter
 flutter run -d chrome
 ```
 
@@ -169,7 +169,7 @@ flutter run -d chrome
 ```
 design-system-monorepo/
 ├── apps/
-│   └── storybook-flutter/              # ✅ NOVO
+│   └── widgetbook-flutter/              # ✅ NOVO
 │       ├── lib/
 │       │   ├── main.dart
 │       │   └── stories/                # 14 stories
@@ -179,18 +179,18 @@ design-system-monorepo/
 │       ├── .gitignore
 │       └── analysis_options.yaml
 ├── packages/
-│   └── components-flutter/             # ✅ NOVO
+│   └── flutter/             # ✅ NOVO
 │       ├── lib/
 │       │   ├── components/             # 17 componentes
 │       │   ├── tokens/                 # 5 tokens
-│       │   └── zanthus_flutter.dart
+│       │   └── flutter_giro.dart
 │       ├── pubspec.yaml
 │       ├── README.md
 │       ├── CHANGELOG.md
 │       ├── .gitignore
 │       └── analysis_options.yaml
 ├── docs/
-│   └── flutter-getting-started.md     # ✅ NOVO
+│   └── packages/flutter/getting-started.md     # ✅ NOVO
 └── README.md                           # ✅ ATUALIZADO
 ```
 
@@ -221,7 +221,7 @@ design-system-monorepo/
 
 ## 🎉 Conclusão
 
-O projeto Zanthus Design System agora está completamente configurado para suportar desenvolvimento Flutter! Todos os componentes essenciais foram implementados, a documentação está completa e o Widgetbook está pronto para uso.
+O projeto Giro Design System agora está completamente configurado para suportar desenvolvimento Flutter! Todos os componentes essenciais foram implementados, a documentação está completa e o Widgetbook está pronto para uso.
 
 **Status:** ✅ **Pronto para Desenvolvimento**
 

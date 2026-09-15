@@ -185,7 +185,7 @@ pnpm changeset version
 pnpm changeset publish
 ```
 
-> Ver [`versioning-and-publishing.md`](../../../docs/react/versioning-and-publishing.md) para o passo a passo completo.
+> Ver [`versioning-and-publishing.md`](../versioning-and-publishing.md) para o passo a passo completo.
 
 ---
 

@@ -7,25 +7,26 @@ design-system-monorepo/
 │
 ├── 📱 apps/
 │   ├── storybook-react/              # Storybook React (já existia)
-│   └── storybook-flutter/            # ✨ NOVO: Widgetbook Flutter
+│   └── widgetbook-flutter/            # ✨ NOVO: Widgetbook Flutter
 │
 ├── 📦 packages/
 │   ├── react/                        # Componentes React (já existia)
 │   ├── tokens/                       # Design Tokens (já existia)
 │   ├── utilities/                    # Utilitários CSS (já existia)
-│   └── components-flutter/           # ✨ NOVO: Componentes Flutter
+│   └── flutter/           # ✨ NOVO: Componentes Flutter
 │
 └── 📚 docs/
-    ├── flutter-getting-started.md            # ✨ NOVO
-    ├── flutter-setup-summary.md              # ✨ NOVO
-    ├── flutter-commands-reference.md         # ✨ NOVO
-    └── flutter-tokens-integration-roadmap.md # ✨ NOVO
+    └── packages/flutter/
+        ├── getting-started.md            # ✨ NOVO
+        ├── setup-summary.md              # ✨ NOVO
+        ├── commands-reference.md         # ✨ NOVO
+        └── tokens-integration-roadmap.md # ✨ NOVO
 ```
 
 ## 📱 Apps: Storybook Flutter
 
 ```
-apps/storybook-flutter/
+apps/widgetbook-flutter/
 │
 ├── 📄 pubspec.yaml               # Dependências Flutter
 ├── 📖 README.md                  # Documentação
@@ -85,7 +86,7 @@ apps/storybook-flutter/
 ## 📦 Packages: Components Flutter
 
 ```
-packages/components-flutter/
+packages/flutter/
 │
 ├── 📄 pubspec.yaml               # Dependências
 ├── 📖 README.md                  # Documentação
@@ -94,7 +95,7 @@ packages/components-flutter/
 ├── 🔍 analysis_options.yaml      # Regras de linting
 │
 └── 📁 lib/
-    ├── 🎯 zanthus_flutter.dart   # Entry point
+    ├── 🎯 flutter_giro.dart   # Entry point
     │
     ├── 📁 tokens/                # Design Tokens (5 arquivos)
     │   ├── tokens.dart           # Barrel file
@@ -148,12 +149,12 @@ packages/components-flutter/
 │  Design Tokens Flutter                       │
 ├──────────────────────────────────────────────┤
 │                                              │
-│  🎨 Colors (ZanthusColors)                   │
+│  🎨 Colors (GiroColors)                   │
 │    • primary, secondary                      │
 │    • background, surface, error              │
 │    • gray50 → gray900 (escala completa)      │
 │                                              │
-│  📏 Spacing (ZanthusSpacing)                 │
+│  📏 Spacing (GiroSpacing)                 │
 │    • xs:  4.0                                │
 │    • sm:  8.0                                │
 │    • md: 16.0                                │
@@ -162,15 +163,15 @@ packages/components-flutter/
 │    • xxl: 48.0                               │
 │    • xxxl: 64.0                              │
 │                                              │
-│  ✍️ Typography (ZanthusTypography)          │
+│  ✍️ Typography (GiroTypography)          │
 │    • Font Sizes: xs → 4xl                    │
 │    • Font Weights: regular → bold            │
 │    • Text Styles: heading1 → caption         │
 │                                              │
-│  🔲 Border Radius (ZanthusBorderRadius)     │
+│  🔲 Border Radius (GiroBorderRadius)     │
 │    • none, xs, sm, md, lg, xl, xxl, full     │
 │                                              │
-│  🌑 Shadows (ZanthusShadows)                │
+│  🌑 Shadows (GiroShadows)                │
 │    • shadowSm, shadowMd, shadowLg, shadowXl  │
 │                                              │
 └──────────────────────────────────────────────┘
@@ -245,29 +246,29 @@ packages/components-flutter/
 ## 📚 Documentação
 
 ```
-docs/
+docs/packages/flutter/
 │
-├── 🚀 flutter-getting-started.md
+├── 🚀 getting-started.md
 │   ├── Instalação Flutter SDK
 │   ├── Configuração do editor
 │   ├── Como usar componentes
 │   ├── Exemplos de código
 │   └── Troubleshooting
 │
-├── 📊 flutter-setup-summary.md
+├── 📊 setup-summary.md
 │   ├── O que foi criado
 │   ├── Estatísticas
 │   ├── Estrutura completa
 │   └── Próximos passos
 │
-├── ⚡ flutter-commands-reference.md
+├── ⚡ commands-reference.md
 │   ├── Comandos de instalação
 │   ├── Comandos de desenvolvimento
 │   ├── Comandos de build
 │   ├── Workflows comuns
 │   └── Troubleshooting
 │
-└── 🔄 flutter-tokens-integration-roadmap.md
+└── 🔄 tokens-integration-roadmap.md
     ├── Situação atual
     ├── Plano de implementação
     ├── Cronograma
@@ -281,8 +282,8 @@ docs/
 │                                                    │
 │  1️⃣  Desenvolvimento                               │
 │     ↓                                              │
-│     • Editar componente em components-flutter/     │
-│     • Criar/atualizar story em storybook-flutter/  │
+│     • Editar componente em flutter/     │
+│     • Criar/atualizar story em widgetbook-flutter/  │
 │     ↓                                              │
 │                                                    │
 │  2️⃣  Visualização                                  │
@@ -370,7 +371,7 @@ docs/
 ║                                                   ║
 ║  Próximo passo: Executar o Widgetbook!            ║
 ║                                                   ║
-║    cd apps/storybook-flutter                      ║
+║    cd apps/widgetbook-flutter                      ║
 ║    flutter run -d chrome                          ║
 ║                                                   ║
 ╚═══════════════════════════════════════════════════╝

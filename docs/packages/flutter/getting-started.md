@@ -1,6 +1,6 @@
 # 📱 Guia de Início Rápido - Flutter
 
-Este guia ajudará você a configurar e começar a trabalhar com os componentes Flutter do Zanthus Design System.
+Este guia ajudará você a configurar e começar a trabalhar com os componentes Flutter do Giro Design System.
 
 ## 📋 Pré-requisitos
 
@@ -40,18 +40,18 @@ No diretório raiz do monorepo:
 
 ```bash
 # Instalar dependências do pacote de componentes
-cd packages/components-flutter
+cd packages/flutter
 flutter pub get
 
 # Instalar dependências do Storybook Flutter
-cd ../../apps/storybook-flutter
+cd ../../apps/widgetbook-flutter
 flutter pub get
 ```
 
 ### 2. Executar Widgetbook (Storybook Flutter)
 
 ```bash
-cd apps/storybook-flutter
+cd apps/widgetbook-flutter
 flutter run
 ```
 
@@ -97,8 +97,8 @@ Edite `pubspec.yaml`:
 dependencies:
   flutter:
     sdk: flutter
-  zanthus_flutter:
-    path: ../packages/components-flutter  # Ajuste o caminho conforme necessário
+  flutter_giro:
+    path: ../packages/flutter  # Ajuste o caminho conforme necessário
 ```
 
 Depois execute:
@@ -111,7 +111,7 @@ flutter pub get
 
 ```dart
 import 'package:flutter/material.dart';
-import 'package:zanthus_flutter/zanthus_flutter.dart';
+import 'package:flutter_giro/flutter_giro.dart';
 
 void main() {
   runApp(const MyApp());
@@ -123,7 +123,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Zanthus Demo',
+      title: 'Giro Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -139,52 +139,52 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Zanthus Components'),
+        title: const Text('Giro Components'),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(ZanthusSpacing.md),
+        padding: const EdgeInsets.all(GiroSpacing.md),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Avatar
-            const ZanthusAvatar(
+            const GiroAvatar(
               initials: 'AB',
-              size: ZanthusAvatarSize.large,
+              size: GiroAvatarSize.large,
             ),
             
-            const SizedBox(height: ZanthusSpacing.lg),
+            const SizedBox(height: GiroSpacing.lg),
             
             // Button
-            ZanthusButton(
+            GiroButton(
               text: 'Click me',
-              variant: ZanthusButtonVariant.primary,
-              size: ZanthusButtonSize.medium,
+              variant: GiroButtonVariant.primary,
+              size: GiroButtonSize.medium,
               onPressed: () {
                 print('Button pressed!');
               },
             ),
             
-            const SizedBox(height: ZanthusSpacing.lg),
+            const SizedBox(height: GiroSpacing.lg),
             
             // Card
-            ZanthusCard(
+            GiroCard(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: const [
-                  ZanthusText.h3('Card Title'),
-                  SizedBox(height: ZanthusSpacing.sm),
-                  ZanthusText.body('This is a card with some content.'),
+                  GiroText.h3('Card Title'),
+                  SizedBox(height: GiroSpacing.sm),
+                  GiroText.body('This is a card with some content.'),
                 ],
               ),
             ),
             
-            const SizedBox(height: ZanthusSpacing.lg),
+            const SizedBox(height: GiroSpacing.lg),
             
             // Badge
-            const ZanthusBadge(
+            const GiroBadge(
               text: 'New',
-              variant: ZanthusBadgeVariant.primary,
+              variant: GiroBadgeVariant.primary,
             ),
           ],
         ),
@@ -199,30 +199,30 @@ class MyHomePage extends StatelessWidget {
 ```dart
 // Cores
 Container(
-  color: ZanthusColors.primary,
+  color: GiroColors.primary,
   child: Text(
     'Texto',
-    style: TextStyle(color: ZanthusColors.onPrimary),
+    style: TextStyle(color: GiroColors.onPrimary),
   ),
 )
 
 // Espaçamento
 Padding(
-  padding: EdgeInsets.all(ZanthusSpacing.md),
+  padding: EdgeInsets.all(GiroSpacing.md),
   child: ...
 )
 
 // Tipografia
 Text(
   'Título',
-  style: ZanthusTypography.heading1,
+  style: GiroTypography.heading1,
 )
 
 // Border Radius
 Container(
   decoration: BoxDecoration(
     color: Colors.blue,
-    borderRadius: ZanthusBorderRadius.borderRadiusMd,
+    borderRadius: GiroBorderRadius.borderRadiusMd,
   ),
 )
 
@@ -230,7 +230,7 @@ Container(
 Container(
   decoration: BoxDecoration(
     color: Colors.white,
-    boxShadow: ZanthusShadows.shadowMd,
+    boxShadow: GiroShadows.shadowMd,
   ),
 )
 ```
@@ -238,7 +238,7 @@ Container(
 ## 🧪 Rodando Testes
 
 ```bash
-cd packages/components-flutter
+cd packages/flutter
 flutter test
 ```
 
@@ -310,7 +310,7 @@ flutter pub get
 
 **Solução:**
 ```bash
-cd apps/storybook-flutter
+cd apps/widgetbook-flutter
 flutter clean
 flutter pub get
 flutter run
@@ -329,8 +329,8 @@ flutter run
 
 ## 🆘 Precisa de Ajuda?
 
-1. Verifique a documentação em `packages/components-flutter/README.md`
-2. Veja exemplos no Widgetbook em `apps/storybook-flutter/lib/stories/`
+1. Verifique a documentação em `packages/flutter/README.md`
+2. Veja exemplos no Widgetbook em `apps/widgetbook-flutter/lib/stories/`
 3. Consulte o `CONTRIBUTING.md` para guidelines de desenvolvimento
 
 ---

@@ -1,202 +1,49 @@
-# 📚 Documentação Flutter - Índice
+# 📚 Documentação — Giro Design System
 
-Bem-vindo à documentação Flutter do Zanthus Design System!
+Índice geral da documentação do monorepo. A estrutura de `docs/` espelha a estrutura de `packages/` e `apps/`: cada pacote com documentação própria tem uma pasta em `docs/packages/<nome>/`.
 
-## 📖 Guias Disponíveis
-
-### 🚀 [Guia de Início Rápido](./flutter-getting-started.md)
-**Para quem está começando com Flutter no projeto**
-
-- Instalação do Flutter SDK
-- Configuração do ambiente
-- Primeiros passos
-- Exemplos práticos
-- Troubleshooting básico
-
-👉 **Comece por aqui se é sua primeira vez com Flutter!**
-
----
-
-### ⚡ [Referência de Comandos](./flutter-commands-reference.md)
-**Comandos úteis para o dia a dia**
-
-- Comandos de instalação
-- Desenvolvimento e debugging
-- Build e deploy
-- Workflows comuns
-- Dicas e atalhos
-
-👉 **Use como referência rápida durante o desenvolvimento**
-
----
-
-### 📊 [Resumo da Configuração](./flutter-setup-summary.md)
-**Visão completa do que foi configurado**
-
-- Estrutura criada
-- Componentes implementados
-- Estatísticas do projeto
-- Próximos passos
-
-👉 **Entenda o que já está pronto no projeto**
-
----
-
-### 📁 [Visualização da Estrutura](./flutter-structure-visualization.md)
-**Organização visual dos arquivos e pastas**
-
-- Estrutura de diretórios
-- Fluxo de trabalho
-- Métricas do projeto
-- Roadmap visual
-
-👉 **Navegue visualmente pela estrutura do projeto**
-
----
-
-### 🔄 [Roadmap de Integração de Tokens](./flutter-tokens-integration-roadmap.md)
-**Plano para sincronizar tokens React ↔ Flutter**
-
-- Situação atual
-- Objetivos
-- Plano de implementação (fases)
-- Cronograma
-- Referências técnicas
-
-👉 **Para quem vai implementar a sincronização automática de tokens**
-
----
-
-## 🎯 Por Onde Começar?
-
-### Se você é novo no projeto:
-
-```
-1. 📖 Leia: flutter-getting-started.md
-2. 📁 Veja: flutter-structure-visualization.md
-3. ⚡ Salve: flutter-commands-reference.md
-4. 🚀 Execute: o Widgetbook!
-```
-
-### Se você vai desenvolver componentes:
-
-```
-1. 📊 Revise: flutter-setup-summary.md
-2. 📁 Entenda: flutter-structure-visualization.md
-3. ⚡ Use: flutter-commands-reference.md
-4. 🔧 Desenvolva: novos componentes
-```
-
-### Se você vai implementar sincronização de tokens:
-
-```
-1. 🔄 Leia: flutter-tokens-integration-roadmap.md
-2. 📖 Configure: Style Dictionary
-3. 🧪 Teste: geração de tokens
-4. 🚀 Implemente: as fases do roadmap
-```
-
----
-
-## 🗂️ Estrutura da Documentação
+## 🗂️ Estrutura
 
 ```
 docs/
-├── README.md (este arquivo)
-├── flutter-getting-started.md
-├── flutter-commands-reference.md
-├── flutter-setup-summary.md
-├── flutter-structure-visualization.md
-└── flutter-tokens-integration-roadmap.md
+├── README.md                    (este arquivo)
+├── guides/                      # guias transversais, não ligados a um pacote específico
+│   └── pnpm-commands.md
+└── packages/
+    ├── react/                   # documentação de @giro-ds/react
+    │   ├── README.md
+    │   ├── versioning-and-publishing.md
+    │   ├── giovani-guidelines.md
+    │   ├── changeset-template.md
+    │   ├── eslint-commands.md
+    │   ├── testing-commands.md
+    │   ├── testing-local-packages.md
+    │   ├── migration-guides/
+    │   └── rules/                # diretrizes de código (referência para revisão manual e agentes de IA)
+    └── flutter/                  # documentação de flutter_giro
+        ├── README.md
+        ├── getting-started.md
+        ├── commands-reference.md
+        ├── setup-summary.md
+        ├── structure-visualization.md
+        └── tokens-integration-roadmap.md
 ```
 
----
+> `packages/tokens`, `packages/mcp`, `packages/utilities`, `packages/compose` e `packages/version` ainda não têm uma pasta própria aqui — cada um já tem seu `README.md`/`ARCHITECTURE.md` na raiz do pacote. Ao crescer a documentação de qualquer um deles, crie `docs/packages/<nome>/` seguindo o mesmo padrão de `react/` e `flutter/`.
 
-## 🔗 Links Úteis
+## 🚀 Por onde começar
 
-### Documentação Oficial
-- [Flutter](https://docs.flutter.dev/)
-- [Dart](https://dart.dev/guides)
-- [Widgetbook](https://docs.widgetbook.io/)
-- [Material Design](https://m3.material.io/)
+| Se você vai... | Comece por |
+|---|---|
+| Desenvolver componentes React | [packages/react/README.md](./packages/react/README.md) |
+| Desenvolver componentes Flutter | [packages/flutter/README.md](./packages/flutter/README.md) |
+| Rodar comandos gerais do monorepo (pnpm/turbo) | [guides/pnpm-commands.md](./guides/pnpm-commands.md) |
+| Publicar uma nova versão de um pacote | [packages/react/versioning-and-publishing.md](./packages/react/versioning-and-publishing.md) |
+| Abrir um MR/PR com versionamento correto | [packages/react/giovani-guidelines.md](./packages/react/giovani-guidelines.md) |
 
-### Ferramentas
-- [VS Code Flutter Extension](https://marketplace.visualstudio.com/items?itemName=Dart-Code.flutter)
-- [Flutter DevTools](https://docs.flutter.dev/tools/devtools)
-- [Style Dictionary](https://amzn.github.io/style-dictionary/)
+## 📝 Contribuindo com a documentação
 
-### Comunidade
-- [Flutter Awesome](https://flutterawesome.com/)
-- [Pub.dev](https://pub.dev/)
-- [Flutter GitHub](https://github.com/flutter/flutter)
-
----
-
-## 💡 Dicas Rápidas
-
-### Comandos Mais Usados
-
-```bash
-# Executar Widgetbook
-cd apps/storybook-flutter && flutter run -d chrome
-
-# Instalar dependências
-flutter pub get
-
-# Análise de código
-flutter analyze
-
-# Testes
-flutter test
-
-# Formatar código
-flutter format .
-```
-
-### Atalhos do VS Code
-
-- `F5` - Iniciar debugging
-- `Ctrl+Shift+P` → `Flutter: Hot Reload` - Hot reload
-- `Ctrl+Shift+P` → `Flutter: New Widget` - Criar widget
-- `Ctrl+.` - Quick fixes
-
-### Durante Execução
-
-- `r` - Hot reload
-- `R` - Hot restart
-- `q` - Quit
-- `h` - Help
-
----
-
-## 🆘 Precisa de Ajuda?
-
-1. **Verifique a documentação relevante acima**
-2. **Procure no README do componente específico**
-3. **Consulte o CHANGELOG para mudanças recentes**
-4. **Veja exemplos nas stories do Widgetbook**
-
----
-
-## 📝 Contribuindo
-
-Se você criou um novo componente ou feature:
-
-1. ✅ Atualize o README do pacote
-2. ✅ Crie/atualize a story no Widgetbook
-3. ✅ Adicione entrada no CHANGELOG
-4. ✅ Documente tokens usados (se aplicável)
-5. ✅ Atualize esta documentação se necessário
-
----
-
-## 🎉 Pronto para Começar!
-
-Escolha o guia apropriado acima e comece a desenvolver com Flutter no Zanthus Design System!
-
-**Boa sorte! 🚀**
-
----
-
-*Última atualização: 12/12/2025*
-*Versão da documentação: 1.0.0*
+1. Documentação específica de um pacote vai em `docs/packages/<nome>/`.
+2. Documentação transversal (comandos que valem para o monorepo inteiro, não um pacote específico) vai em `docs/guides/`.
+3. Ao criar/mover um pacote novo, crie sua pasta em `docs/packages/` e adicione um `README.md` de índice, seguindo o padrão de `packages/react/README.md`.
+4. Sempre que uma pasta ou pacote for renomeado, atualize os caminhos citados na documentação — evite referências obsoletas (ex.: nomes antigos de pacotes/pastas).

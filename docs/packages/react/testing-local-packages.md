@@ -12,7 +12,7 @@ Use este método para testar o pacote exatamente como será publicado no NPM.
 
 ```powershell
 # Na raiz do monorepo
-cd c:\Users\felipe.falcone\Documents\Projects\design-system-monorepo
+cd [caminho-do-monorepo]
 
 # Build do pacote React
 pnpm --filter @giro-ds/react build
@@ -33,7 +33,7 @@ Isso gera um arquivo: `giro-ds-react-X.X.X.tgz` dentro de `packages\react\`
 mkdir [caminho-do-projeto-consumidor]\local-packages
 
 # Copiar o arquivo .tgz
-Copy-Item "C:\Users\felipe.falcone\Documents\Projects\design-system-monorepo\packages\react\giro-ds-react-X.X.X.tgz" -Destination "[caminho-do-projeto-consumidor]\local-packages\"
+Copy-Item "[caminho-do-monorepo]\packages\react\giro-ds-react-X.X.X.tgz" -Destination "[caminho-do-projeto-consumidor]\local-packages\"
 ```
 
 ---
