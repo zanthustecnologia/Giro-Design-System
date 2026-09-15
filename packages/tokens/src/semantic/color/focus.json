@@ -3,7 +3,7 @@
     "focus": {
       "ring": {
         "default": {
-          "value": "{color.brand.primary.500}",
+          "value": "{color.neutral.300}",
           "type": "color"
         },
         "inverse": {
