@@ -5,6 +5,7 @@ import * as React from 'react';
 
 import styles from './Modal.module.scss';
 import Button from '../Button/Button';
+import { isDismissOutsideIgnored } from '../../utils/dismissOutside';
 
 import type { ModalProps } from './Modal.types';
 
@@ -37,6 +38,19 @@ const Modal: React.FC<ModalProps> = ({
     contentRef.current?.focus();
   };
 
+  const handleInteractOutside = (e: Event): void => {
+    // Ignora interações em elementos portalizados que se declararam isentos
+    // (ex.: VirtualKeyboard em modo native), evitando fechamentos indesejados.
+    if (isDismissOutsideIgnored(e.target)) {
+      e.preventDefault();
+      return;
+    }
+
+    if (!closeOnOverlayClick) {
+      e.preventDefault();
+    }
+  };
+
   return (
     <Dialog.Root open={isOpen} onOpenChange={handleOpenChange} {...rest}>
       <Dialog.Portal>
@@ -49,7 +63,7 @@ const Modal: React.FC<ModalProps> = ({
             '--modal-custom-width': customWidth,
             '--modal-custom-height': customHeight,
           } as React.CSSProperties}
-          onInteractOutside={!closeOnOverlayClick ? (e) => e.preventDefault() : undefined}
+          onInteractOutside={handleInteractOutside}
           onOpenAutoFocus={handleOpenAutoFocus}
           aria-labelledby={id ? `${id}-title` : 'modal-title'}
           tabIndex={-1}
