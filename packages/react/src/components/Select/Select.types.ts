@@ -164,8 +164,8 @@ interface SelectPropsBase extends ScalableProps {
   isLoadingMore?: boolean;
   
   /**
-   * @deprecated A busca remota será identificada pela presença de
-   * `onApiSearch`. Remoção prevista para a versão 13.0.0.
+   * @deprecated Futuramente a busca remota será identificada pela presença de
+   * `onApiSearch`. Futuramente será removida.
    */
   enableApiSearch?: boolean;
   
@@ -239,7 +239,7 @@ export interface UseSelectLogicProps {
   
   /**
    * @deprecated A busca remota será identificada pela presença de
-   * `onApiSearch`. Remoção prevista para a versão 13.0.0.
+   * `onApiSearch`. Futuramente será removida.
    */
   enableApiSearch?: boolean;
   
