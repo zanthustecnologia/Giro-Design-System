@@ -139,6 +139,65 @@
   padding-left: scale(var(--toggle-button-sm-padding-inline-with-icon));
 }
 
+// Item que exibe somente o ícone quando não selecionado e ícone + label quando selecionado
+.toggleLabel {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 0;
+  opacity: 0;
+  transition: max-width 0.3s ease-in-out, opacity 0.2s ease-in-out;
+}
+
+.item.itemExpandOnSelect {
+  flex: 0 0 auto;
+  gap: 0;
+  transition:
+    flex 0.3s ease-in-out,
+    padding 0.3s ease-in-out,
+    background-color 0.3s ease-in-out,
+    color 0.3s ease-in-out,
+    border-color 0.3s ease-in-out;
+}
+
+.item.itemExpandOnSelect .toggleIconLeft {
+  margin-right: 0;
+}
+
+.item-lg.itemExpandOnSelect {
+  padding: 0;
+  width: scale(var(--toggle-button-lg-height));
+  min-width: scale(var(--toggle-button-lg-height));
+}
+
+.item-sm.itemExpandOnSelect {
+  padding: 0;
+  width: scale(var(--toggle-button-sm-height));
+  min-width: scale(var(--toggle-button-sm-height));
+}
+
+.item.itemExpandOnSelect[data-state='on'] {
+  flex: 1 1 auto;
+  width: auto;
+}
+
+.item.itemExpandOnSelect[data-state='on'] .toggleIconLeft {
+  margin-right: scale(var(--toggle-button-gap));
+}
+
+.item.itemExpandOnSelect[data-state='on'] .toggleLabel {
+  max-width: 200px;
+  opacity: 1;
+}
+
+.item-lg.itemExpandOnSelect[data-state='on'] {
+  padding: 0 scale(var(--toggle-button-lg-padding-inline-with-icon));
+}
+
+.item-sm.itemExpandOnSelect[data-state='on'] {
+  padding: 0 scale(var(--toggle-button-sm-padding-inline-with-icon));
+}
+
 .group {
   display: inline-grid;
   grid-auto-flow: column;
@@ -163,4 +222,11 @@
       border-radius: 0;
     }
   }
+}
+
+// Grupo com itens expandOnSelect: o item selecionado ocupa o espaço restante,
+// os demais permanecem compactos (somente ícone)
+.group.groupExpandable {
+  display: inline-flex;
+  align-items: stretch;
 }

@@ -1,4 +1,4 @@
-import { Add16Regular, Tag16Regular, Info16Regular, Filter16Regular, TextBold16Regular } from '@fluentui/react-icons';
+import { Add16Regular, Tag16Regular, Info16Regular, Filter16Regular, TextBold16Regular, Person16Regular, Building16Regular, TextAlignLeft16Regular, TextAlignCenter16Regular, TextAlignRight16Regular } from '@fluentui/react-icons';
 import { ToggleButton } from '@giro-ds/react';
 import { useArgs } from 'storybook/preview-api';
 import { useState } from 'react';
@@ -80,10 +80,31 @@ const meta: Meta<typeof ToggleButton> = {
     },
     items: {
       control: { type: 'object' },
-      description: 'Items do grupo de toggles (modo `combined`)',
+      description:
+        'Items do grupo de toggles (modo `combined`). Use `item.iconOnly` para exibir sempre apenas o ícone.',
       if: { arg: 'mode', eq: 'combined' },
       table: {
         type: { summary: 'ToggleGroupItem[]' },
+      },
+    },
+    expandOnSelect: {
+      control: { type: 'boolean' },
+      description:
+        'Exibe apenas o ícone dos itens não selecionados; ícone + label no item selecionado (modo `combined`). Pode ser sobrescrito por item via `item.expandOnSelect`.',
+      if: { arg: 'mode', eq: 'combined' },
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'false' },
+      },
+    },
+    requireSelection: {
+      control: { type: 'boolean' },
+      description:
+        'Impede desmarcar o item ativo ao clicar novamente nele, garantindo que sempre haja uma seleção (modo `combined`, `selectionType="single"`).',
+      if: { arg: 'mode', eq: 'combined' },
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'false' },
       },
     },
     value: {
@@ -181,9 +202,9 @@ type Story = StoryObj<typeof meta>;
 // ─── Dados de exemplo ────────────────────────────────────────────────────────
 
 const alignmentItems = [
-  { value: 'left', label: 'Esquerda' },
-  { value: 'center', label: 'Centro' },
-  { value: 'right', label: 'Direita' },
+  { value: 'left', label: 'Esquerda', icon: <TextAlignLeft16Regular /> },
+  { value: 'center', label: 'Centro', icon: <TextAlignCenter16Regular /> },
+  { value: 'right', label: 'Direita', icon: <TextAlignRight16Regular /> },
 ];
 
 const fontStyleItems = [
@@ -201,6 +222,11 @@ const iconOnlyItems = [
   { value: 'tags', icon: <Tag16Regular />, iconOnly: true },
   { value: 'info', icon: <Info16Regular />, iconOnly: true },
   { value: 'filter', icon: <Filter16Regular />, iconOnly: true },
+];
+
+const personTypeItems = [
+  { value: 'cliente', label: 'Cliente', icon: <Person16Regular /> },
+  { value: 'operador', label: 'Operador', icon: <Building16Regular /> },
 ];
 
 // ─── Stories ─────────────────────────────────────────────────────────────────
@@ -251,14 +277,12 @@ export const GrupoSelecaoUnica: Story = {
     label: { table: { disable: true } },
   },
   render: (args: ToggleButtonProps) => {
-    const [value, setValue] = useState<string>('left');
+    const [value, setValue] = useState<string>('');
     return (
       <ToggleButton
         {...args}
         value={value}
-        onValueChange={(v) => {
-          if (v) setValue(v as string);
-        }}
+        onValueChange={(v) => setValue(v as string)}
       />
     );
   },
@@ -268,6 +292,36 @@ export const GrupoSelecaoUnica: Story = {
     size: 'lg',
     scale: 1,
     items: alignmentItems,
+    disabled: false,
+  },
+};
+
+/** Grupo de seleção única que sempre mantém um item marcado (prop requireSelection) */
+export const GrupoRequireSelection: Story = {
+  argTypes: {
+    pressed: { table: { disable: true } },
+    onPressedChange: { table: { disable: true } },
+    icon: { table: { disable: true } },
+    iconOnly: { table: { disable: true } },
+    label: { table: { disable: true } },
+  },
+  render: (args: ToggleButtonProps) => {
+    const [value, setValue] = useState<string>('left');
+    return (
+      <ToggleButton
+        {...args}
+        value={value}
+        onValueChange={(v) => setValue(v as string)}
+      />
+    );
+  },
+  args: {
+    mode: 'combined',
+    selectionType: 'single',
+    size: 'lg',
+    scale: 1,
+    items: alignmentItems,
+    requireSelection: true,
     disabled: false,
   },
 };
@@ -361,14 +415,12 @@ export const GrupoComIcones: Story = {
     label: { table: { disable: true } },
   },
   render: (args: ToggleButtonProps) => {
-    const [value, setValue] = useState<string>('tags');
+    const [value, setValue] = useState<string>('');
     return (
       <ToggleButton
         {...args}
         value={value}
-        onValueChange={(v) => {
-          if (v) setValue(v as string);
-        }}
+        onValueChange={(v) => setValue(v as string)}
       />
     );
   },
@@ -407,6 +459,38 @@ export const GrupoIconOnly: Story = {
     size: 'lg',
     scale: 1,
     items: iconOnlyItems,
+    disabled: false,
+  },
+};
+
+/** Grupo com item selecionado exibindo ícone + label e demais itens somente ícone (prop expandOnSelect) */
+export const GrupoExpandOnSelect: Story = {
+  argTypes: {
+    pressed: { table: { disable: true } },
+    onPressedChange: { table: { disable: true } },
+    icon: { table: { disable: true } },
+    iconOnly: { table: { disable: true } },
+    label: { table: { disable: true } },
+  },
+  render: (args: ToggleButtonProps) => {
+    const [value, setValue] = useState<string>('');
+    return (
+      <div style={{ width: '280px' }}>
+        <ToggleButton
+          {...args}
+          value={value}
+          onValueChange={(v) => setValue(v as string)}
+        />
+      </div>
+    );
+  },
+  args: {
+    mode: 'combined',
+    selectionType: 'single',
+    size: 'lg',
+    scale: 1,
+    items: personTypeItems,
+    expandOnSelect: true,
     disabled: false,
   },
 };

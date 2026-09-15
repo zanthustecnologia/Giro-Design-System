@@ -244,6 +244,11 @@
   bottom: var(--spacing-0);
   left: var(--spacing-0);
   right: var(--spacing-0);
+  // Radix Dialog/Popover (modal=true) zera `pointer-events` em document.body enquanto está
+  // aberto, reabilitando apenas no seu próprio Content. Como este overlay é portalizado
+  // separadamente para document.body, precisa reafirmar `pointer-events: auto` explicitamente
+  // para continuar recebendo cliques mesmo com um Modal aberto por cima.
+  pointer-events: auto;
   --vkeyboard-native-computed-height: max(280px, var(--vkeyboard-native-height, clamp(280px, 45dvh, 420px)));
   height: var(--vkeyboard-native-computed-height);
   display: flex;
@@ -469,6 +474,10 @@
 
 .accentMenu {
   position: fixed;
+  // Mesmo motivo do `.overlay`: portalizado separadamente para document.body, precisa
+  // reafirmar `pointer-events: auto` para continuar clicável com um Modal aberto.
+  // O z-index fica a cargo de quem consome o componente (via `className`).
+  pointer-events: auto;
   transform: translate(-50%, calc(-100%));
   display: inline-flex;
   flex-direction: column;

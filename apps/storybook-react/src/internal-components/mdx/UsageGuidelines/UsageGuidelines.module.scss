@@ -1,17 +1,11 @@
 .usageGuidelines {
-  margin: var(--spacing-24) 0;
+  margin: var(--spacing-24) var(--spacing-0);
   border-radius: var(--border-radius-8);
-  border-left: 4px solid var(--color-primary-default);
-}
-.usageGuidelines h2 {
-  font-size: var(--font-size-20);
-  font-weight: var(--font-weight-bold);
-  margin: 0 0 var(--spacing-16) 0;
-  color: var(--color-neutral-low-default);
+  border-left: var(--spacing-4) solid var(--color-primary-default);
 }
 
 .usageGuidelines li {
-  padding: var(--spacing-8) 0;
+  padding: var(--spacing-8) var(--spacing-0);
   font-size: var(--font-size-16);
   line-height: 1.6;
 }

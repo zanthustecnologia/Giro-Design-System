@@ -253,7 +253,7 @@ const Simple: React.FC<FilterProps> = ({
             })
           ) : (
             <li className={styles.noResults} role="status" aria-live="polite">
-              Nenhum item encontrado
+              Nenhum resultado encontrado
             </li>
           )}
         </ul>
