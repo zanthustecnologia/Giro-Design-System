@@ -1,5 +1,27 @@
 ﻿# @giro-ds/react
 
+## [12.5.0]
+
+### Features
+
+- **ToggleButton:** adiciona prop `expandOnSelect` (item ou grupo) para exibir apenas o ícone nos itens não selecionados e ícone + label no selecionado; adiciona prop `requireSelection` (grupo, `selectionType="single"`) para impedir que o item ativo seja desmarcado.
+- **Modal, Dialog:** adiciona animação de fechamento (fade-out) condicionada a `data-state`, permitindo transição suave antes de desmontar o conteúdo.
+
+### Changed
+
+- **Select:** simplifica ativação de busca via API; presença de `onApiSearch` agora ativa a busca remota automaticamente, sem exigir `enableApiSearch`.
+- **TableV2:** aplica `requireSelection` no seletor de visualização (`activeView`) para evitar ficar sem nenhuma view selecionada.
+
+### Deprecated
+
+- **Select:** a propriedade `enableApiSearch` foi depreciada e será removida na próxima major. A busca remota passará a ser identificada pela presença de `onApiSearch`. Durante a versão atual, a propriedade continua funcionando normalmente. As instruções definitivas serão publicadas antes da major.
+- **Menu:** as propriedades relacionadas à busca remota e ao carregamento incremental foram depreciadas. A equipe está identificando os consumidores e definindo os componentes recomendados para esses casos. As funcionalidades permanecem disponíveis durante o período de transição e não serão removidas até que exista um caminho de migração documentado.
+
+### Bug Fixes
+
+- **Modal, VirtualKeyboard:** corrige conflito em que o overlay nativo do teclado era interpretado como clique fora do Modal (fechando-o indevidamente) e ficava com cliques bloqueados por herdar `pointer-events: none` do body; amplia detecção de interação para evitar fechamento por blur.
+- **Select, Menu, Filter:** padroniza texto ("Nenhum resultado encontrado") e estilo do estado vazio, antes divergentes entre os componentes.
+
 ## [12.4.0]
 
 ### Features

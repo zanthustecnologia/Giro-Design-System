@@ -1,5 +1,11 @@
 ﻿# @giro-ds/tokens
 
+## [2.0.1]
+
+### Bug Fixes
+
+- **Focus:** corrige referência do token semântico `color.focus.ring.default`, de `{color.brand.primary.500}` para `{color.neutral.300}`.
+
 ## [2.0.0]
 
 ### Breaking Changes
