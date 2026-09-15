@@ -21,6 +21,8 @@ const NEW_PAGES = new Set([
 // Usar o name do componente (última parte do title)
 const DEPRECATED_COMPONENTS = new Set([
   'Table',
+  'Busca Via API',
+  'Com Scroll Infinito',
 ]);
 
 // Páginas MDX standalone — badge aparece direto no item
