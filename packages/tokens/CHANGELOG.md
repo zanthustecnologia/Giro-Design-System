@@ -1,6 +1,8 @@
 ﻿# @giro-ds/tokens
 
-## [2.0.1]
+## [2.0.2]
+
+> Nota: a versão `2.0.1` foi publicada por engano com conteúdo desatualizado (sem a mudança abaixo) e foi descontinuada (`deprecated`) no NPM. Use `2.0.2` ou superior.
 
 ### Bug Fixes
 

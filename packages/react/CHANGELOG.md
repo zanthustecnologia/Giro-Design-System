@@ -1,6 +1,8 @@
 ﻿# @giro-ds/react
 
-## [12.5.0]
+## [12.5.1]
+
+> Nota: a versão `12.5.0` foi publicada por engano com conteúdo desatualizado (sem as mudanças abaixo) e foi descontinuada (`deprecated`) no NPM. Use `12.5.1` ou superior.
 
 ### Features
 
