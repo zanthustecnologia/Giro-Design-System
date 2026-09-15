@@ -163,7 +163,10 @@ interface SelectPropsBase extends ScalableProps {
   /** Estado de carregamento de mais itens */
   isLoadingMore?: boolean;
   
-  /** Habilita busca via API */
+  /**
+   * @deprecated A busca remota será identificada pela presença de
+   * `onApiSearch`. Remoção prevista para a versão 13.0.0.
+   */
   enableApiSearch?: boolean;
   
   /** Callback executado na busca via API: (term) => void */

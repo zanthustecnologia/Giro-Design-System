@@ -39,7 +39,7 @@ const Select: React.FC<SelectProps> = ({
   onScrollEnd,
   hasMore = true,
   isLoadingMore = false,
-  enableApiSearch = false,
+  enableApiSearch,
   onApiSearch,
   isSearching = false,
   scale = 1,
@@ -50,6 +50,27 @@ const Select: React.FC<SelectProps> = ({
   const viewportRef = useRef<HTMLDivElement>(null);
   const hasReachedEndRef = useRef<boolean>(false);
   const wasLoadingMoreRef = useRef<boolean>(false);
+
+  const isApiSearch = enableApiSearch ?? Boolean(onApiSearch);
+
+  useEffect(() => {
+    if (import.meta.env.DEV && enableApiSearch !== undefined) {
+      console.warn(
+        '[Giro DS] `enableApiSearch` está depreciado. ' +
+        'A busca remota será ativada pela presença de `onApiSearch`. ' +
+        'Remoção prevista para a versão 13.0.0.'
+      );
+    }
+  }, [enableApiSearch]);
+
+  useEffect(() => {
+    if (import.meta.env.DEV && enableApiSearch === false && onApiSearch) {
+      console.warn(
+        '[Giro DS] A combinação `enableApiSearch={false}` com `onApiSearch` ' +
+        'mudará de comportamento na versão 13.0.0.'
+      );
+    }
+  }, [enableApiSearch, onApiSearch]);
 
   const {
     state,
@@ -62,7 +83,7 @@ const Select: React.FC<SelectProps> = ({
     search,
     onValueChange,
     onOpenChange,
-    enableApiSearch,
+    enableApiSearch: isApiSearch,
     onApiSearch,
     isSearching,
     error,
@@ -110,9 +131,9 @@ const Select: React.FC<SelectProps> = ({
   );
 
   const filteredItems = useMemo(() => {
-    const termToFilter = enableApiSearch ? state.searchTerm : state.searchInput;
+    const termToFilter = isApiSearch ? state.searchTerm : state.searchInput;
     return utils.getFilteredItems(items, termToFilter);
-  }, [items, state.searchTerm, state.searchInput, enableApiSearch, utils]);
+  }, [items, state.searchTerm, state.searchInput, isApiSearch, utils]);
 
   useEffect(() => {
     if (!state.isOpen || !enableInfiniteScroll || !onScrollEnd || isLoadingMore) return;
@@ -141,7 +162,7 @@ const Select: React.FC<SelectProps> = ({
     const value = e.target.value;
     actions.setSearchInput(value);
     
-    if (enableApiSearch) {
+    if (isApiSearch) {
       actions.setSearchTerm(value);
     }
   };
@@ -170,7 +191,7 @@ const Select: React.FC<SelectProps> = ({
 
   const handleClear = () => {
     actions.resetSearch();
-    if (enableApiSearch && onApiSearch) {
+    if (isApiSearch && onApiSearch) {
       onApiSearch('');
     }
   };
