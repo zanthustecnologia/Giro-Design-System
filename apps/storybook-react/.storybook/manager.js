@@ -1,6 +1,7 @@
 import { addons } from 'storybook/manager-api';
 import { createElement } from 'react';
 import { ZanthusTheme } from './theme';
+import '../../../packages/tokens/build/css/tokens.css';
 import './manager.css';
 
 // Componentes — badge aparece no nó pai (colapsado ou não)
