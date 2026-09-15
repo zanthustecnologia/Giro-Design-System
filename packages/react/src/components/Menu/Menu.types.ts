@@ -99,19 +99,31 @@ export interface MenuProps extends ScalableProps {
   /** Altura máxima do menu */
   maxHeight?: number | string;
 
-  /** Habilita scroll infinito */
+  /**
+   * @deprecated O carregamento remoto será removido do Menu na versão 13.
+   * Para seleção de dados remotos, utilize o componente recomendado
+   * no guia de migração.
+   */
   enableInfiniteScroll?: boolean;
   
-  /** Callback executado ao chegar ao final do scroll: () => void */
+  /**
+   * @deprecated Será removido do Menu na versão 13.
+   */
   onScrollEnd?: () => void;
   
-  /** Estado de carregamento de mais itens */
+  /**
+   * @deprecated Será removido do Menu na versão 13.
+   */
   isLoadingMore?: boolean;
   
-  /** Habilita busca via API */
+  /**
+   * @deprecated A busca remota será removida do Menu na versão 13.
+   */
   enableApiSearch?: boolean;
   
-  /** Callback executado na busca via API: (searchTerm) => void */
+  /**
+   * @deprecated A busca remota será removida do Menu na versão 13.
+   */
   onApiSearch?: (searchTerm: string) => void;
   
   /** Callback executado quando o menu abre/fecha: (open) => void */

@@ -234,7 +234,10 @@ export interface UseSelectLogicProps {
   /** Callback executado quando o select abre/fecha: (open) => void */
   onOpenChange?: (open: boolean) => void;
   
-  /** Habilita busca via API */
+  /**
+   * @deprecated A busca remota será identificada pela presença de
+   * `onApiSearch`. Remoção prevista para a versão 13.0.0.
+   */
   enableApiSearch?: boolean;
   
   /** Callback executado na busca via API: (term) => void */
