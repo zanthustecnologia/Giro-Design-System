@@ -18,4 +18,7 @@ export interface CardProps {
 
   /** Define se o card é interativo, aplicando estilos de hover e cursor pointer */
   hoverable?: boolean;
+
+  /** Raio das bordas do card em pixels. O padrão é 8px */
+  borderRadius?: number;
 }

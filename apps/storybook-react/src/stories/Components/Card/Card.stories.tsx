@@ -16,6 +16,9 @@ const meta: Meta<typeof Card> = {
     hoverable: {
       control: { type: 'boolean' },
     },
+    borderRadius: {
+      control: { type: 'number' },
+    },
     children: { table: { disable: true } },
     className: { table: { disable: true } },
   },
@@ -56,5 +59,17 @@ export const ComConteudoCustomizado: Story = {
         <p style={{ marginBottom: 0 }}><strong>Cargo:</strong> Desenvolvedor Front-end</p>
       </Card>
     </div>
+  ),
+};
+
+export const BorderRadiusCustomizado: Story = {
+  args: {
+    borderRadius: 24,
+  },
+  render: (args) => (
+    <Card {...args}>
+      <h2 style={{ margin: 0 }}>Título do Card</h2>
+      <p style={{ marginBottom: 0 }}>Este card utiliza um valor customizado de borderRadius, sobrescrevendo o padrão do design system.</p>
+    </Card>
   ),
 };
