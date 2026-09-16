@@ -127,6 +127,38 @@ describe('Card', () => {
     });
   });
 
+  describe('Prop borderRadius', () => {
+    it('não deve aplicar style de borderRadius quando a prop não é informada', () => {
+      const { container } = render(
+        <Card>
+          <div>Conteúdo</div>
+        </Card>
+      );
+      const mainElement = container.querySelector('main');
+      expect(mainElement?.style.borderRadius).toBe('');
+    });
+
+    it('deve aplicar o valor customizado de borderRadius em pixels', () => {
+      const { container } = render(
+        <Card borderRadius={24}>
+          <div>Conteúdo</div>
+        </Card>
+      );
+      const mainElement = container.querySelector('main');
+      expect(mainElement?.style.borderRadius).toBe('24px');
+    });
+
+    it('deve aplicar borderRadius igual a 0 quando informado', () => {
+      const { container } = render(
+        <Card borderRadius={0}>
+          <div>Conteúdo</div>
+        </Card>
+      );
+      const mainElement = container.querySelector('main');
+      expect(mainElement?.style.borderRadius).toBe('0px');
+    });
+  });
+
   describe('Acessibilidade', () => {
     it('deve ter a role main implícita', () => {
       render(
