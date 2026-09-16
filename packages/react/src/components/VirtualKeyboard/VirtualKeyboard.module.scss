@@ -33,7 +33,7 @@
     :global(.hg-button) {
       font-family: var(--font-family-primary);
       font-weight: var(--font-weight-medium);
-      font-size: clamp(16px, 1cqw, 40px);
+      font-size: clamp(20px, 2cqw, 40px);
       height: 44px;
       background-color: var(--color-neutral-high-medium);
       border-radius: var(--border-radius-8);
@@ -251,6 +251,10 @@
   pointer-events: auto;
   --vkeyboard-native-computed-height: max(280px, var(--vkeyboard-native-height, clamp(280px, 45dvh, 420px)));
   height: var(--vkeyboard-native-computed-height);
+  // container-type: size expõe cqh — assim a fonte cresce com a altura real do teclado
+  // (via `nativeHeight`), em vez de depender do viewport (`dvh`), que não muda com a prop.
+  container-type: size;
+  container-name: vkeyboard-native;
   display: flex;
   flex-direction: column;
   background-color: var(--color-neutral-high-default);
@@ -280,7 +284,7 @@
     :global(.hg-button) {
       font-family: var(--font-family-primary);
       font-weight: var(--font-weight-medium);
-      font-size: clamp(16px, 1dvh, 40px);
+      font-size: clamp(20px, 2cqh, 40px);
       background-color: var(--color-neutral-high-medium);
       margin: var(--spacing-4);
       height: auto;
@@ -465,7 +469,7 @@
   background: var(--color-neutral-high-medium);
   box-shadow: none;
   font-family: var(--font-family-primary);
-  font-size: clamp(16px, 1dvh, 40px);
+  font-size: clamp(20px, 2dvh, 40px);
   font-weight: var(--font-weight-medium);
   pointer-events: none;
   user-select: none;
@@ -503,7 +507,7 @@
   border: none;
   border-radius: var(--border-radius-8);
   font-family: var(--font-family-primary);
-  font-size: clamp(16px, 1dvh, 40px);
+  font-size: clamp(20px, 2dvh, 40px);
   background: none;
   font-weight: var(--font-weight-medium);
   cursor: pointer;
