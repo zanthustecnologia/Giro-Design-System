@@ -33,7 +33,7 @@
     :global(.hg-button) {
       font-family: var(--font-family-primary);
       font-weight: var(--font-weight-medium);
-      font-size: var(--font-size-20);
+      font-size: clamp(16px, 1cqw, 40px);
       height: 44px;
       background-color: var(--color-neutral-high-medium);
       border-radius: var(--border-radius-8);
@@ -280,7 +280,7 @@
     :global(.hg-button) {
       font-family: var(--font-family-primary);
       font-weight: var(--font-weight-medium);
-      font-size: var(--font-size-20);
+      font-size: clamp(16px, 1dvh, 40px);
       background-color: var(--color-neutral-high-medium);
       margin: var(--spacing-4);
       height: auto;
@@ -465,7 +465,7 @@
   background: var(--color-neutral-high-medium);
   box-shadow: none;
   font-family: var(--font-family-primary);
-  font-size: var(--font-size-24);
+  font-size: clamp(16px, 1dvh, 40px);
   font-weight: var(--font-weight-medium);
   pointer-events: none;
   user-select: none;
@@ -503,7 +503,7 @@
   border: none;
   border-radius: var(--border-radius-8);
   font-family: var(--font-family-primary);
-  font-size: var(--font-size-24);
+  font-size: clamp(16px, 1dvh, 40px);
   background: none;
   font-weight: var(--font-weight-medium);
   cursor: pointer;
@@ -550,7 +550,6 @@
   :global(.hg-theme-default) {
     :global(.hg-button) {
       min-height: 40px;
-      font-size: var(--font-size-18);
       margin: 3px;
     }
   }
@@ -568,7 +567,6 @@
   :global(.hg-theme-default) {
     :global(.hg-button) {
       min-height: 38px;
-      font-size: var(--font-size-16);
       margin: 2px;
     }
   }
@@ -586,7 +584,6 @@
   :global(.hg-theme-default) {
     :global(.hg-button) {
       min-height: 38px;
-      font-size: var(--font-size-16);
       margin: 2px;
       border-radius: var(--border-radius-4);
     }
@@ -627,7 +624,6 @@
     :global(.hg-theme-default) {
       :global(.hg-button) {
         min-height: clamp(38px, 6dvh, 48px);
-        font-size: var(--font-size-18);
         margin: 3px;
       }
     }
@@ -641,7 +637,6 @@
     :global(.hg-theme-default) {
       :global(.hg-button) {
         min-height: clamp(38px, 6dvh, 48px);
-        font-size: var(--font-size-16);
         margin: 2px;
       }
     }
@@ -655,7 +650,6 @@
     :global(.hg-theme-default) {
       :global(.hg-button) {
         min-height: clamp(38px, 6dvh, 48px);
-        font-size: var(--font-size-16);
         margin: 2px;
         border-radius: var(--border-radius-4);
       }
@@ -683,13 +677,11 @@
   .keyPreview {
     width: 46px;
     height: 46px;
-    font-size: var(--font-size-20);
   }
 
   .accentOption {
     min-width: 46px;
     height: 46px;
-    font-size: var(--font-size-20);
   }
 }
 
@@ -697,14 +689,12 @@
   .keyPreview {
     width: 44px;
     height: 44px;
-    font-size: var(--font-size-18);
   }
 
   .accentOption {
     min-width: 44px;
     height: 44px;
     padding: 0 var(--spacing-4);
-    font-size: var(--font-size-18);
   }
 }
 
@@ -712,13 +702,11 @@
   .keyPreview {
     width: 44px;
     height: 44px;
-    font-size: var(--font-size-16);
   }
 
   .accentOption {
     min-width: 44px;
     height: 44px;
     padding: 0 var(--spacing-4);
-    font-size: var(--font-size-16);
   }
 }
