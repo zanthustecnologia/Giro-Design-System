@@ -825,7 +825,7 @@ const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
             helperText={helperText}
             error={error}
             errorMessage={errorMessage}
-            readOnly
+            // readOnly
             disableAutoComplete={true}
             maxLength={maxLength}
             attachedToVirtualKeyboard
