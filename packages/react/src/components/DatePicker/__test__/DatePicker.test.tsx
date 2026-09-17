@@ -264,9 +264,9 @@ describe('DatePicker', () => {
   });
 
   describe('Renderização básica', () => {
-    it('renderiza o campo com label padrão "Data"', () => {
+    it('não renderiza label quando não informado', () => {
       render(<DatePicker />);
-      expect(screen.getByLabelText('Data')).toBeInTheDocument();
+      expect(screen.queryByText('Data', { selector: 'label' })).not.toBeInTheDocument();
     });
 
     it('aplica escala 1.0 por padrão', () => {
@@ -309,7 +309,7 @@ describe('DatePicker', () => {
 
     it('renderiza campo desabilitado', () => {
       render(<DatePicker disabled />);
-      expect(screen.getByLabelText('Data')).toBeDisabled();
+      expect(screen.getByRole('textbox', { name: /open calendar/i })).toBeDisabled();
     });
 
     it('renderiza com helperText visível', () => {
@@ -343,32 +343,32 @@ describe('DatePicker', () => {
   describe('Modo não controlado (defaultValue)', () => {
     it('exibe a data inicial do defaultValue formatada em pt-br', () => {
       render(<DatePicker defaultValue={new Date(2024, 0, 15)} />);
-      expect(screen.getByLabelText('Data')).toHaveValue('15/01/2024');
+      expect(screen.getByRole('textbox', { name: /open calendar/i })).toHaveValue('15/01/2024');
     });
 
     it('exibe a data inicial do defaultValue formatada em en-us', () => {
       render(<DatePicker defaultValue={new Date(2024, 0, 15)} locale="en-us" />);
-      expect(screen.getByLabelText('Data')).toHaveValue('01/15/2024');
+      expect(screen.getByRole('textbox', { name: /open calendar/i })).toHaveValue('01/15/2024');
     });
   });
 
   describe('Modo controlado (value)', () => {
     it('exibe o valor controlado formatado', () => {
       render(<DatePicker value={new Date(2024, 5, 20)} />);
-      expect(screen.getByLabelText('Data')).toHaveValue('20/06/2024');
+      expect(screen.getByRole('textbox', { name: /open calendar/i })).toHaveValue('20/06/2024');
     });
 
     it('exibe campo vazio quando value é null', () => {
       render(<DatePicker value={null} />);
-      expect(screen.getByLabelText('Data')).toHaveValue('');
+      expect(screen.getByRole('textbox', { name: /open calendar/i })).toHaveValue('');
     });
 
     it('atualiza o campo ao trocar o value externo', () => {
       const { rerender } = render(<DatePicker value={new Date(2024, 0, 1)} />);
-      expect(screen.getByLabelText('Data')).toHaveValue('01/01/2024');
+      expect(screen.getByRole('textbox', { name: /open calendar/i })).toHaveValue('01/01/2024');
 
       rerender(<DatePicker value={new Date(2024, 11, 31)} />);
-      expect(screen.getByLabelText('Data')).toHaveValue('31/12/2024');
+      expect(screen.getByRole('textbox', { name: /open calendar/i })).toHaveValue('31/12/2024');
     });
   });
 
@@ -377,7 +377,7 @@ describe('DatePicker', () => {
       const user = userEvent.setup();
       render(<DatePicker />);
 
-      await user.click(screen.getByLabelText('Data'));
+      await user.click(screen.getByRole('textbox', { name: /open calendar/i }));
 
       await waitFor(() => {
         expect(screen.getByTestId('calendar-mock')).toBeInTheDocument();
@@ -399,7 +399,7 @@ describe('DatePicker', () => {
       const user = userEvent.setup();
       render(<DatePicker />);
 
-      await user.click(screen.getByLabelText('Data'));
+      await user.click(screen.getByRole('textbox', { name: /open calendar/i }));
       await waitFor(() =>
         expect(screen.getByTestId('calendar-mock')).toBeInTheDocument()
       );
@@ -420,7 +420,7 @@ describe('DatePicker', () => {
         </div>
       );
 
-      await user.click(screen.getByLabelText('Data'));
+      await user.click(screen.getByRole('textbox', { name: /open calendar/i }));
       await waitFor(() =>
         expect(screen.getByTestId('calendar-mock')).toBeInTheDocument()
       );
@@ -436,7 +436,7 @@ describe('DatePicker', () => {
       const user = userEvent.setup();
       render(<DatePicker disabled />);
 
-      await user.click(screen.getByLabelText('Data'));
+      await user.click(screen.getByRole('textbox', { name: /open calendar/i }));
 
       expect(screen.queryByTestId('calendar-mock')).not.toBeInTheDocument();
     });
@@ -452,7 +452,7 @@ describe('DatePicker', () => {
       const user = userEvent.setup();
       render(<DatePicker />);
 
-      await user.click(screen.getByLabelText('Data'));
+      await user.click(screen.getByRole('textbox', { name: /open calendar/i }));
 
       await waitFor(() => {
         expect(
@@ -467,7 +467,7 @@ describe('DatePicker', () => {
       const user = userEvent.setup();
       render(<DatePicker />);
 
-      const input = screen.getByLabelText('Data');
+      const input = screen.getByRole('textbox', { name: /open calendar/i });
       await user.click(input);
       await user.type(input, '15012024');
 
@@ -479,7 +479,7 @@ describe('DatePicker', () => {
       const onChange = vi.fn();
       render(<DatePicker onChange={onChange} />);
 
-      const input = screen.getByLabelText('Data');
+      const input = screen.getByRole('textbox', { name: /open calendar/i });
       await user.click(input);
       await user.type(input, '15012024');
 
@@ -497,7 +497,7 @@ describe('DatePicker', () => {
       const onChange = vi.fn();
       render(<DatePicker onChange={onChange} />);
 
-      const input = screen.getByLabelText('Data');
+      const input = screen.getByRole('textbox', { name: /open calendar/i });
       fireEvent.change(input, { target: { value: '32/01/2024' } });
 
       await waitFor(() => {
@@ -509,7 +509,7 @@ describe('DatePicker', () => {
       const onChange = vi.fn();
       render(<DatePicker onChange={onChange} />);
 
-      const input = screen.getByLabelText('Data');
+      const input = screen.getByRole('textbox', { name: /open calendar/i });
       fireEvent.change(input, { target: { value: '30/02/2024' } });
 
       await waitFor(() => {
@@ -522,7 +522,7 @@ describe('DatePicker', () => {
       const onChange = vi.fn();
       render(<DatePicker onChange={onChange} />);
 
-      const input = screen.getByLabelText('Data');
+      const input = screen.getByRole('textbox', { name: /open calendar/i });
       await user.click(input);
       await user.type(input, '15012024');
 
@@ -538,7 +538,7 @@ describe('DatePicker', () => {
       const user = userEvent.setup();
       render(<DatePicker />);
 
-      const input = screen.getByLabelText('Data');
+      const input = screen.getByRole('textbox', { name: /open calendar/i });
       await user.click(input);
       await user.type(input, 'abc');
 
@@ -549,7 +549,7 @@ describe('DatePicker', () => {
       const onChange = vi.fn();
       render(<DatePicker defaultValue={new Date(2024, 0, 15)} onChange={onChange} />);
 
-      const input = screen.getByLabelText('Data');
+      const input = screen.getByRole('textbox', { name: /open calendar/i });
       // Simula substituição da data existente por valor inválido
       fireEvent.change(input, { target: { value: '99/01/2024' } });
 
@@ -568,7 +568,7 @@ describe('DatePicker', () => {
       const onChange = vi.fn();
       render(<DatePicker onChange={onChange} />);
 
-      await user.click(screen.getByLabelText('Data'));
+      await user.click(screen.getByRole('textbox', { name: /open calendar/i }));
       await waitFor(() =>
         expect(screen.getByTestId('calendar-mock')).toBeInTheDocument()
       );
@@ -588,7 +588,7 @@ describe('DatePicker', () => {
       const user = userEvent.setup();
       render(<DatePicker />);
 
-      await user.click(screen.getByLabelText('Data'));
+      await user.click(screen.getByRole('textbox', { name: /open calendar/i }));
       await waitFor(() =>
         expect(screen.getByTestId('calendar-mock')).toBeInTheDocument()
       );
@@ -604,7 +604,7 @@ describe('DatePicker', () => {
       const user = userEvent.setup();
       render(<DatePicker />);
 
-      await user.click(screen.getByLabelText('Data'));
+      await user.click(screen.getByRole('textbox', { name: /open calendar/i }));
       await waitFor(() =>
         expect(screen.getByTestId('calendar-mock')).toBeInTheDocument()
       );
@@ -612,7 +612,7 @@ describe('DatePicker', () => {
       await user.click(screen.getByTestId('calendar-select-day'));
 
       await waitFor(() => {
-        expect(screen.getByLabelText('Data')).toHaveValue('15/01/2024');
+        expect(screen.getByRole('textbox', { name: /open calendar/i })).toHaveValue('15/01/2024');
       });
     });
 
@@ -621,7 +621,7 @@ describe('DatePicker', () => {
       const onChange = vi.fn();
       render(<DatePicker onChange={onChange} defaultValue={new Date(2024, 0, 15)} />);
 
-      await user.click(screen.getByLabelText('Data'));
+      await user.click(screen.getByRole('textbox', { name: /open calendar/i }));
       await waitFor(() =>
         expect(screen.getByTestId('calendar-mock')).toBeInTheDocument()
       );
@@ -637,7 +637,7 @@ describe('DatePicker', () => {
       const user = userEvent.setup();
       render(<DatePicker />);
 
-      const input = screen.getByLabelText('Data');
+      const input = screen.getByRole('textbox', { name: /open calendar/i });
       await user.click(input);
 
       // Fechar o calendário que abriu pelo click/focus
@@ -660,7 +660,7 @@ describe('DatePicker', () => {
       const user = userEvent.setup();
       render(<DatePicker defaultValue={new Date(2024, 0, 15)} />);
 
-      const input = screen.getByLabelText('Data');
+      const input = screen.getByRole('textbox', { name: /open calendar/i });
       await user.click(input);
       await waitFor(() =>
         expect(screen.getByTestId('calendar-mock')).toBeInTheDocument()
@@ -677,7 +677,7 @@ describe('DatePicker', () => {
       const user = userEvent.setup();
       render(<DatePicker />);
 
-      const input = screen.getByLabelText('Data');
+      const input = screen.getByRole('textbox', { name: /open calendar/i });
       await user.click(input);
       await user.type(input, '15012024');
       await user.keyboard('{Enter}');
@@ -703,7 +703,7 @@ describe('DatePicker', () => {
       const user = userEvent.setup();
       render(<DatePicker />);
 
-      await user.click(screen.getByLabelText('Data'));
+      await user.click(screen.getByRole('textbox', { name: /open calendar/i }));
 
       await waitFor(() => {
         const input = screen.getByRole('textbox', { name: /open calendar/i });
