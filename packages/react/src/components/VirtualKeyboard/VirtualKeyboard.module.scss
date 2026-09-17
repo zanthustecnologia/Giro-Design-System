@@ -1,3 +1,5 @@
+@use '../../styles/mixins/fonts' as *;
+
 @mixin svg {
   width: 1em;
   height: 1em;
@@ -33,7 +35,7 @@
     :global(.hg-button) {
       font-family: var(--font-family-primary);
       font-weight: var(--font-weight-medium);
-      font-size: clamp(20px, 2cqw, 40px);
+      @include fluid-font(20, 2, 40);
       height: 44px;
       background-color: var(--color-neutral-high-medium);
       border-radius: var(--border-radius-8);
@@ -284,7 +286,7 @@
     :global(.hg-button) {
       font-family: var(--font-family-primary);
       font-weight: var(--font-weight-medium);
-      font-size: clamp(20px, 2cqh, 40px);
+      @include fluid-font(20, 2, 40);
       background-color: var(--color-neutral-high-medium);
       margin: var(--spacing-4);
       height: auto;
@@ -469,7 +471,7 @@
   background: var(--color-neutral-high-medium);
   box-shadow: none;
   font-family: var(--font-family-primary);
-  font-size: clamp(20px, 2dvh, 40px);
+  @include fluid-font(20, 2, 40);
   font-weight: var(--font-weight-medium);
   pointer-events: none;
   user-select: none;
@@ -507,7 +509,7 @@
   border: none;
   border-radius: var(--border-radius-8);
   font-family: var(--font-family-primary);
-  font-size: clamp(20px, 2dvh, 40px);
+  @include fluid-font(20, 2, 40);
   background: none;
   font-weight: var(--font-weight-medium);
   cursor: pointer;
