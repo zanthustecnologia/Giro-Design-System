@@ -16,7 +16,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
   calendarAlign = 'start',
   helperText,
   required = false,
-  label = 'Data',
+  label,
   value,
   defaultValue,
   onChange,
