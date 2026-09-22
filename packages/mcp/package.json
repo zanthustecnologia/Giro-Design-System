@@ -19,6 +19,7 @@
   "scripts": {
     "generate": "tsx scripts/generate.ts",
     "generate:tokens": "tsx scripts/generate-tokens.ts",
+    "test": "tsx scripts/generate.ts && tsx --test scripts/collect-props.test.ts",
     "build": "tsc -p tsconfig.json",
     "dev": "tsc -p tsconfig.json --watch",
     "start": "node dist/index.js",

@@ -28,10 +28,10 @@ export const COMPONENTS: ComponentMetadata[] = [
         "description": "URL da imagem do avatar. Quando fornecido, exibe a imagem; caso contrário, mostra o ícone"
       },
       {
-        "name": "initialLetters",
+        "name": "text",
         "type": "string",
         "required": false,
-        "description": "Texto alternativo da imagem do avatar, usado como as iniciais do nome"
+        "description": "Texto alternativo exibido no fallback (ex.: iniciais). Limitado a no máximo 2 caracteres"
       },
       {
         "name": "className",
@@ -96,15 +96,171 @@ export const COMPONENTS: ComponentMetadata[] = [
     ]
   },
   {
+    "name": "Button",
+    "description": "Props do componente Button",
+    "category": "Components",
+    "props": [
+      {
+        "name": "as",
+        "type": "React.ElementType",
+        "required": false,
+        "description": "Elemento customizado a ser renderizado (ex: 'a', Link do React Router)"
+      },
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "Conteúdo do botão"
+      },
+      {
+        "name": "variant",
+        "type": "Variant",
+        "required": false,
+        "description": "Variante visual do botão"
+      },
+      {
+        "name": "iconPosition",
+        "type": "Position",
+        "required": false,
+        "description": "Posição do ícone em relação ao texto"
+      },
+      {
+        "name": "href",
+        "type": "string",
+        "required": false,
+        "description": "URL de destino quando usado como link (renderiza <a>)"
+      },
+      {
+        "name": "to",
+        "type": "string",
+        "required": false,
+        "description": "Rota de destino para roteadores (ex: React Router)"
+      },
+      {
+        "name": "external",
+        "type": "boolean",
+        "required": false,
+        "description": "Define se o link abre em nova aba"
+      },
+      {
+        "name": "target",
+        "type": "string",
+        "required": false,
+        "description": "Atributo target do HTML para links"
+      },
+      {
+        "name": "rel",
+        "type": "string",
+        "required": false,
+        "description": "Atributo rel do HTML para links"
+      },
+      {
+        "name": "type",
+        "type": "'button' | 'submit' | 'reset'",
+        "required": false,
+        "description": "Tipo HTML do botão"
+      },
+      {
+        "name": "size",
+        "type": "Size",
+        "required": false,
+        "description": "Tamanho do botão"
+      },
+      {
+        "name": "fullWidth",
+        "type": "boolean",
+        "required": false,
+        "description": "Define se o botão ocupa 100% da largura do container"
+      },
+      {
+        "name": "ariaLabel",
+        "type": "string",
+        "required": false,
+        "description": "Label acessível para leitores de tela"
+      },
+      {
+        "name": "loading",
+        "type": "boolean",
+        "required": false,
+        "description": "Estado de carregamento (exibe spinner)"
+      },
+      {
+        "name": "className",
+        "type": "string",
+        "required": false,
+        "description": "Classe CSS adicional para customização. Use com moderação e prefira as variantes e estilos pré-definidos do design system."
+      },
+      {
+        "name": "onClick",
+        "type": "React.MouseEventHandler<HTMLElement>",
+        "required": false,
+        "description": "Handler de clique; tipado em HTMLElement para ser compatível com todos os modos"
+      },
+      {
+        "name": "tooltipSide",
+        "type": "'top' | 'bottom' | 'left' | 'right'",
+        "required": false,
+        "description": "Lado em que o tooltip será exibido"
+      },
+      {
+        "name": "tooltipAlign",
+        "type": "'start' | 'center' | 'end'",
+        "required": false,
+        "description": "Alinhamento do tooltip"
+      },
+      {
+        "name": "tooltipText",
+        "type": "string",
+        "required": false,
+        "description": "Texto do tooltip exibido no hover"
+      },
+      {
+        "name": "iconOnly",
+        "type": "(true) | (false)",
+        "required": false,
+        "defaultValue": "false",
+        "description": "Exibe apenas o ícone, sem texto. Requer obrigatoriamente a prop `icon`."
+      },
+      {
+        "name": "icon",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "Ícone exibido no botão — obrigatório quando `iconOnly` é true"
+      }
+    ],
+    "examples": [
+      "<Button variant=\"filled\" size=\"lg\" onClick={handleClick}>\n  Clique aqui\n</Button>",
+      "<Button\n  variant=\"outlined\"\n  icon={<Icon />}\n  iconPosition=\"left\"\n  loading={isLoading}\n>\n  Salvar\n</Button>"
+    ],
+    "keywords": [
+      "button",
+      "props",
+      "componente"
+    ]
+  },
+  {
     "name": "Calendar",
     "description": "",
     "category": "Components",
     "props": [
       {
+        "name": "mode",
+        "type": "'single' | 'range'",
+        "required": false,
+        "defaultValue": "'single'",
+        "description": "Modo de seleção de datas."
+      },
+      {
         "name": "selected",
         "type": "Date | null",
         "required": false,
-        "description": "Data selecionada atualmente (usada pelo DatePicker)."
+        "description": "Data selecionada atualmente (modo `single`)."
+      },
+      {
+        "name": "selectedRange",
+        "type": "DateRange | null",
+        "required": false,
+        "description": "Intervalo de datas selecionado (modo `range`)."
       },
       {
         "name": "currentDate",
@@ -132,10 +288,23 @@ export const COMPONENTS: ComponentMetadata[] = [
         "description": "Último mês navegável."
       },
       {
+        "name": "numberOfMonths",
+        "type": "number",
+        "required": false,
+        "defaultValue": "1",
+        "description": "Quantidade de meses exibidos simultaneamente."
+      },
+      {
         "name": "onDaySelect",
         "type": "(date: Date) => void",
         "required": false,
-        "description": "Chamado quando o usuário seleciona um dia."
+        "description": "Chamado quando o usuário seleciona um dia (modo `single`)."
+      },
+      {
+        "name": "onRangeSelect",
+        "type": "(range: DateRange | undefined) => void",
+        "required": false,
+        "description": "Chamado quando o usuário seleciona um intervalo (modo `range`)."
       },
       {
         "name": "onDateChange",
@@ -678,6 +847,101 @@ export const COMPONENTS: ComponentMetadata[] = [
     ]
   },
   {
+    "name": "FileUpload",
+    "description": "",
+    "category": "Components",
+    "props": [
+      {
+        "name": "accept",
+        "type": "string",
+        "required": false,
+        "description": "Tipos de arquivo aceitos pelo seletor nativo (ex: \"image/*\", \".pdf,.docx\")"
+      },
+      {
+        "name": "multiple",
+        "type": "boolean",
+        "required": false,
+        "description": "Permite selecionar múltiplos arquivos"
+      },
+      {
+        "name": "value",
+        "type": "File[]",
+        "required": false,
+        "description": "Lista controlada de arquivos"
+      },
+      {
+        "name": "onChange",
+        "type": "(files: File[]) => void",
+        "required": false,
+        "description": "Callback disparado quando a lista de arquivos muda"
+      },
+      {
+        "name": "helperText",
+        "type": "string",
+        "required": false,
+        "description": "Texto auxiliar exibido abaixo da zona de drop"
+      },
+      {
+        "name": "error",
+        "type": "boolean",
+        "required": false,
+        "description": "Sinaliza estado de erro"
+      },
+      {
+        "name": "errorMessage",
+        "type": "string",
+        "required": false,
+        "description": "Mensagem de erro exibida no helperText quando em estado de erro.\r\nErros internos de tipo (accept), tamanho (maxFileSize) e quantidade (maxFilesQuantity)\r\ntambém preenchem o helperText com mensagens padrão."
+      },
+      {
+        "name": "descriptionErrorMessage",
+        "type": "string",
+        "required": false,
+        "description": "Mensagem de erro exibida abaixo do icone de erro, caso não tenha a mensagem não ira aparecer nada"
+      },
+      {
+        "name": "maxFileSize",
+        "type": "number",
+        "required": false,
+        "description": "Tamanho máximo em bytes por arquivo"
+      },
+      {
+        "name": "maxFilesQuantity",
+        "type": "number",
+        "required": false,
+        "description": "Número máximo de arquivos permitidos (exige multiple=true para mais de 1)"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "Quando true, o componente está desabilitado"
+      },
+      {
+        "name": "className",
+        "type": "string",
+        "required": false,
+        "description": "Classes CSS adicionais"
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": false,
+        "description": "Identificador único"
+      },
+      {
+        "name": "description",
+        "type": "string",
+        "required": false,
+        "description": "Texto de instrução exibido na zona vazia"
+      }
+    ],
+    "examples": [],
+    "keywords": [
+      "fileupload"
+    ]
+  },
+  {
     "name": "Filter",
     "description": "Props do componente Filter",
     "category": "Components",
@@ -690,7 +954,7 @@ export const COMPONENTS: ComponentMetadata[] = [
       },
       {
         "name": "type",
-        "type": "FilterType",
+        "type": "FilterTypes",
         "required": false,
         "description": "Tipo do filtro (dropdown ou calendário)"
       },
@@ -821,10 +1085,10 @@ export const COMPONENTS: ComponentMetadata[] = [
         "description": "Título do painel lateral (padrão: 'Filtrar')"
       },
       {
-        "name": "activeCount",
+        "name": "appliedFilterCount",
         "type": "number",
         "required": false,
-        "description": "Número de filtros ativos exibido como badge no botão"
+        "description": "Número de filtros aplicados exibido como badge no botão"
       },
       {
         "name": "drawerHeaderContent",
@@ -879,12 +1143,6 @@ export const COMPONENTS: ComponentMetadata[] = [
         "description": "Texto principal do item"
       },
       {
-        "name": "name",
-        "type": "string",
-        "required": false,
-        "description": "Nome do input (para variantes checkbox/radio)"
-      },
-      {
         "name": "subText",
         "type": "string",
         "required": false,
@@ -894,7 +1152,7 @@ export const COMPONENTS: ComponentMetadata[] = [
         "name": "checked",
         "type": "boolean",
         "required": false,
-        "description": "Estado de checked (para variantes checkbox/radio)"
+        "description": "Estado de checked (para variante checkbox)"
       },
       {
         "name": "selected",
@@ -921,28 +1179,40 @@ export const COMPONENTS: ComponentMetadata[] = [
         "description": "Ícone do item (para variante icon)"
       },
       {
-        "name": "value",
-        "type": "string",
+        "name": "customWidth",
+        "type": "React.CSSProperties['width']",
         "required": false,
-        "description": "Valor do input (para variantes checkbox/radio)"
+        "description": "Largura do item. Quando não informada, ocupa 100% do container"
       },
       {
-        "name": "showSubText",
+        "name": "scale",
+        "type": "Scale",
+        "required": false,
+        "description": "Escala visual do componente (1, 1.5 ou 2)"
+      },
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "Itens filhos para criar estrutura de árvore (outros ListItems)"
+      },
+      {
+        "name": "defaultExpanded",
         "type": "boolean",
         "required": false,
-        "description": "Controla a visibilidade do subtexto explicitamente, independentemente de `subText` estar preenchido"
+        "description": "Estado inicial de expansão — modo não controlado (default: false)"
       },
       {
-        "name": "hovered",
+        "name": "expanded",
         "type": "boolean",
         "required": false,
-        "description": "Força o estado visual de hover no item (útil para controle externo de foco/seleção)"
+        "description": "Estado de expansão controlado"
       },
       {
-        "name": "className",
-        "type": "string",
+        "name": "onExpandedChange",
+        "type": "(expanded: boolean) => void",
         "required": false,
-        "description": "Classe CSS opcional"
+        "description": "Callback executado quando o estado de expansão muda"
       }
     ],
     "examples": [
@@ -1012,31 +1282,36 @@ export const COMPONENTS: ComponentMetadata[] = [
         "name": "enableInfiniteScroll",
         "type": "boolean",
         "required": false,
-        "description": "Habilita scroll infinito"
+        "description": "",
+        "deprecated": "Futuramente o carregamento remoto será removido do Menu.\r\nPara seleção de dados remotos, utilize o componente recomendado\r\nno guia de migração."
       },
       {
         "name": "onScrollEnd",
         "type": "() => void",
         "required": false,
-        "description": "Callback executado ao chegar ao final do scroll: () => void"
+        "description": "",
+        "deprecated": "Futuramente será removido do Menu."
       },
       {
         "name": "isLoadingMore",
         "type": "boolean",
         "required": false,
-        "description": "Estado de carregamento de mais itens"
+        "description": "",
+        "deprecated": "Futuramente será removido do Menu."
       },
       {
         "name": "enableApiSearch",
         "type": "boolean",
         "required": false,
-        "description": "Habilita busca via API"
+        "description": "",
+        "deprecated": "Futuramente a busca remota será removida do Menu."
       },
       {
         "name": "onApiSearch",
         "type": "(searchTerm: string) => void",
         "required": false,
-        "description": "Callback executado na busca via API: (searchTerm) => void"
+        "description": "",
+        "deprecated": "Futuramente a busca remota será removida do Menu."
       },
       {
         "name": "onOpenChange",
@@ -1091,6 +1366,12 @@ export const COMPONENTS: ComponentMetadata[] = [
         "description": "Conteúdo customizado no cabeçalho, exibido ao lado do título"
       },
       {
+        "name": "closingButton",
+        "type": "boolean",
+        "required": false,
+        "description": "Define se o botão de fechar é exibido (padrão: true)"
+      },
+      {
         "name": "closeOnOverlayClick",
         "type": "boolean",
         "required": false,
@@ -1107,6 +1388,12 @@ export const COMPONENTS: ComponentMetadata[] = [
         "type": "string",
         "required": false,
         "description": "Largura customizada do modal (ex: '500px', '80%')"
+      },
+      {
+        "name": "customHeight",
+        "type": "string",
+        "required": false,
+        "description": "Altura customizada do modal (ex: '500px', '80%')"
       },
       {
         "name": "fullscreen",
@@ -1433,14 +1720,17 @@ export const COMPONENTS: ComponentMetadata[] = [
         "description": "Tipo do teclado virtual (padrão: undefined = desabilitado)"
       }
     ],
-    "examples": [],
+    "examples": [
+      "<Search \n  placeholder=\"Buscar...\"\n  value={searchTerm}\n  onChange={(e) => setSearchTerm(e.target.value)}\n  onClear={() => setSearchTerm('')}\n/>",
+      "<Search \n  placeholder=\"Pesquisar produtos\"\n  disabled={isLoading}\n  onKeyDown={(e) => e.key === 'Enter' && handleSearch()}\n  onFocus={handleFocus}\n/>"
+    ],
     "keywords": [
       "search"
     ]
   },
   {
     "name": "Select",
-    "description": "Props do componente Select",
+    "description": "Props completas do Select, incluindo a configuração de tooltip.\r\n\r\nO tooltip é ativado automaticamente quando `tooltipText` é informado,\r\ne as props `tooltipSide` e `tooltipAlign` ficam disponíveis para posicionamento.",
     "category": "Components",
     "props": [
       {
@@ -1516,6 +1806,12 @@ export const COMPONENTS: ComponentMetadata[] = [
         "description": "Largura máxima do select"
       },
       {
+        "name": "error",
+        "type": "boolean",
+        "required": false,
+        "description": "Indica estado de erro externo"
+      },
+      {
         "name": "errorMessage",
         "type": "string",
         "required": false,
@@ -1534,30 +1830,6 @@ export const COMPONENTS: ComponentMetadata[] = [
         "description": "ID para testes automatizados"
       },
       {
-        "name": "tooltip",
-        "type": "boolean",
-        "required": false,
-        "description": "Habilita tooltip"
-      },
-      {
-        "name": "tooltipText",
-        "type": "string",
-        "required": false,
-        "description": "Texto do tooltip"
-      },
-      {
-        "name": "side",
-        "type": "Side",
-        "required": false,
-        "description": "Lado onde o dropdown abre"
-      },
-      {
-        "name": "align",
-        "type": "Align",
-        "required": false,
-        "description": "Alinhamento do dropdown"
-      },
-      {
         "name": "enableInfiniteScroll",
         "type": "boolean",
         "required": false,
@@ -1570,6 +1842,12 @@ export const COMPONENTS: ComponentMetadata[] = [
         "description": "Callback executado ao chegar ao final do scroll: () => void"
       },
       {
+        "name": "hasMore",
+        "type": "boolean",
+        "required": false,
+        "description": "Indica se há mais itens disponíveis para carregamento"
+      },
+      {
         "name": "isLoadingMore",
         "type": "boolean",
         "required": false,
@@ -1579,7 +1857,8 @@ export const COMPONENTS: ComponentMetadata[] = [
         "name": "enableApiSearch",
         "type": "boolean",
         "required": false,
-        "description": "Habilita busca via API"
+        "description": "",
+        "deprecated": "Futuramente a busca remota será identificada pela presença de\r\n`onApiSearch`. Futuramente será removida."
       },
       {
         "name": "onApiSearch",
@@ -1592,6 +1871,24 @@ export const COMPONENTS: ComponentMetadata[] = [
         "type": "boolean",
         "required": false,
         "description": "Estado de busca em andamento"
+      },
+      {
+        "name": "tooltipSide",
+        "type": "'top' | 'bottom' | 'left' | 'right'",
+        "required": false,
+        "description": "Lado em que o tooltip será exibido"
+      },
+      {
+        "name": "tooltipAlign",
+        "type": "'start' | 'center' | 'end'",
+        "required": false,
+        "description": "Alinhamento do tooltip"
+      },
+      {
+        "name": "tooltipText",
+        "type": "string",
+        "required": false,
+        "description": "Texto do tooltip exibido no hover"
       }
     ],
     "examples": [
@@ -1601,7 +1898,21 @@ export const COMPONENTS: ComponentMetadata[] = [
     "keywords": [
       "select",
       "props",
-      "componente"
+      "completas",
+      "incluindo",
+      "configuração",
+      "tooltip",
+      "ativado",
+      "automaticamente",
+      "quando",
+      "tooltiptext",
+      "informado",
+      "tooltipside",
+      "tooltipalign",
+      "ficam",
+      "disponíveis",
+      "para",
+      "posicionamento"
     ]
   },
   {
@@ -1709,6 +2020,24 @@ export const COMPONENTS: ComponentMetadata[] = [
     "category": "Components",
     "props": [
       {
+        "name": "emptyIcon",
+        "type": "ReactNode",
+        "required": false,
+        "description": "Ícone exibido no estado vazio"
+      },
+      {
+        "name": "emptyTitle",
+        "type": "ReactNode",
+        "required": false,
+        "description": "Título exibido no estado vazio"
+      },
+      {
+        "name": "emptyText",
+        "type": "ReactNode",
+        "required": false,
+        "description": "Texto descritivo exibido no estado vazio"
+      },
+      {
         "name": "columns",
         "type": "ColumnDef<T, any>[]",
         "required": true,
@@ -1740,7 +2069,7 @@ export const COMPONENTS: ComponentMetadata[] = [
       },
       {
         "name": "header",
-        "type": "TableV2HeaderProps",
+        "type": "TableV2HeaderProps<T>",
         "required": false,
         "description": "Header acima da tabela com busca + filtros"
       },
@@ -1767,24 +2096,6 @@ export const COMPONENTS: ComponentMetadata[] = [
         "type": "(row: T, index: number) => {\r\n    onClick?: () => void;\r\n    onDoubleClick?: () => void;\r\n    className?: string;\r\n  }",
         "required": false,
         "description": "Eventos e classe aplicados por linha"
-      },
-      {
-        "name": "emptyIcon",
-        "type": "ReactNode",
-        "required": false,
-        "description": "Ícone exibido no estado vazio"
-      },
-      {
-        "name": "emptyTitle",
-        "type": "ReactNode",
-        "required": false,
-        "description": "Título exibido no estado vazio"
-      },
-      {
-        "name": "emptyText",
-        "type": "ReactNode",
-        "required": false,
-        "description": "Texto descritivo exibido no estado vazio"
       }
     ],
     "examples": [
@@ -1798,7 +2109,7 @@ export const COMPONENTS: ComponentMetadata[] = [
   },
   {
     "name": "TextArea",
-    "description": "Props do componente TextArea",
+    "description": "Props completas do TextArea, incluindo a configuração de tooltip.\r\n\r\nO tooltip é ativado automaticamente quando `tooltipText` é informado,\r\ne as props `tooltipSide` e `tooltipAlign` ficam disponíveis para posicionamento.",
     "category": "Components",
     "props": [
       {
@@ -1826,30 +2137,6 @@ export const COMPONENTS: ComponentMetadata[] = [
         "description": "Texto de ajuda exibido abaixo do campo"
       },
       {
-        "name": "tooltip",
-        "type": "boolean",
-        "required": false,
-        "description": "Habilita tooltip"
-      },
-      {
-        "name": "tooltipText",
-        "type": "string",
-        "required": false,
-        "description": "Texto do tooltip"
-      },
-      {
-        "name": "side",
-        "type": "Side",
-        "required": false,
-        "description": "Lado onde o tooltip aparece"
-      },
-      {
-        "name": "align",
-        "type": "Align",
-        "required": false,
-        "description": "Alinhamento do tooltip"
-      },
-      {
         "name": "errorMessage",
         "type": "string",
         "required": false,
@@ -1868,7 +2155,7 @@ export const COMPONENTS: ComponentMetadata[] = [
         "description": "Controla o redimensionamento do textarea"
       },
       {
-        "name": "showCharCount",
+        "name": "charCount",
         "type": "boolean",
         "required": false,
         "description": "Exibe contador de caracteres (requer maxLength)"
@@ -1890,21 +2177,50 @@ export const COMPONENTS: ComponentMetadata[] = [
         "type": "VirtualKeyboardType",
         "required": false,
         "description": "Tipo do teclado virtual (padrão: undefined = desabilitado)"
+      },
+      {
+        "name": "tooltipSide",
+        "type": "Side",
+        "required": false,
+        "description": "Lado em que o tooltip será exibido"
+      },
+      {
+        "name": "tooltipAlign",
+        "type": "Align",
+        "required": false,
+        "description": "Alinhamento do tooltip"
+      },
+      {
+        "name": "tooltipText",
+        "type": "string",
+        "required": false,
+        "description": "Texto do tooltip exibido no hover"
       }
     ],
-    "examples": [
-      "<TextArea\n  label=\"Descrição\"\n  value={description}\n  onChange={setDescription}\n  placeholder=\"Digite uma descrição\"\n/>",
-      "<TextArea\n  label=\"Comentário\"\n  required\n  maxLength={500}\n  showCharCount\n  helperText=\"Máximo de 500 caracteres\"\n  errorMessage={error}\n/>"
-    ],
+    "examples": [],
     "keywords": [
       "textarea",
       "props",
-      "componente"
+      "completas",
+      "incluindo",
+      "configuração",
+      "tooltip",
+      "ativado",
+      "automaticamente",
+      "quando",
+      "tooltiptext",
+      "informado",
+      "tooltipside",
+      "tooltipalign",
+      "ficam",
+      "disponíveis",
+      "para",
+      "posicionamento"
     ]
   },
   {
     "name": "TextField",
-    "description": "Props do componente TextField",
+    "description": "Props completas do TextField, incluindo a configuração de tooltip.\r\n\r\nO tooltip é ativado automaticamente quando `tooltipText` é informado,\r\ne as props `tooltipSide` e `tooltipAlign` ficam disponíveis para posicionamento.",
     "category": "Components",
     "props": [
       {
@@ -1938,30 +2254,6 @@ export const COMPONENTS: ComponentMetadata[] = [
         "description": "Texto de ajuda exibido abaixo do campo"
       },
       {
-        "name": "tooltip",
-        "type": "boolean",
-        "required": false,
-        "description": "Habilita tooltip"
-      },
-      {
-        "name": "tooltipText",
-        "type": "string",
-        "required": false,
-        "description": "Texto do tooltip"
-      },
-      {
-        "name": "tooltipSide",
-        "type": "Side",
-        "required": false,
-        "description": "Lado onde o tooltip aparece"
-      },
-      {
-        "name": "tooltipAlign",
-        "type": "Align",
-        "required": false,
-        "description": "Alinhamento do tooltip"
-      },
-      {
         "name": "errorMessage",
         "type": "string",
         "required": false,
@@ -1980,12 +2272,6 @@ export const COMPONENTS: ComponentMetadata[] = [
         "description": "Ícone a ser exibido no campo"
       },
       {
-        "name": "persistIcon",
-        "type": "boolean",
-        "required": false,
-        "description": "Mantém o ícone visível mesmo quando o campo tem valor"
-      },
-      {
         "name": "virtualKeyboard",
         "type": "VirtualKeyboardType",
         "required": false,
@@ -2002,16 +2288,48 @@ export const COMPONENTS: ComponentMetadata[] = [
         "type": "boolean",
         "required": false,
         "description": "Desabilita o autocomplete nativo do browser (padrão: false)"
+      },
+      {
+        "name": "tooltipSide",
+        "type": "Side",
+        "required": false,
+        "description": "Lado em que o tooltip será exibido"
+      },
+      {
+        "name": "tooltipAlign",
+        "type": "Align",
+        "required": false,
+        "description": "Alinhamento do tooltip"
+      },
+      {
+        "name": "tooltipText",
+        "type": "string",
+        "required": false,
+        "description": "Texto do tooltip exibido no hover"
       }
     ],
     "examples": [
       "<TextField \n  label=\"Email\"\n  type=\"email\"\n  value={email}\n  onChange={setEmail}\n  placeholder=\"Digite seu email\"\n/>",
-      "<TextField \n  label=\"Senha\"\n  type=\"password\"\n  required\n  helperText=\"Mínimo 8 caracteres\"\n  errorMessage={error}\n  tooltip={true}\n  tooltipText=\"Deve conter letras e números\"\n  icon={<LockIcon />}\n/>"
+      "<TextField \n  label=\"Senha\"\n  type=\"password\"\n  required\n  helperText=\"Mínimo 8 caracteres\"\n  errorMessage={error}\n  tooltipText=\"Deve conter letras e números\"\n  icon={<LockIcon />}\n/>"
     ],
     "keywords": [
       "textfield",
       "props",
-      "componente"
+      "completas",
+      "incluindo",
+      "configuração",
+      "tooltip",
+      "ativado",
+      "automaticamente",
+      "quando",
+      "tooltiptext",
+      "informado",
+      "tooltipside",
+      "tooltipalign",
+      "ficam",
+      "disponíveis",
+      "para",
+      "posicionamento"
     ]
   },
   {
@@ -2093,6 +2411,130 @@ export const COMPONENTS: ComponentMetadata[] = [
     ]
   },
   {
+    "name": "ToggleButton",
+    "description": "Props do componente ToggleButton",
+    "category": "Components",
+    "props": [
+      {
+        "name": "mode",
+        "type": "ToggleButtonMode",
+        "required": false,
+        "description": "Modo do componente: `'simple'` (toggle único, padrão) ou `'combined'` (grupo de toggles)"
+      },
+      {
+        "name": "size",
+        "type": "Size",
+        "required": false,
+        "description": "Tamanho do componente: `'lg'` (padrão) ou `'sm'`"
+      },
+      {
+        "name": "icon",
+        "type": "ReactNode",
+        "required": false,
+        "description": "Ícone exibido à esquerda do conteúdo (modo simple)"
+      },
+      {
+        "name": "iconOnly",
+        "type": "boolean",
+        "required": false,
+        "description": "Exibe somente o ícone, sem texto (modo simple)"
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "required": false,
+        "description": "Texto exibido no botão (modo simple)"
+      },
+      {
+        "name": "pressed",
+        "type": "boolean",
+        "required": false,
+        "description": "Estado pressionado controlado (modo simple)"
+      },
+      {
+        "name": "defaultPressed",
+        "type": "boolean",
+        "required": false,
+        "description": "Estado pressionado padrão não controlado (modo simple)"
+      },
+      {
+        "name": "onPressedChange",
+        "type": "(pressed: boolean) => void",
+        "required": false,
+        "description": "Callback ao alterar estado pressionado: `(pressed: boolean) => void` (modo simple)"
+      },
+      {
+        "name": "items",
+        "type": "ToggleGroupItem[]",
+        "required": false,
+        "description": "Items do grupo de toggles"
+      },
+      {
+        "name": "expandOnSelect",
+        "type": "boolean",
+        "required": false,
+        "description": "Exibe somente o ícone dos itens não selecionados; ícone + label no item selecionado.\r\nAplica-se a todos os itens do grupo. Pode ser sobrescrito individualmente via `item.expandOnSelect`."
+      },
+      {
+        "name": "requireSelection",
+        "type": "boolean",
+        "required": false,
+        "description": "Impede desmarcar o item ativo ao clicar novamente nele, garantindo que sempre haja uma seleção.\r\nAplica-se somente quando `selectionType=\"single\"` (ignorado em `\"multiple\"`)."
+      },
+      {
+        "name": "selectionType",
+        "type": "('single') | ('multiple')",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "value",
+        "type": "(string) | (string[])",
+        "required": false,
+        "description": "Valor do Toggle selecionado controlado"
+      },
+      {
+        "name": "defaultValue",
+        "type": "(string) | (string[])",
+        "required": false,
+        "description": "Valor do Toggle selecionado padrão (não controlado)"
+      },
+      {
+        "name": "onValueChange",
+        "type": "((value: string) => void) | ((value: string[]) => void)",
+        "required": false,
+        "description": "Callback chamado quando o Toggle selecionado muda.\r\nRetorna o `value` do Toggle selecionado."
+      },
+      {
+        "name": "tooltipSide",
+        "type": "'top' | 'bottom' | 'left' | 'right'",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "tooltipAlign",
+        "type": "'start' | 'center' | 'end'",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "tooltipText",
+        "type": "string",
+        "required": false,
+        "description": "Texto do tooltip exibido no hover"
+      }
+    ],
+    "examples": [
+      "// Toggle único (modo simple — padrão)\n<ToggleButton mode=\"simple\" onPressedChange={(pressed) => console.log(pressed)}>\n  Negrito\n</ToggleButton>",
+      "// Grupo de toggles (modo combined)\n<ToggleButton\n  mode=\"combined\"\n  type=\"single\"\n  items={[\n    { value: 'left', label: 'Esquerda' },\n    { value: 'center', label: 'Centro' },\n    { value: 'right', label: 'Direita' },\n  ]}\n  onValueChange={(value) => console.log(value)}\n/>"
+    ],
+    "keywords": [
+      "togglebutton",
+      "props",
+      "componente"
+    ]
+  },
+  {
     "name": "Tooltip",
     "description": "",
     "category": "Components",
@@ -2162,19 +2604,55 @@ export const COMPONENTS: ComponentMetadata[] = [
         "name": "length",
         "type": "number",
         "required": false,
-        "description": "Número de dígitos do código (padrão: 6)"
+        "description": "Número de campos/dígitos (padrão: 6)"
       },
       {
-        "name": "inputType",
-        "type": "InputType",
+        "name": "validationType",
+        "type": "OTPValidationType",
         "required": false,
-        "description": "Tipo de entrada permitida (padrão: \"numeric\")"
+        "description": "Tipo de validação aceita pelo campo (padrão: 'numeric')"
       },
       {
-        "name": "onComplete",
+        "name": "value",
+        "type": "string",
+        "required": false,
+        "description": "Valor controlado do campo"
+      },
+      {
+        "name": "defaultValue",
+        "type": "string",
+        "required": false,
+        "description": "Valor inicial não controlado"
+      },
+      {
+        "name": "onValueChange",
         "type": "(value: string) => void",
         "required": false,
-        "description": "Callback executado quando todos os campos são preenchidos: (value) => void"
+        "description": "Callback chamado quando o valor muda"
+      },
+      {
+        "name": "autoSubmit",
+        "type": "boolean",
+        "required": false,
+        "description": "Submete o formulário associado automaticamente ao completar"
+      },
+      {
+        "name": "onAutoSubmit",
+        "type": "(value: string) => void",
+        "required": false,
+        "description": "Callback chamado ao completar (quando autoSubmit está ativo)"
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "required": false,
+        "description": "Nome do campo para envio em formulários"
+      },
+      {
+        "name": "form",
+        "type": "string",
+        "required": false,
+        "description": "ID do formulário associado"
       },
       {
         "name": "hasError",
@@ -2187,11 +2665,17 @@ export const COMPONENTS: ComponentMetadata[] = [
         "type": "string",
         "required": false,
         "description": "Mensagem de erro exibida abaixo do componente"
+      },
+      {
+        "name": "readOnly",
+        "type": "boolean",
+        "required": false,
+        "description": "Define o campo como somente leitura"
       }
     ],
     "examples": [
-      "<VerificationCode \n  length={6}\n  inputType=\"numeric\"\n  onComplete={(code) => handleVerification(code)}\n/>",
-      "<VerificationCode \n  length={4}\n  inputType=\"alphanumeric\"\n  onComplete={handleCode}\n  hasError={!!error}\n  errorMessage=\"Código inválido\"\n  disabled={isVerifying}\n/>"
+      "<VerificationCode\n  length={6}\n  validationType=\"numeric\"\n  onValueChange={(v) => console.log(v)}\n/>",
+      "<VerificationCode\n  length={4}\n  name=\"otp\"\n  autoSubmit\n  onAutoSubmit={(v) => handleVerify(v)}\n  hasError={!!error}\n  errorMessage=\"Código inválido\"\n/>"
     ],
     "keywords": [
       "verificationcode",
@@ -2236,6 +2720,18 @@ export const COMPONENTS: ComponentMetadata[] = [
         "description": "Callback executado quando uma tecla é pressionada: (key) => void"
       },
       {
+        "name": "onEnterPress",
+        "type": "() => void",
+        "required": false,
+        "description": "Callback executado quando a tecla Enter é pressionada"
+      },
+      {
+        "name": "onTypeChange",
+        "type": "(type: VirtualKeyboardType) => void",
+        "required": false,
+        "description": "Callback executado sempre que o `type` do teclado muda.\r\nÚtil para que o consumidor saiba o tipo atual e possa reagir à mudança\r\n(ex.: buscar dados diferentes, ajustar layout, etc.).\r\n\r\nSempre dispara na montagem inicial, servindo como fallback para consulta do tipo atual."
+      },
+      {
         "name": "maxLength",
         "type": "number",
         "required": false,
@@ -2248,7 +2744,7 @@ export const COMPONENTS: ComponentMetadata[] = [
         "description": "Controla a exibição do botão {emoticon} nos layouts suportados"
       },
       {
-        "name": "textFieldPlaceholder",
+        "name": "placeholder",
         "type": "string",
         "required": false,
         "description": "Placeholder do TextField exibido no modo `fixed`"
@@ -2265,6 +2761,26 @@ export const COMPONENTS: ComponentMetadata[] = [
         "required": false,
         "defaultValue": "true",
         "description": "Controla a exibição da tecla Enter no teclado."
+      },
+      {
+        "name": "showTypeSwitchKey",
+        "type": "boolean",
+        "required": false,
+        "defaultValue": "true",
+        "description": "Controla a exibição da tecla de alternância entre os layouts default (\"123\") e numeric (\"ABC\").\r\nQuando `false`, a tecla \"123\" (no layout default) é removida — a tecla espaço cresce para ocupar o espaço —\r\ne a tecla \"ABC\" (no layout numeric) é substituída por um espaço vazio."
+      },
+      {
+        "name": "numpadWithEnter",
+        "type": "boolean",
+        "required": false,
+        "defaultValue": "false",
+        "description": "Quando `true`, exibe o numpad numérico no formato de 4 colunas (estilo iOS nativo),\r\ncom as teclas `-`, `↵` `_`, `⌫` e `→|` (enter/submit).\r\nSó tem efeito quando `type=\"numeric\"` e `variant=\"native\"`."
+      },
+      {
+        "name": "nativeHeight",
+        "type": "string",
+        "required": false,
+        "description": "Altura do teclado no modo `native` (overlay). Aceita qualquer valor CSS válido\r\nde altura (ex.: `'320px'`, `'50dvh'`, `'40%'`).\r\nSe omitido, o teclado usa uma altura fluida padrão baseada no viewport\r\n(`clamp(280px, 45dvh, 420px)`).\r\nIndependente do valor informado, a altura nunca fica menor que 280px (piso mínimo).\r\nSó tem efeito quando `variant=\"native\"`."
       },
       {
         "name": "helperText",

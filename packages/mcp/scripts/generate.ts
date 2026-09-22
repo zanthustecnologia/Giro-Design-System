@@ -1,8 +1,9 @@
 /**
- * generate.ts — Auto-generates src/data/components.ts from .types.ts source files
+ * generate.ts — Auto-generates src/data/components.generated.ts from .types.ts source files
  * Run: pnpm --filter @giro-ds/mcp generate
  */
-import { Project, InterfaceDeclaration, JSDocableNode, PropertySignature, Node } from 'ts-morph';
+import { Project, JSDocableNode, PropertySignature } from 'ts-morph';
+import { collectProps } from './lib/collect-props.js';
 import * as path from 'path';
 import * as fs from 'fs';
 import { fileURLToPath } from 'url';
@@ -75,65 +76,29 @@ function deriveKeywords(name: string, description: string): string[] {
   return [...new Set(words)];
 }
 
-function collectAllProperties(iface: InterfaceDeclaration): PropertySignature[] {
-  const seen = new Set<string>();
-  const result: PropertySignature[] = [];
-  const sameFile = iface.getSourceFile();
-
-  function collect(i: InterfaceDeclaration) {
-    for (const prop of i.getProperties()) {
-      if (!seen.has(prop.getName())) {
-        seen.add(prop.getName());
-        result.push(prop);
-      }
-    }
-    // Only recurse into base interfaces declared in the SAME FILE (avoids node_modules explosion)
-    for (const base of i.getBaseDeclarations()) {
-      if (Node.isInterfaceDeclaration(base) && base.getSourceFile() === sameFile) {
-        collect(base as InterfaceDeclaration);
-      }
-    }
-  }
-
-  collect(iface);
-  return result;
-}
-
 function parseComponent(typesFile: string, componentName: string): ComponentEntry | null {
   const project = new Project({ skipAddingFilesFromTsConfig: true });
   project.addSourceFileAtPath(typesFile);
   const sourceFile = project.getSourceFile(typesFile)!;
 
-  // 1. Try interface ComponentNameProps directly
-  let propsInterface = sourceFile.getInterface(`${componentName}Props`) as InterfaceDeclaration | undefined;
+  const declaration = sourceFile.getInterface(`${componentName}Props`)
+    ?? sourceFile.getTypeAlias(`${componentName}Props`);
+  if (!declaration) return null;
 
-  // 2. If not found as interface, try type alias and resolve to its target interface
-  if (!propsInterface) {
-    const typeAlias = sourceFile.getTypeAlias(`${componentName}Props`);
-    if (typeAlias) {
-      const typeNode = typeAlias.getTypeNode();
-      if (typeNode && Node.isTypeReference(typeNode)) {
-        const refName = typeNode.getTypeName().getText();
-        propsInterface = sourceFile.getInterface(refName) as InterfaceDeclaration | undefined;
-      }
-    }
-  }
+  const collected = collectProps(declaration);
+  const description = extractJsDocComment(declaration);
+  const examples = [...new Set(collected.docs.flatMap(extractExamples))];
 
-  if (!propsInterface) return null;
-
-  const description = extractJsDocComment(propsInterface as unknown as JSDocableNode);
-  const examples = extractExamples(propsInterface as unknown as JSDocableNode);
-
-  const props: PropEntry[] = collectAllProperties(propsInterface).map((prop) => {
+  const props: PropEntry[] = [...collected.props].map(([name, entry]) => {
+    const prop = entry.declarations.find(p => getTypeText(p) !== 'never') ?? entry.declarations[0];
     const propDescription = extractJsDocComment(prop as unknown as JSDocableNode);
-    const typeText = getTypeText(prop);
-    const isOptional = prop.hasQuestionToken();
+    const typeText = entry.type;
 
     // Extract @default, @since, @deprecated from JSDoc
     let defaultValue: string | undefined;
     let since: string | undefined;
     let deprecated: string | undefined;
-    const jsDocs = (prop as unknown as JSDocableNode).getJsDocs?.() ?? [];
+    const jsDocs = entry.declarations.flatMap(p => p.getJsDocs());
     for (const doc of jsDocs) {
       for (const tag of doc.getTags()) {
         const tagName = tag.getTagName();
@@ -144,9 +109,9 @@ function parseComponent(typesFile: string, componentName: string): ComponentEntr
     }
 
     return {
-      name: prop.getName(),
+      name,
       type: typeText,
-      required: !isOptional,
+      required: entry.required,
       ...(defaultValue && { defaultValue }),
       description: propDescription,
       ...(since && { since }),
@@ -190,7 +155,7 @@ function main() {
         entries.push(entry);
         console.log(`✅ ${componentName} — ${entry.props.length} props`);
       } else {
-        console.warn(`⚠️  ${componentName} — interface ${componentName}Props not found`);
+        console.warn(`⚠️  ${componentName} — declaration ${componentName}Props not found`);
       }
     } catch (err) {
       console.error(`❌ ${componentName} — ${err}`);
