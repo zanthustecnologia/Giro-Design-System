@@ -22,7 +22,8 @@
     "widgetbook:flutter": "cd apps/widgetbook-flutter && flutter run -d chrome",
     "build-storybook": "turbo run build-storybook --filter=storybook-react",
     "changeset": "changeset",
-    "changeset:version": "changeset version && pnpm --filter @giro-ds/version generate",
+    "changeset:version": "node scripts/ensure-mcp-release.mjs && changeset version && pnpm --filter @giro-ds/version generate",
+    "test:release": "node --test scripts/ensure-mcp-release.test.mjs",
     "changeset:publish": "changeset publish --provenance --tag latest",
     "release": "pnpm run changeset:version && pnpm run build && pnpm run changeset:publish"
   },

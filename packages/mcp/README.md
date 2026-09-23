@@ -186,17 +186,31 @@ pnpm --filter @giro-ds/mcp generate:tokens
 pnpm --filter @giro-ds/mcp build
 ```
 
-Run these commands whenever a component or token is added or changed.
+### Automatic build and release
 
-O único passo manual necessário no futuro é rodar os scripts sempre que o pacote React ou os tokens evoluírem:
+The MCP build now rebuilds tokens, regenerates component and token metadata,
+runs the generator regression tests and compiles the server. For local changes,
+run just:
 
 ```bash
-# Quando componentes mudarem
-pnpm --filter @giro-ds/mcp generate
-
-# Quando tokens mudarem (após build do @giro-ds/tokens)
-pnpm --filter @giro-ds/mcp generate:tokens
-
-# Após qualquer geração
 pnpm --filter @giro-ds/mcp build
 ```
+
+Restart your MCP client after building to load the new data.
+
+For releases, keep creating changesets for React and tokens as usual. Use
+`pnpm changeset:version` (or `pnpm release`): it automatically adds an MCP patch
+when the release plan includes React or tokens and does not already include MCP.
+An existing MCP minor or major release is preserved. `pnpm release` then builds,
+validates and publishes through the existing Changesets publishing command.
+
+Use the repository scripts: calling `pnpm exec changeset version` directly bypasses
+the MCP synchronization step. A changeset is still required for the source package;
+the automation does not infer releases from unversioned source edits.
+
+Turbo tracks React sources and the tokens build so cached MCP data is invalidated
+when either changes. The MCP does not depend on the React build, avoiding the
+React → MCP → React cycle. Generation errors stop the build before publication.
+Manually maintained migration guides and examples still require review.
+
+Release regression tests: `pnpm test:release` (uses temporary Git repositories).

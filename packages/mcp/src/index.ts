@@ -1,6 +1,7 @@
 ﻿#!/usr/bin/env node
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
+import { readFileSync } from 'node:fs';
 
 // ── Tool handlers ────────────────────────────────────────────────────────────
 import {
@@ -43,7 +44,7 @@ import {
 // ── Server ───────────────────────────────────────────────────────────────────
 const server = new McpServer({
   name: 'giro-ds',
-  version: '1.1.0',
+  version: JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8')).version,
 });
 
 // ── Components ───────────────────────────────────────────────────────────────

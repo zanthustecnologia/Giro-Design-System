@@ -131,6 +131,7 @@ function parseComponent(typesFile: string, componentName: string): ComponentEntr
 
 function main() {
   const entries: ComponentEntry[] = [];
+  let failed = false;
 
   const componentDirs = fs.readdirSync(COMPONENTS_DIR, { withFileTypes: true })
     .filter(d => d.isDirectory() && !SKIP_DIRS.includes(d.name))
@@ -155,11 +156,17 @@ function main() {
         entries.push(entry);
         console.log(`✅ ${componentName} — ${entry.props.length} props`);
       } else {
+        failed = true;
         console.warn(`⚠️  ${componentName} — declaration ${componentName}Props not found`);
       }
     } catch (err) {
+      failed = true;
       console.error(`❌ ${componentName} — ${err}`);
     }
+  }
+
+  if (failed || entries.length === 0) {
+    throw new Error('Component generation failed; refusing to replace metadata with a partial catalogue.');
   }
 
   const output = `// AUTO-GENERATED — do not edit manually
