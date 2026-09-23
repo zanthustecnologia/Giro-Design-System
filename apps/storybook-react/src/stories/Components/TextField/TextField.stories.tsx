@@ -131,6 +131,9 @@ export default meta;
 
 export const Default: Story = {
   args: {
+    label: 'Placeholder',
+    placeholder: 'Placeholder',
+    helperText: 'Placeholder',
     disabled: false,
     className: '',
     required: false,
