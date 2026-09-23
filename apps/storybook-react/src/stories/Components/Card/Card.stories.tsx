@@ -17,7 +17,8 @@ const meta: Meta<typeof Card> = {
       control: { type: 'boolean' },
     },
     borderRadius: {
-      control: { type: 'number' },
+      control: { type: 'select' },
+      options: [4, 8, 12, 16, 24, 'none', 'pill', 'circular'],
     },
     children: { table: { disable: true } },
     className: { table: { disable: true } },

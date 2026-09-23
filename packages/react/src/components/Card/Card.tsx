@@ -7,7 +7,7 @@ export default function Card({ children, className, hoverable, borderRadius }: C
   return (
     <main
       className={clsx(styles['card'], hoverable && styles['card--hoverable'], className)}
-      style={borderRadius !== undefined ? { borderRadius: `${borderRadius}px` } : undefined}
+      style={borderRadius !== undefined ? { borderRadius: `var(--border-radius-${borderRadius})` } : undefined}
     >
         {children}
     </main>
