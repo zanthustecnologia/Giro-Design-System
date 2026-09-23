@@ -86,6 +86,8 @@ export const Default: Story = {
   args: {
     locale: 'pt-br',
     calendarSide: 'bottom',
+    label: 'Placeholder',
+    helperText: 'Placeholder',
     scale: 1,
   },
 };
