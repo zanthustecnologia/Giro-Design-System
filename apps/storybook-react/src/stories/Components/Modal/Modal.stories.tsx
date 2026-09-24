@@ -122,6 +122,28 @@ export const ConteudoLongo: Story = {
   ),
 };
 
+export const ConteudoComScroll: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Conteudo grande o suficiente para forcar uma scrollbar no corpo do Modal. Use este story ' +
+          'para validar se o texto do corpo permanece alinhado com o titulo do cabecalho quando a ' +
+          'scrollbar aparece.',
+      },
+    },
+  },
+  render: () => (
+    <ModalDemo title="Conteudo longo com scroll">
+      {Array.from({ length: 40 }, (_, i) => (
+        <p key={i} style={{ margin: '8px 0' }}>
+          Item de conteudo {i + 1}
+        </p>
+      ))}
+    </ModalDemo>
+  ),
+};
+
 export const SemFechamentoPorOverlay: Story = {
   render: () => (
     <ModalDemo title="Formulário" closeOnOverlayClick={false}>
