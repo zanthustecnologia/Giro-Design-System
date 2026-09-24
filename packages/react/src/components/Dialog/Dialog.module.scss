@@ -1,4 +1,5 @@
 @use '../../styles/mixins/transitions' as *;
+@use '../../styles/mixins/scroll' as *;
 
 @include overlay-fade-keyframes();
 @include content-scale-keyframes();
@@ -51,10 +52,7 @@
 	font-weight: var(--font-weight-regular);
 	font-size: var(--font-size-16);
 	line-height: 1.3;
-	flex: 1;
-	min-height: 0;
-	overflow-y: auto;
-	scrollbar-gutter: stable;
+	@include scrollable-area();
 }
 
 .DivButtons {

@@ -1,3 +1,4 @@
+@use '../../styles/mixins/scroll' as *;
 
 .drawerShadow {
   position: fixed;
@@ -95,12 +96,9 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  flex: 1;
-  min-height: 0;
   padding: var(--spacing-24);
-  overflow-y: auto;
   overflow-x: visible;
-  scrollbar-gutter: stable;
+  @include scrollable-area();
 }
 
 .drawerChildren {
