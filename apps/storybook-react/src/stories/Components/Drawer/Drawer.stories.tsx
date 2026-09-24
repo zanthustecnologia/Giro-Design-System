@@ -189,3 +189,20 @@ export const ComFooter: Story = {
     );
   },
 };
+
+export const ConteudoLongoComScroll: Story = {
+  render: () => (
+    <DrawerDemo title="Conteudo longo">
+      <p>
+        Este Drawer tem conteudo suficiente para gerar uma scrollbar. Repare que o espaco reservado
+        para a scrollbar (<code>scrollbar-gutter: stable</code>) evita que o conteudo se desloque
+        e fique desalinhado com o cabecalho quando ela aparece.
+      </p>
+      {Array.from({ length: 40 }, (_, i) => (
+        <p key={i} style={{ margin: '8px 0', color: 'var(--color-neutral-low-medium)' }}>
+          Item de conteudo {i + 1}
+        </p>
+      ))}
+    </DrawerDemo>
+  ),
+};

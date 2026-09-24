@@ -24,7 +24,7 @@
   right: var(--spacing-0);
   top: var(--spacing-0);
   bottom: var(--spacing-0);
-  overflow: auto;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   font-family: var(--font-family-primary);
@@ -96,9 +96,11 @@
   display: flex;
   flex-direction: column;
   flex: 1;
+  min-height: 0;
   padding: var(--spacing-24);
   overflow-y: auto;
   overflow-x: visible;
+  scrollbar-gutter: stable;
 }
 
 .drawerChildren {
