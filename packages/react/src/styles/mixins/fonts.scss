@@ -1,0 +1,10 @@
+// ── Reusable Mixins ──────────────────────────────────────────────────
+// Tipografia fluida: adapta font-size entre um mínimo e máximo
+// baseado na largura da viewport. Ideal para auto atendimento (telas variadas).
+//
+// Uso: @include fluid-font(28, 4, 48);
+//   → clamp(28px, 4vw, 48px)
+// Params: $min (px sem unidade), $vw-ratio (valor de vw), $max (px sem unidade)
+@mixin fluid-font($min, $vw-ratio, $max) {
+  font-size: clamp(#{$min}px, #{$vw-ratio}vw, #{$max}px);
+}
