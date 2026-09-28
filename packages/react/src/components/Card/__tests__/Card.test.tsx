@@ -127,6 +127,58 @@ describe('Card', () => {
     });
   });
 
+  describe('Prop borderRadius', () => {
+    it('não deve aplicar style de borderRadius quando a prop não é informada', () => {
+      const { container } = render(
+        <Card>
+          <div>Conteúdo</div>
+        </Card>
+      );
+      const mainElement = container.querySelector('main');
+      expect(mainElement?.style.borderRadius).toBe('');
+    });
+
+    it('deve aplicar o token de borderRadius customizado', () => {
+      const { container } = render(
+        <Card borderRadius={24}>
+          <div>Conteúdo</div>
+        </Card>
+      );
+      const mainElement = container.querySelector('main');
+      expect(mainElement?.style.borderRadius).toBe('var(--border-radius-24)');
+    });
+
+    it('deve aplicar o token none quando informado', () => {
+      const { container } = render(
+        <Card borderRadius="none">
+          <div>Conteúdo</div>
+        </Card>
+      );
+      const mainElement = container.querySelector('main');
+      expect(mainElement?.style.borderRadius).toBe('var(--border-radius-none)');
+    });
+
+    it('deve aplicar o token pill quando informado', () => {
+      const { container } = render(
+        <Card borderRadius="pill">
+          <div>Conteúdo</div>
+        </Card>
+      );
+      const mainElement = container.querySelector('main');
+      expect(mainElement?.style.borderRadius).toBe('var(--border-radius-pill)');
+    });
+
+    it('deve aplicar o token circular quando informado', () => {
+      const { container } = render(
+        <Card borderRadius="circular">
+          <div>Conteúdo</div>
+        </Card>
+      );
+      const mainElement = container.querySelector('main');
+      expect(mainElement?.style.borderRadius).toBe('var(--border-radius-circular)');
+    });
+  });
+
   describe('Acessibilidade', () => {
     it('deve ter a role main implícita', () => {
       render(
