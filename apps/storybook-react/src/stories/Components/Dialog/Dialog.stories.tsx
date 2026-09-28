@@ -118,3 +118,42 @@ ConteudoLongo.args = {
   textPrimaryAction: 'Aceitar',
   textSecondaryAction: 'Recusar',
 };
+
+// Story com conteúdo extenso o suficiente para ultrapassar o max-height (50vh) — Dialog sempre aberto
+export const ConteudoComScroll: StoryFn<DialogProps> = (args) => {
+  const [isOpen, setIsOpen] = useState(false);
+  return (
+    <>
+      <Button onClick={() => setIsOpen(true)}>Abrir Dialog</Button>
+      <Dialog
+        {...args}
+        show={isOpen}
+        onPrimaryAction={() => setIsOpen(false)}
+        onSecondaryAction={() => setIsOpen(false)}
+        bodyContent={
+          <div>
+            {Array.from({ length: 40 }, (_, i) => (
+              <p key={i} style={{ margin: '8px 0' }}>
+                Item de conteudo {i + 1}
+              </p>
+            ))}
+          </div>
+        }
+      />
+    </>
+  );
+};
+ConteudoComScroll.parameters = {
+  docs: {
+    description: {
+      story:
+        'Conteudo grande o suficiente para ultrapassar o `max-height: 50vh` do DialogContent. O corpo ' +
+        'agora rola internamente enquanto titulo e botoes permanecem fixos.',
+    },
+  },
+};
+ConteudoComScroll.args = {
+  title: 'Conteudo longo com scroll',
+  textPrimaryAction: 'Aceitar',
+  textSecondaryAction: 'Recusar',
+};
