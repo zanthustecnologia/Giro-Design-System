@@ -1,5 +1,19 @@
 ﻿# @giro-ds/react
 
+## [12.6.0]
+
+### Features
+
+- **Card:** adiciona prop opcional `borderRadius` (`4 | 8 | 12 | 16 | 24 | 'none' | 'pill' | 'circular'`) para customizar o raio das bordas; quando omitida, mantém o valor padrão do token `--border-radius-8`.
+
+### Bug Fixes
+
+- **DatePicker:** remove o valor padrão `label = 'Data'`; o campo não exibe mais um label fixo quando a prop não é informada pelo consumidor.
+- **VirtualKeyboard:** remove a prop `readOnly` do `TextField` interno, que impedia a digitação de valores quando o teclado virtual estava anexado.
+- **VirtualKeyboard:** substitui font-size fixo por tipografia fluida via `clamp()`, com o novo mixin `fluid-font($min, $vw-ratio, $max)`, eliminando overrides fixos por breakpoint nas teclas, `keyPreview` e `accentOption`.
+- **Filter:** corrige espaçamento entre a lista de opções e o footer do painel de filtro.
+- **Drawer, Modal, Dialog:** corrige desalinhamento de conteúdo causado pela scrollbar nas áreas roláveis, aplicando `scrollbar-gutter: stable` e o mixin compartilhado `scrollable-area`.
+
 ## [12.5.1]
 
 > Nota: a versão `12.5.0` foi publicada por engano com conteúdo desatualizado (sem as mudanças abaixo) e foi descontinuada (`deprecated`) no NPM. Use `12.5.1` ou superior.
