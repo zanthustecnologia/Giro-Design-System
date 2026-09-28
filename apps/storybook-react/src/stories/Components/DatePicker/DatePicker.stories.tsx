@@ -86,8 +86,8 @@ export const Default: Story = {
   args: {
     locale: 'pt-br',
     calendarSide: 'bottom',
-    label: 'Data de nascimento',
-    helperText: 'Selecione sua data de nascimento',
+    label: 'Placeholder',
+    helperText: 'Placeholder',
     scale: 1,
   },
 };
