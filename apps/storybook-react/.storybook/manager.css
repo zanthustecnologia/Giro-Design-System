@@ -57,6 +57,19 @@
   color: var(--sb-color-active-text);
 }
 
+/* Hover sobre item já selecionado — o core injeta uma regra com classe+atributo
+   duplicados (especificidade maior) que pinta o fundo de cinza escuro nesse
+   estado, então o !important é necessário para garantir a sobreposição. */
+.sidebar-item[data-selected="true"]:hover,
+.sidebar-item.sidebar-item[data-selected="true"]:hover {
+  background: var(--sb-color-active-bg) !important;
+}
+
+.sidebar-item[data-selected="true"]:hover a,
+.sidebar-item.sidebar-item[data-selected="true"]:hover a {
+  color: var(--sb-color-active-text) !important;
+}
+
 /* SVG do chevron no item ativo mantém a cor padrão */
 .sidebar-item[data-selected="true"] svg,
 .sidebar-item.sidebar-item[data-selected="true"] svg {
