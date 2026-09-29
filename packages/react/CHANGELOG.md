@@ -1,5 +1,11 @@
 ﻿# @giro-ds/react
 
+## [12.6.1]
+
+### Bug Fixes
+
+- **Modal:** remove o limite de altura máxima (`max-height: 85vh`), permitindo que o conteúdo defina a altura do modal sem um teto fixo baseado na viewport.
+
 ## [12.6.0]
 
 ### Features
