@@ -1,9 +1,9 @@
 /**
  * React platform component data — merges auto-generated and static entries.
  *
- * Generated data (from scripts/extract-react.ts) takes precedence.
- * Static data (components-static.ts) fills gaps for components that
- * cannot be auto-generated (e.g. Button's complex union type).
+ * Generated data (from scripts/generate.ts) takes precedence.
+ * Static data (../components.ts) fills gaps for components that
+ * have no generated entry.
  *
  * To regenerate: pnpm --filter @giro-ds/mcp generate
  */
