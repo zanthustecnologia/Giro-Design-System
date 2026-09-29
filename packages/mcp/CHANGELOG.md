@@ -1,5 +1,15 @@
 ﻿# @giro-ds/mcp
 
+## [1.2.1]
+
+### Changed
+
+- **MCP:** adiciona script `ensure-mcp-release.mjs`, executado antes de `changeset:version`, que cria automaticamente um changeset de patch para o MCP sempre que houver release do `@giro-ds/react` ou `@giro-ds/tokens`, mantendo os metadados sincronizados.
+
+### Bug Fixes
+
+- **MCP:** corrige a geração de metadados para suportar union/intersection types locais em `Button`, `Select`, `TextArea`, `TextField` e `ToggleButton`, sem marcar props específicas de variante como globalmente obrigatórias.
+
 ## [1.2.0]
 
 ### Features
