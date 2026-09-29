@@ -465,6 +465,12 @@ export const COMPONENTS: ComponentMetadata[] = [
         "type": "boolean",
         "required": false,
         "description": "Define se o card é interativo, aplicando estilos de hover e cursor pointer"
+      },
+      {
+        "name": "borderRadius",
+        "type": "CardBorderRadius",
+        "required": false,
+        "description": "Raio das bordas do card, baseado nos tokens de border-radius do design system. O padrão é 8 (8px)"
       }
     ],
     "examples": [
