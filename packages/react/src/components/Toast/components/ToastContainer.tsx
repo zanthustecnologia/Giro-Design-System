@@ -1,4 +1,4 @@
-import { Toast as ToastRadix } from 'radix-ui';
+import { Toast as ToastRadix, Portal } from 'radix-ui';
 import * as React from 'react';
 
 import { useToastContext } from '../../../hooks/useToast';
@@ -34,7 +34,9 @@ export const ToastContainer: React.FC = () => {
         if (!toast.id) return null;
         return <Toast key={toast.id} id={toast.id} {...toast} />;
       })}
-      <ToastRadix.Viewport className={styles.toastViewport} />
+      <Portal.Root>
+        <ToastRadix.Viewport className={styles.toastViewport} />
+      </Portal.Root>
     </ToastRadix.Provider>
   );
 };

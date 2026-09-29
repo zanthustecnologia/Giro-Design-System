@@ -77,7 +77,7 @@ describe('Toast', () => {
     it('deve renderizar ícone Info por padrão', async () => {
       let toastFunctions: ReturnType<typeof useToast> | null = null;
 
-      const { container } = render(
+      render(
         <ToastProvider>
           <TestComponent onMount={(fn) => { toastFunctions = fn; }} />
           <ToastContainer />
@@ -91,7 +91,7 @@ describe('Toast', () => {
       });
 
       await waitFor(() => {
-        const iconSpan = container.querySelector('[class*="iconInfo"]');
+        const iconSpan = document.body.querySelector('[class*="iconInfo"]');
         expect(iconSpan).toBeInTheDocument();
       });
     });
@@ -99,7 +99,7 @@ describe('Toast', () => {
     it('deve renderizar ícone Success quando iconType="Success"', async () => {
       let toastFunctions: ReturnType<typeof useToast> | null = null;
 
-      const { container } = render(
+      render(
         <ToastProvider>
           <TestComponent onMount={(fn) => { toastFunctions = fn; }} />
           <ToastContainer />
@@ -116,7 +116,7 @@ describe('Toast', () => {
       });
 
       await waitFor(() => {
-        const iconSpan = container.querySelector('[class*="iconSuccess"]');
+        const iconSpan = document.body.querySelector('[class*="iconSuccess"]');
         expect(iconSpan).toBeInTheDocument();
       });
     });
@@ -124,7 +124,7 @@ describe('Toast', () => {
     it('deve renderizar ícone Alert quando iconType="Alert"', async () => {
       let toastFunctions: ReturnType<typeof useToast> | null = null;
 
-      const { container } = render(
+      render(
         <ToastProvider>
           <TestComponent onMount={(fn) => { toastFunctions = fn; }} />
           <ToastContainer />
@@ -141,7 +141,7 @@ describe('Toast', () => {
       });
 
       await waitFor(() => {
-        const iconSpan = container.querySelector('[class*="iconAlert"]');
+        const iconSpan = document.body.querySelector('[class*="iconAlert"]');
         expect(iconSpan).toBeInTheDocument();
       });
     });
@@ -150,7 +150,7 @@ describe('Toast', () => {
       let toastFunctions: ReturnType<typeof useToast> | null = null;
       const CustomIcon = () => <svg data-testid="custom-icon" />;
 
-      const { container } = render(
+      render(
         <ToastProvider>
           <TestComponent onMount={(fn) => { toastFunctions = fn; }} />
           <ToastContainer />
@@ -168,7 +168,7 @@ describe('Toast', () => {
 
       await waitFor(() => {
         expect(screen.getByTestId('custom-icon')).toBeInTheDocument();
-        const iconSpan = container.querySelector('[class*="Icon"]');
+        const iconSpan = document.body.querySelector('[class*="Icon"]');
         expect(iconSpan).toHaveAttribute('aria-hidden', 'true');
       });
     });
@@ -176,7 +176,7 @@ describe('Toast', () => {
     it('deve renderizar ícone de fechar padrão', async () => {
       let toastFunctions: ReturnType<typeof useToast> | null = null;
 
-      const { container } = render(
+      render(
         <ToastProvider>
           <TestComponent onMount={(fn) => { toastFunctions = fn; }} />
           <ToastContainer />
@@ -190,7 +190,7 @@ describe('Toast', () => {
       });
 
       await waitFor(() => {
-        const closeButton = container.querySelector('[class*="toastClose"]');
+        const closeButton = document.body.querySelector('[class*="toastClose"]');
         expect(closeButton).toBeInTheDocument();
       });
     });
@@ -225,7 +225,7 @@ describe('Toast', () => {
     it('deve aceitar configuração de duração customizada', async () => {
       let toastFunctions: ReturnType<typeof useToast> | null = null;
 
-      const { container } = render(
+      render(
         <ToastProvider>
           <TestComponent onMount={(fn) => { toastFunctions = fn; }} />
           <ToastContainer />
@@ -242,14 +242,14 @@ describe('Toast', () => {
       });
 
       await waitFor(() => {
-        expect(container.querySelector('[class*="toastRoot"]')).toBeInTheDocument();
+        expect(document.body.querySelector('[class*="toastRoot"]')).toBeInTheDocument();
       });
     });
 
     it('deve aceitar configuração de automaticClose', async () => {
       let toastFunctions: ReturnType<typeof useToast> | null = null;
 
-      const { container } = render(
+      render(
         <ToastProvider>
           <TestComponent onMount={(fn) => { toastFunctions = fn; }} />
           <ToastContainer />
@@ -266,7 +266,7 @@ describe('Toast', () => {
       });
 
       await waitFor(() => {
-        expect(container.querySelector('[class*="toastRoot"]')).toBeInTheDocument();
+        expect(document.body.querySelector('[class*="toastRoot"]')).toBeInTheDocument();
       });
     });
   });
@@ -479,13 +479,13 @@ describe('useToast', () => {
 describe('ToastContainer', () => {
   describe('Renderização', () => {
     it('deve renderizar o viewport do toast', () => {
-      const { container } = render(
+      render(
         <ToastProvider>
           <ToastContainer />
         </ToastProvider>
       );
 
-      const viewport = container.querySelector('[class*="toastViewport"]');
+      const viewport = document.body.querySelector('[class*="toastViewport"]');
       expect(viewport).toBeInTheDocument();
     });
 
@@ -515,13 +515,13 @@ describe('ToastContainer', () => {
     });
 
     it('deve ter o viewport configurado', () => {
-      const { container } = render(
+      render(
         <ToastProvider>
           <ToastContainer />
         </ToastProvider>
       );
 
-      const viewport = container.querySelector('[class*="toastViewport"]');
+      const viewport = document.body.querySelector('[class*="toastViewport"]');
       expect(viewport).toBeInTheDocument();
     });
   });
