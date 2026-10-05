@@ -8,8 +8,6 @@
 | `required` | Usado só para `aria-required` + mensagem de erro customizada; **não é propagado como atributo HTML nativo** `required` no `<input>` (é destruturado e descartado antes do spread). Diverge de formulários nativos/libs que inspecionam `element.required`/`:invalid`/`reportValidity()`. |
 | `error` / `errorMessage` | `hasError = Boolean(inputError) || Boolean(error)`, mas `displayHelperText` só usa `errorMessage` quando `error` é `true` **e** `errorMessage` existe. Se `error={true}` sem `errorMessage`, o campo fica com estado visual/`aria-live` de erro exibindo o `helperText` neutro (ou nada) — nenhuma mensagem de erro real aparece, confundindo usuários e AT. |
 | `displayHelperText` fallback `'\u00A0'` | Código morto: o `<span>` que usa esse valor só é renderizado quando `(error && errorMessage) \|\| inputError \|\| helperText` é verdadeiro — condição que já garante um valor real antes de cair no fallback nbsp. O fallback nunca é exibido na prática. |
-| `attachedToVirtualKeyboard` / `disableAutoComplete` | Exclusivas do `TextField` — `TextArea` integra o mesmo `VirtualKeyboard` (mesmo padrão `virtualKeyboard === 'default' \| 'numeric'`) mas não tem essas duas props nem o override de `autoComplete`. Risco de autofill/autocomplete do browser atrapalhar o teclado virtual especificamente no `TextArea`. |
-| `icon` | Exclusivo do `TextField` (ausente no `TextArea`) — aceitável dado o uso multi-linha, mas vale documentar como decisão deliberada. |
 | Tooltip (`tooltipText`/`tooltipSide`/`tooltipAlign`) | Só tem efeito quando `label` também é passado — ver seção 2/6 (achado crítico). Tipo `WithTooltip`/`WithoutTooltip` duplicado (mesmo padrão já citado no hardening do `Button`: também existe em `Select`, `TextArea`, `ToggleButton`). |
 | Botão "Limpar campo" | `tabIndex={-1}` — some do fluxo de tab, só é clicável via mouse (`onMouseDown` com `preventDefault`). Não documentado como intencional. |
 | `value` | Tipado `string \| number`, mas internamente tudo é normalizado para `string` (`normalizeValue`) e `onChange` sempre devolve `string` — comportamento correto, mas o tipo da prop pode induzir o consumidor a achar que recebe `number` de volta em campos `type="number"`. |
@@ -66,7 +64,7 @@ Não existe nenhum teste de teclado no arquivo atual (só `fireEvent`, sem `user
 4. Tornar o botão "Limpar campo" alcançável via teclado (remover `tabIndex={-1}` e tratar blur/foco corretamente) — aplicar também no `Search`.
 5. Adicionar `console.warn` em dev quando `TextField` é renderizado sem `label` e sem `aria-label` (nome acessível ausente).
 6. Remover o fallback morto `'\u00A0'` de `displayHelperText` ou ajustar a condição de renderização do `<span>` para o cenário em que ele faria sentido (reservar altura mesmo sem texto).
-7. Igualar `attachedToVirtualKeyboard`/`disableAutoComplete` (+ override de `autoComplete`) entre `TextField` e `TextArea`.
+7. Replicar `disableAutoComplete` (+ override de `autoComplete`) do `TextField` para o `TextArea`, já que ambos integram o mesmo `VirtualKeyboard` (`attachedToVirtualKeyboard` não precisa ser replicado — é exclusivo da composição interna do modo `fixed`, que hoje só usa `TextField`).
 8. Adicionar suíte de testes de teclado e regressão (itens 4 e 5).
 9. Decidir e implementar validação real por `type` (e-mail/telefone/URL) em `validateInput`, ou remover a promessa do JSDoc (`ValidationParams.type` "influencia a validação").
 
