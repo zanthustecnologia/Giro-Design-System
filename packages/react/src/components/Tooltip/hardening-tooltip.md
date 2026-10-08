@@ -1,4 +1,4 @@
-# Hardening do Button — Notas de análise
+# Hardening do `__Componente__` — Notas de análise
 
 > Template de documentação de hardening. Copie este arquivo para `packages/react/src/components/__Componente__/HARDENING.md` e preencha cada seção. Remova os comentários `>` ao finalizar.
 
@@ -7,8 +7,8 @@
 > Liste as props públicas relevantes e aponte comportamentos ambíguos, não documentados ou que divergem do tipo declarado (ex.: prop que não exclui atributo nativo equivalente, validação só em runtime/dev, união discriminada mal coberta etc.).
 
 | Prop | Observação |
-|---|---|
-| `` | |
+| Tooltip(nos componentes) | o codigo de withTooltip é duplicadoem todos componentes, da para colcoar isso em common.types|
+| Tooltip | leitor de tela não consegue ler a descrição do tooltip |
 
 ## 2. Inconsistências entre componentes
 
