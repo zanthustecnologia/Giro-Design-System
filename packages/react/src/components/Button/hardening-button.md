@@ -1,10 +1,7 @@
 # Hardening do Button — Notas de análise
 
-> Template de documentação de hardening. Copie este arquivo para `packages/react/src/components/__Componente__/HARDENING.md` e preencha cada seção. Remova os comentários `>` ao finalizar.
-
 ## 1. Revisão das propriedades públicas
 
-> Liste as props públicas relevantes e aponte comportamentos ambíguos, não documentados ou que divergem do tipo declarado (ex.: prop que não exclui atributo nativo equivalente, validação só em runtime/dev, união discriminada mal coberta etc.).
 
 | Prop | Observação |
 |aria label| duplicado, tem o ariaLabel do componente e o aria-label nativo|
@@ -12,8 +9,6 @@
 | loading | Durante o loading o componente não pode ser clicado por causa do handleClick, porem ele não fica como desabilitado — e como o `<button>` nativo não recebe `disabled` (só `aria-disabled`), um `type="submit"` dentro de um `<form>` ainda pode disparar submit nativo (ex.: Enter em outro campo), já que submit de formulário não passa pelo `onClick`/`handleClick` |
 
 ## 2. Inconsistências entre componentes
-
-> Compare convenções (nomes de props, padrões de acessibilidade, composição com Radix/outros wrappers) do componente analisado contra outros componentes do DS. Cite arquivos/stories/mdx onde a divergência aparece em uso real.
 
 - O `Tooltip` usado pelo `Button` envolve o filho num `<span>` via Radix `Trigger asChild` — o `aria-describedby` cai nesse `<span>` intermediário, não no `<button>`/`<a>` real focável. O mesmo `shared/Label`/`Tooltip` é reusado por `TextField`/`Select`/`TextArea`, então o problema não é exclusivo do `Button`, é um padrão repetido no DS.
 
@@ -57,13 +52,3 @@ Não existe nenhum teste de teclado no arquivo atual. Faltam:
 
 **Potencialmente incompatível (precisa decisão e comunicação):**
 1. Definir precedência única entre `ariaLabel` custom e `aria-label` nativo (hoje o `aria-label` nativo vence silenciosamente por ser espalhado depois no `baseProps`) — corrigir muda a saída renderizada em usos existentes que já passam `aria-label` direto.
-
-## 8. Janela única de mudanças incompatíveis
-
-> Agrupe todas as alterações incompatíveis levantadas na seção 7 em uma única janela (MR/major), conforme `docs/react/giovani-guidelines.md` e o fluxo de release do repo. Inclua:
-
-- Tabela de props/comportamentos antigos → novos.
-- Lista dos usages existentes que precisam ser atualizados no mesmo MR.
-- Entrada no `CHANGELOG.md` do pacote `react`, no formato de `docs/react/changeset-template.md`.
-
-Itens sem quebra de compatibilidade (seção 7) podem seguir separados, como patch/minor, sem esperar a janela major.

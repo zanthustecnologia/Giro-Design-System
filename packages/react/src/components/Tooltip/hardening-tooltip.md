@@ -1,4 +1,4 @@
-# Hardening do `__Componente__` — Notas de análise
+# Hardening do Tooltip — Notas de análise
 
 > Template de documentação de hardening. Copie este arquivo para `packages/react/src/components/__Componente__/HARDENING.md` e preencha cada seção. Remova os comentários `>` ao finalizar.
 

@@ -1,10 +1,6 @@
 # Hardening do TextField — Notas de análise
 
-> Template de documentação de hardening. Copie este arquivo para `packages/react/src/components/__Componente__/HARDENING.md` e preencha cada seção. Remova os comentários `>` ao finalizar.
-
 ## 1. Revisão das propriedades públicas
-
-> Liste as props públicas relevantes e aponte comportamentos ambíguos, não documentados ou que divergem do tipo declarado (ex.: prop que não exclui atributo nativo equivalente, validação só em runtime/dev, união discriminada mal coberta etc.).
 
 | Prop | Observação |
 |type|o type não esta fazendo as validações (ex.: number aceita a letra "e" por padrão nativo do HTML); além disso, mesmo com type="number" o valor/onChange sempre trafega como string (value normalizado via normalizeValue), nunca como number|
@@ -71,13 +67,3 @@ Não existe nenhum teste de teclado no arquivo atual (só `fireEvent`, sem `user
 
 **Potencialmente incompatível (precisa decisão e comunicação):**
 1. Decidir prioridade entre `errorMessage` externo e `inputError` interno quando os dois coexistem, e desacoplar a classe `.errorWithMessage` de `!!errorMessage` isolado (hoje ignora `hasError`).
-
-## 8. Janela única de mudanças incompatíveis
-
-> Agrupe todas as alterações incompatíveis levantadas na seção 7 em uma única janela (MR/major), conforme `docs/react/giovani-guidelines.md` e o fluxo de release do repo. Inclua:
-
-- Tabela de props/comportamentos antigos → novos.
-- Lista dos usages existentes que precisam ser atualizados no mesmo MR.
-- Entrada no `CHANGELOG.md` do pacote `react`, no formato de `docs/react/changeset-template.md`.
-
-Itens sem quebra de compatibilidade (seção 7) podem seguir separados, como patch/minor, sem esperar a janela major.
