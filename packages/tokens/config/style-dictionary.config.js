@@ -130,14 +130,11 @@ StyleDictionary.registerFormat({
         value = 0.0;
       } else if (valueStr.includes(',') && !valueStr.startsWith('Color(')) {
         value = `'${valueStr.split(',')[0].trim().replace(/["']/g, '')}'`;
-      } else if (name.includes('fontSize') && !isNaN(parseFloat(valueStr))) {
-        const numValue = parseFloat(valueStr) / 16;
-        value = Number.isInteger(numValue) ? `${numValue}.0` : numValue;
       } else if (!valueStr.startsWith('Color(') && !valueStr.includes("'") && !valueStr.includes('"')) {
         const cleaned = valueStr.replace(/px/g, '').replace(/%/g, '');
         if (!isNaN(parseFloat(cleaned)) && cleaned.trim() !== '') {
           const numValue = parseFloat(cleaned);
-          if (name.includes('spacing') || name.includes('borderRadius') || name.includes('fontSize')) {
+          if (name.includes('spacing') || name.includes('borderRadius') || name.includes('fontSize') || name.includes('borderWidth')) {
             value = Number.isInteger(numValue) ? `${numValue}.0` : numValue;
           } else {
             value = numValue;
@@ -155,7 +152,7 @@ StyleDictionary.registerFormat({
 StyleDictionary.registerTransform({
   name: 'size/flutter',
   type: 'value',
-  matcher: (token) => {
+  filter: (token) => {
     const value = String(token.value);
     return (value.includes('px') || value.includes('%')) && !value.startsWith('#');
   },
@@ -170,7 +167,7 @@ StyleDictionary.registerTransform({
 StyleDictionary.registerTransform({
   name: 'color/flutter-hex',
   type: 'value',
-  matcher: (token) => token.type === 'color',
+  filter: (token) => token.type === 'color',
   transform: (token) => {
     const value = String(token.value).replace('#', '').toUpperCase();
     return `Color(0xFF${value})`;
@@ -180,7 +177,7 @@ StyleDictionary.registerTransform({
 StyleDictionary.registerTransform({
   name: 'font/flutter',
   type: 'value',
-  matcher: (token) => token.type === 'fontFamily' || token.path.includes('family'),
+  filter: (token) => token.type === 'fontFamily' || token.path.includes('family'),
   transform: (token) => {
     const value = String(token.value);
     const cleaned = value.replace(/["']/g, '').split(',')[0].trim();
