@@ -50,6 +50,7 @@
   box-shadow: none;
   padding: 0 var(--button-lg-padding-inline);
   text-align: center;
+  overflow: hidden;
   transition:
     background-color 0.3s ease-in-out,
     color 0.3s ease-in-out,
@@ -175,7 +176,16 @@
   text-decoration: none;
 }
 
-.button.button-filled:hover {
+.buttonHoverLayer {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+  transform-origin: center;
+}
+
+.button.button-filled .buttonHoverLayer {
   background: var(--button-filled-background-hover);
 }
 
@@ -199,8 +209,7 @@
   outline: none;
 }
 
-.button.button-outlined:hover {
-  color: var(--button-outlined-color-default);
+.button.button-outlined .buttonHoverLayer {
   background-color: var(--button-outlined-background-hover);
 }
 
@@ -226,8 +235,7 @@
   background-color: var(--button-outlined-background-disabled);
 }
 
-.button.button-text:hover {
-  color: var(--button-ghost-color-default);
+.button.button-text .buttonHoverLayer {
   background-color: var(--button-ghost-background-hover);
 }
 

@@ -185,8 +185,8 @@ importers:
         specifier: ^2.0.307
         version: 2.0.333(react@19.2.8)
       '@giro-ds/mcp':
-        specifier: ^1.2.0
-        version: 1.2.0
+        specifier: ^1.2.2
+        version: 1.2.2
       '@radix-ui/react-checkbox':
         specifier: ^1.1.2
         version: 1.3.8(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
@@ -214,6 +214,9 @@ importers:
       i18next:
         specifier: ^25.3.6
         version: 25.10.10(typescript@5.9.3)
+      motion:
+        specifier: ^14.1.0
+        version: 14.1.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       radix-ui:
         specifier: ^1.4.3
         version: 1.6.4(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
@@ -1063,8 +1066,8 @@ packages:
     peerDependencies:
       react: ^19.0.0
 
-  '@giro-ds/mcp@1.2.0':
-    resolution: {integrity: sha512-UDxVHPYl3mCYTvnJ3h7P7vi53/d4oK5UHEI+r3Gw9EzHMHJZGuXpS/4rkIImSdvolqblxM3b5Y9VMqSETm2l5w==}
+  '@giro-ds/mcp@1.2.2':
+    resolution: {integrity: sha512-C8DBPL3TbPQ1W1YEuQDZDjuUIYLbfTUVjMk7iuDPQCgcU8Zz+ahATXEdDTvzFKu5Dg9+aqUeRfG3/NxoUqVDxA==}
     hasBin: true
 
   '@griffel/core@1.21.3':
@@ -2489,6 +2492,7 @@ packages:
 
   '@rollup/rollup-win32-x64-msvc@4.62.2':
     resolution: {integrity: sha512-BfzEnDJOt9T8M989/lA37EcJgat01wLRnoi5dQf3QzOH7jzpqTAzdDbVfRljVr5r+jzKqpbHeyOfAaXxAd0PAA==}
+    cpu: [x64]
     os: [win32]
 
   '@rtsao/scc@1.1.0':
@@ -3876,6 +3880,17 @@ packages:
   fraction.js@5.3.4:
     resolution: {integrity: sha512-1X1NTtiJphryn/uLQz3whtY6jK3fTqoE3ohKs0tT+Ujr1W59oopxmoEh7Lu5p6vBaPbgoM0bzveAW4Qi5RyWDQ==}
 
+  framer-motion@14.1.0:
+    resolution: {integrity: sha512-QsdZSdWoyQfUmgi+GZfow8Du5COG6VRYEo9FlgKUPgH87/Le/fYekHCAKwLdYKHdCZcZfWHg4iOxlD6RoqXciQ==}
+    peerDependencies:
+      react: ^19.0.0
+      react-dom: ^19.0.0
+    peerDependenciesMeta:
+      react:
+        optional: true
+      react-dom:
+        optional: true
+
   fresh@2.0.0:
     resolution: {integrity: sha512-Rx/WycZ60HOaqLKAi6cHRKKI7zxWbJ31MhntmtwMoaTeF7XFH9hhBp8vITaMidfljRQ6eYWCKkaTK+ykVJHP2A==}
     engines: {node: '>= 0.8'}
@@ -4542,6 +4557,23 @@ packages:
   minipass@7.1.3:
     resolution: {integrity: sha512-tEBHqDnIoM/1rXME1zgka9g6Q2lcoCkxHLuc7ODJ5BxbP5d4c2Z5cGgtXAku59200Cx7diuHTOYfSBD8n6mm8A==}
     engines: {node: '>=16 || 14 >=14.17'}
+
+  motion-dom@14.1.0:
+    resolution: {integrity: sha512-FyFLkNUAAETzCvf851mZcl+v+kaZrKq+UM+XmkY4G8n+ny/WYfiWh9j0fhSQ1KOKVQrM9/cLO11THO2k71HJlg==}
+
+  motion-utils@14.1.0:
+    resolution: {integrity: sha512-xd4FeWOnnXsJHmAaRCLNbOS7mEaNOangjMt3Pl241H07f1kxW48fADQ/8O5hLLNhf1qdlozgY3PPAHBdOoU7AA==}
+
+  motion@14.1.0:
+    resolution: {integrity: sha512-lsCsW9uJ+iMJj8MSiLccpUC+ZUpoSspaX6Pm78KrnZKMioCPAPG6WeG1d1d/Ywg+z1mny+STP6VyEYW+3nAqNw==}
+    peerDependencies:
+      react: ^19.0.0
+      react-dom: ^19.0.0
+    peerDependenciesMeta:
+      react:
+        optional: true
+      react-dom:
+        optional: true
 
   mri@1.2.0:
     resolution: {integrity: sha512-tzzskb3bG8LvYGFF/mDTpq3jpI6Q9wc3LEmBaghu+DdCssd1FakN7Bc0hVNmEyGq1bq3RgfkCb3cmQLpNPOroA==}
@@ -6697,7 +6729,7 @@ snapshots:
       react: 19.2.8
       tslib: 2.8.1
 
-  '@giro-ds/mcp@1.2.0':
+  '@giro-ds/mcp@1.2.2':
     dependencies:
       '@modelcontextprotocol/sdk': 1.29.0(zod@4.4.3)
       ts-morph: 27.0.2
@@ -9713,6 +9745,15 @@ snapshots:
 
   fraction.js@5.3.4: {}
 
+  framer-motion@14.1.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8):
+    dependencies:
+      motion-dom: 14.1.0
+      motion-utils: 14.1.0
+      tslib: 2.8.1
+    optionalDependencies:
+      react: 19.2.8
+      react-dom: 19.2.8(react@19.2.8)
+
   fresh@2.0.0: {}
 
   fs-extra@10.1.0:
@@ -10389,6 +10430,20 @@ snapshots:
   minimist@1.2.8: {}
 
   minipass@7.1.3: {}
+
+  motion-dom@14.1.0:
+    dependencies:
+      motion-utils: 14.1.0
+
+  motion-utils@14.1.0: {}
+
+  motion@14.1.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8):
+    dependencies:
+      framer-motion: 14.1.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+      tslib: 2.8.1
+    optionalDependencies:
+      react: 19.2.8
+      react-dom: 19.2.8(react@19.2.8)
 
   mri@1.2.0: {}
 

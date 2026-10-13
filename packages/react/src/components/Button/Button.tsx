@@ -1,5 +1,6 @@
 import { SpinnerIos16Regular } from '@fluentui/react-icons';
 import clsx from 'clsx';
+import { motion, useReducedMotion } from 'motion/react';
 import React, { useId, useMemo } from 'react';
 
 import { forwardRef } from '../../utils/forwardRef';
@@ -43,6 +44,8 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>((
   const generatedId = useId();
   const componentId = id || generatedId;
 
+  const prefersReducedMotion = useReducedMotion();
+
   const getComponent = (): React.ElementType => {
     if (as) return as;
 
@@ -61,6 +64,19 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>((
   };
 
   const Component = getComponent();
+  const MotionComponent = useMemo(() => motion.create(Component), [Component]);
+
+  const scaleVariants = useMemo(() => ({
+    rest: { scale: 1 },
+    hover: { scale: prefersReducedMotion ? 1 : 1.1 },
+    tap: { scale: prefersReducedMotion ? 1 : 0.9 },
+  }), [prefersReducedMotion]);
+
+  const overlayVariants = useMemo(() => ({
+    rest: { scale: prefersReducedMotion ? 1 : 0, opacity: 0 },
+    hover: { scale: 1, opacity: 1 },
+    tap: { scale: 1, opacity: 1 },
+  }), [prefersReducedMotion]);
 
   const hasContent = useMemo(() => {
     return children && React.Children.count(children) > 0;
@@ -170,6 +186,11 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>((
     'aria-busy': loading || undefined,
     tabIndex: disabled || loading ? -1 : 0,
     onClick: handleClick,
+    initial: 'rest',
+    whileHover: disabled || loading ? undefined : 'hover',
+    whileFocus: disabled || loading ? undefined : 'hover',
+    whileTap: disabled || loading ? undefined : 'tap',
+    variants: scaleVariants,
     ...otherRest,
     style: {
       '--giro-scale': scale,
@@ -209,26 +230,37 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>((
     return {};
   };
 
+  const content = (
+    <>
+      <motion.span
+        aria-hidden="true"
+        className={styles.buttonHoverLayer}
+        variants={overlayVariants}
+      />
+      {renderContent()}
+    </>
+  );
+
   if (tooltipText && !loading) {
     return (
       <Tooltip text={tooltipText} side={tooltipSide} align={tooltipAlign}>
-        <Component
+        <MotionComponent
           {...baseProps}
           {...getNavigationProps()}
         >
-          {renderContent()}
-        </Component>
+          {content}
+        </MotionComponent>
       </Tooltip>
     );
   }
 
   return (
-    <Component
+    <MotionComponent
       {...baseProps}
       {...getNavigationProps()}
     >
-      {renderContent()}
-    </Component>
+      {content}
+    </MotionComponent>
   );
 });
 
