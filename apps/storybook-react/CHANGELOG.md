@@ -1,5 +1,12 @@
 # storybook-react
 
+## 1.0.39
+
+### Patch Changes
+
+- Updated dependencies
+  - @giro-ds/react@12.6.2
+
 ## 1.0.38
 
 ### Patch Changes

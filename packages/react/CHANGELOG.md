@@ -1,5 +1,12 @@
 ﻿# @giro-ds/react
 
+## [12.6.2]
+
+### Bug Fixes
+
+- **Toast:** o `Toast.Viewport` agora é renderizado dentro de um `Portal` do Radix UI, anexado ao `document.body`, em vez de permanecer na árvore do componente que o aciona; isso garante que os toasts apareçam corretamente sobre outros elementos com overlay (como `Drawer`, `Dialog`), sem sofrer com `overflow: hidden` ou `z-index` de containers pais, eliminando a necessidade do `z-index` fixo anterior.
+- **Drawer:** compensa a largura da scrollbar nativa no padding direito da área de conteúdo rolável via custom property `--drawer-scrollbar-width`, evitando que o conteúdo desloque quando a scrollbar aparece/desaparece; o `footer` agora é envolvido em um container com `flex-shrink: 0`, evitando que seja comprimido quando o conteúdo é extenso.
+
 ## [12.6.1]
 
 ### Bug Fixes
