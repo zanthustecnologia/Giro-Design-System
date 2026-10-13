@@ -1,4 +1,4 @@
-import { Toast as ToastRadix } from 'radix-ui';
+import { Toast as ToastRadix, Portal } from 'radix-ui';
 import * as React from 'react';
 
 import { useToastContext } from '../../../hooks/useToast';
@@ -27,6 +27,13 @@ import styles from '../Toast.module.scss';
  */
 export const ToastContainer: React.FC = () => {
   const { toasts } = useToastContext();
+  const portalRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    if (toasts.length > 0 && portalRef.current) {
+      document.body.appendChild(portalRef.current);
+    }
+  }, [toasts.length]);
 
   return (
     <ToastRadix.Provider swipeDirection="left">
@@ -34,7 +41,9 @@ export const ToastContainer: React.FC = () => {
         if (!toast.id) return null;
         return <Toast key={toast.id} id={toast.id} {...toast} />;
       })}
-      <ToastRadix.Viewport className={styles.toastViewport} />
+      <Portal.Root ref={portalRef}>
+        <ToastRadix.Viewport className={styles.toastViewport} />
+      </Portal.Root>
     </ToastRadix.Provider>
   );
 };
