@@ -24,6 +24,8 @@ pnpm add @giro-ds/react
 yarn add @giro-ds/react
 ```
 
+> **Pré-requisito:** `@giro-ds/react` depende de `react` e `react-dom` (versão `>=18.0.0`) já instalados no seu projeto como `peerDependencies`.
+
 ### Design Tokens
 
 Para usar os tokens de design (cores, tipografia, espaçamentos, bordas):
@@ -110,7 +112,7 @@ function App() {
     <div>
       <Button variant="filled">Clique aqui</Button>
       <TextField label="Nome" placeholder="Digite seu nome" />
-      <Avatar initialLetters="JS" />
+      <Avatar text="JS" />
     </div>
   );
 }
@@ -245,7 +247,7 @@ function App() {
       </h1>
       
       <Avatar 
-        initialLetters="MS" 
+        text="MS" 
         size="lg" 
       />
       
