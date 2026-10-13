@@ -191,16 +191,44 @@ export const ComFooter: Story = {
 };
 
 export const ConteudoLongoComScroll: Story = {
-  render: () => (
-    <DrawerDemo title="Conteudo longo">
-      <p>
-        Este Drawer tem conteudo suficiente para gerar uma scrollbar.
-      </p>
-      {Array.from({ length: 40 }, (_, i) => (
-        <p key={i} style={{ margin: '8px 0', color: 'var(--color-neutral-low-medium)' }}>
-          Item de conteudo {i + 1}
-        </p>
-      ))}
-    </DrawerDemo>
-  ),
+  render: () => {
+    const [isOpen, setIsOpen] = useState(false);
+
+    return (
+      <>
+        <Button variant="outlined" icon={<Filter16Regular />} onClick={() => setIsOpen(true)}>
+          Abrir Drawer
+        </Button>
+        <Drawer
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+          title="Conteudo longo"
+          footer={
+            <div style={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              gap: '12px',
+              padding: '16px 24px',
+              borderTop: '1px solid var(--color-neutral-high-dark)',
+              background: 'var(--color-neutral-high-default)',
+            }}>
+              <Button variant="outlined" onClick={() => setIsOpen(false)}>Cancelar</Button>
+              <Button onClick={() => setIsOpen(false)}>Confirmar</Button>
+            </div>
+          }
+        >
+          <p>
+            Este Drawer tem conteudo suficiente para gerar uma scrollbar.
+          </p>
+          <div style={{ border: '1px solid var(--color-neutral-high-dark, #d9d9d9)', borderRadius: '4px', padding: '8px 16px' }}>
+            {Array.from({ length: 40 }, (_, i) => (
+              <p key={i} style={{ margin: '8px 0', color: 'var(--color-neutral-low-medium)' }}>
+                Item de conteudo {i + 1}
+              </p>
+            ))}
+          </div>
+        </Drawer>
+      </>
+    );
+  },
 };

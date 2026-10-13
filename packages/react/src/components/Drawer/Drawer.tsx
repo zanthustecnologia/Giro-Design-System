@@ -1,6 +1,6 @@
 import { Dismiss16Regular } from '@fluentui/react-icons';
 import clsx from 'clsx';
-import React, { useEffect, useState, useCallback, ReactNode, ReactElement } from 'react';
+import React, { useEffect, useState, useCallback, useRef, ReactNode, ReactElement } from 'react';
 import { createPortal } from 'react-dom';
 
 import styles from './Drawer.module.scss';
@@ -80,6 +80,31 @@ const Drawer: React.FC<DrawerProps> = ({
     internalClose();
   };
 
+  const contentRef = useRef<HTMLDivElement>(null);
+  const [scrollbarWidth, setScrollbarWidth] = useState(0);
+
+  useEffect(() => {
+    const contentEl = contentRef.current;
+    if (!contentEl) return;
+
+    const measureScrollbar = (): void => {
+      setScrollbarWidth(contentEl.offsetWidth - contentEl.clientWidth);
+    };
+
+    measureScrollbar();
+
+    const resizeObserver = new ResizeObserver(measureScrollbar);
+    resizeObserver.observe(contentEl);
+
+    const mutationObserver = new MutationObserver(measureScrollbar);
+    mutationObserver.observe(contentEl, { childList: true, subtree: true, characterData: true });
+
+    return () => {
+      resizeObserver.disconnect();
+      mutationObserver.disconnect();
+    };
+  }, [isOpen, children]);
+
   return createPortal(
     <>
       <div
@@ -102,6 +127,7 @@ const Drawer: React.FC<DrawerProps> = ({
         )}
         style={{
           '--drawer-custom-width': customWidth,
+          '--drawer-scrollbar-width': `${scrollbarWidth}px`,
         } as React.CSSProperties}
         onClick={handleDrawerClick}
         role="dialog"
@@ -135,12 +161,15 @@ const Drawer: React.FC<DrawerProps> = ({
           />
         </div>
         <div 
+          ref={contentRef}
           className={styles.drawerChildren} 
           data-testid="drawer-content"
           >
             {children}
           </div>
-          {footer}
+          {footer && (
+            <div className={styles.drawerFooter}>{footer}</div>
+          )}
         </div>
     </>,
     document.body
