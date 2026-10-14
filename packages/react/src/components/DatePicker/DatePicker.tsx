@@ -50,9 +50,13 @@ const DatePicker: React.FC<DatePickerProps> = ({
   const hasValidationError = !!(externalError || internalError);
   const displayValue = isEditing ? tempInputValue : (currentSelectedDate ? formatDate(currentSelectedDate, locale) : '');
 
-  const combinedHelperText = externalError && helperText
-    ? `${helperText} • ${externalError}`
-    : externalError || helperText || '';
+  const invalidDateMessage = locale === 'en-us' ? 'Invalid date' : 'Data inválida';
+  const internalErrorText = internalError === 'invalid' ? invalidDateMessage : '';
+  const combinedHelperText = internalErrorText
+    ? internalErrorText
+    : externalError && helperText
+      ? `${helperText} • ${externalError}`
+      : externalError || helperText || '';
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -214,8 +218,8 @@ const DatePicker: React.FC<DatePickerProps> = ({
               onFocus={handleFocus}
               autoComplete="off"
               value={displayValue}
-              helperText={!externalError ? (helperText || undefined) : undefined}
-              errorMessage={externalError ? combinedHelperText : undefined}
+              helperText={!hasValidationError ? (helperText || undefined) : undefined}
+              errorMessage={hasValidationError ? combinedHelperText : undefined}
               error={hasValidationError ? true : undefined}
               maxLength={10}
               required={required}
@@ -229,7 +233,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
               aria-expanded={showCalendar && isCalendarOpen}
               aria-controls={calendarId}
               aria-invalid={hasValidationError}
-              aria-describedby={externalError ? undefined : (helperText ? `${fieldId}-help` : undefined)}
+              aria-describedby={hasValidationError ? undefined : (helperText ? `${fieldId}-help` : undefined)}
             />       
           }
           content={

@@ -557,7 +557,7 @@ describe('DatePicker', () => {
 
       await waitFor(() => {
         expect(input).toHaveValue('99/01/2024');
-        expect(screen.queryByText('Data inválida')).not.toBeInTheDocument();
+        expect(screen.getByText('Data inválida')).toBeInTheDocument();
       });
     });
   });
