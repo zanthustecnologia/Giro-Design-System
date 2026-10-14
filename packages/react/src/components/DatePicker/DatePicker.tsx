@@ -6,7 +6,7 @@ import Calendar from '../Calendar/Calendar';
 import Popover from '../Popover';
 import TextField from '../TextField';
 import styles from './DatePicker.module.scss';
-import { formatDate, parseDate, applyDateMask, isValidDateFormat, validatePartialDate } from './Utils/DateUtils';
+import { formatDate, parseDate, applyDateMask, isValidDateFormat, validatePartialDate, isDateInRange } from './Utils/DateUtils';
 
 import type { DatePickerProps } from './DatePicker.types';
 
@@ -51,7 +51,12 @@ const DatePicker: React.FC<DatePickerProps> = ({
   const displayValue = isEditing ? tempInputValue : (currentSelectedDate ? formatDate(currentSelectedDate, locale) : '');
 
   const invalidDateMessage = locale === 'en-us' ? 'Invalid date' : 'Data inválida';
-  const internalErrorText = internalError === 'invalid' ? invalidDateMessage : '';
+  const outOfRangeMessage = locale === 'en-us' ? 'Date out of allowed range' : 'Data fora do intervalo permitido';
+  const internalErrorText = internalError === 'invalid'
+    ? invalidDateMessage
+    : internalError === 'range'
+      ? outOfRangeMessage
+      : '';
   const combinedHelperText = internalErrorText
     ? internalErrorText
     : externalError && helperText
@@ -106,6 +111,11 @@ const DatePicker: React.FC<DatePickerProps> = ({
         if (tempInputValue.length === 10 && isValidDateFormat(tempInputValue, locale)) {
           const parsedDate = parseDate(tempInputValue, locale);
           if (parsedDate && !isNaN(parsedDate.getTime())) {
+            if (!isDateInRange(parsedDate, minDate, maxDate)) {
+              setInternalError('range');
+              event.preventDefault();
+              return;
+            }
             handleDateChange(parsedDate);
             setIsCalendarOpen(false);
             event.preventDefault();
@@ -177,6 +187,12 @@ const DatePicker: React.FC<DatePickerProps> = ({
       if (maskedValue.length === 10) {
         const parsedDate = parseDate(maskedValue, locale);
         if (parsedDate) {
+          if (!isDateInRange(parsedDate, minDate, maxDate)) {
+            setInternalError('range');
+            if (!isControlled) setInternalDate(null);
+            onChange?.(null);
+            return;
+          }
           handleDateChange(parsedDate);
           setCurrentDate(parsedDate);
         }

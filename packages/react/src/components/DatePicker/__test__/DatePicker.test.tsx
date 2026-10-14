@@ -560,6 +560,53 @@ describe('DatePicker', () => {
         expect(screen.getByText('Data inválida')).toBeInTheDocument();
       });
     });
+
+    it('exibe erro de intervalo e chama onChange com null ao digitar data anterior ao minDate', async () => {
+      const onChange = vi.fn();
+      render(<DatePicker minDate={new Date(2024, 0, 10)} onChange={onChange} />);
+
+      const input = screen.getByRole('textbox', { name: /open calendar/i });
+      fireEvent.change(input, { target: { value: '05/01/2024' } });
+
+      expect(onChange).toHaveBeenCalledWith(null);
+
+      await waitFor(() => {
+        expect(screen.getByText('Data fora do intervalo permitido')).toBeInTheDocument();
+      });
+    });
+
+    it('exibe erro de intervalo e chama onChange com null ao digitar data posterior ao maxDate', async () => {
+      const onChange = vi.fn();
+      render(<DatePicker maxDate={new Date(2024, 0, 10)} onChange={onChange} />);
+
+      const input = screen.getByRole('textbox', { name: /open calendar/i });
+      fireEvent.change(input, { target: { value: '15/01/2024' } });
+
+      expect(onChange).toHaveBeenCalledWith(null);
+
+      await waitFor(() => {
+        expect(screen.getByText('Data fora do intervalo permitido')).toBeInTheDocument();
+      });
+    });
+
+    it('aceita data dentro do intervalo entre minDate e maxDate', async () => {
+      const onChange = vi.fn();
+      render(
+        <DatePicker
+          minDate={new Date(2024, 0, 1)}
+          maxDate={new Date(2024, 0, 31)}
+          onChange={onChange}
+        />
+      );
+
+      const input = screen.getByRole('textbox', { name: /open calendar/i });
+      fireEvent.change(input, { target: { value: '15/01/2024' } });
+
+      await waitFor(() => {
+        expect(onChange).toHaveBeenCalledWith(expect.any(Date));
+        expect(screen.queryByText('Data fora do intervalo permitido')).not.toBeInTheDocument();
+      });
+    });
   });
 
   describe('Seleção de dia via calendário', () => {

@@ -68,14 +68,40 @@ const meta: Meta<typeof DatePicker> = {
         defaultValue: { summary: 'true' },
       },
     },
+    minDate: {
+      control: { type: 'date' },
+      description: 'Data mínima selecionável',
+      table: {
+        type: { summary: 'Date' },
+        defaultValue: { summary: 'undefined' },
+      },
+    },
+    maxDate: {
+      control: { type: 'date' },
+      description: 'Data máxima selecionável',
+      table: {
+        type: { summary: 'Date' },
+        defaultValue: { summary: 'undefined' },
+      },
+    },
   },
 } satisfies Meta<typeof DatePicker>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+// O controle de data do Storybook retorna um timestamp (number), por isso convertemos para Date
+const toDate = (value: unknown): Date | undefined =>
+  typeof value === 'number' ? new Date(value) : (value as Date | undefined);
+
 // Template básico
-const Template = (args: DatePickerProps) => <DatePicker {...args} />;
+const Template = (args: DatePickerProps) => (
+  <DatePicker
+    {...args}
+    minDate={toDate(args.minDate)}
+    maxDate={toDate(args.maxDate)}
+  />
+);
 
 // Template para controlled components
 const ControlledTemplate = (args: DatePickerProps) => {
@@ -83,6 +109,8 @@ const ControlledTemplate = (args: DatePickerProps) => {
   return (
     <DatePicker
       {...args}
+      minDate={toDate(args.minDate)}
+      maxDate={toDate(args.maxDate)}
       value={selectedDate}
       onChange={setSelectedDate}
     />
