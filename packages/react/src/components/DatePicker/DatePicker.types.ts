@@ -60,6 +60,9 @@ export interface DatePickerProps extends ScalableProps {
   /** Data máxima selecionável */
   maxDate?: Date;
   
+  /** Define se o calendário pode ser aberto ao clicar/focar no campo */
+  showCalendar?: boolean;
+  
   /** ID para testes automatizados */
   'data-testid'?: string;
 }

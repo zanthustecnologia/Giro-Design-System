@@ -60,6 +60,14 @@ const meta: Meta<typeof DatePicker> = {
       options: [1, 1.5, 2],
       description: 'Escala visual do componente (aplica-se ao DatePicker, TextField e Calendar internos)',
     },
+    showCalendar: {
+      control: 'boolean',
+      description: 'Define se o calendário pode ser aberto ao clicar/focar no campo',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'true' },
+      },
+    },
   },
 } satisfies Meta<typeof DatePicker>;
 
