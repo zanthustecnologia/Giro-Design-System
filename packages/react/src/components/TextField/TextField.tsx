@@ -36,7 +36,6 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>((
     onBlur,
     onFocus,
     name,
-    telPattern,
     virtualKeyboard,
     attachedToVirtualKeyboard,
     disableAutoComplete = false,
@@ -46,7 +45,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>((
 ) => {
     const normalizeValue = (val: string | number | undefined): string => {
       const stringValue = val === undefined || val === null ? '' : String(val);
-      return type === 'tel' && !telPattern ? applyPhoneMask(stringValue) : stringValue;
+      return type === 'tel' ? applyPhoneMask(stringValue) : stringValue;
     };
     
     const [inputValue, setInputValue] = useState(normalizeValue(value));
@@ -59,7 +58,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>((
     useEffect(() => {
       setInputValue(normalizeValue(value));
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [value, type, telPattern]);
+    }, [value, type]);
 
     useEffect(() => {
       if (!inputError) return;
@@ -67,24 +66,23 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>((
       const validationError = validateInput({
         value: inputValue,
         type,
-        telPattern,
         maxLength,
         errorMessage,
         required,
       });
       setInputError(validationError);
-    }, [inputValue, inputError, type, telPattern, maxLength, errorMessage, required]);
+    }, [inputValue, inputError, type, maxLength, errorMessage, required]);
 
     const handleChange = useCallback(
       (e: React.ChangeEvent<HTMLInputElement>) => {
-        const newValue = type === 'tel' && !telPattern ? applyPhoneMask(e.target.value) : e.target.value;
+        const newValue = type === 'tel' ? applyPhoneMask(e.target.value) : e.target.value;
 
         if (!disabled && (!maxLength || newValue.length <= maxLength)) {
           setInputValue(newValue);
           onChange?.(newValue);
         }
       },
-      [disabled, maxLength, onChange, type, telPattern]
+      [disabled, maxLength, onChange, type]
     );
 
     const handleClear = useCallback(() => {
@@ -99,7 +97,6 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>((
         const error = validateInput({
           value: inputValue,
           type,
-          telPattern,
           maxLength,
           errorMessage,
           required,
@@ -108,7 +105,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>((
         setIsFocused(false);
         onBlur?.(e);
       },
-      [inputValue, type, telPattern, maxLength, errorMessage, required, onBlur]
+      [inputValue, type, maxLength, errorMessage, required, onBlur]
     );
 
     const handleFocus = useCallback(

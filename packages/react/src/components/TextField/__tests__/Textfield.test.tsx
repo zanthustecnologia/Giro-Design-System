@@ -187,17 +187,6 @@ describe('TextField', () => {
       expect(screen.getByText('Telefone inválido.')).toBeInTheDocument();
     });
 
-    it('não aplica a máscara BR nem a validação de dígitos quando um telPattern customizado é informado', () => {
-      render(<TextField type="tel" telPattern="[0-9]{4}-[0-9]{4}" />);
-      const input = screen.getByRole('textbox');
-
-      fireEvent.change(input, { target: { value: '1234-5678' } });
-      fireEvent.blur(input);
-
-      expect(input).toHaveValue('1234-5678');
-      expect(screen.queryByText('Telefone inválido.')).not.toBeInTheDocument();
-    });
-
     it('mantém o valor digitado e mostra erro quando o e-mail é inválido (sem value controlado)', () => {
       render(<TextField type="email" />);
       const input = screen.getByRole('textbox');

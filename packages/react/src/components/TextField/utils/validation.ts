@@ -4,8 +4,6 @@ export interface ValidationParams {
   value: string;
   maxLength?: number;
   type?: TextFieldType;
-  /** Regex customizada para validar o tipo "tel"; quando informada, desativa a máscara BR automática */
-  telPattern?: string;
   errorMessage?: string;
   required?: boolean;
 }
@@ -25,7 +23,6 @@ export const validateInput = ({
   value, 
   maxLength, 
   type,
-  telPattern,
   errorMessage, 
   required 
 }: ValidationParams): string => {
@@ -51,15 +48,9 @@ export const validateInput = ({
     }
 
     if (type === 'tel') {
-      if (telPattern) {
-        if (!new RegExp(`^(?:${telPattern})$`).test(value)) {
-          return errorMessage || 'Telefone inválido.';
-        }
-      } else {
-        const digits = value.replace(/\D/g, '');
-        if (digits.length < 10 || digits.length > 11) {
-          return errorMessage || 'Telefone inválido.';
-        }
+      const digits = value.replace(/\D/g, '');
+      if (digits.length < 10 || digits.length > 11) {
+        return errorMessage || 'Telefone inválido.';
       }
     }
   }

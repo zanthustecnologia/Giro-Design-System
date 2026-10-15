@@ -173,26 +173,6 @@ describe('validateInput', () => {
   });
 
   describe('Tipo tel', () => {
-    it('retorna erro padrão quando o valor não casa com o telPattern informado', () => {
-      const result = validateInput({
-        value: 'abc123',
-        type: 'tel',
-        telPattern: '[0-9]{11}',
-      });
-
-      expect(result).toBe('Telefone inválido.');
-    });
-
-    it('não retorna erro quando o valor casa com o telPattern informado', () => {
-      const result = validateInput({
-        value: '11987654321',
-        type: 'tel',
-        telPattern: '[0-9]{11}',
-      });
-
-      expect(result).toBe('');
-    });
-
     it('retorna erro padrão quando o valor tem menos de 10 dígitos', () => {
       const result = validateInput({
         value: '(11)987-654',
@@ -211,7 +191,7 @@ describe('validateInput', () => {
       expect(result).toBe('Telefone inválido.');
     });
 
-    it('não retorna erro quando o valor tem 10 dígitos e não há telPattern informado', () => {
+    it('não retorna erro quando o valor tem 10 dígitos', () => {
       const result = validateInput({
         value: '(11)3456-7890',
         type: 'tel',
@@ -220,7 +200,7 @@ describe('validateInput', () => {
       expect(result).toBe('');
     });
 
-    it('não retorna erro quando o valor tem 11 dígitos e não há telPattern informado', () => {
+    it('não retorna erro quando o valor tem 11 dígitos', () => {
       const result = validateInput({
         value: '(11)98765-4321',
         type: 'tel',
