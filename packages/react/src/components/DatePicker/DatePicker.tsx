@@ -193,7 +193,8 @@ const DatePicker: React.FC<DatePickerProps> = ({
           trigger={
             <TextField
               className={styles.textfieldContainer}
-              type="tel"
+              type="text"
+              inputMode="numeric"
               icon={
                 <Calendar16Regular 
                   onClick={!disabled ? handleIconClick : undefined}

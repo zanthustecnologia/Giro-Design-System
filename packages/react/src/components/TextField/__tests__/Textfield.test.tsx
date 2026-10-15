@@ -175,6 +175,39 @@ describe('TextField', () => {
 
       expect(screen.getByRole('textbox')).toHaveAttribute('aria-invalid', 'false');
     });
+
+    it('mantém o valor digitado e mostra erro quando o telefone é inválido (sem value controlado)', () => {
+      render(<TextField type="tel" />);
+      const input = screen.getByRole('textbox');
+
+      fireEvent.change(input, { target: { value: '123' } });
+      fireEvent.blur(input);
+
+      expect(input).toHaveValue('(12)3');
+      expect(screen.getByText('Telefone inválido.')).toBeInTheDocument();
+    });
+
+    it('não aplica a máscara BR nem a validação de dígitos quando um telPattern customizado é informado', () => {
+      render(<TextField type="tel" telPattern="[0-9]{4}-[0-9]{4}" />);
+      const input = screen.getByRole('textbox');
+
+      fireEvent.change(input, { target: { value: '1234-5678' } });
+      fireEvent.blur(input);
+
+      expect(input).toHaveValue('1234-5678');
+      expect(screen.queryByText('Telefone inválido.')).not.toBeInTheDocument();
+    });
+
+    it('mantém o valor digitado e mostra erro quando o e-mail é inválido (sem value controlado)', () => {
+      render(<TextField type="email" />);
+      const input = screen.getByRole('textbox');
+
+      fireEvent.change(input, { target: { value: 'nao-e-email' } });
+      fireEvent.blur(input);
+
+      expect(input).toHaveValue('nao-e-email');
+      expect(screen.getByText('E-mail inválido.')).toBeInTheDocument();
+    });
   });
 
   describe('Estado Disabled', () => {

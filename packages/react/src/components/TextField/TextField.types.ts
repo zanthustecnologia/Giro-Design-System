@@ -106,6 +106,9 @@ export interface TextFieldPropsBase extends ScalableProps, Omit<
 
   /** Desabilita o autocomplete nativo do browser (padrão: false) */
   disableAutoComplete?: boolean;
+
+  /** Regex customizada para validar o tipo "tel"; quando informada, desativa a máscara BR automática (10-11 dígitos) */
+  telPattern?: string;
 }
 
 /**
@@ -128,6 +131,9 @@ export interface ValidationParams {
   
   /** Tipo do campo (influencia a validação) */
   type?: TextFieldType;
+  
+  /** Regex customizada para validar o tipo "tel"; quando informada, desativa a máscara BR automática */
+  telPattern?: string;
   
   /** Mensagem de erro customizada */
   errorMessage?: string;
