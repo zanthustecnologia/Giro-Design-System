@@ -164,7 +164,7 @@ export const Controlado: Story = {
   render: ControlledTemplate,
   args: {
     locale: 'pt-br',
-    calendarSide: 'left',
+    calendarSide: 'bottom',
     label: 'Data de início',
     helperText: 'Selecione a data de início',
   },
@@ -174,7 +174,7 @@ export const ComRestricaoDeDatas: Story = {
   render: Template,
   args: {
     locale: 'pt-br',
-    calendarSide: 'left',
+    calendarSide: 'bottom',
     label: 'Data do evento',
     helperText: 'Selecione uma data futura',
     minDate: new Date(),
