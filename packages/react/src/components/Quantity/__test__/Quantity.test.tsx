@@ -337,7 +337,7 @@ describe('Quantity', () => {
       const input = screen.getByRole('spinbutton');
       await user.clear(input);
       await user.keyboard('{Escape}');
-      expect(input).toHaveValue('5.00');
+      expect(input).toHaveValue('5,00');
     });
 
     it('não reage ao teclado quando desabilitado', async () => {
@@ -350,16 +350,16 @@ describe('Quantity', () => {
   });
 
   describe('Modo decimal', () => {
-    it('exibe o valor com casas decimais via value', () => {
+    it('exibe o valor com casas decimais via value usando vírgula por padrão', () => {
       render(<Quantity decimal decimalPlaces={2} value={1} />);
-      expect(screen.getByRole('spinbutton')).toHaveValue('1.00');
+      expect(screen.getByRole('spinbutton')).toHaveValue('1,00');
     });
 
     it('incrementa por 1 no modo decimal quando step não é especificado', async () => {
       const user = userEvent.setup();
       render(<ControlledQuantity decimal decimalPlaces={2} initialValue={1} />);
       await user.click(screen.getByLabelText('Increase quantity'));
-      expect(screen.getByRole('spinbutton')).toHaveValue('2.00');
+      expect(screen.getByRole('spinbutton')).toHaveValue('2,00');
     });
 
     it('formata o valor no blur respeitando decimalPlaces', async () => {
@@ -367,9 +367,23 @@ describe('Quantity', () => {
       render(<Quantity decimal decimalPlaces={2} value={0} onChange={vi.fn()} />);
       const input = screen.getByRole('spinbutton');
       await user.clear(input);
-      await user.type(input, '3.5');
+      await user.type(input, '3,5');
       await user.tab();
-      expect(input).toHaveValue('3.50');
+      expect(input).toHaveValue('3,50');
+    });
+
+    it('aceita ponto como separador decimal via prop decimalSeparator', () => {
+      render(<Quantity decimal decimalPlaces={2} value={1} decimalSeparator="." />);
+      expect(screen.getByRole('spinbutton')).toHaveValue('1.00');
+    });
+
+    it('filtra a vírgula quando decimalSeparator é ponto', async () => {
+      const user = userEvent.setup();
+      render(<Quantity decimal decimalPlaces={2} value={0} decimalSeparator="." onChange={vi.fn()} />);
+      const input = screen.getByRole('spinbutton');
+      await user.clear(input);
+      await user.type(input, '3,5');
+      expect(input).toHaveValue('35');
     });
 
     it('usa inputMode decimal no input', () => {
@@ -386,7 +400,7 @@ describe('Quantity', () => {
       const user = userEvent.setup();
       render(<ControlledQuantity decimal decimalPlaces={1} valueIncrement={0.5} initialValue={1} />);
       await user.click(screen.getByLabelText('Increase quantity'));
-      expect(screen.getByRole('spinbutton')).toHaveValue('1.5');
+      expect(screen.getByRole('spinbutton')).toHaveValue('1,5');
     });
   });
 });
