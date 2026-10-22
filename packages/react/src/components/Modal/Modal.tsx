@@ -27,6 +27,25 @@ const Modal: React.FC<ModalProps> = ({
 }) => {
   const contentRef = React.useRef<HTMLDivElement>(null);
 
+  // Container próprio reanexado ao final do body a cada abertura, para que o
+  // overlay/conteúdo fiquem visualmente acima de outros Drawer/Modal/Dialog
+  // já abertos, já que o empilhamento depende da ordem no DOM (sem z-index).
+  const [portalContainer] = React.useState<HTMLDivElement | null>(() =>
+    typeof document !== 'undefined' ? document.createElement('div') : null
+  );
+
+  React.useEffect(() => {
+    if (isOpen && portalContainer) {
+      document.body.appendChild(portalContainer);
+    }
+  }, [isOpen, portalContainer]);
+
+  React.useEffect(() => {
+    return () => {
+      portalContainer?.remove();
+    };
+  }, [portalContainer]);
+
   const handleOpenChange = (open: boolean): void => {
     if (!open) {
       onClose();
@@ -53,7 +72,7 @@ const Modal: React.FC<ModalProps> = ({
 
   return (
     <Dialog.Root open={isOpen} onOpenChange={handleOpenChange} {...rest}>
-      <Dialog.Portal>
+      <Dialog.Portal container={portalContainer ?? undefined}>
         <Dialog.Overlay className={styles.modalOverlay} />
         <Dialog.Content
           ref={contentRef}

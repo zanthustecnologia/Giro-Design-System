@@ -83,6 +83,17 @@ const Drawer: React.FC<DrawerProps> = ({
   const contentRef = useRef<HTMLDivElement>(null);
   const [scrollbarWidth, setScrollbarWidth] = useState(0);
 
+  const portalRootRef = useRef<HTMLDivElement>(null);
+
+  // Reanexa o wrapper como último filho do body ao abrir, garantindo que o
+  // overlay/painel fiquem visualmente acima de outros Drawer/Modal/Dialog
+  // já abertos, já que o empilhamento depende da ordem no DOM (sem z-index).
+  useEffect(() => {
+    if (isOpen && portalRootRef.current) {
+      document.body.appendChild(portalRootRef.current);
+    }
+  }, [isOpen]);
+
   useEffect(() => {
     const contentEl = contentRef.current;
     if (!contentEl) return;
@@ -106,7 +117,7 @@ const Drawer: React.FC<DrawerProps> = ({
   }, [isOpen, children]);
 
   return createPortal(
-    <>
+    <div ref={portalRootRef}>
       <div
         className={clsx(styles['drawerShadow'], {
           [styles['drawerShadow--visible']]: isOpen,
@@ -171,7 +182,7 @@ const Drawer: React.FC<DrawerProps> = ({
             <div className={styles.drawerFooter}>{footer}</div>
           )}
         </div>
-    </>,
+    </div>,
     document.body
   );
 };
