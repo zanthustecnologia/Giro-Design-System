@@ -685,6 +685,12 @@ export const COMPONENTS: ComponentMetadata[] = [
         "description": "Data máxima selecionável"
       },
       {
+        "name": "showCalendar",
+        "type": "boolean",
+        "required": false,
+        "description": "Define se o calendário pode ser aberto ao clicar/focar no campo"
+      },
+      {
         "name": "'data-testid'",
         "type": "string",
         "required": false,
@@ -1543,6 +1549,12 @@ export const COMPONENTS: ComponentMetadata[] = [
         "type": "number",
         "required": false,
         "description": "Número de casas decimais permitidas"
+      },
+      {
+        "name": "decimalSeparator",
+        "type": "',' | '.'",
+        "required": false,
+        "description": "Caractere usado como separador decimal. Padrão: ','"
       },
       {
         "name": "valueIncrement",
