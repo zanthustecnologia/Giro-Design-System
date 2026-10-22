@@ -26,6 +26,30 @@ const Modal: React.FC<ModalProps> = ({
   ...rest
 }) => {
   const contentRef = React.useRef<HTMLDivElement>(null);
+  const bodyRef = React.useRef<HTMLElement>(null);
+  const [scrollbarWidth, setScrollbarWidth] = React.useState(0);
+
+  React.useEffect(() => {
+    const bodyEl = bodyRef.current;
+    if (!bodyEl) return;
+
+    const measureScrollbar = (): void => {
+      setScrollbarWidth(bodyEl.offsetWidth - bodyEl.clientWidth);
+    };
+
+    measureScrollbar();
+
+    const resizeObserver = new ResizeObserver(measureScrollbar);
+    resizeObserver.observe(bodyEl);
+
+    const mutationObserver = new MutationObserver(measureScrollbar);
+    mutationObserver.observe(bodyEl, { childList: true, subtree: true, characterData: true });
+
+    return () => {
+      resizeObserver.disconnect();
+      mutationObserver.disconnect();
+    };
+  }, [isOpen, children]);
 
   // Container próprio reanexado ao final do body a cada abertura, para que o
   // overlay/conteúdo fiquem visualmente acima de outros Drawer/Modal/Dialog
@@ -81,6 +105,7 @@ const Modal: React.FC<ModalProps> = ({
           style={{
             '--modal-custom-width': customWidth,
             '--modal-custom-height': customHeight,
+            '--modal-scrollbar-width': `${scrollbarWidth}px`,
           } as React.CSSProperties}
           onInteractOutside={handleInteractOutside}
           onOpenAutoFocus={handleOpenAutoFocus}
@@ -115,7 +140,7 @@ const Modal: React.FC<ModalProps> = ({
               )}
             </header>
           )}
-          <section className={styles.modalBody}>
+          <section ref={bodyRef} className={styles.modalBody}>
             {children}
           </section>
           {footer && (

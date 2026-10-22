@@ -47,6 +47,7 @@
 
 .DialogDescription {
 	margin-bottom: var(--spacing-32);
+	margin-right: calc(0px - var(--dialog-scrollbar-width, 0px));
 	color: var(--color-neutral-low-dark);
 	font-family: var(--font-family-primary);
 	font-weight: var(--font-weight-regular);
