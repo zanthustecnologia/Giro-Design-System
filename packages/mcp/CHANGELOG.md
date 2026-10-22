@@ -1,5 +1,11 @@
 ﻿# @giro-ds/mcp
 
+## [1.2.4]
+
+### Changed
+
+- **MCP:** sincroniza metadados de componentes e design tokens com `@giro-ds/react@12.7.0`.
+
 ## [1.2.3]
 
 ### Changed

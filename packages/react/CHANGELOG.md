@@ -1,5 +1,16 @@
 ﻿# @giro-ds/react
 
+## [12.7.0]
+
+### Features
+
+- **DatePicker:** adiciona prop `showCalendar` para controlar a abertura do calendário; adiciona validação de intervalo (`minDate`/`maxDate`) com mensagens de erro localizadas e atributos de acessibilidade atualizados.
+- **Quantity:** adiciona prop `decimalSeparator` (`','` | `'.'`, padrão `','`) para configurar o separador decimal.
+
+### Bug Fixes
+
+- **Quantity:** corrige o separador decimal padrão de `.` para `,`, alinhado à localização pt-BR do Design System.
+
 ## [12.6.2]
 
 ### Bug Fixes
