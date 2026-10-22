@@ -37,6 +37,9 @@ export interface QuantityProps extends ScalableProps, Omit<React.HTMLAttributes<
   
   /** Número de casas decimais permitidas */
   decimalPlaces?: number;
+
+  /** Caractere usado como separador decimal. Padrão: ',' */
+  decimalSeparator?: ',' | '.';
   
   /** Incremento/decremento ao clicar nos botões */
   valueIncrement?: number;

@@ -13,6 +13,7 @@ const Quantity: React.FC<QuantityProps> = ({
   disabled = false,
   decimal = false,
   decimalPlaces = 2,
+  decimalSeparator = ',',
   size = 'lg',
   id,
   valueIncrement = 1,
@@ -30,9 +31,14 @@ const Quantity: React.FC<QuantityProps> = ({
   const initialValue = Math.min(Math.max(value, minValue), maxValue);
   const [internalValue, setInternalValue] = useState<number>(initialValue);
   const [inputValue, setInputValue] = useState<string>(
-    decimal ? initialValue.toFixed(decimalPlaces) : String(initialValue)
+    decimal ? initialValue.toFixed(decimalPlaces).replace('.', decimalSeparator) : String(initialValue)
   );
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const formatDecimalValue = useCallback(
+    (num: number): string => num.toFixed(decimalPlaces).replace('.', decimalSeparator),
+    [decimalPlaces, decimalSeparator]
+  );
 
   const stepValue = valueIncrement !== undefined ? valueIncrement : decimal ? Math.pow(10, -decimalPlaces) : 1;
 
@@ -55,8 +61,8 @@ const Quantity: React.FC<QuantityProps> = ({
   useEffect(() => {
     const clamped = Math.min(Math.max(value, minValue), maxValue);
     setInternalValue(clamped);
-    setInputValue(decimal ? clamped.toFixed(decimalPlaces) : String(clamped));
-  }, [value, minValue, maxValue, decimal, decimalPlaces]);
+    setInputValue(decimal ? formatDecimalValue(clamped) : String(clamped));
+  }, [value, minValue, maxValue, decimal, formatDecimalValue]);
 
   const increment = useCallback(() => {
     if (disabled) return;
@@ -64,9 +70,9 @@ const Quantity: React.FC<QuantityProps> = ({
     const newValue = Math.min(maxValue, internalValue + stepValue);
 
     setInternalValue(newValue);
-    setInputValue(decimal ? newValue.toFixed(decimalPlaces) : String(newValue));
+    setInputValue(decimal ? formatDecimalValue(newValue) : String(newValue));
     onChange?.(newValue);
-  }, [disabled, internalValue, stepValue, decimal, decimalPlaces, onChange, maxValue]);
+  }, [disabled, internalValue, stepValue, decimal, formatDecimalValue, onChange, maxValue]);
 
   const decrement = useCallback(() => {
     if (disabled) return;
@@ -74,20 +80,22 @@ const Quantity: React.FC<QuantityProps> = ({
     const newValue = Math.max(minValue, internalValue - stepValue);
 
     setInternalValue(newValue);
-    setInputValue(decimal ? newValue.toFixed(decimalPlaces) : String(newValue));
+    setInputValue(decimal ? formatDecimalValue(newValue) : String(newValue));
     onChange?.(newValue);
-  }, [disabled, internalValue, stepValue, decimal, decimalPlaces, onChange, minValue]);
+  }, [disabled, internalValue, stepValue, decimal, formatDecimalValue, onChange, minValue]);
 
   const filterInput = useCallback((inputValue: string): string => {
     if (decimal) {
-      let filtered = inputValue.replace(/[^\d.]/g, '');
+      const escapedSeparator = decimalSeparator.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const allowedCharsRegex = new RegExp(`[^\\d${escapedSeparator}]`, 'g');
+      let filtered = inputValue.replace(allowedCharsRegex, '');
 
-      const parts = filtered.split('.');
+      const parts = filtered.split(decimalSeparator);
       if (parts.length > 2) {
-        filtered = parts[0] + '.' + parts.slice(1).join('');
+        filtered = parts[0] + decimalSeparator + parts.slice(1).join('');
       }
 
-      if (filtered.length > 1 && filtered.startsWith('0') && !filtered.startsWith('0.')) {
+      if (filtered.length > 1 && filtered.startsWith('0') && !filtered.startsWith(`0${decimalSeparator}`)) {
         filtered = filtered.replace(/^0+/, '');
       }
 
@@ -101,7 +109,7 @@ const Quantity: React.FC<QuantityProps> = ({
 
       return filtered || '0'; // Se ficar vazio, retorna '0'
     }
-  }, [decimal]);
+  }, [decimal, decimalSeparator]);
   const handleInputChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     if (disabled) return;
 
@@ -111,17 +119,17 @@ const Quantity: React.FC<QuantityProps> = ({
 
     setInputValue(filteredValue);
 
-    if (filteredValue === '' || filteredValue === '.') {
+    if (filteredValue === '' || filteredValue === decimalSeparator) {
       onChange?.(0);
       return;
     }
 
     if (decimal) {
-      if (filteredValue.endsWith('.')) {
+      if (filteredValue.endsWith(decimalSeparator)) {
         return;
       }
 
-      const parsedValue = parseFloat(filteredValue);
+      const parsedValue = parseFloat(filteredValue.replace(decimalSeparator, '.'));
       if (!isNaN(parsedValue)) {
         onChange?.(parsedValue);
       }
@@ -132,7 +140,7 @@ const Quantity: React.FC<QuantityProps> = ({
         onChange?.(validValue);
       }
     }
-  }, [disabled, decimal, filterInput, onChange, minValue, maxValue]);
+  }, [disabled, decimal, decimalSeparator, filterInput, onChange, minValue, maxValue]);
 
 
   const handleBlur = useCallback(() => {
@@ -141,15 +149,15 @@ const Quantity: React.FC<QuantityProps> = ({
     const currentValue = inputValue.trim();
 
     if (decimal) {
-      if (currentValue === '' || currentValue === '.') {
-        setInputValue(internalValue.toFixed(decimalPlaces));
+      if (currentValue === '' || currentValue === decimalSeparator) {
+        setInputValue(formatDecimalValue(internalValue));
         return;
       }
 
-      if (currentValue.endsWith('.')) {
-        const baseValue = parseFloat(currentValue.slice(0, -1));
+      if (currentValue.endsWith(decimalSeparator)) {
+        const baseValue = parseFloat(currentValue.slice(0, -1).replace(decimalSeparator, '.'));
         if (!isNaN(baseValue)) {
-          const formattedValue = baseValue.toFixed(decimalPlaces);
+          const formattedValue = formatDecimalValue(baseValue);
           setInputValue(formattedValue);
           setInternalValue(baseValue);
           onChange?.(baseValue);
@@ -157,15 +165,15 @@ const Quantity: React.FC<QuantityProps> = ({
         return;
       }
 
-      const parsedValue = parseFloat(currentValue);
+      const parsedValue = parseFloat(currentValue.replace(decimalSeparator, '.'));
       if (!isNaN(parsedValue)) {
         const normalizedValue = Math.min(Math.max(parsedValue, minValue), maxValue);
-        const formattedValue = normalizedValue.toFixed(decimalPlaces);
+        const formattedValue = formatDecimalValue(normalizedValue);
         setInputValue(formattedValue);
         setInternalValue(normalizedValue);
         onChange?.(normalizedValue);
       } else {
-        setInputValue(internalValue.toFixed(decimalPlaces));
+        setInputValue(formatDecimalValue(internalValue));
       }
     } else {
 
@@ -184,7 +192,7 @@ const Quantity: React.FC<QuantityProps> = ({
         onChange?.(normalizedValue);
       }
     }
-  }, [disabled, decimal, inputValue, decimalPlaces, internalValue, onChange, minValue, maxValue]);
+  }, [disabled, decimal, decimalSeparator, inputValue, formatDecimalValue, internalValue, onChange, minValue, maxValue]);
 
 
   const handleInputKeyDown = useCallback(
@@ -212,7 +220,7 @@ const Quantity: React.FC<QuantityProps> = ({
         case 'Escape':
           e.preventDefault();
           if (inputRef.current) {
-            setInputValue(decimal ? internalValue.toFixed(decimalPlaces) : String(internalValue));
+            setInputValue(decimal ? formatDecimalValue(internalValue) : String(internalValue));
             inputRef.current.blur();
           }
           break;
@@ -220,7 +228,7 @@ const Quantity: React.FC<QuantityProps> = ({
         case 'Home':
           e.preventDefault();
           setInternalValue(minValue);
-          setInputValue(decimal ? minValue.toFixed(decimalPlaces) : String(minValue));
+          setInputValue(decimal ? formatDecimalValue(minValue) : String(minValue));
           onChange?.(minValue);
           break;
 
@@ -234,7 +242,7 @@ const Quantity: React.FC<QuantityProps> = ({
           break;
       }
     },
-    [disabled, increment, decrement, decimal, decimalPlaces, onChange, internalValue, minValue, maxValue]
+    [disabled, increment, decrement, decimal, formatDecimalValue, onChange, internalValue, minValue, maxValue]
   );
 
   const inputSizeValue = inputSize !== undefined ? inputSize : Math.max(1, inputValue.length);
