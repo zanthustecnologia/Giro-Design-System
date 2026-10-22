@@ -6,7 +6,7 @@ import Calendar from '../Calendar/Calendar';
 import Popover from '../Popover';
 import TextField from '../TextField';
 import styles from './DatePicker.module.scss';
-import { formatDate, parseDate, applyDateMask, isValidDateFormat, validatePartialDate } from './Utils/DateUtils';
+import { formatDate, parseDate, applyDateMask, isValidDateFormat, validatePartialDate, isDateInRange } from './Utils/DateUtils';
 
 import type { DatePickerProps } from './DatePicker.types';
 
@@ -24,6 +24,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
   error: externalError,
   minDate,
   maxDate,
+  showCalendar = true,
   'data-testid': testId,
   scale = 1,
   id,
@@ -41,7 +42,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
   const [tempInputValue, setTempInputValue] = useState<string>('');
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [internalError, setInternalError] = useState<string>('');
-  const [showCalendar, setShowCalendar] = useState<boolean>(false);
+  const [isCalendarOpen, setIsCalendarOpen] = useState<boolean>(false);
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
   const wrapperRef = useRef<HTMLDivElement>(null);
 
@@ -49,9 +50,18 @@ const DatePicker: React.FC<DatePickerProps> = ({
   const hasValidationError = !!(externalError || internalError);
   const displayValue = isEditing ? tempInputValue : (currentSelectedDate ? formatDate(currentSelectedDate, locale) : '');
 
-  const combinedHelperText = externalError && helperText
-    ? `${helperText} • ${externalError}`
-    : externalError || helperText || '';
+  const invalidDateMessage = locale === 'en-us' ? 'Invalid date' : 'Data inválida';
+  const outOfRangeMessage = locale === 'en-us' ? 'Date out of allowed range' : 'Data fora do intervalo permitido';
+  const internalErrorText = internalError === 'invalid'
+    ? invalidDateMessage
+    : internalError === 'range'
+      ? outOfRangeMessage
+      : '';
+  const combinedHelperText = internalErrorText
+    ? internalErrorText
+    : externalError && helperText
+      ? `${helperText} • ${externalError}`
+      : externalError || helperText || '';
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -59,16 +69,16 @@ const DatePicker: React.FC<DatePickerProps> = ({
       const isInsideWrapper = wrapperRef.current?.contains(target as Node);
       const isInsideCalendar = !!target.closest?.('[data-radix-popper-content-wrapper]');
       if (!isInsideWrapper && !isInsideCalendar) {
-        setShowCalendar(false);
+        setIsCalendarOpen(false);
       }
     }
-    if (showCalendar) {
+    if (isCalendarOpen) {
       document.addEventListener('mousedown', handleClickOutside);
     }
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [showCalendar]);
+  }, [isCalendarOpen]);
 
   const handleDateChange = useCallback((newDate: Date | null) => {
     if (!isControlled) {
@@ -84,38 +94,44 @@ const DatePicker: React.FC<DatePickerProps> = ({
   }, [isControlled, onChange]);
 
   const handleIconClick = () => {
-    setShowCalendar((prev) => !prev);
+    if (!showCalendar) return;
+    setIsCalendarOpen((prev) => !prev);
   };
 
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     const { key } = event;
 
     if (key === 'Enter') {
-      if (showCalendar) {
+      if (isCalendarOpen) {
         if (currentSelectedDate) {
-          setShowCalendar(false);
+          setIsCalendarOpen(false);
           event.preventDefault();
           return;
         }
         if (tempInputValue.length === 10 && isValidDateFormat(tempInputValue, locale)) {
           const parsedDate = parseDate(tempInputValue, locale);
           if (parsedDate && !isNaN(parsedDate.getTime())) {
+            if (!isDateInRange(parsedDate, minDate, maxDate)) {
+              setInternalError('range');
+              event.preventDefault();
+              return;
+            }
             handleDateChange(parsedDate);
-            setShowCalendar(false);
+            setIsCalendarOpen(false);
             event.preventDefault();
             return;
           }
         }
-      } else {
-        setShowCalendar(true);
+      } else if (showCalendar) {
+        setIsCalendarOpen(true);
         event.preventDefault();
         return;
       }
     }
 
     if (key === 'Escape') {
-      if (showCalendar) {
-        setShowCalendar(false);
+      if (isCalendarOpen) {
+        setIsCalendarOpen(false);
         event.preventDefault();
         return;
       }
@@ -135,13 +151,13 @@ const DatePicker: React.FC<DatePickerProps> = ({
   };
 
   const handleDaySelect = (newSelectedDate: Date) => {
-    setShowCalendar(false);
+    setIsCalendarOpen(false);
     handleDateChange(newSelectedDate);
   };
 
   const handleFocus = () => {
-    if (!disabled) {
-      setShowCalendar(true);
+    if (!disabled && showCalendar) {
+      setIsCalendarOpen(true);
     }
   };
 
@@ -171,6 +187,12 @@ const DatePicker: React.FC<DatePickerProps> = ({
       if (maskedValue.length === 10) {
         const parsedDate = parseDate(maskedValue, locale);
         if (parsedDate) {
+          if (!isDateInRange(parsedDate, minDate, maxDate)) {
+            setInternalError('range');
+            if (!isControlled) setInternalDate(null);
+            onChange?.(null);
+            return;
+          }
           handleDateChange(parsedDate);
           setCurrentDate(parsedDate);
         }
@@ -187,8 +209,10 @@ const DatePicker: React.FC<DatePickerProps> = ({
       {...rest}
     >
         <Popover
-          open={showCalendar}
-          onOpenChange={setShowCalendar}
+          open={showCalendar && isCalendarOpen}
+          onOpenChange={(open) => {
+            if (showCalendar) setIsCalendarOpen(open);
+          }}
           asAnchor={true}
           trigger={
             <TextField
@@ -210,8 +234,8 @@ const DatePicker: React.FC<DatePickerProps> = ({
               onFocus={handleFocus}
               autoComplete="off"
               value={displayValue}
-              helperText={!externalError ? (helperText || undefined) : undefined}
-              errorMessage={externalError ? combinedHelperText : undefined}
+              helperText={!hasValidationError ? (helperText || undefined) : undefined}
+              errorMessage={hasValidationError ? combinedHelperText : undefined}
               error={hasValidationError ? true : undefined}
               maxLength={10}
               required={required}
@@ -222,10 +246,10 @@ const DatePicker: React.FC<DatePickerProps> = ({
               data-testid={testId}
               placeholder={locale === 'en-us' ? 'MM/DD/YYYY' : 'DD/MM/YYYY'}
               aria-label="Open calendar"
-              aria-expanded={showCalendar}
+              aria-expanded={showCalendar && isCalendarOpen}
               aria-controls={calendarId}
               aria-invalid={hasValidationError}
-              aria-describedby={externalError ? undefined : (helperText ? `${fieldId}-help` : undefined)}
+              aria-describedby={hasValidationError ? undefined : (helperText ? `${fieldId}-help` : undefined)}
             />       
           }
           content={

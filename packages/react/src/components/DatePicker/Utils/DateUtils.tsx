@@ -107,3 +107,21 @@ export function validatePartialDate(value: string, locale: Locale = 'pt-br'): 'v
 
   return 'incomplete';
 }
+
+function startOfDay(date: Date): number {
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime();
+}
+
+export function isDateInRange(date: Date, minDate?: Date, maxDate?: Date): boolean {
+  const day = startOfDay(date);
+
+  if (minDate && day < startOfDay(minDate)) {
+    return false;
+  }
+
+  if (maxDate && day > startOfDay(maxDate)) {
+    return false;
+  }
+
+  return true;
+}
