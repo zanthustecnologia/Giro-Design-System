@@ -48,7 +48,7 @@ const meta: Meta<typeof TextField> = {
     },
     type: {
       control: 'select',
-      options: ['text', 'email', 'password', 'number', 'tel', 'url'],
+      options: ['text', 'email', 'number', 'tel', 'url'],
       description: 'Tipo do input'
     },
     icon: {
