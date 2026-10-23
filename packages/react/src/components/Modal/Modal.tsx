@@ -4,8 +4,9 @@ import { Dialog } from 'radix-ui';
 import * as React from 'react';
 
 import styles from './Modal.module.scss';
-import Button from '../Button/Button';
+import { useScrollbarWidth } from '../../hooks/useScrollbarWidth';
 import { isDismissOutsideIgnored } from '../../utils/dismissOutside';
+import Button from '../Button/Button';
 
 import type { ModalProps } from './Modal.types';
 
@@ -27,29 +28,7 @@ const Modal: React.FC<ModalProps> = ({
 }) => {
   const contentRef = React.useRef<HTMLDivElement>(null);
   const bodyRef = React.useRef<HTMLElement>(null);
-  const [scrollbarWidth, setScrollbarWidth] = React.useState(0);
-
-  React.useEffect(() => {
-    const bodyEl = bodyRef.current;
-    if (!bodyEl) return;
-
-    const measureScrollbar = (): void => {
-      setScrollbarWidth(bodyEl.offsetWidth - bodyEl.clientWidth);
-    };
-
-    measureScrollbar();
-
-    const resizeObserver = new ResizeObserver(measureScrollbar);
-    resizeObserver.observe(bodyEl);
-
-    const mutationObserver = new MutationObserver(measureScrollbar);
-    mutationObserver.observe(bodyEl, { childList: true, subtree: true, characterData: true });
-
-    return () => {
-      resizeObserver.disconnect();
-      mutationObserver.disconnect();
-    };
-  }, [isOpen, children]);
+  const scrollbarWidth = useScrollbarWidth(bodyRef, [isOpen, children]);
 
   // Container próprio reanexado ao final do body a cada abertura, para que o
   // overlay/conteúdo fiquem visualmente acima de outros Drawer/Modal/Dialog

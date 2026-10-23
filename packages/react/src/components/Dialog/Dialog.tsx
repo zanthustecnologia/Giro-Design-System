@@ -5,6 +5,7 @@ import * as React from "react";
 
 import styles from './Dialog.module.scss';
 import { DialogProps } from "./Dialog.types";
+import { useScrollbarWidth } from '../../hooks/useScrollbarWidth';
 import Button from '../Button/Button';
 
 const Dialog: React.FC<DialogProps> = ({
@@ -19,29 +20,7 @@ const Dialog: React.FC<DialogProps> = ({
   ...rest
 }) => {
   const descriptionRef = React.useRef<HTMLDivElement>(null);
-  const [scrollbarWidth, setScrollbarWidth] = React.useState(0);
-
-  React.useEffect(() => {
-    const descriptionEl = descriptionRef.current;
-    if (!descriptionEl) return;
-
-    const measureScrollbar = (): void => {
-      setScrollbarWidth(descriptionEl.offsetWidth - descriptionEl.clientWidth);
-    };
-
-    measureScrollbar();
-
-    const resizeObserver = new ResizeObserver(measureScrollbar);
-    resizeObserver.observe(descriptionEl);
-
-    const mutationObserver = new MutationObserver(measureScrollbar);
-    mutationObserver.observe(descriptionEl, { childList: true, subtree: true, characterData: true });
-
-    return () => {
-      resizeObserver.disconnect();
-      mutationObserver.disconnect();
-    };
-  }, [show, bodyContent]);
+  const scrollbarWidth = useScrollbarWidth(descriptionRef, [show, bodyContent]);
 
   // Container próprio reanexado ao final do body a cada abertura, para que o
   // overlay/conteúdo fiquem visualmente acima de outros Drawer/Modal/Dialog
