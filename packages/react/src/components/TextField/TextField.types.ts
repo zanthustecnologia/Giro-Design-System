@@ -5,7 +5,7 @@ import { ScalableProps, Side, Align, } from '../../types/common.types';
 import type { VirtualKeyboardType } from '../VirtualKeyboard/VirtualKeyboard.types';
 
 /** Tipos de input suportados pelo TextField */
-export type TextFieldType = 'text' | 'email' | 'number' | 'tel' | 'url';
+export type TextFieldType = 'text' | 'email' | 'password' | 'number' | 'tel' | 'url';
 
 /**
  * Props base compartilhadas por todas as configurações de tooltip do TextField.
@@ -56,9 +56,10 @@ export type TextFieldTooltipConfig = WithTooltip | WithoutTooltip;
  * @example
  * ```tsx
  * <TextField 
- *   label="Nome"
+ *   label="Senha"
+ *   type="password"
  *   required
- *   helperText="Máximo 50 caracteres"
+ *   helperText="Mínimo 8 caracteres"
  *   errorMessage={error}
  *   tooltipText="Deve conter letras e números"
  *   icon={<LockIcon />}
