@@ -5,7 +5,6 @@ import * as React from "react";
 
 import styles from './Dialog.module.scss';
 import { DialogProps } from "./Dialog.types";
-import { useScrollbarWidth } from '../../hooks/useScrollbarWidth';
 import Button from '../Button/Button';
 
 const Dialog: React.FC<DialogProps> = ({
@@ -19,9 +18,6 @@ const Dialog: React.FC<DialogProps> = ({
 	className,
   ...rest
 }) => {
-  const descriptionRef = React.useRef<HTMLDivElement>(null);
-  const scrollbarWidth = useScrollbarWidth(descriptionRef, [show, bodyContent]);
-
   // Container próprio reanexado ao final do body a cada abertura, para que o
   // overlay/conteúdo fiquem visualmente acima de outros Drawer/Modal/Dialog
   // já abertos, já que o empilhamento depende da ordem no DOM (sem z-index).
@@ -45,15 +41,12 @@ const Dialog: React.FC<DialogProps> = ({
     <AlertDialog.Root open={show} {...rest}>
       <AlertDialog.Portal container={portalContainer ?? undefined}>
         <AlertDialog.Overlay className={styles.DialogOverlay} />
-			<AlertDialog.Content
-				className={clsx(styles.DialogContent, className)}
-				style={{ '--dialog-scrollbar-width': `${scrollbarWidth}px` } as React.CSSProperties}
-			>
+			<AlertDialog.Content className={clsx(styles.DialogContent, className)}>
 				<AlertDialog.Title className={styles.DialogTitle}>
 					{title}
 				</AlertDialog.Title>
 				<AlertDialog.Description asChild className={styles.DialogDescription}>
-					<div ref={descriptionRef}>{bodyContent}</div>
+					<div>{bodyContent}</div>
 				</AlertDialog.Description>
 				<div className={styles.DivButtons}>
 					{!!(textSecondaryAction && textSecondaryAction.trim()) && (
