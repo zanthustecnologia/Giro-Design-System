@@ -1,5 +1,23 @@
 ﻿# @giro-ds/react
 
+## [12.8.0]
+
+### Features
+
+- **TextField:** adiciona máscara e validação de telefone brasileiro (`type="tel"`, 10 ou 11 dígitos); adiciona validação de formato para `email`, `url` e `number`.
+
+### Changed
+
+- **Drawer:** refatorado para reutilizar o hook interno compartilhado de medição de scrollbar, removendo lógica duplicada.
+- **Table:** componente depreciado movido para a pasta interna `.deprecated` (sem alteração de conteúdo); já não era exportado publicamente, sem impacto no build ou na API.
+
+### Bug Fixes
+
+- **TextField:** corrige bug em que o conteúdo digitado era apagado ao clicar fora do campo após a exibição de um erro (sincronização com a prop `value` sobrescrevia `inputValue`); corrige a cor do `helperText` no estado `disabled`.
+- **DatePicker:** troca `type="tel"` por `type="text" inputMode="numeric"` no campo interno, evitando que a máscara de telefone do `TextField` quebrasse a digitação de datas.
+- **Dialog, Drawer, Modal:** corrige o empilhamento visual de overlays abertos simultaneamente, reanexando cada overlay ao final do `<body>` ao abrir (sem depender de `z-index`).
+- **Modal:** adiciona compensação visual da largura da scrollbar no padding do corpo rolável, evitando desalinhamento do conteúdo.
+
 ## [12.7.0]
 
 ### Features
