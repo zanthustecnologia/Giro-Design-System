@@ -175,6 +175,28 @@ describe('TextField', () => {
 
       expect(screen.getByRole('textbox')).toHaveAttribute('aria-invalid', 'false');
     });
+
+    it('mantém o valor digitado e mostra erro quando o telefone é inválido (sem value controlado)', () => {
+      render(<TextField type="tel" />);
+      const input = screen.getByRole('textbox');
+
+      fireEvent.change(input, { target: { value: '123' } });
+      fireEvent.blur(input);
+
+      expect(input).toHaveValue('(12)3');
+      expect(screen.getByText('Telefone inválido.')).toBeInTheDocument();
+    });
+
+    it('mantém o valor digitado e mostra erro quando o e-mail é inválido (sem value controlado)', () => {
+      render(<TextField type="email" />);
+      const input = screen.getByRole('textbox');
+
+      fireEvent.change(input, { target: { value: 'nao-e-email' } });
+      fireEvent.blur(input);
+
+      expect(input).toHaveValue('nao-e-email');
+      expect(screen.getByText('E-mail inválido.')).toBeInTheDocument();
+    });
   });
 
   describe('Estado Disabled', () => {

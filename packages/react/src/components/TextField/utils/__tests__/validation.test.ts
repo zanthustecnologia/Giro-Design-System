@@ -102,6 +102,114 @@ describe('validateInput', () => {
     });
   });
 
+  describe('Tipo email', () => {
+    it('retorna erro padrão quando o e-mail é inválido', () => {
+      const result = validateInput({
+        value: 'nao-e-email',
+        type: 'email',
+      });
+
+      expect(result).toBe('E-mail inválido.');
+    });
+
+    it('retorna mensagem customizada quando o e-mail é inválido', () => {
+      const result = validateInput({
+        value: 'nao-e-email',
+        type: 'email',
+        errorMessage: 'Informe um e-mail válido',
+      });
+
+      expect(result).toBe('Informe um e-mail válido');
+    });
+
+    it('não retorna erro quando o e-mail é válido', () => {
+      const result = validateInput({
+        value: 'teste@exemplo.com',
+        type: 'email',
+      });
+
+      expect(result).toBe('');
+    });
+  });
+
+  describe('Tipo url', () => {
+    it('retorna erro padrão quando a url é inválida', () => {
+      const result = validateInput({
+        value: 'nao-e-url',
+        type: 'url',
+      });
+
+      expect(result).toBe('URL inválida.');
+    });
+
+    it('não retorna erro quando a url é válida', () => {
+      const result = validateInput({
+        value: 'https://exemplo.com',
+        type: 'url',
+      });
+
+      expect(result).toBe('');
+    });
+  });
+
+  describe('Tipo number', () => {
+    it('retorna erro padrão quando o valor não é um número válido', () => {
+      const result = validateInput({
+        value: 'abc',
+        type: 'number',
+      });
+
+      expect(result).toBe('Número inválido.');
+    });
+
+    it('não retorna erro quando o valor é um número válido', () => {
+      const result = validateInput({
+        value: '123.45',
+        type: 'number',
+      });
+
+      expect(result).toBe('');
+    });
+  });
+
+  describe('Tipo tel', () => {
+    it('retorna erro padrão quando o valor tem menos de 10 dígitos', () => {
+      const result = validateInput({
+        value: '(11)987-654',
+        type: 'tel',
+      });
+
+      expect(result).toBe('Telefone inválido.');
+    });
+
+    it('retorna erro padrão quando o valor tem mais de 11 dígitos', () => {
+      const result = validateInput({
+        value: '(11)98765-43210',
+        type: 'tel',
+      });
+
+      expect(result).toBe('Telefone inválido.');
+    });
+
+    it('não retorna erro quando o valor tem 10 dígitos', () => {
+      const result = validateInput({
+        value: '(11)3456-7890',
+        type: 'tel',
+      });
+
+      expect(result).toBe('');
+    });
+
+    it('não retorna erro quando o valor tem 11 dígitos', () => {
+      const result = validateInput({
+        value: '(11)98765-4321',
+        type: 'tel',
+      });
+
+      expect(result).toBe('');
+    });
+  });
+
   describe('Sem validações', () => {
     it('retorna string vazia quando não há validações', () => {
       const result = validateInput({
