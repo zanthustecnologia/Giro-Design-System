@@ -1,6 +1,6 @@
 ﻿import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Drawer, Button } from '@giro-ds/react';
+import { Drawer, Modal, Dialog, Button } from '@giro-ds/react';
 import { Filter16Regular } from '@fluentui/react-icons';
 
 const meta: Meta<typeof Drawer> = {
@@ -228,6 +228,75 @@ export const ConteudoLongoComScroll: Story = {
             ))}
           </div>
         </Drawer>
+      </>
+    );
+  },
+};
+
+export const EmpilhadoComOutrosOverlays: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Demonstra a abertura de overlays um sobre o outro: dentro do Drawer é possível abrir outro Drawer, um Modal ou um Dialog. Cada novo overlay aberto fica visualmente acima dos anteriores, com seu próprio fundo escurecido entre ele e o overlay de baixo.',
+      },
+    },
+  },
+  render: () => {
+    const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+    const [isNestedDrawerOpen, setIsNestedDrawerOpen] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+    return (
+      <>
+        <Button variant="outlined" icon={<Filter16Regular />} onClick={() => setIsDrawerOpen(true)}>
+          Abrir Drawer
+        </Button>
+
+        <Drawer
+          isOpen={isDrawerOpen}
+          onClose={() => setIsDrawerOpen(false)}
+          title="Drawer principal"
+        >
+          <p>A partir daqui você pode abrir outro Drawer, um Modal ou um Dialog por cima deste.</p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginTop: '16px' }}>
+            <Button variant="outlined" onClick={() => setIsNestedDrawerOpen(true)}>
+              Abrir outro Drawer
+            </Button>
+            <Button variant="outlined" onClick={() => setIsModalOpen(true)}>
+              Abrir Modal
+            </Button>
+            <Button variant="outlined" onClick={() => setIsDialogOpen(true)}>
+              Abrir Dialog
+            </Button>
+          </div>
+        </Drawer>
+
+        <Drawer
+          isOpen={isNestedDrawerOpen}
+          onClose={() => setIsNestedDrawerOpen(false)}
+          title="Drawer aninhado"
+          customWidth="320px"
+        >
+          <p>Este Drawer foi aberto por cima do Drawer principal.</p>
+        </Drawer>
+
+        <Modal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          title="Modal por cima do Drawer"
+        >
+          <p>Este Modal foi aberto por cima do Drawer principal.</p>
+        </Modal>
+
+        <Dialog
+          show={isDialogOpen}
+          title="Dialog por cima do Drawer"
+          bodyContent="Este Dialog foi aberto por cima do Drawer principal."
+          textPrimaryAction="Ok"
+          onPrimaryAction={() => setIsDialogOpen(false)}
+        />
       </>
     );
   },

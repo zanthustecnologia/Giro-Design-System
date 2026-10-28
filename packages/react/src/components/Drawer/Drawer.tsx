@@ -1,9 +1,10 @@
 import { Dismiss16Regular } from '@fluentui/react-icons';
 import clsx from 'clsx';
-import React, { useEffect, useState, useCallback, useRef, ReactNode, ReactElement } from 'react';
+import React, { useEffect, useCallback, useRef, ReactNode, ReactElement } from 'react';
 import { createPortal } from 'react-dom';
 
 import styles from './Drawer.module.scss';
+import { useScrollbarWidth } from '../../hooks/useScrollbarWidth';
 import Button from '../Button/Button';
 
 import type { DrawerProps, DrawerExampleProps } from './Drawer.types';
@@ -81,32 +82,21 @@ const Drawer: React.FC<DrawerProps> = ({
   };
 
   const contentRef = useRef<HTMLDivElement>(null);
-  const [scrollbarWidth, setScrollbarWidth] = useState(0);
+  const scrollbarWidth = useScrollbarWidth(contentRef, [isOpen, children]);
 
+  const portalRootRef = useRef<HTMLDivElement>(null);
+
+  // Reanexa o wrapper como último filho do body ao abrir, garantindo que o
+  // overlay/painel fiquem visualmente acima de outros Drawer/Modal/Dialog
+  // já abertos, já que o empilhamento depende da ordem no DOM (sem z-index).
   useEffect(() => {
-    const contentEl = contentRef.current;
-    if (!contentEl) return;
-
-    const measureScrollbar = (): void => {
-      setScrollbarWidth(contentEl.offsetWidth - contentEl.clientWidth);
-    };
-
-    measureScrollbar();
-
-    const resizeObserver = new ResizeObserver(measureScrollbar);
-    resizeObserver.observe(contentEl);
-
-    const mutationObserver = new MutationObserver(measureScrollbar);
-    mutationObserver.observe(contentEl, { childList: true, subtree: true, characterData: true });
-
-    return () => {
-      resizeObserver.disconnect();
-      mutationObserver.disconnect();
-    };
-  }, [isOpen, children]);
+    if (isOpen && portalRootRef.current) {
+      document.body.appendChild(portalRootRef.current);
+    }
+  }, [isOpen]);
 
   return createPortal(
-    <>
+    <div ref={portalRootRef}>
       <div
         className={clsx(styles['drawerShadow'], {
           [styles['drawerShadow--visible']]: isOpen,
@@ -171,7 +161,7 @@ const Drawer: React.FC<DrawerProps> = ({
             <div className={styles.drawerFooter}>{footer}</div>
           )}
         </div>
-    </>,
+    </div>,
     document.body
   );
 };

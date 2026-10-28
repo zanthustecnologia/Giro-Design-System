@@ -88,7 +88,7 @@
 }
 
 .modalBody {
-  padding: var(--spacing-16) var(--spacing-24);
+  padding: var(--spacing-16) calc(var(--spacing-24) - var(--modal-scrollbar-width, 0px)) var(--spacing-16) var(--spacing-24);
   color: var(--color-neutral-low-dark);
   font-family: var(--font-family-primary);
   font-weight: var(--font-weight-regular);
