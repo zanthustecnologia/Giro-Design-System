@@ -422,5 +422,7 @@
 }
 
 .tableCellMaxHeight {
-  overflow: hidden;
+  /* overflow: clip + margin evita cortar o outline de foco/aberto de botões e triggers (ex.: Menu) */
+  overflow: clip;
+  overflow-clip-margin: 8px;
 }
