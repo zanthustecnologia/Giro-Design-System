@@ -1980,59 +1980,6 @@ export const COMPONENTS: ComponentMetadata[] = [
     ]
   },
   {
-    "name": "Table",
-    "description": "Props do componente Table. Use genérico para autocomplete: `<Table<User>>`",
-    "category": "Components",
-    "props": [
-      {
-        "name": "columns",
-        "type": "TableColumn<T>[]",
-        "required": true,
-        "description": "Configuração das colunas"
-      },
-      {
-        "name": "dataSource",
-        "type": "T[]",
-        "required": true,
-        "description": "Array de dados a serem exibidos"
-      },
-      {
-        "name": "loading",
-        "type": "boolean",
-        "required": false,
-        "description": "Estado de carregamento"
-      },
-      {
-        "name": "rowSelection",
-        "type": "{\r\n    /** Keys das linhas selecionadas (modo controlado) */\r\n    selectedRowKeys?: (string | number)[];\r\n    /** Callback quando seleção muda: (keys, rows) => void */\r\n    onChange?: (keys: (string | number)[], rows: T[]) => void;\r\n    /** Customiza props dos checkboxes: (row, index) => { disabled? } */\r\n    getCheckboxProps?: (row: T, index: number) => { disabled?: boolean };\r\n    /** Desabilita o checkbox \"selecionar todos\" */\r\n    disableSelectAll?: boolean;\r\n  }",
-        "required": false,
-        "description": "Configuração de seleção de linhas"
-      },
-      {
-        "name": "locale",
-        "type": "{\r\n    /** Texto quando não há dados */\r\n    emptyText?: ReactNode;\r\n  }",
-        "required": false,
-        "description": "Configurações de localização"
-      },
-      {
-        "name": "onRow",
-        "type": "(row: T, index: number) => {\r\n    /** Clique simples na linha */\r\n    onClick?: () => void;\r\n    /** Clique duplo na linha */\r\n    onDoubleClick?: () => void;\r\n    /** Classe CSS da linha */\r\n    className?: string;\r\n  }",
-        "required": false,
-        "description": "Eventos de linha: (row, index) => { onClick?, onDoubleClick?, className? }"
-      }
-    ],
-    "examples": [],
-    "keywords": [
-      "table",
-      "props",
-      "componente",
-      "genérico",
-      "para",
-      "autocomplete",
-      "user"
-    ]
-  },
-  {
     "name": "TableV2",
     "description": "Props do componente TableV2.",
     "category": "Components",
