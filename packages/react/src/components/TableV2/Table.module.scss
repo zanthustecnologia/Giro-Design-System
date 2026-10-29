@@ -133,12 +133,6 @@
   height: 44px;
   vertical-align: middle;
   white-space: nowrap;
-  div {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--spacing-8);
-  }
 }
 
 .tableBody .tableRow:hover {
@@ -422,7 +416,12 @@
 }
 
 .tableCellMaxHeight {
-  /* overflow: clip + margin evita cortar o outline de foco/aberto de botões e triggers (ex.: Menu) */
+  /* seletor específico (em vez de `div` genérico) para não quebrar o layout interno de componentes como Checkbox/Quantity */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-8);
+  /* overflow: clip + margin evita cortar o outline de foco/aberto e o círculo de hover do Checkbox (40px vs 18px = 11px de sangria) */
   overflow: clip;
-  overflow-clip-margin: 8px;
+  overflow-clip-margin: 12px;
 }
