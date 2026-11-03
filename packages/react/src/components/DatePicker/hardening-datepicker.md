@@ -6,7 +6,6 @@
 |---|---|
 | `aria-label` (hardcoded) | o input interno recebe `aria-label="Open calendar"` fixo no `DatePicker.tsx`, em inglês, sem relação com `locale`/`label`. Confirmado ao vivo no Storybook: o nome acessível do campo é literalmente "Open calendar", **nunca** o `label` visível (ex.: "Data de nascimento"). Existe inclusive um teste (`DatePicker.test.tsx`, "campo tem aria-label 'Open calendar'") que trava esse comportamento como esperado |
 | `aria-describedby` (calculado no DatePicker) | o `DatePicker` monta seu próprio `aria-describedby` e passa pro `TextField`, mas é código morto: o `TextField` define `aria-describedby={helperId}` no `<input>` **depois** do `{...rest}` no JSX, então o valor calculado pelo `TextField` sempre vence |
-| `minDate`/`maxDate` | só são aplicados visualmente dentro do `Calendar` (dias desabilitados); a digitação manual (`validatePartialDate`/`parseDate`) não recebe `minDate`/`maxDate` nenhum. Confirmado ao vivo: com `minDate = hoje`, digitar `01/01/1990` é aceito, vira valor "selecionado" no calendário (mês/ano navegam pra 1990) e dispara `onChange` — sem nenhum erro exibido |
 | `error` | aqui é `string` (mensagem direta), diferente de `TextField`/`Select`, onde é `boolean` + `errorMessage` separado. Quando `error` e `helperText` coexistem, são concatenados num único texto com separador `•` (`combinedHelperText`), perdendo a distinção visual/semântica entre ajuda e erro |
 | `disabled` | não aparece na interface `DatePickerProps` (vem só via `ScalableProps` → `BaseProps`), e não há exemplo no JSDoc do componente |
 
