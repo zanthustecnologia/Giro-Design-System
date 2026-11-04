@@ -36,7 +36,7 @@ export const validateInput = ({
 
   if (value.trim() !== '') {
     if (type === 'email' && !EMAIL_REGEX.test(value)) {
-      return errorMessage || 'E-mail inválido.';
+      return errorMessage || 'Digite um e-mail válido';
     }
 
     if (type === 'url' && !isValidUrl(value)) {
@@ -50,7 +50,7 @@ export const validateInput = ({
     if (type === 'tel') {
       const digits = value.replace(/\D/g, '');
       if (digits.length < 10 || digits.length > 11) {
-        return errorMessage || 'Telefone inválido.';
+        return errorMessage || 'Digite um telefone válido';
       }
     }
   }

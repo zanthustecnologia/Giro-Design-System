@@ -184,7 +184,7 @@ describe('TextField', () => {
       fireEvent.blur(input);
 
       expect(input).toHaveValue('(12)3');
-      expect(screen.getByText('Telefone inválido.')).toBeInTheDocument();
+      expect(screen.getByText('Digite um telefone válido')).toBeInTheDocument();
     });
 
     it('mantém o valor digitado e mostra erro quando o e-mail é inválido (sem value controlado)', () => {
@@ -195,7 +195,7 @@ describe('TextField', () => {
       fireEvent.blur(input);
 
       expect(input).toHaveValue('nao-e-email');
-      expect(screen.getByText('E-mail inválido.')).toBeInTheDocument();
+      expect(screen.getByText('Digite um e-mail válido')).toBeInTheDocument();
     });
   });
 

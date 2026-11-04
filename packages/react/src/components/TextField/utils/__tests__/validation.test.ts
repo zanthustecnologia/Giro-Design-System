@@ -109,7 +109,7 @@ describe('validateInput', () => {
         type: 'email',
       });
 
-      expect(result).toBe('E-mail inválido.');
+      expect(result).toBe('Digite um e-mail válido');
     });
 
     it('retorna mensagem customizada quando o e-mail é inválido', () => {
@@ -179,7 +179,7 @@ describe('validateInput', () => {
         type: 'tel',
       });
 
-      expect(result).toBe('Telefone inválido.');
+      expect(result).toBe('Digite um telefone válido');
     });
 
     it('retorna erro padrão quando o valor tem mais de 11 dígitos', () => {
@@ -188,7 +188,7 @@ describe('validateInput', () => {
         type: 'tel',
       });
 
-      expect(result).toBe('Telefone inválido.');
+      expect(result).toBe('Digite um telefone válido');
     });
 
     it('não retorna erro quando o valor tem 10 dígitos', () => {
