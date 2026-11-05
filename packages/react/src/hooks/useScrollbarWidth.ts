@@ -7,16 +7,19 @@ import * as React from 'react';
  * Usado para compensar `scrollbar-gutter: stable`, que reserva o espaço da scrollbar mesmo
  * sem overflow real, via uma CSS var exposta pelo componente consumidor.
  *
+ * O elemento é capturado via callback ref (em vez de um `RefObject` externo) para que o efeito
+ * de medição reexecute assim que o elemento monta, mesmo quando isso acontece em um render
+ * posterior ao de `deps` (ex.: conteúdo de `Dialog.Content` do Radix montado após `isOpen`).
+ *
  * @internal
  */
 export function useScrollbarWidth<T extends HTMLElement>(
-  ref: React.RefObject<T | null>,
   deps: React.DependencyList
-): number {
+): [React.RefCallback<T>, number] {
+  const [el, setEl] = React.useState<T | null>(null);
   const [scrollbarWidth, setScrollbarWidth] = React.useState(0);
 
   React.useEffect(() => {
-    const el = ref.current;
     if (!el) return;
 
     const measureScrollbar = (): void => {
@@ -36,7 +39,7 @@ export function useScrollbarWidth<T extends HTMLElement>(
       mutationObserver.disconnect();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, deps);
+  }, [el, ...deps]);
 
-  return scrollbarWidth;
+  return [setEl, scrollbarWidth];
 }

@@ -5,18 +5,19 @@ import { useScrollbarWidth } from '../useScrollbarWidth';
 
 interface ProbeProps {
   deps?: React.DependencyList;
+  mountTarget?: boolean;
 }
 
 /**
  * Componente de teste que renderiza um elemento rolável e expõe, via texto,
  * a largura da scrollbar medida pelo hook.
  */
-function Probe({ deps = [] }: ProbeProps) {
-  const ref = React.useRef<HTMLDivElement>(null);
-  const width = useScrollbarWidth(ref, deps);
+function Probe({ deps = [], mountTarget = true }: ProbeProps) {
+  const [ref, width] = useScrollbarWidth<HTMLDivElement>(deps);
 
   return (
-    <div ref={ref} data-testid="target">
+    <div data-testid="wrapper">
+      {mountTarget && <div ref={ref} data-testid="target" />}
       <span data-testid="width">{width}</span>
     </div>
   );
@@ -103,5 +104,16 @@ describe('useScrollbarWidth', () => {
 
     rerender(<Probe deps={['b']} />);
     expect(screen.getByTestId('width')).toHaveTextContent('60');
+  });
+
+  it('deve medir quando o elemento é montado em um render posterior ao das deps (ex.: conteúdo portalizado do Radix)', () => {
+    vi.spyOn(HTMLElement.prototype, 'offsetWidth', 'get').mockReturnValue(120);
+    vi.spyOn(HTMLElement.prototype, 'clientWidth', 'get').mockReturnValue(100);
+
+    const { rerender } = render(<Probe mountTarget={false} />);
+    expect(screen.getByTestId('width')).toHaveTextContent('0');
+
+    rerender(<Probe mountTarget={true} />);
+    expect(screen.getByTestId('width')).toHaveTextContent('20');
   });
 });
