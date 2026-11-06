@@ -4,10 +4,7 @@
 
 | Prop | Observação |
 |---|---|
-| `error`/`errorMessage`/`helperText` | só têm efeito no `variant="fixed"` (repassadas pro `TextField` interno); no `variant="native"` são aceitas pelo tipo mas não têm nenhum uso/efeito — `VirtualKeyboardProps` não discrimina por `variant`, mesmo padrão de união não-discriminada já visto no `Select` |
-| `VirtualKeyboardProps extends Omit<BaseProps, 'disabled'>` | prop `disabled` removida de propósito (não dá pra desabilitar o teclado inteiro) — correto na intenção, mas sem nenhum aviso/dev-warning se o campo (`targetRef`) estiver `disabled` e o consumidor ainda tentar interagir |
 | `nativeHeight` | só documentado/efetivo em `variant="native"`; em `fixed` é silenciosamente ignorado (consistente com a doc, mas reforça a falta de união discriminada) |
-| `onTypeChange` | documentado como "sempre dispara na montagem inicial" — confirmado no código (`useEffect` com `[type, onTypeChange]`), comportamento intencional e bem documentado, ok |
 | Ícones de tecla (`bksp`, `shift`, `capslock`, `downkeyboard`) | injetados via `createPortal` sem nenhum `aria-label`/texto alternativo — mesmo problema de fundo da seção 6 |
 
 ## 2. Inconsistências entre componentes
@@ -51,8 +48,7 @@ Testado manualmente no Storybook (story "Modo fixed"): depois de focar o `TextFi
 **Sem quebra de compatibilidade (patch/minor):**
 1. Corrigir o texto do `aria-label` do menu de acentos ("Opcoes" → "Opções").
 2. Adicionar `aria-label` nas teclas de ícone (`bksp`, `shift`, `capslock`, `downkeyboard`).
-3. Trocar `role="listbox"` + `<button>` soltos por `role="listbox"` + `role="option"`/`aria-selected` (ou simplesmente `role="menu"` + `role="menuitem"`, mais compatível com o padrão de `<button>`).
-4. Adicionar testes que usem `getByRole` nas teclas (vão falhar até a semântica ser corrigida, servindo de guarda contra regressão).
+3. Adicionar testes que usem `getByRole` nas teclas (vão falhar até a semântica ser corrigida, servindo de guarda contra regressão).
 
 **Potencialmente incompatível (precisa decisão e comunicação):**
 1. Decidir a estratégia de acessibilidade por teclado do teclado virtual em si: dado que `react-simple-keyboard` não expõe roles/tabindex nativamente, a correção real (tornar as teclas focáveis/acionáveis via `Enter`/`Espaço`, e dar alguma alternativa de teclado pro long press de acentos) é uma mudança estrutural grande — precisa de decisão de produto sobre se o componente deve suportar uso 100% sem ponteiro/touch (hoje não suporta) ou se isso é um limite aceito do design (uso típico: kiosk/terminal touch).
