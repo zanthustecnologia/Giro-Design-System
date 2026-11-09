@@ -85,4 +85,20 @@ Consolidação das mudanças levantadas nos arquivos `hardening-*.md` de cada co
 2. Adicionar `aria-label` nas teclas de ícone (`bksp`, `shift`, `capslock`, `downkeyboard`) — continua válido mesmo sem navegação via `Tab`: ajuda leitores de tela que exploram por toque (ex.: VoiceOver/TalkBack em swipe) a anunciar o nome da tecla.
 3. Adicionar testes que usem `getByRole` nas teclas (guarda contra regressão) — ajustar para cobrir só nome acessível/`role` quando adicionados, sem assumir foco via `Tab`.
 
+---
+
+## Menu
+
+### 🐛 PATCH
+1. Corrigir `onPointerDown`/`onCloseAutoFocus` em `Menu.tsx` — hoje `closedByPointerRef` é marcado `true` para qualquer pointerdown dentro do `DropdownMenu.Content`, inclusive o clique num item para selecioná-lo, fazendo `onCloseAutoFocus` suprimir indevidamente o retorno de foco ao trigger. Confirmado ao vivo: selecionar um item com mouse deixa `document.activeElement` em `document.body`; selecionar via teclado devolve o foco corretamente — prioridade máxima, é o achado mais grave do hardening.
+2. Tornar o campo de busca (`search=true`) utilizável por teclado: focar o `<Search>` automaticamente ao abrir e/ou isolar o input da área de typeahead do `DropdownMenu.Content`, já que hoje digitar uma letra dispara o typeahead nativo do Radix (pula o foco pro item cujo texto começa com a letra) em vez de escrever no campo.
+3. Adicionar estilo real para `[data-selected]` em `Menu.module.scss` — hoje `MenuItem` seta o atributo mas não existe nenhuma regra CSS usando-o, então um item presente em `selectedItems` fica visualmente idêntico a um não selecionado.
+4. Adicionar `aria-checked` (ou equivalente) ao item selecionado, complementando o `data-selected` visual.
+5. Corrigir `isControlledRef` em `useMenuLogic.ts` para reavaliar quando `selectedItems` passa de `undefined` para definido após o mount (hoje é calculado uma única vez via `useRef`, então essa transição nunca é detectada).
+6. Adicionar testes cobrindo os dois bugs de foco (seleção por mouse x teclado, busca inacessível) e a transição de `selectedItems` não controlado → controlado.
+
+### 💥 MAJOR
+1. Decidir o destino da prop `type` (`'text' | 'icon'`): remover, já que não tem nenhum efeito hoje (nunca é lida em `Menu.tsx`/`MenuItem.tsx`), ou implementar de fato o modo `icon`.
+2. Decidir o destino de `selectedItems` como array: implementar multi-seleção de fato (hoje `handleItemSelect` sempre substitui a seleção por `[item]`, só suporta single-select) ou documentar oficialmente o `Menu` como single-select e simplificar o tipo da prop.
+
 
