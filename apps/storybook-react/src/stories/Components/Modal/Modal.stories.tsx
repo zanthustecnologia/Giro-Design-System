@@ -122,6 +122,47 @@ export const ConteudoLongo: Story = {
   ),
 };
 
+export const ComScroll: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Modal com altura fixa (customHeight) e conteúdo suficiente para forçar o scroll interno do corpo (modalBody), útil para validar a compensação visual da scrollbar.',
+      },
+    },
+  },
+  render: () => {
+    const [isOpen, setIsOpen] = useState(false);
+
+    return (
+      <>
+        <Button variant="outlined" onClick={() => setIsOpen(true)}>
+          Abrir Modal com scroll
+        </Button>
+        <Modal
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+          title="Conteúdo rolável"
+          customHeight="400px"
+          footer={
+            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px' }}>
+              <Button variant="outlined" onClick={() => setIsOpen(false)}>Cancelar</Button>
+              <Button onClick={() => setIsOpen(false)}>Confirmar</Button>
+            </div>
+          }
+        >
+          <p>Este Modal tem altura fixa e conteúdo suficiente para gerar uma scrollbar.</p>
+          {Array.from({ length: 40 }, (_, i) => (
+            <p key={i} style={{ margin: '8px 0', color: 'var(--color-neutral-low-medium)' }}>
+              Item de conteudo {i + 1}
+            </p>
+          ))}
+        </Modal>
+      </>
+    );
+  },
+};
+
 export const SemFechamentoPorOverlay: Story = {
   render: () => (
     <ModalDemo title="Formulário" closeOnOverlayClick={false}>

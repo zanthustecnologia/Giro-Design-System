@@ -170,7 +170,8 @@
 // Estado desabilitado
 .disabled {
   .label,
-  .required {
+  .required,
+  .helperText {
     color: var(--color-neutral-high-dark);
   }
 

@@ -4,8 +4,9 @@ import { Dialog } from 'radix-ui';
 import * as React from 'react';
 
 import styles from './Modal.module.scss';
-import Button from '../Button/Button';
+import { useScrollbarWidth } from '../../hooks/useScrollbarWidth';
 import { isDismissOutsideIgnored } from '../../utils/dismissOutside';
+import Button from '../Button/Button';
 
 import type { ModalProps } from './Modal.types';
 
@@ -26,6 +27,27 @@ const Modal: React.FC<ModalProps> = ({
   ...rest
 }) => {
   const contentRef = React.useRef<HTMLDivElement>(null);
+  const bodyRef = React.useRef<HTMLElement>(null);
+  const scrollbarWidth = useScrollbarWidth(bodyRef, [isOpen, children]);
+
+  // Container próprio reanexado ao final do body a cada abertura, para que o
+  // overlay/conteúdo fiquem visualmente acima de outros Drawer/Modal/Dialog
+  // já abertos, já que o empilhamento depende da ordem no DOM (sem z-index).
+  const [portalContainer] = React.useState<HTMLDivElement | null>(() =>
+    typeof document !== 'undefined' ? document.createElement('div') : null
+  );
+
+  React.useEffect(() => {
+    if (isOpen && portalContainer) {
+      document.body.appendChild(portalContainer);
+    }
+  }, [isOpen, portalContainer]);
+
+  React.useEffect(() => {
+    return () => {
+      portalContainer?.remove();
+    };
+  }, [portalContainer]);
 
   const handleOpenChange = (open: boolean): void => {
     if (!open) {
@@ -53,7 +75,7 @@ const Modal: React.FC<ModalProps> = ({
 
   return (
     <Dialog.Root open={isOpen} onOpenChange={handleOpenChange} {...rest}>
-      <Dialog.Portal>
+      <Dialog.Portal container={portalContainer ?? undefined}>
         <Dialog.Overlay className={styles.modalOverlay} />
         <Dialog.Content
           ref={contentRef}
@@ -62,6 +84,7 @@ const Modal: React.FC<ModalProps> = ({
           style={{
             '--modal-custom-width': customWidth,
             '--modal-custom-height': customHeight,
+            '--modal-scrollbar-width': `${scrollbarWidth}px`,
           } as React.CSSProperties}
           onInteractOutside={handleInteractOutside}
           onOpenAutoFocus={handleOpenAutoFocus}
@@ -96,7 +119,7 @@ const Modal: React.FC<ModalProps> = ({
               )}
             </header>
           )}
-          <section className={styles.modalBody}>
+          <section ref={bodyRef} className={styles.modalBody}>
             {children}
           </section>
           {footer && (

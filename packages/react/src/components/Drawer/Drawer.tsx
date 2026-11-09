@@ -1,9 +1,10 @@
 import { Dismiss16Regular } from '@fluentui/react-icons';
 import clsx from 'clsx';
-import React, { useEffect, useState, useCallback, ReactNode, ReactElement } from 'react';
+import React, { useEffect, useCallback, useRef, ReactNode, ReactElement } from 'react';
 import { createPortal } from 'react-dom';
 
 import styles from './Drawer.module.scss';
+import { useScrollbarWidth } from '../../hooks/useScrollbarWidth';
 import Button from '../Button/Button';
 
 import type { DrawerProps, DrawerExampleProps } from './Drawer.types';
@@ -80,8 +81,22 @@ const Drawer: React.FC<DrawerProps> = ({
     internalClose();
   };
 
+  const contentRef = useRef<HTMLDivElement>(null);
+  const scrollbarWidth = useScrollbarWidth(contentRef, [isOpen, children]);
+
+  const portalRootRef = useRef<HTMLDivElement>(null);
+
+  // Reanexa o wrapper como último filho do body ao abrir, garantindo que o
+  // overlay/painel fiquem visualmente acima de outros Drawer/Modal/Dialog
+  // já abertos, já que o empilhamento depende da ordem no DOM (sem z-index).
+  useEffect(() => {
+    if (isOpen && portalRootRef.current) {
+      document.body.appendChild(portalRootRef.current);
+    }
+  }, [isOpen]);
+
   return createPortal(
-    <>
+    <div ref={portalRootRef}>
       <div
         className={clsx(styles['drawerShadow'], {
           [styles['drawerShadow--visible']]: isOpen,
@@ -102,6 +117,7 @@ const Drawer: React.FC<DrawerProps> = ({
         )}
         style={{
           '--drawer-custom-width': customWidth,
+          '--drawer-scrollbar-width': `${scrollbarWidth}px`,
         } as React.CSSProperties}
         onClick={handleDrawerClick}
         role="dialog"
@@ -135,14 +151,17 @@ const Drawer: React.FC<DrawerProps> = ({
           />
         </div>
         <div 
+          ref={contentRef}
           className={styles.drawerChildren} 
           data-testid="drawer-content"
           >
             {children}
           </div>
-          {footer}
+          {footer && (
+            <div className={styles.drawerFooter}>{footer}</div>
+          )}
         </div>
-    </>,
+    </div>,
     document.body
   );
 };

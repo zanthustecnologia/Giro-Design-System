@@ -96,25 +96,3 @@ DuasAcoes.args = {
   textPrimaryAction: 'Confirmar',
   textSecondaryAction: 'Cancelar',
 };
-
-// Story com conteúdo longo — Dialog sempre aberto
-export const ConteudoLongo: StoryFn<DialogProps> = (args) => {
-  const [isOpen, setIsOpen] = useState(false);
-  return (
-    <>
-      <Button onClick={() => setIsOpen(true)}>Abrir Dialog</Button>
-      <Dialog
-        {...args}
-        show={isOpen}
-        onPrimaryAction={() => setIsOpen(false)}
-        onSecondaryAction={() => setIsOpen(false)}
-      />
-    </>
-  );
-};
-ConteudoLongo.args = {
-  title: 'Termos de uso',
-  bodyContent: 'Ao continuar, você concorda com os termos de uso e política de privacidade da plataforma. Leia atentamente antes de prosseguir. O uso indevido das informações pode resultar na suspensão da sua conta.',
-  textPrimaryAction: 'Aceitar',
-  textSecondaryAction: 'Recusar',
-};

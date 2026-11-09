@@ -1,5 +1,61 @@
 ﻿# @giro-ds/react
 
+## [12.8.0]
+
+### Features
+
+- **TextField:** adiciona máscara e validação de telefone brasileiro (`type="tel"`, 10 ou 11 dígitos); adiciona validação de formato para `email`, `url` e `number`.
+
+### Changed
+
+- **Drawer:** refatorado para reutilizar o hook interno compartilhado de medição de scrollbar, removendo lógica duplicada.
+- **Table:** componente depreciado movido para a pasta interna `.deprecated` (sem alteração de conteúdo); já não era exportado publicamente, sem impacto no build ou na API.
+
+### Bug Fixes
+
+- **TextField:** corrige bug em que o conteúdo digitado era apagado ao clicar fora do campo após a exibição de um erro (sincronização com a prop `value` sobrescrevia `inputValue`); corrige a cor do `helperText` no estado `disabled`.
+- **DatePicker:** troca `type="tel"` por `type="text" inputMode="numeric"` no campo interno, evitando que a máscara de telefone do `TextField` quebrasse a digitação de datas.
+- **Dialog, Drawer, Modal:** corrige o empilhamento visual de overlays abertos simultaneamente, reanexando cada overlay ao final do `<body>` ao abrir (sem depender de `z-index`).
+- **Modal:** adiciona compensação visual da largura da scrollbar no padding do corpo rolável, evitando desalinhamento do conteúdo.
+
+## [12.7.0]
+
+### Features
+
+- **DatePicker:** adiciona prop `showCalendar` para controlar a abertura do calendário; adiciona validação de intervalo (`minDate`/`maxDate`) com mensagens de erro localizadas e atributos de acessibilidade atualizados.
+- **Quantity:** adiciona prop `decimalSeparator` (`','` | `'.'`, padrão `','`) para configurar o separador decimal.
+
+### Bug Fixes
+
+- **Quantity:** corrige o separador decimal padrão de `.` para `,`, alinhado à localização pt-BR do Design System.
+
+## [12.6.2]
+
+### Bug Fixes
+
+- **Toast:** Toast.Viewport renderizado via Portal, escapando de overlays pais.
+- **Drawer:** compensa largura da scrollbar no padding e evita compressão do footer.
+
+## [12.6.1]
+
+### Bug Fixes
+
+- **Modal:** remove o limite de altura máxima (`max-height: 85vh`), permitindo que o conteúdo defina a altura do modal sem um teto fixo baseado na viewport.
+
+## [12.6.0]
+
+### Features
+
+- **Card:** adiciona prop opcional `borderRadius` (`4 | 8 | 12 | 16 | 24 | 'none' | 'pill' | 'circular'`) para customizar o raio das bordas; quando omitida, mantém o valor padrão do token `--border-radius-8`.
+
+### Bug Fixes
+
+- **DatePicker:** remove o valor padrão `label = 'Data'`; o campo não exibe mais um label fixo quando a prop não é informada pelo consumidor.
+- **VirtualKeyboard:** remove a prop `readOnly` do `TextField` interno, que impedia a digitação de valores quando o teclado virtual estava anexado.
+- **VirtualKeyboard:** substitui font-size fixo por tipografia fluida via `clamp()`, com o novo mixin `fluid-font($min, $vw-ratio, $max)`, eliminando overrides fixos por breakpoint nas teclas, `keyPreview` e `accentOption`.
+- **Filter:** corrige espaçamento entre a lista de opções e o footer do painel de filtro.
+- **Drawer, Modal, Dialog:** corrige desalinhamento de conteúdo causado pela scrollbar nas áreas roláveis, aplicando `scrollbar-gutter: stable` e o mixin compartilhado `scrollable-area`.
+
 ## [12.5.1]
 
 > Nota: a versão `12.5.0` foi publicada por engano com conteúdo desatualizado (sem as mudanças abaixo) e foi descontinuada (`deprecated`) no NPM. Use `12.5.1` ou superior.
