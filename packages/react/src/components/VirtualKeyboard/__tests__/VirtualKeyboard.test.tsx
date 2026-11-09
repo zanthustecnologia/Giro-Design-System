@@ -2,6 +2,8 @@ import { render, screen, fireEvent, act, waitFor } from '@testing-library/react'
 import React, { createRef } from 'react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
+import { DISMISS_OUTSIDE_IGNORE_ATTRIBUTE } from '../../../utils/dismissOutside';
+
 // Mock da importação de CSS do react-simple-keyboard
 vi.mock('react-simple-keyboard/build/css/index.css', () => ({}));
 
@@ -31,8 +33,20 @@ vi.mock('react-simple-keyboard', () => ({
       rows.some((row: string) => row.includes('{downkeyboard}'))
     );
 
+    const hasEnterInNumbers = ((layout?.numbers ?? []) as string[]).some((row) =>
+      row.includes('{enter}')
+    );
+    const hasEnterInNumericDefault = ((layout?.default ?? []) as string[]).some((row) =>
+      row.includes('{enter}')
+    );
+
     return (
-    <div data-testid="keyboard" data-layout-name={layoutName}>
+    <div
+      data-testid="keyboard"
+      data-layout-name={layoutName}
+      data-has-enter-numbers={String(hasEnterInNumbers)}
+      data-has-enter-numeric-default={String(hasEnterInNumericDefault)}
+    >
       <div data-testid="display-bksp">{display?.['{bksp}'] ?? ''}</div>
       <button
         data-testid="key-char"
@@ -291,6 +305,113 @@ describe('VirtualKeyboard', () => {
 
       const overlay = document.querySelector('[class*="overlay"]') as HTMLElement;
       expect(overlay?.className).not.toMatch(/overlayOpen/);
+    });
+  });
+
+  // ───────────────────────────────────────────────────────────────────────────
+  describe('Integração com Modal/Dialog (clique-fora e pointer-events)', () => {
+    it('deve marcar o overlay nativo com o atributo de exceção de clique-fora (evita fechar um Modal/Dialog do Radix ao interagir com o teclado)', async () => {
+      render(<VirtualKeyboard variant="native" />);
+      await screen.findByTestId('keyboard');
+
+      const overlay = document.querySelector('[class*="overlay"]') as HTMLElement;
+      expect(overlay).toHaveAttribute(DISMISS_OUTSIDE_IGNORE_ATTRIBUTE);
+    });
+
+    it('deve propagar a className customizada para o menu de acentos (accentMenu), permitindo que o consumidor controle o z-index de toda a UI flutuante', () => {
+      vi.useFakeTimers();
+
+      render(<VirtualKeyboard variant="fixed" value="" className="minha-classe-zindex" />);
+
+      fireEvent.pointerDown(screen.getByTestId('key-char'));
+      act(() => {
+        vi.advanceTimersByTime(450);
+      });
+
+      const menu = screen.getByRole('listbox');
+      expect(menu.className).toContain('minha-classe-zindex');
+    });
+
+    it('não deve fechar o teclado ao perder foco se houve interação em área do overlay fora dos botões (ex.: padding, menu de acento)', async () => {
+      const ref = createRef<HTMLInputElement>();
+      render(
+        <>
+          <input data-testid="input-ref" ref={ref} />
+          <VirtualKeyboard variant="native" targetRef={ref} />
+        </>
+      );
+
+      act(() => {
+        fireEvent.focus(screen.getByTestId('input-ref'));
+      });
+
+      const overlay = document.querySelector('[class*="overlay"]') as HTMLElement;
+
+      // Simula pointerdown diretamente no overlay, fora do keyboardWrapper/.hg-button
+      act(() => {
+        fireEvent.pointerDown(overlay);
+      });
+
+      await act(async () => {
+        fireEvent.blur(screen.getByTestId('input-ref'));
+        await new Promise((r) => setTimeout(r, 200));
+      });
+
+      // Mesmo com o blur do targetRef, o teclado permanece aberto pois a interação
+      // no overlay manteve isKeyboardInteractingRef ativo
+      expect(overlay.className).toMatch(/overlayOpen/);
+
+      act(() => {
+        fireEvent.pointerUp(overlay);
+      });
+    });
+  });
+
+  // ───────────────────────────────────────────────────────────────────────────
+  describe('Prop nativeHeight', () => {
+    it('não deve aplicar a custom property --vkeyboard-native-height quando nativeHeight não é informado', async () => {
+      render(<VirtualKeyboard variant="native" />);
+      await screen.findByTestId('keyboard');
+
+      const overlay = document.querySelector('[class*="overlay"]') as HTMLElement;
+      expect(overlay.style.getPropertyValue('--vkeyboard-native-height')).toBe('');
+    });
+
+    it('deve aplicar a custom property --vkeyboard-native-height no overlay quando nativeHeight é informado', async () => {
+      render(<VirtualKeyboard variant="native" nativeHeight="320px" />);
+      await screen.findByTestId('keyboard');
+
+      const overlay = document.querySelector('[class*="overlay"]') as HTMLElement;
+      expect(overlay.style.getPropertyValue('--vkeyboard-native-height')).toBe('320px');
+    });
+
+    it('deve aceitar unidades CSS relativas (ex.: dvh, %) em nativeHeight', async () => {
+      render(<VirtualKeyboard variant="native" nativeHeight="50dvh" />);
+      await screen.findByTestId('keyboard');
+
+      const overlay = document.querySelector('[class*="overlay"]') as HTMLElement;
+      expect(overlay.style.getPropertyValue('--vkeyboard-native-height')).toBe('50dvh');
+    });
+
+    it('deve atualizar a custom property quando nativeHeight muda entre renderizações', async () => {
+      const { rerender } = render(<VirtualKeyboard variant="native" nativeHeight="320px" />);
+      await screen.findByTestId('keyboard');
+
+      let overlay = document.querySelector('[class*="overlay"]') as HTMLElement;
+      expect(overlay.style.getPropertyValue('--vkeyboard-native-height')).toBe('320px');
+
+      rerender(<VirtualKeyboard variant="native" nativeHeight="480px" />);
+
+      overlay = document.querySelector('[class*="overlay"]') as HTMLElement;
+      expect(overlay.style.getPropertyValue('--vkeyboard-native-height')).toBe('480px');
+    });
+
+    it('não deve ter efeito no modo fixed (nativeHeight só se aplica ao overlay do modo native)', () => {
+      const { container } = render(<VirtualKeyboard variant="fixed" nativeHeight="320px" />);
+      const wrapper = container.firstChild as HTMLElement;
+
+      expect(wrapper.style.getPropertyValue('--vkeyboard-native-height')).toBe('');
+      expect(document.querySelector('[class*="overlay"]')).not.toBeInTheDocument();
     });
   });
 
@@ -1266,6 +1387,228 @@ describe('VirtualKeyboard', () => {
       fireEvent.click(screen.getByTestId('key-char'));
 
       expect(onChange).toHaveBeenCalledWith('a');
+    });
+  });
+
+  // ───────────────────────────────────────────────────────────────────────────
+  describe('numpadWithEnter', () => {
+    it('deve renderizar o teclado com numpadWithEnter ativo', () => {
+      render(
+        <VirtualKeyboard
+          variant="native"
+          type="numeric"
+          numpadWithEnter
+          value=""
+        />
+      );
+
+      expect(screen.getByTestId('keyboard')).toBeInTheDocument();
+    });
+
+    it('deve disparar onKeyPress com {enter} ao pressionar a tecla enter', () => {
+      const onKeyPress = vi.fn();
+      render(
+        <VirtualKeyboard
+          variant="native"
+          type="numeric"
+          numpadWithEnter
+          onKeyPress={onKeyPress}
+          value=""
+        />
+      );
+
+      fireEvent.click(screen.getByTestId('key-enter'));
+
+      expect(onKeyPress).toHaveBeenCalledWith('{enter}');
+    });
+  });
+
+  // ───────────────────────────────────────────────────────────────────────────
+  describe('onEnterPress', () => {
+    it('deve chamar onEnterPress ao pressionar a tecla enter', () => {
+      const onEnterPress = vi.fn();
+      render(<VirtualKeyboard variant="fixed" onEnterPress={onEnterPress} value="" />);
+
+      fireEvent.click(screen.getByTestId('key-enter'));
+
+      expect(onEnterPress).toHaveBeenCalledTimes(1);
+    });
+
+    it('não deve chamar onEnterPress ao pressionar outras teclas', () => {
+      const onEnterPress = vi.fn();
+      render(<VirtualKeyboard variant="fixed" onEnterPress={onEnterPress} value="" />);
+
+      fireEvent.click(screen.getByTestId('key-char'));
+      fireEvent.click(screen.getByTestId('key-bksp'));
+      fireEvent.click(screen.getByTestId('key-shift'));
+
+      expect(onEnterPress).not.toHaveBeenCalled();
+    });
+
+    it('deve chamar tanto onKeyPress quanto onEnterPress ao pressionar enter', () => {
+      const onKeyPress = vi.fn();
+      const onEnterPress = vi.fn();
+      render(
+        <VirtualKeyboard
+          variant="fixed"
+          onKeyPress={onKeyPress}
+          onEnterPress={onEnterPress}
+          value=""
+        />
+      );
+
+      fireEvent.click(screen.getByTestId('key-enter'));
+
+      expect(onKeyPress).toHaveBeenCalledWith('{enter}');
+      expect(onEnterPress).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  // ───────────────────────────────────────────────────────────────────────────
+  describe('isNumpadLayout — classe de layout dinâmica no overlay', () => {
+    it('deve aplicar layout--default no overlay para type=default com QWERTY ativo', () => {
+      const ref = createRef<HTMLInputElement>();
+      render(
+        <>
+          <input data-testid="input-ref" ref={ref} />
+          <VirtualKeyboard variant="native" targetRef={ref} type="default" />
+        </>
+      );
+
+      act(() => { fireEvent.focus(screen.getByTestId('input-ref')); });
+
+      const overlay = document.querySelector('[class*="overlay"]') as HTMLElement;
+      expect(overlay?.className).toMatch(/layout--default/);
+      expect(overlay?.className).not.toMatch(/layout--numeric/);
+    });
+
+    it('deve mudar para layout--numeric no overlay ao pressionar {numbers} (type=default)', () => {
+      const ref = createRef<HTMLInputElement>();
+      render(
+        <>
+          <input data-testid="input-ref" ref={ref} />
+          <VirtualKeyboard variant="native" targetRef={ref} type="default" />
+        </>
+      );
+
+      act(() => { fireEvent.focus(screen.getByTestId('input-ref')); });
+      fireEvent.click(screen.getByTestId('key-numbers'));
+
+      const overlay = document.querySelector('[class*="overlay"]') as HTMLElement;
+      expect(overlay?.className).toMatch(/layout--numeric/);
+    });
+
+    it('deve voltar para layout--default ao pressionar {abc} após o numpad (type=default)', () => {
+      const ref = createRef<HTMLInputElement>();
+      render(
+        <>
+          <input data-testid="input-ref" ref={ref} />
+          <VirtualKeyboard variant="native" targetRef={ref} type="default" />
+        </>
+      );
+
+      act(() => { fireEvent.focus(screen.getByTestId('input-ref')); });
+      fireEvent.click(screen.getByTestId('key-numbers'));
+      fireEvent.click(screen.getByTestId('key-abc'));
+
+      const overlay = document.querySelector('[class*="overlay"]') as HTMLElement;
+      expect(overlay?.className).toMatch(/layout--default/);
+    });
+
+    it('deve usar layout--default no overlay quando type=numeric mostra o layout abc', () => {
+      const ref = createRef<HTMLInputElement>();
+      render(
+        <>
+          <input data-testid="input-ref" ref={ref} />
+          <VirtualKeyboard variant="native" targetRef={ref} type="numeric" />
+        </>
+      );
+
+      act(() => { fireEvent.focus(screen.getByTestId('input-ref')); });
+      fireEvent.click(screen.getByTestId('key-abc'));
+
+      const overlay = document.querySelector('[class*="overlay"]') as HTMLElement;
+      expect(overlay?.className).toMatch(/layout--default/);
+      expect(overlay?.className).not.toMatch(/layout--numeric/);
+    });
+  });
+
+  // ───────────────────────────────────────────────────────────────────────────
+  describe('numpadWithEnter — type=default', () => {
+    it('deve incluir {enter} no layout numbers quando numpadWithEnter=true (type=default)', () => {
+      render(
+        <VirtualKeyboard variant="fixed" type="default" numpadWithEnter value="" />
+      );
+
+      expect(screen.getByTestId('keyboard')).toHaveAttribute('data-has-enter-numbers', 'true');
+    });
+
+    it('não deve incluir {enter} no layout numbers quando numpadWithEnter=false (type=default)', () => {
+      render(<VirtualKeyboard variant="fixed" type="default" value="" />);
+
+      expect(screen.getByTestId('keyboard')).toHaveAttribute('data-has-enter-numbers', 'false');
+    });
+
+    it('deve disparar onEnterPress ao pressionar enter no numpad de type=default com numpadWithEnter', () => {
+      const onEnterPress = vi.fn();
+      render(
+        <VirtualKeyboard
+          variant="fixed"
+          type="default"
+          numpadWithEnter
+          onEnterPress={onEnterPress}
+          value=""
+        />
+      );
+
+      fireEvent.click(screen.getByTestId('key-numbers'));
+      fireEvent.click(screen.getByTestId('key-enter'));
+
+      expect(onEnterPress).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  // ───────────────────────────────────────────────────────────────────────────
+  describe('showEnterKey — preservação no numpad', () => {
+    it('deve preservar {enter} no layout numbers com showEnterKey=false quando numpadWithEnter=true', () => {
+      render(
+        <VirtualKeyboard
+          variant="fixed"
+          type="default"
+          showEnterKey={false}
+          numpadWithEnter
+          value=""
+        />
+      );
+
+      expect(screen.getByTestId('keyboard')).toHaveAttribute('data-has-enter-numbers', 'true');
+    });
+
+    it('deve preservar {enter} no layout default do numpad type=numeric com showEnterKey=false', () => {
+      render(
+        <VirtualKeyboard
+          variant="fixed"
+          type="numeric"
+          showEnterKey={false}
+          numpadWithEnter
+          value=""
+        />
+      );
+
+      expect(screen.getByTestId('keyboard')).toHaveAttribute('data-has-enter-numeric-default', 'true');
+    });
+
+    it('não deve incluir {enter} no layout numbers quando numpadWithEnter=false e showEnterKey=false', () => {
+      render(
+        <VirtualKeyboard
+          variant="fixed"
+          type="default"
+          showEnterKey={false}
+          value=""
+        />
+      );
+
+      expect(screen.getByTestId('keyboard')).toHaveAttribute('data-has-enter-numbers', 'false');
     });
   });
 });

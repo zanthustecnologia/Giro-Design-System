@@ -12,10 +12,10 @@ const ToggleGroup: React.FC<ToggleButtonProps> = ({
   value,
   defaultValue,
   onValueChange,
-  orientation = 'horizontal',
+  requireSelection = false,
   disabled = false,
   items = [],
-  children,
+  expandOnSelect: groupExpandOnSelect = false,
   className,
   id,
   size = 'lg',
@@ -32,6 +32,27 @@ const ToggleGroup: React.FC<ToggleButtonProps> = ({
   onPressedChange: _onPressedChange,
   ...rest
 }) => {
+  const singleValueProp = value as string | undefined;
+  const singleOnValueChange = onValueChange as ((value: string) => void) | undefined;
+  const isSingleControlled = singleValueProp !== undefined;
+
+  const [uncontrolledValue, setUncontrolledValue] = React.useState(
+    (defaultValue as string | undefined) ?? '',
+  );
+
+  const handleSingleValueChange = React.useCallback(
+    (next: string) => {
+      if (requireSelection && !next) {
+        return;
+      }
+      if (!isSingleControlled) {
+        setUncontrolledValue(next);
+      }
+      singleOnValueChange?.(next);
+    },
+    [requireSelection, isSingleControlled, singleOnValueChange],
+  );
+
   const rootProps =
     selectionType === 'multiple'
       ? {
@@ -42,27 +63,34 @@ const ToggleGroup: React.FC<ToggleButtonProps> = ({
             | ((value: string[]) => void)
             | undefined,
         }
-      : {
-          type: 'single' as const,
-          value: value as string | undefined,
-          defaultValue: defaultValue as string | undefined,
-          onValueChange: onValueChange as
-            | ((value: string) => void)
-            | undefined,
-        };
+      : requireSelection
+        ? {
+            type: 'single' as const,
+            value: isSingleControlled ? singleValueProp : uncontrolledValue,
+            onValueChange: handleSingleValueChange,
+          }
+        : {
+            type: 'single' as const,
+            value: singleValueProp,
+            defaultValue: defaultValue as string | undefined,
+            onValueChange: singleOnValueChange,
+          };
+
+  const hasExpandableItems = groupExpandOnSelect || items.some((item) => item.expandOnSelect);
 
   const group = (
     <ToggleGroupRadix.Root
       {...rootProps}
-      orientation={orientation}
       disabled={disabled}
-      className={clsx(styles.group, className)}
+      className={clsx(styles.group, { [styles.groupExpandable]: hasExpandableItems }, className)}
       id={id}
       style={{ '--giro-scale': scale, ...style } as React.CSSProperties}
       {...rest}
     >
-      {children ??
-        items.map((item) => (
+      {items.map((item) => {
+        const expandOnSelect = item.expandOnSelect ?? groupExpandOnSelect;
+
+        return (
           <ToggleGroupRadix.Item
             key={item.value}
             value={item.value}
@@ -71,13 +99,19 @@ const ToggleGroup: React.FC<ToggleButtonProps> = ({
               styles.item,
               styles[`item-${size}`],
               {
-                [styles.toggleIconOnly]: item.iconOnly,
-                [styles.toggleWithIcon]: !!item.icon && !item.iconOnly,
+                [styles.toggleIconOnly]: item.iconOnly && !expandOnSelect,
+                [styles.toggleWithIcon]: !!item.icon && !item.iconOnly && !expandOnSelect,
+                [styles.itemExpandOnSelect]: expandOnSelect,
               },
             )}
             style={{ '--giro-scale': scale } as React.CSSProperties}
           >
-            {item.iconOnly ? (
+            {expandOnSelect ? (
+              <>
+                {item.icon && <span className={styles.toggleIconLeft} aria-hidden="true">{item.icon}</span>}
+                <span className={styles.toggleLabel}>{item.label}</span>
+              </>
+            ) : item.iconOnly ? (
               <span className={styles.toggleIconLeft} aria-hidden="true">{item.icon}</span>
             ) : (
               <>
@@ -86,7 +120,8 @@ const ToggleGroup: React.FC<ToggleButtonProps> = ({
               </>
             )}
           </ToggleGroupRadix.Item>
-        ))}
+        );
+      })}
     </ToggleGroupRadix.Root>
   );
 

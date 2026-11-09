@@ -1,5 +1,80 @@
 # storybook-react
 
+## 1.0.41
+
+### Patch Changes
+
+- Updated dependencies
+- Updated dependencies
+- Updated dependencies
+  - @giro-ds/react@12.8.0
+
+## 1.0.40
+
+### Patch Changes
+
+- Updated dependencies
+  - @giro-ds/react@12.7.0
+
+## 1.0.39
+
+### Patch Changes
+
+- Updated dependencies
+  - @giro-ds/react@12.6.2
+
+## 1.0.38
+
+### Patch Changes
+
+- Updated dependencies
+  - @giro-ds/react@12.6.1
+
+## 1.0.37
+
+### Patch Changes
+
+- Updated dependencies
+  - @giro-ds/react@12.6.0
+
+## 1.0.36
+
+### Patch Changes
+
+- Updated dependencies
+- Updated dependencies
+- Updated dependencies
+- Updated dependencies
+  - @giro-ds/react@12.5.0
+
+## 1.0.35
+
+### Patch Changes
+
+- Updated dependencies [3b07611]
+  - @giro-ds/react@12.4.0
+
+## 1.0.34
+
+### Patch Changes
+
+- Updated dependencies [34d775b]
+  - @giro-ds/react@12.3.0
+
+## 1.0.33
+
+### Patch Changes
+
+- Updated dependencies
+  - @giro-ds/react@12.2.0
+
+## 1.0.32
+
+### Patch Changes
+
+- Updated dependencies
+  - @giro-ds/react@12.1.1
+
 ## 1.0.31
 
 ### Patch Changes

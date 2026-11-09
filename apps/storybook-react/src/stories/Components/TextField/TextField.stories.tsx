@@ -131,13 +131,12 @@ export default meta;
 
 export const Default: Story = {
   args: {
-    placeholder: 'Ex.: João da Silva',
+    label: 'Placeholder',
+    placeholder: 'Placeholder',
+    helperText: 'Placeholder',
     disabled: false,
     className: '',
     required: false,
-    helperText: 'Optional support text',
-    label: 'Label',
-    tooltipText: 'Tooltip text',
     scale: 1,
   },
   render: (args) => (

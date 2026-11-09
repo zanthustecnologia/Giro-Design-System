@@ -1,3 +1,5 @@
+@use '../../styles/mixins/scale' as *;
+
 .container {
   position: relative;
   display: inline-block;
@@ -23,6 +25,7 @@
   list-style: none;
   margin: var(--spacing-0);
   padding: var(--spacing-16);
+  padding-bottom: var(--spacing-0);
   display: flex;
   flex-direction: column;
   gap: var(--spacing-8);
@@ -92,9 +95,9 @@
 
 .noResults {
   font-family: var(--font-family-primary);
-  font-size: var(--font-size-12);
-  font-weight: var(--font-weight-regular);
-  padding: var(--spacing-8) var(--spacing-16);
+  font-size: scale(var(--font-size-14));
+  font-style: italic;
+  padding: scale(var(--spacing-12)) scale(var(--spacing-16));
   color: var(--color-neutral-low-medium);
   text-align: center;
   list-style: none;
@@ -107,7 +110,6 @@
   align-items: center;
   gap: var(--spacing-16);
   padding: var(--spacing-16);
-  padding-top: var(--spacing-0);
 }
 
 .buttonContent {

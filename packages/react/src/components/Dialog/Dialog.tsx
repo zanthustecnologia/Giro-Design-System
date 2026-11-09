@@ -17,16 +17,36 @@ const Dialog: React.FC<DialogProps> = ({
 	onSecondaryAction,
 	className,
   ...rest
-}) => (
-	<AlertDialog.Root open={show} {...rest}>
-		<AlertDialog.Portal>
-			<AlertDialog.Overlay className={styles.DialogOverlay} />
+}) => {
+  // Container próprio reanexado ao final do body a cada abertura, para que o
+  // overlay/conteúdo fiquem visualmente acima de outros Drawer/Modal/Dialog
+  // já abertos, já que o empilhamento depende da ordem no DOM (sem z-index).
+  const [portalContainer] = React.useState<HTMLDivElement | null>(() =>
+    typeof document !== 'undefined' ? document.createElement('div') : null
+  );
+
+  React.useEffect(() => {
+    if (show && portalContainer) {
+      document.body.appendChild(portalContainer);
+    }
+  }, [show, portalContainer]);
+
+  React.useEffect(() => {
+    return () => {
+      portalContainer?.remove();
+    };
+  }, [portalContainer]);
+
+  return (
+    <AlertDialog.Root open={show} {...rest}>
+      <AlertDialog.Portal container={portalContainer ?? undefined}>
+        <AlertDialog.Overlay className={styles.DialogOverlay} />
 			<AlertDialog.Content className={clsx(styles.DialogContent, className)}>
 				<AlertDialog.Title className={styles.DialogTitle}>
 					{title}
 				</AlertDialog.Title>
-				<AlertDialog.Description className={styles.DialogDescription}>
-					{bodyContent}
+				<AlertDialog.Description asChild className={styles.DialogDescription}>
+					<div>{bodyContent}</div>
 				</AlertDialog.Description>
 				<div className={styles.DivButtons}>
 					{!!(textSecondaryAction && textSecondaryAction.trim()) && (
@@ -41,6 +61,7 @@ const Dialog: React.FC<DialogProps> = ({
 			</AlertDialog.Content>
 		</AlertDialog.Portal>
 	</AlertDialog.Root>
-);
+  );
+};
 
 export default Dialog;

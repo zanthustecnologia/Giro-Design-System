@@ -5,5 +5,4 @@ export type {
   ToggleGroupProps,
   ToggleGroupType,
   ToggleButtonMode,
-  ToggleButtonOrientation,
 } from './ToggleButton.types';

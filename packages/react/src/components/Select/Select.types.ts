@@ -157,10 +157,16 @@ interface SelectPropsBase extends ScalableProps {
   /** Callback executado ao chegar ao final do scroll: () => void */
   onScrollEnd?: () => void;
   
+  /** Indica se há mais itens disponíveis para carregamento */
+  hasMore?: boolean;
+
   /** Estado de carregamento de mais itens */
   isLoadingMore?: boolean;
   
-  /** Habilita busca via API */
+  /**
+   * @deprecated Futuramente a busca remota será identificada pela presença de
+   * `onApiSearch`. Futuramente será removida.
+   */
   enableApiSearch?: boolean;
   
   /** Callback executado na busca via API: (term) => void */
@@ -231,7 +237,10 @@ export interface UseSelectLogicProps {
   /** Callback executado quando o select abre/fecha: (open) => void */
   onOpenChange?: (open: boolean) => void;
   
-  /** Habilita busca via API */
+  /**
+   * @deprecated A busca remota será identificada pela presença de
+   * `onApiSearch`. Futuramente será removida.
+   */
   enableApiSearch?: boolean;
   
   /** Callback executado na busca via API: (term) => void */

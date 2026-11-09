@@ -190,7 +190,7 @@ const ApiSearchDemo = () => {
   );
 };
 
-export const BuscaAPI: Story = {
+export const BuscaViaAPI: Story = {
   render: () => <ApiSearchDemo />,
 };
 
@@ -229,7 +229,7 @@ const InfiniteScrollDemo = () => {
   );
 };
 
-export const ScrollInfinito: Story = {
+export const ComScrollInfinito: Story = {
   render: () => <InfiniteScrollDemo />,
 };
 

@@ -61,3 +61,7 @@ local.properties
 build/
 gradle-app.setting
 !gradle-wrapper.jar
+
+# Exceção: build do pacote de tokens é versionado intencionalmente
+!packages/tokens/build/
+!packages/tokens/build/**

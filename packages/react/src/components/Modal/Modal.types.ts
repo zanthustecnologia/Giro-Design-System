@@ -42,6 +42,9 @@ export interface ModalProps extends BaseProps {
   /** Conteúdo customizado no cabeçalho, exibido ao lado do título */
   headerContent?: ReactNode;
 
+  /** Define se o botão de fechar é exibido (padrão: true) */
+  closingButton?: boolean;
+
   /** Define se o modal fecha ao clicar no overlay (padrão: true) */
   closeOnOverlayClick?: boolean;
 

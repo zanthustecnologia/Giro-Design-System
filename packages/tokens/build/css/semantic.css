@@ -20,7 +20,7 @@
   --color-border-brand: var(--color-brand-primary-500);
   --color-border-success: var(--color-feedback-success-500);
   --color-border-alert: var(--color-feedback-alert-500);
-  --color-focus-ring-default: var(--color-brand-primary-500);
+  --color-focus-ring-default: var(--color-neutral-300);
   --color-focus-ring-inverse: var(--color-neutral-0);
   --color-icon-primary: var(--color-neutral-900);
   --color-icon-secondary: var(--color-neutral-800);
