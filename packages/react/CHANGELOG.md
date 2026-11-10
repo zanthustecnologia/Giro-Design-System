@@ -1,5 +1,14 @@
 ﻿# @giro-ds/react
 
+## [12.8.1]
+
+### Bug Fixes
+
+- **TableV2:** corrige overflow que cortava o anel de foco/estado `data-state="open"` de triggers (`Menu`, `Button` variant="text"/"outlined") dentro de células; remove seletor genérico `div` que quebrava o layout interno de `Checkbox`/`Quantity`, trocando `overflow: hidden` por `overflow: clip` + `overflow-clip-margin: 12px`.
+- **Toast:** ajusta `min-width` (297px → 329px) e `max-width` (500px → 532px); `box-sizing: border-box` e `min-height: var(--spacing-48)` passam a valer em todos os breakpoints.
+- **TextField:** padroniza mensagens de erro de `type="tel"` ("Digite um telefone válido") e `type="email"` ("Digite um e-mail válido").
+- **Modal, Drawer:** corrige `useScrollbarWidth` retornando largura `0` quando o elemento rolável monta em um render posterior a `isOpen`/`children` (ex.: `Dialog.Content` do Radix).
+
 ## [12.8.0]
 
 ### Features

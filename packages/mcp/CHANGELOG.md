@@ -1,5 +1,11 @@
 ﻿# @giro-ds/mcp
 
+## [1.2.6]
+
+### Changed
+
+- **MCP:** sincroniza metadados de componentes e tokens com `@giro-ds/react@12.8.1` (inclui remoção da entrada obsoleta do `Table` v1).
+
 ## [1.2.5]
 
 ### Changed
