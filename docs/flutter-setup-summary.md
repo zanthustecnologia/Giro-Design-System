@@ -1,5 +1,11 @@
 # 📱 Configuração Flutter - Resumo Completo
 
+> ⚠️ **Documento histórico (12/12/2025).** Registra o setup inicial com os nomes antigos
+> (`packages/components-flutter`, `apps/storybook-flutter`, pacote `zanthus_flutter`). Esses
+> nomes foram substituídos por `packages/flutter`, `apps/widgetbook-flutter` e `flutter_giro`
+> na reescrita v0.3.0. Veja [flutter-getting-started.md](./flutter-getting-started.md) para a
+> documentação atualizada.
+
 Este documento resume toda a configuração Flutter adicionada ao monorepo Zanthus Design System.
 
 ## ✅ O que foi criado
