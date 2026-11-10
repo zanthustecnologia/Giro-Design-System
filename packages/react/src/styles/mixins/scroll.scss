@@ -1,0 +1,15 @@
+// =============================================================================
+// Mixin de área rolável — compartilhado entre Drawer, Modal e Dialog
+// =============================================================================
+
+/// Aplica o comportamento de área rolável a um item flex, reservando o
+/// espaço da scrollbar (`scrollbar-gutter: stable`) para evitar que o
+/// conteúdo se desloque/desalinhe quando ela aparece.
+///
+/// @param {Number|String} $flex - Valor de `flex` do item (padrão: 1)
+@mixin scrollable-area($flex: 1) {
+  flex: $flex;
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-gutter: stable;
+}

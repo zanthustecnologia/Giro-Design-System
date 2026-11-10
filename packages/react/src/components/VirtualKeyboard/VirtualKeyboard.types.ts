@@ -56,6 +56,9 @@ export interface VirtualKeyboardProps extends Omit<BaseProps, 'disabled'> {
   /** Callback executado quando uma tecla é pressionada: (key) => void */
   onKeyPress?: (key: string) => void;
 
+  /** Callback executado quando a tecla Enter é pressionada */
+  onEnterPress?: () => void;
+
   /**
    * Callback executado sempre que o `type` do teclado muda.
    * Útil para que o consumidor saiba o tipo atual e possa reagir à mudança
@@ -90,6 +93,24 @@ export interface VirtualKeyboardProps extends Omit<BaseProps, 'disabled'> {
    * @default true
    */
   showTypeSwitchKey?: boolean;
+
+  /**
+   * Quando `true`, exibe o numpad numérico no formato de 4 colunas (estilo iOS nativo),
+   * com as teclas `-`, `↵` `_`, `⌫` e `→|` (enter/submit).
+   * Só tem efeito quando `type="numeric"` e `variant="native"`.
+   * @default false
+   */
+  numpadWithEnter?: boolean;
+
+  /**
+   * Altura do teclado no modo `native` (overlay). Aceita qualquer valor CSS válido
+   * de altura (ex.: `'320px'`, `'50dvh'`, `'40%'`).
+   * Se omitido, o teclado usa uma altura fluida padrão baseada no viewport
+   * (`clamp(280px, 45dvh, 420px)`).
+   * Independente do valor informado, a altura nunca fica menor que 280px (piso mínimo).
+   * Só tem efeito quando `variant="native"`.
+   */
+  nativeHeight?: string;
 
   /** Texto de ajuda do TextField exibido no modo `fixed` */
   helperText?: string;

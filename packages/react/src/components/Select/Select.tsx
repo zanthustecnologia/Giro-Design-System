@@ -37,8 +37,9 @@ const Select: React.FC<SelectProps> = ({
   tooltipAlign = 'start',
   enableInfiniteScroll = false,
   onScrollEnd,
+  hasMore = true,
   isLoadingMore = false,
-  enableApiSearch = false,
+  enableApiSearch,
   onApiSearch,
   isSearching = false,
   scale = 1,
@@ -48,6 +49,28 @@ const Select: React.FC<SelectProps> = ({
   const selectId = `select-${componentId}`;
   const viewportRef = useRef<HTMLDivElement>(null);
   const hasReachedEndRef = useRef<boolean>(false);
+  const wasLoadingMoreRef = useRef<boolean>(false);
+
+  const isApiSearch = enableApiSearch ?? Boolean(onApiSearch);
+
+  useEffect(() => {
+    if (process.env.NODE_ENV !== 'production' && enableApiSearch !== undefined) {
+      console.warn(
+        '[Giro DS] `enableApiSearch` está depreciado. ' +
+        'A busca remota será ativada pela presença de `onApiSearch`. ' +
+        'Remoção psera feita futuramente.'
+      );
+    }
+  }, [enableApiSearch]);
+
+  useEffect(() => {
+    if (process.env.NODE_ENV !== 'production' && enableApiSearch === false && onApiSearch) {
+      console.warn(
+        '[Giro DS] A combinação `enableApiSearch={false}` com `onApiSearch` ' +
+        'futuramente o comportamento ira mudar'
+      );
+    }
+  }, [enableApiSearch, onApiSearch]);
 
   const {
     state,
@@ -60,7 +83,7 @@ const Select: React.FC<SelectProps> = ({
     search,
     onValueChange,
     onOpenChange,
-    enableApiSearch,
+    enableApiSearch: isApiSearch,
     onApiSearch,
     isSearching,
     error,
@@ -74,7 +97,7 @@ const Select: React.FC<SelectProps> = ({
       const { scrollTop, scrollHeight, clientHeight } = viewport;
       const isAtBottom = scrollTop + clientHeight >= scrollHeight - 1;
 
-      if (isAtBottom && !hasReachedEndRef.current && onScrollEnd && !isLoadingMore) {
+      if (isAtBottom && !hasReachedEndRef.current && onScrollEnd && !isLoadingMore && hasMore) {
         hasReachedEndRef.current = true;
         onScrollEnd();
       } else if (!isAtBottom && hasReachedEndRef.current) {
@@ -87,7 +110,7 @@ const Select: React.FC<SelectProps> = ({
     return () => {
       viewport.removeEventListener('scroll', handleScroll);
     };
-  }, [state.isOpen, enableInfiniteScroll, onScrollEnd, isLoadingMore]);
+  }, [state.isOpen, enableInfiniteScroll, onScrollEnd, isLoadingMore, hasMore]);
 
   useEffect(() => {
     if (state.isOpen && enableInfiniteScroll) {
@@ -95,15 +118,40 @@ const Select: React.FC<SelectProps> = ({
     }
   }, [state.isOpen, enableInfiniteScroll]);
 
+  useEffect(() => {
+    if (wasLoadingMoreRef.current && !isLoadingMore && enableInfiniteScroll) {
+      hasReachedEndRef.current = false;
+    }
+    wasLoadingMoreRef.current = isLoadingMore;
+  }, [isLoadingMore, enableInfiniteScroll]);
+
   const displayText = useMemo(
     () => utils.getDisplayText(state.selectedValues, placeholder, variant, items),
     [state.selectedValues, placeholder, variant, items, utils]
   );
 
   const filteredItems = useMemo(() => {
-    const termToFilter = enableApiSearch ? state.searchTerm : state.searchInput;
+    const termToFilter = isApiSearch ? state.searchTerm : state.searchInput;
     return utils.getFilteredItems(items, termToFilter);
-  }, [items, state.searchTerm, state.searchInput, enableApiSearch, utils]);
+  }, [items, state.searchTerm, state.searchInput, isApiSearch, utils]);
+
+  useEffect(() => {
+    if (!state.isOpen || !enableInfiniteScroll || !onScrollEnd || isLoadingMore) return;
+
+    const timer = setTimeout(() => {
+      const viewport = viewportRef.current;
+      if (!viewport) return;
+
+      const { scrollHeight, clientHeight } = viewport;
+
+      if (scrollHeight <= clientHeight && !hasReachedEndRef.current && hasMore) {
+        hasReachedEndRef.current = true;
+        onScrollEnd();
+      }
+    }, 150);
+
+    return () => clearTimeout(timer);
+  }, [state.isOpen, enableInfiniteScroll, onScrollEnd, isLoadingMore, hasMore, filteredItems.length]);
 
   const containerStyle = useMemo(() => ({
     maxWidth: maxWidth ? `${maxWidth}px` : undefined,
@@ -114,7 +162,7 @@ const Select: React.FC<SelectProps> = ({
     const value = e.target.value;
     actions.setSearchInput(value);
     
-    if (enableApiSearch) {
+    if (isApiSearch) {
       actions.setSearchTerm(value);
     }
   };
@@ -143,7 +191,7 @@ const Select: React.FC<SelectProps> = ({
 
   const handleClear = () => {
     actions.resetSearch();
-    if (enableApiSearch && onApiSearch) {
+    if (isApiSearch && onApiSearch) {
       onApiSearch('');
     }
   };

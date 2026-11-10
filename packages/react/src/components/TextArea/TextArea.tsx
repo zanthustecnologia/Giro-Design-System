@@ -1,5 +1,7 @@
 import clsx from 'clsx';
-import React, { useState, useCallback, useId, forwardRef, useEffect } from 'react';
+import React, { useState, useCallback, useId, useEffect } from 'react';
+
+import { forwardRef } from '../../utils/forwardRef';
 
 import styles from './TextArea.module.scss';
 import useInputKeyboardValue from '../../hooks/useInputKeyboardValue';

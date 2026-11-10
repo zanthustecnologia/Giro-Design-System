@@ -48,15 +48,21 @@ const Toast: React.FC<ToastProps & { id: string }> = ({
 }) => {
   const [open, setOpen] = React.useState(false);
   const { dismissToast } = useToastContext();
+  const dismissTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
 
   React.useEffect(() => {
     setOpen(true);
+    return () => {
+      if (dismissTimerRef.current !== null) {
+        clearTimeout(dismissTimerRef.current);
+      }
+    };
   }, []);
 
   const handleOpenChange = (isOpen: boolean) => {
     setOpen(isOpen);
     if (!isOpen && id) {
-      setTimeout(() => dismissToast(id), 200);
+      dismissTimerRef.current = setTimeout(() => dismissToast(id), 200);
     }
   };
 

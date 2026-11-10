@@ -93,7 +93,6 @@
 .clearButton {
   position: absolute;
   right: scale(var(--spacing-16));
-  cursor: pointer;
   width: scale(30px);
   height: scale(30px);
   display: flex;
@@ -105,6 +104,10 @@
     width: 1em;
     height: 1em;
   }
+}
+
+.clearButton {
+  cursor: pointer;
 
   &:hover {
     background: var(--color-neutral-high-medium);
@@ -167,7 +170,8 @@
 // Estado desabilitado
 .disabled {
   .label,
-  .required {
+  .required,
+  .helperText {
     color: var(--color-neutral-high-dark);
   }
 

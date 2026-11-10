@@ -2,12 +2,14 @@ import { SpinnerIos16Regular } from '@fluentui/react-icons';
 import clsx from 'clsx';
 import React, { useId, useMemo } from 'react';
 
+import { forwardRef } from '../../utils/forwardRef';
+
 import Tooltip from '../Tooltip';
 import styles from './Button.module.scss';
 
 import type { ButtonProps } from './Button.types';
 
-const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>((
+const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>((
   {
     as,
     children,
@@ -207,7 +209,7 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPro
     return {};
   };
 
-  if (iconOnly && tooltipText && !loading) {
+  if (tooltipText && !loading) {
     return (
       <Tooltip text={tooltipText} side={tooltipSide} align={tooltipAlign}>
         <Component

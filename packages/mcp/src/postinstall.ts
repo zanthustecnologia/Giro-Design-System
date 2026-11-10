@@ -5,6 +5,7 @@
  * so the MCP server is available in VS Code / GitHub Copilot without manual setup.
  */
 import * as fs from 'fs';
+import * as os from 'os';
 import * as path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -14,6 +15,8 @@ const MCP_CONFIG = {
       type: 'stdio',
       command: 'npx',
       args: ['-y', '@giro-ds/mcp'],
+      // Run npx from home dir to avoid npm arborist crashing on pnpm workspace symlinks
+      cwd: os.homedir(),
     },
   },
 };

@@ -1,14 +1,13 @@
 import { addons } from 'storybook/manager-api';
 import { createElement } from 'react';
 import { ZanthusTheme } from './theme';
+import '../../../packages/tokens/build/css/tokens.css';
 import './manager.css';
 
 // Componentes — badge aparece no nó pai (colapsado ou não)
 // Usar o name do componente (última parte do title)
 const NEW_COMPONENTS = new Set([
-  'TableV2',
   'VirtualKeyboard',
-  'VerificationCode',
   'ToggleButton',
 ]);
 
@@ -21,6 +20,8 @@ const NEW_PAGES = new Set([
 // Usar o name do componente (última parte do title)
 const DEPRECATED_COMPONENTS = new Set([
   'Table',
+  'Busca Via API',
+  'Com Scroll Infinito',
 ]);
 
 // Páginas MDX standalone — badge aparece direto no item

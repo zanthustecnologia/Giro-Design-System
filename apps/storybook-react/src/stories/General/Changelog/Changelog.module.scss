@@ -119,13 +119,6 @@
   &.patch .sectionLabel { color: var(--color-neutral-low-medium, #88898c); }
 }
 
-.sectionHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--spacing-12);
-}
-
 .sectionLabel {
   font-family: var(--font-family-primary, 'Figtree', sans-serif);
   font-size: var(--font-size-14);

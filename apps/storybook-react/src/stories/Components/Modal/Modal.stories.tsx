@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Modal, Button } from '@giro-ds/react';
+import { Modal, Button, TextField, VirtualKeyboard } from '@giro-ds/react';
 
 const meta: Meta<typeof Modal> = {
   title: 'Components/Modal',
@@ -15,6 +15,10 @@ const meta: Meta<typeof Modal> = {
   },
   argTypes: {
     title: { control: 'text' },
+    closingButton: {
+      control: 'boolean',
+      description: 'Define se o botão de fechar é exibido (padrão: true)',
+    },
     closeOnOverlayClick: { control: 'boolean' },
     customWidth: {
       control: 'text',
@@ -43,6 +47,7 @@ type Story = StoryObj<typeof Modal>;
 const ModalDemo = ({
   title = 'Título do Modal',
   closeOnOverlayClick = true,
+  closingButton = true,
   customWidth,
   customHeight,
   fullscreen,
@@ -61,6 +66,7 @@ const ModalDemo = ({
         onClose={() => setIsOpen(false)}
         title={title}
         closeOnOverlayClick={closeOnOverlayClick}
+        closingButton={closingButton}
         customWidth={customWidth}
         customHeight={customHeight}
         fullscreen={fullscreen}
@@ -78,16 +84,18 @@ export const Default: Story = {
     <ModalDemo
       title={args.title}
       closeOnOverlayClick={args.closeOnOverlayClick}
+      closingButton={args.closingButton}
       customWidth={args.customWidth}
       customHeight={args.customHeight}
       fullscreen={args.fullscreen}
     >
-      <p>Conteúdo interno do Modal. Qualquer elemento React pode ser inserido aqui.</p>
+      Conteúdo interno do Modal. Qualquer elemento React pode ser inserido aqui.
     </ModalDemo>
   ),
   args: {
     title: 'Título do Modal',
     closeOnOverlayClick: true,
+    closingButton: true,
     fullscreen: false,
   },
 };
@@ -95,39 +103,74 @@ export const Default: Story = {
 export const ConteudoLongo: Story = {
   render: () => (
     <ModalDemo title="Termos de uso">
-      <p>
         Ao utilizar esta plataforma, você concorda com os termos de uso e a política de privacidade
         descritos neste documento. Leia atentamente antes de prosseguir.
-      </p>
-      <p style={{ marginTop: '16px' }}>
+        <br/>
         O uso indevido das informações disponibilizadas pode resultar na suspensão temporária ou
         permanente da sua conta, a critério da administração da plataforma.
-      </p>
-      <p style={{ marginTop: '16px' }}>
+        <br/>
         Reservamo-nos o direito de atualizar estes termos a qualquer momento. Você será notificado
         em caso de alterações significativas.
-      </p>
-      <p style={{ marginTop: '16px' }}>
+        <br/>
         Para dúvidas ou solicitações relacionadas à privacidade dos seus dados, entre em contato
         pelo canal de suporte disponível na plataforma.
-      </p>
-      <p style={{ marginTop: '16px' }}>
+        <br/>
         Ao continuar utilizando a plataforma após a publicação de novas versões dos termos, você
         automaticamente concorda com as alterações efetuadas.
-      </p>
+
     </ModalDemo>
   ),
+};
+
+export const ComScroll: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Modal com altura fixa (customHeight) e conteúdo suficiente para forçar o scroll interno do corpo (modalBody), útil para validar a compensação visual da scrollbar.',
+      },
+    },
+  },
+  render: () => {
+    const [isOpen, setIsOpen] = useState(false);
+
+    return (
+      <>
+        <Button variant="outlined" onClick={() => setIsOpen(true)}>
+          Abrir Modal com scroll
+        </Button>
+        <Modal
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+          title="Conteúdo rolável"
+          customHeight="400px"
+          footer={
+            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px' }}>
+              <Button variant="outlined" onClick={() => setIsOpen(false)}>Cancelar</Button>
+              <Button onClick={() => setIsOpen(false)}>Confirmar</Button>
+            </div>
+          }
+        >
+          <p>Este Modal tem altura fixa e conteúdo suficiente para gerar uma scrollbar.</p>
+          {Array.from({ length: 40 }, (_, i) => (
+            <p key={i} style={{ margin: '8px 0', color: 'var(--color-neutral-low-medium)' }}>
+              Item de conteudo {i + 1}
+            </p>
+          ))}
+        </Modal>
+      </>
+    );
+  },
 };
 
 export const SemFechamentoPorOverlay: Story = {
   render: () => (
     <ModalDemo title="Formulário" closeOnOverlayClick={false}>
-      <p>
+
         Este Modal só pode ser fechado pelo botão X. Clicar fora não tem efeito.
-      </p>
-      <p style={{ marginTop: '16px' }}>
+        <br/>
         Útil para fluxos onde o usuário pode perder dados ao fechar acidentalmente.
-      </p>
+
     </ModalDemo>
   ),
 };
@@ -141,37 +184,7 @@ export const SemTitulo: Story = {
           Abrir Modal sem título
         </Button>
         <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
-          <p>Modal sem título definido. O cabeçalho exibe apenas o botão de fechar.</p>
-        </Modal>
-      </>
-    );
-  },
-};
-
-export const ComFooter: Story = {
-  render: () => {
-    const [isOpen, setIsOpen] = useState(false);
-    return (
-      <>
-        <Button variant="outlined" onClick={() => setIsOpen(true)}>
-          Abrir Modal
-        </Button>
-        <Modal
-          isOpen={isOpen}
-          onClose={() => setIsOpen(false)}
-          title="Confirmar ação"
-          footer={
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '8px' }}>
-              <Button variant="outlined" onClick={() => setIsOpen(false)}>
-                Cancelar
-              </Button>
-              <Button variant="filled" onClick={() => setIsOpen(false)}>
-                Confirmar
-              </Button>
-            </div>
-          }
-        >
-          <p>Tem certeza que deseja realizar esta ação? Esta operação não pode ser desfeita.</p>
+          Modal sem título definido. O cabeçalho exibe apenas o botão de fechar.
         </Modal>
       </>
     );
@@ -202,7 +215,66 @@ export const TelaCheia: Story = {
             </div>
           }
         >
-          <p>Este modal ocupa toda a tela. Útil para fluxos complexos ou visualização de conteúdo extenso.</p>
+          Este modal ocupa toda a tela. Útil para fluxos complexos ou visualização de conteúdo extenso.
+        </Modal>
+      </>
+    );
+  },
+};
+
+export const ComVirtualKeyboard: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Reproduz o cenário de conflito entre `Modal` e `VirtualKeyboard` (modo `native`): o teclado é ' +
+          'portalizado em `document.body`, fora da árvore DOM do `Dialog.Content` do Radix. Use este story ' +
+          'para validar que clicar nas teclas não fecha o Modal nem o teclado, e que o teclado permanece ' +
+          'visível/funcional enquanto o campo está focado.',
+      },
+    },
+  },
+  render: () => {
+    const [isOpen, setIsOpen] = useState(false);
+    const [value, setValue] = useState('');
+    const inputRef = useRef<HTMLInputElement>(null);
+
+    return (
+      <>
+        <Button variant="outlined" onClick={() => setIsOpen(true)}>
+          Abrir Modal com VirtualKeyboard
+        </Button>
+        <Modal
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+          title="Modal + VirtualKeyboard"
+        >
+          <p style={{ marginTop: 0 }}>
+            Clique no campo abaixo para abrir o teclado virtual e, em seguida, toque nas teclas.
+            Nem o teclado, nem o Modal devem fechar sozinhos.
+          </p>
+          {/*
+            O VirtualKeyboard não define z-index próprio (fica a cargo de quem o consome).
+            Neste story, garantimos que o teclado fique acima do Modal via className + CSS local.
+          */}
+          <style>{'.vk-demo-zindex { z-index: 1100; }'}</style>
+          <TextField
+            label="Campo de texto"
+            value={value}
+            onChange={setValue}
+            placeholder="Clique aqui para abrir o teclado..."
+            readOnly
+            helperText="Clique no campo para abrir o teclado virtual"
+            ref={inputRef}
+          />
+          <VirtualKeyboard
+            variant="native"
+            type="default"
+            targetRef={inputRef as React.RefObject<HTMLInputElement>}
+            value={value}
+            onChange={setValue}
+            className="vk-demo-zindex"
+          />
         </Modal>
       </>
     );

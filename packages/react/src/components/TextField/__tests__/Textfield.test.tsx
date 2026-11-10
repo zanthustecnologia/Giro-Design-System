@@ -175,6 +175,28 @@ describe('TextField', () => {
 
       expect(screen.getByRole('textbox')).toHaveAttribute('aria-invalid', 'false');
     });
+
+    it('mantém o valor digitado e mostra erro quando o telefone é inválido (sem value controlado)', () => {
+      render(<TextField type="tel" />);
+      const input = screen.getByRole('textbox');
+
+      fireEvent.change(input, { target: { value: '123' } });
+      fireEvent.blur(input);
+
+      expect(input).toHaveValue('(12)3');
+      expect(screen.getByText('Telefone inválido.')).toBeInTheDocument();
+    });
+
+    it('mantém o valor digitado e mostra erro quando o e-mail é inválido (sem value controlado)', () => {
+      render(<TextField type="email" />);
+      const input = screen.getByRole('textbox');
+
+      fireEvent.change(input, { target: { value: 'nao-e-email' } });
+      fireEvent.blur(input);
+
+      expect(input).toHaveValue('nao-e-email');
+      expect(screen.getByText('E-mail inválido.')).toBeInTheDocument();
+    });
   });
 
   describe('Estado Disabled', () => {
@@ -213,8 +235,14 @@ describe('TextField', () => {
       expect(screen.getByTestId('icon')).toBeInTheDocument();
     });
 
-    it('esconde ícone quando campo tem texto', () => {
+    it('mostra ícone quando campo tem texto e não está focado', () => {
       render(<TextField icon={<span data-testid="icon">🔍</span>} value="texto" />);
+      expect(screen.getByTestId('icon')).toBeInTheDocument();
+    });
+
+    it('esconde ícone quando campo está focado com texto', () => {
+      render(<TextField icon={<span data-testid="icon">🔍</span>} value="texto" />);
+      fireEvent.focus(screen.getByRole('textbox'));
       expect(screen.queryByTestId('icon')).not.toBeInTheDocument();
     });
   });

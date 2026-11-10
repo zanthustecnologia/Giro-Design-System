@@ -1,3 +1,5 @@
+@use '../../styles/mixins/fonts' as *;
+
 @mixin svg {
   width: 1em;
   height: 1em;
@@ -33,7 +35,7 @@
     :global(.hg-button) {
       font-family: var(--font-family-primary);
       font-weight: var(--font-weight-medium);
-      font-size: var(--font-size-20);
+      @include fluid-font(20, 2, 40);
       height: 44px;
       background-color: var(--color-neutral-high-medium);
       border-radius: var(--border-radius-8);
@@ -101,6 +103,11 @@
         border-radius: var(--border-radius-8);
         height: auto;
         // max-height: 80px;
+      }
+
+      // Cancela o flex: 2 do {enter} definido em .mode--fixed — no numpad todas as teclas têm flex igual
+      :global(.hg-button[data-skbtn="{enter}"]) {
+        flex: 1 0 0;
       }
 
       :global(.hg-button[data-skbtn="{//}"]) {
@@ -210,6 +217,8 @@
 
     .keyboardWrapper {
       padding: 0 var(--spacing-4) var(--spacing-4);
+      flex: 1;
+      min-height: 0;
     }
 
     // Quando o numpad está ativo, o wrapper preenche o espaço restante do container
@@ -237,6 +246,19 @@
   bottom: var(--spacing-0);
   left: var(--spacing-0);
   right: var(--spacing-0);
+  // Radix Dialog/Popover (modal=true) zera `pointer-events` em document.body enquanto está
+  // aberto, reabilitando apenas no seu próprio Content. Como este overlay é portalizado
+  // separadamente para document.body, precisa reafirmar `pointer-events: auto` explicitamente
+  // para continuar recebendo cliques mesmo com um Modal aberto por cima.
+  pointer-events: auto;
+  --vkeyboard-native-computed-height: max(280px, var(--vkeyboard-native-height, clamp(280px, 45dvh, 420px)));
+  height: var(--vkeyboard-native-computed-height);
+  // container-type: size expõe cqh — assim a fonte cresce com a altura real do teclado
+  // (via `nativeHeight`), em vez de depender do viewport (`dvh`), que não muda com a prop.
+  container-type: size;
+  container-name: vkeyboard-native;
+  display: flex;
+  flex-direction: column;
   background-color: var(--color-neutral-high-default);
   // backdrop-filter: blur(20px);
   border-top: var(--border-width-1) solid var(--color-neutral-high-dark);
@@ -247,6 +269,11 @@
   font-weight: var(--font-weight-medium);
   padding: var(--spacing-4);
 
+  .keyboardWrapper {
+    flex: 1;
+    min-height: 0;
+  }
+
   :global(.hg-theme-default) {
     font-family: var(--font-family-primary);
     border-radius: var(--border-radius-none);
@@ -254,14 +281,16 @@
     background-color: var(--color-neutral-high-default);
     // backdrop-filter: blur(20px);
     box-shadow: none;
+    height: 100%;
 
     :global(.hg-button) {
       font-family: var(--font-family-primary);
       font-weight: var(--font-weight-medium);
-      font-size: var(--font-size-20);
+      @include fluid-font(20, 2, 40);
       background-color: var(--color-neutral-high-medium);
       margin: var(--spacing-4);
-      height: 44px;
+      height: auto;
+      min-height: 44px;
       line-height: 1;
       letter-spacing: normal;
       border-radius: var(--border-radius-8);
@@ -295,18 +324,54 @@
   }
 
   &.layout--numeric {
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    width: 100%;
+    max-width: calc(var(--vkeyboard-native-computed-height) * 9 / 7);
+    border-top: none;
+    background-color: transparent;
+    transform: translateY(100%);
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100vw;
+      height: 100%;
+      background-color: var(--color-neutral-high-default);
+      border-top: var(--border-width-1) solid var(--color-neutral-high-dark);
+    }
+
+    &.overlayOpen {
+      transform: translateY(0);
+    }
+
     :global(.hg-layout-default),
     :global(.hg-layout-numbers) {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+
+      :global(.hg-rows) {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+      }
+
       :global(.hg-button) {
         @include buttonFlex;
         height: auto;
-        max-height: 80px;
+        // max-height: 80px;
       }
 
       :global(.hg-row) {
         flex: 1 0 auto;
         min-height: calc(44px + 2 * var(--spacing-4));
-        max-height: calc(80px + 2 * var(--spacing-4));
+        // max-height: calc(80px + 2 * var(--spacing-4));
       }
 
       :global(.hg-button[data-skbtn="{//}"]) {
@@ -331,6 +396,35 @@
   }
 
   &.layout--default {
+    :global(.hg-layout-default),
+    :global(.hg-layout-shift),
+    :global(.hg-layout-caps),
+    :global(.hg-layout-alt),
+    :global(.hg-layout-alt2),
+    :global(.hg-layout-abc),
+    :global(.hg-layout-emoticon) {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+
+      :global(.hg-rows) {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+      }
+
+      :global(.hg-row) {
+        flex: 1;
+        min-height: 44px;
+      }
+
+      :global(.hg-button) {
+        @include buttonFlex;
+        height: auto;
+      }
+    }
+
     :global(.hg-button[data-skbtn="{//}"]) {
       @include blankSpace;
     }
@@ -377,7 +471,7 @@
   background: var(--color-neutral-high-medium);
   box-shadow: none;
   font-family: var(--font-family-primary);
-  font-size: var(--font-size-24);
+  @include fluid-font(20, 2, 40);
   font-weight: var(--font-weight-medium);
   pointer-events: none;
   user-select: none;
@@ -386,6 +480,10 @@
 
 .accentMenu {
   position: fixed;
+  // Mesmo motivo do `.overlay`: portalizado separadamente para document.body, precisa
+  // reafirmar `pointer-events: auto` para continuar clicável com um Modal aberto.
+  // O z-index fica a cargo de quem consome o componente (via `className`).
+  pointer-events: auto;
   transform: translate(-50%, calc(-100%));
   display: inline-flex;
   flex-direction: column;
@@ -411,7 +509,7 @@
   border: none;
   border-radius: var(--border-radius-8);
   font-family: var(--font-family-primary);
-  font-size: var(--font-size-24);
+  @include fluid-font(20, 2, 40);
   background: none;
   font-weight: var(--font-weight-medium);
   cursor: pointer;
@@ -440,7 +538,7 @@
 @container vkeyboard (max-width: 768px) {
   :global(.hg-theme-default) {
     :global(.hg-button) {
-      height: 42px;
+      min-height: 42px;
       margin: 3px;
     }
   }
@@ -457,8 +555,7 @@
 
   :global(.hg-theme-default) {
     :global(.hg-button) {
-      height: 40px;
-      font-size: var(--font-size-18);
+      min-height: 40px;
       margin: 3px;
     }
   }
@@ -475,8 +572,7 @@
 
   :global(.hg-theme-default) {
     :global(.hg-button) {
-      height: 38px;
-      font-size: var(--font-size-16);
+      min-height: 38px;
       margin: 2px;
     }
   }
@@ -493,8 +589,7 @@
 
   :global(.hg-theme-default) {
     :global(.hg-button) {
-      height: 38px;
-      font-size: var(--font-size-16);
+      min-height: 38px;
       margin: 2px;
       border-radius: var(--border-radius-4);
     }
@@ -504,11 +599,24 @@
 // ─── Media queries — modo native overlay (respondem ao viewport) ──────────────
 // O overlay é position:fixed e portado para document.body, por isso usa @media.
 
+// Telas grandes (tablets/desktops) — a altura cresce de forma fluida com a altura
+// da viewport (dvh) em vez de ficar travada em 44px, até um teto de 64px.
+@media (min-width: 769px) {
+  .overlay {
+    :global(.hg-theme-default) {
+      :global(.hg-button) {
+        min-height: clamp(44px, 6dvh, 64px);
+        margin: var(--spacing-4);
+      }
+    }
+  }
+}
+
 @media (max-width: 768px) {
   .overlay {
     :global(.hg-theme-default) {
       :global(.hg-button) {
-        height: 42px;
+        min-height: clamp(38px, 6dvh, 48px);
         margin: 3px;
       }
     }
@@ -521,8 +629,7 @@
 
     :global(.hg-theme-default) {
       :global(.hg-button) {
-        height: 40px;
-        font-size: var(--font-size-18);
+        min-height: clamp(38px, 6dvh, 48px);
         margin: 3px;
       }
     }
@@ -535,8 +642,7 @@
 
     :global(.hg-theme-default) {
       :global(.hg-button) {
-        height: 38px;
-        font-size: var(--font-size-16);
+        min-height: clamp(38px, 6dvh, 48px);
         margin: 2px;
       }
     }
@@ -549,8 +655,7 @@
 
     :global(.hg-theme-default) {
       :global(.hg-button) {
-        height: 38px;
-        font-size: var(--font-size-16);
+        min-height: clamp(38px, 6dvh, 48px);
         margin: 2px;
         border-radius: var(--border-radius-4);
       }
@@ -578,13 +683,11 @@
   .keyPreview {
     width: 46px;
     height: 46px;
-    font-size: var(--font-size-20);
   }
 
   .accentOption {
     min-width: 46px;
     height: 46px;
-    font-size: var(--font-size-20);
   }
 }
 
@@ -592,14 +695,12 @@
   .keyPreview {
     width: 44px;
     height: 44px;
-    font-size: var(--font-size-18);
   }
 
   .accentOption {
     min-width: 44px;
     height: 44px;
     padding: 0 var(--spacing-4);
-    font-size: var(--font-size-18);
   }
 }
 
@@ -607,13 +708,11 @@
   .keyPreview {
     width: 44px;
     height: 44px;
-    font-size: var(--font-size-16);
   }
 
   .accentOption {
     min-width: 44px;
     height: 44px;
     padding: 0 var(--spacing-4);
-    font-size: var(--font-size-16);
   }
 }
