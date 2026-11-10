@@ -23,6 +23,8 @@ const Tabs: React.FC<TabsProps> = ({
 	const listRef = React.useRef<HTMLDivElement>(null);
 	const [canScrollLeft, setCanScrollLeft] = React.useState(false);
 	const [canScrollRight, setCanScrollRight] = React.useState(false);
+	const [isSnapScrolling, setIsSnapScrolling] = React.useState(false);
+	const snapTimeoutRef = React.useRef<ReturnType<typeof setTimeout>>();
 
 	// Drag-to-scroll (mouse)
 	const isDragging = React.useRef(false);
@@ -62,17 +64,24 @@ const Tabs: React.FC<TabsProps> = ({
 		document.addEventListener("mousemove", handleMouseMove);
 		document.addEventListener("mouseup", handleMouseUp);
 
+		const handleScrollEnd = () => setIsSnapScrolling(false);
+		el.addEventListener("scrollend", handleScrollEnd);
+
 		return () => {
 			el.removeEventListener("scroll", checkScroll);
+			el.removeEventListener("scrollend", handleScrollEnd);
 			ro.disconnect();
 			document.removeEventListener("mousemove", handleMouseMove);
 			document.removeEventListener("mouseup", handleMouseUp);
+			if (snapTimeoutRef.current) clearTimeout(snapTimeoutRef.current);
 		};
 	}, [checkScroll]);
 
 	const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
 		const el = listRef.current;
 		if (!el) return;
+		if (snapTimeoutRef.current) clearTimeout(snapTimeoutRef.current);
+		setIsSnapScrolling(false);
 		isDragging.current = true;
 		hasDragged.current = false;
 		dragStartX.current = e.clientX;
@@ -88,6 +97,9 @@ const Tabs: React.FC<TabsProps> = ({
 	};
 
 	const handleScroll = (direction: "left" | "right") => {
+		setIsSnapScrolling(true);
+		if (snapTimeoutRef.current) clearTimeout(snapTimeoutRef.current);
+		snapTimeoutRef.current = setTimeout(() => setIsSnapScrolling(false), 600);
 		listRef.current?.scrollBy({
 			left: direction === "left" ? -scrollAmount : scrollAmount,
 			behavior: "smooth",
@@ -121,7 +133,7 @@ const Tabs: React.FC<TabsProps> = ({
 				<div
 					ref={listRef}
 					role="none"
-					className={styles.ListScroll}
+					className={clsx(styles.ListScroll, { [styles.ListScrollSnap]: isSnapScrolling })}
 					onMouseDown={handleMouseDown}
 					onClickCapture={handleClickCapture}
 				>
