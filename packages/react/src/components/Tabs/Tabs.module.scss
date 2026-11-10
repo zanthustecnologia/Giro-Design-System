@@ -6,7 +6,6 @@
 .ListWrapper {
   display: flex;
   align-items: center;
-  border-bottom: var(--border-width-default) solid var(--color-neutral-high-dark);
 }
 
 .ListScroll {
@@ -14,6 +13,7 @@
   min-width: 0;
   overflow-x: auto;
   scrollbar-width: none;
+  scroll-snap-type: x proximity;
   user-select: none;
 
   &::-webkit-scrollbar {
@@ -70,52 +70,36 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 0 8px;
-  height: 40px;
-  border-radius: var(--border-radius-8) var(--border-radius-8) 0 0;
-  background: transparent;
+  padding: 8px 16px;
+  border-radius: var(--border-radius-pill);
+  scroll-snap-align: start;
+  background-color: var(--color-neutral-high-medium);
   border: none;
   cursor: pointer;
   font-size: var(--font-size-14);
   font-weight: var(--font-weight-medium);
-  color: var(--color-neutral-low-dark);
+  color: var(--color-neutral-low-default);
   white-space: nowrap;
   transition: background-color 150ms ease, color 150ms ease;
 
-  // Indicador ativo (linha na base do trigger)
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: -1px;
-    left: 1px;
-    right: 1px;
-    height: var(--border-width-medium);
-    background: transparent;
-    border-radius: var(--border-radius-4) var(--border-radius-4) 0 0;
-    transition: background-color 150ms ease;
-  }
-
   // Selecionado
   &[data-state="active"] {
-    color: var(--color-neutral-low-default);
-
-    &::after {
-      background: var(--color-brand-secondary-default);
-    }
+    background-color: var(--color-brand-primary-light);
   }
 
   // Hover (idle)
   &:hover:not([data-disabled]) {
-    background-color: var(--color-neutral-high-medium);
+    background-color: var(--color-neutral-high-dark);
   }
 
   // Hover (selecionado)
   &[data-state="active"]:hover:not([data-disabled]) {
-    background-color: var(--color-brand-secondary-light);
+    background-color: var(--color-brand-primary-medium);
   }
 
   // Desabilitado
   &[data-disabled] {
+    background-color: var(--color-neutral-high-light);
     color: var(--color-neutral-low-light);
     cursor: not-allowed;
     pointer-events: none;
@@ -124,10 +108,6 @@
   // Selecionado + desabilitado
   &[data-state="active"][data-disabled] {
     background-color: var(--color-neutral-high-light);
-
-    &::after {
-      background: var(--color-neutral-high-medium);
-    }
   }
 }
 
