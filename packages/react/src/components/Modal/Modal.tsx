@@ -27,8 +27,7 @@ const Modal: React.FC<ModalProps> = ({
   ...rest
 }) => {
   const contentRef = React.useRef<HTMLDivElement>(null);
-  const bodyRef = React.useRef<HTMLElement>(null);
-  const scrollbarWidth = useScrollbarWidth(bodyRef, [isOpen, children]);
+  const [bodyRef, scrollbarWidth] = useScrollbarWidth<HTMLElement>([isOpen, children]);
 
   // Container próprio reanexado ao final do body a cada abertura, para que o
   // overlay/conteúdo fiquem visualmente acima de outros Drawer/Modal/Dialog

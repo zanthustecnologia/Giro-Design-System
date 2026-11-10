@@ -81,8 +81,7 @@ const Drawer: React.FC<DrawerProps> = ({
     internalClose();
   };
 
-  const contentRef = useRef<HTMLDivElement>(null);
-  const scrollbarWidth = useScrollbarWidth(contentRef, [isOpen, children]);
+  const [contentRef, scrollbarWidth] = useScrollbarWidth<HTMLDivElement>([isOpen, children]);
 
   const portalRootRef = useRef<HTMLDivElement>(null);
 
