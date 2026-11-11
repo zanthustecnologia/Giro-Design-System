@@ -24,7 +24,7 @@ const Tabs: React.FC<TabsProps> = ({
 	const [canScrollLeft, setCanScrollLeft] = React.useState(false);
 	const [canScrollRight, setCanScrollRight] = React.useState(false);
 	const [isSnapScrolling, setIsSnapScrolling] = React.useState(false);
-	const snapTimeoutRef = React.useRef<ReturnType<typeof setTimeout>>();
+	const snapTimeoutRef = React.useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
 	// Drag-to-scroll (mouse)
 	const isDragging = React.useRef(false);

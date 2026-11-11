@@ -14,6 +14,7 @@
   overflow-x: auto;
   scrollbar-width: none;
   user-select: none;
+  padding: 4px;
 
   &::-webkit-scrollbar {
     display: none;
@@ -85,6 +86,12 @@
   color: var(--color-neutral-low-default);
   white-space: nowrap;
   transition: background-color 150ms ease, color 150ms ease;
+  outline: none;
+
+  &:focus-visible {
+    outline: var(--border-width-focus) solid var(--color-focus-ring-default);
+    outline-offset: var(--border-width-default);
+  }
 
   // Selecionado
   &[data-state="active"] {

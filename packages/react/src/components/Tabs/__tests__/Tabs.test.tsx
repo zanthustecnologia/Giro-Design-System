@@ -21,6 +21,7 @@ vi.mock('radix-ui', () => {
     defaultValue = '',
     value: controlledValue,
     onValueChange,
+    activationMode,
     className,
     id,
     'data-testid': testId,
@@ -35,15 +36,20 @@ vi.mock('radix-ui', () => {
 
     return (
       <Ctx.Provider value={{ active, onChange }}>
-        <div id={id} className={className} data-testid={testId}>
+        <div
+          id={id}
+          className={className}
+          data-testid={testId}
+          data-activation-mode={activationMode}
+        >
           {children}
         </div>
       </Ctx.Provider>
     );
   };
 
-  const List = ({ children, 'aria-label': ariaLabel, className }: any) => (
-    <div role="tablist" aria-label={ariaLabel} className={className}>
+  const List = ({ children, 'aria-label': ariaLabel, className, loop }: any) => (
+    <div role="tablist" aria-label={ariaLabel} className={className} data-loop={String(loop)}>
       {children}
     </div>
   );
@@ -543,6 +549,162 @@ describe('Tabs', () => {
     });
   });
 
+  // ── Snap scrolling (isSnapScrolling) ─────────────────────────────────────
+
+  describe('Snap scrolling', () => {
+    const setupOverflow = (scrollEl: HTMLElement) => {
+      mockScrollProps(scrollEl, { scrollLeft: 0, scrollWidth: 800, clientWidth: 300 });
+      act(() => {
+        fireEvent.scroll(scrollEl);
+      });
+    };
+
+    it('aplica a classe ListScrollSnap ao clicar em um botão de scroll', () => {
+      const { container } = render(<Tabs items={defaultItems} defaultValue="tab1" />);
+      const scrollEl = getScrollContainer(container);
+      scrollEl.scrollBy = vi.fn();
+      setupOverflow(scrollEl);
+
+      const { right } = getScrollButtons();
+      fireEvent.click(right);
+
+      expect(scrollEl.className).toContain('ListScrollSnap');
+    });
+
+    it('remove a classe ListScrollSnap automaticamente após 600ms', () => {
+      vi.useFakeTimers();
+      const { container } = render(<Tabs items={defaultItems} defaultValue="tab1" />);
+      const scrollEl = getScrollContainer(container);
+      scrollEl.scrollBy = vi.fn();
+      setupOverflow(scrollEl);
+
+      const { right } = getScrollButtons();
+      fireEvent.click(right);
+      expect(scrollEl.className).toContain('ListScrollSnap');
+
+      act(() => {
+        vi.advanceTimersByTime(600);
+      });
+
+      expect(scrollEl.className).not.toContain('ListScrollSnap');
+      vi.useRealTimers();
+    });
+
+    it('remove a classe ListScrollSnap ao disparar o evento nativo scrollend', () => {
+      const { container } = render(<Tabs items={defaultItems} defaultValue="tab1" />);
+      const scrollEl = getScrollContainer(container);
+      scrollEl.scrollBy = vi.fn();
+      setupOverflow(scrollEl);
+
+      const { right } = getScrollButtons();
+      fireEvent.click(right);
+      expect(scrollEl.className).toContain('ListScrollSnap');
+
+      act(() => {
+        fireEvent(scrollEl, new Event('scrollend'));
+      });
+
+      expect(scrollEl.className).not.toContain('ListScrollSnap');
+    });
+
+    it('reinicia o estado de snap ao iniciar um novo drag durante o scroll suave', () => {
+      vi.useFakeTimers();
+      const { container } = render(<Tabs items={defaultItems} defaultValue="tab1" />);
+      const scrollEl = getScrollContainer(container);
+      scrollEl.scrollBy = vi.fn();
+      setupOverflow(scrollEl);
+
+      const { right } = getScrollButtons();
+      fireEvent.click(right);
+      expect(scrollEl.className).toContain('ListScrollSnap');
+
+      fireEvent.mouseDown(scrollEl, { clientX: 100 });
+
+      expect(scrollEl.className).not.toContain('ListScrollSnap');
+      vi.useRealTimers();
+    });
+  });
+
+  // ── Props repassadas ao Radix ────────────────────────────────────────────
+
+  describe('Props repassadas ao Radix', () => {
+    it('usa keyboardActivationMode "automatic" por padrão', () => {
+      render(<Tabs items={defaultItems} defaultValue="tab1" data-testid="tabs-root" />);
+      expect(screen.getByTestId('tabs-root')).toHaveAttribute(
+        'data-activation-mode',
+        'automatic',
+      );
+    });
+
+    it('repassa keyboardActivationMode customizado para o Radix', () => {
+      render(
+        <Tabs
+          items={defaultItems}
+          defaultValue="tab1"
+          keyboardActivationMode="manual"
+          data-testid="tabs-root"
+        />,
+      );
+      expect(screen.getByTestId('tabs-root')).toHaveAttribute('data-activation-mode', 'manual');
+    });
+
+    it('usa loop=true por padrão', () => {
+      render(<Tabs items={defaultItems} defaultValue="tab1" />);
+      expect(screen.getByRole('tablist')).toHaveAttribute('data-loop', 'true');
+    });
+
+    it('repassa loop=false para o Radix', () => {
+      render(<Tabs items={defaultItems} defaultValue="tab1" loop={false} />);
+      expect(screen.getByRole('tablist')).toHaveAttribute('data-loop', 'false');
+    });
+  });
+
+  // ── Limpeza de listeners (unmount) ───────────────────────────────────────
+
+  describe('Limpeza de listeners', () => {
+    it('remove os listeners de scroll e scrollend do container ao desmontar', () => {
+      const { container, unmount } = render(<Tabs items={defaultItems} defaultValue="tab1" />);
+      const scrollEl = getScrollContainer(container);
+      const removeSpy = vi.spyOn(scrollEl, 'removeEventListener');
+
+      unmount();
+
+      expect(removeSpy).toHaveBeenCalledWith('scroll', expect.any(Function));
+      expect(removeSpy).toHaveBeenCalledWith('scrollend', expect.any(Function));
+    });
+
+    it('remove os listeners de mousemove e mouseup do document ao desmontar', () => {
+      const removeSpy = vi.spyOn(document, 'removeEventListener');
+      const { unmount } = render(<Tabs items={defaultItems} defaultValue="tab1" />);
+
+      unmount();
+
+      expect(removeSpy).toHaveBeenCalledWith('mousemove', expect.any(Function));
+      expect(removeSpy).toHaveBeenCalledWith('mouseup', expect.any(Function));
+      removeSpy.mockRestore();
+    });
+
+    it('cancela o timeout de snap pendente ao desmontar', () => {
+      vi.useFakeTimers();
+      const { container, unmount } = render(<Tabs items={defaultItems} defaultValue="tab1" />);
+      const scrollEl = getScrollContainer(container);
+      scrollEl.scrollBy = vi.fn();
+      mockScrollProps(scrollEl, { scrollLeft: 0, scrollWidth: 800, clientWidth: 300 });
+      act(() => {
+        fireEvent.scroll(scrollEl);
+      });
+
+      const { right } = getScrollButtons();
+      fireEvent.click(right);
+      expect(vi.getTimerCount()).toBeGreaterThan(0);
+
+      unmount();
+
+      expect(vi.getTimerCount()).toBe(0);
+      vi.useRealTimers();
+    });
+  });
+
   // ── Acessibilidade ───────────────────────────────────────────────────────
 
   describe('Acessibilidade', () => {
@@ -559,6 +721,17 @@ describe('Tabs', () => {
     it('tablist é acessível por role', () => {
       render(<Tabs items={defaultItems} defaultValue="tab1" />);
       expect(screen.getByRole('tablist')).toBeInTheDocument();
+    });
+  });
+
+  // ── Casos extremos ───────────────────────────────────────────────────────
+
+  describe('Casos extremos', () => {
+    it('renderiza uma tablist vazia sem erros quando items=[]', () => {
+      render(<Tabs items={[]} />);
+      expect(screen.getByRole('tablist')).toBeInTheDocument();
+      expect(screen.queryAllByRole('tab')).toHaveLength(0);
+      expect(screen.queryAllByRole('tabpanel')).toHaveLength(0);
     });
   });
 });
