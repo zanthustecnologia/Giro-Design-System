@@ -179,37 +179,6 @@ export const AbaDesabilitada: Story = {
   },
 };
 
-export const Controlado: Story = {
-  render: () => {
-    const [activeTab, setActiveTab] = useState('perfil');
-
-    return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-        <div style={{ display: 'flex', gap: '8px' }}>
-          {itemsBase.map((item) => (
-            <button
-              key={item.value}
-              onClick={() => setActiveTab(item.value)}
-              style={{
-                padding: '4px 12px',
-                borderRadius: '4px',
-                border: '1px solid var(--color-brand-default, #0066cc)',
-                background: activeTab === item.value ? 'var(--color-brand-default, #0066cc)' : 'transparent',
-                color: activeTab === item.value ? '#fff' : 'var(--color-brand-default, #0066cc)',
-                cursor: 'pointer',
-                fontSize: '12px',
-              }}
-            >
-              Ir para {item.label}
-            </button>
-          ))}
-        </div>
-        <Tabs value={activeTab} onValueChange={setActiveTab} items={itemsBase} />
-      </div>
-    );
-  },
-};
-
 export const NavegacaoPorSeta: Story = {
   render: (args) => <Tabs {...args} />,
   parameters: {
