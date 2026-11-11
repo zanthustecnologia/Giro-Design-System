@@ -48,10 +48,19 @@ vi.mock('radix-ui', () => {
     );
   };
 
-  const List = ({ children, 'aria-label': ariaLabel, className, loop }: any) => (
-    <div role="tablist" aria-label={ariaLabel} className={className} data-loop={String(loop)}>
-      {children}
-    </div>
+  const List = React.forwardRef(
+    ({ children, 'aria-label': ariaLabel, className, loop, onTransitionEnd }: any, ref: any) => (
+      <div
+        ref={ref}
+        role="tablist"
+        aria-label={ariaLabel}
+        className={className}
+        data-loop={String(loop)}
+        onTransitionEnd={onTransitionEnd}
+      >
+        {children}
+      </div>
+    ),
   );
 
   const Trigger = ({ children, value, disabled, className }: any) => {
@@ -522,6 +531,142 @@ describe('Tabs', () => {
 
       // Cursor deve ter sido resetado (drag encerrou normalmente)
       expect(scrollEl.style.cursor).toBe('');
+    });
+  });
+
+  // ── Bounce (overscroll elástico) ─────────────────────────────────────────
+
+  describe('Bounce (overscroll elástico)', () => {
+    it('aplica translateX positivo ao arrastar com mouse além do início da lista', () => {
+      const { container } = render(<Tabs items={defaultItems} defaultValue="tab1" />);
+      const scrollEl = getScrollContainer(container);
+      mockScrollProps(scrollEl, { scrollLeft: 0, scrollWidth: 800, clientWidth: 300 });
+      const tablist = screen.getByRole('tablist');
+
+      fireEvent.mouseDown(scrollEl, { clientX: 100 });
+      fireEvent.mouseMove(document, { clientX: 150 }); // delta=50 → target=-50 (além do início)
+
+      expect(tablist.style.transform).toBe('translateX(25px)'); // 50 * 0.5 de resistência
+    });
+
+    it('aplica translateX negativo ao arrastar com mouse além do fim da lista', () => {
+      const { container } = render(<Tabs items={defaultItems} defaultValue="tab1" />);
+      const scrollEl = getScrollContainer(container);
+      mockScrollProps(scrollEl, { scrollLeft: 500, scrollWidth: 800, clientWidth: 300 }); // max = 500
+      const tablist = screen.getByRole('tablist');
+
+      fireEvent.mouseDown(scrollEl, { clientX: 100 });
+      fireEvent.mouseMove(document, { clientX: 60 }); // delta=-40 → target=540 (além do fim)
+
+      expect(tablist.style.transform).toBe('translateX(-20px)'); // 40 * 0.5 de resistência
+    });
+
+    it('não aplica translateX ao arrastar dentro dos limites', () => {
+      const { container } = render(<Tabs items={defaultItems} defaultValue="tab1" />);
+      const scrollEl = getScrollContainer(container);
+      mockScrollProps(scrollEl, { scrollLeft: 100, scrollWidth: 800, clientWidth: 300 });
+      const tablist = screen.getByRole('tablist');
+
+      fireEvent.mouseDown(scrollEl, { clientX: 100 });
+      fireEvent.mouseMove(document, { clientX: 90 }); // delta=-10 → target=110 (dentro dos limites)
+
+      expect(tablist.style.transform).toBe('');
+    });
+
+    it('limita o deslocamento elástico ao valor máximo (OVERSCROLL_MAX)', () => {
+      const { container } = render(<Tabs items={defaultItems} defaultValue="tab1" />);
+      const scrollEl = getScrollContainer(container);
+      mockScrollProps(scrollEl, { scrollLeft: 0, scrollWidth: 800, clientWidth: 300 });
+      const tablist = screen.getByRole('tablist');
+
+      fireEvent.mouseDown(scrollEl, { clientX: 500 });
+      fireEvent.mouseMove(document, { clientX: 1000 }); // delta=500 → bem além do limite de resistência
+
+      expect(tablist.style.transform).toBe('translateX(56px)');
+    });
+
+    it('ao soltar o mouse além do limite, reseta o transform e aplica a classe de animação de retorno', () => {
+      const { container } = render(<Tabs items={defaultItems} defaultValue="tab1" />);
+      const scrollEl = getScrollContainer(container);
+      mockScrollProps(scrollEl, { scrollLeft: 0, scrollWidth: 800, clientWidth: 300 });
+      const tablist = screen.getByRole('tablist');
+
+      fireEvent.mouseDown(scrollEl, { clientX: 100 });
+      fireEvent.mouseMove(document, { clientX: 150 });
+      expect(tablist.style.transform).toBe('translateX(25px)');
+
+      fireEvent.mouseUp(document);
+
+      expect(tablist.style.transform).toBe('');
+      expect(tablist.className).toContain('Bounce');
+    });
+
+    it('remove a classe de animação de retorno ao final da transição', () => {
+      const { container } = render(<Tabs items={defaultItems} defaultValue="tab1" />);
+      const scrollEl = getScrollContainer(container);
+      mockScrollProps(scrollEl, { scrollLeft: 0, scrollWidth: 800, clientWidth: 300 });
+      const tablist = screen.getByRole('tablist');
+
+      fireEvent.mouseDown(scrollEl, { clientX: 100 });
+      fireEvent.mouseMove(document, { clientX: 150 });
+      fireEvent.mouseUp(document);
+      expect(tablist.className).toContain('Bounce');
+
+      fireEvent.transitionEnd(tablist, { propertyName: 'transform' });
+
+      expect(tablist.className).not.toContain('Bounce');
+    });
+
+    it('aplica translateX ao tentar deslizar (touch) além do início da lista', () => {
+      const { container } = render(<Tabs items={defaultItems} defaultValue="tab1" />);
+      const scrollEl = getScrollContainer(container);
+      mockScrollProps(scrollEl, { scrollLeft: 0, scrollWidth: 800, clientWidth: 300 });
+      const tablist = screen.getByRole('tablist');
+
+      fireEvent.touchStart(scrollEl, { touches: [{ clientX: 100 }] });
+      fireEvent.touchMove(scrollEl, { touches: [{ clientX: 150 }] }); // delta=50 → além do início
+
+      expect(tablist.style.transform).toBe('translateX(25px)');
+    });
+
+    it('ao soltar o toque além do limite, reseta o transform (spring-back)', () => {
+      const { container } = render(<Tabs items={defaultItems} defaultValue="tab1" />);
+      const scrollEl = getScrollContainer(container);
+      mockScrollProps(scrollEl, { scrollLeft: 0, scrollWidth: 800, clientWidth: 300 });
+      const tablist = screen.getByRole('tablist');
+
+      fireEvent.touchStart(scrollEl, { touches: [{ clientX: 100 }] });
+      fireEvent.touchMove(scrollEl, { touches: [{ clientX: 150 }] });
+      expect(tablist.style.transform).toBe('translateX(25px)');
+
+      fireEvent.touchEnd(scrollEl);
+
+      expect(tablist.style.transform).toBe('');
+      expect(tablist.className).toContain('Bounce');
+    });
+
+    it('aplica translateX negativo ao tentar deslizar (touch) além do fim da lista', () => {
+      const { container } = render(<Tabs items={defaultItems} defaultValue="tab1" />);
+      const scrollEl = getScrollContainer(container);
+      mockScrollProps(scrollEl, { scrollLeft: 500, scrollWidth: 800, clientWidth: 300 }); // max = 500
+      const tablist = screen.getByRole('tablist');
+
+      fireEvent.touchStart(scrollEl, { touches: [{ clientX: 100 }] });
+      fireEvent.touchMove(scrollEl, { touches: [{ clientX: 60 }] }); // delta=-40 → target=540 (além do fim)
+
+      expect(tablist.style.transform).toBe('translateX(-20px)');
+    });
+
+    it('não aplica translateX ao deslizar (touch) dentro dos limites', () => {
+      const { container } = render(<Tabs items={defaultItems} defaultValue="tab1" />);
+      const scrollEl = getScrollContainer(container);
+      mockScrollProps(scrollEl, { scrollLeft: 100, scrollWidth: 800, clientWidth: 300 });
+      const tablist = screen.getByRole('tablist');
+
+      fireEvent.touchStart(scrollEl, { touches: [{ clientX: 100 }] });
+      fireEvent.touchMove(scrollEl, { touches: [{ clientX: 90 }] }); // delta=-10 → target=110 (dentro dos limites)
+
+      expect(tablist.style.transform).toBe('');
     });
   });
 

@@ -39,6 +39,11 @@
   display: flex;
   gap: 8px;
   min-width: max-content;
+
+  // Anima a volta do efeito elástico (bounce) ao soltar o drag/toque além do início/fim da lista
+  &.Bounce {
+    transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
 }
 
 .ScrollButton {
