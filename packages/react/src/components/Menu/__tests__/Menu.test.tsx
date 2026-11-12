@@ -188,7 +188,7 @@ describe('Menu', () => {
       fireEvent.keyDown(searchInput, { key: 'Enter', code: 'Enter' });
 
       await waitFor(() => {
-        expect(screen.getByText('Nenhum item encontrado')).toBeInTheDocument();
+        expect(screen.getByText('Nenhum resultado encontrado')).toBeInTheDocument();
       });
     });
 
@@ -619,7 +619,7 @@ describe('Menu', () => {
       await user.click(screen.getByText('Abrir Menu'));
 
       await waitFor(() => {
-        expect(screen.getByText('Nenhum item encontrado')).toBeInTheDocument();
+        expect(screen.getByText('Nenhum resultado encontrado')).toBeInTheDocument();
       });
     });
 

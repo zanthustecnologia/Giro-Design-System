@@ -5,23 +5,23 @@ import Card from '../Card';
 describe('Card', () => {
   describe('Renderização básica', () => {
     it('deve renderizar o card', () => {
-      render(
+      const { container } = render(
         <Card>
           <div>Conteúdo do card</div>
         </Card>
       );
-      expect(screen.getByRole('main')).toBeInTheDocument();
+      expect(container.firstChild).toBeInTheDocument();
     });
 
-    it('deve renderizar como elemento main', () => {
+    it('deve renderizar como elemento div', () => {
       const { container } = render(
         <Card>
           <div>Conteúdo</div>
         </Card>
       );
-      const mainElement = container.querySelector('main');
-      expect(mainElement).toBeInTheDocument();
-      expect(mainElement?.tagName).toBe('MAIN');
+      const cardElement = container.firstChild as HTMLElement;
+      expect(cardElement).toBeInTheDocument();
+      expect(cardElement.tagName).toBe('DIV');
     });
 
     it('deve renderizar children corretamente', () => {
@@ -56,8 +56,8 @@ describe('Card', () => {
           <div>Conteúdo</div>
         </Card>
       );
-      const mainElement = container.querySelector('main');
-      expect(mainElement?.className).toMatch(/card/);
+      const cardElement = container.firstChild as HTMLElement;
+      expect(cardElement.className).toMatch(/card/);
     });
 
     it('deve aplicar className customizada quando fornecida', () => {
@@ -66,8 +66,8 @@ describe('Card', () => {
           <div>Conteúdo</div>
         </Card>
       );
-      const mainElement = container.querySelector('main');
-      expect(mainElement).toHaveClass('minha-classe');
+      const cardElement = container.firstChild as HTMLElement;
+      expect(cardElement).toHaveClass('minha-classe');
     });
 
     it('deve manter a classe base junto com className customizada', () => {
@@ -76,8 +76,8 @@ describe('Card', () => {
           <div>Conteúdo</div>
         </Card>
       );
-      const mainElement = container.querySelector('main');
-      const classes = mainElement?.className || '';
+      const cardElement = container.firstChild as HTMLElement;
+      const classes = cardElement.className || '';
       expect(classes).toMatch(/card/);
       expect(classes).toMatch(/minha-classe/);
     });
@@ -90,8 +90,8 @@ describe('Card', () => {
           <div>Conteúdo</div>
         </Card>
       );
-      const mainElement = container.querySelector('main');
-      expect(mainElement?.className).not.toMatch(/card--interactive/);
+      const cardElement = container.firstChild as HTMLElement;
+      expect(cardElement.className).not.toMatch(/card--interactive/);
     });
 
     it('não deve aplicar a classe card--interactive quando hoverable é false', () => {
@@ -100,8 +100,8 @@ describe('Card', () => {
           <div>Conteúdo</div>
         </Card>
       );
-      const mainElement = container.querySelector('main');
-      expect(mainElement?.className).not.toMatch(/card--interactive/);
+      const cardElement = container.firstChild as HTMLElement;
+      expect(cardElement.className).not.toMatch(/card--interactive/);
     });
 
     it('deve aplicar a classe card--interactive quando hoverable é true', () => {
@@ -110,8 +110,8 @@ describe('Card', () => {
           <div>Conteúdo</div>
         </Card>
       );
-      const mainElement = container.querySelector('main');
-      expect(mainElement?.className).toMatch(/card--hoverable/);
+      const cardElement = container.firstChild as HTMLElement;
+      expect(cardElement.className).toMatch(/card--hoverable/);
     });
 
     it('deve manter a classe base ao usar hoverable', () => {
@@ -120,31 +120,62 @@ describe('Card', () => {
           <div>Conteúdo</div>
         </Card>
       );
-      const mainElement = container.querySelector('main');
-      const classes = mainElement?.className || '';
+      const cardElement = container.firstChild as HTMLElement;
+      const classes = cardElement.className || '';
       expect(classes).toMatch(/card/);
       expect(classes).toMatch(/card--hoverable/);
     });
   });
 
-  describe('Acessibilidade', () => {
-    it('deve ter a role main implícita', () => {
-      render(
+  describe('Prop borderRadius', () => {
+    it('não deve aplicar style de borderRadius quando a prop não é informada', () => {
+      const { container } = render(
         <Card>
           <div>Conteúdo</div>
         </Card>
       );
-      expect(screen.getByRole('main')).toBeInTheDocument();
+      const cardElement = container.firstChild as HTMLElement;
+      expect(cardElement.style.borderRadius).toBe('');
     });
 
-    it('deve ser único na página (landmark main)', () => {
-      render(
-        <Card>
-          <div>Conteúdo principal</div>
+    it('deve aplicar o token de borderRadius customizado', () => {
+      const { container } = render(
+        <Card borderRadius={24}>
+          <div>Conteúdo</div>
         </Card>
       );
-      const mainElements = screen.getAllByRole('main');
-      expect(mainElements).toHaveLength(1);
+      const cardElement = container.firstChild as HTMLElement;
+      expect(cardElement.style.borderRadius).toBe('var(--border-radius-24)');
+    });
+
+    it('deve aplicar o token none quando informado', () => {
+      const { container } = render(
+        <Card borderRadius="none">
+          <div>Conteúdo</div>
+        </Card>
+      );
+      const cardElement = container.firstChild as HTMLElement;
+      expect(cardElement.style.borderRadius).toBe('var(--border-radius-none)');
+    });
+
+    it('deve aplicar o token pill quando informado', () => {
+      const { container } = render(
+        <Card borderRadius="pill">
+          <div>Conteúdo</div>
+        </Card>
+      );
+      const cardElement = container.firstChild as HTMLElement;
+      expect(cardElement.style.borderRadius).toBe('var(--border-radius-pill)');
+    });
+
+    it('deve aplicar o token circular quando informado', () => {
+      const { container } = render(
+        <Card borderRadius="circular">
+          <div>Conteúdo</div>
+        </Card>
+      );
+      const cardElement = container.firstChild as HTMLElement;
+      expect(cardElement.style.borderRadius).toBe('var(--border-radius-circular)');
     });
   });
 
@@ -179,9 +210,9 @@ describe('Card', () => {
 
     it('deve renderizar null sem erros', () => {
       const { container } = render(<Card>{null}</Card>);
-      const mainElement = container.querySelector('main');
-      expect(mainElement).toBeInTheDocument();
-      expect(mainElement?.textContent).toBe('');
+      const cardElement = container.firstChild as HTMLElement;
+      expect(cardElement).toBeInTheDocument();
+      expect(cardElement.textContent).toBe('');
     });
   });
 });

@@ -106,12 +106,13 @@ export default meta;
 
 export const Default: Story = {
   args: {
-    placeholder: 'Placeholder text',
+    label: 'Placeholder',
+    placeholder: 'Placeholder',
+    helperText: 'Placeholder',
     disabled: false,
     maxLength: 100,
     className: '',
     required: false,
-    helperText: 'Optional support text',
   },
   render: (args) => (
     <div className='storybook__container'>

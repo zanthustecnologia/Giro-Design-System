@@ -379,30 +379,33 @@ export const FiltrosCombinados: Story = {
               value={tipoMovimento}
               onValueChange={(val) => setTipoMovimento(val as string)}
             />
-            <Select
-              label="Funcionário"
-              items={[
-                { value: 'ana', text: 'Ana Lima' },
-                { value: 'carlos', text: 'Carlos Souza' },
-                { value: 'julia', text: 'Júlia Mendes' },
-              ]}
-              variant="text"
-              placeholder="Selecione"
-              value={funcionario}
-              onValueChange={(val) => setFuncionario(val as string)}
-            />
-            <Select
-              label="Finalizadora"
-              items={[
-                { value: 'dinheiro', text: 'Dinheiro' },
-                { value: 'cartao', text: 'Cartão' },
-                { value: 'pix', text: 'Pix' },
-              ]}
-              variant="text"
-              placeholder="Selecione"
-              value={finalizadora}
-              onValueChange={(val) => setFinalizadora(val as string)}
-            />
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+              <Select
+                label="Funcionário"
+                items={[
+                  { value: 'ana', text: 'Ana Lima' },
+                  { value: 'carlos', text: 'Carlos Souza' },
+                  { value: 'julia', text: 'Júlia Mendes' },
+                ]}
+                variant="text"
+                placeholder="Selecione"
+                value={funcionario}
+                onValueChange={(val) => setFuncionario(val as string)}
+              />
+              <Select
+                label="Finalizadora"
+                items={[
+                  { value: 'dinheiro', text: 'Dinheiro' },
+                  { value: 'cartao', text: 'Cartão' },
+                  { value: 'pix', text: 'Pix' },
+                ]}
+                variant="text"
+                placeholder="Selecione"
+                value={finalizadora}
+                onValueChange={(val) => setFinalizadora(val as string)}
+              />
           </div>
 
           <div>

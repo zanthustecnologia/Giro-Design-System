@@ -1,5 +1,94 @@
 ﻿# @giro-ds/react
 
+## [12.8.1]
+
+### Bug Fixes
+
+- **TableV2:** corrige overflow que cortava o anel de foco/estado `data-state="open"` de triggers (`Menu`, `Button` variant="text"/"outlined") dentro de células; remove seletor genérico `div` que quebrava o layout interno de `Checkbox`/`Quantity`, trocando `overflow: hidden` por `overflow: clip` + `overflow-clip-margin: 12px`.
+- **Toast:** ajusta `min-width` (297px → 329px) e `max-width` (500px → 532px); `box-sizing: border-box` e `min-height: var(--spacing-48)` passam a valer em todos os breakpoints.
+- **TextField:** padroniza mensagens de erro de `type="tel"` ("Digite um telefone válido") e `type="email"` ("Digite um e-mail válido").
+- **Modal, Drawer:** corrige `useScrollbarWidth` retornando largura `0` quando o elemento rolável monta em um render posterior a `isOpen`/`children` (ex.: `Dialog.Content` do Radix).
+
+## [12.8.0]
+
+### Features
+
+- **TextField:** adiciona máscara e validação de telefone brasileiro (`type="tel"`, 10 ou 11 dígitos); adiciona validação de formato para `email`, `url` e `number`.
+
+### Changed
+
+- **Drawer:** refatorado para reutilizar o hook interno compartilhado de medição de scrollbar, removendo lógica duplicada.
+- **Table:** componente depreciado movido para a pasta interna `.deprecated` (sem alteração de conteúdo); já não era exportado publicamente, sem impacto no build ou na API.
+
+### Bug Fixes
+
+- **TextField:** corrige bug em que o conteúdo digitado era apagado ao clicar fora do campo após a exibição de um erro (sincronização com a prop `value` sobrescrevia `inputValue`); corrige a cor do `helperText` no estado `disabled`.
+- **DatePicker:** troca `type="tel"` por `type="text" inputMode="numeric"` no campo interno, evitando que a máscara de telefone do `TextField` quebrasse a digitação de datas.
+- **Dialog, Drawer, Modal:** corrige o empilhamento visual de overlays abertos simultaneamente, reanexando cada overlay ao final do `<body>` ao abrir (sem depender de `z-index`).
+- **Modal:** adiciona compensação visual da largura da scrollbar no padding do corpo rolável, evitando desalinhamento do conteúdo.
+
+## [12.7.0]
+
+### Features
+
+- **DatePicker:** adiciona prop `showCalendar` para controlar a abertura do calendário; adiciona validação de intervalo (`minDate`/`maxDate`) com mensagens de erro localizadas e atributos de acessibilidade atualizados.
+- **Quantity:** adiciona prop `decimalSeparator` (`','` | `'.'`, padrão `','`) para configurar o separador decimal.
+
+### Bug Fixes
+
+- **Quantity:** corrige o separador decimal padrão de `.` para `,`, alinhado à localização pt-BR do Design System.
+
+## [12.6.2]
+
+### Bug Fixes
+
+- **Toast:** Toast.Viewport renderizado via Portal, escapando de overlays pais.
+- **Drawer:** compensa largura da scrollbar no padding e evita compressão do footer.
+
+## [12.6.1]
+
+### Bug Fixes
+
+- **Modal:** remove o limite de altura máxima (`max-height: 85vh`), permitindo que o conteúdo defina a altura do modal sem um teto fixo baseado na viewport.
+
+## [12.6.0]
+
+### Features
+
+- **Card:** adiciona prop opcional `borderRadius` (`4 | 8 | 12 | 16 | 24 | 'none' | 'pill' | 'circular'`) para customizar o raio das bordas; quando omitida, mantém o valor padrão do token `--border-radius-8`.
+
+### Bug Fixes
+
+- **DatePicker:** remove o valor padrão `label = 'Data'`; o campo não exibe mais um label fixo quando a prop não é informada pelo consumidor.
+- **VirtualKeyboard:** remove a prop `readOnly` do `TextField` interno, que impedia a digitação de valores quando o teclado virtual estava anexado.
+- **VirtualKeyboard:** substitui font-size fixo por tipografia fluida via `clamp()`, com o novo mixin `fluid-font($min, $vw-ratio, $max)`, eliminando overrides fixos por breakpoint nas teclas, `keyPreview` e `accentOption`.
+- **Filter:** corrige espaçamento entre a lista de opções e o footer do painel de filtro.
+- **Drawer, Modal, Dialog:** corrige desalinhamento de conteúdo causado pela scrollbar nas áreas roláveis, aplicando `scrollbar-gutter: stable` e o mixin compartilhado `scrollable-area`.
+
+## [12.5.1]
+
+> Nota: a versão `12.5.0` foi publicada por engano com conteúdo desatualizado (sem as mudanças abaixo) e foi descontinuada (`deprecated`) no NPM. Use `12.5.1` ou superior.
+
+### Features
+
+- **ToggleButton:** adiciona prop `expandOnSelect` (item ou grupo) para exibir apenas o ícone nos itens não selecionados e ícone + label no selecionado; adiciona prop `requireSelection` (grupo, `selectionType="single"`) para impedir que o item ativo seja desmarcado.
+- **Modal, Dialog:** adiciona animação de fechamento (fade-out) condicionada a `data-state`, permitindo transição suave antes de desmontar o conteúdo.
+
+### Changed
+
+- **Select:** simplifica ativação de busca via API; presença de `onApiSearch` agora ativa a busca remota automaticamente, sem exigir `enableApiSearch`.
+- **TableV2:** aplica `requireSelection` no seletor de visualização (`activeView`) para evitar ficar sem nenhuma view selecionada.
+
+### Deprecated
+
+- **Select:** a propriedade `enableApiSearch` foi depreciada e será removida na próxima major. A busca remota passará a ser identificada pela presença de `onApiSearch`. Durante a versão atual, a propriedade continua funcionando normalmente. As instruções definitivas serão publicadas antes da major.
+- **Menu:** as propriedades relacionadas à busca remota e ao carregamento incremental foram depreciadas. A equipe está identificando os consumidores e definindo os componentes recomendados para esses casos. As funcionalidades permanecem disponíveis durante o período de transição e não serão removidas até que exista um caminho de migração documentado.
+
+### Bug Fixes
+
+- **Modal, VirtualKeyboard:** corrige conflito em que o overlay nativo do teclado era interpretado como clique fora do Modal (fechando-o indevidamente) e ficava com cliques bloqueados por herdar `pointer-events: none` do body; amplia detecção de interação para evitar fechamento por blur.
+- **Select, Menu, Filter:** padroniza texto ("Nenhum resultado encontrado") e estilo do estado vazio, antes divergentes entre os componentes.
+
 ## [12.4.0]
 
 ### Features

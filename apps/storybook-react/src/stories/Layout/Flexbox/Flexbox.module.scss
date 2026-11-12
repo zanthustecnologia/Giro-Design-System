@@ -14,13 +14,3 @@
   text-align: center;
   border-radius: var(--border-radius-8);
 }
-
-.card {
-  background: var(--color-brand-primary-default);
-  border: var(--border-width-1) solid var(--color-brand-primary-default);
-  border-radius: var(--border-radius-8);
-  padding: var(--spacing-16);
-  color: var(--color-neutral-high-pure);
-  font-size: var(--font-size-14);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-}

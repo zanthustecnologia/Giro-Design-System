@@ -1,12 +1,12 @@
 .docsFooter {
   /* width: calc(100vw - 280px); */
   position: absolute;
-  left: 0;
+  left: var(--spacing-0);
   background-color: var(--color-neutral-high-light);
   border-top: var(--border-width-1) solid var(--color-neutral-high-medium);
-  margin-top: 48px !important;
-  margin-bottom: 0 !important;
-  padding: 48px 72px !important;
+  margin-top: var(--spacing-48) !important;
+  margin-bottom: var(--spacing-0) !important;
+  padding: var(--spacing-48) 72px !important;
   display: flex;
   justify-content: center;
 }
@@ -42,7 +42,7 @@
 .docsFooterContent {
   display: flex;
   align-items: center;
-  gap: 40px;
+  gap: var(--spacing-40);
   flex-wrap: wrap;
   flex: 1;
   max-width: 1200px;
@@ -59,28 +59,28 @@
 }
 
 .docsFooter h2 {
-  font-size: 28px;
+  font-size: var(--font-size-28);
   font-weight: var(--font-weight-bold);
   color: var(--color-neutral-low-default);
-  margin: 0 !important;
+  margin: var(--spacing-0) !important;
   border-bottom: none !important;
-  padding-bottom: 0 !important;
+  padding-bottom: var(--spacing-0) !important;
   line-height: 105%;
   letter-spacing: -1.333px;
 }
 
 .docsFooter p {
-  font-size: 14px;
+  font-size: var(--font-size-14);
   font-weight: var(--font-weight-regular);
   line-height: 140%;
   letter-spacing: 0.427px;
   color: var(--color-neutral-low-medium);
-  margin: 12px 0 0 0 !important;
+  margin: var(--spacing-12) 0 0 0 !important;
 }
 
 .docsFooterCards {
   display: flex;
-  gap: 16px;
+  gap: var(--spacing-16);
   flex: 1;
   flex-wrap: wrap;
 }
@@ -91,25 +91,25 @@
   justify-content: space-between;
   flex: 1;
   min-width: 200px;
-  padding: 20px 24px;
-  border: 1px solid var(--color-neutral-high-dark);
-  border-radius: 12px;
+  padding: 20px var(--spacing-24);
+  border: var(--border-width-1) solid var(--color-neutral-high-dark);
+  border-radius: var(--border-radius-12);
   text-decoration: none;
   background: var(--color-neutral-high-light);
   transition: background 0.15s ease;
 
   strong {
     display: block;
-    font-size: 16px;
+    font-size: var(--font-size-16);
     font-weight: var(--font-weight-bold);
     color: var(--color-neutral-low-default);
-    margin-bottom: 16px;
+    margin-bottom: var(--spacing-16);
   }
 
   p {
-    font-size: 16px;
+    font-size: var(--font-size-16);
     color: var(--color-neutral-low-medium);
-    margin: 0 !important;
+    margin: var(--spacing-0) !important;
   }
 
   &:hover {
@@ -121,8 +121,8 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  margin-top: 16px !important;
-  font-size: 16px;
+  margin-top: var(--spacing-16) !important;
+  font-size: var(--font-size-16);
   font-weight: var(--font-weight-bold);
 
   svg {
@@ -140,11 +140,11 @@
   }
   
   .docsFooter h2 {
-    font-size: 32px;
+    font-size: var(--font-size-32);
   }
   
   .docsFooter p {
-    font-size: 16px;
+    font-size: var(--font-size-16);
   }
 }
 

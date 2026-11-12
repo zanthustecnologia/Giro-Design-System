@@ -2,6 +2,8 @@ import { render, screen, fireEvent, act, waitFor } from '@testing-library/react'
 import React, { createRef } from 'react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
+import { DISMISS_OUTSIDE_IGNORE_ATTRIBUTE } from '../../../utils/dismissOutside';
+
 // Mock da importação de CSS do react-simple-keyboard
 vi.mock('react-simple-keyboard/build/css/index.css', () => ({}));
 
@@ -303,6 +305,65 @@ describe('VirtualKeyboard', () => {
 
       const overlay = document.querySelector('[class*="overlay"]') as HTMLElement;
       expect(overlay?.className).not.toMatch(/overlayOpen/);
+    });
+  });
+
+  // ───────────────────────────────────────────────────────────────────────────
+  describe('Integração com Modal/Dialog (clique-fora e pointer-events)', () => {
+    it('deve marcar o overlay nativo com o atributo de exceção de clique-fora (evita fechar um Modal/Dialog do Radix ao interagir com o teclado)', async () => {
+      render(<VirtualKeyboard variant="native" />);
+      await screen.findByTestId('keyboard');
+
+      const overlay = document.querySelector('[class*="overlay"]') as HTMLElement;
+      expect(overlay).toHaveAttribute(DISMISS_OUTSIDE_IGNORE_ATTRIBUTE);
+    });
+
+    it('deve propagar a className customizada para o menu de acentos (accentMenu), permitindo que o consumidor controle o z-index de toda a UI flutuante', () => {
+      vi.useFakeTimers();
+
+      render(<VirtualKeyboard variant="fixed" value="" className="minha-classe-zindex" />);
+
+      fireEvent.pointerDown(screen.getByTestId('key-char'));
+      act(() => {
+        vi.advanceTimersByTime(450);
+      });
+
+      const menu = screen.getByRole('listbox');
+      expect(menu.className).toContain('minha-classe-zindex');
+    });
+
+    it('não deve fechar o teclado ao perder foco se houve interação em área do overlay fora dos botões (ex.: padding, menu de acento)', async () => {
+      const ref = createRef<HTMLInputElement>();
+      render(
+        <>
+          <input data-testid="input-ref" ref={ref} />
+          <VirtualKeyboard variant="native" targetRef={ref} />
+        </>
+      );
+
+      act(() => {
+        fireEvent.focus(screen.getByTestId('input-ref'));
+      });
+
+      const overlay = document.querySelector('[class*="overlay"]') as HTMLElement;
+
+      // Simula pointerdown diretamente no overlay, fora do keyboardWrapper/.hg-button
+      act(() => {
+        fireEvent.pointerDown(overlay);
+      });
+
+      await act(async () => {
+        fireEvent.blur(screen.getByTestId('input-ref'));
+        await new Promise((r) => setTimeout(r, 200));
+      });
+
+      // Mesmo com o blur do targetRef, o teclado permanece aberto pois a interação
+      // no overlay manteve isKeyboardInteractingRef ativo
+      expect(overlay.className).toMatch(/overlayOpen/);
+
+      act(() => {
+        fireEvent.pointerUp(overlay);
+      });
     });
   });
 

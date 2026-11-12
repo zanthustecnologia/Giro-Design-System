@@ -1,6 +1,6 @@
 {
   "name": "@giro-ds/tokens",
-  "version": "2.0.0",
+  "version": "2.0.2",
   "type": "module",
   "publishConfig": {
     "access": "public",
@@ -11,7 +11,8 @@
     "build"
   ],
   "scripts": {
-    "build": "node ./config/style-dictionary.config.js && node -e \"require('fs').cpSync('build/dart/tokens.dart', '../flutter/lib/tokens/generated_tokens.dart')\""
+    "build": "node ./config/style-dictionary.config.js && node ./scripts/validate-dart-tokens.mjs && node -e \"require('fs').cpSync('build/dart/tokens.dart', '../flutter/lib/tokens/generated_tokens.dart')\"",
+    "validate:dart": "node ./scripts/validate-dart-tokens.mjs"
   },
   "devDependencies": {
     "style-dictionary": "^4.4.0"

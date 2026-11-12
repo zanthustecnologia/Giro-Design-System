@@ -460,6 +460,75 @@ describe('ToggleButton', () => {
   });
 
   // -------------------------------------------------------------------------
+  // ToggleGroup - requireSelection (seleção única sempre com um item marcado)
+  // -------------------------------------------------------------------------
+  describe('modo combined - requireSelection', () => {
+    it('não deve desmarcar o item ativo ao clicar nele novamente (não controlado)', () => {
+      const onValueChange = vi.fn();
+      render(
+        <ToggleButton
+          mode="combined"
+          defaultValue="bold"
+          requireSelection
+          items={items}
+          onValueChange={onValueChange}
+        />,
+      );
+      const boldBtn = screen.getByText('Negrito').closest('button');
+      fireEvent.click(boldBtn!);
+      expect(boldBtn).toHaveAttribute('aria-pressed', 'true');
+      expect(onValueChange).not.toHaveBeenCalled();
+    });
+
+    it('não deve desmarcar o item ativo ao clicar nele novamente (controlado)', () => {
+      const onValueChange = vi.fn();
+      render(
+        <ToggleButton
+          mode="combined"
+          value="bold"
+          requireSelection
+          items={items}
+          onValueChange={onValueChange}
+        />,
+      );
+      const boldBtn = screen.getByText('Negrito').closest('button');
+      fireEvent.click(boldBtn!);
+      expect(boldBtn).toHaveAttribute('aria-pressed', 'true');
+      expect(onValueChange).not.toHaveBeenCalled();
+    });
+
+    it('deve permitir trocar para outro item normalmente', () => {
+      const onValueChange = vi.fn();
+      render(
+        <ToggleButton
+          mode="combined"
+          defaultValue="bold"
+          requireSelection
+          items={items}
+          onValueChange={onValueChange}
+        />,
+      );
+      fireEvent.click(screen.getByText('Itálico'));
+      expect(onValueChange).toHaveBeenCalledWith('italic');
+      expect(screen.getByText('Itálico').closest('button')).toHaveAttribute('aria-pressed', 'true');
+    });
+
+    it('deve permitir desmarcar quando requireSelection=false (padrão)', () => {
+      const onValueChange = vi.fn();
+      render(
+        <ToggleButton
+          mode="combined"
+          defaultValue="bold"
+          items={items}
+          onValueChange={onValueChange}
+        />,
+      );
+      fireEvent.click(screen.getByText('Negrito'));
+      expect(onValueChange).toHaveBeenCalledWith('');
+    });
+  });
+
+  // -------------------------------------------------------------------------
   // ToggleGroup - seleção multiple
   // -------------------------------------------------------------------------
   describe('modo combined - seleção multiple', () => {

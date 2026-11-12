@@ -6,95 +6,97 @@ WidgetbookComponent dialogsStory() {
     name: 'Dialogs',
     useCases: [
       WidgetbookUseCase(
-        name: 'AlertDialog',
+        name: 'Default',
         builder: (context) {
+          final title = context.knobs.string(
+            label: 'Title',
+            initialValue: 'Título do dialog',
+          );
+          final bodyContent = context.knobs.string(
+            label: 'Body Content',
+            initialValue: 'Mensagem do dialog',
+          );
+          final textPrimaryAction = context.knobs.string(
+            label: 'Primary Action',
+            initialValue: 'Confirmar',
+          );
+          final textSecondaryAction = context.knobs.stringOrNull(
+            label: 'Secondary Action',
+            initialValue: 'Cancelar',
+          );
+
           return Center(
-            child: ElevatedButton(
+            child: GiroButton.filled(
+              text: 'Abrir Dialog',
               onPressed: () {
-                showDialog<void>(
+                showGiroDialog<void>(
                   context: context,
-                  builder: (context) => AlertDialog(
-                    title: const Text('Alert Dialog'),
-                    content: const Text('This is an alert dialog with some content.'),
-                    actions: [
-                      TextButton(
-                        onPressed: () => Navigator.pop(context),
-                        child: const Text('Cancel'),
-                      ),
-                      FilledButton(
-                        onPressed: () => Navigator.pop(context),
-                        child: const Text('OK'),
-                      ),
-                    ],
-                  ),
+                  title: title,
+                  bodyContent: bodyContent,
+                  textPrimaryAction: textPrimaryAction,
+                  textSecondaryAction: textSecondaryAction,
                 );
               },
-              child: const Text('Show Alert Dialog'),
             ),
           );
         },
       ),
       WidgetbookUseCase(
-        name: 'SimpleDialog',
+        name: 'Ação única',
         builder: (context) {
           return Center(
-            child: ElevatedButton(
+            child: GiroButton.filled(
+              text: 'Abrir Dialog',
               onPressed: () {
-                showDialog<void>(
+                showGiroDialog<void>(
                   context: context,
-                  builder: (context) => SimpleDialog(
-                    title: const Text('Select Option'),
-                    children: [
-                      SimpleDialogOption(
-                        onPressed: () => Navigator.pop(context),
-                        child: const Text('Option 1'),
-                      ),
-                      SimpleDialogOption(
-                        onPressed: () => Navigator.pop(context),
-                        child: const Text('Option 2'),
-                      ),
-                      SimpleDialogOption(
-                        onPressed: () => Navigator.pop(context),
-                        child: const Text('Option 3'),
-                      ),
-                    ],
-                  ),
+                  title: 'Título do dialog',
+                  bodyContent: 'Mensagem do dialog',
+                  textPrimaryAction: 'Ok',
                 );
               },
-              child: const Text('Show Simple Dialog'),
             ),
           );
         },
       ),
       WidgetbookUseCase(
-        name: 'AlertDialog with Icon',
+        name: 'Duas ações',
         builder: (context) {
           return Center(
-            child: ElevatedButton(
+            child: GiroButton.filled(
+              text: 'Abrir Dialog',
               onPressed: () {
-                showDialog<void>(
+                showGiroDialog<void>(
                   context: context,
-                  builder: (context) => AlertDialog(
-                    icon: const Icon(Icons.warning_amber_rounded, size: 48),
-                    title: const Text('Delete Item?'),
-                    content: const Text('This action cannot be undone.'),
-                    actions: [
-                      TextButton(
-                        onPressed: () => Navigator.pop(context),
-                        child: const Text('Cancel'),
-                      ),
-                      FilledButton(
-                        onPressed: () => Navigator.pop(context),
-                        style: FilledButton.styleFrom(
-                          backgroundColor: Colors.red,
-                        ),
-                        child: const Text('Delete'),
-                      ),
-                    ],
-                  ),
+                  title: 'Confirmar ação',
+                  bodyContent:
+                      'Tem certeza que deseja continuar? Esta ação não pode ser desfeita.',
+                  textPrimaryAction: 'Confirmar',
+                  textSecondaryAction: 'Cancelar',
                 );
               },
-              child: const Text('Show Delete Dialog'),
+            ),
+          );
+        },
+      ),
+      WidgetbookUseCase(
+        name: 'Conteúdo longo',
+        builder: (context) {
+          return Center(
+            child: GiroButton.filled(
+              text: 'Abrir Dialog',
+              onPressed: () {
+                showGiroDialog<void>(
+                  context: context,
+                  title: 'Termos de uso',
+                  bodyContent:
+                      'Ao continuar, você concorda com os termos de uso e política de '
+                      'privacidade da plataforma. Leia atentamente antes de prosseguir. '
+                      'O uso indevido das informações pode resultar na suspensão da sua conta.',
+                  textPrimaryAction: 'Aceitar',
+                  textSecondaryAction: 'Recusar',
+                );
+              },
             ),
           );
         },
@@ -102,3 +104,4 @@ WidgetbookComponent dialogsStory() {
     ],
   );
 }
+

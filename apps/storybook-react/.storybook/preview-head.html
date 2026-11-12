@@ -19,28 +19,18 @@
   }
 
   /* Headers na documentação */
-  .sbdocs-wrapper h1,
-  .sbdocs-wrapper h2,
-  .sbdocs-wrapper h3,
-  .sbdocs-wrapper h4,
-  .sbdocs-wrapper h5,
-  .sbdocs-wrapper h6,
-  .sbdocs-content h1,
-  .sbdocs-content h2,
-  .sbdocs-content h3,
-  .sbdocs-content h4,
-  .sbdocs-content h5,
-  .sbdocs-content h6 {
+  .sbdocs-wrapper :where(h1, h2, h3, h4, h5, h6):not(.sb-anchor, .sb-unstyled, .sb-unstyled *),
+  .sbdocs-content :where(h1, h2, h3, h4, h5, h6):not(.sb-anchor, .sb-unstyled, .sb-unstyled *) {
     font-family: var(--font-family-primary, 'Figtree', sans-serif) !important;
     border-bottom: none !important;
     padding-bottom: 0 !important;
   }
 
-  /* Parágrafos e textos */
-  .sbdocs-wrapper p,
-  .sbdocs-content p,
-  .sbdocs-wrapper li,
-  .sbdocs-content li {
+  /* Texto do markdown em docs: não afeta a tabela de props do Storybook */
+  .sbdocs-wrapper .mdx-content p,
+  .sbdocs-wrapper .mdx-content li,
+  .sbdocs-content .mdx-content p,
+  .sbdocs-content .mdx-content li {
     font-family: var(--font-family-primary, 'Figtree', sans-serif) !important;
     font-size: 16px !important;
   }
@@ -50,8 +40,9 @@
     font-family: var(--font-family-primary, 'Figtree', sans-serif) !important;
   }
 
-/* Code blocks - aplica globalmente */
-code {
+/* Code blocks - apenas na documentação MDX */
+.sbdocs-wrapper code:not(.sb-anchor, .sb-unstyled, .sb-unstyled *),
+.sbdocs-content code:not(.sb-anchor, .sb-unstyled, .sb-unstyled *) {
   background-color: var(--color-neutral-high-light) !important;
   padding: 1px 6px !important;
   border: 1px solid var(--color-neutral-high-medium) !important;
@@ -62,8 +53,8 @@ code {
   color: var(--color-neutral-low-dark) !important;
 }
 
-.sbdocs-wrapper pre,
-.sbdocs-content pre {
+.sbdocs-wrapper pre:not(.sb-anchor, .sb-unstyled, .sb-unstyled *),
+.sbdocs-content pre:not(.sb-anchor, .sb-unstyled, .sb-unstyled *) {
   font-family: 'Monaco', 'Courier New', monospace !important;
 }
 

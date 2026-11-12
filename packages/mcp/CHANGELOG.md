@@ -1,5 +1,45 @@
 ﻿# @giro-ds/mcp
 
+## [1.2.6]
+
+### Changed
+
+- **MCP:** sincroniza metadados de componentes e tokens com `@giro-ds/react@12.8.1` (inclui remoção da entrada obsoleta do `Table` v1).
+
+## [1.2.5]
+
+### Changed
+
+- **MCP:** sincroniza metadados de componentes e design tokens com `@giro-ds/react@12.8.0`.
+
+## [1.2.4]
+
+### Changed
+
+- **MCP:** sincroniza metadados de componentes e design tokens com `@giro-ds/react@12.7.0`.
+
+## [1.2.3]
+
+### Changed
+
+- **MCP:** sincroniza metadados de componentes e design tokens com `@giro-ds/react@12.6.2`.
+
+## [1.2.2]
+
+### Changed
+
+- **MCP:** sincroniza metadados de componentes e design tokens com `@giro-ds/react@12.6.1`.
+
+## [1.2.1]
+
+### Changed
+
+- **MCP:** adiciona script `ensure-mcp-release.mjs`, executado antes de `changeset:version`, que cria automaticamente um changeset de patch para o MCP sempre que houver release do `@giro-ds/react` ou `@giro-ds/tokens`, mantendo os metadados sincronizados.
+
+### Bug Fixes
+
+- **MCP:** corrige a geração de metadados para suportar union/intersection types locais em `Button`, `Select`, `TextArea`, `TextField` e `ToggleButton`, sem marcar props específicas de variante como globalmente obrigatórias.
+
 ## [1.2.0]
 
 ### Features

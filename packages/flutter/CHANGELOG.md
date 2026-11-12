@@ -2,6 +2,16 @@
 
 All notable changes to the Zanthus Flutter Components package will be documented in this file.
 
+## [0.5.0] - 2026-11-10
+
+### Features
+
+- **Dialog:** adiciona componente de diálogo customizado, seguindo a identidade visual do Flutter-Giro, com suporte a título, conteúdo personalizado e ações primária e secundária.
+
+### Changed
+
+- **Dependencies:** atualiza as versões das dependências internas do pacote.
+
 ## [0.4.0] - 2026-06-02
 
 ### Features
