@@ -26,6 +26,7 @@ const Menu: React.FC<MenuProps> = ({
 }) => {
   const itemsWrapperRef = useRef<HTMLDivElement>(null);
 
+  const [openedByKeyboard, setOpenedByKeyboard] = useState(false);
   const [searchInput, setSearchInput] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -69,6 +70,12 @@ const Menu: React.FC<MenuProps> = ({
     if (e.key === 'Enter') {
       e.preventDefault();
       setSearchTerm(searchInput);
+    }
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      itemsWrapperRef.current
+        ?.querySelector<HTMLElement>('[role="menuitem"]:not([data-disabled])')
+        ?.focus();
     }
   };
 
@@ -121,29 +128,25 @@ const Menu: React.FC<MenuProps> = ({
     [handleItemSelect, isItemSelected]
   );
 
-  const closedByPointerRef = useRef(false);
-
   const handleOpenChange = (newOpen: boolean) => {
     setOpen(newOpen);
   };
 
   return (
     <DropdownMenu.Root open={open} onOpenChange={handleOpenChange}>
-      <DropdownMenu.Trigger asChild>{triggerWithScale}</DropdownMenu.Trigger>
+      <DropdownMenu.Trigger
+        asChild
+        onPointerDown={() => setOpenedByKeyboard(false)}
+        onKeyDown={() => setOpenedByKeyboard(true)}
+      >
+        {triggerWithScale}
+      </DropdownMenu.Trigger>
       <DropdownMenu.Portal>
         <DropdownMenu.Content
           className={clsx(styles.content, className)}
           style={{ ...containerStyle, ...style }}
           sideOffset={8}
           align={align}
-          onPointerDown={() => { closedByPointerRef.current = true; }}
-          onInteractOutside={() => { closedByPointerRef.current = true; }}
-          onCloseAutoFocus={(e) => {
-            if (closedByPointerRef.current) {
-              e.preventDefault();
-              closedByPointerRef.current = false;
-            }
-          }}
           onKeyDown={(e) => {
             if (search) {
               e.stopPropagation();
@@ -154,6 +157,9 @@ const Menu: React.FC<MenuProps> = ({
           {search && (
             <div className={styles.searchWrapper}>
               <Search
+                // Foco só na abertura por teclado; o FocusScope do Radix não move o foco se já estiver dentro do conteúdo.
+                // eslint-disable-next-line jsx-a11y/no-autofocus
+                autoFocus={openedByKeyboard}
                 placeholder="Buscar"
                 onChange={handleSearchChange}
                 value={searchInput}
