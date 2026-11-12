@@ -25,6 +25,7 @@ const Menu: React.FC<MenuProps> = ({
   ...rest
 }) => {
   const itemsWrapperRef = useRef<HTMLDivElement>(null);
+  const closedByPointerRef = useRef(false);
 
   const [openedByKeyboard, setOpenedByKeyboard] = useState(false);
   const [searchInput, setSearchInput] = useState('');
@@ -132,6 +133,16 @@ const Menu: React.FC<MenuProps> = ({
     setOpen(newOpen);
   };
 
+  const handleCloseAutoFocus = () => {
+    if (!closedByPointerRef.current) return;
+    closedByPointerRef.current = false;
+
+    // O Tooltip do trigger abre em qualquer focus que não venha de pointerdown nele; engole só este focus.
+    const swallowFocus = (event: FocusEvent) => event.stopPropagation();
+    document.addEventListener('focusin', swallowFocus, { capture: true, once: true });
+    setTimeout(() => document.removeEventListener('focusin', swallowFocus, true), 0);
+  };
+
   return (
     <DropdownMenu.Root open={open} onOpenChange={handleOpenChange}>
       <DropdownMenu.Trigger
@@ -147,6 +158,9 @@ const Menu: React.FC<MenuProps> = ({
           style={{ ...containerStyle, ...style }}
           sideOffset={8}
           align={align}
+          onPointerDown={() => { closedByPointerRef.current = true; }}
+          onKeyDownCapture={() => { closedByPointerRef.current = false; }}
+          onCloseAutoFocus={handleCloseAutoFocus}
           onKeyDown={(e) => {
             if (search) {
               e.stopPropagation();

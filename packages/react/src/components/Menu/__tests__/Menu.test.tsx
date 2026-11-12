@@ -19,6 +19,7 @@ vi.mock('../../Search', () => ({
       value={value}
       onChange={onChange}
       onKeyDown={onKeyDown}
+      // eslint-disable-next-line jsx-a11y/no-autofocus
       autoFocus={autoFocus}
     />
   ),
@@ -394,6 +395,43 @@ describe('Menu', () => {
       await user.keyboard('{ArrowDown}{Enter}');
 
       await waitFor(() => expect(trigger).toHaveFocus());
+    });
+
+    it('não abre o tooltip do trigger ao devolver o foco após seleção com o mouse', async () => {
+      const user = userEvent.setup();
+
+      render(
+        <Menu items={mockItems}>
+          <Button tooltipText="Mais ações">Abrir Menu</Button>
+        </Menu>
+      );
+
+      const trigger = screen.getByRole('button', { name: 'Abrir Menu' });
+      await user.click(trigger);
+      await user.click(await screen.findByText('Item 1'));
+
+      await waitFor(() => expect(trigger).toHaveFocus());
+      expect(screen.queryByRole('tooltip')).not.toBeInTheDocument();
+    });
+
+    it('abre o tooltip do trigger ao devolver o foco após seleção com o teclado', async () => {
+      const user = userEvent.setup();
+
+      render(
+        <Menu items={mockItems}>
+          <Button tooltipText="Mais ações">Abrir Menu</Button>
+        </Menu>
+      );
+
+      const trigger = screen.getByRole('button', { name: 'Abrir Menu' });
+      trigger.focus();
+      await user.keyboard('{Enter}');
+      await screen.findByText('Item 1');
+      await waitFor(() => expect(screen.queryByRole('tooltip')).not.toBeInTheDocument());
+      await user.keyboard('{ArrowDown}{Enter}');
+
+      await waitFor(() => expect(trigger).toHaveFocus());
+      await waitFor(() => expect(screen.getByRole('tooltip')).toBeInTheDocument());
     });
 
     it('foca o campo de busca ao abrir o menu pelo teclado', async () => {
