@@ -61,7 +61,6 @@ export interface DefaultMenuItemProps {
  * ```tsx
  * <Menu 
  *   items={menuItems}
- *   type="icon"
  *   search={true}
  *   maxHeight="400px"
  *   align="end"
@@ -75,17 +74,13 @@ export interface MenuProps extends ScalableProps {
   /** Elemento trigger customizado para abrir o menu */
   children?: ReactElement;
   
-  /**
-   * Tipo de visualização dos itens do menu.
-   * - `'text'` (padrão): exibe texto e ícone lado a lado
-   * - `'icon'`: exibe apenas ícones, sem texto
-   */
-  type?: 'text' | 'icon';
-  
   /** Callback executado quando um item é selecionado: (item) => void */
-  onItemSelect?: (items: MenuItemProps) => void;
+  onItemSelect?: (item: MenuItemProps) => void;
   
-  /** Array de itens selecionados */
+  /**
+   * Itens selecionados (modo controlado). O Menu é single-select: apenas um item é considerado.
+   * Quando informado, a seleção vem desta prop; quando omitido, o Menu guarda o último item clicado.
+   */
   selectedItems?: MenuItemProps[];
   
   /** Habilita campo de busca */
