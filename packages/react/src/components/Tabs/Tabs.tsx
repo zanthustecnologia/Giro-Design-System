@@ -9,6 +9,9 @@ import { TabsProps } from "./Tabs.types";
 // Resistência e limite do efeito elástico (bounce) ao arrastar/deslizar além do início/fim da lista
 const OVERSCROLL_RESISTANCE = 0.5;
 const OVERSCROLL_MAX = 56;
+const EDGE_BOUNCE = 14;
+// Se o passo normal deixaria a aba da borda coberta em 30% ou menos, assiste indo direto ao fim/início
+const ASSIST_VISIBLE_THRESHOLD = 0.3;
 
 const applyResistance = (distance: number) => Math.min(distance * OVERSCROLL_RESISTANCE, OVERSCROLL_MAX);
 
@@ -43,12 +46,23 @@ const Tabs: React.FC<TabsProps> = ({
 	const touchStartX = React.useRef(0);
 	const touchStartScrollLeft = React.useRef(0);
 
+	const edgeHitRef = React.useRef<"left" | "right" | null>(null);
+
+	const edgeLockRef = React.useRef({ left: false, right: false });
+
 	const checkScroll = React.useCallback(() => {
 		const el = listRef.current;
 		if (!el) return;
-		const btnW = 24;
-		setCanScrollLeft(el.scrollLeft > btnW);
-		setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - btnW);
+		const epsilon = 5;
+		const canLeft = el.scrollLeft > epsilon;
+		const canRight = el.scrollLeft + el.clientWidth < el.scrollWidth - epsilon;
+
+		const unlockMargin = epsilon * 4;
+		if (el.scrollLeft > unlockMargin) edgeLockRef.current.left = false;
+		if (el.scrollLeft + el.clientWidth < el.scrollWidth - unlockMargin) edgeLockRef.current.right = false;
+
+		setCanScrollLeft(canLeft && !edgeLockRef.current.left);
+		setCanScrollRight(canRight && !edgeLockRef.current.right);
 	}, []);
 
 	const setOvershoot = React.useCallback((px: number) => {
@@ -61,6 +75,16 @@ const Tabs: React.FC<TabsProps> = ({
 		innerListRef.current?.classList.add(styles.Bounce);
 		setOvershoot(0);
 	}, [setOvershoot]);
+
+	const microBounce = React.useCallback((edge: "left" | "right") => {
+		const el = innerListRef.current;
+		if (!el) return;
+		el.classList.remove(styles.Bounce);
+		el.style.transform = `translateX(${edge === "left" ? EDGE_BOUNCE : -EDGE_BOUNCE}px)`;
+		void el.offsetWidth;
+		el.classList.add(styles.Bounce);
+		el.style.transform = "";
+	}, []);
 
 	const handleBounceTransitionEnd = (e: React.TransitionEvent<HTMLDivElement>) => {
 		e.currentTarget.classList.remove(styles.Bounce);
@@ -142,7 +166,17 @@ const Tabs: React.FC<TabsProps> = ({
 		el.addEventListener("touchend", handleTouchEnd);
 		el.addEventListener("touchcancel", handleTouchEnd);
 
-		const handleScrollEnd = () => setIsSnapScrolling(false);
+		const handleScrollEnd = () => {
+			setIsSnapScrolling(false);
+			const edge = edgeHitRef.current;
+			edgeHitRef.current = null;
+			if (edge) {
+				microBounce(edge);
+				edgeLockRef.current[edge] = true;
+				if (edge === "left") setCanScrollLeft(false);
+				else setCanScrollRight(false);
+			}
+		};
 		el.addEventListener("scrollend", handleScrollEnd);
 
 		return () => {
@@ -157,7 +191,7 @@ const Tabs: React.FC<TabsProps> = ({
 			document.removeEventListener("mouseup", handleMouseUp);
 			if (snapTimeoutRef.current) clearTimeout(snapTimeoutRef.current);
 		};
-	}, [checkScroll, setOvershoot, springBack]);
+	}, [checkScroll, setOvershoot, springBack, microBounce]);
 
 	const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
 		const el = listRef.current;
@@ -179,14 +213,56 @@ const Tabs: React.FC<TabsProps> = ({
 		}
 	};
 
-	const handleScroll = (direction: "left" | "right") => {
-		setIsSnapScrolling(true);
-		if (snapTimeoutRef.current) clearTimeout(snapTimeoutRef.current);
-		snapTimeoutRef.current = setTimeout(() => setIsSnapScrolling(false), 600);
-		listRef.current?.scrollBy({
-			left: direction === "left" ? -scrollAmount : scrollAmount,
-			behavior: "smooth",
+	const applyEdgeAssist = (el: HTMLDivElement, direction: "left" | "right", target: number, max: number) => {
+		if (target <= 0 || target >= max || !innerListRef.current) return target;
+
+		const elRect = el.getBoundingClientRect();
+		const triggers = Array.from(innerListRef.current.children) as HTMLElement[];
+		const rects = triggers.map((trigger) => {
+			const r = trigger.getBoundingClientRect();
+			const start = r.left - elRect.left + el.scrollLeft;
+			return { start, end: start + r.width, width: r.width };
 		});
+
+		if (direction === "right") {
+			const last = rects[rects.length - 1];
+			const windowEnd = target + el.clientWidth;
+			if (last && last.start < windowEnd && last.end > windowEnd) {
+				const hiddenFraction = (last.end - windowEnd) / last.width;
+				if (hiddenFraction <= ASSIST_VISIBLE_THRESHOLD) return max;
+			}
+		} else {
+			const first = rects[0];
+			if (first && first.start < target && first.end > target) {
+				const hiddenFraction = (target - first.start) / first.width;
+				if (hiddenFraction <= ASSIST_VISIBLE_THRESHOLD) return 0;
+			}
+		}
+
+		return target;
+	};
+
+	const handleScroll = (direction: "left" | "right") => {
+		const el = listRef.current;
+		if (!el) return;
+
+		const max = el.scrollWidth - el.clientWidth;
+		const rawTarget =
+			direction === "left"
+				? Math.max(0, el.scrollLeft - scrollAmount)
+				: Math.min(max, el.scrollLeft + scrollAmount);
+		const target = applyEdgeAssist(el, direction, rawTarget, max);
+		const reachedEdge = target === 0 || target === max;
+
+		edgeHitRef.current = reachedEdge ? direction : null;
+
+		if (!reachedEdge) {
+			setIsSnapScrolling(true);
+			if (snapTimeoutRef.current) clearTimeout(snapTimeoutRef.current);
+			snapTimeoutRef.current = setTimeout(() => setIsSnapScrolling(false), 600);
+		}
+
+		el.scrollTo({ left: target, behavior: "smooth" });
 	};
 
 	return (

@@ -124,6 +124,19 @@ const getScrollButtons = () => {
   return { left, right };
 };
 
+/** Cria um DOMRect falso para simular posição/largura de elementos no cálculo de assistência de borda */
+const rect = (left: number, width: number): DOMRect => ({
+  left,
+  width,
+  right: left + width,
+  top: 0,
+  bottom: 0,
+  height: 0,
+  x: left,
+  y: 0,
+  toJSON: () => ({}),
+});
+
 // ─── Testes ───────────────────────────────────────────────────────────────────
 
 describe('Tabs', () => {
@@ -385,7 +398,7 @@ describe('Tabs', () => {
         fireEvent.scroll(scrollEl);
       });
 
-      // Depois scroll até o fim (scrollLeft + clientWidth >= scrollWidth - btnW)
+      // Depois scroll até o fim (scrollLeft + clientWidth >= scrollWidth)
       act(() => {
         Object.defineProperty(scrollEl, 'scrollLeft', {
           value: 500,
@@ -399,11 +412,11 @@ describe('Tabs', () => {
       expect(right.className).toContain('ScrollButtonHidden');
     });
 
-    it('clique no botão direito chama scrollBy com valor positivo', () => {
+    it('clique no botão direito chama scrollTo com o alvo correto', () => {
       const { container } = render(<Tabs items={defaultItems} defaultValue="tab1" />);
       const scrollEl = getScrollContainer(container);
-      const scrollBySpy = vi.fn();
-      scrollEl.scrollBy = scrollBySpy;
+      const scrollToSpy = vi.fn();
+      scrollEl.scrollTo = scrollToSpy;
 
       act(() => {
         mockScrollProps(scrollEl, { scrollLeft: 0, scrollWidth: 800, clientWidth: 300 });
@@ -413,33 +426,33 @@ describe('Tabs', () => {
       const { right } = getScrollButtons();
       fireEvent.click(right);
 
-      expect(scrollBySpy).toHaveBeenCalledWith({ left: 150, behavior: 'smooth' });
+      expect(scrollToSpy).toHaveBeenCalledWith({ left: 150, behavior: 'smooth' });
     });
 
-    it('clique no botão esquerdo chama scrollBy com valor negativo', () => {
+    it('clique no botão esquerdo chama scrollTo com o alvo correto', () => {
       const { container } = render(<Tabs items={defaultItems} defaultValue="tab1" />);
       const scrollEl = getScrollContainer(container);
-      const scrollBySpy = vi.fn();
-      scrollEl.scrollBy = scrollBySpy;
+      const scrollToSpy = vi.fn();
+      scrollEl.scrollTo = scrollToSpy;
 
       act(() => {
-        mockScrollProps(scrollEl, { scrollLeft: 100, scrollWidth: 800, clientWidth: 300 });
+        mockScrollProps(scrollEl, { scrollLeft: 200, scrollWidth: 800, clientWidth: 300 });
         fireEvent.scroll(scrollEl);
       });
 
       const { left } = getScrollButtons();
       fireEvent.click(left);
 
-      expect(scrollBySpy).toHaveBeenCalledWith({ left: -150, behavior: 'smooth' });
+      expect(scrollToSpy).toHaveBeenCalledWith({ left: 50, behavior: 'smooth' });
     });
 
-    it('scrollAmount customizado é passado para scrollBy', () => {
+    it('scrollAmount customizado é usado no cálculo do alvo', () => {
       const { container } = render(
         <Tabs items={defaultItems} defaultValue="tab1" scrollAmount={300} />,
       );
       const scrollEl = getScrollContainer(container);
-      const scrollBySpy = vi.fn();
-      scrollEl.scrollBy = scrollBySpy;
+      const scrollToSpy = vi.fn();
+      scrollEl.scrollTo = scrollToSpy;
 
       act(() => {
         mockScrollProps(scrollEl, { scrollLeft: 0, scrollWidth: 800, clientWidth: 300 });
@@ -449,7 +462,42 @@ describe('Tabs', () => {
       const { right } = getScrollButtons();
       fireEvent.click(right);
 
-      expect(scrollBySpy).toHaveBeenCalledWith({ left: 300, behavior: 'smooth' });
+      expect(scrollToSpy).toHaveBeenCalledWith({ left: 300, behavior: 'smooth' });
+    });
+
+    it('ao clicar quando falta menos que scrollAmount para o fim, o alvo é travado exatamente no fim (sem undershoot)', () => {
+      const { container } = render(<Tabs items={defaultItems} defaultValue="tab1" />);
+      const scrollEl = getScrollContainer(container);
+      const scrollToSpy = vi.fn();
+      scrollEl.scrollTo = scrollToSpy;
+
+      act(() => {
+        // max = 500; restam apenas 50px (< scrollAmount de 150) até o fim
+        mockScrollProps(scrollEl, { scrollLeft: 450, scrollWidth: 800, clientWidth: 300 });
+        fireEvent.scroll(scrollEl);
+      });
+
+      const { right } = getScrollButtons();
+      fireEvent.click(right);
+
+      expect(scrollToSpy).toHaveBeenCalledWith({ left: 500, behavior: 'smooth' });
+    });
+
+    it('ao clicar quando falta menos que scrollAmount para o início, o alvo é travado exatamente no início', () => {
+      const { container } = render(<Tabs items={defaultItems} defaultValue="tab1" />);
+      const scrollEl = getScrollContainer(container);
+      const scrollToSpy = vi.fn();
+      scrollEl.scrollTo = scrollToSpy;
+
+      act(() => {
+        mockScrollProps(scrollEl, { scrollLeft: 50, scrollWidth: 800, clientWidth: 300 });
+        fireEvent.scroll(scrollEl);
+      });
+
+      const { left } = getScrollButtons();
+      fireEvent.click(left);
+
+      expect(scrollToSpy).toHaveBeenCalledWith({ left: 0, behavior: 'smooth' });
     });
 
     it('botões de scroll têm aria-hidden="true"', () => {
@@ -692,6 +740,288 @@ describe('Tabs', () => {
 
       expect(tablist.style.transform).toBe('');
     });
+
+    it('dispara um micro-bounce ao atingir a borda direita clicando na seta', () => {
+      const { container } = render(<Tabs items={defaultItems} defaultValue="tab1" />);
+      const scrollEl = getScrollContainer(container);
+      scrollEl.scrollTo = vi.fn();
+      const tablist = screen.getByRole('tablist');
+
+      act(() => {
+        // max = 500; restam apenas 50px (< scrollAmount de 150) → clique encosta na borda
+        mockScrollProps(scrollEl, { scrollLeft: 450, scrollWidth: 800, clientWidth: 300 });
+        fireEvent.scroll(scrollEl);
+      });
+
+      const { right } = getScrollButtons();
+      fireEvent.click(right);
+
+      act(() => {
+        fireEvent(scrollEl, new Event('scrollend'));
+      });
+
+      // Empurrão + volta acontecem de forma síncrona (reflow forçado); ao final, o transform
+      // volta a '' com a classe de animação de retorno aplicada (ver teste de reflow abaixo
+      // para a prova de que o empurrão é de fato pintado antes da volta)
+      expect(tablist.style.transform).toBe('');
+      expect(tablist.className).toContain('Bounce');
+    });
+
+    it('aplica o empurrão do micro-bounce antes de animar a volta (reflow forçado)', () => {
+      const { container } = render(<Tabs items={defaultItems} defaultValue="tab1" />);
+      const scrollEl = getScrollContainer(container);
+      scrollEl.scrollTo = vi.fn();
+      const tablist = screen.getByRole('tablist');
+
+      act(() => {
+        mockScrollProps(scrollEl, { scrollLeft: 450, scrollWidth: 800, clientWidth: 300 });
+        fireEvent.scroll(scrollEl);
+      });
+
+      // Captura o transform exatamente no momento em que o reflow é forçado (void el.offsetWidth),
+      // provando que o empurrão é aplicado e pintado antes da volta ser agendada
+      let transformDuringReflow: string | null = null;
+      Object.defineProperty(tablist, 'offsetWidth', {
+        configurable: true,
+        get() {
+          transformDuringReflow = tablist.style.transform;
+          return 0;
+        },
+      });
+
+      const { right } = getScrollButtons();
+      fireEvent.click(right);
+      act(() => {
+        fireEvent(scrollEl, new Event('scrollend'));
+      });
+
+      expect(transformDuringReflow).toBe('translateX(-14px)');
+      expect(tablist.style.transform).toBe('');
+    });
+
+    it('não dispara micro-bounce quando o clique na seta não chega até a borda', () => {
+      const { container } = render(<Tabs items={defaultItems} defaultValue="tab1" />);
+      const scrollEl = getScrollContainer(container);
+      scrollEl.scrollTo = vi.fn();
+      const tablist = screen.getByRole('tablist');
+
+      act(() => {
+        // max = 500; restam 400px (> scrollAmount de 150) → clique não encosta na borda
+        mockScrollProps(scrollEl, { scrollLeft: 0, scrollWidth: 800, clientWidth: 300 });
+        fireEvent.scroll(scrollEl);
+      });
+
+      const { right } = getScrollButtons();
+      fireEvent.click(right);
+
+      act(() => {
+        fireEvent(scrollEl, new Event('scrollend'));
+      });
+
+      expect(tablist.style.transform).toBe('');
+      expect(tablist.className).not.toContain('Bounce');
+    });
+
+    it('força a seta a sumir ao atingir a borda mesmo se o scroll-snap deixar o scrollLeft um pouco aquém do limite real', () => {
+      const { container } = render(<Tabs items={defaultItems} defaultValue="tab1" />);
+      const scrollEl = getScrollContainer(container);
+      scrollEl.scrollTo = vi.fn();
+
+      act(() => {
+        // max = 500; restam 50px (< scrollAmount de 150) → clique calcula alvo = 500 (borda real)
+        mockScrollProps(scrollEl, { scrollLeft: 450, scrollWidth: 800, clientWidth: 300 });
+        fireEvent.scroll(scrollEl);
+      });
+
+      const { right } = getScrollButtons();
+      expect(right.className).not.toContain('ScrollButtonHidden');
+      fireEvent.click(right);
+
+      // Simula o scroll-snap assentando 5px antes da borda real (scrollLeft=495, não 500)
+      act(() => {
+        mockScrollProps(scrollEl, { scrollLeft: 495, scrollWidth: 800, clientWidth: 300 });
+        fireEvent.scroll(scrollEl);
+        fireEvent(scrollEl, new Event('scrollend'));
+      });
+
+      expect(right.className).toContain('ScrollButtonHidden');
+    });
+
+    it('mantém a seta escondida mesmo com eventos de scroll espúrios repetidos após atingir a borda', () => {
+      const { container } = render(<Tabs items={defaultItems} defaultValue="tab1" />);
+      const scrollEl = getScrollContainer(container);
+      scrollEl.scrollTo = vi.fn();
+
+      act(() => {
+        mockScrollProps(scrollEl, { scrollLeft: 450, scrollWidth: 800, clientWidth: 300 });
+        fireEvent.scroll(scrollEl);
+      });
+
+      const { right } = getScrollButtons();
+      fireEvent.click(right);
+
+      act(() => {
+        fireEvent(scrollEl, new Event('scrollend'));
+      });
+      expect(right.className).toContain('ScrollButtonHidden');
+
+      // Vários eventos de scroll tardios (ex.: ajustes do navegador) não devem reabrir a seta
+      act(() => {
+        mockScrollProps(scrollEl, { scrollLeft: 498, scrollWidth: 800, clientWidth: 300 });
+        fireEvent.scroll(scrollEl);
+        mockScrollProps(scrollEl, { scrollLeft: 497, scrollWidth: 800, clientWidth: 300 });
+        fireEvent.scroll(scrollEl);
+      });
+
+      expect(right.className).toContain('ScrollButtonHidden');
+    });
+
+    it('libera a trava e reexibe a seta quando há um movimento real para longe da borda', () => {
+      const { container } = render(<Tabs items={defaultItems} defaultValue="tab1" />);
+      const scrollEl = getScrollContainer(container);
+      scrollEl.scrollTo = vi.fn();
+
+      act(() => {
+        mockScrollProps(scrollEl, { scrollLeft: 450, scrollWidth: 800, clientWidth: 300 });
+        fireEvent.scroll(scrollEl);
+      });
+
+      const { right } = getScrollButtons();
+      fireEvent.click(right);
+
+      act(() => {
+        fireEvent(scrollEl, new Event('scrollend'));
+      });
+      expect(right.className).toContain('ScrollButtonHidden');
+
+      // Usuário arrasta de volta para longe da borda (movimento real, não ruído)
+      act(() => {
+        mockScrollProps(scrollEl, { scrollLeft: 300, scrollWidth: 800, clientWidth: 300 });
+        fireEvent.scroll(scrollEl);
+      });
+
+      expect(right.className).not.toContain('ScrollButtonHidden');
+    });
+  });
+
+  // ── Assistência ao atingir a borda (edge assist) ─────────────────────────
+
+  describe('Assistência ao atingir a borda', () => {
+    it('assiste até o fim quando o passo normal deixaria a última aba pouco coberta (≤30%)', () => {
+      const { container } = render(<Tabs items={defaultItems} defaultValue="tab1" />);
+      const scrollEl = getScrollContainer(container);
+      const scrollToSpy = vi.fn();
+      scrollEl.scrollTo = scrollToSpy;
+
+      act(() => {
+        // max = 650; passo normal levaria a 550 (400 + 150), não travaria no fim por si só
+        mockScrollProps(scrollEl, { scrollLeft: 400, scrollWidth: 950, clientWidth: 300 });
+        scrollEl.getBoundingClientRect = vi.fn(() => rect(0, 300));
+        fireEvent.scroll(scrollEl);
+      });
+
+      // Posições relativas ao viewport na rolagem atual (scrollLeft=400):
+      // conteúdo tab1 0–300, tab2 300–600, tab3 (última) 600–950
+      const tabs = screen.getAllByRole('tab');
+      tabs[0].getBoundingClientRect = vi.fn(() => rect(-400, 300));
+      tabs[1].getBoundingClientRect = vi.fn(() => rect(-100, 300));
+      tabs[2].getBoundingClientRect = vi.fn(() => rect(200, 350));
+
+      // Janela após o passo normal: [550, 850] → última aba (600–950) ficaria coberta em
+      // (950-850)/350 ≈ 28,6% (≤30%) → assiste indo direto ao fim (650)
+      const { right } = getScrollButtons();
+      fireEvent.click(right);
+
+      expect(scrollToSpy).toHaveBeenCalledWith({ left: 650, behavior: 'smooth' });
+    });
+
+    it('não assiste quando o passo normal deixaria a última aba bastante coberta (>30%)', () => {
+      const { container } = render(<Tabs items={defaultItems} defaultValue="tab1" />);
+      const scrollEl = getScrollContainer(container);
+      const scrollToSpy = vi.fn();
+      scrollEl.scrollTo = scrollToSpy;
+
+      act(() => {
+        // max = 750; passo normal leva a 350 (200 + 150)
+        mockScrollProps(scrollEl, { scrollLeft: 200, scrollWidth: 1050, clientWidth: 300 });
+        scrollEl.getBoundingClientRect = vi.fn(() => rect(0, 300));
+        fireEvent.scroll(scrollEl);
+      });
+
+      // conteúdo tab1 0–300, tab2 300–600, tab3 (última) 600–1050
+      const tabs = screen.getAllByRole('tab');
+      tabs[0].getBoundingClientRect = vi.fn(() => rect(-200, 300));
+      tabs[1].getBoundingClientRect = vi.fn(() => rect(100, 300));
+      tabs[2].getBoundingClientRect = vi.fn(() => rect(400, 450));
+
+      // Janela após o passo normal: [350, 650] → última aba (600–1050) ficaria coberta em
+      // (1050-650)/450 ≈ 88,9% (>30%) → não assiste, mantém o passo normal
+      const { right } = getScrollButtons();
+      fireEvent.click(right);
+
+      expect(scrollToSpy).toHaveBeenCalledWith({ left: 350, behavior: 'smooth' });
+    });
+
+    it('não assiste quando a aba pouco coberta é intermediária (não é a primeira nem a última)', () => {
+      const items = [
+        { value: 't1', label: 'T1', content: <div>C1</div> },
+        { value: 't2', label: 'T2', content: <div>C2</div> },
+        { value: 't3', label: 'T3', content: <div>C3</div> },
+        { value: 't4', label: 'T4', content: <div>C4</div> },
+      ];
+      const { container } = render(<Tabs items={items} defaultValue="t1" />);
+      const scrollEl = getScrollContainer(container);
+      const scrollToSpy = vi.fn();
+      scrollEl.scrollTo = scrollToSpy;
+
+      act(() => {
+        // max = 1450; passo normal leva a 1050 (900 + 150)
+        mockScrollProps(scrollEl, { scrollLeft: 900, scrollWidth: 1750, clientWidth: 300 });
+        scrollEl.getBoundingClientRect = vi.fn(() => rect(0, 300));
+        fireEvent.scroll(scrollEl);
+      });
+
+      // conteúdo t1 0–300, t2 300–600, t3 (intermediária, bem larga) 600–1450, t4 (última) 1450–1750
+      const tabs = screen.getAllByRole('tab');
+      tabs[0].getBoundingClientRect = vi.fn(() => rect(-900, 300));
+      tabs[1].getBoundingClientRect = vi.fn(() => rect(-600, 300));
+      tabs[2].getBoundingClientRect = vi.fn(() => rect(-300, 850));
+      tabs[3].getBoundingClientRect = vi.fn(() => rect(550, 300));
+
+      // Janela após o passo normal: [1050, 1350] → t3 (intermediária) ficaria coberta em apenas
+      // (1450-1350)/850 ≈ 11,8% (≤30%), mas como não é a última aba, a assistência não se aplica
+      const { right } = getScrollButtons();
+      fireEvent.click(right);
+
+      expect(scrollToSpy).toHaveBeenCalledWith({ left: 1050, behavior: 'smooth' });
+    });
+
+    it('assiste até o início quando o passo normal deixaria a primeira aba pouco coberta (≤30%)', () => {
+      const { container } = render(<Tabs items={defaultItems} defaultValue="tab1" />);
+      const scrollEl = getScrollContainer(container);
+      const scrollToSpy = vi.fn();
+      scrollEl.scrollTo = scrollToSpy;
+
+      act(() => {
+        // max = 650; passo normal levaria a 100 (250 - 150), não travaria no início por si só
+        mockScrollProps(scrollEl, { scrollLeft: 250, scrollWidth: 950, clientWidth: 300 });
+        scrollEl.getBoundingClientRect = vi.fn(() => rect(0, 300));
+        fireEvent.scroll(scrollEl);
+      });
+
+      // conteúdo tab1 (primeira) 0–350, tab2 350–650, tab3 650–950
+      const tabs = screen.getAllByRole('tab');
+      tabs[0].getBoundingClientRect = vi.fn(() => rect(-250, 350));
+      tabs[1].getBoundingClientRect = vi.fn(() => rect(100, 300));
+      tabs[2].getBoundingClientRect = vi.fn(() => rect(400, 300));
+
+      // Janela após o passo normal: início em 100 → primeira aba (0–350) ficaria coberta em
+      // (100-0)/350 ≈ 28,6% (≤30%) → assiste indo direto ao início (0)
+      const { left } = getScrollButtons();
+      fireEvent.click(left);
+
+      expect(scrollToSpy).toHaveBeenCalledWith({ left: 0, behavior: 'smooth' });
+    });
   });
 
   // ── ResizeObserver ───────────────────────────────────────────────────────
@@ -731,7 +1061,7 @@ describe('Tabs', () => {
     it('aplica a classe ListScrollSnap ao clicar em um botão de scroll', () => {
       const { container } = render(<Tabs items={defaultItems} defaultValue="tab1" />);
       const scrollEl = getScrollContainer(container);
-      scrollEl.scrollBy = vi.fn();
+      scrollEl.scrollTo = vi.fn();
       setupOverflow(scrollEl);
 
       const { right } = getScrollButtons();
@@ -740,11 +1070,28 @@ describe('Tabs', () => {
       expect(scrollEl.className).toContain('ListScrollSnap');
     });
 
+    it('não aplica a classe ListScrollSnap quando o clique atinge a borda real (evita o navegador assentar antes do alvo)', () => {
+      const { container } = render(<Tabs items={defaultItems} defaultValue="tab1" />);
+      const scrollEl = getScrollContainer(container);
+      scrollEl.scrollTo = vi.fn();
+
+      act(() => {
+        // max = 500; restam 50px (< scrollAmount de 150) → clique atinge a borda real
+        mockScrollProps(scrollEl, { scrollLeft: 450, scrollWidth: 800, clientWidth: 300 });
+        fireEvent.scroll(scrollEl);
+      });
+
+      const { right } = getScrollButtons();
+      fireEvent.click(right);
+
+      expect(scrollEl.className).not.toContain('ListScrollSnap');
+    });
+
     it('remove a classe ListScrollSnap automaticamente após 600ms', () => {
       vi.useFakeTimers();
       const { container } = render(<Tabs items={defaultItems} defaultValue="tab1" />);
       const scrollEl = getScrollContainer(container);
-      scrollEl.scrollBy = vi.fn();
+      scrollEl.scrollTo = vi.fn();
       setupOverflow(scrollEl);
 
       const { right } = getScrollButtons();
@@ -762,7 +1109,7 @@ describe('Tabs', () => {
     it('remove a classe ListScrollSnap ao disparar o evento nativo scrollend', () => {
       const { container } = render(<Tabs items={defaultItems} defaultValue="tab1" />);
       const scrollEl = getScrollContainer(container);
-      scrollEl.scrollBy = vi.fn();
+      scrollEl.scrollTo = vi.fn();
       setupOverflow(scrollEl);
 
       const { right } = getScrollButtons();
@@ -780,7 +1127,7 @@ describe('Tabs', () => {
       vi.useFakeTimers();
       const { container } = render(<Tabs items={defaultItems} defaultValue="tab1" />);
       const scrollEl = getScrollContainer(container);
-      scrollEl.scrollBy = vi.fn();
+      scrollEl.scrollTo = vi.fn();
       setupOverflow(scrollEl);
 
       const { right } = getScrollButtons();
@@ -857,7 +1204,7 @@ describe('Tabs', () => {
       vi.useFakeTimers();
       const { container, unmount } = render(<Tabs items={defaultItems} defaultValue="tab1" />);
       const scrollEl = getScrollContainer(container);
-      scrollEl.scrollBy = vi.fn();
+      scrollEl.scrollTo = vi.fn();
       mockScrollProps(scrollEl, { scrollLeft: 0, scrollWidth: 800, clientWidth: 300 });
       act(() => {
         fireEvent.scroll(scrollEl);
