@@ -1,9 +1,9 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useCallback } from 'react';
 import { MenuItemProps } from '../Menu.types';
 
 export interface UseMenuLogicProps {
   selectedItems?: MenuItemProps[];
-  onItemSelect?: (items: MenuItemProps) => void;
+  onItemSelect?: (item: MenuItemProps) => void;
   onOpenChange?: (open: boolean) => void;
 }
 
@@ -15,35 +15,19 @@ export interface UseMenuLogicReturn {
   isItemSelected: (item: MenuItemProps) => boolean;
 }
 
+const getItemKey = (item: MenuItemProps): string => item.value ?? item.id ?? item.text ?? '';
+
 export function useMenuLogic({
-  selectedItems = [],
+  selectedItems,
   onItemSelect,
   onOpenChange,
 }: UseMenuLogicProps): UseMenuLogicReturn {
-  
-  const isControlledRef = useRef(selectedItems !== undefined);
-  const prevSelectedItemsRef = useRef<MenuItemProps[]>(selectedItems);
+  const isControlled = selectedItems !== undefined;
 
   const [open, setOpenState] = useState(false);
-  const [internalSelectedItems, setInternalSelectedItems] = useState<MenuItemProps[]>(
-    selectedItems || []
-  );
+  const [uncontrolledSelectedItems, setUncontrolledSelectedItems] = useState<MenuItemProps[]>([]);
 
-  const getItemKey = useCallback((item: MenuItemProps): string => {
-    return item.value ?? item.id ?? item.text ?? '';
-  }, []);
-
-  useEffect(() => {
-    if (!isControlledRef.current || !selectedItems) return;
-
-    const prevKeys = prevSelectedItemsRef.current.map(getItemKey).sort().join(',');
-    const currentKeys = selectedItems.map(getItemKey).sort().join(',');
-
-    if (prevKeys !== currentKeys) {
-      setInternalSelectedItems(selectedItems);
-      prevSelectedItemsRef.current = selectedItems;
-    }
-  }, [selectedItems, getItemKey]);
+  const internalSelectedItems = isControlled ? selectedItems : uncontrolledSelectedItems;
 
   const setOpen = useCallback(
     (newOpen: boolean) => {
@@ -62,21 +46,19 @@ export function useMenuLogic({
         (selected) => getItemKey(selected) === itemKey
       );
     },
-    [internalSelectedItems, getItemKey]
+    [internalSelectedItems]
   );
 
   const handleItemSelect = useCallback(
     (item: MenuItemProps) => {
-      const newSelection = [item];
-      setInternalSelectedItems(newSelection);
-
-      if (onItemSelect) {
-        onItemSelect(item);
+      if (!isControlled) {
+        setUncontrolledSelectedItems([item]);
       }
 
+      onItemSelect?.(item);
       setOpen(false);
     },
-    [onItemSelect, setOpen]
+    [isControlled, onItemSelect, setOpen]
   );
 
   return {
