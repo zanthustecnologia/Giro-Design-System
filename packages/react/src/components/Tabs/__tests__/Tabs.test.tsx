@@ -689,6 +689,23 @@ describe('Tabs', () => {
       expect(tablist.className).not.toContain('Bounce');
     });
 
+    it('ignora transitionend borbulhado de um Trigger filho (ex.: hover/cor) e não remove o Bounce', () => {
+      const { container } = render(<Tabs items={defaultItems} defaultValue="tab1" />);
+      const scrollEl = getScrollContainer(container);
+      mockScrollProps(scrollEl, { scrollLeft: 0, scrollWidth: 800, clientWidth: 300 });
+      const tablist = screen.getByRole('tablist');
+
+      fireEvent.mouseDown(scrollEl, { clientX: 100 });
+      fireEvent.mouseMove(document, { clientX: 150 });
+      fireEvent.mouseUp(document);
+      expect(tablist.className).toContain('Bounce');
+
+      // Simula a transição de hover/cor de um Trigger terminando e borbulhando até o tablist
+      fireEvent.transitionEnd(screen.getAllByRole('tab')[0], { propertyName: 'color', bubbles: true });
+
+      expect(tablist.className).toContain('Bounce');
+    });
+
     it('aplica translateX ao tentar deslizar (touch) além do início da lista', () => {
       const { container } = render(<Tabs items={defaultItems} defaultValue="tab1" />);
       const scrollEl = getScrollContainer(container);
@@ -1085,6 +1102,33 @@ describe('Tabs', () => {
       fireEvent.click(right);
 
       expect(scrollEl.className).not.toContain('ListScrollSnap');
+    });
+
+    it('cancela o ListScrollSnap pendente de um clique anterior quando o clique seguinte atinge a borda', () => {
+      vi.useFakeTimers();
+      const { container } = render(<Tabs items={defaultItems} defaultValue="tab1" />);
+      const scrollEl = getScrollContainer(container);
+      scrollEl.scrollTo = vi.fn();
+
+      // 1º clique: passo normal (não atinge a borda) → ativa isSnapScrolling e agenda o timeout de 600ms
+      act(() => {
+        mockScrollProps(scrollEl, { scrollLeft: 0, scrollWidth: 900, clientWidth: 300 });
+        fireEvent.scroll(scrollEl);
+      });
+      const { right } = getScrollButtons();
+      fireEvent.click(right);
+      expect(scrollEl.className).toContain('ListScrollSnap');
+
+      // 2º clique, bem rápido (antes dos 600ms): atinge a borda real → mesmo com o snap do
+      // 1º clique ainda pendente, a classe deve ser removida imediatamente
+      act(() => {
+        mockScrollProps(scrollEl, { scrollLeft: 450, scrollWidth: 900, clientWidth: 300 });
+        fireEvent.scroll(scrollEl);
+      });
+      fireEvent.click(right);
+
+      expect(scrollEl.className).not.toContain('ListScrollSnap');
+      vi.useRealTimers();
     });
 
     it('remove a classe ListScrollSnap automaticamente após 600ms', () => {
