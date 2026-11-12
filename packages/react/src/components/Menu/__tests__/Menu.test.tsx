@@ -12,13 +12,14 @@ vi.mock('@fluentui/react-icons', () => ({
 
 // Mock do componente Search
 vi.mock('../../Search', () => ({
-  default: ({ placeholder, onChange, value, onKeyDown }: any) => (
+  default: ({ placeholder, onChange, value, onKeyDown, autoFocus }: any) => (
     <input
       data-testid="search-input"
       placeholder={placeholder}
       value={value}
       onChange={onChange}
       onKeyDown={onKeyDown}
+      autoFocus={autoFocus}
     />
   ),
 }));
@@ -295,6 +296,152 @@ describe('Menu', () => {
       await waitFor(() => {
         expect(screen.queryByText('Item 2')).not.toBeInTheDocument();
       });
+    });
+
+    it('mantém a seleção interna no modo não controlado', async () => {
+      const user = userEvent.setup();
+
+      render(
+        <Menu items={mockItems}>
+          <button>Abrir Menu</button>
+        </Menu>
+      );
+
+      await user.click(screen.getByText('Abrir Menu'));
+      await user.click(await screen.findByText('Item 2'));
+      await waitFor(() => expect(screen.queryByText('Item 2')).not.toBeInTheDocument());
+
+      await user.click(screen.getByText('Abrir Menu'));
+
+      const item2 = (await screen.findByText('Item 2')).closest('div[role="menuitem"]');
+      expect(item2).toHaveAttribute('data-selected', 'true');
+    });
+
+    it('passa a refletir selectedItems quando muda de não controlado para controlado', async () => {
+      const user = userEvent.setup();
+
+      const { rerender } = render(
+        <Menu items={mockItems}>
+          <button>Abrir Menu</button>
+        </Menu>
+      );
+
+      rerender(
+        <Menu items={mockItems} selectedItems={[mockItems[1]]}>
+          <button>Abrir Menu</button>
+        </Menu>
+      );
+
+      await user.click(screen.getByText('Abrir Menu'));
+
+      const item2 = (await screen.findByText('Item 2')).closest('div[role="menuitem"]');
+      expect(item2).toHaveAttribute('data-selected', 'true');
+    });
+
+    it('não altera a seleção no modo controlado quando o pai não atualiza selectedItems', async () => {
+      const user = userEvent.setup();
+      const selectedItems = [mockItems[0]];
+
+      render(
+        <Menu items={mockItems} selectedItems={selectedItems}>
+          <button>Abrir Menu</button>
+        </Menu>
+      );
+
+      await user.click(screen.getByText('Abrir Menu'));
+      await user.click(await screen.findByText('Item 2'));
+      await waitFor(() => expect(screen.queryByText('Item 2')).not.toBeInTheDocument());
+
+      await user.click(screen.getByText('Abrir Menu'));
+
+      const item1 = (await screen.findByText('Item 1')).closest('div[role="menuitem"]');
+      const item2 = screen.getByText('Item 2').closest('div[role="menuitem"]');
+      expect(item1).toHaveAttribute('data-selected', 'true');
+      expect(item2).not.toHaveAttribute('data-selected');
+    });
+  });
+
+  describe('Foco e Teclado', () => {
+    it('devolve o foco ao trigger após selecionar um item com o mouse', async () => {
+      const user = userEvent.setup();
+
+      render(
+        <Menu items={mockItems}>
+          <button>Abrir Menu</button>
+        </Menu>
+      );
+
+      const trigger = screen.getByText('Abrir Menu');
+      await user.click(trigger);
+      await user.click(await screen.findByText('Item 1'));
+
+      await waitFor(() => expect(trigger).toHaveFocus());
+    });
+
+    it('devolve o foco ao trigger após selecionar um item com o teclado', async () => {
+      const user = userEvent.setup();
+
+      render(
+        <Menu items={mockItems}>
+          <button>Abrir Menu</button>
+        </Menu>
+      );
+
+      const trigger = screen.getByText('Abrir Menu');
+      trigger.focus();
+      await user.keyboard('{Enter}');
+      await screen.findByText('Item 1');
+      await user.keyboard('{ArrowDown}{Enter}');
+
+      await waitFor(() => expect(trigger).toHaveFocus());
+    });
+
+    it('foca o campo de busca ao abrir o menu pelo teclado', async () => {
+      const user = userEvent.setup();
+
+      render(
+        <Menu items={mockItems} search>
+          <button>Abrir Menu</button>
+        </Menu>
+      );
+
+      screen.getByText('Abrir Menu').focus();
+      await user.keyboard('{Enter}');
+
+      expect(await screen.findByTestId('search-input')).toHaveFocus();
+    });
+
+    it('não foca o campo de busca ao abrir o menu com o mouse', async () => {
+      const user = userEvent.setup();
+
+      render(
+        <Menu items={mockItems} search>
+          <button>Abrir Menu</button>
+        </Menu>
+      );
+
+      await user.click(screen.getByText('Abrir Menu'));
+
+      expect(await screen.findByTestId('search-input')).not.toHaveFocus();
+    });
+
+    it('move o foco da busca para o primeiro item habilitado com ArrowDown', async () => {
+      const user = userEvent.setup();
+
+      render(
+        <Menu items={mockItems} search>
+          <button>Abrir Menu</button>
+        </Menu>
+      );
+
+      screen.getByText('Abrir Menu').focus();
+      await user.keyboard('{Enter}');
+      await waitFor(() => expect(screen.getByTestId('search-input')).toHaveFocus());
+
+      await user.keyboard('{ArrowDown}');
+
+      const item1 = screen.getByText('Item 1').closest('div[role="menuitem"]');
+      expect(item1).toHaveFocus();
     });
   });
 
