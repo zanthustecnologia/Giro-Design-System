@@ -4,6 +4,19 @@
 > Este documento contém o **passo a passo exato** para versionar e publicar pacotes no NPM.
 > Siga esta ordem à risca para garantir releases consistentes.
 
+### Sincronização automática do MCP
+
+Ao executar `pnpm changeset:version`, o monorepo verifica o plano de release e
+inclui um patch de `@giro-ds/mcp` se React ou tokens forem versionados e o MCP
+ainda não estiver no plano. Uma versão minor/major já prevista é preservada.
+Continue criando o changeset do pacote alterado normalmente.
+
+O build do MCP regenera os metadados dos componentes e tokens, executa os testes
+do gerador e compila o servidor. `pnpm release` encadeia versionamento, build e
+publicação; não é mais necessário gerar os metadados manualmente nesse fluxo.
+Use os scripts do monorepo: `pnpm exec changeset version` diretamente ignora essa
+sincronização. Consumidores devem carregar a versão publicada e reiniciar o MCP.
+
 ---
 
 ## 📋 Índice

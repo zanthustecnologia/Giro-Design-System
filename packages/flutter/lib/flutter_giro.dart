@@ -27,6 +27,8 @@ export 'components/switch/switch_tokens.dart';
 export 'components/data_table/data_table.dart';
 export 'components/date_picker/date_picker.dart';
 export 'components/dialogs/dialogs.dart';
+export 'components/dialogs/dialog_tokens.dart';
+export 'components/dialogs/giro_dialog.dart';
 export 'components/dividers/dividers.dart';
 export 'components/drawer/drawer.dart';
 export 'components/dropdown_button/dropdown_button.dart';

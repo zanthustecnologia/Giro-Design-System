@@ -3,7 +3,7 @@
   flex-direction: column;
   gap: var(--spacing-40);
   margin-top: var(--spacing-32) !important;
-  margin-bottom: 0;
+  margin-bottom: var(--spacing-0);
 }
 .ruleRow {
   display: grid;
@@ -48,7 +48,7 @@
   font-size: var(--font-size-16);
   line-height: 1.6;
   color: var(--color-neutral-low-default);
-  margin: 0 !important;
+  margin: var(--spacing-0) !important;
 }
 @media (max-width: 768px) {
   .ruleRow {

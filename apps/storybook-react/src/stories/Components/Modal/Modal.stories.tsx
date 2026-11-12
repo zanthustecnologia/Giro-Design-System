@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Modal, Button } from '@giro-ds/react';
+import { Modal, Button, TextField, VirtualKeyboard } from '@giro-ds/react';
 
 const meta: Meta<typeof Modal> = {
   title: 'Components/Modal',
@@ -122,6 +122,47 @@ export const ConteudoLongo: Story = {
   ),
 };
 
+export const ComScroll: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Modal com altura fixa (customHeight) e conteúdo suficiente para forçar o scroll interno do corpo (modalBody), útil para validar a compensação visual da scrollbar.',
+      },
+    },
+  },
+  render: () => {
+    const [isOpen, setIsOpen] = useState(false);
+
+    return (
+      <>
+        <Button variant="outlined" onClick={() => setIsOpen(true)}>
+          Abrir Modal com scroll
+        </Button>
+        <Modal
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+          title="Conteúdo rolável"
+          customHeight="400px"
+          footer={
+            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px' }}>
+              <Button variant="outlined" onClick={() => setIsOpen(false)}>Cancelar</Button>
+              <Button onClick={() => setIsOpen(false)}>Confirmar</Button>
+            </div>
+          }
+        >
+          <p>Este Modal tem altura fixa e conteúdo suficiente para gerar uma scrollbar.</p>
+          {Array.from({ length: 40 }, (_, i) => (
+            <p key={i} style={{ margin: '8px 0', color: 'var(--color-neutral-low-medium)' }}>
+              Item de conteudo {i + 1}
+            </p>
+          ))}
+        </Modal>
+      </>
+    );
+  },
+};
+
 export const SemFechamentoPorOverlay: Story = {
   render: () => (
     <ModalDemo title="Formulário" closeOnOverlayClick={false}>
@@ -175,6 +216,65 @@ export const TelaCheia: Story = {
           }
         >
           Este modal ocupa toda a tela. Útil para fluxos complexos ou visualização de conteúdo extenso.
+        </Modal>
+      </>
+    );
+  },
+};
+
+export const ComVirtualKeyboard: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Reproduz o cenário de conflito entre `Modal` e `VirtualKeyboard` (modo `native`): o teclado é ' +
+          'portalizado em `document.body`, fora da árvore DOM do `Dialog.Content` do Radix. Use este story ' +
+          'para validar que clicar nas teclas não fecha o Modal nem o teclado, e que o teclado permanece ' +
+          'visível/funcional enquanto o campo está focado.',
+      },
+    },
+  },
+  render: () => {
+    const [isOpen, setIsOpen] = useState(false);
+    const [value, setValue] = useState('');
+    const inputRef = useRef<HTMLInputElement>(null);
+
+    return (
+      <>
+        <Button variant="outlined" onClick={() => setIsOpen(true)}>
+          Abrir Modal com VirtualKeyboard
+        </Button>
+        <Modal
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+          title="Modal + VirtualKeyboard"
+        >
+          <p style={{ marginTop: 0 }}>
+            Clique no campo abaixo para abrir o teclado virtual e, em seguida, toque nas teclas.
+            Nem o teclado, nem o Modal devem fechar sozinhos.
+          </p>
+          {/*
+            O VirtualKeyboard não define z-index próprio (fica a cargo de quem o consome).
+            Neste story, garantimos que o teclado fique acima do Modal via className + CSS local.
+          */}
+          <style>{'.vk-demo-zindex { z-index: 1100; }'}</style>
+          <TextField
+            label="Campo de texto"
+            value={value}
+            onChange={setValue}
+            placeholder="Clique aqui para abrir o teclado..."
+            readOnly
+            helperText="Clique no campo para abrir o teclado virtual"
+            ref={inputRef}
+          />
+          <VirtualKeyboard
+            variant="native"
+            type="default"
+            targetRef={inputRef as React.RefObject<HTMLInputElement>}
+            value={value}
+            onChange={setValue}
+            className="vk-demo-zindex"
+          />
         </Modal>
       </>
     );

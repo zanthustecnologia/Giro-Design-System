@@ -1,3 +1,5 @@
+@use '../../styles/mixins/fonts' as *;
+
 @mixin svg {
   width: 1em;
   height: 1em;
@@ -33,7 +35,7 @@
     :global(.hg-button) {
       font-family: var(--font-family-primary);
       font-weight: var(--font-weight-medium);
-      font-size: var(--font-size-20);
+      @include fluid-font(20, 2, 40);
       height: 44px;
       background-color: var(--color-neutral-high-medium);
       border-radius: var(--border-radius-8);
@@ -244,8 +246,17 @@
   bottom: var(--spacing-0);
   left: var(--spacing-0);
   right: var(--spacing-0);
+  // Radix Dialog/Popover (modal=true) zera `pointer-events` em document.body enquanto está
+  // aberto, reabilitando apenas no seu próprio Content. Como este overlay é portalizado
+  // separadamente para document.body, precisa reafirmar `pointer-events: auto` explicitamente
+  // para continuar recebendo cliques mesmo com um Modal aberto por cima.
+  pointer-events: auto;
   --vkeyboard-native-computed-height: max(280px, var(--vkeyboard-native-height, clamp(280px, 45dvh, 420px)));
   height: var(--vkeyboard-native-computed-height);
+  // container-type: size expõe cqh — assim a fonte cresce com a altura real do teclado
+  // (via `nativeHeight`), em vez de depender do viewport (`dvh`), que não muda com a prop.
+  container-type: size;
+  container-name: vkeyboard-native;
   display: flex;
   flex-direction: column;
   background-color: var(--color-neutral-high-default);
@@ -275,7 +286,7 @@
     :global(.hg-button) {
       font-family: var(--font-family-primary);
       font-weight: var(--font-weight-medium);
-      font-size: var(--font-size-20);
+      @include fluid-font(20, 2, 40);
       background-color: var(--color-neutral-high-medium);
       margin: var(--spacing-4);
       height: auto;
@@ -460,7 +471,7 @@
   background: var(--color-neutral-high-medium);
   box-shadow: none;
   font-family: var(--font-family-primary);
-  font-size: var(--font-size-24);
+  @include fluid-font(20, 2, 40);
   font-weight: var(--font-weight-medium);
   pointer-events: none;
   user-select: none;
@@ -469,6 +480,10 @@
 
 .accentMenu {
   position: fixed;
+  // Mesmo motivo do `.overlay`: portalizado separadamente para document.body, precisa
+  // reafirmar `pointer-events: auto` para continuar clicável com um Modal aberto.
+  // O z-index fica a cargo de quem consome o componente (via `className`).
+  pointer-events: auto;
   transform: translate(-50%, calc(-100%));
   display: inline-flex;
   flex-direction: column;
@@ -494,7 +509,7 @@
   border: none;
   border-radius: var(--border-radius-8);
   font-family: var(--font-family-primary);
-  font-size: var(--font-size-24);
+  @include fluid-font(20, 2, 40);
   background: none;
   font-weight: var(--font-weight-medium);
   cursor: pointer;
@@ -541,7 +556,6 @@
   :global(.hg-theme-default) {
     :global(.hg-button) {
       min-height: 40px;
-      font-size: var(--font-size-18);
       margin: 3px;
     }
   }
@@ -559,7 +573,6 @@
   :global(.hg-theme-default) {
     :global(.hg-button) {
       min-height: 38px;
-      font-size: var(--font-size-16);
       margin: 2px;
     }
   }
@@ -577,7 +590,6 @@
   :global(.hg-theme-default) {
     :global(.hg-button) {
       min-height: 38px;
-      font-size: var(--font-size-16);
       margin: 2px;
       border-radius: var(--border-radius-4);
     }
@@ -618,7 +630,6 @@
     :global(.hg-theme-default) {
       :global(.hg-button) {
         min-height: clamp(38px, 6dvh, 48px);
-        font-size: var(--font-size-18);
         margin: 3px;
       }
     }
@@ -632,7 +643,6 @@
     :global(.hg-theme-default) {
       :global(.hg-button) {
         min-height: clamp(38px, 6dvh, 48px);
-        font-size: var(--font-size-16);
         margin: 2px;
       }
     }
@@ -646,7 +656,6 @@
     :global(.hg-theme-default) {
       :global(.hg-button) {
         min-height: clamp(38px, 6dvh, 48px);
-        font-size: var(--font-size-16);
         margin: 2px;
         border-radius: var(--border-radius-4);
       }
@@ -674,13 +683,11 @@
   .keyPreview {
     width: 46px;
     height: 46px;
-    font-size: var(--font-size-20);
   }
 
   .accentOption {
     min-width: 46px;
     height: 46px;
-    font-size: var(--font-size-20);
   }
 }
 
@@ -688,14 +695,12 @@
   .keyPreview {
     width: 44px;
     height: 44px;
-    font-size: var(--font-size-18);
   }
 
   .accentOption {
     min-width: 44px;
     height: 44px;
     padding: 0 var(--spacing-4);
-    font-size: var(--font-size-18);
   }
 }
 
@@ -703,13 +708,11 @@
   .keyPreview {
     width: 44px;
     height: 44px;
-    font-size: var(--font-size-16);
   }
 
   .accentOption {
     min-width: 44px;
     height: 44px;
     padding: 0 var(--spacing-4);
-    font-size: var(--font-size-16);
   }
 }

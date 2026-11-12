@@ -7,7 +7,7 @@ import { forwardRef } from '../../utils/forwardRef';
 import useInputKeyboardValue from '../../hooks/useInputKeyboardValue';
 import VirtualKeyboard from '../VirtualKeyboard';
 import styles from './TextField.module.scss';
-import { validateInput } from './utils';
+import { validateInput, applyPhoneMask } from './utils';
 import LabelComponent from '../../shared/Label';
 
 import type { TextFieldProps } from './TextField.types';
@@ -44,7 +44,8 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>((
   ref
 ) => {
     const normalizeValue = (val: string | number | undefined): string => {
-      return val === undefined || val === null ? '' : String(val);
+      const stringValue = val === undefined || val === null ? '' : String(val);
+      return type === 'tel' ? applyPhoneMask(stringValue) : stringValue;
     };
     
     const [inputValue, setInputValue] = useState(normalizeValue(value));
@@ -55,31 +56,33 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>((
     const componentId = id || generatedId;
 
     useEffect(() => {
-      const newValue = normalizeValue(value);
-      setInputValue(newValue);
-      
-      if (inputError) {
-        const validationError = validateInput({
-          value: newValue,
-          type,
-          maxLength,
-          errorMessage,
-          required,
-        });
-        setInputError(validationError);
-      }
-    }, [value, inputError, type, maxLength, errorMessage, required]);
+      setInputValue(normalizeValue(value));
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [value, type]);
+
+    useEffect(() => {
+      if (!inputError) return;
+
+      const validationError = validateInput({
+        value: inputValue,
+        type,
+        maxLength,
+        errorMessage,
+        required,
+      });
+      setInputError(validationError);
+    }, [inputValue, inputError, type, maxLength, errorMessage, required]);
 
     const handleChange = useCallback(
       (e: React.ChangeEvent<HTMLInputElement>) => {
-        const newValue = e.target.value;
+        const newValue = type === 'tel' ? applyPhoneMask(e.target.value) : e.target.value;
 
         if (!disabled && (!maxLength || newValue.length <= maxLength)) {
           setInputValue(newValue);
           onChange?.(newValue);
         }
       },
-      [disabled, maxLength, onChange]
+      [disabled, maxLength, onChange, type]
     );
 
     const handleClear = useCallback(() => {

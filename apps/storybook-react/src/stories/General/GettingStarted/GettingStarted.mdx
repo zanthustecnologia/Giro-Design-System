@@ -1,6 +1,5 @@
 import { Meta } from '@storybook/addon-docs/blocks';
 import { Footer } from '../../../internal-components/mdx/Footer/Footer';
-import styles from './GettingStarted.module.scss';
 
 <Meta title="Comece aqui" />
 
@@ -24,6 +23,8 @@ pnpm add @giro-ds/react
 # yarn
 yarn add @giro-ds/react
 ```
+
+> **Pré-requisito:** `@giro-ds/react` depende de `react` e `react-dom` (versão `>=18.0.0`) já instalados no seu projeto como `peerDependencies`.
 
 ### Design Tokens
 
@@ -111,7 +112,7 @@ function App() {
     <div>
       <Button variant="filled">Clique aqui</Button>
       <TextField label="Nome" placeholder="Digite seu nome" />
-      <Avatar initialLetters="JS" />
+      <Avatar text="JS" />
     </div>
   );
 }
@@ -246,7 +247,7 @@ function App() {
       </h1>
       
       <Avatar 
-        initialLetters="MS" 
+        text="MS" 
         size="lg" 
       />
       

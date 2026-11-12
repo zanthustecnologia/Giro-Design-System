@@ -38,6 +38,8 @@ export interface ToggleGroupItem {
   icon?: ReactNode;
   /** Exibe somente o ícone, sem label */
   iconOnly?: boolean;
+  /** Exibe somente o ícone quando não selecionado; ícone + label quando selecionado */
+  expandOnSelect?: boolean;
   /** Desabilita o item, impedindo sua seleção */
   disabled?: boolean;
 }
@@ -80,6 +82,16 @@ type ToggleGroupMultipleSelectionProps = {
 export type ToggleGroupProps = {
   /** Items do grupo de toggles */
   items?: ToggleGroupItem[];
+  /**
+   * Exibe somente o ícone dos itens não selecionados; ícone + label no item selecionado.
+   * Aplica-se a todos os itens do grupo. Pode ser sobrescrito individualmente via `item.expandOnSelect`.
+   */
+  expandOnSelect?: boolean;
+  /**
+   * Impede desmarcar o item ativo ao clicar novamente nele, garantindo que sempre haja uma seleção.
+   * Aplica-se somente quando `selectionType="single"` (ignorado em `"multiple"`).
+   */
+  requireSelection?: boolean;
 } & (ToggleGroupSingleSelectionProps | ToggleGroupMultipleSelectionProps);
 
 /**

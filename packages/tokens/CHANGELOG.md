@@ -1,5 +1,13 @@
 ﻿# @giro-ds/tokens
 
+## [2.0.2]
+
+> Nota: a versão `2.0.1` foi publicada por engano com conteúdo desatualizado (sem a mudança abaixo) e foi descontinuada (`deprecated`) no NPM. Use `2.0.2` ou superior.
+
+### Bug Fixes
+
+- **Focus:** corrige referência do token semântico `color.focus.ring.default`, de `{color.brand.primary.500}` para `{color.neutral.300}`.
+
 ## [2.0.0]
 
 ### Breaking Changes

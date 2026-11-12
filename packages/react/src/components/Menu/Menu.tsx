@@ -172,7 +172,7 @@ const Menu: React.FC<MenuProps> = ({
                 renderMenuItem(item, item.value || item.text || `item-${index}`)
               )
             ) : (
-              <div className={styles.emptyState}>Nenhum item encontrado</div>
+              <div className={styles.noResults}>Nenhum resultado encontrado</div>
             )}
           </div>
         </DropdownMenu.Content>

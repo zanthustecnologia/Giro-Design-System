@@ -44,6 +44,12 @@ const meta: Meta<typeof Quantity> = {
       description: 'Número de casas decimais (1 a 10). Ativo apenas quando decimal=true.',
       if: { arg: 'decimal', eq: true },
     },
+    decimalSeparator: {
+      control: { type: 'radio' },
+      options: [',', '.'],
+      description: 'Caractere usado como separador decimal. Ativo apenas quando decimal=true.',
+      if: { arg: 'decimal', eq: true },
+    },
     size: {
       control: { type: 'select' },
       options: ['lg', 'sm'],
@@ -85,6 +91,7 @@ const meta: Meta<typeof Quantity> = {
     disabled: false,
     decimal: false,
     decimalPlaces: 2,
+    decimalSeparator: ',',
     size: 'lg',
     valueIncrement: 1,
     scale: 1,
@@ -103,9 +110,12 @@ export const Desabilitado: Story = {
 };
 
 export const Decimal: Story = {
-  render: () => {
+  render: (args) => {
     const [value, setValue] = useState(1);
-    return <Quantity decimal decimalPlaces={2} valueIncrement={0.5} value={value} onChange={setValue} />;
+    return <Quantity {...args} decimal decimalPlaces={2} valueIncrement={0.5} value={value} onChange={setValue} />;
+  },
+  args: {
+    decimalSeparator: ',',
   },
 };
 
