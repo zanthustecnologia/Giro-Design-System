@@ -81,6 +81,8 @@ const Tabs: React.FC<TabsProps> = ({
 
 			const current = listRef.current;
 			const max = current.scrollWidth - current.clientWidth;
+			if (max <= 0) return; // sem overflow: não há o que rolar, bounce não se aplica
+
 			const target = scrollStartLeft.current - delta;
 
 			if (target < 0) {
@@ -116,6 +118,8 @@ const Tabs: React.FC<TabsProps> = ({
 		const handleTouchMove = (e: TouchEvent) => {
 			const delta = e.touches[0].clientX - touchStartX.current;
 			const max = el.scrollWidth - el.clientWidth;
+			if (max <= 0) return; // sem overflow: não há o que rolar, bounce não se aplica
+
 			const target = touchStartScrollLeft.current - delta;
 
 			if (target < 0) {

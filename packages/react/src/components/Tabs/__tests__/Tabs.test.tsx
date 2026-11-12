@@ -573,6 +573,30 @@ describe('Tabs', () => {
       expect(tablist.style.transform).toBe('');
     });
 
+    it('não aplica translateX ao arrastar com mouse quando não há overflow (abas cabem no container)', () => {
+      const { container } = render(<Tabs items={defaultItems} defaultValue="tab1" />);
+      const scrollEl = getScrollContainer(container);
+      mockScrollProps(scrollEl, { scrollLeft: 0, scrollWidth: 300, clientWidth: 300 }); // sem overflow
+      const tablist = screen.getByRole('tablist');
+
+      fireEvent.mouseDown(scrollEl, { clientX: 100 });
+      fireEvent.mouseMove(document, { clientX: 150 }); // tentaria "puxar" além do início
+
+      expect(tablist.style.transform).toBe('');
+    });
+
+    it('não aplica translateX ao deslizar (touch) quando não há overflow (abas cabem no container)', () => {
+      const { container } = render(<Tabs items={defaultItems} defaultValue="tab1" />);
+      const scrollEl = getScrollContainer(container);
+      mockScrollProps(scrollEl, { scrollLeft: 0, scrollWidth: 300, clientWidth: 300 }); // sem overflow
+      const tablist = screen.getByRole('tablist');
+
+      fireEvent.touchStart(scrollEl, { touches: [{ clientX: 100 }] });
+      fireEvent.touchMove(scrollEl, { touches: [{ clientX: 150 }] }); // tentaria "puxar" além do início
+
+      expect(tablist.style.transform).toBe('');
+    });
+
     it('limita o deslocamento elástico ao valor máximo (OVERSCROLL_MAX)', () => {
       const { container } = render(<Tabs items={defaultItems} defaultValue="tab1" />);
       const scrollEl = getScrollContainer(container);
