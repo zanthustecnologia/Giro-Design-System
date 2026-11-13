@@ -145,6 +145,9 @@ interface SelectPropsBase extends ScalableProps {
   /** Mensagem de erro a ser exibida */
   errorMessage?: string;
   
+  /** Label acessível para leitores de tela. Tem precedência sobre `aria-label` quando ambos são informados */
+  ariaLabel?: string;
+
   /** Label acessível para leitores de tela */
   'aria-label'?: string;
   
