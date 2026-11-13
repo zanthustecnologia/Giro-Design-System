@@ -12,6 +12,12 @@ import { SelectProps } from './Select.types';
 import LabelComponent from '../../shared/Label';
 import Search from '../Search/Search';
 
+const ROW_SELECTOR = '[role="option"], [data-select-row]';
+
+const getNavigableRows = (content: HTMLElement) =>
+  Array.from(content.querySelectorAll<HTMLElement>(ROW_SELECTOR)).filter(
+    (row) => !row.hasAttribute('data-disabled') && row.getAttribute('aria-disabled') !== 'true'
+  );
 const Select: React.FC<SelectProps> = ({
   items,
   onValueChange,
@@ -30,7 +36,8 @@ const Select: React.FC<SelectProps> = ({
   disabled = false,
   className,
   style,
-  'aria-label': ariaLabel,
+  ariaLabel,
+  'aria-label': ariaLabelNative,
   'data-testid': testId,
   tooltipText,
   tooltipSide = 'bottom',
@@ -39,7 +46,6 @@ const Select: React.FC<SelectProps> = ({
   onScrollEnd,
   hasMore = true,
   isLoadingMore = false,
-  enableApiSearch,
   onApiSearch,
   isSearching = false,
   scale = 1,
@@ -50,28 +56,9 @@ const Select: React.FC<SelectProps> = ({
   const viewportRef = useRef<HTMLDivElement>(null);
   const hasReachedEndRef = useRef<boolean>(false);
   const wasLoadingMoreRef = useRef<boolean>(false);
-
-  const isApiSearch = enableApiSearch ?? Boolean(onApiSearch);
-
-  useEffect(() => {
-    if (process.env.NODE_ENV !== 'production' && enableApiSearch !== undefined) {
-      console.warn(
-        '[Giro DS] `enableApiSearch` está depreciado. ' +
-        'A busca remota será ativada pela presença de `onApiSearch`. ' +
-        'Remoção psera feita futuramente.'
-      );
-    }
-  }, [enableApiSearch]);
-
-  useEffect(() => {
-    if (process.env.NODE_ENV !== 'production' && enableApiSearch === false && onApiSearch) {
-      console.warn(
-        '[Giro DS] A combinação `enableApiSearch={false}` com `onApiSearch` ' +
-        'futuramente o comportamento ira mudar'
-      );
-    }
-  }, [enableApiSearch, onApiSearch]);
-
+  const isApiSearch = Boolean(onApiSearch);
+  const helperId = `${selectId}-helper`;
+  const errorId = `${selectId}-error`;
   const {
     state,
     actions,
@@ -83,7 +70,6 @@ const Select: React.FC<SelectProps> = ({
     search,
     onValueChange,
     onOpenChange,
-    enableApiSearch: isApiSearch,
     onApiSearch,
     isSearching,
     error,
@@ -191,9 +177,47 @@ const Select: React.FC<SelectProps> = ({
 
   const handleClear = () => {
     actions.resetSearch();
-    if (isApiSearch && onApiSearch) {
+    if (onApiSearch) {
       onApiSearch('');
     }
+  };
+
+  const showError = state.hasError && state.touched;
+  const showHelper = !state.isOpen && Boolean(helperText) && !state.hasError;
+  const describedBy = showError ? errorId : showHelper ? helperId : undefined;
+
+  // Itens fora do Select.Item do Radix não entram na navegação por setas dele.
+  const hasCustomRows =
+    variant === 'checkbox' || items.some((item) => item.children && item.children.length > 0);
+
+  const handleContentKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (!hasCustomRows || !['ArrowDown', 'ArrowUp', 'Home', 'End'].includes(e.key)) return;
+
+    const rows = getNavigableRows(e.currentTarget);
+    if (rows.length === 0) return;
+
+    const currentRow = (e.target as HTMLElement).closest<HTMLElement>(ROW_SELECTOR);
+    const currentIndex = currentRow ? rows.indexOf(currentRow) : -1;
+    const lastIndex = rows.length - 1;
+
+    let nextIndex: number;
+    if (e.key === 'Home') nextIndex = 0;
+    else if (e.key === 'End') nextIndex = lastIndex;
+    else if (e.key === 'ArrowDown') nextIndex = Math.min(currentIndex + 1, lastIndex);
+    else nextIndex = currentIndex === -1 ? lastIndex : Math.max(currentIndex - 1, 0);
+
+    e.preventDefault();
+    rows[nextIndex].focus();
+  };
+
+  const handleContentFocus = (e: React.FocusEvent<HTMLDivElement>) => {
+    if (!hasCustomRows || search || e.target !== e.currentTarget) return;
+
+    const rows = getNavigableRows(e.currentTarget);
+    const initialRow = rows.find(
+      (row) => row.getAttribute('aria-selected') === 'true' || row.getAttribute('data-selected') === 'true'
+    ) ?? rows[0];
+    initialRow?.focus();
   };
 
   return (
@@ -220,7 +244,7 @@ const Select: React.FC<SelectProps> = ({
               tooltip={!!tooltipText}
               side={tooltipSide}
               align={tooltipAlign}
-              error={state.hasError && state.touched}
+              error={showError}
               disabled={disabled}
               scale={scale}
             >
@@ -229,13 +253,15 @@ const Select: React.FC<SelectProps> = ({
             
             <SelectRadix.Trigger
               className={clsx(styles.trigger, {
-                [styles.error]: state.hasError && state.touched,
+                [styles.error]: showError,
                 [styles.disabled]: disabled,
                 [styles.hasValue]: state.selectedValues.length > 0,
                 [styles.open]: state.isOpen,
               })}
               id={selectId}
-              aria-label={ariaLabel}
+              aria-label={ariaLabel ?? ariaLabelNative}
+              aria-invalid={showError || undefined}
+              aria-describedby={describedBy}
               data-testid={`${testId}-trigger`}
             >
               {variant === 'checkbox' ? (
@@ -248,8 +274,8 @@ const Select: React.FC<SelectProps> = ({
               </div>
             </SelectRadix.Trigger>
 
-            {!state.isOpen && helperText && !state.hasError && (
-              <span className={clsx(
+            {showHelper && (
+              <span id={helperId} className={clsx(
                 styles.helper,
                 {
                   [styles.disabled]: disabled
@@ -257,8 +283,8 @@ const Select: React.FC<SelectProps> = ({
               )}>{helperText}</span>
             )}
             
-            {state.hasError && state.touched && (
-              <span className={styles.errorMessage}>
+            {showError && (
+              <span id={errorId} className={styles.errorMessage}>
                 {errorMessage || 'Campo obrigatório'}
               </span>
             )}
@@ -274,6 +300,8 @@ const Select: React.FC<SelectProps> = ({
             sideOffset={8}
             align="start"
             avoidCollisions={true}
+            onKeyDown={handleContentKeyDown}
+            onFocus={handleContentFocus}
           >
             {search && (
               <div className={styles.searchWrapper}>
