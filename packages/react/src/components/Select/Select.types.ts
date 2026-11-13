@@ -94,6 +94,7 @@ export type SelectVariant = 'text' | 'icon' | 'checkbox';
  * <Select 
  *   items={options}
  *   variant="checkbox"
+ *   multiple={true}
  *   search={true}
  *   label="Selecione múltiplas opções"
  *   helperText="Você pode selecionar mais de uma"
@@ -120,6 +121,9 @@ interface SelectPropsBase extends ScalableProps {
   /** Valor(es) selecionado(s) */
   value?: string | string[];
   
+  /** Habilita seleção múltipla */
+  multiple?: boolean;
+  
   /** Placeholder do campo */
   placeholder?: string;
   
@@ -141,9 +145,6 @@ interface SelectPropsBase extends ScalableProps {
   /** Mensagem de erro a ser exibida */
   errorMessage?: string;
   
-  /** Label acessível para leitores de tela. Tem precedência sobre `aria-label` quando ambos são informados */
-  ariaLabel?: string;
-
   /** Label acessível para leitores de tela */
   'aria-label'?: string;
   
@@ -163,10 +164,12 @@ interface SelectPropsBase extends ScalableProps {
   isLoadingMore?: boolean;
   
   /**
-   * Callback executado na busca: (term) => void.
-   * Quando informado, o Select entra automaticamente em modo de busca via API
-   * (o filtro local é desativado e a filtragem passa a ser responsabilidade do consumidor).
+   * @deprecated Futuramente a busca remota será identificada pela presença de
+   * `onApiSearch`. Futuramente será removida.
    */
+  enableApiSearch?: boolean;
+  
+  /** Callback executado na busca via API: (term) => void */
   onApiSearch?: (term: string) => void;
   
   /** Estado de busca em andamento */
@@ -235,9 +238,12 @@ export interface UseSelectLogicProps {
   onOpenChange?: (open: boolean) => void;
   
   /**
-   * Callback executado na busca: (term) => void.
-   * Quando informado, ativa o modo de busca via API.
+   * @deprecated A busca remota será identificada pela presença de
+   * `onApiSearch`. Futuramente será removida.
    */
+  enableApiSearch?: boolean;
+  
+  /** Callback executado na busca via API: (term) => void */
   onApiSearch?: (term: string) => void;
   
   /** Estado de busca em andamento */
