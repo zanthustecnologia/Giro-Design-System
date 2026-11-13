@@ -12,6 +12,12 @@ import { SelectProps } from './Select.types';
 import LabelComponent from '../../shared/Label';
 import Search from '../Search/Search';
 
+const ROW_SELECTOR = '[role="option"], [data-select-row]';
+
+const getNavigableRows = (content: HTMLElement) =>
+  Array.from(content.querySelectorAll<HTMLElement>(ROW_SELECTOR)).filter(
+    (row) => !row.hasAttribute('data-disabled') && row.getAttribute('aria-disabled') !== 'true'
+  );
 const Select: React.FC<SelectProps> = ({
   items,
   onValueChange,
@@ -174,6 +180,40 @@ const Select: React.FC<SelectProps> = ({
     }
   };
 
+  // Itens fora do Select.Item do Radix não entram na navegação por setas dele.
+  const hasCustomRows =
+    variant === 'checkbox' || items.some((item) => item.children && item.children.length > 0);
+
+  const handleContentKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (!hasCustomRows || !['ArrowDown', 'ArrowUp', 'Home', 'End'].includes(e.key)) return;
+
+    const rows = getNavigableRows(e.currentTarget);
+    if (rows.length === 0) return;
+
+    const currentRow = (e.target as HTMLElement).closest<HTMLElement>(ROW_SELECTOR);
+    const currentIndex = currentRow ? rows.indexOf(currentRow) : -1;
+    const lastIndex = rows.length - 1;
+
+    let nextIndex: number;
+    if (e.key === 'Home') nextIndex = 0;
+    else if (e.key === 'End') nextIndex = lastIndex;
+    else if (e.key === 'ArrowDown') nextIndex = Math.min(currentIndex + 1, lastIndex);
+    else nextIndex = currentIndex === -1 ? lastIndex : Math.max(currentIndex - 1, 0);
+
+    e.preventDefault();
+    rows[nextIndex].focus();
+  };
+
+  const handleContentFocus = (e: React.FocusEvent<HTMLDivElement>) => {
+    if (!hasCustomRows || search || e.target !== e.currentTarget) return;
+
+    const rows = getNavigableRows(e.currentTarget);
+    const initialRow = rows.find(
+      (row) => row.getAttribute('aria-selected') === 'true' || row.getAttribute('data-selected') === 'true'
+    ) ?? rows[0];
+    initialRow?.focus();
+  };
+
   return (
     <SelectRadix.Root
       value={variant === 'checkbox' || (search && state.isOpen) ? '' : (state.selectedValues[0] || '')}
@@ -252,6 +292,8 @@ const Select: React.FC<SelectProps> = ({
             sideOffset={8}
             align="start"
             avoidCollisions={true}
+            onKeyDown={handleContentKeyDown}
+            onFocus={handleContentFocus}
           >
             {search && (
               <div className={styles.searchWrapper}>

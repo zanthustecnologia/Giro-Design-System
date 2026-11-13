@@ -2,6 +2,7 @@ import { ChevronRight16Regular, ChevronDown16Regular } from '@fluentui/react-ico
 import clsx from 'clsx';
 import React, { useState } from 'react';
 
+import Checkbox from '../../Checkbox';
 import styles from '../Select.module.scss';
 
 import type { SelectItemProps, SelectVariant } from '../Select.types';
@@ -25,16 +26,30 @@ const ExpandableSelectItem: React.FC<ExpandableSelectItemProps> = ({
   const [isExpanded, setIsExpanded] = useState(false);
   const hasChildren = item.children && item.children.length > 0;
   const isSelected = selectedValues.includes(item.value);
+  const isCheckboxLeaf = variant === 'checkbox' && !hasChildren;
 
   const handleClick = (e: React.MouseEvent) => {
     if (hasChildren) {
       e.preventDefault();
       e.stopPropagation();
       setIsExpanded(!isExpanded);
-    } else {
-      onSelect(item.value);
+      return;
     }
+
+    if (item.disabled) return;
+
+    // O Checkbox interno já dispara a seleção; evita alternar duas vezes.
+    if (isCheckboxLeaf && (e.target as HTMLElement).closest('[role="checkbox"], label')) return;
+
+    onSelect(item.value);
   };
+
+  const textContent = (
+    <div className={styles.textContent}>
+      <div className={styles.title}>{item.text}</div>
+      {item.subTitle && <div className={styles.subTitle}>{item.subTitle}</div>}
+    </div>
+  );
 
   return (
     <>
@@ -49,25 +64,38 @@ const ExpandableSelectItem: React.FC<ExpandableSelectItemProps> = ({
           })}
           onClick={handleClick}
           onKeyDown={(e) => {
+            // Teclas vindas do Checkbox interno já são tratadas por ele.
+            if (e.target !== e.currentTarget) return;
             if (e.key === 'Enter' || e.key === ' ') {
               e.preventDefault();
               handleClick(e as unknown as React.MouseEvent);
             }
           }}
-          role="button"
+          role={isCheckboxLeaf ? 'option' : 'button'}
           tabIndex={item.disabled ? -1 : 0}
+          aria-expanded={hasChildren ? isExpanded : undefined}
+          aria-selected={isCheckboxLeaf ? isSelected : undefined}
+          data-select-row=""
           data-disabled={item.disabled || undefined}
-          data-selected={isSelected && !hasChildren ? 'true' : undefined}
+          data-selected={isSelected && !hasChildren && !isCheckboxLeaf ? 'true' : undefined}
           data-testid={`select-item-${item.value}`}
         >
-          {variant === 'icon' && item.icon && (
-            <span className={styles.icon}>{item.icon}</span>
+          {isCheckboxLeaf ? (
+            <Checkbox
+              checked={isSelected}
+              onCheckedChange={() => onSelect(item.value)}
+              disabled={item.disabled}
+              label={textContent}
+            />
+          ) : (
+            <>
+              {variant === 'icon' && item.icon && (
+                <span className={styles.icon}>{item.icon}</span>
+              )}
+
+              {textContent}
+            </>
           )}
-          
-          <div className={styles.textContent}>
-            <div className={styles.title}>{item.text}</div>
-            {item.subTitle && <div className={styles.subTitle}>{item.subTitle}</div>}
-          </div>
           
           {hasChildren && (
             <span className={styles.chevron}>

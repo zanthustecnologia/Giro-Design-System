@@ -235,6 +235,9 @@ $select-icon-size: 16px;
   &:has([data-highlighted]):not([data-disabled]):not([data-selected='true']) {
     background-color: var(--color-neutral-high-medium);
   }
+  &:focus-visible:not([data-disabled]) {
+    background-color: var(--color-neutral-high-medium);
+  }
   &.disabled {
     color: var(--color-neutral-low-light);
     cursor: not-allowed;

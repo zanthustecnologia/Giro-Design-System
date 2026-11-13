@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import React, { useRef } from 'react';
+import React from 'react';
 
 import Checkbox from '../../Checkbox';
 import styles from '../Select.module.scss';
@@ -14,8 +14,6 @@ const CheckboxSelectItem: React.FC<CheckboxItemProps> = ({
   value,
   ...restProps
 }) => {
-  const itemRef = useRef<HTMLDivElement>(null);
-
   const handleCheckboxChange = (checkedValue: boolean | 'indeterminate') => {
     onCheckedChange(Boolean(checkedValue));
   };
@@ -23,29 +21,13 @@ const CheckboxSelectItem: React.FC<CheckboxItemProps> = ({
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     if (disabled) return;
 
+    // Teclas vindas do Checkbox interno já são tratadas por ele.
+    if (e.target !== e.currentTarget) return;
+
     if (e.key === ' ' || e.key === 'Enter') {
       e.preventDefault();
       e.stopPropagation();
       onCheckedChange(!checked);
-      return;
-    }
-
-    if (e.key === 'ArrowDown') {
-      e.preventDefault();
-      const nextElement = itemRef.current?.nextElementSibling as HTMLDivElement;
-      if (nextElement && nextElement.getAttribute('tabIndex') === '0') {
-        nextElement.focus();
-      }
-      return;
-    }
-
-    if (e.key === 'ArrowUp') {
-      e.preventDefault();
-      const prevElement = itemRef.current?.previousElementSibling as HTMLDivElement;
-      if (prevElement && prevElement.getAttribute('tabIndex') === '0') {
-        prevElement.focus();
-      }
-      return;
     }
   };
 
@@ -64,7 +46,6 @@ const CheckboxSelectItem: React.FC<CheckboxItemProps> = ({
 
   return (
     <div
-      ref={itemRef}
       className={clsx(styles.checkboxItem, {
         [styles.disabled]: disabled,
       })}
