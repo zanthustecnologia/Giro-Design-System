@@ -36,6 +36,8 @@ vi.mock('radix-ui', () => {
       },
       'data-testid': rest['data-testid'],
       'aria-label': rest['aria-label'],
+      'aria-invalid': rest['aria-invalid'],
+      'aria-describedby': rest['aria-describedby'],
     };
     
     if (asChild && React.isValidElement(children)) {
@@ -1757,6 +1759,268 @@ describe('Select Component', () => {
       const disabledItem = screen.getByRole('option', { name: 'Item 3' });
       fireEvent.click(disabledItem);
 
+      expect(handleValueChange).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('ARIA do trigger', () => {
+    it('não marca aria-invalid sem erro', () => {
+      render(<Select items={mockItems} variant="text" data-testid="select" />);
+
+      expect(screen.getByTestId('select-trigger')).not.toHaveAttribute('aria-invalid');
+    });
+
+    it('marca aria-invalid e liga o trigger à mensagem de erro', () => {
+      render(
+        <Select
+          items={mockItems}
+          variant="text"
+          helperText="Texto de ajuda"
+          error={true}
+          errorMessage="Valor inválido"
+          data-testid="select"
+        />
+      );
+
+      const trigger = screen.getByTestId('select-trigger');
+      const errorId = trigger.getAttribute('aria-describedby');
+
+      expect(trigger).toHaveAttribute('aria-invalid', 'true');
+      expect(errorId).toBeTruthy();
+      expect(document.getElementById(errorId as string)).toHaveTextContent('Valor inválido');
+    });
+
+    it('liga o trigger ao helper text enquanto ele está renderizado', () => {
+      render(
+        <Select items={mockItems} variant="text" helperText="Texto de ajuda" data-testid="select" />
+      );
+
+      const trigger = screen.getByTestId('select-trigger');
+      const helperId = trigger.getAttribute('aria-describedby');
+
+      expect(helperId).toBeTruthy();
+      expect(document.getElementById(helperId as string)).toHaveTextContent('Texto de ajuda');
+    });
+
+    it('não referencia helper inexistente no aria-describedby', async () => {
+      const { rerender } = render(
+        <Select items={mockItems} variant="text" data-testid="select" />
+      );
+      expect(screen.getByTestId('select-trigger')).not.toHaveAttribute('aria-describedby');
+
+      rerender(
+        <Select items={mockItems} variant="text" helperText="Texto de ajuda" data-testid="select" />
+      );
+      fireEvent.click(screen.getByTestId('select-trigger'));
+
+      await waitFor(() => {
+        expect(screen.queryByText('Texto de ajuda')).not.toBeInTheDocument();
+      });
+      expect(screen.getByTestId('select-trigger')).not.toHaveAttribute('aria-describedby');
+    });
+
+    it('marca o asterisco de required como aria-hidden', () => {
+      render(
+        <Select items={mockItems} variant="text" label="Campo" required={true} data-testid="select" />
+      );
+
+      expect(screen.getByText('*')).toHaveAttribute('aria-hidden', 'true');
+    });
+
+    it('ariaLabel tem precedência sobre aria-label', () => {
+      render(
+        <Select
+          items={mockItems}
+          variant="text"
+          ariaLabel="Via ariaLabel"
+          aria-label="Via aria-label"
+          data-testid="select"
+        />
+      );
+
+      expect(screen.getByTestId('select-trigger')).toHaveAttribute('aria-label', 'Via ariaLabel');
+    });
+  });
+
+  describe('Seleção real', () => {
+    it('dispara onValueChange com o valor do item clicado (variante text)', async () => {
+      const handleValueChange = vi.fn();
+
+      render(
+        <Select
+          items={mockItems}
+          variant="text"
+          onValueChange={handleValueChange}
+          data-testid="select"
+        />
+      );
+
+      fireEvent.click(screen.getByTestId('select-trigger'));
+      fireEvent.click(await screen.findByRole('option', { name: 'Item 2' }));
+
+      expect(handleValueChange).toHaveBeenCalledWith('2');
+    });
+  });
+
+  describe('Navegação por teclado (variante checkbox)', () => {
+    const openCheckboxSelect = async (
+      props: {
+        value?: string[];
+        search?: boolean;
+        onValueChange?: (value: string | string[]) => void;
+      } = {}
+    ) => {
+      render(<Select items={mockItems} variant="checkbox" data-testid="select" {...props} />);
+      fireEvent.click(screen.getByTestId('select-trigger'));
+      return screen.findByRole('listbox');
+    };
+
+    it('foca o primeiro item habilitado quando o conteúdo recebe foco', async () => {
+      const content = await openCheckboxSelect();
+
+      fireEvent.focus(content);
+
+      expect(screen.getByTestId('checkbox-item-1')).toHaveFocus();
+    });
+
+    it('foca o primeiro item selecionado quando o conteúdo recebe foco', async () => {
+      const content = await openCheckboxSelect({ value: ['2'] });
+
+      fireEvent.focus(content);
+
+      expect(screen.getByTestId('checkbox-item-2')).toHaveFocus();
+    });
+
+    it('ArrowDown/ArrowUp percorrem os itens pulando os desabilitados', async () => {
+      await openCheckboxSelect();
+      const item1 = screen.getByTestId('checkbox-item-1');
+      item1.focus();
+
+      fireEvent.keyDown(item1, { key: 'ArrowDown' });
+      expect(screen.getByTestId('checkbox-item-2')).toHaveFocus();
+
+      fireEvent.keyDown(screen.getByTestId('checkbox-item-2'), { key: 'ArrowDown' });
+      expect(screen.getByTestId('checkbox-item-4')).toHaveFocus();
+
+      fireEvent.keyDown(screen.getByTestId('checkbox-item-4'), { key: 'ArrowUp' });
+      expect(screen.getByTestId('checkbox-item-2')).toHaveFocus();
+    });
+
+    it('Home e End vão para o primeiro e o último item', async () => {
+      await openCheckboxSelect();
+      const item2 = screen.getByTestId('checkbox-item-2');
+      item2.focus();
+
+      fireEvent.keyDown(item2, { key: 'End' });
+      expect(screen.getByTestId('checkbox-item-4')).toHaveFocus();
+
+      fireEvent.keyDown(screen.getByTestId('checkbox-item-4'), { key: 'Home' });
+      expect(screen.getByTestId('checkbox-item-1')).toHaveFocus();
+    });
+
+    it('Enter e Espaço alternam o item focado', async () => {
+      const handleValueChange = vi.fn();
+      await openCheckboxSelect({ onValueChange: handleValueChange });
+      const item1 = screen.getByTestId('checkbox-item-1');
+      item1.focus();
+
+      fireEvent.keyDown(item1, { key: 'Enter' });
+      expect(handleValueChange).toHaveBeenLastCalledWith(['1']);
+
+      fireEvent.keyDown(item1, { key: ' ' });
+      expect(handleValueChange).toHaveBeenCalledTimes(2);
+    });
+
+    it('ArrowDown no campo de busca leva o foco ao primeiro item', async () => {
+      await openCheckboxSelect({ search: true });
+      const searchInput = screen.getByTestId('select-search') as HTMLInputElement;
+      searchInput.focus();
+
+      fireEvent.keyDown(searchInput, { key: 'ArrowDown' });
+
+      expect(screen.getByTestId('checkbox-item-1')).toHaveFocus();
+    });
+  });
+
+  describe('Itens com filhos', () => {
+    const twoParents: SelectItemProps[] = [
+      { value: 'p1', text: 'Pai 1', children: [{ value: 'c1', text: 'Filho 1' }, { value: 'c2', text: 'Filho 2' }] },
+      { value: 'p2', text: 'Pai 2', children: [{ value: 'c3', text: 'Filho 3' }] },
+    ];
+
+    it('expõe aria-expanded nos itens-pai e o atualiza ao expandir', async () => {
+      render(<Select items={twoParents} variant="text" data-testid="select" />);
+      fireEvent.click(screen.getByTestId('select-trigger'));
+
+      const parent = await screen.findByTestId('select-item-p1');
+      expect(parent).toHaveAttribute('aria-expanded', 'false');
+
+      fireEvent.click(parent);
+      expect(parent).toHaveAttribute('aria-expanded', 'true');
+      expect(screen.getByTestId('select-item-c1')).not.toHaveAttribute('aria-expanded');
+    });
+
+    it('alcança os itens-pai por teclado', async () => {
+      render(<Select items={twoParents} variant="text" data-testid="select" />);
+      fireEvent.click(screen.getByTestId('select-trigger'));
+
+      const parent1 = await screen.findByTestId('select-item-p1');
+      parent1.focus();
+
+      fireEvent.keyDown(parent1, { key: 'ArrowDown' });
+      expect(screen.getByTestId('select-item-p2')).toHaveFocus();
+
+      fireEvent.keyDown(screen.getByTestId('select-item-p2'), { key: 'ArrowUp' });
+      expect(parent1).toHaveFocus();
+    });
+
+    it('renderiza Checkbox real nas folhas da variante checkbox e seleciona uma vez ao clicar nele', async () => {
+      const handleValueChange = vi.fn();
+
+      render(
+        <Select
+          items={twoParents}
+          variant="checkbox"
+          onValueChange={handleValueChange}
+          data-testid="select"
+        />
+      );
+      fireEvent.click(screen.getByTestId('select-trigger'));
+
+      fireEvent.click(await screen.findByTestId('select-item-p1'));
+
+      const checkboxes = screen.getAllByRole('checkbox');
+      expect(checkboxes).toHaveLength(2);
+
+      fireEvent.click(checkboxes[0]);
+      expect(handleValueChange).toHaveBeenCalledTimes(1);
+      expect(handleValueChange).toHaveBeenCalledWith(['c1']);
+    });
+
+    it('seleciona folha da variante checkbox com Enter e não a seleciona quando desabilitada', async () => {
+      const handleValueChange = vi.fn();
+      const items: SelectItemProps[] = [
+        {
+          value: 'p1',
+          text: 'Pai 1',
+          children: [
+            { value: 'c1', text: 'Filho 1' },
+            { value: 'c2', text: 'Filho 2', disabled: true },
+          ],
+        },
+      ];
+
+      render(
+        <Select items={items} variant="checkbox" onValueChange={handleValueChange} data-testid="select" />
+      );
+      fireEvent.click(screen.getByTestId('select-trigger'));
+      fireEvent.click(await screen.findByTestId('select-item-p1'));
+
+      fireEvent.keyDown(screen.getByTestId('select-item-c1'), { key: 'Enter' });
+      expect(handleValueChange).toHaveBeenLastCalledWith(['c1']);
+
+      handleValueChange.mockClear();
+      fireEvent.click(screen.getByTestId('select-item-c2'));
       expect(handleValueChange).not.toHaveBeenCalled();
     });
   });
