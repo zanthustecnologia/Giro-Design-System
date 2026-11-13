@@ -1,0 +1,10 @@
+{ "mcpServers": {
+"giro-ds": {
+"type": "stdio",
+"command": "cmd",
+"args": ["/c", "cd /d %USERPROFILE% && npx -y @giro-ds/mcp"]
+},
+"zanthus-mcp-cloud": {
+"type": "http",
+"url": "http://127.0.0.1:8765/mcp"
+} } }
