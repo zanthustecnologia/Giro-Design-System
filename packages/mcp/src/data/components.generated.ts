@@ -1788,12 +1788,6 @@ export const COMPONENTS: ComponentMetadata[] = [
         "description": "Valor(es) selecionado(s)"
       },
       {
-        "name": "multiple",
-        "type": "boolean",
-        "required": false,
-        "description": "Habilita seleção múltipla"
-      },
-      {
         "name": "placeholder",
         "type": "string",
         "required": false,
@@ -1836,6 +1830,12 @@ export const COMPONENTS: ComponentMetadata[] = [
         "description": "Mensagem de erro a ser exibida"
       },
       {
+        "name": "ariaLabel",
+        "type": "string",
+        "required": false,
+        "description": "Label acessível para leitores de tela. Tem precedência sobre `aria-label` quando ambos são informados"
+      },
+      {
         "name": "'aria-label'",
         "type": "string",
         "required": false,
@@ -1872,17 +1872,10 @@ export const COMPONENTS: ComponentMetadata[] = [
         "description": "Estado de carregamento de mais itens"
       },
       {
-        "name": "enableApiSearch",
-        "type": "boolean",
-        "required": false,
-        "description": "",
-        "deprecated": "Futuramente a busca remota será identificada pela presença de\r\n`onApiSearch`. Futuramente será removida."
-      },
-      {
         "name": "onApiSearch",
         "type": "(term: string) => void",
         "required": false,
-        "description": "Callback executado na busca via API: (term) => void"
+        "description": "Callback executado na busca: (term) => void.\r\nQuando informado, o Select entra automaticamente em modo de busca via API\r\n(o filtro local é desativado e a filtragem passa a ser responsabilidade do consumidor)."
       },
       {
         "name": "isSearching",
@@ -1911,7 +1904,7 @@ export const COMPONENTS: ComponentMetadata[] = [
     ],
     "examples": [
       "<Select \n  items={[\n    { value: '1', text: 'Opção 1' },\n    { value: '2', text: 'Opção 2' }\n  ]}\n  variant=\"text\"\n  placeholder=\"Selecione uma opção\"\n  onValueChange={(value) => console.log(value)}\n/>",
-      "<Select \n  items={options}\n  variant=\"checkbox\"\n  multiple={true}\n  search={true}\n  label=\"Selecione múltiplas opções\"\n  helperText=\"Você pode selecionar mais de uma\"\n  required={true}\n/>"
+      "<Select \n  items={options}\n  variant=\"checkbox\"\n  search={true}\n  label=\"Selecione múltiplas opções\"\n  helperText=\"Você pode selecionar mais de uma\"\n  required={true}\n/>"
     ],
     "keywords": [
       "select",
