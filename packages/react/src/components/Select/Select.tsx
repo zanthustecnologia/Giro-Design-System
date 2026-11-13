@@ -56,7 +56,8 @@ const Select: React.FC<SelectProps> = ({
   const hasReachedEndRef = useRef<boolean>(false);
   const wasLoadingMoreRef = useRef<boolean>(false);
   const isApiSearch = Boolean(onApiSearch);
-
+  const helperId = `${selectId}-helper`;
+  const errorId = `${selectId}-error`;
   const {
     state,
     actions,
@@ -180,6 +181,10 @@ const Select: React.FC<SelectProps> = ({
     }
   };
 
+  const showError = state.hasError && state.touched;
+  const showHelper = !state.isOpen && Boolean(helperText) && !state.hasError;
+  const describedBy = showError ? errorId : showHelper ? helperId : undefined;
+
   // Itens fora do Select.Item do Radix não entram na navegação por setas dele.
   const hasCustomRows =
     variant === 'checkbox' || items.some((item) => item.children && item.children.length > 0);
@@ -238,7 +243,7 @@ const Select: React.FC<SelectProps> = ({
               tooltip={!!tooltipText}
               side={tooltipSide}
               align={tooltipAlign}
-              error={state.hasError && state.touched}
+              error={showError}
               disabled={disabled}
               scale={scale}
             >
@@ -247,13 +252,15 @@ const Select: React.FC<SelectProps> = ({
             
             <SelectRadix.Trigger
               className={clsx(styles.trigger, {
-                [styles.error]: state.hasError && state.touched,
+                [styles.error]: showError,
                 [styles.disabled]: disabled,
                 [styles.hasValue]: state.selectedValues.length > 0,
                 [styles.open]: state.isOpen,
               })}
               id={selectId}
               aria-label={ariaLabel}
+              aria-invalid={showError || undefined}
+              aria-describedby={describedBy}
               data-testid={`${testId}-trigger`}
             >
               {variant === 'checkbox' ? (
@@ -266,8 +273,8 @@ const Select: React.FC<SelectProps> = ({
               </div>
             </SelectRadix.Trigger>
 
-            {!state.isOpen && helperText && !state.hasError && (
-              <span className={clsx(
+            {showHelper && (
+              <span id={helperId} className={clsx(
                 styles.helper,
                 {
                   [styles.disabled]: disabled
@@ -275,8 +282,8 @@ const Select: React.FC<SelectProps> = ({
               )}>{helperText}</span>
             )}
             
-            {state.hasError && state.touched && (
-              <span className={styles.errorMessage}>
+            {showError && (
+              <span id={errorId} className={styles.errorMessage}>
                 {errorMessage || 'Campo obrigatório'}
               </span>
             )}

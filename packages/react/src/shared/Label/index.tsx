@@ -51,7 +51,7 @@ const LabelComponent = ({
         htmlFor={htmlFor}
       >
         {children}
-        {required && <span className={styles.requiredLabel}>*</span>}
+        {required && <span className={styles.requiredLabel} aria-hidden="true">*</span>}
       </Label.Root>
       {tooltip && (
         <span
