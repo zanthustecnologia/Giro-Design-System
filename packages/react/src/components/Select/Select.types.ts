@@ -94,7 +94,6 @@ export type SelectVariant = 'text' | 'icon' | 'checkbox';
  * <Select 
  *   items={options}
  *   variant="checkbox"
- *   multiple={true}
  *   search={true}
  *   label="Selecione múltiplas opções"
  *   helperText="Você pode selecionar mais de uma"
@@ -120,9 +119,6 @@ interface SelectPropsBase extends ScalableProps {
   
   /** Valor(es) selecionado(s) */
   value?: string | string[];
-  
-  /** Habilita seleção múltipla */
-  multiple?: boolean;
   
   /** Placeholder do campo */
   placeholder?: string;
