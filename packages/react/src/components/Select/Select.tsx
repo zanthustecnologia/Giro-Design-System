@@ -1,7 +1,7 @@
 import { ChevronUp16Regular, ChevronDown16Regular } from '@fluentui/react-icons';
 import clsx from 'clsx';
 import { Select as SelectRadix } from 'radix-ui';
-import React, { useMemo, useId, useRef, useEffect } from 'react';
+import React, { useMemo, useId, useRef, useEffect, useState } from 'react';
 
 import CheckboxSelectItem from './components/CheckboxSelectItem';
 import ExpandableSelectItem from './components/ExpandableSelectItem';
@@ -41,7 +41,6 @@ const Select: React.FC<SelectProps> = ({
   tooltipText,
   tooltipSide = 'bottom',
   tooltipAlign = 'start',
-  enableInfiniteScroll = false,
   onScrollEnd,
   hasMore = true,
   isLoadingMore = false,
@@ -52,10 +51,11 @@ const Select: React.FC<SelectProps> = ({
 }) => {
   const componentId = useId();
   const selectId = `select-${componentId}`;
-  const viewportRef = useRef<HTMLDivElement>(null);
+  const [viewport, setViewport] = useState<HTMLDivElement | null>(null);
   const hasReachedEndRef = useRef<boolean>(false);
   const wasLoadingMoreRef = useRef<boolean>(false);
   const isApiSearch = Boolean(onApiSearch);
+  const isInfiniteScroll = Boolean(onScrollEnd);
   const helperId = `${selectId}-helper`;
   const errorId = `${selectId}-error`;
   const {
@@ -75,8 +75,7 @@ const Select: React.FC<SelectProps> = ({
   });
 
   useEffect(() => {
-    const viewport = viewportRef.current;
-    if (!viewport || !enableInfiniteScroll) return;
+    if (!viewport || !isInfiniteScroll) return;
 
     const handleScroll = () => {
       const { scrollTop, scrollHeight, clientHeight } = viewport;
@@ -95,20 +94,20 @@ const Select: React.FC<SelectProps> = ({
     return () => {
       viewport.removeEventListener('scroll', handleScroll);
     };
-  }, [state.isOpen, enableInfiniteScroll, onScrollEnd, isLoadingMore, hasMore]);
+  }, [viewport, isInfiniteScroll, onScrollEnd, isLoadingMore, hasMore]);
 
   useEffect(() => {
-    if (state.isOpen && enableInfiniteScroll) {
+    if (state.isOpen && isInfiniteScroll) {
       hasReachedEndRef.current = false;
     }
-  }, [state.isOpen, enableInfiniteScroll]);
+  }, [state.isOpen, isInfiniteScroll]);
 
   useEffect(() => {
-    if (wasLoadingMoreRef.current && !isLoadingMore && enableInfiniteScroll) {
+    if (wasLoadingMoreRef.current && !isLoadingMore && isInfiniteScroll) {
       hasReachedEndRef.current = false;
     }
     wasLoadingMoreRef.current = isLoadingMore;
-  }, [isLoadingMore, enableInfiniteScroll]);
+  }, [isLoadingMore, isInfiniteScroll]);
 
   const displayText = useMemo(
     () => utils.getDisplayText(state.selectedValues, placeholder, variant, items),
@@ -121,12 +120,9 @@ const Select: React.FC<SelectProps> = ({
   }, [items, state.searchTerm, state.searchInput, isApiSearch, utils]);
 
   useEffect(() => {
-    if (!state.isOpen || !enableInfiniteScroll || !onScrollEnd || isLoadingMore) return;
+    if (!state.isOpen || !viewport || !isInfiniteScroll || !onScrollEnd || isLoadingMore) return;
 
     const timer = setTimeout(() => {
-      const viewport = viewportRef.current;
-      if (!viewport) return;
-
       const { scrollHeight, clientHeight } = viewport;
 
       if (scrollHeight <= clientHeight && !hasReachedEndRef.current && hasMore) {
@@ -136,7 +132,7 @@ const Select: React.FC<SelectProps> = ({
     }, 150);
 
     return () => clearTimeout(timer);
-  }, [state.isOpen, enableInfiniteScroll, onScrollEnd, isLoadingMore, hasMore, filteredItems.length]);
+  }, [state.isOpen, viewport, isInfiniteScroll, onScrollEnd, isLoadingMore, hasMore, filteredItems.length]);
 
   const containerStyle = useMemo(() => ({
     maxWidth: maxWidth ? `${maxWidth}px` : undefined,
@@ -318,7 +314,7 @@ const Select: React.FC<SelectProps> = ({
               </div>
             )}
             
-            <SelectRadix.Viewport ref={viewportRef} className={styles.viewport} data-testid={testId ? `${testId}-viewport` : undefined}>
+            <SelectRadix.Viewport ref={setViewport}className={styles.viewport} data-testid={testId ? `${testId}-viewport` : undefined}>
               <SelectRadix.Group className={styles.group}>
                 {filteredItems.length === 0 ? (
                   <div className={styles.noResults}>
@@ -366,7 +362,7 @@ const Select: React.FC<SelectProps> = ({
                         />
                       );
                     })}
-                    {enableInfiniteScroll && isLoadingMore && (
+                    {isInfiniteScroll && isLoadingMore && (
                       <div className={styles.loadingMore}>
                         Carregando mais itens...
                       </div>

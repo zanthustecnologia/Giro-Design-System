@@ -1842,22 +1842,16 @@ export const COMPONENTS: ComponentMetadata[] = [
         "description": "ID para testes automatizados"
       },
       {
-        "name": "enableInfiniteScroll",
-        "type": "boolean",
-        "required": false,
-        "description": "Habilita scroll infinito"
-      },
-      {
         "name": "onScrollEnd",
         "type": "() => void",
         "required": false,
-        "description": "Callback executado ao chegar ao final do scroll: () => void"
+        "description": "Callback executado ao chegar ao final do scroll: () => void.\r\nQuando informado, ativa o scroll infinito (carregamento por páginas)."
       },
       {
         "name": "hasMore",
         "type": "boolean",
         "required": false,
-        "description": "Indica se há mais itens disponíveis para carregamento"
+        "description": "Indica se há mais itens disponíveis para carregamento. Com `false`, `onScrollEnd` deixa de ser chamado"
       },
       {
         "name": "isLoadingMore",

@@ -147,13 +147,13 @@ interface SelectPropsBase extends ScalableProps {
   /** ID para testes automatizados */
   'data-testid'?: string;
 
-  /** Habilita scroll infinito */
-  enableInfiniteScroll?: boolean;
-  
-  /** Callback executado ao chegar ao final do scroll: () => void */
+  /**
+   * Callback executado ao chegar ao final do scroll: () => void.
+   * Quando informado, ativa o scroll infinito (carregamento por páginas).
+   */
   onScrollEnd?: () => void;
-  
-  /** Indica se há mais itens disponíveis para carregamento */
+
+  /** Indica se há mais itens disponíveis para carregamento. Com `false`, `onScrollEnd` deixa de ser chamado */
   hasMore?: boolean;
 
   /** Estado de carregamento de mais itens */

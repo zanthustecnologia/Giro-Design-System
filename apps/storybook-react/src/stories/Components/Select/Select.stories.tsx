@@ -383,7 +383,7 @@ export const ScrollInfinito: StoryFn<SelectProps> = () => {
     setTimeout(() => {
       const newPage = page + 1;
       const newItems = Array.from({ length: 10 }, (_, i) => {
-        const itemNumber = page * 20 + i + 1;
+        const itemNumber = 20 + (page - 1) * 10 + i + 1;
         return {
           id: `item-${itemNumber}`,
           value: `item-${itemNumber}`,
@@ -410,8 +410,8 @@ export const ScrollInfinito: StoryFn<SelectProps> = () => {
         label="Select com Scroll Infinito"
         placeholder="Selecione um item..."
         search
-        enableInfiniteScroll={hasMore}
         onScrollEnd={handleScrollEnd}
+        hasMore={hasMore}
         isLoadingMore={isLoadingMore}
       />
     </div>

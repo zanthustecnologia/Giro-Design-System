@@ -513,7 +513,7 @@ describe('Select Component', () => {
         <Select
           items={mockItems}
           variant="text"
-          enableInfiniteScroll={true}
+          onScrollEnd={vi.fn()}
           isLoadingMore={false}
           data-testid="select"
         />
@@ -787,7 +787,6 @@ describe('Select Component', () => {
         <Select
           items={mockItems}
           variant="text"
-          enableInfiniteScroll={true}
           onScrollEnd={handleScrollEnd}
           isLoadingMore={false}
           data-testid="select"
@@ -802,7 +801,7 @@ describe('Select Component', () => {
         <Select
           items={mockItems}
           variant="text"
-          enableInfiniteScroll={true}
+          onScrollEnd={vi.fn()}
           isLoadingMore={true}
           data-testid="select"
         />
@@ -1379,7 +1378,6 @@ describe('Select Component', () => {
         <Select
           items={mockItems}
           variant="text"
-          enableInfiniteScroll={true}
           onScrollEnd={handleScrollEnd}
           isLoadingMore={false}
           data-testid="select"
@@ -1416,7 +1414,6 @@ describe('Select Component', () => {
         <Select
           items={mockItems}
           variant="text"
-          enableInfiniteScroll={true}
           onScrollEnd={handleScrollEnd}
           isLoadingMore={true}
           data-testid="select"
@@ -1450,7 +1447,7 @@ describe('Select Component', () => {
         <Select
           items={mockItems}
           variant="text"
-          enableInfiniteScroll={true}
+          onScrollEnd={vi.fn()}
           isLoadingMore={true}
           data-testid="select"
         />
@@ -1471,7 +1468,6 @@ describe('Select Component', () => {
         <Select
           items={mockItems}
           variant="text"
-          enableInfiniteScroll={true}
           onScrollEnd={handleScrollEnd}
           data-testid="select"
         />
@@ -1498,7 +1494,6 @@ describe('Select Component', () => {
         <Select
           items={mockItems}
           variant="text"
-          enableInfiniteScroll={true}
           onScrollEnd={handleScrollEnd}
           isLoadingMore={false}
           data-testid="select"
@@ -1533,7 +1528,6 @@ describe('Select Component', () => {
         <Select
           items={mockItems}
           variant="text"
-          enableInfiniteScroll={true}
           onScrollEnd={handleScrollEnd}
           isLoadingMore={false}
           hasMore={false}
@@ -1567,7 +1561,6 @@ describe('Select Component', () => {
         <Select
           items={mockItems}
           variant="text"
-          enableInfiniteScroll={true}
           onScrollEnd={handleScrollEnd}
           isLoadingMore={false}
           hasMore={true}
@@ -1595,7 +1588,6 @@ describe('Select Component', () => {
         <Select
           items={mockItems}
           variant="text"
-          enableInfiniteScroll={true}
           onScrollEnd={handleScrollEnd}
           isLoadingMore={true}
           hasMore={true}
@@ -1608,7 +1600,6 @@ describe('Select Component', () => {
         <Select
           items={[...mockItems, ...extraItems]}
           variant="text"
-          enableInfiniteScroll={true}
           onScrollEnd={handleScrollEnd}
           isLoadingMore={false}
           hasMore={true}
@@ -1626,7 +1617,6 @@ describe('Select Component', () => {
         <Select
           items={[...mockItems, ...extraItems]}
           variant="text"
-          enableInfiniteScroll={true}
           onScrollEnd={handleScrollEnd}
           isLoadingMore={false}
           hasMore={false}
