@@ -1830,12 +1830,6 @@ export const COMPONENTS: ComponentMetadata[] = [
         "description": "Mensagem de erro a ser exibida"
       },
       {
-        "name": "ariaLabel",
-        "type": "string",
-        "required": false,
-        "description": "Label acessível para leitores de tela. Tem precedência sobre `aria-label` quando ambos são informados"
-      },
-      {
         "name": "'aria-label'",
         "type": "string",
         "required": false,

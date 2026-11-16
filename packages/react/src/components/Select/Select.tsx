@@ -36,8 +36,7 @@ const Select: React.FC<SelectProps> = ({
   disabled = false,
   className,
   style,
-  ariaLabel,
-  'aria-label': ariaLabelNative,
+  'aria-label': ariaLabel,
   'data-testid': testId,
   tooltipText,
   tooltipSide = 'bottom',
@@ -259,7 +258,7 @@ const Select: React.FC<SelectProps> = ({
                 [styles.open]: state.isOpen,
               })}
               id={selectId}
-              aria-label={ariaLabel ?? ariaLabelNative}
+              aria-label={ariaLabel}
               aria-invalid={showError || undefined}
               aria-describedby={describedBy}
               data-testid={`${testId}-trigger`}

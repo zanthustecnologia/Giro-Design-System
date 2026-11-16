@@ -1826,20 +1826,6 @@ describe('Select Component', () => {
 
       expect(screen.getByText('*')).toHaveAttribute('aria-hidden', 'true');
     });
-
-    it('ariaLabel tem precedência sobre aria-label', () => {
-      render(
-        <Select
-          items={mockItems}
-          variant="text"
-          ariaLabel="Via ariaLabel"
-          aria-label="Via aria-label"
-          data-testid="select"
-        />
-      );
-
-      expect(screen.getByTestId('select-trigger')).toHaveAttribute('aria-label', 'Via ariaLabel');
-    });
   });
 
   describe('Seleção real', () => {
