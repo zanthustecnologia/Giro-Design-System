@@ -1792,21 +1792,25 @@ describe('Select Component', () => {
       expect(document.getElementById(helperId as string)).toHaveTextContent('Texto de ajuda');
     });
 
-    it('não referencia helper inexistente no aria-describedby', async () => {
-      const { rerender } = render(
+    it('não referencia helper inexistente no aria-describedby', () => {
+      render(
         <Select items={mockItems} variant="text" data-testid="select" />
       );
       expect(screen.getByTestId('select-trigger')).not.toHaveAttribute('aria-describedby');
+    });
 
-      rerender(
+    it('mantém o helper text visível e referenciado com o select aberto', async () => {
+      render(
         <Select items={mockItems} variant="text" helperText="Texto de ajuda" data-testid="select" />
       );
-      fireEvent.click(screen.getByTestId('select-trigger'));
+      const trigger = screen.getByTestId('select-trigger');
+      fireEvent.click(trigger);
 
-      await waitFor(() => {
-        expect(screen.queryByText('Texto de ajuda')).not.toBeInTheDocument();
-      });
-      expect(screen.getByTestId('select-trigger')).not.toHaveAttribute('aria-describedby');
+      expect(await screen.findAllByRole('option')).not.toHaveLength(0);
+
+      const helperId = trigger.getAttribute('aria-describedby');
+      expect(helperId).toBeTruthy();
+      expect(document.getElementById(helperId as string)).toHaveTextContent('Texto de ajuda');
     });
 
     it('marca o asterisco de required como aria-hidden', () => {

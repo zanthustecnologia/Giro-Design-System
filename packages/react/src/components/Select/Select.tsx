@@ -178,7 +178,7 @@ const Select: React.FC<SelectProps> = ({
   };
 
   const showError = state.hasError && state.touched;
-  const showHelper = !state.isOpen && Boolean(helperText) && !state.hasError;
+  const showHelper = Boolean(helperText) && !showError;
   const describedBy = showError ? errorId : showHelper ? helperId : undefined;
 
   // Itens fora do Select.Item do Radix não entram na navegação por setas dele.
