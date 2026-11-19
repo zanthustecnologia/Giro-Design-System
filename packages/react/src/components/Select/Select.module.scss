@@ -126,6 +126,16 @@ $select-icon-size: 16px;
     min-width: var(--radix-popper-anchor-width);
   }
 }
+// O Radix Select sempre trava a rolagem da página ao abrir (react-remove-scroll):
+// aplica `overflow: hidden` e um `margin-right` de compensação no body, o que
+// esconde a barra de rolagem. Desfazemos apenas a parte visual enquanto o
+// conteúdo deste Select estiver aberto, sem afetar outros componentes Radix
+// (Dialog, Popover modal etc.). A rolagem pela roda do mouse fora da lista
+// continua bloqueada pelo Radix via JavaScript.
+:global(html body[data-scroll-locked]):has(.content) {
+  overflow: auto !important;
+  margin-right: 0 !important;
+}
 .viewport {
   display: flex;
   flex-direction: column;
