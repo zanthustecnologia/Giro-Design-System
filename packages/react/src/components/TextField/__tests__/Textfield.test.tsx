@@ -210,6 +210,22 @@ describe('TextField', () => {
       expect(screen.queryByText('Texto de ajuda')).not.toBeInTheDocument();
     });
 
+    it('não aplica errorWithMessage quando há errorMessage sem estado de erro', () => {
+      const { container } = render(
+        <TextField attachedToVirtualKeyboard errorMessage="Mensagem" helperText="Texto de ajuda" />
+      );
+
+      expect((container.firstChild as HTMLElement).className).not.toMatch(/errorWithMessage/);
+    });
+
+    it('aplica errorWithMessage quando há estado de erro', () => {
+      const { container } = render(
+        <TextField attachedToVirtualKeyboard error errorMessage="Mensagem" />
+      );
+
+      expect((container.firstChild as HTMLElement).className).toMatch(/errorWithMessage/);
+    });
+
     it('não exibe estado de erro quando error é undefined', () => {
       render(<TextField error={undefined} />);
 

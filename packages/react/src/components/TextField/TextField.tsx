@@ -132,7 +132,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>((
       [styles.attachedToVirtualKeyboard]: attachedToVirtualKeyboard,
       [styles.disabled]: disabled,
       [styles.error]: hasError,
-      [styles.errorWithMessage]: !!errorMessage,
+      [styles.errorWithMessage]: hasError,
     });
 
     return (
