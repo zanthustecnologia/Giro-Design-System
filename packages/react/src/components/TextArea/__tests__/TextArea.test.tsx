@@ -136,6 +136,34 @@ describe('TextArea', () => {
       expect(screen.queryByText('Texto de ajuda')).not.toBeInTheDocument();
     });
 
+    it('não define aria-describedby quando error é true sem mensagem nem helperText', () => {
+      const { container } = render(<TextArea error />);
+
+      expect(screen.getByRole('textbox')).not.toHaveAttribute('aria-describedby');
+      expect(container.querySelector('[class*="helperText"]')).not.toBeInTheDocument();
+    });
+
+    it('aria-describedby aponta para o helperText renderizado', () => {
+      render(<TextArea id="campo" helperText="Texto de ajuda" />);
+
+      expect(screen.getByRole('textbox')).toHaveAttribute('aria-describedby', 'campo-helper');
+      expect(document.getElementById('campo-helper')).toHaveTextContent('Texto de ajuda');
+    });
+
+    it('aria-describedby aponta para a mensagem de erro renderizada', () => {
+      render(<TextArea id="campo" error errorMessage="Erro do formulário" />);
+
+      expect(screen.getByRole('textbox')).toHaveAttribute('aria-describedby', 'campo-error');
+      expect(document.getElementById('campo-error')).toHaveTextContent('Erro do formulário');
+    });
+
+    it('error sem errorMessage mantém helperText descrito com id de erro', () => {
+      render(<TextArea id="campo" error helperText="Texto de ajuda" />);
+
+      expect(screen.getByRole('textbox')).toHaveAttribute('aria-describedby', 'campo-error');
+      expect(document.getElementById('campo-error')).toHaveTextContent('Texto de ajuda');
+    });
+
     it('não exibe estado de erro quando error é undefined', () => {
       render(<TextArea error={undefined} />);
 

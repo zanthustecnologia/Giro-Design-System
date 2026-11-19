@@ -84,12 +84,12 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>((
     );
 
     const hasError = Boolean(textareaError) || Boolean(error);
-    const displayHelperText = (error ? errorMessage : undefined) || textareaError || helperText;
-    const helperId = (textareaError || error)
-      ? `${componentId}-error`
-      : helperText
-        ? `${componentId}-helper`
-        : undefined;
+    // Prioridade: erro externo (error + errorMessage) > validação interna > helperText
+    const errorText = (error ? errorMessage : undefined) || textareaError;
+    const helperContent = errorText || helperText;
+    const helperId = helperContent
+      ? `${componentId}-${hasError ? 'error' : 'helper'}`
+      : undefined;
 
     const containerClass = clsx(
       styles.container,
@@ -137,15 +137,15 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>((
             />
           </div>
 
-          {(((error && errorMessage) || textareaError || helperText) || (charCount && maxLength)) && (
+          {(helperContent || (charCount && maxLength)) && (
             <div className={styles.footer}>
-              {((error && errorMessage) || textareaError || helperText) && (
+              {helperContent && (
                 <span
                   id={helperId}
                   className={styles.helperText}
                   aria-live={hasError ? 'polite' : undefined}
                 >
-                  {displayHelperText}
+                  {helperContent}
                 </span>
               )}
 
