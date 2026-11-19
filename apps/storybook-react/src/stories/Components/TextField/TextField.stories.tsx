@@ -70,6 +70,14 @@ const meta: Meta<typeof TextField> = {
       control: 'text',
       description: 'Texto de ajuda'
     },
+    error: {
+      control: 'boolean',
+      description: 'Sinaliza erro externo (ex.: react-hook-form, formik). Exibe `errorMessage` quando informado'
+    },
+    errorMessage: {
+      control: 'text',
+      description: 'Mensagem de erro. Usada pelo erro externo (`error`) e pela validação interna (required, formato, etc.)'
+    },
     maxLength: {
       control: 'number',
       description: 'Número máximo de caracteres'
@@ -205,6 +213,22 @@ export const Obrigatorio: Story = {
   ),
 };
 Obrigatorio.storyName = 'Obrigatório';
+
+export const ComErro: Story = {
+  args: {
+    placeholder: 'Ex.: joao@empresa.com',
+    label: 'Email',
+    type: 'email',
+    error: true,
+    errorMessage: 'Este email já está cadastrado',
+    helperText: 'Insira um email válido',
+  },
+  render: (args) => (
+    <div className='storybook__container'>
+      <TextField {...args} />
+    </div>
+  ),
+};
 
 export const DiferentesIcones: Story = {
   render: () => (
