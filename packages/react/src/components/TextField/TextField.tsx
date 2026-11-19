@@ -119,12 +119,12 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>((
     const showCustomIcon = (inputValue.trim().length === 0 || !isFocused) && icon;
     const showClearIcon = isFocused && inputValue.trim().length > 0;
     const hasError = Boolean(inputError) || Boolean(error);
-    const displayHelperText = (error ? errorMessage : undefined) || inputError || helperText || '\u00A0';
-    const helperId = (inputError || error)
-      ? `${componentId}-error`
-      : helperText
-        ? `${componentId}-helper`
-        : undefined;
+    // Prioridade: erro externo (error + errorMessage) > valida\u00E7\u00E3o interna > helperText
+    const errorText = (error ? errorMessage : undefined) || inputError;
+    const helperContent = errorText || helperText;
+    const helperId = helperContent
+      ? `${componentId}-${hasError ? 'error' : 'helper'}`
+      : undefined;
 
     const containerStyle = { '--giro-scale': scale } as React.CSSProperties;
 
@@ -195,13 +195,13 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>((
             )}
           </div>
 
-          {((error && errorMessage) || inputError || helperText) && (  
+          {helperContent && (
             <span
               id={helperId}
               className={styles.helperText}
               aria-live={hasError ? 'polite' : undefined}
             >
-              {displayHelperText}
+              {helperContent}
             </span>
           )}
         </div>

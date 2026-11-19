@@ -170,6 +170,46 @@ describe('TextField', () => {
       expect(screen.queryByText('Texto de ajuda')).not.toBeInTheDocument();
     });
 
+    it('não define aria-describedby quando error é true sem mensagem nem helperText', () => {
+      const { container } = render(<TextField error />);
+
+      expect(screen.getByRole('textbox')).not.toHaveAttribute('aria-describedby');
+      expect(container.querySelector('[class*="helperText"]')).not.toBeInTheDocument();
+    });
+
+    it('aria-describedby aponta para o helperText renderizado', () => {
+      render(<TextField id="campo" helperText="Texto de ajuda" />);
+
+      const input = screen.getByRole('textbox');
+      expect(input).toHaveAttribute('aria-describedby', 'campo-helper');
+      expect(document.getElementById('campo-helper')).toHaveTextContent('Texto de ajuda');
+    });
+
+    it('aria-describedby aponta para a mensagem de erro renderizada', () => {
+      render(<TextField id="campo" error errorMessage="Erro do formulário" />);
+
+      const input = screen.getByRole('textbox');
+      expect(input).toHaveAttribute('aria-describedby', 'campo-error');
+      expect(document.getElementById('campo-error')).toHaveTextContent('Erro do formulário');
+    });
+
+    it('error sem errorMessage mantém helperText descrito com id de erro', () => {
+      render(<TextField id="campo" error helperText="Texto de ajuda" />);
+
+      expect(screen.getByRole('textbox')).toHaveAttribute('aria-describedby', 'campo-error');
+      expect(document.getElementById('campo-error')).toHaveTextContent('Texto de ajuda');
+    });
+
+    it('erro externo tem prioridade sobre a validação interna', () => {
+      render(<TextField required error errorMessage="Erro do formulário" helperText="Texto de ajuda" />);
+
+      fireEvent.blur(screen.getByRole('textbox'));
+
+      expect(screen.getByText('Erro do formulário')).toBeInTheDocument();
+      expect(screen.queryByText('Campo obrigatório.')).not.toBeInTheDocument();
+      expect(screen.queryByText('Texto de ajuda')).not.toBeInTheDocument();
+    });
+
     it('não exibe estado de erro quando error é undefined', () => {
       render(<TextField error={undefined} />);
 
