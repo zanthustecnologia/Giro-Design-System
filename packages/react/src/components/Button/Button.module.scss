@@ -191,7 +191,7 @@
   outline: none;
 }
 
-.button.button-filled:disabled,
+.button.button-filled:disabled:not(.buttonLoading),
 .button.button-filled.disabled {
   background: var(--button-filled-background-disabled);
   color: var(--button-filled-color-disabled);
@@ -218,7 +218,7 @@
   background-color: var(--button-outlined-background-pressed);
 }
 
-.button.button-outlined:disabled,
+.button.button-outlined:disabled:not(.buttonLoading),
 .button.button-outlined.disabled {
   outline: var(--button-outlined-border-width) solid var(--button-outlined-border-disabled);
   color: var(--button-outlined-color-disabled);
@@ -245,7 +245,7 @@
   background-color: var(--button-ghost-background-pressed);
 }
 
-.button.button-text:disabled,
+.button.button-text:disabled:not(.buttonLoading),
 .button.button-text.disabled {
   color: var(--button-ghost-color-disabled);
   cursor: not-allowed;

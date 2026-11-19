@@ -249,11 +249,61 @@ describe('Button', () => {
       expect(loadingSpan).toBeInTheDocument();
     });
 
-    it('deve ocultar conteúdo visualmente quando loading', () => {
+    it('deve ocultar conteúdo apenas visualmente quando loading', () => {
       const { container } = render(<Button loading>Clique aqui</Button>);
       const hiddenContent = container.querySelector('[class*="buttonContentHidden"]');
       expect(hiddenContent).toBeInTheDocument();
-      expect(hiddenContent).toHaveAttribute('aria-hidden', 'true');
+      expect(hiddenContent).not.toHaveAttribute('aria-hidden');
+    });
+
+    it('deve manter o nome acessível durante loading', () => {
+      render(<Button loading>Salvar</Button>);
+      expect(screen.getByRole('button', { name: 'Salvar' })).toHaveAttribute('aria-busy', 'true');
+    });
+
+    it('deve manter ícones aria-hidden durante loading', () => {
+      const TestIcon = () => <svg data-testid="loading-a11y-icon" />;
+      const { container } = render(
+        <Button loading icon={<TestIcon />} iconPosition="both">Salvar</Button>
+      );
+      const iconLeft = container.querySelector('[class*="buttonIconLeft"]');
+      const iconRight = container.querySelector('[class*="buttonIconRight"]');
+      expect(iconLeft).toHaveAttribute('aria-hidden', 'true');
+      expect(iconRight).toHaveAttribute('aria-hidden', 'true');
+      expect(screen.getByRole('button', { name: 'Salvar' })).toBeInTheDocument();
+    });
+
+    it('deve aplicar disabled nativo durante loading', () => {
+      render(<Button loading>Salvar</Button>);
+      expect(screen.getByRole('button')).toBeDisabled();
+    });
+
+    it('não deve aplicar a classe visual de disabled durante loading', () => {
+      render(<Button loading>Salvar</Button>);
+      expect(screen.getByRole('button').className).not.toContain('disabled');
+    });
+
+    it('não deve submeter o formulário quando type="submit" está em loading', () => {
+      const handleSubmit = vi.fn((e: { preventDefault: () => void }) => e.preventDefault());
+      render(
+        <form onSubmit={handleSubmit}>
+          <input aria-label="Nome" />
+          <Button type="submit" loading>Enviar</Button>
+        </form>
+      );
+      fireEvent.click(screen.getByRole('button', { name: 'Enviar' }));
+      expect(handleSubmit).not.toHaveBeenCalled();
+    });
+
+    it('deve submeter o formulário quando type="submit" não está em loading', () => {
+      const handleSubmit = vi.fn((e: { preventDefault: () => void }) => e.preventDefault());
+      render(
+        <form onSubmit={handleSubmit}>
+          <Button type="submit">Enviar</Button>
+        </form>
+      );
+      fireEvent.click(screen.getByRole('button', { name: 'Enviar' }));
+      expect(handleSubmit).toHaveBeenCalledTimes(1);
     });
 
     it('deve ter spinner dentro de span de loading', () => {

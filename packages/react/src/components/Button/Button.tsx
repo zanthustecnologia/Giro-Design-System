@@ -126,13 +126,13 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>((
       return (
         <>
           {!iconOnly && (
-            <span className={styles.buttonContentHidden} aria-hidden="true">
+            <span className={styles.buttonContentHidden}>
               {resolvedIcon && (iconPosition === 'left' || iconPosition === 'both') && (
-                <span className={styles.buttonIconLeft}>{resolvedIcon}</span>
+                <span className={styles.buttonIconLeft} aria-hidden="true">{resolvedIcon}</span>
               )}
               {children}
               {resolvedIcon && (iconPosition === 'right' || iconPosition === 'both') && (
-                <span className={styles.buttonIconRight}>{resolvedIcon}</span>
+                <span className={styles.buttonIconRight} aria-hidden="true">{resolvedIcon}</span>
               )}
             </span>
           )}
@@ -202,7 +202,7 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>((
     if (Component === 'button') {
       return {
         type,
-        disabled,
+        disabled: disabled || loading,
       };
     }
 
