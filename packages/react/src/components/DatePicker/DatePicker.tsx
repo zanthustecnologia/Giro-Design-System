@@ -137,8 +137,20 @@ const DatePicker: React.FC<DatePickerProps> = ({
       }
     }
 
+    // Tab/Shift+Tab nunca podem ser bloqueados (evita keyboard trap).
+    // O calendário fecha porque o Popover em modo asAnchor não fecha sozinho ao perder o foco.
+    if (key === 'Tab') {
+      if (isCalendarOpen) setIsCalendarOpen(false);
+      return;
+    }
+
+    // Atalhos (colar, copiar, recortar, selecionar tudo). O valor colado passa pela máscara em handleTextFieldChange.
+    if (event.ctrlKey || event.metaKey || event.altKey) {
+      return;
+    }
+
     const controlKeys = [
-      'Backspace', 'Delete', 'ArrowLeft', 'ArrowRight',
+      'Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Home', 'End',
     ];
 
     if (controlKeys.includes(key)) {

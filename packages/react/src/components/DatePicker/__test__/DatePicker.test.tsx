@@ -733,6 +733,61 @@ describe('DatePicker', () => {
         expect(screen.queryByTestId('calendar-mock')).not.toBeInTheDocument();
       });
     });
+
+    it('não bloqueia Tab nem Shift+Tab', () => {
+      render(<DatePicker showCalendar={false} />);
+      const input = screen.getByRole('textbox');
+
+      expect(fireEvent.keyDown(input, { key: 'Tab' })).toBe(true);
+      expect(fireEvent.keyDown(input, { key: 'Tab', shiftKey: true })).toBe(true);
+    });
+
+    it('Tab move o foco para o próximo elemento e fecha o calendário', async () => {
+      const user = userEvent.setup();
+      render(
+        <>
+          <DatePicker />
+          <button type="button">Próximo</button>
+        </>
+      );
+
+      await user.click(screen.getByRole('textbox'));
+      await waitFor(() =>
+        expect(screen.getByTestId('calendar-mock')).toBeInTheDocument()
+      );
+
+      await user.tab();
+
+      expect(screen.getByRole('button', { name: 'Próximo' })).toHaveFocus();
+      await waitFor(() => {
+        expect(screen.queryByTestId('calendar-mock')).not.toBeInTheDocument();
+      });
+    });
+
+    it('não bloqueia atalhos com Ctrl/Cmd (colar, copiar, selecionar tudo)', () => {
+      render(<DatePicker showCalendar={false} />);
+      const input = screen.getByRole('textbox');
+
+      expect(fireEvent.keyDown(input, { key: 'v', ctrlKey: true })).toBe(true);
+      expect(fireEvent.keyDown(input, { key: 'c', metaKey: true })).toBe(true);
+      expect(fireEvent.keyDown(input, { key: 'a', ctrlKey: true })).toBe(true);
+    });
+
+    it('não bloqueia Home e End', () => {
+      render(<DatePicker showCalendar={false} />);
+      const input = screen.getByRole('textbox');
+
+      expect(fireEvent.keyDown(input, { key: 'Home' })).toBe(true);
+      expect(fireEvent.keyDown(input, { key: 'End' })).toBe(true);
+    });
+
+    it('continua bloqueando letras e símbolos', () => {
+      render(<DatePicker showCalendar={false} />);
+      const input = screen.getByRole('textbox');
+
+      expect(fireEvent.keyDown(input, { key: 'a' })).toBe(false);
+      expect(fireEvent.keyDown(input, { key: '-' })).toBe(false);
+    });
   });
 
   describe('Acessibilidade', () => {
