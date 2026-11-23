@@ -668,9 +668,15 @@ export const COMPONENTS: ComponentMetadata[] = [
       },
       {
         "name": "error",
+        "type": "boolean",
+        "required": false,
+        "description": "Sinaliza erro externo para controle via formulários (react-hook-form, formik, etc.)"
+      },
+      {
+        "name": "errorMessage",
         "type": "string",
         "required": false,
-        "description": "Mensagem de erro a ser exibida"
+        "description": "Mensagem exibida no lugar do `helperText` quando `error` é `true`.\r\nOs erros internos de validação (\"Data inválida\", \"Data fora do intervalo permitido\") têm prioridade sobre ela."
       },
       {
         "name": "minDate",
@@ -699,7 +705,7 @@ export const COMPONENTS: ComponentMetadata[] = [
     ],
     "examples": [
       "<DatePicker \n  label=\"Data de nascimento\"\n  value={birthDate}\n  onChange={setBirthDate}\n  locale=\"pt-br\"\n/>",
-      "<DatePicker \n  label=\"Data de início\"\n  required\n  helperText=\"Selecione a data de início do projeto\"\n  minDate={new Date()}\n  calendarSide=\"right\"\n  error={errorMessage}\n/>"
+      "<DatePicker \n  label=\"Data de início\"\n  required\n  helperText=\"Selecione a data de início do projeto\"\n  minDate={new Date()}\n  calendarSide=\"right\"\n  error={!!errors.startDate}\n  errorMessage={errors.startDate?.message}\n/>"
     ],
     "keywords": [
       "datepicker",

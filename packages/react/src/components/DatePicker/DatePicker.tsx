@@ -21,7 +21,8 @@ const DatePicker: React.FC<DatePickerProps> = ({
   defaultValue,
   onChange,
   disabled = false,
-  error: externalError,
+  error = false,
+  errorMessage,
   minDate,
   maxDate,
   showCalendar = true,
@@ -47,7 +48,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   const currentSelectedDate = isControlled ? value : internalDate;
-  const hasValidationError = !!(externalError || internalError);
+  const hasValidationError = error || !!internalError;
   const displayValue = isEditing ? tempInputValue : (currentSelectedDate ? formatDate(currentSelectedDate, locale) : '');
 
   // Com label visível, o nome acessível vem do <label htmlFor>; sem label, usa um nome conforme o locale
@@ -59,11 +60,8 @@ const DatePicker: React.FC<DatePickerProps> = ({
     : internalError === 'range'
       ? outOfRangeMessage
       : '';
-  const combinedHelperText = internalErrorText
-    ? internalErrorText
-    : externalError && helperText
-      ? `${helperText} • ${externalError}`
-      : externalError || helperText || '';
+  // Prioridade: erro interno (o que está sendo digitado) > erro externo (error + errorMessage) > helperText
+  const displayErrorMessage = internalErrorText || (error ? errorMessage : undefined);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -249,9 +247,9 @@ const DatePicker: React.FC<DatePickerProps> = ({
               onFocus={handleFocus}
               autoComplete="off"
               value={displayValue}
-              helperText={!hasValidationError ? (helperText || undefined) : undefined}
-              errorMessage={hasValidationError ? combinedHelperText : undefined}
-              error={hasValidationError ? true : undefined}
+              helperText={helperText || undefined}
+              errorMessage={displayErrorMessage || undefined}
+              error={hasValidationError || undefined}
               maxLength={10}
               required={required}
               label={label}

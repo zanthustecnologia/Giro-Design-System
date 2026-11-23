@@ -55,6 +55,18 @@ const meta: Meta<typeof DatePicker> = {
       control: 'text',
       description: 'Label do campo',
     },
+    error: {
+      control: 'boolean',
+      description: 'Sinaliza erro externo (ex.: react-hook-form, formik). Exibe `errorMessage` no lugar do `helperText`',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'false' },
+      },
+    },
+    errorMessage: {
+      control: 'text',
+      description: 'Mensagem exibida quando `error` é true. Os erros internos de validação têm prioridade',
+    },
     scale: {
       control: { type: 'select' },
       options: [1, 1.5, 2],
@@ -156,7 +168,8 @@ export const ComErro: Story = {
     calendarSide: 'bottom',
     label: 'Data com erro',
     required: true,
-    error: 'Este campo é obrigatório',
+    error: true,
+    errorMessage: 'Este campo é obrigatório',
   },
 };
 

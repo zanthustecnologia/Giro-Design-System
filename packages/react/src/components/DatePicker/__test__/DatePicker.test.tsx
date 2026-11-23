@@ -318,13 +318,39 @@ describe('DatePicker', () => {
     });
 
     it('renderiza com mensagem de erro externa', () => {
-      render(<DatePicker error="Data inválida informada" />);
+      render(<DatePicker error errorMessage="Data inválida informada" />);
       expect(screen.getByText('Data inválida informada')).toBeInTheDocument();
+      expect(screen.getByRole('textbox')).toHaveAttribute('aria-invalid', 'true');
     });
 
-    it('combina helperText e error com separador •', () => {
-      render(<DatePicker helperText="Ajuda" error="Erro" />);
-      expect(screen.getByText('Ajuda • Erro')).toBeInTheDocument();
+    it('errorMessage substitui o helperText quando error é true', () => {
+      render(<DatePicker helperText="Ajuda" error errorMessage="Erro" />);
+      expect(screen.getByText('Erro')).toBeInTheDocument();
+      expect(screen.queryByText('Ajuda')).not.toBeInTheDocument();
+      expect(screen.queryByText('Ajuda • Erro')).not.toBeInTheDocument();
+    });
+
+    it('error sem errorMessage ativa o estado de erro e mantém o helperText', () => {
+      render(<DatePicker helperText="Ajuda" error />);
+      expect(screen.getByText('Ajuda')).toBeInTheDocument();
+      expect(screen.getByRole('textbox')).toHaveAttribute('aria-invalid', 'true');
+    });
+
+    it('errorMessage sem error não é exibida', () => {
+      render(<DatePicker helperText="Ajuda" errorMessage="Erro" />);
+      expect(screen.getByText('Ajuda')).toBeInTheDocument();
+      expect(screen.queryByText('Erro')).not.toBeInTheDocument();
+      expect(screen.getByRole('textbox')).toHaveAttribute('aria-invalid', 'false');
+    });
+
+    it('erro interno tem prioridade sobre o erro externo', async () => {
+      const user = userEvent.setup();
+      render(<DatePicker error errorMessage="Erro do formulário" showCalendar={false} />);
+
+      await user.type(screen.getByRole('textbox'), '32');
+
+      expect(screen.getByText('Data inválida')).toBeInTheDocument();
+      expect(screen.queryByText('Erro do formulário')).not.toBeInTheDocument();
     });
 
     it('usa o label visível como nome acessível', () => {

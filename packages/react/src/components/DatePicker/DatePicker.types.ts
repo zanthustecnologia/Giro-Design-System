@@ -19,7 +19,8 @@ import { Locale, ScalableProps, Side, Align } from '../../types/common.types';
  *   helperText="Selecione a data de início do projeto"
  *   minDate={new Date()}
  *   calendarSide="right"
- *   error={errorMessage}
+ *   error={!!errors.startDate}
+ *   errorMessage={errors.startDate?.message}
  * />
  * ```
  */
@@ -51,8 +52,14 @@ export interface DatePickerProps extends ScalableProps {
   /** Callback executado quando a data muda: (date) => void */
   onChange?: (date: Date | null) => void;
   
-  /** Mensagem de erro a ser exibida */
-  error?: string;
+  /** Sinaliza erro externo para controle via formulários (react-hook-form, formik, etc.) */
+  error?: boolean;
+
+  /**
+   * Mensagem exibida no lugar do `helperText` quando `error` é `true`.
+   * Os erros internos de validação ("Data inválida", "Data fora do intervalo permitido") têm prioridade sobre ela.
+   */
+  errorMessage?: string;
   
   /** Data mínima selecionável */
   minDate?: Date;
