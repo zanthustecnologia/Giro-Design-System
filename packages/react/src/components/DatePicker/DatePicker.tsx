@@ -50,6 +50,8 @@ const DatePicker: React.FC<DatePickerProps> = ({
   const hasValidationError = !!(externalError || internalError);
   const displayValue = isEditing ? tempInputValue : (currentSelectedDate ? formatDate(currentSelectedDate, locale) : '');
 
+  // Com label visível, o nome acessível vem do <label htmlFor>; sem label, usa um nome conforme o locale
+  const fallbackAriaLabel = label ? undefined : (locale === 'en-us' ? 'Date' : 'Data');
   const invalidDateMessage = locale === 'en-us' ? 'Invalid date' : 'Data inválida';
   const outOfRangeMessage = locale === 'en-us' ? 'Date out of allowed range' : 'Data fora do intervalo permitido';
   const internalErrorText = internalError === 'invalid'
@@ -258,7 +260,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
               id={fieldId}
               data-testid={testId}
               placeholder={locale === 'en-us' ? 'MM/DD/YYYY' : 'DD/MM/YYYY'}
-              aria-label="Open calendar"
+              aria-label={fallbackAriaLabel}
               aria-expanded={showCalendar && isCalendarOpen}
               aria-controls={calendarId}
               aria-invalid={hasValidationError}
