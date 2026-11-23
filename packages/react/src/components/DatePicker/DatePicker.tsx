@@ -263,8 +263,6 @@ const DatePicker: React.FC<DatePickerProps> = ({
               aria-label={fallbackAriaLabel}
               aria-expanded={showCalendar && isCalendarOpen}
               aria-controls={calendarId}
-              aria-invalid={hasValidationError}
-              aria-describedby={hasValidationError ? undefined : (helperText ? `${fieldId}-help` : undefined)}
             />       
           }
           content={

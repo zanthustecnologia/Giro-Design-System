@@ -833,5 +833,35 @@ describe('DatePicker', () => {
       render(<DatePicker />);
       expect(screen.getByRole('textbox')).toHaveAttribute('aria-invalid', 'false');
     });
+
+    it('aria-invalid é true quando há erro de validação interna', async () => {
+      const user = userEvent.setup();
+      render(<DatePicker showCalendar={false} />);
+      const input = screen.getByRole('textbox');
+
+      await user.type(input, '32');
+
+      expect(input).toHaveAttribute('aria-invalid', 'true');
+    });
+
+    it('aria-describedby aponta para o helperText renderizado', () => {
+      render(<DatePicker helperText="Selecione uma data" />);
+      const describedBy = screen.getByRole('textbox').getAttribute('aria-describedby');
+
+      expect(describedBy).toBeTruthy();
+      expect(document.getElementById(describedBy!)).toHaveTextContent('Selecione uma data');
+    });
+
+    it('aria-describedby aponta para a mensagem de erro interna renderizada', async () => {
+      const user = userEvent.setup();
+      render(<DatePicker helperText="Selecione uma data" showCalendar={false} />);
+      const input = screen.getByRole('textbox');
+
+      await user.type(input, '32');
+
+      const describedBy = input.getAttribute('aria-describedby');
+      expect(describedBy).toBeTruthy();
+      expect(document.getElementById(describedBy!)).toHaveTextContent('Data inválida');
+    });
   });
 });
